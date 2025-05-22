@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -7,12 +6,13 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import ProgressBar from "@/components/ProgressBar";
 import PerkCard from "@/components/PerkCard";
+import { cn } from "@/lib/utils";
 
 // Mock campaign data
 const campaignData = {
   "axanar-film": {
     title: "Axanar: The Feature Film",
-    description: "Axanar takes place 21 years before the events of "Where no man has gone before", the first Star Trek episode, and tells the story of Garth of Izar and his crew during the Four Years War, the war with the Klingon Empire that almost tore the Federation apart.",
+    description: "Axanar takes place 21 years before the events of \"Where no man has gone before\", the first Star Trek episode, and tells the story of Garth of Izar and his crew during the Four Years War, the war with the Klingon Empire that almost tore the Federation apart.",
     image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
     creator: "Axanar Productions",
     creatorImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
