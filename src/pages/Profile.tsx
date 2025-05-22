@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
@@ -22,7 +21,7 @@ const backedCampaigns = [
   {
     id: "axanar-film",
     title: "Axanar: The Feature Film",
-    description: "Axanar takes place 21 years before the events of "Where no man has gone before", the first Star Trek episode.",
+    description: "Axanar takes place 21 years before the events of \"Where no man has gone before\", the first Star Trek episode.",
     image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
     creator: "Axanar Productions",
     category: "Film & Video",
