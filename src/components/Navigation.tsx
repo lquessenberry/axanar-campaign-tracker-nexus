@@ -12,7 +12,14 @@ const Navigation = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-display font-bold text-axanar-teal">AXANAR</span>
+            <span className="text-2xl font-display font-bold text-axanar-teal">
+              <img 
+                src="/lovable-uploads/4ae57c3d-f1da-43e2-93ec-016f24a0b0c4.png" 
+                alt="AXANAR" 
+                className="h-8 w-auto"
+              />
+              <span className="sr-only">AXANAR</span>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
