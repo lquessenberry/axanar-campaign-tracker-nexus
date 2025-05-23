@@ -9,7 +9,187 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      campaigns: {
+        Row: {
+          backers_count: number
+          category: string
+          created_at: string
+          creator_id: string
+          current_amount: number
+          description: string | null
+          end_date: string
+          featured: boolean
+          goal_amount: number
+          id: string
+          image_url: string | null
+          start_date: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          backers_count?: number
+          category: string
+          created_at?: string
+          creator_id: string
+          current_amount?: number
+          description?: string | null
+          end_date: string
+          featured?: boolean
+          goal_amount: number
+          id?: string
+          image_url?: string | null
+          start_date?: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          backers_count?: number
+          category?: string
+          created_at?: string
+          creator_id?: string
+          current_amount?: number
+          description?: string | null
+          end_date?: string
+          featured?: boolean
+          goal_amount?: number
+          id?: string
+          image_url?: string | null
+          start_date?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaigns_creator_id_fkey"
+            columns: ["creator_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      perks: {
+        Row: {
+          amount: number
+          campaign_id: string
+          claimed_count: number
+          created_at: string
+          delivery_date: string | null
+          description: string | null
+          id: string
+          limited_quantity: number | null
+          title: string
+        }
+        Insert: {
+          amount: number
+          campaign_id: string
+          claimed_count?: number
+          created_at?: string
+          delivery_date?: string | null
+          description?: string | null
+          id?: string
+          limited_quantity?: number | null
+          title: string
+        }
+        Update: {
+          amount?: number
+          campaign_id?: string
+          claimed_count?: number
+          created_at?: string
+          delivery_date?: string | null
+          description?: string | null
+          id?: string
+          limited_quantity?: number | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "perks_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pledges: {
+        Row: {
+          amount: number
+          anonymous: boolean
+          backer_id: string
+          campaign_id: string
+          created_at: string
+          id: string
+          message: string | null
+        }
+        Insert: {
+          amount: number
+          anonymous?: boolean
+          backer_id: string
+          campaign_id: string
+          created_at?: string
+          id?: string
+          message?: string | null
+        }
+        Update: {
+          amount?: number
+          anonymous?: boolean
+          backer_id?: string
+          campaign_id?: string
+          created_at?: string
+          id?: string
+          message?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pledges_backer_id_fkey"
+            columns: ["backer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pledges_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          updated_at: string
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          updated_at?: string
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          username?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

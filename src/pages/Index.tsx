@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -7,101 +8,16 @@ import Footer from "@/components/Footer";
 import FeaturedCampaign from "@/components/FeaturedCampaign";
 import CampaignCard from "@/components/CampaignCard";
 import { Search } from "lucide-react";
-
-// Mock data for demo
-const featuredCampaign = {
-  id: "axanar-film",
-  title: "Axanar: The Feature Film",
-  description: "Axanar takes place 21 years before the events of \"Where no man has gone before\", the first Star Trek episode, and tells the story of Garth of Izar and his crew during the Four Years War, the war with the Klingon Empire that almost tore the Federation apart.",
-  image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-  creator: "Axanar Productions",
-  category: "Film & Video",
-  current: 750000,
-  goal: 1000000,
-  backers: 8423,
-  daysLeft: 18
-};
+import { useCampaigns, useFeaturedCampaign } from "@/hooks/useCampaigns";
 
 const campaignCategories = ["All", "Film & Video", "Publishing", "Games", "Technology", "Art", "Music", "Comics"];
-
-const campaigns = [
-  {
-    id: "prelude",
-    title: "Prelude to Axanar",
-    description: "A short film that sets up the feature film Axanar, detailing the historical events leading up to the Battle of Axanar.",
-    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80",
-    creator: "Axanar Productions",
-    category: "Film & Video",
-    current: 125000,
-    goal: 100000,
-    backers: 2187,
-    daysLeft: 0
-  },
-  {
-    id: "interlude",
-    title: "Interlude",
-    description: "A bridge between Prelude to Axanar and the feature film, continuing the story of the Four Years War.",
-    image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80",
-    creator: "Axanar Productions",
-    category: "Film & Video",
-    current: 85000,
-    goal: 75000,
-    backers: 943,
-    daysLeft: 0
-  },
-  {
-    id: "the-icarus-maneuver",
-    title: "The Icarus Maneuver",
-    description: "A tactical novel set during the Four Years War, detailing a critical battle in the Axanar universe.",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-    creator: "Axanar Books",
-    category: "Publishing",
-    current: 45000,
-    goal: 50000,
-    backers: 524,
-    daysLeft: 12
-  },
-  {
-    id: "daedalus",
-    title: "Daedalus: Starship Model",
-    description: "Limited edition collector's model of the USS Daedalus from the Axanar universe, with detailed paint and lighting.",
-    image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-    creator: "Axanar Props",
-    category: "Art",
-    current: 65000,
-    goal: 80000,
-    backers: 320,
-    daysLeft: 22
-  },
-  {
-    id: "four-years-war",
-    title: "Four Years War: The Game",
-    description: "A strategic board game set during the Four Years War in the Axanar universe. Command Federation or Klingon forces in epic battles.",
-    image: "https://images.unsplash.com/photo-1493962853295-0fd70327578a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-    creator: "Axanar Games",
-    category: "Games",
-    current: 120000,
-    goal: 150000,
-    backers: 1670,
-    daysLeft: 25
-  },
-  {
-    id: "axanar-soundtrack",
-    title: "Axanar: Original Soundtrack",
-    description: "The complete original soundtrack to Axanar, featuring orchestral compositions inspired by classic sci-fi themes.",
-    image: "https://images.unsplash.com/photo-1517022812141-23620dba5c23?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-    creator: "Axanar Music",
-    category: "Music",
-    current: 25000,
-    goal: 30000,
-    backers: 412,
-    daysLeft: 8
-  },
-];
 
 const Index = () => {
   const [selectedTab, setSelectedTab] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  
+  const { data: campaigns = [], isLoading: campaignsLoading } = useCampaigns();
+  const { data: featuredCampaign, isLoading: featuredLoading } = useFeaturedCampaign();
   
   const filteredCampaigns = campaigns.filter(campaign => {
     // Filter by category
@@ -116,6 +32,14 @@ const Index = () => {
     
     return true;
   });
+
+  const calculateDaysLeft = (endDate: string) => {
+    const end = new Date(endDate);
+    const now = new Date();
+    const diffTime = end.getTime() - now.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return Math.max(0, diffDays);
+  };
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -137,7 +61,7 @@ const Index = () => {
                   Explore Campaigns
                 </Button>
               </Link>
-              <Link to="/register">
+              <Link to="/auth">
                 <Button variant="outline" className="border-white/30 hover:bg-white/10 h-12 px-8">
                   Start a Campaign
                 </Button>
@@ -147,14 +71,27 @@ const Index = () => {
         </section>
         
         {/* Featured Campaign */}
-        <section className="py-12 px-4">
-          <div className="container mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold mb-8">
-              Featured Campaign
-            </h2>
-            <FeaturedCampaign {...featuredCampaign} />
-          </div>
-        </section>
+        {!featuredLoading && featuredCampaign && (
+          <section className="py-12 px-4">
+            <div className="container mx-auto">
+              <h2 className="text-2xl md:text-3xl font-bold mb-8">
+                Featured Campaign
+              </h2>
+              <FeaturedCampaign 
+                id={featuredCampaign.id}
+                title={featuredCampaign.title}
+                description={featuredCampaign.description || ''}
+                image={featuredCampaign.image_url || 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b'}
+                creator={featuredCampaign.profiles?.full_name || featuredCampaign.profiles?.username || 'Anonymous'}
+                category={featuredCampaign.category}
+                current={Number(featuredCampaign.current_amount)}
+                goal={Number(featuredCampaign.goal_amount)}
+                backers={featuredCampaign.backers_count}
+                daysLeft={calculateDaysLeft(featuredCampaign.end_date)}
+              />
+            </div>
+          </section>
+        )}
         
         {/* Browse Campaigns */}
         <section className="py-12 px-4 bg-muted/30">
@@ -191,10 +128,26 @@ const Index = () => {
               </TabsList>
               
               <TabsContent value={selectedTab} className="mt-0">
-                {filteredCampaigns.length > 0 ? (
+                {campaignsLoading ? (
+                  <div className="text-center py-16">
+                    <p className="text-muted-foreground">Loading campaigns...</p>
+                  </div>
+                ) : filteredCampaigns.length > 0 ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredCampaigns.map((campaign) => (
-                      <CampaignCard key={campaign.id} {...campaign} />
+                      <CampaignCard 
+                        key={campaign.id} 
+                        id={campaign.id}
+                        title={campaign.title}
+                        description={campaign.description || ''}
+                        image={campaign.image_url || 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b'}
+                        creator={campaign.profiles?.full_name || campaign.profiles?.username || 'Anonymous'}
+                        category={campaign.category}
+                        current={Number(campaign.current_amount)}
+                        goal={Number(campaign.goal_amount)}
+                        backers={campaign.backers_count}
+                        daysLeft={calculateDaysLeft(campaign.end_date)}
+                      />
                     ))}
                   </div>
                 ) : (

@@ -2,10 +2,23 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Search } from "lucide-react";
+import { Menu, X, Search, User, LogOut } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, signOut, loading } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   return (
     <nav className="bg-axanar-dark text-white border-b border-axanar-teal/20">
@@ -37,16 +50,44 @@ const Navigation = () => {
               <Button variant="ghost" size="icon">
                 <Search className="h-5 w-5" />
               </Button>
-              <Link to="/login">
-                <Button variant="outline" className="border-axanar-teal text-axanar-teal hover:bg-axanar-teal/10">
-                  Sign In
-                </Button>
-              </Link>
-              <Link to="/register">
-                <Button className="bg-axanar-teal text-white hover:bg-axanar-teal/90">
-                  Start a Campaign
-                </Button>
-              </Link>
+              
+              {!loading && (
+                user ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="icon">
+                        <User className="h-5 w-5" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem asChild>
+                        <Link to="/profile">Profile</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to="/dashboard">Dashboard</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={handleSignOut}>
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Sign Out
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <>
+                    <Link to="/auth">
+                      <Button variant="outline" className="border-axanar-teal text-axanar-teal hover:bg-axanar-teal/10">
+                        Sign In
+                      </Button>
+                    </Link>
+                    <Link to="/auth">
+                      <Button className="bg-axanar-teal text-white hover:bg-axanar-teal/90">
+                        Start a Campaign
+                      </Button>
+                    </Link>
+                  </>
+                )
+              )}
             </div>
           </div>
 
@@ -71,16 +112,42 @@ const Navigation = () => {
               About
             </Link>
             <div className="pt-2 flex flex-col space-y-2">
-              <Link to="/login">
-                <Button variant="outline" className="w-full border-axanar-teal text-axanar-teal">
-                  Sign In
-                </Button>
-              </Link>
-              <Link to="/register">
-                <Button className="w-full bg-axanar-teal text-white">
-                  Start a Campaign
-                </Button>
-              </Link>
+              {!loading && (
+                user ? (
+                  <>
+                    <Link to="/profile">
+                      <Button variant="outline" className="w-full border-axanar-teal text-axanar-teal">
+                        Profile
+                      </Button>
+                    </Link>
+                    <Link to="/dashboard">
+                      <Button variant="outline" className="w-full border-axanar-teal text-axanar-teal">
+                        Dashboard
+                      </Button>
+                    </Link>
+                    <Button 
+                      onClick={handleSignOut}
+                      variant="outline" 
+                      className="w-full border-red-500 text-red-500"
+                    >
+                      Sign Out
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/auth">
+                      <Button variant="outline" className="w-full border-axanar-teal text-axanar-teal">
+                        Sign In
+                      </Button>
+                    </Link>
+                    <Link to="/auth">
+                      <Button className="w-full bg-axanar-teal text-white">
+                        Start a Campaign
+                      </Button>
+                    </Link>
+                  </>
+                )
+              )}
             </div>
           </div>
         )}
