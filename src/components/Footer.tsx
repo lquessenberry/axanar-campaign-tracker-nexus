@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -7,7 +6,14 @@ const Footer = () => {
       <div className="container mx-auto py-10 px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="font-display text-xl font-bold mb-4 text-axanar-teal">AXANAR</h3>
+            <h3 className="font-display text-xl font-bold mb-4 text-axanar-teal">
+              <img 
+                src="/lovable-uploads/4ae57c3d-f1da-43e2-93ec-016f24a0b0c4.png" 
+                alt="AXANAR" 
+                className="h-8 w-auto"
+              />
+              <span className="sr-only">AXANAR</span>
+            </h3>
             <p className="text-sm text-axanar-silver/70">
               Support the Axanar Universe through our crowdfunding platform, bringing fan projects to life.
             </p>
