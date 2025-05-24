@@ -9,6 +9,50 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      admin_settings: {
+        Row: {
+          admin_user_id: string
+          contact_email: string | null
+          created_at: string | null
+          id: string
+          logo_url: string | null
+          primary_color: string | null
+          site_description: string | null
+          site_title: string
+          updated_at: string | null
+        }
+        Insert: {
+          admin_user_id: string
+          contact_email?: string | null
+          created_at?: string | null
+          id: string
+          logo_url?: string | null
+          primary_color?: string | null
+          site_description?: string | null
+          site_title?: string
+          updated_at?: string | null
+        }
+        Update: {
+          admin_user_id?: string
+          contact_email?: string | null
+          created_at?: string | null
+          id?: string
+          logo_url?: string | null
+          primary_color?: string | null
+          site_description?: string | null
+          site_title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_admin_user"
+            columns: ["admin_user_id"]
+            isOneToOne: false
+            referencedRelation: "donor_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campaigns: {
         Row: {
           backers_count: number
@@ -22,6 +66,8 @@ export type Database = {
           goal_amount: number
           id: string
           image_url: string | null
+          legacy_campaign_id: number | null
+          platform: string | null
           start_date: string
           status: string
           title: string
@@ -39,6 +85,8 @@ export type Database = {
           goal_amount: number
           id?: string
           image_url?: string | null
+          legacy_campaign_id?: number | null
+          platform?: string | null
           start_date?: string
           status?: string
           title: string
@@ -56,54 +104,147 @@ export type Database = {
           goal_amount?: number
           id?: string
           image_url?: string | null
+          legacy_campaign_id?: number | null
+          platform?: string | null
           start_date?: string
           status?: string
           title?: string
           updated_at?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "campaigns_creator_id_fkey"
-            columns: ["creator_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
+      }
+      donor_profiles: {
+        Row: {
+          address_line_1: string | null
+          address_line_2: string | null
+          alt_name: string | null
+          avatar_url: string | null
+          bio: string | null
+          city: string | null
+          country: string | null
+          created_at: string | null
+          donor_name: string | null
+          email: string | null
+          first_name: string | null
+          full_name: string | null
+          gender: string | null
+          id: string
+          is_admin: boolean | null
+          is_deleted: boolean | null
+          last_login: string | null
+          last_name: string | null
+          legacy_user_id: number | null
+          needs_update: boolean | null
+          postal_code: string | null
+          shirt_size: string | null
+          state: string | null
+          updated_at: string | null
+          username: string | null
+          website: string | null
+        }
+        Insert: {
+          address_line_1?: string | null
+          address_line_2?: string | null
+          alt_name?: string | null
+          avatar_url?: string | null
+          bio?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string | null
+          donor_name?: string | null
+          email?: string | null
+          first_name?: string | null
+          full_name?: string | null
+          gender?: string | null
+          id: string
+          is_admin?: boolean | null
+          is_deleted?: boolean | null
+          last_login?: string | null
+          last_name?: string | null
+          legacy_user_id?: number | null
+          needs_update?: boolean | null
+          postal_code?: string | null
+          shirt_size?: string | null
+          state?: string | null
+          updated_at?: string | null
+          username?: string | null
+          website?: string | null
+        }
+        Update: {
+          address_line_1?: string | null
+          address_line_2?: string | null
+          alt_name?: string | null
+          avatar_url?: string | null
+          bio?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string | null
+          donor_name?: string | null
+          email?: string | null
+          first_name?: string | null
+          full_name?: string | null
+          gender?: string | null
+          id?: string
+          is_admin?: boolean | null
+          is_deleted?: boolean | null
+          last_login?: string | null
+          last_name?: string | null
+          legacy_user_id?: number | null
+          needs_update?: boolean | null
+          postal_code?: string | null
+          shirt_size?: string | null
+          state?: string | null
+          updated_at?: string | null
+          username?: string | null
+          website?: string | null
+        }
+        Relationships: []
       }
       perks: {
         Row: {
           amount: number
           campaign_id: string
           claimed_count: number
+          cost: number | null
           created_at: string
           delivery_date: string | null
           description: string | null
           id: string
+          legacy_package_id: number | null
           limited_quantity: number | null
+          status: string | null
           title: string
+          updated_at: string | null
         }
         Insert: {
           amount: number
           campaign_id: string
           claimed_count?: number
+          cost?: number | null
           created_at?: string
           delivery_date?: string | null
           description?: string | null
           id?: string
+          legacy_package_id?: number | null
           limited_quantity?: number | null
+          status?: string | null
           title: string
+          updated_at?: string | null
         }
         Update: {
           amount?: number
           campaign_id?: string
           claimed_count?: number
+          cost?: number | null
           created_at?: string
           delivery_date?: string | null
           description?: string | null
           id?: string
+          legacy_package_id?: number | null
           limited_quantity?: number | null
+          status?: string | null
           title?: string
+          updated_at?: string | null
         }
         Relationships: [
           {
@@ -123,7 +264,13 @@ export type Database = {
           campaign_id: string
           created_at: string
           id: string
+          legacy_donation_id: number | null
           message: string | null
+          perk_id: string | null
+          shipped: boolean | null
+          shipped_date: string | null
+          status: string | null
+          updated_at: string | null
         }
         Insert: {
           amount: number
@@ -132,7 +279,13 @@ export type Database = {
           campaign_id: string
           created_at?: string
           id?: string
+          legacy_donation_id?: number | null
           message?: string | null
+          perk_id?: string | null
+          shipped?: boolean | null
+          shipped_date?: string | null
+          status?: string | null
+          updated_at?: string | null
         }
         Update: {
           amount?: number
@@ -141,14 +294,20 @@ export type Database = {
           campaign_id?: string
           created_at?: string
           id?: string
+          legacy_donation_id?: number | null
           message?: string | null
+          perk_id?: string | null
+          shipped?: boolean | null
+          shipped_date?: string | null
+          status?: string | null
+          updated_at?: string | null
         }
         Relationships: [
           {
             foreignKeyName: "pledges_backer_id_fkey"
             columns: ["backer_id"]
             isOneToOne: false
-            referencedRelation: "profiles"
+            referencedRelation: "donor_profiles"
             referencedColumns: ["id"]
           },
           {
@@ -158,6 +317,13 @@ export type Database = {
             referencedRelation: "campaigns"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "pledges_perk_id_fkey"
+            columns: ["perk_id"]
+            isOneToOne: false
+            referencedRelation: "perks"
+            referencedColumns: ["id"]
+          },
         ]
       }
       profiles: {
@@ -165,8 +331,10 @@ export type Database = {
           avatar_url: string | null
           bio: string | null
           created_at: string
+          donor_profile_id: string | null
           full_name: string | null
           id: string
+          is_admin: boolean | null
           updated_at: string
           username: string | null
         }
@@ -174,8 +342,10 @@ export type Database = {
           avatar_url?: string | null
           bio?: string | null
           created_at?: string
+          donor_profile_id?: string | null
           full_name?: string | null
           id: string
+          is_admin?: boolean | null
           updated_at?: string
           username?: string | null
         }
@@ -183,12 +353,22 @@ export type Database = {
           avatar_url?: string | null
           bio?: string | null
           created_at?: string
+          donor_profile_id?: string | null
           full_name?: string | null
           id?: string
+          is_admin?: boolean | null
           updated_at?: string
           username?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_donor_profile_id_fkey"
+            columns: ["donor_profile_id"]
+            isOneToOne: false
+            referencedRelation: "donor_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
