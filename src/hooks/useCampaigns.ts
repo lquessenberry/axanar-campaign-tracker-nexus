@@ -15,6 +15,11 @@ interface Campaign {
   end_date: string;
   featured: boolean;
   creator_id: string;
+  created_at: string;
+  updated_at: string;
+  start_date: string;
+  legacy_campaign_id: number | null;
+  platform: string | null;
   profiles: {
     username: string | null;
     full_name: string | null;
@@ -59,10 +64,10 @@ export const useFeaturedCampaign = () => {
         .eq('featured', true)
         .eq('status', 'active')
         .limit(1)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
-      return data as Campaign;
+      return data as Campaign | null;
     },
   });
 };
