@@ -20,7 +20,7 @@ interface Campaign {
   start_date: string;
   legacy_campaign_id: number | null;
   platform: string | null;
-  profiles: {
+  creator_profile?: {
     username: string | null;
     full_name: string | null;
   } | null;
@@ -30,20 +30,31 @@ export const useCampaigns = () => {
   return useQuery({
     queryKey: ['campaigns'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data: campaigns, error } = await supabase
         .from('campaigns')
-        .select(`
-          *,
-          profiles:creator_id (
-            username,
-            full_name
-          )
-        `)
+        .select('*')
         .eq('status', 'active')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      return data as Campaign[];
+
+      // Fetch creator profiles separately
+      const campaignsWithProfiles = await Promise.all(
+        campaigns.map(async (campaign) => {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('username, full_name')
+            .eq('id', campaign.creator_id)
+            .single();
+
+          return {
+            ...campaign,
+            creator_profile: profile
+          } as Campaign;
+        })
+      );
+
+      return campaignsWithProfiles;
     },
   });
 };
@@ -52,22 +63,28 @@ export const useFeaturedCampaign = () => {
   return useQuery({
     queryKey: ['featured-campaign'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data: campaign, error } = await supabase
         .from('campaigns')
-        .select(`
-          *,
-          profiles:creator_id (
-            username,
-            full_name
-          )
-        `)
+        .select('*')
         .eq('featured', true)
         .eq('status', 'active')
         .limit(1)
         .maybeSingle();
 
       if (error) throw error;
-      return data as Campaign | null;
+      if (!campaign) return null;
+
+      // Fetch creator profile separately
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('username, full_name')
+        .eq('id', campaign.creator_id)
+        .single();
+
+      return {
+        ...campaign,
+        creator_profile: profile
+      } as Campaign;
     },
   });
 };
