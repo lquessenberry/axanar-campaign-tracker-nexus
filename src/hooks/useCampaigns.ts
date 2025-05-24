@@ -34,7 +34,7 @@ export const useCampaigns = () => {
         .from('campaigns')
         .select(`
           *,
-          profiles!campaigns_creator_id_fkey (
+          profiles:creator_id (
             username,
             full_name
           )
@@ -56,7 +56,7 @@ export const useFeaturedCampaign = () => {
         .from('campaigns')
         .select(`
           *,
-          profiles!campaigns_creator_id_fkey (
+          profiles:creator_id (
             username,
             full_name
           )
