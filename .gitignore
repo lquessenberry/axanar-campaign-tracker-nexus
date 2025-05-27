@@ -22,3 +22,26 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Archived scripts and utilities
+archive/
+scripts/archive_scripts.js
+scripts/remove_archived.js
+
+# Local Netlify folder
+.netlify
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Supabase local development files
+supabase/.branches/
+supabase/.temp/
+
+# Large data directories (if not intended for repo)
+legacy-data/
+
+# Windsurf deployment file (if local or sensitive)
+windsurf_deployment.yaml

@@ -4,12 +4,22 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider } from "@/providers/AuthProvider";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import DebugPanel from "@/components/DebugPanel";
 import Index from "./pages/Index";
 import Campaign from "./pages/Campaign";
 import Profile from "./pages/Profile";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from './pages/Dashboard';
+import DonorDirectory from './pages/DonorDirectory';
+import DonorProfile from './pages/DonorProfile';
+import PledgeManager from './pages/PledgeManager';
+import Analytics from './pages/Analytics';
+import LeesDashboard from './pages/LeesDashboard';
+import PublicDashboard from './pages/PublicDashboard';
+import AdminTools from './pages/AdminTools';
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,14 +31,55 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
+          <DebugPanel />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/login" element={<Auth />} />
             <Route path="/register" element={<Auth />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/campaign/:id" element={<Campaign />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard" element={
+              <ErrorBoundary>
+                <Dashboard />
+              </ErrorBoundary>
+            } />
+            <Route path="/donor-directory" element={
+              <ErrorBoundary>
+                <DonorDirectory />
+              </ErrorBoundary>
+            } />
+            <Route path="/donor/:donorId" element={
+              <ErrorBoundary>
+                <DonorProfile />
+              </ErrorBoundary>
+            } />
+            <Route path="/pledges" element={
+              <ErrorBoundary>
+                <PledgeManager />
+              </ErrorBoundary>
+            } />
+            <Route path="/analytics" element={
+              <ErrorBoundary>
+                <Analytics />
+              </ErrorBoundary>
+            } />
+            <Route path="/lee" element={
+              <ErrorBoundary>
+                <LeesDashboard />
+              </ErrorBoundary>
+            } />
+            <Route path="/public" element={
+              <ErrorBoundary>
+                <PublicDashboard />
+              </ErrorBoundary>
+            } />
+            <Route path="/admin-tools" element={
+              <ErrorBoundary>
+                <AdminTools />
+              </ErrorBoundary>
+            } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

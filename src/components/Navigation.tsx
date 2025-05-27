@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Search, User, LogOut } from "lucide-react";
@@ -10,14 +10,47 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, signOut, loading } = useAuth();
+  const { user, signOut, loading, profile, donorProfile } = useAuth();
+  const [directSession, setDirectSession] = useState(null);
+  
+  // Add direct session check
+  useEffect(() => {
+    async function checkSession() {
+      const { data } = await supabase.auth.getSession();
+      console.log('Direct session check:', data.session);
+      setDirectSession(data.session);
+    }
+    checkSession();
+  }, []);
+  
+  // Debug logging for auth state
+  console.log('Navigation auth state:', { 
+    userExists: !!user,
+    directSessionExists: !!directSession,
+    userId: user?.id || directSession?.user?.id,
+    userEmail: user?.email || directSession?.user?.email,
+    profileExists: !!profile,
+    donorProfileExists: !!donorProfile,
+    isLoading: loading
+  });
 
-  const handleSignOut = async () => {
-    await signOut();
+  const handleSignOut = () => {
+    console.log('Sign out requested - using simple redirect approach');
+    
+    // The simplest, most reliable approach - just go to logout URL
+    // This will trigger Supabase's logout flow without any JavaScript execution
+    window.location.href = '/#logout';
+    
+    // After a brief delay, reload the page to clear state
+    setTimeout(() => {
+      console.log('Reloading page after logout');
+      window.location.href = '/';
+    }, 200);
   };
 
   return (
@@ -51,8 +84,10 @@ const Navigation = () => {
                 <Search className="h-5 w-5" />
               </Button>
               
-              {!loading && (
-                user ? (
+              {/* Use both AuthContext user and direct session check */}
+              {(user || directSession?.user) ? (
+                <>
+                  <div className="text-xs text-white mr-2">{user?.email || directSession?.user?.email}</div>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="icon">
@@ -67,26 +102,36 @@ const Navigation = () => {
                         <Link to="/dashboard">Dashboard</Link>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <Link to="/donor-directory">Donor Directory</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to="/pledges">Pledge Manager</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to="/analytics">Analytics</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={handleSignOut}>
                         <LogOut className="mr-2 h-4 w-4" />
                         Sign Out
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                ) : (
-                  <>
-                    <Link to="/auth">
-                      <Button variant="outline" className="border-axanar-teal text-axanar-teal hover:bg-axanar-teal/10">
-                        Sign In
-                      </Button>
-                    </Link>
-                    <Link to="/auth">
-                      <Button className="bg-axanar-teal text-white hover:bg-axanar-teal/90">
-                        Start a Campaign
-                      </Button>
-                    </Link>
-                  </>
-                )
+                </>
+              ) : (
+                <>
+                  <Link to="/auth">
+                    <Button variant="outline" className="border-axanar-teal text-axanar-teal hover:bg-axanar-teal/10">
+                      Sign In
+                    </Button>
+                  </Link>
+                  <Link to="/auth">
+                    <Button className="bg-axanar-teal text-white hover:bg-axanar-teal/90">
+                      Start a Campaign
+                    </Button>
+                  </Link>
+                </>
               )}
             </div>
           </div>
@@ -112,41 +157,41 @@ const Navigation = () => {
               About
             </Link>
             <div className="pt-2 flex flex-col space-y-2">
-              {!loading && (
-                user ? (
-                  <>
-                    <Link to="/profile">
-                      <Button variant="outline" className="w-full border-axanar-teal text-axanar-teal">
-                        Profile
-                      </Button>
-                    </Link>
-                    <Link to="/dashboard">
-                      <Button variant="outline" className="w-full border-axanar-teal text-axanar-teal">
-                        Dashboard
-                      </Button>
-                    </Link>
-                    <Button 
-                      onClick={handleSignOut}
-                      variant="outline" 
-                      className="w-full border-red-500 text-red-500"
-                    >
-                      Sign Out
+              {/* Mobile menu - use both auth context and direct session */}
+              {(user || directSession?.user) ? (
+                <>
+                  <div className="text-xs text-white py-2">{user?.email || directSession?.user?.email}</div>
+                  <Link to="/profile">
+                    <Button variant="outline" className="w-full border-axanar-teal text-axanar-teal">
+                      Profile
                     </Button>
-                  </>
-                ) : (
-                  <>
-                    <Link to="/auth">
-                      <Button variant="outline" className="w-full border-axanar-teal text-axanar-teal">
-                        Sign In
-                      </Button>
-                    </Link>
-                    <Link to="/auth">
-                      <Button className="w-full bg-axanar-teal text-white">
-                        Start a Campaign
-                      </Button>
-                    </Link>
-                  </>
-                )
+                  </Link>
+                  <Link to="/dashboard">
+                    <Button variant="outline" className="w-full border-axanar-teal text-axanar-teal">
+                      Dashboard
+                    </Button>
+                  </Link>
+                  <Button 
+                    onClick={handleSignOut}
+                    variant="outline" 
+                    className="w-full border-red-500 text-red-500"
+                  >
+                    Sign Out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link to="/auth">
+                    <Button variant="outline" className="w-full border-axanar-teal text-axanar-teal">
+                      Sign In
+                    </Button>
+                  </Link>
+                  <Link to="/auth">
+                    <Button className="w-full bg-axanar-teal text-white">
+                      Start a Campaign
+                    </Button>
+                  </Link>
+                </>
               )}
             </div>
           </div>

@@ -1,3 +1,4 @@
+// cspell:ignore fkey
 export type Json =
   | string
   | number
@@ -9,6 +10,36 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      donor_profiles: {
+        Row: {
+          id: string
+          full_name: string | null
+          username: string | null
+          email: string | null
+          legacy_user_id: number | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          full_name?: string | null
+          username?: string | null
+          email?: string | null
+          legacy_user_id?: number | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          full_name?: string | null
+          username?: string | null
+          email?: string | null
+          legacy_user_id?: number | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       campaigns: {
         Row: {
           backers_count: number
@@ -148,7 +179,7 @@ export type Database = {
             foreignKeyName: "pledges_backer_id_fkey"
             columns: ["backer_id"]
             isOneToOne: false
-            referencedRelation: "profiles"
+            referencedRelation: "donor_profiles"
             referencedColumns: ["id"]
           },
           {
@@ -169,6 +200,8 @@ export type Database = {
           id: string
           updated_at: string
           username: string | null
+          donor_profile_id: string | null
+          is_admin: boolean | null
         }
         Insert: {
           avatar_url?: string | null
@@ -178,6 +211,8 @@ export type Database = {
           id: string
           updated_at?: string
           username?: string | null
+          donor_profile_id?: string | null
+          is_admin?: boolean | null
         }
         Update: {
           avatar_url?: string | null
@@ -187,8 +222,18 @@ export type Database = {
           id?: string
           updated_at?: string
           username?: string | null
+          donor_profile_id?: string | null
+          is_admin?: boolean | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_donor_profile_id_fkey"
+            columns: ["donor_profile_id"]
+            isOneToOne: false
+            referencedRelation: "donor_profiles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {
