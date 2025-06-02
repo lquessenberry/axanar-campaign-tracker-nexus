@@ -18,9 +18,20 @@ import Analytics from './pages/Analytics';
 import LeesDashboard from './pages/LeesDashboard';
 import PublicDashboard from './pages/PublicDashboard';
 import AdminTools from './pages/AdminTools';
+
+// Admin pages
+import AdminDashboard from './pages/admin/AdminDashboard';
+import SystemDiagrams from './pages/admin/SystemDiagrams';
+import UserManagement from './pages/admin/UserManagement';
+import DonorManagement from './pages/admin/DonorManagement';
+
 import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
+import AdminPanel from './pages/AdminPanel';
+import CampaignManagement from './pages/admin/CampaignManagement';
+import PledgeManagement from './pages/admin/PledgeManagement';
+import ProtectedAdminRoute from './components/auth/ProtectedAdminRoute';
 
 const queryClient = new QueryClient();
 
@@ -80,6 +91,67 @@ const App = () => (
                 <AdminTools />
               </ErrorBoundary>
             } />
+            {/* Admin Routes */}
+            <Route
+              path="/admin"
+              element={
+                <ErrorBoundary>
+                  <ProtectedAdminRoute>
+                    <AdminDashboard />
+                  </ProtectedAdminRoute>
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/admin/system-diagrams"
+              element={
+                <ErrorBoundary>
+                  <ProtectedAdminRoute>
+                    <SystemDiagrams />
+                  </ProtectedAdminRoute>
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/admin/users"
+              element={
+                <ErrorBoundary>
+                  <ProtectedAdminRoute>
+                    <UserManagement />
+                  </ProtectedAdminRoute>
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/admin/donors"
+              element={
+                <ErrorBoundary>
+                  <ProtectedAdminRoute>
+                    <DonorManagement />
+                  </ProtectedAdminRoute>
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/admin/pledges"
+              element={
+                <ErrorBoundary>
+                  <ProtectedAdminRoute>
+                    <PledgeManagement />
+                  </ProtectedAdminRoute>
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/admin/campaigns"
+              element={
+                <ErrorBoundary>
+                  <ProtectedAdminRoute>
+                    <CampaignManagement />
+                  </ProtectedAdminRoute>
+                </ErrorBoundary>
+              }
+            />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
