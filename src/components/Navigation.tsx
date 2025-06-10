@@ -3,11 +3,13 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
-import { Menu, X, User, LogOut, BarChart3 } from "lucide-react";
+import { useAdminCheck } from "@/hooks/useAdminCheck";
+import { Menu, X, User, LogOut, BarChart3, Shield } from "lucide-react";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
+  const { data: isAdmin } = useAdminCheck();
   const location = useLocation();
 
   const isActive = (path: string) => {
@@ -81,6 +83,14 @@ const Navigation = () => {
                     Dashboard
                   </Button>
                 </Link>
+                {isAdmin && (
+                  <Link to="/admin">
+                    <Button variant="ghost" size="sm" className="text-white hover:text-axanar-teal hover:bg-white/10">
+                      <Shield className="h-4 w-4 mr-2" />
+                      Admin
+                    </Button>
+                  </Link>
+                )}
                 <Link to="/profile">
                   <Button variant="ghost" size="sm" className="text-white hover:text-axanar-teal hover:bg-white/10">
                     <User className="h-4 w-4 mr-2" />
@@ -169,6 +179,15 @@ const Navigation = () => {
                   >
                     Dashboard
                   </Link>
+                  {isAdmin && (
+                    <Link 
+                      to="/admin" 
+                      className="hover:text-axanar-teal transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Admin
+                    </Link>
+                  )}
                   <Link 
                     to="/profile" 
                     className="hover:text-axanar-teal transition-colors"
