@@ -1,152 +1,208 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Search, User, LogOut } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/contexts/AuthContext";
+import { Menu, X, User, LogOut, BarChart3 } from "lucide-react";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, signOut, loading } = useAuth();
+  const { user, signOut } = useAuth();
+  const location = useLocation();
+
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
 
   const handleSignOut = async () => {
-    await signOut();
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
   };
 
   return (
-    <nav className="bg-axanar-dark text-white border-b border-axanar-teal/20">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+    <nav className="bg-axanar-dark text-white border-b border-axanar-silver/20">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-display font-bold text-axanar-teal">
-              <img 
-                src="/lovable-uploads/4ae57c3d-f1da-43e2-93ec-016f24a0b0c4.png" 
-                alt="AXANAR" 
-                className="h-8 w-auto"
-              />
-              <span className="sr-only">AXANAR</span>
-            </span>
+            <div className="w-8 h-8 bg-axanar-teal rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-sm">A</span>
+            </div>
+            <span className="text-xl font-bold">Axanar</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
-            <Link to="/" className="text-sm font-medium hover:text-axanar-teal transition-colors">
+          <div className="hidden md:flex items-center space-x-8">
+            <Link 
+              to="/" 
+              className={`hover:text-axanar-teal transition-colors ${
+                isActive('/') ? 'text-axanar-teal' : ''
+              }`}
+            >
               Home
             </Link>
-            <Link to="/campaigns" className="text-sm font-medium hover:text-axanar-teal transition-colors">
+            <Link 
+              to="/campaigns" 
+              className={`hover:text-axanar-teal transition-colors ${
+                isActive('/campaigns') ? 'text-axanar-teal' : ''
+              }`}
+            >
               Campaigns
             </Link>
-            <Link to="/about" className="text-sm font-medium hover:text-axanar-teal transition-colors">
+            <Link 
+              to="/how-it-works" 
+              className={`hover:text-axanar-teal transition-colors ${
+                isActive('/how-it-works') ? 'text-axanar-teal' : ''
+              }`}
+            >
+              How It Works
+            </Link>
+            <Link 
+              to="/about" 
+              className={`hover:text-axanar-teal transition-colors ${
+                isActive('/about') ? 'text-axanar-teal' : ''
+              }`}
+            >
               About
             </Link>
-            <div className="flex items-center space-x-2">
-              <Button variant="ghost" size="icon">
-                <Search className="h-5 w-5" />
-              </Button>
-              
-              {!loading && (
-                user ? (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <User className="h-5 w-5" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem asChild>
-                        <Link to="/profile">Profile</Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link to="/dashboard">Dashboard</Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={handleSignOut}>
-                        <LogOut className="mr-2 h-4 w-4" />
-                        Sign Out
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                ) : (
-                  <>
-                    <Link to="/auth">
-                      <Button variant="outline" className="border-axanar-teal text-axanar-teal hover:bg-axanar-teal/10">
-                        Sign In
-                      </Button>
-                    </Link>
-                    <Link to="/auth">
-                      <Button className="bg-axanar-teal text-white hover:bg-axanar-teal/90">
-                        Start a Campaign
-                      </Button>
-                    </Link>
-                  </>
-                )
-              )}
-            </div>
+          </div>
+
+          {/* Auth Section */}
+          <div className="hidden md:flex items-center space-x-4">
+            {user ? (
+              <div className="flex items-center space-x-4">
+                <Link to="/dashboard">
+                  <Button variant="ghost" size="sm" className="text-white hover:text-axanar-teal hover:bg-white/10">
+                    <BarChart3 className="h-4 w-4 mr-2" />
+                    Dashboard
+                  </Button>
+                </Link>
+                <Link to="/profile">
+                  <Button variant="ghost" size="sm" className="text-white hover:text-axanar-teal hover:bg-white/10">
+                    <User className="h-4 w-4 mr-2" />
+                    Profile
+                  </Button>
+                </Link>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleSignOut}
+                  className="text-white hover:text-red-400 hover:bg-white/10"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Link to="/auth">
+                  <Button variant="ghost" className="text-white hover:text-axanar-teal hover:bg-white/10">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link to="/auth">
+                  <Button className="bg-axanar-teal hover:bg-axanar-teal/90">
+                    Start a Campaign
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </Button>
-          </div>
+          <button
+            className="md:hidden"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden pt-4 pb-2 space-y-4 animate-fade-in">
-            <Link to="/" className="block py-2 text-sm font-medium hover:text-axanar-teal">
-              Home
-            </Link>
-            <Link to="/campaigns" className="block py-2 text-sm font-medium hover:text-axanar-teal">
-              Campaigns
-            </Link>
-            <Link to="/about" className="block py-2 text-sm font-medium hover:text-axanar-teal">
-              About
-            </Link>
-            <div className="pt-2 flex flex-col space-y-2">
-              {!loading && (
-                user ? (
-                  <>
-                    <Link to="/profile">
-                      <Button variant="outline" className="w-full border-axanar-teal text-axanar-teal">
-                        Profile
-                      </Button>
-                    </Link>
-                    <Link to="/dashboard">
-                      <Button variant="outline" className="w-full border-axanar-teal text-axanar-teal">
-                        Dashboard
-                      </Button>
-                    </Link>
-                    <Button 
-                      onClick={handleSignOut}
-                      variant="outline" 
-                      className="w-full border-red-500 text-red-500"
-                    >
-                      Sign Out
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Link to="/auth">
-                      <Button variant="outline" className="w-full border-axanar-teal text-axanar-teal">
-                        Sign In
-                      </Button>
-                    </Link>
-                    <Link to="/auth">
-                      <Button className="w-full bg-axanar-teal text-white">
-                        Start a Campaign
-                      </Button>
-                    </Link>
-                  </>
-                )
+          <div className="md:hidden py-4 border-t border-axanar-silver/20">
+            <div className="flex flex-col space-y-4">
+              <Link 
+                to="/" 
+                className={`hover:text-axanar-teal transition-colors ${
+                  isActive('/') ? 'text-axanar-teal' : ''
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Home
+              </Link>
+              <Link 
+                to="/campaigns" 
+                className={`hover:text-axanar-teal transition-colors ${
+                  isActive('/campaigns') ? 'text-axanar-teal' : ''
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Campaigns
+              </Link>
+              <Link 
+                to="/how-it-works" 
+                className="hover:text-axanar-teal transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                How It Works
+              </Link>
+              <Link 
+                to="/about" 
+                className="hover:text-axanar-teal transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                About
+              </Link>
+              
+              {user ? (
+                <>
+                  <hr className="border-axanar-silver/20" />
+                  <Link 
+                    to="/dashboard" 
+                    className="hover:text-axanar-teal transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Dashboard
+                  </Link>
+                  <Link 
+                    to="/profile" 
+                    className="hover:text-axanar-teal transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Profile
+                  </Link>
+                  <button 
+                    onClick={() => {
+                      handleSignOut();
+                      setIsMenuOpen(false);
+                    }}
+                    className="text-left hover:text-red-400 transition-colors"
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <hr className="border-axanar-silver/20" />
+                  <Link 
+                    to="/auth" 
+                    className="hover:text-axanar-teal transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Sign In
+                  </Link>
+                  <Link 
+                    to="/auth" 
+                    className="hover:text-axanar-teal transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Start a Campaign
+                  </Link>
+                </>
               )}
             </div>
           </div>
