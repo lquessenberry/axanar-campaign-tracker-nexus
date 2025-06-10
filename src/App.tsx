@@ -8,6 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import Campaign from "./pages/Campaign";
 import Campaigns from "./pages/Campaigns";
+import HowItWorks from "./pages/HowItWorks";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import Auth from "./pages/Auth";
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/register" element={<Auth />} />
             <Route path="/campaigns" element={<Campaigns />} />
             <Route path="/campaign/:id" element={<Campaign />} />
+            <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/dashboard" element={<Dashboard />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
