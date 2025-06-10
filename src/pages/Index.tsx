@@ -10,7 +10,7 @@ import CampaignCard from "@/components/CampaignCard";
 import { Search } from "lucide-react";
 import { useCampaigns, useFeaturedCampaign } from "@/hooks/useCampaigns";
 
-const campaignCategories = ["All", "Film & Video", "Publishing", "Games", "Technology", "Art", "Music", "Comics"];
+const campaignCategories = ["All", "Kickstarter", "Indiegogo", "PayPal", "General"];
 
 const Index = () => {
   const [selectedTab, setSelectedTab] = useState("All");
@@ -21,7 +21,7 @@ const Index = () => {
   
   const filteredCampaigns = campaigns.filter(campaign => {
     // Filter by category
-    if (selectedTab !== "All" && campaign.category !== selectedTab) {
+    if (selectedTab !== "All" && campaign.platform !== selectedTab) {
       return false;
     }
     
@@ -34,6 +34,7 @@ const Index = () => {
   });
 
   const calculateDaysLeft = (endDate: string) => {
+    if (!endDate) return 0;
     const end = new Date(endDate);
     const now = new Date();
     const diffTime = end.getTime() - now.getTime();
@@ -80,12 +81,12 @@ const Index = () => {
               <FeaturedCampaign 
                 id={featuredCampaign.id}
                 title={featuredCampaign.title}
-                description={featuredCampaign.description || ''}
+                description={featuredCampaign.description || 'Support the Axanar project'}
                 image={featuredCampaign.image_url || 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b'}
-                creator={featuredCampaign.profiles?.full_name || featuredCampaign.profiles?.username || 'Anonymous'}
+                creator="Axanar Productions"
                 category={featuredCampaign.category}
-                current={Number(featuredCampaign.current_amount)}
-                goal={Number(featuredCampaign.goal_amount)}
+                current={featuredCampaign.current_amount}
+                goal={featuredCampaign.goal_amount || 100000}
                 backers={featuredCampaign.backers_count}
                 daysLeft={calculateDaysLeft(featuredCampaign.end_date)}
               />
@@ -139,12 +140,12 @@ const Index = () => {
                         key={campaign.id} 
                         id={campaign.id}
                         title={campaign.title}
-                        description={campaign.description || ''}
+                        description={campaign.description || 'Support this Axanar project'}
                         image={campaign.image_url || 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b'}
-                        creator={campaign.profiles?.full_name || campaign.profiles?.username || 'Anonymous'}
+                        creator="Axanar Productions"
                         category={campaign.category}
-                        current={Number(campaign.current_amount)}
-                        goal={Number(campaign.goal_amount)}
+                        current={campaign.current_amount}
+                        goal={campaign.goal_amount || 50000}
                         backers={campaign.backers_count}
                         daysLeft={calculateDaysLeft(campaign.end_date)}
                       />

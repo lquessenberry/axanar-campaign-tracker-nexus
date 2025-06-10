@@ -15,20 +15,37 @@ export const useUserPledges = () => {
         .from('pledges')
         .select(`
           *,
-          campaigns(
+          campaigns:campaign_id (
             id,
-            title,
+            name,
             image_url,
-            status,
-            goal_amount,
-            current_amount
+            active,
+            provider
           )
         `)
-        .eq('backer_id', user.id)
+        .eq('donor_id', user.id)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      return data;
+      
+      // Transform to match expected structure
+      const transformedPledges = data?.map(pledge => ({
+        id: pledge.id,
+        amount: Number(pledge.amount),
+        status: pledge.status || 'completed',
+        created_at: pledge.created_at,
+        campaign_id: pledge.campaign_id,
+        campaigns: {
+          id: pledge.campaigns?.id || '',
+          title: pledge.campaigns?.name || '',
+          image_url: pledge.campaigns?.image_url,
+          status: pledge.campaigns?.active ? 'active' : 'inactive',
+          goal_amount: 0,
+          current_amount: Number(pledge.amount) || 0
+        }
+      })) || [];
+
+      return transformedPledges;
     },
     enabled: !!user,
   });

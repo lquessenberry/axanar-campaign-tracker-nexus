@@ -9,306 +9,883 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      admin_settings: {
+      addresses: {
         Row: {
-          admin_user_id: string
-          contact_email: string | null
-          created_at: string | null
-          id: string
-          logo_url: string | null
-          primary_color: string | null
-          site_description: string | null
-          site_title: string
-          updated_at: string | null
-        }
-        Insert: {
-          admin_user_id: string
-          contact_email?: string | null
-          created_at?: string | null
-          id: string
-          logo_url?: string | null
-          primary_color?: string | null
-          site_description?: string | null
-          site_title?: string
-          updated_at?: string | null
-        }
-        Update: {
-          admin_user_id?: string
-          contact_email?: string | null
-          created_at?: string | null
-          id?: string
-          logo_url?: string | null
-          primary_color?: string | null
-          site_description?: string | null
-          site_title?: string
-          updated_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "fk_admin_user"
-            columns: ["admin_user_id"]
-            isOneToOne: false
-            referencedRelation: "donor_profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      campaigns: {
-        Row: {
-          backers_count: number
-          category: string
-          created_at: string
-          creator_id: string
-          current_amount: number
-          description: string | null
-          end_date: string
-          featured: boolean
-          goal_amount: number
-          id: string
-          image_url: string | null
-          legacy_campaign_id: number | null
-          platform: string | null
-          start_date: string
-          status: string
-          title: string
-          updated_at: string
-        }
-        Insert: {
-          backers_count?: number
-          category: string
-          created_at?: string
-          creator_id: string
-          current_amount?: number
-          description?: string | null
-          end_date: string
-          featured?: boolean
-          goal_amount: number
-          id?: string
-          image_url?: string | null
-          legacy_campaign_id?: number | null
-          platform?: string | null
-          start_date?: string
-          status?: string
-          title: string
-          updated_at?: string
-        }
-        Update: {
-          backers_count?: number
-          category?: string
-          created_at?: string
-          creator_id?: string
-          current_amount?: number
-          description?: string | null
-          end_date?: string
-          featured?: boolean
-          goal_amount?: number
-          id?: string
-          image_url?: string | null
-          legacy_campaign_id?: number | null
-          platform?: string | null
-          start_date?: string
-          status?: string
-          title?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      donor_profiles: {
-        Row: {
-          address_line_1: string | null
-          address_line_2: string | null
-          alt_name: string | null
-          avatar_url: string | null
-          bio: string | null
+          address1: string | null
+          address2: string | null
           city: string | null
           country: string | null
           created_at: string | null
-          donor_name: string | null
-          email: string | null
-          first_name: string | null
-          full_name: string | null
-          gender: string | null
+          donor_id: string | null
           id: string
-          is_admin: boolean | null
-          is_deleted: boolean | null
-          last_login: string | null
-          last_name: string | null
-          legacy_user_id: number | null
-          needs_update: boolean | null
+          is_primary: boolean | null
+          legacy_id: number | null
+          phone: string | null
           postal_code: string | null
-          shirt_size: string | null
           state: string | null
           updated_at: string | null
-          username: string | null
-          website: string | null
         }
         Insert: {
-          address_line_1?: string | null
-          address_line_2?: string | null
-          alt_name?: string | null
-          avatar_url?: string | null
-          bio?: string | null
+          address1?: string | null
+          address2?: string | null
           city?: string | null
           country?: string | null
           created_at?: string | null
-          donor_name?: string | null
-          email?: string | null
-          first_name?: string | null
-          full_name?: string | null
-          gender?: string | null
-          id: string
-          is_admin?: boolean | null
-          is_deleted?: boolean | null
-          last_login?: string | null
-          last_name?: string | null
-          legacy_user_id?: number | null
-          needs_update?: boolean | null
+          donor_id?: string | null
+          id?: string
+          is_primary?: boolean | null
+          legacy_id?: number | null
+          phone?: string | null
           postal_code?: string | null
-          shirt_size?: string | null
           state?: string | null
           updated_at?: string | null
-          username?: string | null
-          website?: string | null
         }
         Update: {
-          address_line_1?: string | null
-          address_line_2?: string | null
-          alt_name?: string | null
-          avatar_url?: string | null
-          bio?: string | null
+          address1?: string | null
+          address2?: string | null
           city?: string | null
           country?: string | null
           created_at?: string | null
-          donor_name?: string | null
-          email?: string | null
-          first_name?: string | null
-          full_name?: string | null
-          gender?: string | null
+          donor_id?: string | null
           id?: string
-          is_admin?: boolean | null
-          is_deleted?: boolean | null
-          last_login?: string | null
-          last_name?: string | null
-          legacy_user_id?: number | null
-          needs_update?: boolean | null
+          is_primary?: boolean | null
+          legacy_id?: number | null
+          phone?: string | null
           postal_code?: string | null
-          shirt_size?: string | null
           state?: string | null
-          updated_at?: string | null
-          username?: string | null
-          website?: string | null
-        }
-        Relationships: []
-      }
-      perks: {
-        Row: {
-          amount: number
-          campaign_id: string
-          claimed_count: number
-          cost: number | null
-          created_at: string
-          delivery_date: string | null
-          description: string | null
-          id: string
-          legacy_package_id: number | null
-          limited_quantity: number | null
-          status: string | null
-          title: string
-          updated_at: string | null
-        }
-        Insert: {
-          amount: number
-          campaign_id: string
-          claimed_count?: number
-          cost?: number | null
-          created_at?: string
-          delivery_date?: string | null
-          description?: string | null
-          id?: string
-          legacy_package_id?: number | null
-          limited_quantity?: number | null
-          status?: string | null
-          title: string
-          updated_at?: string | null
-        }
-        Update: {
-          amount?: number
-          campaign_id?: string
-          claimed_count?: number
-          cost?: number | null
-          created_at?: string
-          delivery_date?: string | null
-          description?: string | null
-          id?: string
-          legacy_package_id?: number | null
-          limited_quantity?: number | null
-          status?: string | null
-          title?: string
           updated_at?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "perks_campaign_id_fkey"
+            foreignKeyName: "addresses_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_auth_relationships"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "addresses_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "addresses_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "addresses_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "addresses_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "addresses_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_pending_auth_activation"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "addresses_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+        ]
+      }
+      admin_users: {
+        Row: {
+          created_at: string | null
+          is_content_manager: boolean
+          is_super_admin: boolean | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          is_content_manager?: boolean
+          is_super_admin?: boolean | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          is_content_manager?: boolean
+          is_super_admin?: boolean | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      alerts: {
+        Row: {
+          active: boolean | null
+          created_at: string | null
+          id: string
+          legacy_id: number | null
+          message: string
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          active?: boolean | null
+          created_at?: string | null
+          id?: string
+          legacy_id?: number | null
+          message: string
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          active?: boolean | null
+          created_at?: string | null
+          id?: string
+          legacy_id?: number | null
+          message?: string
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      alerts_seen: {
+        Row: {
+          alert_id: string | null
+          donor_id: string | null
+          id: string
+          seen_at: string | null
+        }
+        Insert: {
+          alert_id?: string | null
+          donor_id?: string | null
+          id?: string
+          seen_at?: string | null
+        }
+        Update: {
+          alert_id?: string | null
+          donor_id?: string | null
+          id?: string
+          seen_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "alerts_seen_alert_id_fkey"
+            columns: ["alert_id"]
+            isOneToOne: false
+            referencedRelation: "alerts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "alerts_seen_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_auth_relationships"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "alerts_seen_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "alerts_seen_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "alerts_seen_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "alerts_seen_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "alerts_seen_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_pending_auth_activation"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "alerts_seen_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+        ]
+      }
+      audit_trail: {
+        Row: {
+          action: string
+          created_at: string | null
+          details: string | null
+          donor_id: string | null
+          id: string
+          ip_address: string | null
+          legacy_id: number | null
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          details?: string | null
+          donor_id?: string | null
+          id?: string
+          ip_address?: string | null
+          legacy_id?: number | null
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          details?: string | null
+          donor_id?: string | null
+          id?: string
+          ip_address?: string | null
+          legacy_id?: number | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_trail_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_auth_relationships"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "audit_trail_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "audit_trail_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "audit_trail_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "audit_trail_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "audit_trail_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_pending_auth_activation"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "audit_trail_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+        ]
+      }
+      auth_migration_log: {
+        Row: {
+          action: string | null
+          auth_id: string | null
+          batch_id: number
+          created_at: string | null
+          donor_id: string | null
+          email: string | null
+          error_message: string | null
+          id: number
+          status: string | null
+        }
+        Insert: {
+          action?: string | null
+          auth_id?: string | null
+          batch_id: number
+          created_at?: string | null
+          donor_id?: string | null
+          email?: string | null
+          error_message?: string | null
+          id?: number
+          status?: string | null
+        }
+        Update: {
+          action?: string | null
+          auth_id?: string | null
+          batch_id?: number
+          created_at?: string | null
+          donor_id?: string | null
+          email?: string | null
+          error_message?: string | null
+          id?: number
+          status?: string | null
+        }
+        Relationships: []
+      }
+      campaigns: {
+        Row: {
+          active: boolean | null
+          created_at: string | null
+          end_date: string | null
+          id: string
+          image_url: string | null
+          legacy_id: number | null
+          name: string
+          provider: string | null
+          start_date: string | null
+          status: string | null
+          updated_at: string | null
+          web_url: string | null
+        }
+        Insert: {
+          active?: boolean | null
+          created_at?: string | null
+          end_date?: string | null
+          id?: string
+          image_url?: string | null
+          legacy_id?: number | null
+          name: string
+          provider?: string | null
+          start_date?: string | null
+          status?: string | null
+          updated_at?: string | null
+          web_url?: string | null
+        }
+        Update: {
+          active?: boolean | null
+          created_at?: string | null
+          end_date?: string | null
+          id?: string
+          image_url?: string | null
+          legacy_id?: number | null
+          name?: string
+          provider?: string | null
+          start_date?: string | null
+          status?: string | null
+          updated_at?: string | null
+          web_url?: string | null
+        }
+        Relationships: []
+      }
+      donor_campaign_packages: {
+        Row: {
+          campaign_id: string | null
+          created_at: string | null
+          donor_id: string | null
+          id: string
+          legacy_id: number | null
+          package_id: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          campaign_id?: string | null
+          created_at?: string | null
+          donor_id?: string | null
+          id?: string
+          legacy_id?: number | null
+          package_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          campaign_id?: string | null
+          created_at?: string | null
+          donor_id?: string | null
+          id?: string
+          legacy_id?: number | null
+          package_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "donor_campaign_packages_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaign_statistics"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "donor_campaign_packages_campaign_id_fkey"
             columns: ["campaign_id"]
             isOneToOne: false
             referencedRelation: "campaigns"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "donor_campaign_packages_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "vw_campaign_performance"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "donor_campaign_packages_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "donor_campaign_packages_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "vw_reward_distribution"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "donor_campaign_packages_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_auth_relationships"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_campaign_packages_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_campaign_packages_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "donor_campaign_packages_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_campaign_packages_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_campaign_packages_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_pending_auth_activation"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_campaign_packages_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_campaign_packages_package_id_fkey"
+            columns: ["package_id"]
+            isOneToOne: false
+            referencedRelation: "packages"
+            referencedColumns: ["id"]
+          },
         ]
       }
-      pledges: {
+      donor_sku_items: {
         Row: {
-          amount: number
-          anonymous: boolean
-          backer_id: string
-          campaign_id: string
-          created_at: string
+          created_at: string | null
+          donor_id: string | null
           id: string
-          legacy_donation_id: number | null
-          message: string | null
-          perk_id: string | null
-          shipped: boolean | null
-          shipped_date: string | null
+          legacy_id: number | null
+          quantity: number | null
+          sku_item_id: string | null
           status: string | null
           updated_at: string | null
         }
         Insert: {
-          amount: number
-          anonymous?: boolean
-          backer_id: string
-          campaign_id: string
-          created_at?: string
+          created_at?: string | null
+          donor_id?: string | null
           id?: string
-          legacy_donation_id?: number | null
-          message?: string | null
-          perk_id?: string | null
-          shipped?: boolean | null
-          shipped_date?: string | null
+          legacy_id?: number | null
+          quantity?: number | null
+          sku_item_id?: string | null
           status?: string | null
           updated_at?: string | null
         }
         Update: {
-          amount?: number
-          anonymous?: boolean
-          backer_id?: string
-          campaign_id?: string
-          created_at?: string
+          created_at?: string | null
+          donor_id?: string | null
           id?: string
-          legacy_donation_id?: number | null
-          message?: string | null
-          perk_id?: string | null
-          shipped?: boolean | null
-          shipped_date?: string | null
+          legacy_id?: number | null
+          quantity?: number | null
+          sku_item_id?: string | null
           status?: string | null
           updated_at?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "pledges_backer_id_fkey"
-            columns: ["backer_id"]
+            foreignKeyName: "donor_sku_items_donor_id_fkey"
+            columns: ["donor_id"]
             isOneToOne: false
-            referencedRelation: "donor_profiles"
+            referencedRelation: "donor_auth_relationships"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_sku_items_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_sku_items_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "donor_sku_items_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_sku_items_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_sku_items_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_pending_auth_activation"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_sku_items_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_sku_items_sku_item_id_fkey"
+            columns: ["sku_item_id"]
+            isOneToOne: false
+            referencedRelation: "sku_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      donors: {
+        Row: {
+          admin: boolean | null
+          auth_user_id: string | null
+          created_at: string | null
+          deleted: boolean | null
+          donor_name: string | null
+          email: string
+          email_verified_at: string | null
+          first_name: string | null
+          full_name: string | null
+          id: string
+          last_login: string | null
+          last_name: string | null
+          legacy_id: number | null
+          need_update: boolean | null
+          password: string | null
+          remember_token: string | null
+          reset_pass: string | null
+          temp_id: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          admin?: boolean | null
+          auth_user_id?: string | null
+          created_at?: string | null
+          deleted?: boolean | null
+          donor_name?: string | null
+          email: string
+          email_verified_at?: string | null
+          first_name?: string | null
+          full_name?: string | null
+          id?: string
+          last_login?: string | null
+          last_name?: string | null
+          legacy_id?: number | null
+          need_update?: boolean | null
+          password?: string | null
+          remember_token?: string | null
+          reset_pass?: string | null
+          temp_id?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          admin?: boolean | null
+          auth_user_id?: string | null
+          created_at?: string | null
+          deleted?: boolean | null
+          donor_name?: string | null
+          email?: string
+          email_verified_at?: string | null
+          first_name?: string | null
+          full_name?: string | null
+          id?: string
+          last_login?: string | null
+          last_name?: string | null
+          legacy_id?: number | null
+          need_update?: boolean | null
+          password?: string | null
+          remember_token?: string | null
+          reset_pass?: string | null
+          temp_id?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          created_at: string | null
+          donor_id: string | null
+          id: string
+          legacy_id: number | null
+          message: string
+          read: boolean | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          donor_id?: string | null
+          id?: string
+          legacy_id?: number | null
+          message: string
+          read?: boolean | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          donor_id?: string | null
+          id?: string
+          legacy_id?: number | null
+          message?: string
+          read?: boolean | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_auth_relationships"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "notifications_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "notifications_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "notifications_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "notifications_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_pending_auth_activation"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "notifications_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+        ]
+      }
+      package_sku_items: {
+        Row: {
+          created_at: string | null
+          id: string
+          legacy_id: number | null
+          package_id: string | null
+          quantity: number | null
+          sku_item_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          legacy_id?: number | null
+          package_id?: string | null
+          quantity?: number | null
+          sku_item_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          legacy_id?: number | null
+          package_id?: string | null
+          quantity?: number | null
+          sku_item_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "package_sku_items_package_id_fkey"
+            columns: ["package_id"]
+            isOneToOne: false
+            referencedRelation: "packages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "package_sku_items_sku_item_id_fkey"
+            columns: ["sku_item_id"]
+            isOneToOne: false
+            referencedRelation: "sku_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      packages: {
+        Row: {
+          active: boolean | null
+          created_at: string | null
+          description: string | null
+          id: string
+          legacy_id: number | null
+          name: string
+          price: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          active?: boolean | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          legacy_id?: number | null
+          name: string
+          price?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          active?: boolean | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          legacy_id?: number | null
+          name?: string
+          price?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      pledges: {
+        Row: {
+          amount: number
+          campaign_id: string | null
+          created_at: string | null
+          donor_id: string | null
+          id: string
+          legacy_id: number | null
+          reward_id: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          campaign_id?: string | null
+          created_at?: string | null
+          donor_id?: string | null
+          id?: string
+          legacy_id?: number | null
+          reward_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          campaign_id?: string | null
+          created_at?: string | null
+          donor_id?: string | null
+          id?: string
+          legacy_id?: number | null
+          reward_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pledges_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaign_statistics"
+            referencedColumns: ["campaign_id"]
           },
           {
             foreignKeyName: "pledges_campaign_id_fkey"
@@ -318,64 +895,1187 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "pledges_perk_id_fkey"
-            columns: ["perk_id"]
+            foreignKeyName: "pledges_campaign_id_fkey"
+            columns: ["campaign_id"]
             isOneToOne: false
-            referencedRelation: "perks"
+            referencedRelation: "vw_campaign_performance"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "pledges_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "pledges_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "vw_reward_distribution"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_auth_relationships"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_pending_auth_activation"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "pledges_reward_id_fkey"
+            columns: ["reward_id"]
+            isOneToOne: false
+            referencedRelation: "rewards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pledges_reward_id_fkey"
+            columns: ["reward_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["reward_id"]
+          },
+          {
+            foreignKeyName: "pledges_reward_id_fkey"
+            columns: ["reward_id"]
+            isOneToOne: false
+            referencedRelation: "vw_reward_distribution"
+            referencedColumns: ["reward_id"]
           },
         ]
       }
-      profiles: {
+      rewards: {
         Row: {
-          avatar_url: string | null
-          bio: string | null
-          created_at: string
-          donor_profile_id: string | null
-          full_name: string | null
+          campaign_id: string | null
+          created_at: string | null
+          description: string | null
           id: string
-          is_admin: boolean | null
-          updated_at: string
-          username: string | null
+          legacy_id: number | null
+          minimum_amount: number | null
+          name: string | null
+          updated_at: string | null
         }
         Insert: {
-          avatar_url?: string | null
-          bio?: string | null
-          created_at?: string
-          donor_profile_id?: string | null
-          full_name?: string | null
-          id: string
-          is_admin?: boolean | null
-          updated_at?: string
-          username?: string | null
+          campaign_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          legacy_id?: number | null
+          minimum_amount?: number | null
+          name?: string | null
+          updated_at?: string | null
         }
         Update: {
-          avatar_url?: string | null
-          bio?: string | null
-          created_at?: string
-          donor_profile_id?: string | null
-          full_name?: string | null
+          campaign_id?: string | null
+          created_at?: string | null
+          description?: string | null
           id?: string
-          is_admin?: boolean | null
-          updated_at?: string
-          username?: string | null
+          legacy_id?: number | null
+          minimum_amount?: number | null
+          name?: string | null
+          updated_at?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "profiles_donor_profile_id_fkey"
-            columns: ["donor_profile_id"]
+            foreignKeyName: "rewards_campaign_id_fkey"
+            columns: ["campaign_id"]
             isOneToOne: false
-            referencedRelation: "donor_profiles"
+            referencedRelation: "campaign_statistics"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "rewards_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rewards_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "vw_campaign_performance"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "rewards_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "rewards_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "vw_reward_distribution"
+            referencedColumns: ["campaign_id"]
+          },
+        ]
+      }
+      schema_versions: {
+        Row: {
+          applied_at: string | null
+          description: string | null
+          id: number
+          version: string
+        }
+        Insert: {
+          applied_at?: string | null
+          description?: string | null
+          id?: number
+          version: string
+        }
+        Update: {
+          applied_at?: string | null
+          description?: string | null
+          id?: number
+          version?: string
+        }
+        Relationships: []
+      }
+      sku_items: {
+        Row: {
+          active: boolean | null
+          created_at: string | null
+          description: string | null
+          id: string
+          legacy_id: number | null
+          name: string
+          price: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          active?: boolean | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          legacy_id?: number | null
+          name: string
+          price?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          active?: boolean | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          legacy_id?: number | null
+          name?: string
+          price?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      src_indiegogo: {
+        Row: {
+          contribution_amount: string | null
+          contribution_date: string | null
+          contributor_id: string | null
+          contributor_name: string | null
+          created_at: string | null
+          donor_id: string | null
+          email: string | null
+          fulfillment_status: string | null
+          id: string
+          imported: boolean | null
+          legacy_id: number | null
+          notes: string | null
+          perk_amount: string | null
+          perk_id: number | null
+          perk_title: string | null
+          shipping_amount: string | null
+          shipping_country: string | null
+        }
+        Insert: {
+          contribution_amount?: string | null
+          contribution_date?: string | null
+          contributor_id?: string | null
+          contributor_name?: string | null
+          created_at?: string | null
+          donor_id?: string | null
+          email?: string | null
+          fulfillment_status?: string | null
+          id?: string
+          imported?: boolean | null
+          legacy_id?: number | null
+          notes?: string | null
+          perk_amount?: string | null
+          perk_id?: number | null
+          perk_title?: string | null
+          shipping_amount?: string | null
+          shipping_country?: string | null
+        }
+        Update: {
+          contribution_amount?: string | null
+          contribution_date?: string | null
+          contributor_id?: string | null
+          contributor_name?: string | null
+          created_at?: string | null
+          donor_id?: string | null
+          email?: string | null
+          fulfillment_status?: string | null
+          id?: string
+          imported?: boolean | null
+          legacy_id?: number | null
+          notes?: string | null
+          perk_amount?: string | null
+          perk_id?: number | null
+          perk_title?: string | null
+          shipping_amount?: string | null
+          shipping_country?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "src_indiegogo_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_auth_relationships"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_indiegogo_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_indiegogo_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "src_indiegogo_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_indiegogo_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_indiegogo_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_pending_auth_activation"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_indiegogo_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+        ]
+      }
+      src_kickstarter_axanar: {
+        Row: {
+          backer_name: string | null
+          backer_number: number | null
+          backer_uid: number | null
+          created_at: string | null
+          donor_id: string | null
+          email: string | null
+          id: string
+          imported: boolean | null
+          legacy_id: number | null
+          notes: string | null
+          pledge_amt: string | null
+          pledged_at: string | null
+          pledged_status: string | null
+          reward_id: number | null
+          reward_min: string | null
+          rewards_sent: string | null
+          shipping_amount: string | null
+          shipping_country: string | null
+        }
+        Insert: {
+          backer_name?: string | null
+          backer_number?: number | null
+          backer_uid?: number | null
+          created_at?: string | null
+          donor_id?: string | null
+          email?: string | null
+          id?: string
+          imported?: boolean | null
+          legacy_id?: number | null
+          notes?: string | null
+          pledge_amt?: string | null
+          pledged_at?: string | null
+          pledged_status?: string | null
+          reward_id?: number | null
+          reward_min?: string | null
+          rewards_sent?: string | null
+          shipping_amount?: string | null
+          shipping_country?: string | null
+        }
+        Update: {
+          backer_name?: string | null
+          backer_number?: number | null
+          backer_uid?: number | null
+          created_at?: string | null
+          donor_id?: string | null
+          email?: string | null
+          id?: string
+          imported?: boolean | null
+          legacy_id?: number | null
+          notes?: string | null
+          pledge_amt?: string | null
+          pledged_at?: string | null
+          pledged_status?: string | null
+          reward_id?: number | null
+          reward_min?: string | null
+          rewards_sent?: string | null
+          shipping_amount?: string | null
+          shipping_country?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "src_kickstarter_axanar_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_auth_relationships"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_kickstarter_axanar_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_kickstarter_axanar_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "src_kickstarter_axanar_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_kickstarter_axanar_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_kickstarter_axanar_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_pending_auth_activation"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_kickstarter_axanar_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+        ]
+      }
+      src_kickstarter_prelude: {
+        Row: {
+          backer_name: string | null
+          backer_number: number | null
+          backer_uid: number | null
+          created_at: string | null
+          donor_id: string | null
+          email: string | null
+          id: string
+          imported: boolean | null
+          legacy_id: number | null
+          notes: string | null
+          pledge_amt: string | null
+          pledged_at: string | null
+          pledged_status: string | null
+          reward_id: number | null
+          reward_min: string | null
+          rewards_sent: string | null
+          shipping_amount: string | null
+          shipping_country: string | null
+        }
+        Insert: {
+          backer_name?: string | null
+          backer_number?: number | null
+          backer_uid?: number | null
+          created_at?: string | null
+          donor_id?: string | null
+          email?: string | null
+          id?: string
+          imported?: boolean | null
+          legacy_id?: number | null
+          notes?: string | null
+          pledge_amt?: string | null
+          pledged_at?: string | null
+          pledged_status?: string | null
+          reward_id?: number | null
+          reward_min?: string | null
+          rewards_sent?: string | null
+          shipping_amount?: string | null
+          shipping_country?: string | null
+        }
+        Update: {
+          backer_name?: string | null
+          backer_number?: number | null
+          backer_uid?: number | null
+          created_at?: string | null
+          donor_id?: string | null
+          email?: string | null
+          id?: string
+          imported?: boolean | null
+          legacy_id?: number | null
+          notes?: string | null
+          pledge_amt?: string | null
+          pledged_at?: string | null
+          pledged_status?: string | null
+          reward_id?: number | null
+          reward_min?: string | null
+          rewards_sent?: string | null
+          shipping_amount?: string | null
+          shipping_country?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "src_kickstarter_prelude_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_auth_relationships"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_kickstarter_prelude_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_kickstarter_prelude_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "src_kickstarter_prelude_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_kickstarter_prelude_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_kickstarter_prelude_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_pending_auth_activation"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_kickstarter_prelude_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+        ]
+      }
+      src_paypal_axanar: {
+        Row: {
+          amount: string | null
+          created_at: string | null
+          donor_id: string | null
+          donor_name: string | null
+          email: string | null
+          id: string
+          imported: boolean | null
+          legacy_id: number | null
+          notes: string | null
+          status: string | null
+          transaction_date: string | null
+          transaction_id: string | null
+        }
+        Insert: {
+          amount?: string | null
+          created_at?: string | null
+          donor_id?: string | null
+          donor_name?: string | null
+          email?: string | null
+          id?: string
+          imported?: boolean | null
+          legacy_id?: number | null
+          notes?: string | null
+          status?: string | null
+          transaction_date?: string | null
+          transaction_id?: string | null
+        }
+        Update: {
+          amount?: string | null
+          created_at?: string | null
+          donor_id?: string | null
+          donor_name?: string | null
+          email?: string | null
+          id?: string
+          imported?: boolean | null
+          legacy_id?: number | null
+          notes?: string | null
+          status?: string | null
+          transaction_date?: string | null
+          transaction_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "src_paypal_axanar_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_auth_relationships"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_paypal_axanar_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_paypal_axanar_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "src_paypal_axanar_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_paypal_axanar_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_paypal_axanar_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_pending_auth_activation"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_paypal_axanar_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+        ]
+      }
+      src_paypal_prelude: {
+        Row: {
+          amount: string | null
+          created_at: string | null
+          donor_id: string | null
+          donor_name: string | null
+          email: string | null
+          id: string
+          imported: boolean | null
+          legacy_id: number | null
+          notes: string | null
+          status: string | null
+          transaction_date: string | null
+          transaction_id: string | null
+        }
+        Insert: {
+          amount?: string | null
+          created_at?: string | null
+          donor_id?: string | null
+          donor_name?: string | null
+          email?: string | null
+          id?: string
+          imported?: boolean | null
+          legacy_id?: number | null
+          notes?: string | null
+          status?: string | null
+          transaction_date?: string | null
+          transaction_id?: string | null
+        }
+        Update: {
+          amount?: string | null
+          created_at?: string | null
+          donor_id?: string | null
+          donor_name?: string | null
+          email?: string | null
+          id?: string
+          imported?: boolean | null
+          legacy_id?: number | null
+          notes?: string | null
+          status?: string | null
+          transaction_date?: string | null
+          transaction_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "src_paypal_prelude_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_auth_relationships"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_paypal_prelude_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_paypal_prelude_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "src_paypal_prelude_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_paypal_prelude_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_paypal_prelude_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_pending_auth_activation"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_paypal_prelude_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+        ]
+      }
+      src_secret_perks: {
+        Row: {
+          amount: string | null
+          created_at: string | null
+          donor_id: string | null
+          donor_name: string | null
+          email: string | null
+          id: string
+          imported: boolean | null
+          legacy_id: number | null
+          notes: string | null
+          perk_description: string | null
+          transaction_date: string | null
+        }
+        Insert: {
+          amount?: string | null
+          created_at?: string | null
+          donor_id?: string | null
+          donor_name?: string | null
+          email?: string | null
+          id?: string
+          imported?: boolean | null
+          legacy_id?: number | null
+          notes?: string | null
+          perk_description?: string | null
+          transaction_date?: string | null
+        }
+        Update: {
+          amount?: string | null
+          created_at?: string | null
+          donor_id?: string | null
+          donor_name?: string | null
+          email?: string | null
+          id?: string
+          imported?: boolean | null
+          legacy_id?: number | null
+          notes?: string | null
+          perk_description?: string | null
+          transaction_date?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "src_secret_perks_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_auth_relationships"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_secret_perks_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_secret_perks_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "src_secret_perks_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_secret_perks_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_secret_perks_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_pending_auth_activation"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_secret_perks_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
           },
         ]
       }
     }
     Views: {
-      [_ in never]: never
+      campaign_statistics: {
+        Row: {
+          campaign_id: string | null
+          campaign_name: string | null
+          end_date: string | null
+          pledge_count: number | null
+          provider: string | null
+          start_date: string | null
+          total_raised: number | null
+          unique_donors: number | null
+        }
+        Relationships: []
+      }
+      donor_auth_relationships: {
+        Row: {
+          auth_created_at: string | null
+          auth_user_id: string | null
+          donor_id: string | null
+          email: string | null
+          email_confirmed_at: string | null
+          first_name: string | null
+          has_auth_account: boolean | null
+          last_login: string | null
+          last_name: string | null
+        }
+        Relationships: []
+      }
+      donor_pledge_totals: {
+        Row: {
+          donor_id: string | null
+          donor_name: string | null
+          email: string | null
+          first_donation_date: string | null
+          full_name: string | null
+          last_donation_date: string | null
+          pledge_count: number | null
+          total_donated: number | null
+        }
+        Relationships: []
+      }
+      pledge_count_by_donor: {
+        Row: {
+          count: number | null
+          donor_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_auth_relationships"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_pending_auth_activation"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+        ]
+      }
+      pledges_by_donor: {
+        Row: {
+          donor_id: string | null
+          total_donated: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_auth_relationships"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_pledge_summary"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_pending_auth_activation"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+        ]
+      }
+      vw_campaign_performance: {
+        Row: {
+          average_pledge_amount: number | null
+          campaign_id: string | null
+          campaign_image_url: string | null
+          campaign_is_active: boolean | null
+          campaign_name: string | null
+          campaign_provider: string | null
+          campaign_status: string | null
+          campaign_web_url: string | null
+          end_date: string | null
+          start_date: string | null
+          total_pledged_amount: number | null
+          total_pledges: number | null
+          total_unique_donors: number | null
+        }
+        Relationships: []
+      }
+      vw_donor_details: {
+        Row: {
+          auth_account_created_at: string | null
+          auth_account_updated_at: string | null
+          auth_email: string | null
+          auth_user_id: string | null
+          donor_created_at: string | null
+          donor_email: string | null
+          donor_id: string | null
+          donor_name: string | null
+          donor_updated_at: string | null
+          email_confirmed_at: string | null
+          first_name: string | null
+          full_name: string | null
+          last_name: string | null
+          last_sign_in_at: string | null
+          legacy_id: number | null
+        }
+        Relationships: []
+      }
+      vw_donor_pledge_summary: {
+        Row: {
+          campaign_end_date: string | null
+          campaign_id: string | null
+          campaign_name: string | null
+          campaign_start_date: string | null
+          donor_email: string | null
+          donor_full_name: string | null
+          donor_id: string | null
+          pledge_amount: number | null
+          pledge_date: string | null
+          pledge_id: string | null
+          pledge_status: string | null
+          reward_description: string | null
+          reward_id: string | null
+          reward_name: string | null
+          reward_price: number | null
+        }
+        Relationships: []
+      }
+      vw_donors_pending_auth_activation: {
+        Row: {
+          donor_created_at: string | null
+          donor_email: string | null
+          donor_full_name: string | null
+          donor_id: string | null
+          first_name: string | null
+          last_name: string | null
+        }
+        Insert: {
+          donor_created_at?: string | null
+          donor_email?: string | null
+          donor_full_name?: never
+          donor_id?: string | null
+          first_name?: string | null
+          last_name?: string | null
+        }
+        Update: {
+          donor_created_at?: string | null
+          donor_email?: string | null
+          donor_full_name?: never
+          donor_id?: string | null
+          first_name?: string | null
+          last_name?: string | null
+        }
+        Relationships: []
+      }
+      vw_donors_with_addresses: {
+        Row: {
+          address_created_at: string | null
+          address_id: string | null
+          address_line1: string | null
+          address_line2: string | null
+          address_updated_at: string | null
+          city: string | null
+          country: string | null
+          donor_email: string | null
+          donor_full_name: string | null
+          donor_id: string | null
+          is_primary: boolean | null
+          phone_number: string | null
+          postal_zip_code: string | null
+          state_province_region: string | null
+        }
+        Relationships: []
+      }
+      vw_reward_distribution: {
+        Row: {
+          campaign_id: string | null
+          campaign_name: string | null
+          reward_description: string | null
+          reward_id: string | null
+          reward_name: string | null
+          reward_price: number | null
+          times_claimed_in_pledges: number | null
+          total_pledged_for_reward_via_pledges: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      add_admin_by_email: {
+        Args: { admin_email: string }
+        Returns: undefined
+      }
+      add_auth_user_id_column: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      ban_user: {
+        Args: { target_user_id: string }
+        Returns: boolean
+      }
+      check_current_user_is_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      check_current_user_is_super_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      check_email_exists: {
+        Args: { check_email: string }
+        Returns: {
+          exists_in_donors: boolean
+          exists_in_auth: boolean
+          donor_id: string
+          auth_id: string
+          is_linked: boolean
+        }[]
+      }
+      create_auth_users_for_donors: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          result_status: string
+          count: number
+        }[]
+      }
+      create_legacy_user: {
+        Args: {
+          user_id: string
+          email: string
+          password_hash: string
+          email_confirmed: boolean
+          created_at: string
+          last_sign_in_at: string
+          raw_user_meta_data: Json
+          raw_app_meta_data: Json
+        }
+        Returns: undefined
+      }
+      get_all_users: {
+        Args: Record<PropertyKey, never>
+        Returns: Json[]
+      }
+      is_admin: {
+        Args: { check_user_id: string }
+        Returns: boolean
+      }
+      link_donor_to_auth_user: {
+        Args: { donor_email: string }
+        Returns: string
+      }
+      link_donors_to_auth_users: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          result_status: string
+          count: number
+        }[]
+      }
+      unban_user: {
+        Args: { target_user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

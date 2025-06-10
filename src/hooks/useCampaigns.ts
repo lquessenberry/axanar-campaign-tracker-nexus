@@ -33,28 +33,34 @@ export const useCampaigns = () => {
       const { data: campaigns, error } = await supabase
         .from('campaigns')
         .select('*')
-        .eq('status', 'active')
+        .eq('active', true)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
 
-      // Fetch creator profiles separately
-      const campaignsWithProfiles = await Promise.all(
-        campaigns.map(async (campaign) => {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('username, full_name')
-            .eq('id', campaign.creator_id)
-            .single();
+      // Transform the data to match the expected interface
+      const transformedCampaigns = campaigns.map((campaign) => ({
+        id: campaign.id,
+        title: campaign.name,
+        description: null,
+        image_url: campaign.image_url,
+        category: campaign.provider || 'General',
+        goal_amount: 0, // Will need to calculate from pledges
+        current_amount: 0, // Will need to calculate from pledges
+        backers_count: 0, // Will need to calculate from pledges
+        status: campaign.active ? 'active' : 'inactive',
+        end_date: campaign.end_date,
+        featured: false,
+        creator_id: '',
+        created_at: campaign.created_at,
+        updated_at: campaign.updated_at,
+        start_date: campaign.start_date,
+        legacy_campaign_id: campaign.legacy_id,
+        platform: campaign.provider,
+        creator_profile: null
+      }));
 
-          return {
-            ...campaign,
-            creator_profile: profile
-          } as Campaign;
-        })
-      );
-
-      return campaignsWithProfiles;
+      return transformedCampaigns;
     },
   });
 };
@@ -66,25 +72,34 @@ export const useFeaturedCampaign = () => {
       const { data: campaign, error } = await supabase
         .from('campaigns')
         .select('*')
-        .eq('featured', true)
-        .eq('status', 'active')
+        .eq('active', true)
         .limit(1)
         .maybeSingle();
 
       if (error) throw error;
       if (!campaign) return null;
 
-      // Fetch creator profile separately
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('username, full_name')
-        .eq('id', campaign.creator_id)
-        .single();
-
+      // Transform the data to match the expected interface
       return {
-        ...campaign,
-        creator_profile: profile
-      } as Campaign;
+        id: campaign.id,
+        title: campaign.name,
+        description: null,
+        image_url: campaign.image_url,
+        category: campaign.provider || 'General',
+        goal_amount: 0,
+        current_amount: 0,
+        backers_count: 0,
+        status: campaign.active ? 'active' : 'inactive',
+        end_date: campaign.end_date,
+        featured: true,
+        creator_id: '',
+        created_at: campaign.created_at,
+        updated_at: campaign.updated_at,
+        start_date: campaign.start_date,
+        legacy_campaign_id: campaign.legacy_id,
+        platform: campaign.provider,
+        creator_profile: null
+      };
     },
   });
 };
