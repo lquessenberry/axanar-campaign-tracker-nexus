@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -296,11 +295,6 @@ const Dashboard = () => {
                               <p className="text-sm text-muted-foreground mb-2">
                                 Pledged on {new Date(pledge.created_at).toLocaleDateString()}
                               </p>
-                              {pledge.message && (
-                                <p className="text-sm bg-muted/50 p-2 rounded italic">
-                                  "{pledge.message}"
-                                </p>
-                              )}
                               <div className="mt-2">
                                 <Link to={`/campaign/${pledge.campaign_id}`}>
                                   <Button variant="outline" size="sm">
