@@ -14,6 +14,10 @@ import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import Admin from "./pages/Admin";
+import AdminPledges from "./pages/AdminPledges";
+import AdminRewards from "./pages/AdminRewards";
+import AdminDonors from "./pages/AdminDonors";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +39,10 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/pledges" element={<AdminPledges />} />
+            <Route path="/admin/rewards" element={<AdminRewards />} />
+            <Route path="/admin/donors" element={<AdminDonors />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

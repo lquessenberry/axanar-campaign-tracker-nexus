@@ -9,23 +9,16 @@ export const useAdminCheck = () => {
   return useQuery({
     queryKey: ['admin-check', user?.id],
     queryFn: async () => {
-      if (!user) return { isAdmin: false, isSuperAdmin: false };
+      if (!user) return false;
       
-      const { data, error } = await supabase
-        .from('admin_users')
-        .select('is_super_admin, is_content_manager')
-        .eq('user_id', user.id)
-        .maybeSingle();
-
-      if (error && error.code !== 'PGRST116') {
-        throw error;
+      const { data, error } = await supabase.rpc('check_current_user_is_admin');
+      
+      if (error) {
+        console.error('Error checking admin status:', error);
+        return false;
       }
-
-      return {
-        isAdmin: !!data,
-        isSuperAdmin: data?.is_super_admin || false,
-        isContentManager: data?.is_content_manager || false
-      };
+      
+      return data === true;
     },
     enabled: !!user,
   });
