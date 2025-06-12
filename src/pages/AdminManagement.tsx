@@ -1,4 +1,5 @@
 
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
@@ -68,15 +69,15 @@ const AdminManagement = () => {
       
       console.log('Security function test:', { functionTest, functionError });
       
-      // Test the new get_admin_users function with proper typing
+      // Test the new get_admin_users function using generic rpc call
       const { data: adminUsers, error: adminError } = await supabase
-        .rpc('get_admin_users') as { data: GetAdminUsersResponse[] | null, error: any };
+        .rpc('get_admin_users' as any);
       
       console.log('Get admin users result:', { adminUsers, adminError });
       
       setDebugInfo(`
         Function test: ${functionError ? `Error: ${functionError.message}` : `Result: ${functionTest}`}
-        Admin users: ${adminError ? `Error: ${adminError.message}` : `Success: Found ${adminUsers?.length || 0} admins`}
+        Admin users: ${adminError ? `Error: ${adminError.message}` : `Success: Found ${(adminUsers as GetAdminUsersResponse[])?.length || 0} admins`}
         Current user ID: ${user?.id}
       `);
       
@@ -91,9 +92,9 @@ const AdminManagement = () => {
     try {
       console.log('Fetching admins using new function...');
       
-      // Use proper typing for the RPC call
+      // Use generic rpc call to avoid type issues
       const { data: adminData, error } = await supabase
-        .rpc('get_admin_users') as { data: GetAdminUsersResponse[] | null, error: any };
+        .rpc('get_admin_users' as any);
 
       console.log('Fetch admins result:', { adminData, error });
 
@@ -104,7 +105,7 @@ const AdminManagement = () => {
 
       console.log('Successfully fetched admin users:', adminData);
       
-      const adminsWithDisplayData = (adminData || []).map(admin => ({
+      const adminsWithDisplayData = (adminData as GetAdminUsersResponse[] || []).map(admin => ({
         ...admin,
         email: 'Email not available'
       }));
@@ -317,3 +318,4 @@ const AdminManagement = () => {
 };
 
 export default AdminManagement;
+
