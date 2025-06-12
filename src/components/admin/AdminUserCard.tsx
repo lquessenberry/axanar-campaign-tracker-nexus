@@ -1,16 +1,17 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Trash2, Shield, ShieldCheck } from "lucide-react";
+import { Trash2, Shield, ShieldCheck, Edit } from "lucide-react";
 import { AdminUser } from "@/types/admin";
 
 interface AdminUserCardProps {
   admin: AdminUser;
   currentUserId: string | undefined;
   onRemove: (userId: string, email: string) => void;
+  onEdit: (admin: AdminUser) => void;
 }
 
-const AdminUserCard = ({ admin, currentUserId, onRemove }: AdminUserCardProps) => {
+const AdminUserCard = ({ admin, currentUserId, onRemove, onEdit }: AdminUserCardProps) => {
   return (
     <div className="flex items-center justify-between p-4 border rounded-lg">
       <div className="flex items-center gap-4">
@@ -38,14 +39,23 @@ const AdminUserCard = ({ admin, currentUserId, onRemove }: AdminUserCardProps) =
           )}
         </div>
       </div>
-      <Button
-        variant="destructive"
-        size="sm"
-        onClick={() => onRemove(admin.user_id, admin.email)}
-        disabled={admin.user_id === currentUserId}
-      >
-        <Trash2 className="h-4 w-4" />
-      </Button>
+      <div className="flex gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onEdit(admin)}
+        >
+          <Edit className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="destructive"
+          size="sm"
+          onClick={() => onRemove(admin.user_id, admin.email)}
+          disabled={admin.user_id === currentUserId}
+        >
+          <Trash2 className="h-4 w-4" />
+        </Button>
+      </div>
     </div>
   );
 };
