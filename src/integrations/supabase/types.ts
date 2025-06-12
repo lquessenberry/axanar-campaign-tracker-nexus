@@ -2061,6 +2061,10 @@ export type Database = {
         Args: { check_user_id: string }
         Returns: boolean
       }
+      is_user_super_admin: {
+        Args: { user_uuid: string }
+        Returns: boolean
+      }
       link_donor_to_auth_user: {
         Args: { donor_email: string }
         Returns: string
