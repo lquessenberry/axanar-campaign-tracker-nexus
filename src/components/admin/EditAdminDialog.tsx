@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -29,7 +29,7 @@ const EditAdminDialog = ({ admin, isOpen, onClose, onAdminUpdated }: EditAdminDi
   const [isUpdating, setIsUpdating] = useState(false);
 
   // Update state when admin changes
-  useState(() => {
+  useEffect(() => {
     if (admin) {
       setIsSuperAdmin(admin.is_super_admin);
       setIsContentManager(admin.is_content_manager);
