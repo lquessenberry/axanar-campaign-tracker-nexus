@@ -57,7 +57,7 @@ export const useAdminDonorsData = (currentPage: number, filters: DonorFilters = 
     },
   });
 
-  // Get total amount raised using batch fetching
+  // Get total amount raised with caching and stale-while-revalidate
   const { data: totalRaised, isLoading: isLoadingRaised } = useQuery({
     queryKey: ['total-raised'],
     queryFn: async () => {
@@ -101,6 +101,10 @@ export const useAdminDonorsData = (currentPage: number, filters: DonorFilters = 
       console.log('Final total raised:', total);
       return total;
     },
+    staleTime: 5 * 60 * 1000, // 5 minutes - consider data fresh for 5 minutes
+    gcTime: 30 * 60 * 1000, // 30 minutes - keep in cache for 30 minutes
+    refetchOnWindowFocus: false, // Don't refetch when window gains focus
+    refetchOnMount: false, // Don't refetch on component mount if we have cached data
   });
 
   // Get paginated donors with their accurate pledge totals
