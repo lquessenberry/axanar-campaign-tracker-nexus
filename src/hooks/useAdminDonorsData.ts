@@ -35,26 +35,60 @@ export const useAdminDonorsData = (currentPage: number) => {
     },
   });
 
-  // Get total amount raised - this already fetches all pledges correctly
+  // Get total amount raised - fetch ALL pledges without pagination limits
   const { data: totalRaised } = useQuery({
     queryKey: ['total-raised'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      // First, get the total count of pledges
+      const { count: pledgeCount, error: countError } = await supabase
         .from('pledges')
-        .select('amount');
+        .select('*', { count: 'exact', head: true });
 
-      if (error) throw error;
+      if (countError) throw countError;
       
-      console.log('Total pledges found:', data.length);
-      
-      const total = data.reduce((sum, pledge) => {
-        const amount = Number(pledge.amount);
-        console.log('Adding pledge amount:', amount);
-        return sum + amount;
-      }, 0);
-      
-      console.log('Final total raised:', total);
-      return total;
+      console.log('Total pledges in database:', pledgeCount);
+
+      // Use the sum function on the database side for better performance and accuracy
+      const { data, error } = await supabase
+        .rpc('sum_all_pledge_amounts');
+
+      if (error) {
+        console.log('RPC function not available, falling back to client-side calculation');
+        
+        // Fallback: Fetch all pledges in batches to avoid memory issues
+        let allPledges = [];
+        let from = 0;
+        const batchSize = 1000;
+        
+        while (true) {
+          const { data: batch, error: batchError } = await supabase
+            .from('pledges')
+            .select('amount')
+            .range(from, from + batchSize - 1);
+
+          if (batchError) throw batchError;
+          
+          if (batch.length === 0) break;
+          
+          allPledges.push(...batch);
+          from += batchSize;
+          
+          console.log(`Fetched ${allPledges.length} pledges so far...`);
+        }
+
+        console.log('Total pledges fetched:', allPledges.length);
+        
+        const total = allPledges.reduce((sum, pledge) => {
+          const amount = Number(pledge.amount);
+          return sum + amount;
+        }, 0);
+        
+        console.log('Final total raised:', total);
+        return total;
+      }
+
+      console.log('Database sum result:', data);
+      return data || 0;
     },
   });
 
