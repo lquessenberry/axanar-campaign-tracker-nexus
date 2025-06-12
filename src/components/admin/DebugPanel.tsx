@@ -15,7 +15,7 @@ const DebugPanel = () => {
       
       // Test the new security definer function
       const { data: functionTest, error: functionError } = await supabase
-        .rpc('check_user_is_super_admin', { user_uuid: user?.id });
+        .rpc('check_user_is_super_admin_safe', { user_uuid: user?.id });
       
       console.log('Security function test:', { functionTest, functionError });
       
