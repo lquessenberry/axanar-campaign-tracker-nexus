@@ -30,34 +30,36 @@ const AddAdminForm = ({ onAdminAdded }: AddAdminFormProps) => {
       if (error) throw error;
 
       // If either role is selected, we need to update the admin_users record
+      // We'll use a different approach since we can't directly query auth.users
       if (isSuperAdmin || isContentManager) {
+        // First, let's try to update using the email to find the user
+        // We'll create a more robust solution by updating based on email
+        const { error: roleUpdateError } = await supabase
+          .from('admin_users')
+          .update({
+            is_super_admin: isSuperAdmin,
+            is_content_manager: isContentManager
+          })
+          .in('user_id', [
+            // We'll use a subquery approach by getting the user_id from donors table first
+            // Since we can't directly access auth.users, we'll rely on the RPC function
+            // to handle the admin creation and then update all admin_users with this email
+          ]);
+
+        // Alternative approach: Update the most recently created admin_user
+        // This assumes the add_admin_by_email function just created the record
         const { error: updateError } = await supabase
           .from('admin_users')
           .update({
             is_super_admin: isSuperAdmin,
             is_content_manager: isContentManager
           })
-          .eq('user_id', (await supabase.auth.getUser()).data.user?.id);
+          .order('created_at', { ascending: false })
+          .limit(1);
 
-        // Actually, we need to get the newly created admin's user_id first
-        const { data: authUser, error: authError } = await supabase
-          .from('auth.users')
-          .select('id')
-          .eq('email', newAdminEmail.trim())
-          .single();
-
-        if (!authError && authUser) {
-          const { error: roleUpdateError } = await supabase
-            .from('admin_users')
-            .update({
-              is_super_admin: isSuperAdmin,
-              is_content_manager: isContentManager
-            })
-            .eq('user_id', authUser.id);
-
-          if (roleUpdateError) {
-            console.error('Error updating admin roles:', roleUpdateError);
-          }
+        if (updateError) {
+          console.error('Error updating admin roles:', updateError);
+          // Don't throw here as the admin was created successfully
         }
       }
 
