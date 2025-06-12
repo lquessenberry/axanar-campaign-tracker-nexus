@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
@@ -18,11 +19,6 @@ interface AdminUser {
   is_super_admin: boolean;
   is_content_manager: boolean;
   created_at: string;
-  email?: string;
-}
-
-interface AuthUser {
-  id: string;
   email?: string;
 }
 
@@ -55,25 +51,23 @@ const AdminManagement = () => {
   const fetchAdmins = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase
+      const { data: adminData, error } = await supabase
         .from('admin_users')
         .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
 
-      // Get email addresses for admin users
-      const adminIds = data.map(admin => admin.user_id);
-      const { data: userData, error: userError } = await supabase.auth.admin.listUsers();
+      console.log('Fetched admin users:', adminData);
       
-      if (userError) throw userError;
-
-      const adminsWithEmails = data.map(admin => ({
+      // For now, we'll show the admin users without email addresses from auth.users
+      // since we can't access auth.users from the client side
+      const adminsWithoutEmails = adminData.map(admin => ({
         ...admin,
-        email: (userData.users as AuthUser[]).find((u: AuthUser) => u.id === admin.user_id)?.email || 'Unknown'
+        email: 'Email not available' // We can't fetch emails from auth.users client-side
       }));
 
-      setAdmins(adminsWithEmails);
+      setAdmins(adminsWithoutEmails);
     } catch (error) {
       console.error('Error fetching admins:', error);
       toast({
@@ -219,7 +213,7 @@ const AdminManagement = () => {
                     >
                       <div className="flex items-center gap-4">
                         <div>
-                          <div className="font-medium">{admin.email}</div>
+                          <div className="font-medium">{admin.user_id}</div>
                           <div className="text-sm text-muted-foreground">
                             Added {new Date(admin.created_at).toLocaleDateString()}
                           </div>
@@ -245,7 +239,7 @@ const AdminManagement = () => {
                       <Button
                         variant="destructive"
                         size="sm"
-                        onClick={() => removeAdmin(admin.user_id, admin.email || 'Unknown')}
+                        onClick={() => removeAdmin(admin.user_id, admin.user_id)}
                         disabled={admin.user_id === user?.id}
                       >
                         <Trash2 className="h-4 w-4" />
