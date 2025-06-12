@@ -52,31 +52,21 @@ const AdminManagement = () => {
     try {
       console.log('Starting debug query...');
       
-      // Test basic connection
-      const { data: testData, error: testError } = await supabase
-        .from('admin_users')
-        .select('count')
-        .single();
-      
-      console.log('Count query result:', { testData, testError });
-      
-      // Test if we can select without any conditions
-      const { data: allAdmins, error: allError } = await supabase
-        .from('admin_users')
-        .select('*');
-      
-      console.log('All admins query result:', { allAdmins, allError });
-      
       // Test the new security definer function
       const { data: functionTest, error: functionError } = await supabase
         .rpc('check_user_is_super_admin', { user_uuid: user?.id });
       
       console.log('Security function test:', { functionTest, functionError });
       
+      // Test the new get_admin_users function
+      const { data: adminUsers, error: adminError } = await supabase
+        .rpc('get_admin_users');
+      
+      console.log('Get admin users result:', { adminUsers, adminError });
+      
       setDebugInfo(`
-        Count query: ${testError ? `Error: ${testError.message}` : `Success: ${JSON.stringify(testData)}`}
-        All admins: ${allError ? `Error: ${allError.message}` : `Success: Found ${allAdmins?.length || 0} admins`}
         Function test: ${functionError ? `Error: ${functionError.message}` : `Result: ${functionTest}`}
+        Admin users: ${adminError ? `Error: ${adminError.message}` : `Success: Found ${adminUsers?.length || 0} admins`}
         Current user ID: ${user?.id}
       `);
       
@@ -89,12 +79,10 @@ const AdminManagement = () => {
   const fetchAdmins = async () => {
     setLoading(true);
     try {
-      console.log('Fetching admins...');
+      console.log('Fetching admins using new function...');
       
       const { data: adminData, error } = await supabase
-        .from('admin_users')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .rpc('get_admin_users');
 
       console.log('Fetch admins result:', { adminData, error });
 
@@ -105,12 +93,12 @@ const AdminManagement = () => {
 
       console.log('Successfully fetched admin users:', adminData);
       
-      const adminsWithoutEmails = adminData.map(admin => ({
+      const adminsWithDisplayData = adminData.map(admin => ({
         ...admin,
         email: 'Email not available'
       }));
 
-      setAdmins(adminsWithoutEmails);
+      setAdmins(adminsWithDisplayData);
     } catch (error: any) {
       console.error('Error in fetchAdmins:', error);
       toast({
