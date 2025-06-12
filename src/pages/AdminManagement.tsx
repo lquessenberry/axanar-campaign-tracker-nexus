@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
@@ -68,9 +67,9 @@ const AdminManagement = () => {
       
       console.log('All admins query result:', { allAdmins, allError });
       
-      // Test the security definer function
+      // Test the new security definer function
       const { data: functionTest, error: functionError } = await supabase
-        .rpc('is_user_super_admin', { user_uuid: user?.id });
+        .rpc('check_user_is_super_admin', { user_uuid: user?.id });
       
       console.log('Security function test:', { functionTest, functionError });
       
