@@ -2057,7 +2057,7 @@ export type Database = {
           is_linked: boolean
         }[]
       }
-      check_user_is_super_admin: {
+      check_user_is_super_admin_safe: {
         Args: { user_uuid: string }
         Returns: boolean
       }
