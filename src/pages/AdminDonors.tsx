@@ -37,25 +37,24 @@ const AdminDonors = () => {
     },
   });
 
-  // Get total count of active donors (those with pledges)
+  // Get total count of active donors (those with pledges) - using aggregation to avoid pagination
   const { data: activeDonorsCount } = useQuery({
     queryKey: ['active-donors-count'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('donors')
-        .select(`
-          id,
-          pledges (id)
-        `);
+        .from('pledges')
+        .select('donor_id')
+        .not('donor_id', 'is', null);
 
       if (error) throw error;
       
-      const activeDonors = data.filter(donor => donor.pledges && donor.pledges.length > 0);
-      return activeDonors.length;
+      // Get unique donor IDs from pledges
+      const uniqueDonorIds = new Set(data.map(pledge => pledge.donor_id));
+      return uniqueDonorIds.size;
     },
   });
 
-  // Get total amount raised
+  // Get total amount raised - this already fetches all pledges correctly
   const { data: totalRaised } = useQuery({
     queryKey: ['total-raised'],
     queryFn: async () => {
@@ -70,29 +69,47 @@ const AdminDonors = () => {
     },
   });
 
-  // Get paginated donors
+  // Get paginated donors with their accurate pledge totals
   const { data: donors, isLoading } = useQuery({
     queryKey: ['admin-donors', currentPage],
     queryFn: async () => {
       const from = (currentPage - 1) * ITEMS_PER_PAGE;
       const to = from + ITEMS_PER_PAGE - 1;
 
-      const { data, error } = await supabase
+      // First get the donors for this page
+      const { data: donorData, error: donorError } = await supabase
         .from('donors')
-        .select(`
-          *,
-          pledges (amount)
-        `)
+        .select('*')
         .range(from, to)
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (donorError) throw donorError;
+
+      // Then get pledge totals for these specific donors
+      const donorIds = donorData.map(donor => donor.id);
       
-      // Calculate total pledges for each donor
-      const donorsWithTotals = data.map(donor => ({
+      const { data: pledgeData, error: pledgeError } = await supabase
+        .from('pledges')
+        .select('donor_id, amount')
+        .in('donor_id', donorIds);
+
+      if (pledgeError) throw pledgeError;
+
+      // Calculate totals for each donor
+      const pledgeTotals = pledgeData.reduce((acc, pledge) => {
+        if (!acc[pledge.donor_id]) {
+          acc[pledge.donor_id] = { total: 0, count: 0 };
+        }
+        acc[pledge.donor_id].total += Number(pledge.amount);
+        acc[pledge.donor_id].count += 1;
+        return acc;
+      }, {} as Record<string, { total: number; count: number }>);
+
+      // Combine donor data with pledge totals
+      const donorsWithTotals = donorData.map(donor => ({
         ...donor,
-        totalPledges: donor.pledges?.reduce((sum: number, pledge: any) => sum + Number(pledge.amount), 0) || 0,
-        pledgeCount: donor.pledges?.length || 0
+        totalPledges: pledgeTotals[donor.id]?.total || 0,
+        pledgeCount: pledgeTotals[donor.id]?.count || 0
       }));
       
       return donorsWithTotals;
@@ -189,7 +206,7 @@ const AdminDonors = () => {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-primary">
-                ${totalRaised?.toFixed(2) || '0.00'}
+                ${totalRaised?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
               </div>
             </CardContent>
           </Card>
@@ -225,7 +242,9 @@ const AdminDonors = () => {
                       </TableCell>
                       <TableCell className="text-card-foreground">{donor.email}</TableCell>
                       <TableCell className="text-card-foreground">{donor.pledgeCount}</TableCell>
-                      <TableCell className="text-card-foreground">${donor.totalPledges.toFixed(2)}</TableCell>
+                      <TableCell className="text-card-foreground">
+                        ${donor.totalPledges.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </TableCell>
                       <TableCell>
                         <Badge 
                           variant={donor.auth_user_id ? "default" : "secondary"}
