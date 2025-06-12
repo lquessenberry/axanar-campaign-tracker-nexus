@@ -7,7 +7,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, Gift, DollarSign, Settings, BarChart3 } from "lucide-react";
+import { Users, Gift, DollarSign, Settings, BarChart3, UserCog } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Admin = () => {
@@ -98,6 +98,25 @@ const Admin = () => {
               <Link to="/admin/donors">
                 <Button className="w-full">
                   Manage Donors
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card border-border">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-card-foreground">
+                <UserCog className="h-5 w-5 text-primary" />
+                Manage Admins
+              </CardTitle>
+              <CardDescription className="text-muted-foreground">
+                Add, remove, and manage admin users
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link to="/admin/admins">
+                <Button className="w-full">
+                  Manage Admins
                 </Button>
               </Link>
             </CardContent>
