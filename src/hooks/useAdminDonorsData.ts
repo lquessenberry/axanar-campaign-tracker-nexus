@@ -6,7 +6,7 @@ const ITEMS_PER_PAGE = 50;
 
 export const useAdminDonorsData = (currentPage: number) => {
   // Get total count of donors
-  const { data: totalCount } = useQuery({
+  const { data: totalCount, isLoading: isLoadingTotal } = useQuery({
     queryKey: ['donors-total-count'],
     queryFn: async () => {
       const { count, error } = await supabase
@@ -19,7 +19,7 @@ export const useAdminDonorsData = (currentPage: number) => {
   });
 
   // Get total count of active donors (those with pledges) using database aggregation
-  const { data: activeDonorsCount } = useQuery({
+  const { data: activeDonorsCount, isLoading: isLoadingActive } = useQuery({
     queryKey: ['active-donors-count'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -37,7 +37,7 @@ export const useAdminDonorsData = (currentPage: number) => {
   });
 
   // Get total amount raised using batch fetching
-  const { data: totalRaised } = useQuery({
+  const { data: totalRaised, isLoading: isLoadingRaised } = useQuery({
     queryKey: ['total-raised'],
     queryFn: async () => {
       // First, get the total count of pledges
@@ -138,6 +138,9 @@ export const useAdminDonorsData = (currentPage: number) => {
     donors,
     isLoading,
     totalPages,
-    itemsPerPage: ITEMS_PER_PAGE
+    itemsPerPage: ITEMS_PER_PAGE,
+    isLoadingTotal,
+    isLoadingActive,
+    isLoadingRaised
   };
 };

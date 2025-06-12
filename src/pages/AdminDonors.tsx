@@ -20,7 +20,10 @@ const AdminDonors = () => {
     donors,
     isLoading,
     totalPages,
-    itemsPerPage
+    itemsPerPage,
+    isLoadingTotal,
+    isLoadingActive,
+    isLoadingRaised
   } = useAdminDonorsData(currentPage);
 
   if (isLoading) {
@@ -53,6 +56,9 @@ const AdminDonors = () => {
           totalCount={totalCount || 0}
           activeDonorsCount={activeDonorsCount || 0}
           totalRaised={totalRaised || 0}
+          isLoadingTotal={isLoadingTotal}
+          isLoadingActive={isLoadingActive}
+          isLoadingRaised={isLoadingRaised}
         />
 
         <Card className="bg-card border-border">
