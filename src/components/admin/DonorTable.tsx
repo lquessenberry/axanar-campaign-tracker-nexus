@@ -1,6 +1,8 @@
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import DonorActions from "./DonorActions";
 
 interface Donor {
   id: string;
@@ -17,25 +19,49 @@ interface Donor {
 
 interface DonorTableProps {
   donors: Donor[];
+  selectedDonors: Set<string>;
+  onSelectDonor: (donorId: string, checked: boolean) => void;
+  onEdit: (donor: Donor) => void;
+  onSendEmail: (donor: Donor) => void;
+  onBan: (donor: Donor) => void;
+  onActivate: (donor: Donor) => void;
 }
 
-const DonorTable = ({ donors }: DonorTableProps) => {
+const DonorTable = ({ 
+  donors, 
+  selectedDonors, 
+  onSelectDonor,
+  onEdit,
+  onSendEmail,
+  onBan,
+  onActivate
+}: DonorTableProps) => {
   return (
     <div className="overflow-x-auto">
       <Table>
         <TableHeader>
           <TableRow className="border-border">
+            <TableHead className="w-12">
+              <span className="sr-only">Select</span>
+            </TableHead>
             <TableHead className="text-muted-foreground">Name</TableHead>
             <TableHead className="text-muted-foreground">Email</TableHead>
             <TableHead className="text-muted-foreground">Pledges</TableHead>
             <TableHead className="text-muted-foreground">Total Donated</TableHead>
             <TableHead className="text-muted-foreground">Status</TableHead>
             <TableHead className="text-muted-foreground">Joined</TableHead>
+            <TableHead className="text-muted-foreground w-12">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {donors?.map((donor) => (
             <TableRow key={donor.id} className="border-border">
+              <TableCell>
+                <Checkbox
+                  checked={selectedDonors.has(donor.id)}
+                  onCheckedChange={(checked) => onSelectDonor(donor.id, !!checked)}
+                />
+              </TableCell>
               <TableCell className="text-card-foreground">
                 {donor.first_name && donor.last_name 
                   ? `${donor.first_name} ${donor.last_name}`
@@ -60,6 +86,15 @@ const DonorTable = ({ donors }: DonorTableProps) => {
               </TableCell>
               <TableCell className="text-card-foreground">
                 {donor.created_at ? new Date(donor.created_at).toLocaleDateString() : 'N/A'}
+              </TableCell>
+              <TableCell>
+                <DonorActions
+                  donor={donor}
+                  onEdit={onEdit}
+                  onSendEmail={onSendEmail}
+                  onBan={onBan}
+                  onActivate={onActivate}
+                />
               </TableCell>
             </TableRow>
           ))}

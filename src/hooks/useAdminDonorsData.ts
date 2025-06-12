@@ -4,14 +4,35 @@ import { supabase } from '@/integrations/supabase/client';
 
 const ITEMS_PER_PAGE = 50;
 
-export const useAdminDonorsData = (currentPage: number) => {
+interface DonorFilters {
+  searchTerm?: string;
+  sortBy?: string;
+  sortOrder?: 'asc' | 'desc';
+  statusFilter?: string;
+}
+
+export const useAdminDonorsData = (currentPage: number, filters: DonorFilters = {}) => {
+  const { searchTerm = '', sortBy = 'created_at', sortOrder = 'desc', statusFilter = 'all' } = filters;
+
   // Get total count of donors
   const { data: totalCount, isLoading: isLoadingTotal } = useQuery({
-    queryKey: ['donors-total-count'],
+    queryKey: ['donors-total-count', searchTerm, statusFilter],
     queryFn: async () => {
-      const { count, error } = await supabase
-        .from('donors')
-        .select('*', { count: 'exact', head: true });
+      let query = supabase.from('donors').select('*', { count: 'exact', head: true });
+
+      // Apply search filter
+      if (searchTerm) {
+        query = query.or(`first_name.ilike.%${searchTerm}%,last_name.ilike.%${searchTerm}%,email.ilike.%${searchTerm}%,donor_name.ilike.%${searchTerm}%,full_name.ilike.%${searchTerm}%`);
+      }
+
+      // Apply status filter
+      if (statusFilter === 'registered') {
+        query = query.not('auth_user_id', 'is', null);
+      } else if (statusFilter === 'legacy') {
+        query = query.is('auth_user_id', null);
+      }
+
+      const { count, error } = await query;
 
       if (error) throw error;
       return count || 0;
@@ -84,17 +105,37 @@ export const useAdminDonorsData = (currentPage: number) => {
 
   // Get paginated donors with their accurate pledge totals
   const { data: donors, isLoading } = useQuery({
-    queryKey: ['admin-donors', currentPage],
+    queryKey: ['admin-donors', currentPage, searchTerm, sortBy, sortOrder, statusFilter],
     queryFn: async () => {
       const from = (currentPage - 1) * ITEMS_PER_PAGE;
       const to = from + ITEMS_PER_PAGE - 1;
 
       // First get the donors for this page
-      const { data: donorData, error: donorError } = await supabase
-        .from('donors')
-        .select('*')
-        .range(from, to)
-        .order('created_at', { ascending: false });
+      let query = supabase.from('donors').select('*');
+
+      // Apply search filter
+      if (searchTerm) {
+        query = query.or(`first_name.ilike.%${searchTerm}%,last_name.ilike.%${searchTerm}%,email.ilike.%${searchTerm}%,donor_name.ilike.%${searchTerm}%,full_name.ilike.%${searchTerm}%`);
+      }
+
+      // Apply status filter
+      if (statusFilter === 'registered') {
+        query = query.not('auth_user_id', 'is', null);
+      } else if (statusFilter === 'legacy') {
+        query = query.is('auth_user_id', null);
+      }
+
+      // Apply sorting
+      if (sortBy === 'name') {
+        query = query.order('first_name', { ascending: sortOrder === 'asc' });
+      } else if (sortBy === 'email') {
+        query = query.order('email', { ascending: sortOrder === 'asc' });
+      } else {
+        query = query.order(sortBy, { ascending: sortOrder === 'asc' });
+      }
+
+      const { data: donorData, error: donorError } = await query
+        .range(from, to);
 
       if (donorError) throw donorError;
 
@@ -119,11 +160,24 @@ export const useAdminDonorsData = (currentPage: number) => {
       }, {} as Record<string, { total: number; count: number }>);
 
       // Combine donor data with pledge totals
-      const donorsWithTotals = donorData.map(donor => ({
+      let donorsWithTotals = donorData.map(donor => ({
         ...donor,
         totalPledges: pledgeTotals[donor.id]?.total || 0,
         pledgeCount: pledgeTotals[donor.id]?.count || 0
       }));
+
+      // Sort by pledge totals if needed (since we can't sort in the database query for calculated fields)
+      if (sortBy === 'totalPledges') {
+        donorsWithTotals.sort((a, b) => {
+          const comparison = a.totalPledges - b.totalPledges;
+          return sortOrder === 'asc' ? comparison : -comparison;
+        });
+      } else if (sortBy === 'pledgeCount') {
+        donorsWithTotals.sort((a, b) => {
+          const comparison = a.pledgeCount - b.pledgeCount;
+          return sortOrder === 'asc' ? comparison : -comparison;
+        });
+      }
       
       return donorsWithTotals;
     },
