@@ -36,39 +36,39 @@ const AdminDonors = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-axanar-dark flex items-center justify-center">
-        <div className="text-white">Loading donors...</div>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-foreground">Loading donors...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-axanar-dark text-white">
+    <div className="min-h-screen bg-background text-foreground">
       <Navigation />
       
       <main className="container mx-auto px-4 py-8">
         <div className="mb-6">
-          <Link to="/admin" className="inline-flex items-center text-axanar-teal hover:text-axanar-teal/80 mb-4">
+          <Link to="/admin" className="inline-flex items-center text-primary hover:text-primary/80 mb-4">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Admin Dashboard
           </Link>
-          <h1 className="text-4xl font-bold mb-4">Manage Donors</h1>
-          <p className="text-axanar-silver">View and manage donor information</p>
+          <h1 className="text-4xl font-bold mb-4 text-foreground">Manage Donors</h1>
+          <p className="text-muted-foreground">View and manage donor information</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="bg-axanar-light border-axanar-silver/20">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-white">Total Donors</CardTitle>
+              <CardTitle className="text-card-foreground">Total Donors</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-axanar-teal">{donors?.length || 0}</div>
+              <div className="text-3xl font-bold text-primary">{donors?.length || 0}</div>
             </CardContent>
           </Card>
 
-          <Card className="bg-axanar-light border-axanar-silver/20">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-white">Active Donors</CardTitle>
+              <CardTitle className="text-card-foreground">Active Donors</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-green-400">
@@ -77,47 +77,47 @@ const AdminDonors = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-axanar-light border-axanar-silver/20">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-white">Total Raised</CardTitle>
+              <CardTitle className="text-card-foreground">Total Raised</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-axanar-teal">
+              <div className="text-3xl font-bold text-primary">
                 ${donors?.reduce((sum, donor) => sum + donor.totalPledges, 0).toFixed(2) || '0.00'}
               </div>
             </CardContent>
           </Card>
         </div>
 
-        <Card className="bg-axanar-light border-axanar-silver/20">
+        <Card className="bg-card border-border">
           <CardHeader>
-            <CardTitle className="text-white">All Donors</CardTitle>
+            <CardTitle className="text-card-foreground">All Donors</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-axanar-silver/20">
-                    <TableHead className="text-axanar-silver">Name</TableHead>
-                    <TableHead className="text-axanar-silver">Email</TableHead>
-                    <TableHead className="text-axanar-silver">Pledges</TableHead>
-                    <TableHead className="text-axanar-silver">Total Donated</TableHead>
-                    <TableHead className="text-axanar-silver">Status</TableHead>
-                    <TableHead className="text-axanar-silver">Joined</TableHead>
+                  <TableRow className="border-border">
+                    <TableHead className="text-muted-foreground">Name</TableHead>
+                    <TableHead className="text-muted-foreground">Email</TableHead>
+                    <TableHead className="text-muted-foreground">Pledges</TableHead>
+                    <TableHead className="text-muted-foreground">Total Donated</TableHead>
+                    <TableHead className="text-muted-foreground">Status</TableHead>
+                    <TableHead className="text-muted-foreground">Joined</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {donors?.map((donor) => (
-                    <TableRow key={donor.id} className="border-axanar-silver/20">
-                      <TableCell className="text-white">
+                    <TableRow key={donor.id} className="border-border">
+                      <TableCell className="text-card-foreground">
                         {donor.first_name && donor.last_name 
                           ? `${donor.first_name} ${donor.last_name}`
                           : donor.full_name || donor.donor_name || 'Unknown'
                         }
                       </TableCell>
-                      <TableCell className="text-white">{donor.email}</TableCell>
-                      <TableCell className="text-white">{donor.pledgeCount}</TableCell>
-                      <TableCell className="text-white">${donor.totalPledges.toFixed(2)}</TableCell>
+                      <TableCell className="text-card-foreground">{donor.email}</TableCell>
+                      <TableCell className="text-card-foreground">{donor.pledgeCount}</TableCell>
+                      <TableCell className="text-card-foreground">${donor.totalPledges.toFixed(2)}</TableCell>
                       <TableCell>
                         <Badge 
                           variant={donor.auth_user_id ? "default" : "secondary"}
@@ -129,7 +129,7 @@ const AdminDonors = () => {
                           {donor.auth_user_id ? "Registered" : "Legacy"}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-white">
+                      <TableCell className="text-card-foreground">
                         {new Date(donor.created_at).toLocaleDateString()}
                       </TableCell>
                     </TableRow>
