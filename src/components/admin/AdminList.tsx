@@ -31,10 +31,9 @@ const AdminList = ({ admins, loading, currentUserId, onAdminRemoved }: AdminList
     }
 
     try {
-      const { error } = await supabase
-        .from('admin_users')
-        .delete()
-        .eq('user_id', userId);
+      const { error } = await supabase.rpc('remove_admin_user', {
+        target_user_id: userId
+      });
 
       if (error) throw error;
 
@@ -44,11 +43,11 @@ const AdminList = ({ admins, loading, currentUserId, onAdminRemoved }: AdminList
       });
 
       onAdminRemoved();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error removing admin:', error);
       toast({
         title: "Error",
-        description: "Failed to remove admin",
+        description: error.message || "Failed to remove admin",
         variant: "destructive",
       });
     }

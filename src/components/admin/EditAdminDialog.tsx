@@ -41,13 +41,11 @@ const EditAdminDialog = ({ admin, isOpen, onClose, onAdminUpdated }: EditAdminDi
 
     setIsUpdating(true);
     try {
-      const { error } = await supabase
-        .from('admin_users')
-        .update({
-          is_super_admin: isSuperAdmin,
-          is_content_manager: isContentManager
-        })
-        .eq('user_id', admin.user_id);
+      const { error } = await supabase.rpc('update_admin_user', {
+        target_user_id: admin.user_id,
+        make_super_admin: isSuperAdmin,
+        make_content_manager: isContentManager
+      });
 
       if (error) throw error;
 
