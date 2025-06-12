@@ -45,7 +45,15 @@ export const useAdminDonorsData = (currentPage: number) => {
 
       if (error) throw error;
       
-      const total = data.reduce((sum, pledge) => sum + Number(pledge.amount), 0);
+      console.log('Total pledges found:', data.length);
+      
+      const total = data.reduce((sum, pledge) => {
+        const amount = Number(pledge.amount);
+        console.log('Adding pledge amount:', amount);
+        return sum + amount;
+      }, 0);
+      
+      console.log('Final total raised:', total);
       return total;
     },
   });
