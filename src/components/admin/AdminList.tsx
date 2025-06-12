@@ -1,0 +1,86 @@
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { Shield } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { AdminUser } from "@/types/admin";
+import AdminUserCard from "./AdminUserCard";
+
+interface AdminListProps {
+  admins: AdminUser[];
+  loading: boolean;
+  currentUserId: string | undefined;
+  onAdminRemoved: () => void;
+}
+
+const AdminList = ({ admins, loading, currentUserId, onAdminRemoved }: AdminListProps) => {
+  const { toast } = useToast();
+
+  const removeAdmin = async (userId: string, email: string) => {
+    if (userId === currentUserId) {
+      toast({
+        title: "Error",
+        description: "You cannot remove yourself as an admin",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('admin_users')
+        .delete()
+        .eq('user_id', userId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: `Admin access removed from ${email}`,
+      });
+
+      onAdminRemoved();
+    } catch (error) {
+      console.error('Error removing admin:', error);
+      toast({
+        title: "Error",
+        description: "Failed to remove admin",
+        variant: "destructive",
+      });
+    }
+  };
+
+  return (
+    <Card className="bg-card border-border">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 text-card-foreground">
+          <Shield className="h-5 w-5 text-primary" />
+          Current Admins
+        </CardTitle>
+        <CardDescription className="text-muted-foreground">
+          Manage existing admin users and their permissions
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        {loading ? (
+          <div className="text-center py-8">Loading admin users...</div>
+        ) : admins.length === 0 ? (
+          <div className="text-center py-8 text-muted-foreground">No admin users found</div>
+        ) : (
+          <div className="space-y-4">
+            {admins.map((admin) => (
+              <AdminUserCard
+                key={admin.user_id}
+                admin={admin}
+                currentUserId={currentUserId}
+                onRemove={removeAdmin}
+              />
+            ))}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+};
+
+export default AdminList;
