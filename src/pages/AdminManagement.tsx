@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
@@ -19,6 +18,11 @@ interface AdminUser {
   is_super_admin: boolean;
   is_content_manager: boolean;
   created_at: string;
+  email?: string;
+}
+
+interface AuthUser {
+  id: string;
   email?: string;
 }
 
@@ -66,7 +70,7 @@ const AdminManagement = () => {
 
       const adminsWithEmails = data.map(admin => ({
         ...admin,
-        email: userData.users.find(u => u.id === admin.user_id)?.email || 'Unknown'
+        email: (userData.users as AuthUser[]).find((u: AuthUser) => u.id === admin.user_id)?.email || 'Unknown'
       }));
 
       setAdmins(adminsWithEmails);
