@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
@@ -19,6 +20,15 @@ interface AdminUser {
   is_content_manager: boolean;
   created_at: string;
   email?: string;
+}
+
+// Type for the get_admin_users function response
+interface GetAdminUsersResponse {
+  user_id: string;
+  is_super_admin: boolean;
+  is_content_manager: boolean;
+  created_at: string;
+  updated_at: string;
 }
 
 const AdminManagement = () => {
@@ -58,9 +68,9 @@ const AdminManagement = () => {
       
       console.log('Security function test:', { functionTest, functionError });
       
-      // Test the new get_admin_users function
+      // Test the new get_admin_users function with proper typing
       const { data: adminUsers, error: adminError } = await supabase
-        .rpc('get_admin_users');
+        .rpc('get_admin_users') as { data: GetAdminUsersResponse[] | null, error: any };
       
       console.log('Get admin users result:', { adminUsers, adminError });
       
@@ -81,8 +91,9 @@ const AdminManagement = () => {
     try {
       console.log('Fetching admins using new function...');
       
+      // Use proper typing for the RPC call
       const { data: adminData, error } = await supabase
-        .rpc('get_admin_users');
+        .rpc('get_admin_users') as { data: GetAdminUsersResponse[] | null, error: any };
 
       console.log('Fetch admins result:', { adminData, error });
 
@@ -93,7 +104,7 @@ const AdminManagement = () => {
 
       console.log('Successfully fetched admin users:', adminData);
       
-      const adminsWithDisplayData = adminData.map(admin => ({
+      const adminsWithDisplayData = (adminData || []).map(admin => ({
         ...admin,
         email: 'Email not available'
       }));
