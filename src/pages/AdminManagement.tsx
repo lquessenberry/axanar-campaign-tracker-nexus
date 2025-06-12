@@ -31,6 +31,7 @@ const AdminManagement = () => {
   const [admins, setAdmins] = useState<AdminUser[]>([]);
   const [loading, setLoading] = useState(false);
   const [newAdminEmail, setNewAdminEmail] = useState("");
+  const [debugInfo, setDebugInfo] = useState<string>("");
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -48,31 +49,74 @@ const AdminManagement = () => {
     }
   }, [isSuperAdmin]);
 
+  const debugQuery = async () => {
+    try {
+      console.log('Starting debug query...');
+      
+      // Test basic connection
+      const { data: testData, error: testError } = await supabase
+        .from('admin_users')
+        .select('count')
+        .single();
+      
+      console.log('Count query result:', { testData, testError });
+      
+      // Test if we can select without any conditions
+      const { data: allAdmins, error: allError } = await supabase
+        .from('admin_users')
+        .select('*');
+      
+      console.log('All admins query result:', { allAdmins, allError });
+      
+      // Test the security definer function
+      const { data: functionTest, error: functionError } = await supabase
+        .rpc('is_user_super_admin', { user_uuid: user?.id });
+      
+      console.log('Security function test:', { functionTest, functionError });
+      
+      setDebugInfo(`
+        Count query: ${testError ? `Error: ${testError.message}` : `Success: ${JSON.stringify(testData)}`}
+        All admins: ${allError ? `Error: ${allError.message}` : `Success: Found ${allAdmins?.length || 0} admins`}
+        Function test: ${functionError ? `Error: ${functionError.message}` : `Result: ${functionTest}`}
+        Current user ID: ${user?.id}
+      `);
+      
+    } catch (error) {
+      console.error('Debug query failed:', error);
+      setDebugInfo(`Debug failed: ${error}`);
+    }
+  };
+
   const fetchAdmins = async () => {
     setLoading(true);
     try {
+      console.log('Fetching admins...');
+      
       const { data: adminData, error } = await supabase
         .from('admin_users')
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      console.log('Fetch admins result:', { adminData, error });
 
-      console.log('Fetched admin users:', adminData);
+      if (error) {
+        console.error('Error fetching admins:', error);
+        throw error;
+      }
+
+      console.log('Successfully fetched admin users:', adminData);
       
-      // For now, we'll show the admin users without email addresses from auth.users
-      // since we can't access auth.users from the client side
       const adminsWithoutEmails = adminData.map(admin => ({
         ...admin,
-        email: 'Email not available' // We can't fetch emails from auth.users client-side
+        email: 'Email not available'
       }));
 
       setAdmins(adminsWithoutEmails);
-    } catch (error) {
-      console.error('Error fetching admins:', error);
+    } catch (error: any) {
+      console.error('Error in fetchAdmins:', error);
       toast({
         title: "Error",
-        description: "Failed to fetch admin users",
+        description: `Failed to fetch admin users: ${error.message}`,
         variant: "destructive",
       });
     } finally {
@@ -164,6 +208,22 @@ const AdminManagement = () => {
         </div>
 
         <div className="grid gap-6">
+          <Card className="bg-card border-border">
+            <CardHeader>
+              <CardTitle className="text-card-foreground">Debug Information</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Button onClick={debugQuery} className="mb-4">
+                Run Debug Query
+              </Button>
+              {debugInfo && (
+                <pre className="bg-muted p-4 rounded text-sm whitespace-pre-wrap">
+                  {debugInfo}
+                </pre>
+              )}
+            </CardContent>
+          </Card>
+
           <Card className="bg-card border-border">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-card-foreground">
