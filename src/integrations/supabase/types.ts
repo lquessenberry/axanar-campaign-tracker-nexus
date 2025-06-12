@@ -2085,6 +2085,7 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: {
           user_id: string
+          email: string
           is_super_admin: boolean
           is_content_manager: boolean
           created_at: string

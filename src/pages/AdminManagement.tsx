@@ -16,15 +16,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 interface AdminUser {
   user_id: string;
-  is_super_admin: boolean;
-  is_content_manager: boolean;
-  created_at: string;
-  email?: string;
-}
-
-// Type for the get_admin_users function response
-interface GetAdminUsersResponse {
-  user_id: string;
+  email: string;
   is_super_admin: boolean;
   is_content_manager: boolean;
   created_at: string;
@@ -89,7 +81,7 @@ const AdminManagement = () => {
   const fetchAdmins = async () => {
     setLoading(true);
     try {
-      console.log('Fetching admins using new function...');
+      console.log('Fetching admins using updated function...');
       
       const { data: adminData, error } = await supabase
         .rpc('get_admin_users');
@@ -103,12 +95,11 @@ const AdminManagement = () => {
 
       console.log('Successfully fetched admin users:', adminData);
       
-      const adminsWithDisplayData = (Array.isArray(adminData) ? adminData : []).map((admin: GetAdminUsersResponse) => ({
-        ...admin,
-        email: 'Email not available'
-      }));
-
-      setAdmins(adminsWithDisplayData);
+      if (Array.isArray(adminData)) {
+        setAdmins(adminData);
+      } else {
+        setAdmins([]);
+      }
     } catch (error: any) {
       console.error('Error in fetchAdmins:', error);
       toast({
@@ -270,7 +261,7 @@ const AdminManagement = () => {
                     >
                       <div className="flex items-center gap-4">
                         <div>
-                          <div className="font-medium">{admin.user_id}</div>
+                          <div className="font-medium">{admin.email || 'Email not available'}</div>
                           <div className="text-sm text-muted-foreground">
                             Added {new Date(admin.created_at).toLocaleDateString()}
                           </div>
@@ -296,7 +287,7 @@ const AdminManagement = () => {
                       <Button
                         variant="destructive"
                         size="sm"
-                        onClick={() => removeAdmin(admin.user_id, admin.user_id)}
+                        onClick={() => removeAdmin(admin.user_id, admin.email)}
                         disabled={admin.user_id === user?.id}
                       >
                         <Trash2 className="h-4 w-4" />
