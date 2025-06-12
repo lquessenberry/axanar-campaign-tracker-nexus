@@ -13,9 +13,9 @@ const DebugPanel = () => {
     try {
       console.log('Starting debug query...');
       
-      // Test the new security definer function
+      // Test the new is_super_admin function
       const { data: functionTest, error: functionError } = await supabase
-        .rpc('check_user_is_super_admin_safe', { user_uuid: user?.id });
+        .rpc('is_super_admin');
       
       console.log('Security function test:', { functionTest, functionError });
       

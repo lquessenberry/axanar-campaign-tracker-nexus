@@ -11,7 +11,7 @@ export const useSuperAdminCheck = () => {
     queryFn: async () => {
       if (!user) return false;
       
-      const { data, error } = await supabase.rpc('check_user_is_super_admin_safe', { user_uuid: user.id });
+      const { data, error } = await supabase.rpc('is_super_admin');
       
       if (error) {
         console.error('Error checking super admin status:', error);

@@ -2057,10 +2057,6 @@ export type Database = {
           is_linked: boolean
         }[]
       }
-      check_user_is_super_admin_safe: {
-        Args: { user_uuid: string }
-        Returns: boolean
-      }
       create_auth_users_for_donors: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -2098,6 +2094,10 @@ export type Database = {
       }
       is_admin: {
         Args: { check_user_id: string }
+        Returns: boolean
+      }
+      is_super_admin: {
+        Args: Record<PropertyKey, never>
         Returns: boolean
       }
       link_donor_to_auth_user: {
