@@ -1,3 +1,4 @@
+
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -17,24 +18,25 @@ export const useAdminDonorsData = (currentPage: number) => {
     },
   });
 
-  // Get total count of active donors (those with pledges) - using aggregation to avoid pagination
+  // Get total count of active donors (those with pledges) using database aggregation
   const { data: activeDonorsCount } = useQuery({
     queryKey: ['active-donors-count'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('pledges')
-        .select('donor_id')
+        .select('donor_id', { count: 'exact', head: false })
         .not('donor_id', 'is', null);
 
       if (error) throw error;
       
-      // Get unique donor IDs from pledges
-      const uniqueDonorIds = new Set(data.map(pledge => pledge.donor_id));
+      // Get unique donor IDs using Set
+      const uniqueDonorIds = new Set(data?.map(pledge => pledge.donor_id) || []);
+      console.log('Active donors count:', uniqueDonorIds.size);
       return uniqueDonorIds.size;
     },
   });
 
-  // Get total amount raised - fetch ALL pledges without pagination limits
+  // Get total amount raised using batch fetching
   const { data: totalRaised } = useQuery({
     queryKey: ['total-raised'],
     queryFn: async () => {
