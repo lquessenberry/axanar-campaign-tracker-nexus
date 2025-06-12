@@ -1,5 +1,4 @@
 
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
@@ -69,15 +68,15 @@ const AdminManagement = () => {
       
       console.log('Security function test:', { functionTest, functionError });
       
-      // Test the new get_admin_users function using generic rpc call
+      // Test the new get_admin_users function
       const { data: adminUsers, error: adminError } = await supabase
-        .rpc('get_admin_users' as any);
+        .rpc('get_admin_users');
       
       console.log('Get admin users result:', { adminUsers, adminError });
       
       setDebugInfo(`
         Function test: ${functionError ? `Error: ${functionError.message}` : `Result: ${functionTest}`}
-        Admin users: ${adminError ? `Error: ${adminError.message}` : `Success: Found ${(adminUsers as GetAdminUsersResponse[])?.length || 0} admins`}
+        Admin users: ${adminError ? `Error: ${adminError.message}` : `Success: Found ${Array.isArray(adminUsers) ? adminUsers.length : 0} admins`}
         Current user ID: ${user?.id}
       `);
       
@@ -92,9 +91,8 @@ const AdminManagement = () => {
     try {
       console.log('Fetching admins using new function...');
       
-      // Use generic rpc call to avoid type issues
       const { data: adminData, error } = await supabase
-        .rpc('get_admin_users' as any);
+        .rpc('get_admin_users');
 
       console.log('Fetch admins result:', { adminData, error });
 
@@ -105,7 +103,7 @@ const AdminManagement = () => {
 
       console.log('Successfully fetched admin users:', adminData);
       
-      const adminsWithDisplayData = (adminData as GetAdminUsersResponse[] || []).map(admin => ({
+      const adminsWithDisplayData = (Array.isArray(adminData) ? adminData : []).map((admin: GetAdminUsersResponse) => ({
         ...admin,
         email: 'Email not available'
       }));
@@ -318,4 +316,3 @@ const AdminManagement = () => {
 };
 
 export default AdminManagement;
-

@@ -1730,6 +1730,30 @@ export type Database = {
       }
     }
     Views: {
+      admin_users_view: {
+        Row: {
+          created_at: string | null
+          is_content_manager: boolean | null
+          is_super_admin: boolean | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          is_content_manager?: boolean | null
+          is_super_admin?: boolean | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          is_content_manager?: boolean | null
+          is_super_admin?: boolean | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       campaign_statistics: {
         Row: {
           campaign_id: string | null
@@ -2056,6 +2080,16 @@ export type Database = {
           raw_app_meta_data: Json
         }
         Returns: undefined
+      }
+      get_admin_users: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          user_id: string
+          is_super_admin: boolean
+          is_content_manager: boolean
+          created_at: string
+          updated_at: string
+        }[]
       }
       get_all_users: {
         Args: Record<PropertyKey, never>
