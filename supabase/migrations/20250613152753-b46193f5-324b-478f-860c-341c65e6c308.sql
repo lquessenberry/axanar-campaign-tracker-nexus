@@ -1,6 +1,4 @@
 
-
-
 -- Create a view that accurately calculates campaign statistics
 CREATE OR REPLACE VIEW campaign_totals AS
 SELECT 
@@ -18,5 +16,3 @@ FROM campaigns c
 LEFT JOIN pledges p ON c.id = p.campaign_id
 GROUP BY c.id, c.name, c.provider, c.start_date, c.end_date, c.active, c.goal_amount
 ORDER BY c.created_at DESC;
-
-

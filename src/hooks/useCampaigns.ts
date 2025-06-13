@@ -49,13 +49,13 @@ export const useCampaigns = () => {
       const totalsMap = campaignTotals.reduce((acc, total) => {
         acc[total.campaign_id] = total;
         return acc;
-      }, {} as Record<string, { total_amount: number; backers_count: number }>);
+      }, {} as Record<string, { total_amount: number; backers_count: number; goal_amount: number }>);
 
       console.log('🗺️ Totals map:', totalsMap);
 
       // Transform the data to match the expected interface
       const transformedCampaigns = campaigns.map((campaign) => {
-        const totals = totalsMap[campaign.id] || { total_amount: 0, backers_count: 0 };
+        const totals = totalsMap[campaign.id] || { total_amount: 0, backers_count: 0, goal_amount: 0 };
         
         console.log(`💡 Campaign ${campaign.name}:`, {
           id: campaign.id,
@@ -66,7 +66,6 @@ export const useCampaigns = () => {
         
         // Map provider numbers to readable names
         let categoryName = 'General';
-        let defaultGoalAmount = 50000; // Fallback for campaigns without goal_amount
         
         if (campaign.provider === '1') {
           categoryName = 'Kickstarter';
@@ -74,16 +73,10 @@ export const useCampaigns = () => {
           categoryName = 'Indiegogo';
         } else if (campaign.provider === '3') {
           categoryName = 'PayPal';
-          defaultGoalAmount = 25000;
         }
         
-        // Use the actual goal_amount from database, or fallback to default
-        let goalAmount = campaign.goal_amount || defaultGoalAmount;
-        
-        // If current amount exceeds the goal, set goal to be 20% higher than current
-        if (totals.total_amount > goalAmount) {
-          goalAmount = Math.ceil(totals.total_amount * 1.2);
-        }
+        // Use the actual goal_amount from database (historical values)
+        const goalAmount = totals.goal_amount || campaign.goal_amount || 50000; // fallback only if no goal set
         
         const transformedCampaign = {
           id: campaign.id,
@@ -134,11 +127,10 @@ export const useFeaturedCampaign = () => {
       if (!campaign) return null;
 
       // Find totals for this campaign
-      const totals = campaignTotals.find(t => t.campaign_id === campaign.id) || { total_amount: 0, backers_count: 0 };
+      const totals = campaignTotals.find(t => t.campaign_id === campaign.id) || { total_amount: 0, backers_count: 0, goal_amount: 0 };
 
       // Map provider numbers to readable names
       let categoryName = 'General';
-      let defaultGoalAmount = 50000;
       
       if (campaign.provider === '1') {
         categoryName = 'Kickstarter';
@@ -146,16 +138,10 @@ export const useFeaturedCampaign = () => {
         categoryName = 'Indiegogo';
       } else if (campaign.provider === '3') {
         categoryName = 'PayPal';
-        defaultGoalAmount = 25000;
       }
       
-      // Use the actual goal_amount from database, or fallback to default
-      let goalAmount = campaign.goal_amount || defaultGoalAmount;
-      
-      // If current amount exceeds the goal, set goal to be 20% higher than current
-      if (totals.total_amount > goalAmount) {
-        goalAmount = Math.ceil(totals.total_amount * 1.2);
-      }
+      // Use the actual goal_amount from database (historical values)
+      const goalAmount = totals.goal_amount || campaign.goal_amount || 50000; // fallback only if no goal set
 
       // Transform the data to match the expected interface
       return {
