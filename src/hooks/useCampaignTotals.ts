@@ -6,16 +6,24 @@ export const useCampaignTotals = () => {
   return useQuery({
     queryKey: ['campaign-totals'],
     queryFn: async () => {
+      console.log('💰 Fetching campaign totals from pledges...');
+      
       const { data, error } = await supabase
         .from('pledges')
         .select(`
           campaign_id,
           amount,
-          donor_id
+          donor_id,
+          status
         `)
         .eq('status', 'completed');
 
-      if (error) throw error;
+      if (error) {
+        console.error('❌ Error fetching pledges:', error);
+        throw error;
+      }
+
+      console.log('📋 Raw pledges data:', data);
 
       // Calculate totals per campaign
       const totals = data.reduce((acc, pledge) => {
@@ -41,6 +49,7 @@ export const useCampaignTotals = () => {
         backers_count: data.unique_backers.size
       }));
 
+      console.log('📊 Calculated campaign totals:', campaignTotals);
       return campaignTotals;
     },
   });

@@ -63,13 +63,18 @@ export const useCampaigns = () => {
           totals: totals
         });
         
-        // Set realistic goal amounts based on campaign provider or use a calculated goal
+        // Map provider numbers to readable names
+        let categoryName = 'General';
         let goalAmount = 50000; // Default goal
-        if (campaign.provider === 'Kickstarter') {
+        
+        if (campaign.provider === '1') {
+          categoryName = 'Kickstarter';
           goalAmount = 150000;
-        } else if (campaign.provider === 'Indiegogo') {
+        } else if (campaign.provider === '2') {
+          categoryName = 'Indiegogo';
           goalAmount = 100000;
-        } else if (campaign.provider === 'PayPal') {
+        } else if (campaign.provider === '3') {
+          categoryName = 'PayPal';
           goalAmount = 25000;
         }
         
@@ -83,7 +88,7 @@ export const useCampaigns = () => {
           title: campaign.name,
           description: null,
           image_url: campaign.image_url,
-          category: campaign.provider || 'General',
+          category: categoryName,
           goal_amount: goalAmount,
           current_amount: totals.total_amount,
           backers_count: totals.backers_count,
@@ -95,7 +100,7 @@ export const useCampaigns = () => {
           updated_at: campaign.updated_at,
           start_date: campaign.start_date,
           legacy_campaign_id: campaign.legacy_id,
-          platform: campaign.provider,
+          platform: categoryName,
           creator_profile: null
         };
 
@@ -129,13 +134,18 @@ export const useFeaturedCampaign = () => {
       // Find totals for this campaign
       const totals = campaignTotals.find(t => t.campaign_id === campaign.id) || { total_amount: 0, backers_count: 0 };
 
-      // Set realistic goal based on provider
+      // Map provider numbers to readable names and set goals
+      let categoryName = 'General';
       let goalAmount = 50000;
-      if (campaign.provider === 'Kickstarter') {
+      
+      if (campaign.provider === '1') {
+        categoryName = 'Kickstarter';
         goalAmount = 150000;
-      } else if (campaign.provider === 'Indiegogo') {
+      } else if (campaign.provider === '2') {
+        categoryName = 'Indiegogo';
         goalAmount = 100000;
-      } else if (campaign.provider === 'PayPal') {
+      } else if (campaign.provider === '3') {
+        categoryName = 'PayPal';
         goalAmount = 25000;
       }
       
@@ -150,7 +160,7 @@ export const useFeaturedCampaign = () => {
         title: campaign.name,
         description: null,
         image_url: campaign.image_url,
-        category: campaign.provider || 'General',
+        category: categoryName,
         goal_amount: goalAmount,
         current_amount: totals.total_amount,
         backers_count: totals.backers_count,
@@ -162,7 +172,7 @@ export const useFeaturedCampaign = () => {
         updated_at: campaign.updated_at,
         start_date: campaign.start_date,
         legacy_campaign_id: campaign.legacy_id,
-        platform: campaign.provider,
+        platform: categoryName,
         creator_profile: null
       };
     },
