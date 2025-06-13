@@ -7,7 +7,6 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import FeaturedCampaign from "@/components/FeaturedCampaign";
 import CampaignCard from "@/components/CampaignCard";
-import CampaignChart from "@/components/CampaignChart";
 import WarpfieldStars from "@/components/WarpfieldStars";
 import { Search } from "lucide-react";
 import { useCampaigns, useFeaturedCampaign } from "@/hooks/useCampaigns";
@@ -93,19 +92,6 @@ const Index = () => {
                 backers={featuredCampaign.backers_count}
                 daysLeft={calculateDaysLeft(featuredCampaign.end_date)}
               />
-            </div>
-          </section>
-        )}
-
-        {/* Campaign Performance Chart */}
-        {!campaignsLoading && campaigns.length > 0 && (
-          <section className="py-12 px-4 bg-muted/30">
-            <div className="container mx-auto">
-              <h2 className="text-2xl md:text-3xl font-bold mb-8">Campaign Performance</h2>
-              <p className="text-muted-foreground mb-6">
-                See how each campaign performed against their funding goals. Green bars indicate campaigns that exceeded their targets!
-              </p>
-              <CampaignChart campaigns={campaigns} />
             </div>
           </section>
         )}
