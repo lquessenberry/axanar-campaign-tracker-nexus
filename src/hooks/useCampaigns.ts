@@ -33,6 +33,7 @@ export const useCampaigns = () => {
   return useQuery({
     queryKey: ['campaigns', campaignTotals],
     queryFn: async () => {
+      console.log('🔍 Fetching campaigns...');
       const { data: campaigns, error } = await supabase
         .from('campaigns')
         .select('*')
@@ -41,15 +42,26 @@ export const useCampaigns = () => {
 
       if (error) throw error;
 
+      console.log('📊 Raw campaigns data:', campaigns);
+      console.log('💰 Campaign totals:', campaignTotals);
+
       // Create a lookup map for campaign totals
       const totalsMap = campaignTotals.reduce((acc, total) => {
         acc[total.campaign_id] = total;
         return acc;
       }, {} as Record<string, { total_amount: number; backers_count: number }>);
 
+      console.log('🗺️ Totals map:', totalsMap);
+
       // Transform the data to match the expected interface
       const transformedCampaigns = campaigns.map((campaign) => {
         const totals = totalsMap[campaign.id] || { total_amount: 0, backers_count: 0 };
+        
+        console.log(`💡 Campaign ${campaign.name}:`, {
+          id: campaign.id,
+          provider: campaign.provider,
+          totals: totals
+        });
         
         // Set realistic goal amounts based on campaign provider or use a calculated goal
         let goalAmount = 50000; // Default goal
@@ -66,7 +78,7 @@ export const useCampaigns = () => {
           goalAmount = Math.ceil(totals.total_amount * 1.2);
         }
         
-        return {
+        const transformedCampaign = {
           id: campaign.id,
           title: campaign.name,
           description: null,
@@ -86,8 +98,12 @@ export const useCampaigns = () => {
           platform: campaign.provider,
           creator_profile: null
         };
+
+        console.log(`✅ Transformed campaign ${campaign.name}:`, transformedCampaign);
+        return transformedCampaign;
       });
 
+      console.log('🎯 Final transformed campaigns:', transformedCampaigns);
       return transformedCampaigns;
     },
     enabled: campaignTotals.length >= 0, // Allow empty arrays

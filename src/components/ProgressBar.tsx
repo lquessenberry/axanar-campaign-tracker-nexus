@@ -10,6 +10,8 @@ interface ProgressBarProps {
 const ProgressBar = ({ current, goal, className }: ProgressBarProps) => {
   const percentage = Math.min(Math.round((current / goal) * 100), 100);
   
+  console.log('📊 ProgressBar:', { current, goal, percentage });
+  
   return (
     <div className={cn("w-full", className)}>
       <div className="flex justify-between text-sm font-medium mb-1">
