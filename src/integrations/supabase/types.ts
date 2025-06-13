@@ -446,6 +446,13 @@ export type Database = {
             foreignKeyName: "donor_campaign_packages_campaign_id_fkey"
             columns: ["campaign_id"]
             isOneToOne: false
+            referencedRelation: "campaign_totals"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "donor_campaign_packages_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
             referencedRelation: "campaigns"
             referencedColumns: ["id"]
           },
@@ -891,6 +898,13 @@ export type Database = {
             foreignKeyName: "pledges_campaign_id_fkey"
             columns: ["campaign_id"]
             isOneToOne: false
+            referencedRelation: "campaign_totals"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "pledges_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
             referencedRelation: "campaigns"
             referencedColumns: ["id"]
           },
@@ -1024,6 +1038,13 @@ export type Database = {
             columns: ["campaign_id"]
             isOneToOne: false
             referencedRelation: "campaign_statistics"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "rewards_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaign_totals"
             referencedColumns: ["campaign_id"]
           },
           {
@@ -1764,6 +1785,20 @@ export type Database = {
           start_date: string | null
           total_raised: number | null
           unique_donors: number | null
+        }
+        Relationships: []
+      }
+      campaign_totals: {
+        Row: {
+          active: boolean | null
+          backers_count: number | null
+          campaign_id: string | null
+          campaign_name: string | null
+          end_date: string | null
+          provider: string | null
+          start_date: string | null
+          total_amount: number | null
+          total_pledges: number | null
         }
         Relationships: []
       }
