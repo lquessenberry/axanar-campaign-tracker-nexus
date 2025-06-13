@@ -23,7 +23,8 @@ export const useCampaignTotals = () => {
       const campaignTotals = data.map(row => ({
         campaign_id: row.campaign_id,
         total_amount: Number(row.total_amount),
-        backers_count: row.backers_count
+        backers_count: row.backers_count,
+        goal_amount: Number(row.goal_amount) || 0
       }));
 
       console.log('✅ Transformed campaign totals:', campaignTotals);

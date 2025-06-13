@@ -60,25 +60,27 @@ export const useCampaigns = () => {
         console.log(`💡 Campaign ${campaign.name}:`, {
           id: campaign.id,
           provider: campaign.provider,
+          goal_amount: campaign.goal_amount,
           totals: totals
         });
         
         // Map provider numbers to readable names
         let categoryName = 'General';
-        let goalAmount = 50000; // Default goal
+        let defaultGoalAmount = 50000; // Fallback for campaigns without goal_amount
         
         if (campaign.provider === '1') {
           categoryName = 'Kickstarter';
-          goalAmount = 150000;
         } else if (campaign.provider === '2') {
           categoryName = 'Indiegogo';
-          goalAmount = 100000;
         } else if (campaign.provider === '3') {
           categoryName = 'PayPal';
-          goalAmount = 25000;
+          defaultGoalAmount = 25000;
         }
         
-        // If current amount exceeds our calculated goal, set goal to be 20% higher than current
+        // Use the actual goal_amount from database, or fallback to default
+        let goalAmount = campaign.goal_amount || defaultGoalAmount;
+        
+        // If current amount exceeds the goal, set goal to be 20% higher than current
         if (totals.total_amount > goalAmount) {
           goalAmount = Math.ceil(totals.total_amount * 1.2);
         }
@@ -134,22 +136,23 @@ export const useFeaturedCampaign = () => {
       // Find totals for this campaign
       const totals = campaignTotals.find(t => t.campaign_id === campaign.id) || { total_amount: 0, backers_count: 0 };
 
-      // Map provider numbers to readable names and set goals
+      // Map provider numbers to readable names
       let categoryName = 'General';
-      let goalAmount = 50000;
+      let defaultGoalAmount = 50000;
       
       if (campaign.provider === '1') {
         categoryName = 'Kickstarter';
-        goalAmount = 150000;
       } else if (campaign.provider === '2') {
         categoryName = 'Indiegogo';
-        goalAmount = 100000;
       } else if (campaign.provider === '3') {
         categoryName = 'PayPal';
-        goalAmount = 25000;
+        defaultGoalAmount = 25000;
       }
       
-      // If current amount exceeds our calculated goal, set goal to be 20% higher than current
+      // Use the actual goal_amount from database, or fallback to default
+      let goalAmount = campaign.goal_amount || defaultGoalAmount;
+      
+      // If current amount exceeds the goal, set goal to be 20% higher than current
       if (totals.total_amount > goalAmount) {
         goalAmount = Math.ceil(totals.total_amount * 1.2);
       }

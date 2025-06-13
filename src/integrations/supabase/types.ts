@@ -363,6 +363,7 @@ export type Database = {
           active: boolean | null
           created_at: string | null
           end_date: string | null
+          goal_amount: number | null
           id: string
           image_url: string | null
           legacy_id: number | null
@@ -377,6 +378,7 @@ export type Database = {
           active?: boolean | null
           created_at?: string | null
           end_date?: string | null
+          goal_amount?: number | null
           id?: string
           image_url?: string | null
           legacy_id?: number | null
@@ -391,6 +393,7 @@ export type Database = {
           active?: boolean | null
           created_at?: string | null
           end_date?: string | null
+          goal_amount?: number | null
           id?: string
           image_url?: string | null
           legacy_id?: number | null
