@@ -29,8 +29,8 @@ const WarpfieldStars = () => {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Initialize stars
-    const numStars = 800;
+    // Initialize stars - reduced from 800 to 400
+    const numStars = 400;
     const stars: Star[] = [];
     
     for (let i = 0; i < numStars; i++) {
@@ -56,7 +56,8 @@ const WarpfieldStars = () => {
         star.prevX = star.x / star.z * 300 + centerX;
         star.prevY = star.y / star.z * 300 + centerY;
 
-        star.z -= 8;
+        // Reduced speed from 8 to 4
+        star.z -= 4;
 
         if (star.z <= 0) {
           star.x = Math.random() * canvas.width - canvas.width / 2;
