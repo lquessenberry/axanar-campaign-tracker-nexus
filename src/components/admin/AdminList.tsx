@@ -31,8 +31,8 @@ const AdminList = ({ admins, loading, currentUserId, onAdminRemoved }: AdminList
     }
 
     try {
-      const { error } = await supabase.rpc('remove_admin_user', {
-        target_user_id: userId
+      const { error } = await supabase.rpc('remove_admin_by_email', {
+        target_email: email
       });
 
       if (error) throw error;

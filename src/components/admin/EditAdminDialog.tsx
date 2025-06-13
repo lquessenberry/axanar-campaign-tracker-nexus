@@ -41,8 +41,8 @@ const EditAdminDialog = ({ admin, isOpen, onClose, onAdminUpdated }: EditAdminDi
 
     setIsUpdating(true);
     try {
-      const { error } = await supabase.rpc('update_admin_user', {
-        target_user_id: admin.user_id,
+      const { error } = await supabase.rpc('update_admin_by_email', {
+        target_email: admin.email,
         make_super_admin: isSuperAdmin,
         make_content_manager: isContentManager
       });

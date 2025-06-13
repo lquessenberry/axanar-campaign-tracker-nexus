@@ -41,10 +41,10 @@ const AdminManagement = () => {
   const fetchAdmins = async () => {
     setLoading(true);
     try {
-      console.log('Fetching admins using updated function...');
+      console.log('Fetching admins using list_admin_users function...');
       
       const { data: adminData, error } = await supabase
-        .rpc('get_admin_users');
+        .rpc('list_admin_users');
 
       console.log('Fetch admins result:', { adminData, error });
 
