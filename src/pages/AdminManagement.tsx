@@ -43,8 +43,7 @@ const AdminManagement = () => {
     try {
       console.log('Fetching admins using get_admin_users function...');
       
-      const { data: adminData, error } = await supabase
-        .rpc('get_admin_users');
+      const { data: adminData, error } = await (supabase.rpc as any)('get_admin_users');
 
       console.log('Fetch admins result:', { adminData, error });
 

@@ -2031,6 +2031,14 @@ export type Database = {
         Args: { admin_email: string }
         Returns: undefined
       }
+      add_admin_user: {
+        Args: {
+          target_email: string
+          make_super_admin?: boolean
+          make_content_manager?: boolean
+        }
+        Returns: undefined
+      }
       add_auth_user_id_column: {
         Args: Record<PropertyKey, never>
         Returns: undefined
@@ -2111,9 +2119,21 @@ export type Database = {
           count: number
         }[]
       }
+      remove_admin_user: {
+        Args: { target_user_id: string }
+        Returns: undefined
+      }
       unban_user: {
         Args: { target_user_id: string }
         Returns: boolean
+      }
+      update_admin_user: {
+        Args: {
+          target_user_id: string
+          make_super_admin: boolean
+          make_content_manager: boolean
+        }
+        Returns: undefined
       }
     }
     Enums: {
