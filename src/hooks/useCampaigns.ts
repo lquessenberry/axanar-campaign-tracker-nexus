@@ -51,13 +51,28 @@ export const useCampaigns = () => {
       const transformedCampaigns = campaigns.map((campaign) => {
         const totals = totalsMap[campaign.id] || { total_amount: 0, backers_count: 0 };
         
+        // Set realistic goal amounts based on campaign provider or use a calculated goal
+        let goalAmount = 50000; // Default goal
+        if (campaign.provider === 'Kickstarter') {
+          goalAmount = 150000;
+        } else if (campaign.provider === 'Indiegogo') {
+          goalAmount = 100000;
+        } else if (campaign.provider === 'PayPal') {
+          goalAmount = 25000;
+        }
+        
+        // If current amount exceeds our calculated goal, set goal to be 20% higher than current
+        if (totals.total_amount > goalAmount) {
+          goalAmount = Math.ceil(totals.total_amount * 1.2);
+        }
+        
         return {
           id: campaign.id,
           title: campaign.name,
           description: null,
           image_url: campaign.image_url,
           category: campaign.provider || 'General',
-          goal_amount: 100000, // Default goal, could be made dynamic later
+          goal_amount: goalAmount,
           current_amount: totals.total_amount,
           backers_count: totals.backers_count,
           status: campaign.active ? 'active' : 'inactive',
@@ -98,6 +113,21 @@ export const useFeaturedCampaign = () => {
       // Find totals for this campaign
       const totals = campaignTotals.find(t => t.campaign_id === campaign.id) || { total_amount: 0, backers_count: 0 };
 
+      // Set realistic goal based on provider
+      let goalAmount = 50000;
+      if (campaign.provider === 'Kickstarter') {
+        goalAmount = 150000;
+      } else if (campaign.provider === 'Indiegogo') {
+        goalAmount = 100000;
+      } else if (campaign.provider === 'PayPal') {
+        goalAmount = 25000;
+      }
+      
+      // If current amount exceeds our calculated goal, set goal to be 20% higher than current
+      if (totals.total_amount > goalAmount) {
+        goalAmount = Math.ceil(totals.total_amount * 1.2);
+      }
+
       // Transform the data to match the expected interface
       return {
         id: campaign.id,
@@ -105,7 +135,7 @@ export const useFeaturedCampaign = () => {
         description: null,
         image_url: campaign.image_url,
         category: campaign.provider || 'General',
-        goal_amount: 100000, // Default goal
+        goal_amount: goalAmount,
         current_amount: totals.total_amount,
         backers_count: totals.backers_count,
         status: campaign.active ? 'active' : 'inactive',

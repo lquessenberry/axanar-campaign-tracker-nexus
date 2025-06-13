@@ -88,7 +88,7 @@ const Index = () => {
                 creator="Axanar Productions"
                 category={featuredCampaign.category}
                 current={featuredCampaign.current_amount}
-                goal={featuredCampaign.goal_amount || 100000}
+                goal={featuredCampaign.goal_amount}
                 backers={featuredCampaign.backers_count}
                 daysLeft={calculateDaysLeft(featuredCampaign.end_date)}
               />
@@ -147,7 +147,7 @@ const Index = () => {
                         creator="Axanar Productions"
                         category={campaign.category}
                         current={campaign.current_amount}
-                        goal={campaign.goal_amount || 50000}
+                        goal={campaign.goal_amount}
                         backers={campaign.backers_count}
                         daysLeft={calculateDaysLeft(campaign.end_date)}
                       />
