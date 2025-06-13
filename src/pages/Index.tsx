@@ -7,6 +7,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import FeaturedCampaign from "@/components/FeaturedCampaign";
 import CampaignCard from "@/components/CampaignCard";
+import WarpfieldStars from "@/components/WarpfieldStars";
 import { Search } from "lucide-react";
 import { useCampaigns, useFeaturedCampaign } from "@/hooks/useCampaigns";
 
@@ -48,8 +49,9 @@ const Index = () => {
       
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="hero-gradient py-16 px-4">
-          <div className="container mx-auto text-center text-white">
+        <section className="hero-gradient py-16 px-4 relative overflow-hidden">
+          <WarpfieldStars />
+          <div className="container mx-auto text-center text-white relative z-10">
             <h1 className="text-3xl md:text-5xl font-bold mb-4">
               Fund the Future of <span className="text-axanar-teal">Axanar</span>
             </h1>
