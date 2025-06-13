@@ -8,6 +8,15 @@ export const useCampaignTotals = () => {
     queryFn: async () => {
       console.log('💰 Fetching campaign totals from pledges...');
       
+      // First, let's see what statuses exist in the pledges table
+      const { data: statusCheck, error: statusError } = await supabase
+        .from('pledges')
+        .select('status')
+        .limit(10);
+      
+      console.log('📋 Available pledge statuses:', statusCheck?.map(p => p.status));
+
+      // Get all pledges (not just completed ones) to see what data we have
       const { data, error } = await supabase
         .from('pledges')
         .select(`
@@ -15,8 +24,7 @@ export const useCampaignTotals = () => {
           amount,
           donor_id,
           status
-        `)
-        .eq('status', 'completed');
+        `);
 
       if (error) {
         console.error('❌ Error fetching pledges:', error);
@@ -24,8 +32,9 @@ export const useCampaignTotals = () => {
       }
 
       console.log('📋 Raw pledges data:', data);
+      console.log('📋 Total pledges found:', data.length);
 
-      // Calculate totals per campaign
+      // Calculate totals per campaign for all pledges (regardless of status for now)
       const totals = data.reduce((acc, pledge) => {
         const campaignId = pledge.campaign_id;
         if (!acc[campaignId]) {
