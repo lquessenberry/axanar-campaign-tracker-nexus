@@ -63,7 +63,7 @@ const Index = () => {
                 </Button>
               </Link>
               <Link to="/auth">
-                <Button variant="outline" className="border-white/30 hover:bg-white/10 h-12 px-8">
+                <Button variant="outline" className="border-white/30 hover:bg-white/10 h-12 px-8 text-foreground">
                   Start a Campaign
                 </Button>
               </Link>
