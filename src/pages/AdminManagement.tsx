@@ -41,10 +41,10 @@ const AdminManagement = () => {
   const fetchAdmins = async () => {
     setLoading(true);
     try {
-      console.log('Fetching admins using list_admin_users function...');
+      console.log('Fetching admins using get_admin_users function...');
       
       const { data: adminData, error } = await supabase
-        .rpc('list_admin_users');
+        .rpc('get_admin_users');
 
       console.log('Fetch admins result:', { adminData, error });
 
@@ -56,7 +56,7 @@ const AdminManagement = () => {
       console.log('Successfully fetched admin users:', adminData);
       
       if (Array.isArray(adminData)) {
-        setAdmins(adminData);
+        setAdmins(adminData as AdminUser[]);
       } else {
         setAdmins([]);
       }

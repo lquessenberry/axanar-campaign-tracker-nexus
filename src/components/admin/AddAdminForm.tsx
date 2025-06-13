@@ -36,7 +36,7 @@ const AddAdminForm = ({ onAdminAdded }: AddAdminFormProps) => {
     try {
       console.log('Adding admin user:', { email, isSuperAdmin, isContentManager });
       
-      const { error } = await supabase.rpc('add_admin_by_email', {
+      const { error } = await supabase.rpc('add_admin_user', {
         target_email: email.trim(),
         make_super_admin: isSuperAdmin,
         make_content_manager: isContentManager
