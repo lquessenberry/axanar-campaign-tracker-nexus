@@ -37,41 +37,27 @@ const Navigation = () => {
             />
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link 
-              to="/" 
-              className={`hover:text-axanar-teal transition-colors ${
-                isActive('/') ? 'text-axanar-teal' : ''
-              }`}
-            >
-              Home
-            </Link>
-            <Link 
-              to="/campaigns" 
-              className={`hover:text-axanar-teal transition-colors ${
-                isActive('/campaigns') ? 'text-axanar-teal' : ''
-              }`}
-            >
-              Campaigns
-            </Link>
-            <Link 
-              to="/how-it-works" 
-              className={`hover:text-axanar-teal transition-colors ${
-                isActive('/how-it-works') ? 'text-axanar-teal' : ''
-              }`}
-            >
-              How It Works
-            </Link>
-            <Link 
-              to="/about" 
-              className={`hover:text-axanar-teal transition-colors ${
-                isActive('/about') ? 'text-axanar-teal' : ''
-              }`}
-            >
-              About
-            </Link>
-          </div>
+          {/* Desktop Navigation - Only show if authenticated */}
+          {user && (
+            <div className="hidden md:flex items-center space-x-8">
+              <Link 
+                to="/dashboard" 
+                className={`hover:text-axanar-teal transition-colors ${
+                  isActive('/dashboard') ? 'text-axanar-teal' : ''
+                }`}
+              >
+                Dashboard
+              </Link>
+              <Link 
+                to="/profile" 
+                className={`hover:text-axanar-teal transition-colors ${
+                  isActive('/profile') ? 'text-axanar-teal' : ''
+                }`}
+              >
+                Account
+              </Link>
+            </div>
+          )}
 
           {/* Auth Section */}
           <div className="hidden md:flex items-center space-x-4">
@@ -94,7 +80,7 @@ const Navigation = () => {
                 <Link to="/profile">
                   <Button variant="ghost" size="sm" className="text-white hover:text-axanar-teal hover:bg-white/10">
                     <User className="h-4 w-4 mr-2" />
-                    Profile
+                    Account
                   </Button>
                 </Link>
                 <Button 
@@ -110,13 +96,8 @@ const Navigation = () => {
             ) : (
               <div className="flex items-center space-x-4">
                 <Link to="/auth">
-                  <Button variant="ghost" className="text-white hover:text-axanar-teal hover:bg-white/10">
-                    Sign In
-                  </Button>
-                </Link>
-                <Link to="/auth">
                   <Button className="bg-axanar-teal hover:bg-axanar-teal/90">
-                    Start a Campaign
+                    Access Portal
                   </Button>
                 </Link>
               </div>
@@ -136,48 +117,25 @@ const Navigation = () => {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-axanar-silver/20">
             <div className="flex flex-col space-y-4">
-              <Link 
-                to="/" 
-                className={`hover:text-axanar-teal transition-colors ${
-                  isActive('/') ? 'text-axanar-teal' : ''
-                }`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link 
-                to="/campaigns" 
-                className={`hover:text-axanar-teal transition-colors ${
-                  isActive('/campaigns') ? 'text-axanar-teal' : ''
-                }`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Campaigns
-              </Link>
-              <Link 
-                to="/how-it-works" 
-                className="hover:text-axanar-teal transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                How It Works
-              </Link>
-              <Link 
-                to="/about" 
-                className="hover:text-axanar-teal transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                About
-              </Link>
-              
               {user ? (
                 <>
-                  <hr className="border-axanar-silver/20" />
                   <Link 
                     to="/dashboard" 
-                    className="hover:text-axanar-teal transition-colors"
+                    className={`hover:text-axanar-teal transition-colors ${
+                      isActive('/dashboard') ? 'text-axanar-teal' : ''
+                    }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Dashboard
+                  </Link>
+                  <Link 
+                    to="/profile" 
+                    className={`hover:text-axanar-teal transition-colors ${
+                      isActive('/profile') ? 'text-axanar-teal' : ''
+                    }`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Account
                   </Link>
                   {isAdmin && (
                     <Link 
@@ -188,13 +146,7 @@ const Navigation = () => {
                       Admin
                     </Link>
                   )}
-                  <Link 
-                    to="/profile" 
-                    className="hover:text-axanar-teal transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Profile
-                  </Link>
+                  <hr className="border-axanar-silver/20" />
                   <button 
                     onClick={() => {
                       handleSignOut();
@@ -206,23 +158,13 @@ const Navigation = () => {
                   </button>
                 </>
               ) : (
-                <>
-                  <hr className="border-axanar-silver/20" />
-                  <Link 
-                    to="/auth" 
-                    className="hover:text-axanar-teal transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Sign In
-                  </Link>
-                  <Link 
-                    to="/auth" 
-                    className="hover:text-axanar-teal transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Start a Campaign
-                  </Link>
-                </>
+                <Link 
+                  to="/auth" 
+                  className="hover:text-axanar-teal transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Access Portal
+                </Link>
               )}
             </div>
           </div>
