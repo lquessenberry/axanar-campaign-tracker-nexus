@@ -1,5 +1,5 @@
-
 import { useEffect, useState } from 'react';
+import KlingonShipIcon from './KlingonShipIcon';
 
 interface Blip {
   id: number;
@@ -86,22 +86,27 @@ const RadarBlips = () => {
             opacity: blip.opacity,
           }}
         >
-          {/* Main blip dot */}
+          {/* Klingon ship icon */}
           <div 
-            className="bg-axanar-teal rounded-full animate-pulse"
+            className="flex items-center justify-center animate-pulse"
             style={{
-              width: `${blip.size}px`,
-              height: `${blip.size}px`,
-              boxShadow: `0 0 ${blip.size * 2}px rgba(14, 165, 233, 0.6)`,
+              width: `${blip.size * 2}px`,
+              height: `${blip.size * 2}px`,
+              filter: `drop-shadow(0 0 ${blip.size}px rgba(14, 165, 233, 0.6))`,
             }}
-          />
+          >
+            <KlingonShipIcon 
+              size={blip.size * 1.5} 
+              className="text-axanar-teal"
+            />
+          </div>
           
           {/* Radar sweep rings */}
           <div 
             className="absolute inset-0 border border-axanar-teal/40 rounded-full animate-ping"
             style={{
-              width: `${blip.size * 3}px`,
-              height: `${blip.size * 3}px`,
+              width: `${blip.size * 4}px`,
+              height: `${blip.size * 4}px`,
               left: `${-blip.size}px`,
               top: `${-blip.size}px`,
               animationDuration: '2s',
@@ -111,8 +116,8 @@ const RadarBlips = () => {
           <div 
             className="absolute inset-0 border border-axanar-teal/20 rounded-full animate-ping"
             style={{
-              width: `${blip.size * 5}px`,
-              height: `${blip.size * 5}px`,
+              width: `${blip.size * 6}px`,
+              height: `${blip.size * 6}px`,
               left: `${-blip.size * 2}px`,
               top: `${-blip.size * 2}px`,
               animationDuration: '3s',
@@ -121,16 +126,16 @@ const RadarBlips = () => {
 
           {/* Contact classification indicator */}
           <div 
-            className="absolute bg-gray-900/80 border border-axanar-teal/50 rounded px-2 py-1 text-xs text-axanar-teal font-mono backdrop-blur-sm"
+            className="absolute bg-gray-900/80 border border-red-500/50 rounded px-2 py-1 text-xs text-red-400 font-mono backdrop-blur-sm"
             style={{
-              left: `${blip.size + 10}px`,
+              left: `${blip.size * 2 + 10}px`,
               top: `${-blip.size / 2}px`,
               whiteSpace: 'nowrap',
             }}
           >
             <div className="flex items-center gap-1">
               <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse"></div>
-              UNKNOWN
+              KLINGON D7 BATTLECRUISER
             </div>
           </div>
         </div>

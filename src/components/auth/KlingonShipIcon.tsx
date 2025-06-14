@@ -1,0 +1,125 @@
+
+import * as React from "react";
+
+interface KlingonShipIconProps {
+  size?: number;
+  className?: string;
+}
+
+const KlingonShipIcon = ({ size = 24, className = "" }: KlingonShipIconProps) => (
+  <svg
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:cc="http://creativecommons.org/ns#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    id="svg2"
+    width={size}
+    height={size}
+    viewBox="0 0 120 120"
+    className={className}
+  >
+    <defs id="defs4" />
+    <metadata id="metadata7">
+      <rdf:RDF>
+        <cc:Work rdf:about="">
+          <dc:format>{"image/svg+xml"}</dc:format>
+          <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+          <dc:title />
+        </cc:Work>
+      </rdf:RDF>
+    </metadata>
+    <g transform="translate(-321.37107,-359.7535)" id="layer1">
+      <path
+        d="m 425.00002,482.54074 a 76.428574,70.535713 0 1 1 -152.85715,0 76.428574,70.535713 0 1 1 152.85715,0 z"
+        transform="matrix(0.45605608,0,0,0.49415699,217.71212,212.99401)"
+        id="path3776"
+        style={{
+          fill: "#ff0000",
+          fillRule: "evenodd",
+          stroke: "#000000",
+          strokeWidth: 3.76594257,
+          strokeLinecap: "butt",
+          strokeLinejoin: "miter",
+          strokeMiterlimit: 4,
+          strokeOpacity: 1,
+          strokeDasharray: "none",
+        }}
+      />
+      <path
+        d="m 376.03893,361.93048 c -7.79029,66.46527 -12.58312,75.34471 -16.08976,81.6555 l 16.31322,24.70031 15.95568,-25.32603 C 380.8087,416.60644 378.49766,378.75328 376.03893,361.93048 z"
+        id="path2996"
+        style={{
+          fill: "#ffffff",
+          fillOpacity: 1,
+          stroke: "#000000",
+          strokeWidth: 0.35395652,
+          strokeLinecap: "butt",
+          strokeLinejoin: "miter",
+          strokeMiterlimit: 4,
+          strokeOpacity: 1,
+          strokeDasharray: "none",
+        }}
+      />
+      <path
+        d="m 358.77947,445.05003 c -2.05294,2.96307 -9.49658,5.79872 -11.9162,7.36311 -11.48502,7.42557 -16.53045,17.51704 -15.06892,32.84051 20.24729,-15.77698 26.66997,-16.46598 43.11825,-15.03786 z"
+        id="path2998"
+        style={{
+          fill: "#ffffff",
+          fillOpacity: 1,
+          stroke: "#000000",
+          strokeWidth: 0.35395652,
+          strokeLinecap: "butt",
+          strokeLinejoin: "miter",
+          strokeMiterlimit: 4,
+          strokeOpacity: 1,
+          strokeDasharray: "none",
+        }}
+      />
+      <path
+        d="m 393.76701,445.09155 -16.88974,25.35538 c 12.64741,7.78163 28.7514,4.43348 41.28166,-0.42698 4.80361,-1.8633 8.3113,-3.78326 13.03527,-6.77639 -12.93755,-1.30087 -29.02283,-7.05607 -37.42719,-18.15201 z"
+        id="path3000"
+        style={{
+          fill: "#ffffff",
+          fillOpacity: 1,
+          stroke: "#000000",
+          strokeWidth: 0.35395652,
+          strokeLinecap: "butt",
+          strokeLinejoin: "miter",
+          strokeMiterlimit: 4,
+          strokeOpacity: 1,
+          strokeDasharray: "none",
+        }}
+      />
+      <path
+        d="m 376.03742,370.80697 c -3.7734,25.83941 -6.43744,57.98798 -14.4296,72.38715 l 14.66391,21.99587 14.15826,-22.62794 c -9.97922,-26.1508 -10.92859,-48.2763 -14.39257,-71.75508 z"
+        id="path3770"
+        style={{
+          fill: "#000000",
+          fillOpacity: 1,
+          stroke: "none",
+        }}
+      />
+      <path
+        d="m 333.10168,482.12933 c -1.06788,-14.21455 6.66854,-23.75905 14.81163,-28.37762 4.09689,-2.32366 9.36478,-5.47254 10.40777,-6.06993 l 13.90543,20.98456 c -17.13651,-2.74901 -27.93838,4.74337 -39.12483,13.46299 z"
+        id="path3772"
+        style={{
+          fill: "#000000",
+          fillOpacity: 1,
+          stroke: "none",
+        }}
+      />
+      <path
+        d="m 393.77994,447.55537 c 0,0 -9.16282,14.37364 -14.34788,22.50152 13.24809,7.95928 36.30743,0.81858 47.34168,-5.94142 -17.9179,-3.51394 -27.10491,-9.91263 -32.9938,-16.5601 z"
+        id="path3774"
+        style={{
+          fill: "#000000",
+          fillOpacity: 1,
+          stroke: "none",
+        }}
+      />
+    </g>
+  </svg>
+);
+
+export default KlingonShipIcon;
