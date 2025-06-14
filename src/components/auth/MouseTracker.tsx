@@ -10,6 +10,7 @@ const MouseTracker = () => {
   const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 0, y: 0 });
   const [isTracking, setIsTracking] = useState(false);
   const [isHoveringCard, setIsHoveringCard] = useState(false);
+  const [targetingMode, setTargetingMode] = useState(false);
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
@@ -23,6 +24,10 @@ const MouseTracker = () => {
       
       setIsHoveringCard(isOverCard || isOverInteractive);
       
+      // Check if mouse is in targeting areas (not over interactive elements)
+      const isInTargetingArea = !isOverCard && !isOverInteractive;
+      setTargetingMode(isInTargetingArea);
+      
       // Activate tracking when mouse moves
       if (!isTracking) {
         setIsTracking(true);
@@ -32,6 +37,7 @@ const MouseTracker = () => {
     const handleMouseLeave = () => {
       setIsTracking(false);
       setIsHoveringCard(false);
+      setTargetingMode(false);
     };
 
     // Listen to mousemove on the entire document for better tracking
@@ -110,9 +116,9 @@ const MouseTracker = () => {
         }}
       ></div>
 
-      {/* Status indicator */}
+      {/* Status indicator with hover state */}
       <div 
-        className="absolute bg-gray-900/90 border border-axanar-teal/50 rounded px-3 py-1 text-xs text-axanar-teal font-mono backdrop-blur-sm"
+        className="absolute bg-gray-900/90 border border-axanar-teal/50 rounded px-3 py-1 text-xs text-axanar-teal font-mono backdrop-blur-sm transition-colors duration-200"
         style={{ 
           left: mousePosition.x + 30, 
           top: mousePosition.y - 30,
@@ -120,8 +126,10 @@ const MouseTracker = () => {
         }}
       >
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-          TARGET ACQUIRED
+          <div className={`w-2 h-2 rounded-full animate-pulse transition-colors duration-200 ${
+            targetingMode ? 'bg-red-400' : 'bg-green-400'
+          }`}></div>
+          {targetingMode ? 'TARGETING' : 'SCANNING SECTOR'}
         </div>
         <div className="text-xs text-axanar-teal/60">
           X: {Math.round(mousePosition.x)} Y: {Math.round(mousePosition.y)}
