@@ -16,25 +16,24 @@ const RadarBlips = () => {
     handleMouseClick
   } = useBattleLogic();
 
+  const handleClick = (e: React.MouseEvent) => {
+    // Only handle clicks if they're not on interactive elements
+    const target = e.target as Element;
+    if (target.closest('[data-card]') || target.closest('button') || target.closest('a')) {
+      return;
+    }
+    handleMouseClick(e);
+  };
+
   return (
     <div 
       className="absolute inset-0 z-0 cursor-crosshair"
-      onClick={handleMouseClick}
+      onClick={handleClick}
       style={{ 
-        pointerEvents: 'none',
+        pointerEvents: 'auto',
         backgroundColor: 'transparent'
       }}
     >
-      {/* Click capture layer - only captures clicks in empty space within main */}
-      <div 
-        className="absolute inset-0"
-        style={{ 
-          pointerEvents: 'auto',
-          backgroundColor: 'transparent'
-        }}
-        onClickCapture={handleMouseClick}
-      />
-      
       <ShipSystem blips={blips} />
       <ReticleInfo reticleInfo={reticleInfo} />
       <LaserSystem lasers={lasers} />

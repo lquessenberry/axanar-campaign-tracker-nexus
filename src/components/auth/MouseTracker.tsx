@@ -21,6 +21,12 @@ const MouseTracker = () => {
       const relativeX = e.clientX - rect.left;
       const relativeY = e.clientY - rect.top;
       
+      // Only track if mouse is within main bounds
+      if (relativeX < 0 || relativeY < 0 || relativeX > rect.width || relativeY > rect.height) {
+        setIsTracking(false);
+        return;
+      }
+      
       setMousePosition({ x: relativeX, y: relativeY });
       
       // Check if mouse is over a card element
@@ -28,7 +34,7 @@ const MouseTracker = () => {
       const isOverCard = target.closest('[data-card]') !== null;
       setIsHoveringCard(isOverCard);
       
-      // Activate tracking when mouse moves
+      // Activate tracking when mouse moves within main
       if (!isTracking) {
         setIsTracking(true);
       }
@@ -39,19 +45,25 @@ const MouseTracker = () => {
       setIsHoveringCard(false);
     };
 
-    window.addEventListener('mousemove', updateMousePosition);
-    document.addEventListener('mouseleave', handleMouseLeave);
+    // Only listen to mousemove on the main element
+    const mainElement = document.querySelector('main');
+    if (mainElement) {
+      mainElement.addEventListener('mousemove', updateMousePosition);
+      mainElement.addEventListener('mouseleave', handleMouseLeave);
+    }
 
     return () => {
-      window.removeEventListener('mousemove', updateMousePosition);
-      document.removeEventListener('mouseleave', handleMouseLeave);
+      if (mainElement) {
+        mainElement.removeEventListener('mousemove', updateMousePosition);
+        mainElement.removeEventListener('mouseleave', handleMouseLeave);
+      }
     };
   }, [isTracking]);
 
   if (!isTracking || isHoveringCard) return null;
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-50">
+    <div className="absolute inset-0 pointer-events-none z-10">
       {/* Main targeting reticle */}
       <div 
         className="absolute w-12 h-12 border-2 border-axanar-teal rounded-full animate-pulse"
