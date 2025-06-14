@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import FederationShipIcon from './FederationShipIcon';
 import KlingonShipIcon from './KlingonShipIcon';
 
@@ -122,6 +122,39 @@ const RadarBlips = () => {
       setLasers(prev => prev.filter(laser => laser.id !== newLaser.id));
     }, 300);
   };
+
+  const handleMouseClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const clickX = ((event.clientX - rect.left) / rect.width) * 100;
+    const clickY = ((event.clientY - rect.top) / rect.height) * 100;
+
+    // Check if click is near any visible Klingon ships (within 20% distance)
+    const nearbyKlingon = blips.find(blip => {
+      if (blip.type !== 'klingon' || !blip.isVisible) return false;
+      const distance = Math.sqrt(
+        Math.pow(clickX - blip.x, 2) + Math.pow(clickY - blip.y, 2)
+      );
+      return distance < 20; // 20% of screen distance
+    });
+
+    if (nearbyKlingon) {
+      // Command all Federation ships to move toward the clicked position
+      setBlips(prevBlips => 
+        prevBlips.map(blip => {
+          if (blip.type === 'federation') {
+            return {
+              ...blip,
+              targetX: clickX,
+              targetY: clickY,
+            };
+          }
+          return blip;
+        })
+      );
+      
+      console.log(`Federation ships commanded to position: ${clickX.toFixed(1)}%, ${clickY.toFixed(1)}%`);
+    }
+  }, [blips]);
 
   useEffect(() => {
     const generateBlips = () => {
@@ -305,7 +338,10 @@ const RadarBlips = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0">
+    <div 
+      className="fixed inset-0 pointer-events-auto z-0 cursor-crosshair"
+      onClick={handleMouseClick}
+    >
       {/* Render ships */}
       {blips.map((blip) => (
         <div
