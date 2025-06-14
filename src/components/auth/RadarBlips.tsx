@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import FederationShipIcon from './FederationShipIcon';
 import KlingonShipIcon from './KlingonShipIcon';
@@ -18,7 +19,7 @@ const RadarBlips = () => {
     const generateBlips = () => {
       const newBlips: Blip[] = [];
       
-      // Generate Federation ships (smaller, positioned away from center)
+      // Generate Federation ships
       for (let i = 0; i < 4; i++) {
         let x, y;
         do {
@@ -33,11 +34,11 @@ const RadarBlips = () => {
           y,
           type: 'federation',
           opacity: 0.3 + Math.random() * 0.4,
-          scale: 0.3 + Math.random() * 0.2, // Much smaller scale
+          scale: 0.8 + Math.random() * 0.3, // Increased size
         });
       }
       
-      // Generate Klingon ships (keep existing behavior)
+      // Generate Klingon ships
       for (let i = 4; i < 8; i++) {
         let x, y;
         do {
@@ -52,7 +53,7 @@ const RadarBlips = () => {
           y,
           type: 'klingon',
           opacity: 0.3 + Math.random() * 0.4,
-          scale: 0.4 + Math.random() * 0.3,
+          scale: 0.8 + Math.random() * 0.4, // Increased size
         });
       }
       
@@ -79,9 +80,9 @@ const RadarBlips = () => {
           }}
         >
           {blip.type === 'federation' ? (
-            <FederationShipIcon size={16} className="text-axanar-teal" />
+            <FederationShipIcon size={32} className="text-axanar-teal" />
           ) : (
-            <KlingonShipIcon size={20} className="text-red-500" />
+            <KlingonShipIcon size={36} className="text-red-500" />
           )}
         </div>
       ))}
