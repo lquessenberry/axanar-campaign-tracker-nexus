@@ -1,12 +1,16 @@
-
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
-import { Menu, X, User, LogOut, BarChart3, Shield } from "lucide-react";
+import { Menu, X, User, LogOut, BarChart3, Shield, AlertTriangle } from "lucide-react";
 
-const Navigation = () => {
+interface NavigationProps {
+  battleMode?: boolean;
+  onBattleModeToggle?: (enabled: boolean) => void;
+}
+
+const Navigation = ({ battleMode = true, onBattleModeToggle }: NavigationProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
   const { data: isAdmin } = useAdminCheck();
@@ -22,6 +26,11 @@ const Navigation = () => {
     } catch (error) {
       console.error('Error signing out:', error);
     }
+  };
+
+  const handleBattleModeToggle = () => {
+    const newBattleMode = !battleMode;
+    onBattleModeToggle?.(newBattleMode);
   };
 
   return (
@@ -73,6 +82,20 @@ const Navigation = () => {
               </div>
             ) : (
               <div className="flex items-center space-x-4">
+                {location.pathname === '/auth' && (
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    onClick={handleBattleModeToggle}
+                    className={`${battleMode 
+                      ? 'text-red-400 bg-red-900/20 hover:bg-red-900/30' 
+                      : 'text-white hover:text-red-400 hover:bg-white/10'
+                    }`}
+                  >
+                    <AlertTriangle className="h-4 w-4 mr-2" />
+                    Red Alert
+                  </Button>
+                )}
                 <Link to="/auth">
                   <Button className="bg-axanar-teal hover:bg-axanar-teal/90">
                     Access Portal
@@ -136,13 +159,29 @@ const Navigation = () => {
                   </button>
                 </>
               ) : (
-                <Link 
-                  to="/auth" 
-                  className="hover:text-axanar-teal transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Access Portal
-                </Link>
+                <>
+                  {location.pathname === '/auth' && (
+                    <button 
+                      onClick={() => {
+                        handleBattleModeToggle();
+                        setIsMenuOpen(false);
+                      }}
+                      className={`text-left transition-colors ${battleMode 
+                        ? 'text-red-400' 
+                        : 'hover:text-red-400'
+                      }`}
+                    >
+                      Red Alert {battleMode ? '(ON)' : '(OFF)'}
+                    </button>
+                  )}
+                  <Link 
+                    to="/auth" 
+                    className="hover:text-axanar-teal transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Access Portal
+                  </Link>
+                </>
               )}
             </div>
           </div>

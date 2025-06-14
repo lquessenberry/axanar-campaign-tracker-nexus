@@ -18,6 +18,7 @@ const Auth = () => {
   const [authFlow, setAuthFlow] = useState<AuthFlow>('main');
   const [recoveryEmail, setRecoveryEmail] = useState('');
   const [ssoProvider, setSsoProvider] = useState('');
+  const [battleMode, setBattleMode] = useState(true);
   const { user } = useAuth();
 
   // Redirect if already authenticated
@@ -95,8 +96,8 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 via-gray-800 to-black relative overflow-hidden">
-      <MouseTracker />
-      <RadarBlips />
+      {battleMode && <MouseTracker />}
+      {battleMode && <RadarBlips />}
       
       {/* Background grid effect */}
       <div className="absolute inset-0 opacity-5">
@@ -107,7 +108,10 @@ const Auth = () => {
         </div>
       </div>
 
-      <Navigation />
+      <Navigation 
+        battleMode={battleMode} 
+        onBattleModeToggle={setBattleMode} 
+      />
       
       <main className="flex-grow flex items-center justify-center px-4 py-16 relative z-10">
         <div data-card>
