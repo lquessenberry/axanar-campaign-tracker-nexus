@@ -30,7 +30,7 @@ const Footer = () => {
               className="h-6 w-auto"
             />
             <p className="text-sm text-axanar-silver/50">
-              &copy; {new Date().getFullYear()} Axanar Productions. Invite-only platform.
+              &copy; {new Date().getFullYear()} Axanar Productions. Exclusive Donor Platform.
             </p>
           </div>
           <div className="flex space-x-4 mt-4 md:mt-0">
