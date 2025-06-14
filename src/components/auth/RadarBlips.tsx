@@ -143,6 +143,7 @@ const RadarBlips = () => {
     };
 
     setWaypoints([waypoint]); // Only one waypoint at a time - stays until replaced
+    console.log(`Waypoint created at: ${x.toFixed(1)}%, ${y.toFixed(1)}%`);
   };
 
   const calculateVFormationPosition = (targetX: number, targetY: number, index: number, totalShips: number) => {
@@ -169,11 +170,15 @@ const RadarBlips = () => {
   };
 
   const handleMouseClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    // Prevent event bubbling
+    event.preventDefault();
+    event.stopPropagation();
+    
     const rect = event.currentTarget.getBoundingClientRect();
     const clickX = ((event.clientX - rect.left) / rect.width) * 100;
     const clickY = ((event.clientY - rect.top) / rect.height) * 100;
 
-    // Create waypoint at click position (no longer requires nearby Klingons)
+    // Always create waypoint at click position
     createWaypoint(clickX, clickY);
     
     // Command Federation ships to form V formation at the waypoint
@@ -197,26 +202,6 @@ const RadarBlips = () => {
     
     // Set user command active
     setUserCommandActive(true);
-    // Don't auto-clear user command - let it persist until new command or ships reach target
-    setTimeout(() => {
-      // Check if ships have reached their targets before clearing command
-      setBlips(prevBlips => {
-        const fedShips = prevBlips.filter(b => b.type === 'federation');
-        const allReachedTarget = fedShips.every(ship => {
-          if (ship.targetX === undefined || ship.targetY === undefined) return true;
-          const distance = Math.sqrt(
-            Math.pow(ship.x - ship.targetX, 2) + Math.pow(ship.y - ship.targetY, 2)
-          );
-          return distance < 5; // Close enough to target
-        });
-        
-        if (allReachedTarget) {
-          setUserCommandActive(false);
-        }
-        
-        return prevBlips;
-      });
-    }, 5000);
     
     console.log(`Federation ships commanded to V formation at: ${clickX.toFixed(1)}%, ${clickY.toFixed(1)}%`);
   }, []);
@@ -428,12 +413,13 @@ const RadarBlips = () => {
     <div 
       className="fixed inset-0 pointer-events-auto z-0 cursor-crosshair"
       onClick={handleMouseClick}
+      style={{ pointerEvents: 'auto' }}
     >
       {/* Render ships */}
       {blips.map((blip) => (
         <div
           key={blip.id}
-          className="absolute transition-all duration-500 ease-in-out"
+          className="absolute transition-all duration-500 ease-in-out pointer-events-none"
           style={{
             left: `${blip.x}%`,
             top: `${blip.y}%`,
@@ -453,7 +439,7 @@ const RadarBlips = () => {
       {waypoints.map((waypoint) => (
         <div
           key={waypoint.id}
-          className="absolute transition-all duration-300 ease-in-out"
+          className="absolute transition-all duration-300 ease-in-out pointer-events-none z-10"
           style={{
             left: `${waypoint.x}%`,
             top: `${waypoint.y}%`,
@@ -461,7 +447,12 @@ const RadarBlips = () => {
             transform: 'translate(-50%, -50%)',
           }}
         >
-          <Waypoints size={24} className="text-axanar-teal animate-pulse" />
+          <div className="relative">
+            <Waypoints size={28} className="text-axanar-teal animate-pulse drop-shadow-lg" />
+            <div className="absolute inset-0 animate-ping">
+              <Waypoints size={28} className="text-axanar-teal opacity-30" />
+            </div>
+          </div>
         </div>
       ))}
       
