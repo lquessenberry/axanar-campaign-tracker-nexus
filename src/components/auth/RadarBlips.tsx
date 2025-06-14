@@ -144,6 +144,7 @@ const RadarBlips = () => {
 
     setWaypoints([waypoint]); // Only one waypoint at a time - stays until replaced
     console.log(`Waypoint created at: ${x.toFixed(1)}%, ${y.toFixed(1)}%`);
+    console.log(`Current waypoints:`, [waypoint]);
   };
 
   const calculateVFormationPosition = (targetX: number, targetY: number, index: number, totalShips: number) => {
@@ -170,6 +171,8 @@ const RadarBlips = () => {
   };
 
   const handleMouseClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    console.log('Click detected!', event);
+    
     // Prevent event bubbling
     event.preventDefault();
     event.stopPropagation();
@@ -177,6 +180,8 @@ const RadarBlips = () => {
     const rect = event.currentTarget.getBoundingClientRect();
     const clickX = ((event.clientX - rect.left) / rect.width) * 100;
     const clickY = ((event.clientY - rect.top) / rect.height) * 100;
+
+    console.log(`Click coordinates: ${clickX.toFixed(1)}%, ${clickY.toFixed(1)}%`);
 
     // Always create waypoint at click position
     createWaypoint(clickX, clickY);
@@ -188,6 +193,8 @@ const RadarBlips = () => {
           const fedShips = prevBlips.filter(b => b.type === 'federation');
           const formationIndex = fedShips.findIndex(f => f.id === blip.id);
           const formationPos = calculateVFormationPosition(clickX, clickY, formationIndex, fedShips.length);
+          
+          console.log(`Commanding ship ${blip.id} to position:`, formationPos);
           
           return {
             ...blip,
@@ -411,9 +418,12 @@ const RadarBlips = () => {
 
   return (
     <div 
-      className="fixed inset-0 pointer-events-auto z-0 cursor-crosshair"
+      className="fixed inset-0 z-0 cursor-crosshair"
       onClick={handleMouseClick}
-      style={{ pointerEvents: 'auto' }}
+      style={{ 
+        pointerEvents: 'auto',
+        backgroundColor: 'transparent'
+      }}
     >
       {/* Render ships */}
       {blips.map((blip) => (
@@ -425,6 +435,7 @@ const RadarBlips = () => {
             top: `${blip.y}%`,
             opacity: blip.opacity,
             transform: `scale(${blip.scale})`,
+            zIndex: 5,
           }}
         >
           {blip.type === 'federation' ? (
@@ -439,19 +450,22 @@ const RadarBlips = () => {
       {waypoints.map((waypoint) => (
         <div
           key={waypoint.id}
-          className="absolute transition-all duration-300 ease-in-out pointer-events-none z-10"
+          className="absolute pointer-events-none"
           style={{
             left: `${waypoint.x}%`,
             top: `${waypoint.y}%`,
             opacity: waypoint.opacity,
             transform: 'translate(-50%, -50%)',
+            zIndex: 20,
           }}
         >
           <div className="relative">
-            <Waypoints size={28} className="text-axanar-teal animate-pulse drop-shadow-lg" />
+            <Waypoints size={32} className="text-axanar-teal animate-pulse drop-shadow-lg filter drop-shadow-[0_0_8px_rgba(20,184,166,0.8)]" />
             <div className="absolute inset-0 animate-ping">
-              <Waypoints size={28} className="text-axanar-teal opacity-30" />
+              <Waypoints size={32} className="text-axanar-teal opacity-40" />
             </div>
+            {/* Add a background circle for better visibility */}
+            <div className="absolute inset-0 -z-10 w-8 h-8 bg-axanar-teal/20 rounded-full blur-sm animate-pulse" />
           </div>
         </div>
       ))}
@@ -471,6 +485,7 @@ const RadarBlips = () => {
             transformOrigin: '0 50%',
             transform: `rotate(${Math.atan2(laser.toY - laser.fromY, laser.toX - laser.fromX) * 180 / Math.PI}deg)`,
             animation: 'fade-out 0.3s ease-out forwards',
+            zIndex: 15,
           }}
         />
       ))}
@@ -483,6 +498,7 @@ const RadarBlips = () => {
           style={{
             left: `${explosion.x}%`,
             top: `${explosion.y}%`,
+            zIndex: 10,
           }}
         >
           {explosion.particles.map((particle) => (
