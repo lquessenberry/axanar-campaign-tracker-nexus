@@ -8,12 +8,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="font-display text-xl font-bold mb-4 text-axanar-teal">
-              <img 
-                src="/lovable-uploads/4ae57c3d-f1da-43e2-93ec-016f24a0b0c4.png" 
-                alt="AXANAR" 
-                className="h-8 w-auto"
-              />
-              <span className="sr-only">AXANAR</span>
+              About Axanar
             </h3>
             <p className="text-sm text-axanar-silver/70">
               An invite-only crowdfunding platform for the Axanar Universe fan projects.
@@ -42,9 +37,16 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-white/10 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-axanar-silver/50">
-            &copy; {new Date().getFullYear()} Axanar Productions. Invite-only platform.
-          </p>
+          <div className="flex items-center space-x-3">
+            <img 
+              src="/lovable-uploads/4ae57c3d-f1da-43e2-93ec-016f24a0b0c4.png" 
+              alt="AXANAR" 
+              className="h-6 w-auto"
+            />
+            <p className="text-sm text-axanar-silver/50">
+              &copy; {new Date().getFullYear()} Axanar Productions. Invite-only platform.
+            </p>
+          </div>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <a href="#" className="text-axanar-silver/70 hover:text-axanar-teal transition-colors">
               <span className="sr-only">Facebook</span>
