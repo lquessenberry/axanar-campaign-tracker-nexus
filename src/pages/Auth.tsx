@@ -8,6 +8,7 @@ import AccountLookup from "@/components/auth/AccountLookup";
 import PasswordReset from "@/components/auth/PasswordReset";
 import SSOLinking from "@/components/auth/SSOLinking";
 import MouseTracker from "@/components/auth/MouseTracker";
+import RadarBlips from "@/components/auth/RadarBlips";
 import MainAuthForm from "@/components/auth/MainAuthForm";
 import SignupForm from "@/components/auth/SignupForm";
 
@@ -95,6 +96,7 @@ const Auth = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 via-gray-800 to-black relative overflow-hidden">
       <MouseTracker />
+      <RadarBlips />
       
       {/* Background grid effect */}
       <div className="absolute inset-0 opacity-5">
