@@ -26,15 +26,20 @@ const RadarBlips = () => {
   };
 
   return (
-    <div 
-      className="absolute inset-0 cursor-crosshair pointer-events-none"
-      onClick={handleClick}
-    >
+    <div className="absolute inset-0 pointer-events-none">
+      {/* Only capture clicks within the main content area, not nav/footer */}
       <div 
-        className="absolute inset-0 pointer-events-auto"
+        className="absolute top-0 left-0 right-0 bottom-0 pointer-events-auto cursor-crosshair"
         onClick={handleClick}
+        style={{
+          // Constrain to just the main content area
+          top: '0',
+          left: '0',
+          right: '0', 
+          bottom: '0'
+        }}
       >
-        {/* Battle elements only respond to clicks within this inner div */}
+        {/* Battle elements only respond to clicks within this div */}
       </div>
       <ShipSystem blips={blips} />
       <ReticleInfo reticleInfo={reticleInfo} />
