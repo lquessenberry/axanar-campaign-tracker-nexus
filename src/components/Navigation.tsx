@@ -37,28 +37,6 @@ const Navigation = () => {
             />
           </Link>
 
-          {/* Desktop Navigation - Only show if authenticated */}
-          {user && (
-            <div className="hidden md:flex items-center space-x-8">
-              <Link 
-                to="/dashboard" 
-                className={`hover:text-axanar-teal transition-colors ${
-                  isActive('/dashboard') ? 'text-axanar-teal' : ''
-                }`}
-              >
-                Dashboard
-              </Link>
-              <Link 
-                to="/profile" 
-                className={`hover:text-axanar-teal transition-colors ${
-                  isActive('/profile') ? 'text-axanar-teal' : ''
-                }`}
-              >
-                Account
-              </Link>
-            </div>
-          )}
-
           {/* Auth Section */}
           <div className="hidden md:flex items-center space-x-4">
             {user ? (
