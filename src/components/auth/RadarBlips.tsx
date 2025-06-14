@@ -40,12 +40,19 @@ const RadarBlips = () => {
   };
 
   const fireLaser = (fromBlip: Blip, toBlip: Blip) => {
+    // Calculate center positions of ships (accounting for ship size)
+    const shipOffset = 1.5; // Approximate center offset for ship icons
+    const fromCenterX = fromBlip.x + shipOffset;
+    const fromCenterY = fromBlip.y + shipOffset;
+    const toCenterX = toBlip.x + shipOffset;
+    const toCenterY = toBlip.y + shipOffset;
+
     const newLaser: Laser = {
       id: Date.now() + Math.random(),
-      fromX: fromBlip.x,
-      fromY: fromBlip.y,
-      toX: toBlip.x,
-      toY: toBlip.y,
+      fromX: fromCenterX,
+      fromY: fromCenterY,
+      toX: toCenterX,
+      toY: toCenterY,
       color: fromBlip.type === 'federation' ? '#14b8a6' : '#ef4444',
       opacity: 1,
     };
