@@ -27,17 +27,11 @@ const RadarBlips = () => {
 
   return (
     <div 
-      className="absolute inset-0 z-0 cursor-crosshair"
+      className="absolute inset-0 cursor-crosshair pointer-events-none"
       onClick={handleClick}
-      style={{ 
-        pointerEvents: 'none'
-      }}
     >
       <div 
-        className="absolute inset-0"
-        style={{ 
-          pointerEvents: 'auto'
-        }}
+        className="absolute inset-0 pointer-events-auto"
         onClick={handleClick}
       >
         {/* Battle elements only respond to clicks within this inner div */}
