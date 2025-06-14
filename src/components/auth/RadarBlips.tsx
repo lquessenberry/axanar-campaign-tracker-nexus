@@ -3,6 +3,7 @@ import React from 'react';
 import { useBattleLogic } from './hooks/useBattleLogic';
 import ShipSystem from './components/ShipSystem';
 import LaserSystem from './components/LaserSystem';
+import TorpedoSystem from './components/TorpedoSystem';
 import ExplosionSystem from './components/ExplosionSystem';
 import ReticleInfo from './components/ReticleInfo';
 
@@ -10,6 +11,7 @@ const RadarBlips = () => {
   const {
     blips,
     lasers,
+    torpedoes,
     explosions,
     reticleInfo,
     setExplosions,
@@ -39,6 +41,7 @@ const RadarBlips = () => {
       <ShipSystem blips={blips} />
       <ReticleInfo reticleInfo={reticleInfo} />
       <LaserSystem lasers={lasers} />
+      <TorpedoSystem torpedoes={torpedoes} />
       <ExplosionSystem explosions={explosions} setExplosions={setExplosions} />
     </div>
   );

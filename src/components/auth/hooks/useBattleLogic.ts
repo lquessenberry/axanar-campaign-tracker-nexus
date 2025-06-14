@@ -1,12 +1,12 @@
-
 import { useState, useEffect, useCallback } from 'react';
-import { Blip, Laser, Explosion, ReticleInfo } from '../types/battleTypes';
+import { Blip, Laser, Torpedo, Explosion, ReticleInfo } from '../types/battleTypes';
 import { ATTACK_COMMANDS, BATTLE_CONFIG } from '../constants/battleConstants';
 import { generateSafePosition, calculateDistance, clampToViewport, isOutsideAuthCard } from '../utils/battleUtils';
 
 export const useBattleLogic = () => {
   const [blips, setBlips] = useState<Blip[]>([]);
   const [lasers, setLasers] = useState<Laser[]>([]);
+  const [torpedoes, setTorpedoes] = useState<Torpedo[]>([]);
   const [explosions, setExplosions] = useState<Explosion[]>([]);
   const [reticleInfo, setReticleInfo] = useState<ReticleInfo | null>(null);
 
@@ -40,6 +40,27 @@ export const useBattleLogic = () => {
     setTimeout(() => {
       setExplosions(prev => prev.filter(exp => exp.id !== explosion.id));
     }, BATTLE_CONFIG.EXPLOSION_DURATION);
+  };
+
+  const fireTorpedo = (fromBlip: Blip, toBlip: Blip) => {
+    const fromCenterX = fromBlip.x + BATTLE_CONFIG.SHIP_OFFSET;
+    const fromCenterY = fromBlip.y + BATTLE_CONFIG.SHIP_OFFSET;
+    const toCenterX = toBlip.x + BATTLE_CONFIG.SHIP_OFFSET;
+    const toCenterY = toBlip.y + BATTLE_CONFIG.SHIP_OFFSET;
+
+    const newTorpedo: Torpedo = {
+      id: Date.now() + Math.random(),
+      x: fromCenterX,
+      y: fromCenterY,
+      targetX: toCenterX,
+      targetY: toCenterY,
+      speed: BATTLE_CONFIG.TORPEDO_SPEED,
+      color: fromBlip.type === 'klingon' ? '#ef4444' : '#3b82f6',
+      opacity: 1,
+      type: fromBlip.type,
+    };
+
+    setTorpedoes(prev => [...prev, newTorpedo]);
   };
 
   const fireLaser = (fromBlip: Blip, toBlip: Blip) => {
@@ -184,14 +205,60 @@ export const useBattleLogic = () => {
     return () => clearInterval(klingonInterval);
   }, []);
 
-  // Combat and movement
+  // Torpedo movement and collision detection
+  useEffect(() => {
+    const torpedoInterval = setInterval(() => {
+      setTorpedoes(prevTorpedoes => {
+        const updatedTorpedoes = prevTorpedoes.map(torpedo => {
+          const deltaX = torpedo.targetX - torpedo.x;
+          const deltaY = torpedo.targetY - torpedo.y;
+          const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+          if (distance < 2) {
+            // Torpedo reached target - create explosion and check for hits
+            createExplosion(torpedo.x, torpedo.y);
+            
+            if (Math.random() < BATTLE_CONFIG.TORPEDO_HIT_CHANCE) {
+              setBlips(prevBlips => {
+                const targetBlip = prevBlips.find(blip => 
+                  calculateDistance(blip.x, blip.y, torpedo.x, torpedo.y) < 5
+                );
+                if (targetBlip) {
+                  return prevBlips.filter(blip => blip.id !== targetBlip.id);
+                }
+                return prevBlips;
+              });
+            }
+            
+            return null; // Remove torpedo
+          }
+
+          // Move torpedo towards target
+          const newX = torpedo.x + (deltaX / distance) * torpedo.speed;
+          const newY = torpedo.y + (deltaY / distance) * torpedo.speed;
+
+          return {
+            ...torpedo,
+            x: newX,
+            y: newY,
+          };
+        }).filter(Boolean) as Torpedo[];
+
+        return updatedTorpedoes;
+      });
+    }, BATTLE_CONFIG.TORPEDO_UPDATE_INTERVAL);
+
+    return () => clearInterval(torpedoInterval);
+  }, []);
+
+  // Combat and movement - updated to include torpedo firing
   useEffect(() => {
     const chaseInterval = setInterval(() => {
       setBlips(prevBlips => {
         const klingons = prevBlips.filter(b => b.type === 'klingon' && b.isVisible);
         const federations = prevBlips.filter(b => b.type === 'federation');
         
-        // Combat logic
+        // Combat logic - including torpedo firing for Klingons
         federations.forEach(fed => {
           klingons.forEach(klingon => {
             const distance = calculateDistance(fed.x, fed.y, klingon.x, klingon.y);
@@ -206,7 +273,10 @@ export const useBattleLogic = () => {
           federations.forEach(fed => {
             const distance = calculateDistance(klingon.x, klingon.y, fed.x, fed.y);
             
-            if (distance < BATTLE_CONFIG.KLINGON_COMBAT_RANGE && Math.random() < BATTLE_CONFIG.KLINGON_FIRE_CHANCE) {
+            // Klingons can fire torpedoes at longer range
+            if (distance < BATTLE_CONFIG.KLINGON_TORPEDO_RANGE && Math.random() < BATTLE_CONFIG.KLINGON_TORPEDO_CHANCE) {
+              fireTorpedo(klingon, fed);
+            } else if (distance < BATTLE_CONFIG.KLINGON_COMBAT_RANGE && Math.random() < BATTLE_CONFIG.KLINGON_FIRE_CHANCE) {
               fireLaser(klingon, fed);
             }
           });
@@ -275,6 +345,7 @@ export const useBattleLogic = () => {
   return {
     blips,
     lasers,
+    torpedoes,
     explosions,
     reticleInfo,
     setExplosions,

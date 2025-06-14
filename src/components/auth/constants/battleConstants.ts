@@ -25,13 +25,18 @@ export const BATTLE_CONFIG = {
   KLINGON_FADE_INTERVAL: 1000,
   COMBAT_RANGE: 15,
   KLINGON_COMBAT_RANGE: 12,
+  KLINGON_TORPEDO_RANGE: 25, // Longer range for Klingon torpedoes
   PATROL_DISTANCE: 5,
   SHIP_SPEED: 0.2, // Reduced from 0.5 for smoother movement
+  TORPEDO_SPEED: 0.8, // Faster than ship movement
   SHIP_OFFSET: 1.5,
   EXPLOSION_CHANCE: 0.03, // Reduced from 0.1 for longer battles
+  TORPEDO_HIT_CHANCE: 0.05, // Higher chance for torpedo hits
   KLINGON_FADE_CHANCE: 0.3,
   KLINGON_CLOAK_CHANCE: 0.2,
   FEDERATION_FIRE_CHANCE: 0.3,
   KLINGON_FIRE_CHANCE: 0.2,
-  PATROL_CHANGE_CHANCE: 0.05
+  KLINGON_TORPEDO_CHANCE: 0.15, // Chance for Klingons to fire torpedoes
+  PATROL_CHANGE_CHANCE: 0.05,
+  TORPEDO_UPDATE_INTERVAL: 50 // How often torpedoes update position
 };

@@ -22,6 +22,18 @@ export interface Laser {
   opacity: number;
 }
 
+export interface Torpedo {
+  id: number;
+  x: number;
+  y: number;
+  targetX: number;
+  targetY: number;
+  speed: number;
+  color: string;
+  opacity: number;
+  type: 'klingon' | 'federation';
+}
+
 export interface Explosion {
   id: number;
   x: number;
