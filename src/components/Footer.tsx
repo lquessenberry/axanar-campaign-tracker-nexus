@@ -1,10 +1,11 @@
+
 import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
     <footer className="bg-axanar-dark text-white">
-      <div className="container mx-auto py-10 px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="container mx-auto py-8 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="font-display text-xl font-bold mb-4 text-axanar-teal">
               <img 
@@ -15,44 +16,34 @@ const Footer = () => {
               <span className="sr-only">AXANAR</span>
             </h3>
             <p className="text-sm text-axanar-silver/70">
-              Support the Axanar Universe through our crowdfunding platform, bringing fan projects to life.
+              An invite-only crowdfunding platform for the Axanar Universe fan projects.
             </p>
           </div>
           
           <div>
-            <h4 className="font-medium mb-4">Explore</h4>
+            <h4 className="font-medium mb-4">Platform</h4>
             <ul className="space-y-2 text-sm text-axanar-silver/70">
               <li><Link to="/" className="hover:text-axanar-teal transition-colors">Home</Link></li>
-              <li><Link to="/campaigns" className="hover:text-axanar-teal transition-colors">Campaigns</Link></li>
+              <li><Link to="/campaigns" className="hover:text-axanar-teal transition-colors">Active Campaigns</Link></li>
               <li><Link to="/about" className="hover:text-axanar-teal transition-colors">About Axanar</Link></li>
               <li><Link to="/how-it-works" className="hover:text-axanar-teal transition-colors">How It Works</Link></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="font-medium mb-4">Resources</h4>
+            <h4 className="font-medium mb-4">Support</h4>
             <ul className="space-y-2 text-sm text-axanar-silver/70">
-              <li><Link to="/creator-handbook" className="hover:text-axanar-teal transition-colors">Creator Handbook</Link></li>
               <li><Link to="/faq" className="hover:text-axanar-teal transition-colors">FAQ</Link></li>
-              <li><Link to="/blog" className="hover:text-axanar-teal transition-colors">Blog</Link></li>
-              <li><Link to="/support" className="hover:text-axanar-teal transition-colors">Support Center</Link></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h4 className="font-medium mb-4">Legal</h4>
-            <ul className="space-y-2 text-sm text-axanar-silver/70">
+              <li><Link to="/support" className="hover:text-axanar-teal transition-colors">Contact Support</Link></li>
               <li><Link to="/terms" className="hover:text-axanar-teal transition-colors">Terms of Service</Link></li>
               <li><Link to="/privacy" className="hover:text-axanar-teal transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/copyright" className="hover:text-axanar-teal transition-colors">Copyright</Link></li>
-              <li><Link to="/cookies" className="hover:text-axanar-teal transition-colors">Cookie Policy</Link></li>
             </ul>
           </div>
         </div>
         
-        <div className="border-t border-white/10 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <div className="border-t border-white/10 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-axanar-silver/50">
-            &copy; {new Date().getFullYear()} Axanar Productions. All rights reserved.
+            &copy; {new Date().getFullYear()} Axanar Productions. Invite-only platform.
           </p>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <a href="#" className="text-axanar-silver/70 hover:text-axanar-teal transition-colors">
