@@ -13,7 +13,15 @@ const MouseTracker = () => {
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      // Get the main container bounds to calculate relative position
+      const mainElement = document.querySelector('main');
+      if (!mainElement) return;
+      
+      const rect = mainElement.getBoundingClientRect();
+      const relativeX = e.clientX - rect.left;
+      const relativeY = e.clientY - rect.top;
+      
+      setMousePosition({ x: relativeX, y: relativeY });
       
       // Check if mouse is over a card element
       const target = e.target as Element;
@@ -43,7 +51,7 @@ const MouseTracker = () => {
   if (!isTracking || isHoveringCard) return null;
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-50">
+    <div className="absolute inset-0 pointer-events-none z-50">
       {/* Main targeting reticle */}
       <div 
         className="absolute w-12 h-12 border-2 border-axanar-teal rounded-full animate-pulse"
@@ -89,9 +97,9 @@ const MouseTracker = () => {
         }}
       ></div>
 
-      {/* Scanning lines */}
+      {/* Scanning lines - constrained to main area */}
       <div 
-        className="absolute w-0.5 h-screen bg-gradient-to-b from-transparent via-axanar-teal/30 to-transparent animate-pulse"
+        className="absolute w-0.5 h-full bg-gradient-to-b from-transparent via-axanar-teal/30 to-transparent animate-pulse"
         style={{ 
           left: mousePosition.x,
           transition: 'all 0.1s ease-out'
@@ -99,7 +107,7 @@ const MouseTracker = () => {
       ></div>
 
       <div 
-        className="absolute w-screen h-0.5 bg-gradient-to-r from-transparent via-axanar-teal/30 to-transparent animate-pulse"
+        className="absolute w-full h-0.5 bg-gradient-to-r from-transparent via-axanar-teal/30 to-transparent animate-pulse"
         style={{ 
           top: mousePosition.y,
           transition: 'all 0.1s ease-out'
@@ -120,7 +128,7 @@ const MouseTracker = () => {
           TARGET ACQUIRED
         </div>
         <div className="text-xs text-axanar-teal/60">
-          X: {mousePosition.x} Y: {mousePosition.y}
+          X: {Math.round(mousePosition.x)} Y: {Math.round(mousePosition.y)}
         </div>
       </div>
     </div>

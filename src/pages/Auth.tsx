@@ -96,9 +96,6 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 via-gray-800 to-black relative overflow-hidden">
-      {battleMode && <MouseTracker />}
-      {battleMode && <RadarBlips />}
-      
       {/* Background grid effect */}
       <div className="absolute inset-0 opacity-5">
         <div className="grid grid-cols-20 grid-rows-12 h-full w-full">
@@ -114,6 +111,14 @@ const Auth = () => {
       />
       
       <main className="flex-grow flex items-center justify-center px-4 py-16 relative z-10">
+        {/* Battle mechanics contained within main */}
+        {battleMode && (
+          <>
+            <MouseTracker />
+            <RadarBlips />
+          </>
+        )}
+        
         <div data-card>
           {renderAuthFlow()}
         </div>

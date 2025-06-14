@@ -18,14 +18,14 @@ const RadarBlips = () => {
 
   return (
     <div 
-      className="fixed inset-0 z-0 cursor-crosshair"
+      className="absolute inset-0 z-0 cursor-crosshair"
       onClick={handleMouseClick}
       style={{ 
         pointerEvents: 'none',
         backgroundColor: 'transparent'
       }}
     >
-      {/* Click capture layer - only captures clicks in empty space */}
+      {/* Click capture layer - only captures clicks in empty space within main */}
       <div 
         className="absolute inset-0"
         style={{ 
