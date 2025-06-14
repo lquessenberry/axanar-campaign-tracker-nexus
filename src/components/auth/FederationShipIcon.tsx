@@ -22,18 +22,18 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
     >
       <g
         style={{
-          fill: "#ffffff",
+          fill: "#000271",
           fillOpacity: 1,
-          stroke: "#ffffff",
+          stroke: "#a3a1ac",
           strokeOpacity: 1,
         }}
       >
         <path
           d="M319.91 224.132c-48.299 0-87.455-39.154-87.455-87.455 0-48.301 39.156-87.454 87.455-87.454 48.301 0 87.455 39.155 87.455 87.454 0 48.301-39.155 87.455-87.455 87.455z"
           style={{
-            fill: "#ffffff",
+            fill: "#000271",
             fillOpacity: 1,
-            stroke: "#ffffff",
+            stroke: "#a3a1ac",
             strokeWidth: 2.14960003,
             strokeOpacity: 1,
           }}
@@ -43,7 +43,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
       <path
         d="M193.266 82.137c7.892-6.473 16.893-20.31 16.893-20.31s-2.884.16-6.729 2.273c-4.786 2.632-10.74 7.333-10.74 7.333l.581-5.822s-4.74 3.756-7.768 8.73c-3.088 5.07-4.46 11.36-4.46 11.36s5.685 1.796 12.223-3.564zM178.3 100.994c4.48-4.053 7.694-9.762 7.694-9.762s-2.735 1.362-5.283 1.773c-1.853.298-3.742-.317-3.742-.317s-.983-2.049-.785-5.543c.234-4.162 1.658-9.887 1.658-9.887s-5.305 5.723-7.599 12.605c-.645 1.934-1.126 3.942-1.49 5.888-1.406 6.548-1.102 12.074-1.102 12.074s5.961-2.59 10.65-6.83zm-8.385 21.332c3.635-4.006 5.888-10.13 5.888-10.13s-3.078 1.717-6.243 2.448c-2.408.555-5.11.172-5.11.172s-.847-2.492-1.185-6.058c-.6-6.355-.272-16.36-.272-16.36s-5.477 9.953-5.703 18.948c-.209 8.3 4.25 16.57 4.25 16.57s4.881-1.739 8.375-5.59zM159.5 147.423s5.326-4.017 8.2-8.705c2.648-4.32 2.863-9.347 2.863-9.347s-2.567 1.404-5.3 2.467c-2.499.971-5.18 1.61-5.18 1.61s-2.974-3.247-4.8-7.51c-2.773-6.47-4.81-14.909-4.81-14.909s-2.943 11.298-.668 20.477c2.237 9.017 9.695 15.917 9.695 15.917zm1.456 22.126s3.673-3.872 5.651-8.749c2.094-5.159 2.5-11.34 2.5-11.34l-8.44 7.57s-4.537-3.006-8.434-8.16c-5.335-7.062-10.49-16.879-10.49-16.879s-.65 15.365 4.19 24.83c4.765 9.313 15.023 12.728 15.023 12.728zm5.531 20.38s3.242-3.754 4.261-8.588c1.28-6.084.398-13.539.398-13.539s-1.477 3.09-3.359 5.913c-1.585 2.38-3.627 4.568-3.627 4.568s-5.294-2.132-10.464-7.007c-7.273-6.86-15.448-18.032-15.448-18.032s.754 16.66 7.68 25.535c7.046 9.03 20.56 11.15 20.56 11.15zm11.355 19.506s1.972-5.252 1.903-11.063c-.076-6.39-2.194-13.394-2.194-13.394l-6.697 12.81s-6.29.203-12.57-3.1c-7.695-4.046-15.669-11.748-15.669-11.748s5.22 14.561 14.261 21.361c8.558 6.438 20.966 5.134 20.966 5.134zm13.683 16.887s.928-5.92.051-11.314c-1.007-6.195-3.835-11.977-3.835-11.977s-.536 4.23-1.805 8.035c-1.037 3.112-2.854 5.94-2.854 5.94s-3.589.528-8.163.125c-6.562-.58-14.837-2.163-14.837-2.163s4.47 6.184 12.52 9.091c7.662 2.766 18.923 2.263 18.923 2.263zm6.405-10.19-1.164 14.847s-3.374 1.328-7.87 1.513c-5.93.244-13.385-.639-13.385-.639s6.521 5.563 14.293 7.362c7.948 1.84 17.151-.083 17.151-.083s.98-5.25-1.095-10.27c-2.41-5.836-7.93-12.73-7.93-12.73zm54.595 30.588c-4.975-2.746-12.38-4.387-12.38-4.387s-7.459-1.217-14.534-3.28c-6.896-2.013-13.415-4.87-13.415-4.87s1.464 3.643.677 6.161c-.657 2.102-3.588 3.153-3.588 3.153l6.404 2.038s16.171.471 25.625 2.01c8.388 1.362 10.187 3.812 10.187 3.812s-1.023 1.077-4.626 1.657c-5.144.83-12.843.673-12.843.673l5.53 5.241s6.063.74 11.3-.777c4.788-1.388 8.79-5.047 8.79-5.047s-2.352-3.747-7.127-6.384zm90.4-164.583c6.536 5.36 12.222 3.563 12.222 3.563s-1.372-6.289-4.46-11.36c-3.026-4.973-7.77-8.73-7.77-8.73l.582 5.822s-5.955-4.702-10.74-7.333c-3.845-2.115-6.729-2.273-6.729-2.273s9.001 13.84 16.894 20.311zm14.966 18.857c4.688 4.24 10.647 6.833 10.647 6.833s.306-5.52-1.097-12.063c-.364-1.95-.85-3.964-1.493-5.9-2.296-6.883-7.6-12.605-7.6-12.605s1.421 5.726 1.657 9.888c.197 3.495-.785 5.543-.785 5.543s-1.89.615-3.742.317c-2.547-.412-5.282-1.773-5.282-1.773s3.214 5.708 7.695 9.76zm2.495 11.201s2.253 6.125 5.89 10.131c3.494 3.853 8.377 5.59 8.377 5.59s4.457-8.27 4.25-16.569c-.23-8.995-5.705-18.949-5.705-18.949s.328 10.006-.272 16.361c-.338 3.565-1.184 6.057-1.184 6.057s-2.703.384-5.112-.172c-3.165-.73-6.244-2.449-6.244-2.449zm10.541 19.643c-2.73-1.063-5.3-2.467-5.3-2.467s.215 5.024 2.863 9.347c2.874 4.688 8.2 8.705 8.2 8.705s7.457-6.9 9.691-15.917c2.275-9.179-.668-20.477-.668-20.477s-2.035 8.438-4.81 14.908c-1.827 4.264-4.798 7.51-4.798 7.51s-2.679-.638-5.178-1.609zm4.6 25.193-8.444-7.568s.406 6.181 2.5 11.34c1.98 4.877 5.652 8.75 5.652 8.75s10.258-3.417 15.021-12.73c4.843-9.464 4.193-24.829 4.193-24.829s-5.156 9.818-10.492 16.878c-3.896 5.153-8.43 8.16-8.43 8.16zm6.968 14.246c-5.17 4.876-10.464 7.008-10.464 7.008s-2.042-2.19-3.628-4.568c-1.883-2.823-3.359-5.913-3.359-5.913s-.883 7.454.4 13.54c1.016 4.833 4.258 8.587 4.258 8.587s13.514-2.12 20.562-11.15c6.928-8.874 7.68-25.534 7.68-25.534s-8.174 11.17-15.449 18.03zm-17.16 26.512-6.696-12.81s-2.116 7.002-2.192 13.394c-.069 5.81 1.901 11.063 1.901 11.063s12.408 1.304 20.968-5.133c9.042-6.8 14.262-21.36 14.262-21.36s-7.977 7.701-15.668 11.746c-6.286 3.303-12.575 3.1-12.575 3.1zm-12.227 19.215s-1.815-2.827-2.854-5.939c-1.269-3.805-1.805-8.035-1.805-8.035s-2.829 5.781-3.835 11.977c-.877 5.395.05 11.314.05 11.314s11.262.503 18.923-2.264c8.051-2.907 12.521-9.09 12.521-9.09s-8.277 1.58-14.839 2.161c-4.573.406-8.16-.124-8.16-.124zm-5.813 15.488c-4.498-.186-7.87-1.513-7.87-1.513l-1.166-14.848s-5.52 6.894-7.933 12.73c-2.075 5.02-1.094 10.27-1.094 10.27s9.202 1.925 17.15.083c7.771-1.8 14.292-7.362 14.292-7.362s-7.45.884-13.379.64zm-23.978 7.852c-.787-2.52.677-6.16.677-6.16s-6.519 2.857-13.415 4.87c-7.076 2.062-14.534 3.28-14.534 3.28s-7.405 1.64-12.378 4.386c-4.775 2.637-7.128 6.387-7.128 6.387s4.003 3.658 8.79 5.046c5.236 1.52 11.3.777 11.3.777l5.53-5.24s-7.699.157-12.843-.672c-3.603-.582-4.625-1.658-4.625-1.658s1.798-2.45 10.186-3.813c9.454-1.538 25.624-2.009 25.624-2.009l6.405-2.038c0-.002-2.932-1.054-3.589-3.156z"
         style={{
-          fill: "#ffffff",
+          fill: "#a3a1ac",
           fillOpacity: 1,
           fillRule: "nonzero",
         }}
@@ -51,9 +51,9 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
       />
       <g
         style={{
-          fill: "#ffffff",
+          fill: "#000271",
           fillOpacity: 1,
-          stroke: "#ffffff",
+          stroke: "#a3a1ac",
           strokeOpacity: 1,
           overflow: "visible",
         }}
@@ -62,9 +62,9 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
         <path
           d="M319.91 224.132c-48.299 0-87.455-39.154-87.455-87.455 0-48.301 39.156-87.454 87.455-87.454 48.301 0 87.455 39.155 87.455 87.454 0 48.301-39.155 87.455-87.455 87.455z"
           style={{
-            fill: "#ffffff",
+            fill: "#000271",
             fillOpacity: 1,
-            stroke: "#ffffff",
+            stroke: "#a3a1ac",
             strokeWidth: 2.14960003,
             strokeOpacity: 1,
           }}
@@ -79,7 +79,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
         <path
           d="M316.675 139.02h.004-.007c-.354-.006-16.407-.262-19.06-2.913-2.651-2.651-2.907-18.705-2.912-19.059v-.007.004-.004.007c-.006.354-.261 16.407-2.913 19.059-2.637 2.638-18.537 2.905-19.051 2.913h-.013.007-.007.013c.515.007 16.414.275 19.051 2.912 2.652 2.651 2.907 18.705 2.913 19.059v.007-.004.004-.007c.006-.354.261-16.406 2.913-19.059 2.651-2.651 18.705-2.907 19.059-2.912h.007-.004zM353.525 113.174h.003-.006c-.272-.004-12.656-.2-14.701-2.246s-2.242-14.429-2.247-14.7v-.004.002-.002.004c-.004.271-.201 12.654-2.245 14.7-2.034 2.034-14.299 2.24-14.696 2.246h-.011.007-.007.011c.397.007 12.662.212 14.696 2.247 2.045 2.045 2.242 14.43 2.245 14.701v.006-.003.003-.006c.005-.271.202-12.656 2.248-14.701 2.045-2.045 14.428-2.243 14.7-2.247h.006-.003zM361.284 157.443h.003-.006c-.253-.004-11.813-.189-13.722-2.097-1.91-1.909-2.094-13.469-2.098-13.724v-.005.003-.003.005c-.005.254-.188 11.813-2.098 13.723-1.898 1.898-13.347 2.092-13.717 2.098h-.01.005-.005.01c.37.007 11.818.199 13.717 2.097 1.91 1.91 2.094 13.469 2.098 13.723v.006-.002.002-.006c.005-.253.188-11.813 2.098-13.723 1.909-1.909 13.469-2.093 13.722-2.097h.006-.003z"
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -87,7 +87,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={136.19701}
           r={3.6760001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -95,7 +95,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={150.31}
           r={3.6760001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -103,7 +103,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={176.746}
           r={3.6760001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -111,7 +111,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={127.409}
           r={3.415}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -119,7 +119,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={169.431}
           r={3.6270001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -127,7 +127,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={171.966}
           r={3.6760001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -135,7 +135,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={107.809}
           r={3.6760001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -143,7 +143,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={100.078}
           r={3.7090001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -151,7 +151,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={137.61501}
           r={2.697}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -159,7 +159,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={170.373}
           r={2.697}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -167,7 +167,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={157.33099}
           r={2.697}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -175,7 +175,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={68.166}
           r={2.697}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -183,7 +183,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={65.969002}
           r={2.697}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -191,7 +191,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={127.479}
           r={2.9790001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -199,7 +199,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={148.636}
           r={2.9779999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -207,7 +207,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={94.750999}
           r={2.9790001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -215,7 +215,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={95.628998}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -223,7 +223,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={83.972}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -231,7 +231,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={117.625}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -239,7 +239,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={128.804}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -247,7 +247,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={145.731}
           r={2.0190001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -255,7 +255,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={162.657}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -263,7 +263,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={151.705}
           r={2.0190001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -271,7 +271,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={154.09399}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -279,13 +279,13 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={146.12801}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <path
           d="M339.284 150.883a2.02 2.02 0 1 1-4.038 0 2.02 2.02 0 0 1 4.038 0z"
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -293,7 +293,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={124.622}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -301,7 +301,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={144.63499}
           r={2.0190001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -309,7 +309,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={161.064}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -317,7 +317,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={125.816}
           r={2.0190001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -325,13 +325,13 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={115.212}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <path
           d="M385.658 142.558a2.304 2.304 0 1 1-4.607-.001 2.304 2.304 0 0 1 4.607.001z"
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -339,7 +339,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={108.89}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -347,7 +347,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={105.206}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -355,7 +355,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={111.479}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -363,7 +363,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={90.569}
           r={2.0190001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -371,7 +371,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={95.348999}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -379,7 +379,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={80.014999}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -387,7 +387,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={155.09}
           r={2.0190001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -395,7 +395,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={169.826}
           r={2.0190001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -403,7 +403,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={172.713}
           r={2.0190001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -411,7 +411,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={160.765}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -419,7 +419,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={160.76601}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -427,7 +427,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={153.696}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -435,7 +435,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={142.694}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -443,7 +443,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={136.271}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -451,7 +451,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={114.615}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -459,7 +459,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={174.29201}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -467,7 +467,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={186.006}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -475,7 +475,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={176.44701}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -483,7 +483,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={210.599}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -491,7 +491,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={187.151}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -499,7 +499,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={198.25301}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -507,7 +507,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={189.53999}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -515,7 +515,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={193.424}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -523,7 +523,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={180.28101}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -531,7 +531,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={182.073}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -539,7 +539,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={150.60899}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -547,7 +547,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={140.00301}
           r={2.2060001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -555,7 +555,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={132.55}
           r={2.155}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -563,7 +563,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={134.739}
           r={2.279}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -571,7 +571,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={108.453}
           r={2.279}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -579,7 +579,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={119.544}
           r={2.3529999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -587,7 +587,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={190.03799}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -595,7 +595,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={177.293}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -603,7 +603,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={113.57}
           r={2.0179999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -611,7 +611,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={117.878}
           r={2.1900001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -619,7 +619,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={93.406998}
           r={2.697}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -627,7 +627,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={175.252}
           r={2.697}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -635,7 +635,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={188.545}
           r={2.697}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -643,7 +643,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={191.53101}
           r={2.697}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -651,7 +651,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={183.76199}
           r={2.8940001}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -659,7 +659,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={68.283997}
           r={2.977}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -667,7 +667,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={123.626}
           r={2.9779999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -675,7 +675,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={120.888}
           r={2.977}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -683,7 +683,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={161.811}
           r={2.977}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -691,7 +691,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={126.414}
           r={2.9779999}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
         <circle
@@ -699,13 +699,13 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
           cy={139.183}
           r={2.697}
           style={{
-            fill: "#fff",
+            fill: "#a3a1ac",
           }}
         />
       </g>
       <g
         style={{
-          fill: "#ffffff",
+          fill: "#a3a1ac",
           fillOpacity: 1,
           stroke: "none",
           overflow: "visible",
@@ -714,7 +714,7 @@ const FederationShipIcon = ({ size = 24, className = "" }: FederationShipIconPro
         <path
           d="M319.909 53.33c-46.031 0-83.348 37.316-83.348 83.348s37.316 83.349 83.348 83.349 83.349-37.316 83.349-83.35c-.001-46.031-37.317-83.347-83.349-83.347zm0 162.626c-43.783 0-79.277-35.494-79.277-79.278 0-43.783 35.495-79.277 79.277-79.277 43.784 0 79.278 35.495 79.278 79.277 0 43.783-35.494 79.278-79.278 79.278z"
           style={{
-            fill: "#ffffff",
+            fill: "#a3a1ac",
             fillOpacity: 1,
             stroke: "none",
           }}
