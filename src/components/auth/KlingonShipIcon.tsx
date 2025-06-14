@@ -8,10 +8,6 @@ interface KlingonShipIconProps {
 
 const KlingonShipIcon = ({ size = 24, className = "" }: KlingonShipIconProps) => (
   <svg
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:cc="http://creativecommons.org/ns#"
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns:svg="http://www.w3.org/2000/svg"
     xmlns="http://www.w3.org/2000/svg"
     id="svg2"
     width={size}
@@ -20,15 +16,6 @@ const KlingonShipIcon = ({ size = 24, className = "" }: KlingonShipIconProps) =>
     className={className}
   >
     <defs id="defs4" />
-    <metadata id="metadata7">
-      <rdf:RDF>
-        <cc:Work rdf:about="">
-          <dc:format>{"image/svg+xml"}</dc:format>
-          <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-          <dc:title />
-        </cc:Work>
-      </rdf:RDF>
-    </metadata>
     <g transform="translate(-321.37107,-359.7535)" id="layer1">
       <path
         d="m 425.00002,482.54074 a 76.428574,70.535713 0 1 1 -152.85715,0 76.428574,70.535713 0 1 1 152.85715,0 z"
