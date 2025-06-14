@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -137,33 +138,33 @@ const Profile = () => {
               
               <div className="flex-1">
                 {isEditing ? (
-                  <div className="space-y-4 bg-white/10 p-6 rounded-lg backdrop-blur-sm">
+                  <div className="space-y-3 bg-white/5 p-4 rounded-lg backdrop-blur-sm border border-white/10">
                     <div>
-                      <Label htmlFor="full_name" className="text-white text-sm font-medium mb-2 block">
+                      <Label htmlFor="full_name" className="text-white text-sm font-medium mb-1 block">
                         Full Name
                       </Label>
                       <Input
                         id="full_name"
                         value={formData.full_name}
                         onChange={(e) => setFormData(prev => ({ ...prev, full_name: e.target.value }))}
-                        className="bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:bg-white/30 focus:border-axanar-teal"
+                        className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:bg-white/15 focus:border-axanar-teal h-9"
                         placeholder="Enter your full name"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="username" className="text-white text-sm font-medium mb-2 block">
+                      <Label htmlFor="username" className="text-white text-sm font-medium mb-1 block">
                         Username
                       </Label>
                       <Input
                         id="username"
                         value={formData.username}
                         onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
-                        className="bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:bg-white/30 focus:border-axanar-teal"
+                        className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:bg-white/15 focus:border-axanar-teal h-9"
                         placeholder="Enter your username"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="bio" className="text-white text-sm font-medium mb-2 block">
+                      <Label htmlFor="bio" className="text-white text-sm font-medium mb-1 block">
                         Bio
                       </Label>
                       <Textarea
@@ -171,8 +172,8 @@ const Profile = () => {
                         value={formData.bio}
                         onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
                         placeholder="Tell us about yourself..."
-                        className="bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:bg-white/30 focus:border-axanar-teal resize-none"
-                        rows={3}
+                        className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:bg-white/15 focus:border-axanar-teal resize-none"
+                        rows={2}
                       />
                     </div>
                   </div>
@@ -211,12 +212,12 @@ const Profile = () => {
                       variant="outline" 
                       onClick={handleCancel}
                       disabled={updateProfile.isPending}
-                      className="border-white/30 text-white hover:bg-white/10"
+                      className="border-white/40 text-white hover:bg-white/20 hover:text-white bg-transparent"
                     >
                       Cancel
                     </Button>
                     <Button 
-                      className="bg-axanar-teal hover:bg-axanar-teal/90"
+                      className="bg-axanar-teal hover:bg-axanar-teal/90 text-white"
                       onClick={handleSave}
                       disabled={updateProfile.isPending}
                     >
@@ -225,7 +226,7 @@ const Profile = () => {
                   </>
                 ) : (
                   <Button 
-                    className="bg-axanar-teal hover:bg-axanar-teal/90"
+                    className="bg-axanar-teal hover:bg-axanar-teal/90 text-white"
                     onClick={() => setIsEditing(true)}
                   >
                     Edit Profile
