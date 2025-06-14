@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import WarpfieldStars from "@/components/WarpfieldStars";
@@ -49,7 +48,7 @@ const HeroSection = () => {
                           </Button>
                         </Link>
                         <Link to="/profile">
-                          <Button variant="outline" className="border-white/30 hover:bg-white/10 h-12 px-8 text-white shadow-lg">
+                          <Button variant="outline" className="border-axanar-silver/50 bg-gray-800/80 hover:bg-gray-700/80 h-12 px-8 text-axanar-silver shadow-lg backdrop-blur-sm">
                             Manage Account
                           </Button>
                         </Link>
