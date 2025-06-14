@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -105,60 +104,58 @@ const Auth = () => {
         <StarField />
 
         {/* Mobile Trek interface grid */}
-        <div className="absolute inset-0 opacity-20 z-10">
-          <div className="grid grid-cols-8 grid-rows-16 h-full w-full">
-            {Array.from({ length: 128 }).map((_, i) => (
-              <div key={i} className="border border-axanar-teal/20"></div>
+        <div className="absolute inset-0 opacity-10 z-10">
+          <div className="grid grid-cols-6 grid-rows-12 h-full w-full">
+            {Array.from({ length: 72 }).map((_, i) => (
+              <div key={i} className="border border-axanar-teal/10"></div>
             ))}
           </div>
         </div>
 
         {/* Battle effects layer - reduced for mobile */}
         {battleMode && (
-          <div className="absolute inset-0 z-20 pointer-events-none opacity-60">
+          <div className="absolute inset-0 z-20 pointer-events-none opacity-40">
             <MouseTracker />
             <RadarBlips />
           </div>
         )}
 
-        {/* Mobile navigation */}
-        <div className="relative z-50">
+        {/* Mobile navigation - compact */}
+        <div className="relative z-50 flex-shrink-0">
           <Navigation 
             battleMode={battleMode} 
             onBattleModeToggle={setBattleMode} 
           />
         </div>
         
-        {/* Mobile main content - full screen utilization */}
-        <main className="flex-grow flex flex-col justify-center px-4 py-4 relative z-40 min-h-0">
-          {/* Mobile Trek-style header */}
-          <div className="text-center mb-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-black/60 border border-axanar-teal/50 rounded backdrop-blur-sm">
-              <div className="w-2 h-2 bg-axanar-teal rounded-full animate-pulse"></div>
+        {/* Mobile main content - minimal padding, full utilization */}
+        <main className="flex-grow flex flex-col justify-center px-3 py-2 relative z-40 min-h-0">
+          {/* Mobile Trek-style header - compact */}
+          <div className="text-center mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-black/70 border border-axanar-teal/50 rounded backdrop-blur-sm">
+              <div className="w-1.5 h-1.5 bg-axanar-teal rounded-full animate-pulse"></div>
               <span className="text-axanar-teal text-xs font-mono tracking-wider">STARFLEET COMMAND</span>
-              <div className="w-2 h-2 bg-axanar-teal rounded-full animate-pulse"></div>
+              <div className="w-1.5 h-1.5 bg-axanar-teal rounded-full animate-pulse"></div>
             </div>
           </div>
 
-          {/* Auth form container - optimized for mobile */}
-          <div data-card className="relative z-50 w-full max-w-sm mx-auto">
+          {/* Auth form container - full width with minimal margins */}
+          <div data-card className="relative z-50 w-full max-w-full mx-auto">
             {renderAuthFlow()}
           </div>
 
-          {/* Mobile Trek-style status bar */}
-          <div className="mt-6 text-center">
-            <div className="inline-flex items-center gap-3 px-3 py-2 bg-black/40 border border-axanar-teal/30 rounded text-xs font-mono text-axanar-teal/80">
-              <span>SYS: ONLINE</span>
+          {/* Mobile Trek-style status bar - compact */}
+          <div className="mt-3 text-center">
+            <div className="inline-flex items-center gap-2 px-2 py-1 bg-black/50 border border-axanar-teal/30 rounded text-xs font-mono text-axanar-teal/80">
+              <span className="text-xs">SYS: ONLINE</span>
               <div className="w-1 h-1 bg-green-400 rounded-full animate-pulse"></div>
-              <span>SEC: ALPHA</span>
-              <div className="w-1 h-1 bg-axanar-teal rounded-full animate-pulse"></div>
-              <span>AUTH: READY</span>
+              <span className="text-xs">AUTH: READY</span>
             </div>
           </div>
         </main>
         
-        {/* Mobile footer */}
-        <div className="relative z-50">
+        {/* Mobile footer - compact */}
+        <div className="relative z-50 flex-shrink-0">
           <Footer />
         </div>
       </div>
