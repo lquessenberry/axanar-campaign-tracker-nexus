@@ -44,6 +44,7 @@ const RadarBlips = () => {
   const [blips, setBlips] = useState<Blip[]>([]);
   const [lasers, setLasers] = useState<Laser[]>([]);
   const [explosions, setExplosions] = useState<Explosion[]>([]);
+  const [userCommandActive, setUserCommandActive] = useState(false);
 
   const generateSafePosition = () => {
     let x, y;
@@ -152,6 +153,10 @@ const RadarBlips = () => {
         })
       );
       
+      // Set user command active and clear it after ships reach destination
+      setUserCommandActive(true);
+      setTimeout(() => setUserCommandActive(false), 3000);
+      
       console.log(`Federation ships commanded to position: ${clickX.toFixed(1)}%, ${clickY.toFixed(1)}%`);
     }
   }, [blips]);
@@ -196,33 +201,35 @@ const RadarBlips = () => {
 
     generateBlips();
 
-    // Klingon blip animation (fade in/out)
+    // Klingon blip animation (fade in/out) - but not during user commands
     const klingonInterval = setInterval(() => {
-      setBlips(prevBlips => 
-        prevBlips.map(blip => {
-          if (blip.type === 'klingon') {
-            if (!blip.isVisible && Math.random() < 0.3) {
-              // Fade in
-              const { x, y } = generateSafePosition();
-              return {
-                ...blip,
-                x,
-                y,
-                isVisible: true,
-                opacity: 0.7 + Math.random() * 0.3,
-              };
-            } else if (blip.isVisible && Math.random() < 0.2) {
-              // Fade out
-              return {
-                ...blip,
-                isVisible: false,
-                opacity: 0,
-              };
+      if (!userCommandActive) {
+        setBlips(prevBlips => 
+          prevBlips.map(blip => {
+            if (blip.type === 'klingon') {
+              if (!blip.isVisible && Math.random() < 0.3) {
+                // Fade in
+                const { x, y } = generateSafePosition();
+                return {
+                  ...blip,
+                  x,
+                  y,
+                  isVisible: true,
+                  opacity: 0.7 + Math.random() * 0.3,
+                };
+              } else if (blip.isVisible && Math.random() < 0.2) {
+                // Fade out
+                return {
+                  ...blip,
+                  isVisible: false,
+                  opacity: 0,
+                };
+              }
             }
-          }
-          return blip;
-        })
-      );
+            return blip;
+          })
+        );
+      }
     }, 1000);
 
     // Federation chase animation and laser combat
@@ -260,21 +267,33 @@ const RadarBlips = () => {
         });
         
         return prevBlips.map(blip => {
-          if (blip.type === 'federation' && klingons.length > 0) {
-            // Find nearest visible Klingon
-            const nearestKlingon = klingons.reduce((nearest, klingon) => {
-              const distToCurrent = Math.sqrt(
-                Math.pow(blip.x - klingon.x, 2) + Math.pow(blip.y - klingon.y, 2)
-              );
-              const distToNearest = Math.sqrt(
-                Math.pow(blip.x - nearest.x, 2) + Math.pow(blip.y - nearest.y, 2)
-              );
-              return distToCurrent < distToNearest ? klingon : nearest;
-            });
+          if (blip.type === 'federation') {
+            let targetX, targetY;
+            
+            // If user has given a command, use that target
+            if (userCommandActive && blip.targetX !== undefined && blip.targetY !== undefined) {
+              targetX = blip.targetX;
+              targetY = blip.targetY;
+            } else if (klingons.length > 0) {
+              // Otherwise, find nearest visible Klingon
+              const nearestKlingon = klingons.reduce((nearest, klingon) => {
+                const distToCurrent = Math.sqrt(
+                  Math.pow(blip.x - klingon.x, 2) + Math.pow(blip.y - klingon.y, 2)
+                );
+                const distToNearest = Math.sqrt(
+                  Math.pow(blip.x - nearest.x, 2) + Math.pow(blip.y - nearest.y, 2)
+                );
+                return distToCurrent < distToNearest ? klingon : nearest;
+              });
+              targetX = nearestKlingon.x;
+              targetY = nearestKlingon.y;
+            } else {
+              return blip; // No target, don't move
+            }
 
-            // Move towards Klingon but stay in safe zone
-            const deltaX = nearestKlingon.x - blip.x;
-            const deltaY = nearestKlingon.y - blip.y;
+            // Move towards target but stay in safe zone
+            const deltaX = targetX - blip.x;
+            const deltaY = targetY - blip.y;
             const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
             
             if (distance > 5) {
@@ -312,7 +331,7 @@ const RadarBlips = () => {
       clearInterval(klingonInterval);
       clearInterval(chaseInterval);
     };
-  }, []);
+  }, [userCommandActive]);
 
   // Animation loop for explosion particles
   useEffect(() => {
