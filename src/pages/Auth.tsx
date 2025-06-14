@@ -12,6 +12,7 @@ import Footer from "@/components/Footer";
 import AccountLookup from "@/components/auth/AccountLookup";
 import PasswordReset from "@/components/auth/PasswordReset";
 import SSOLinking from "@/components/auth/SSOLinking";
+import MouseTracker from "@/components/auth/MouseTracker";
 
 type AuthFlow = 'main' | 'lookup' | 'password-reset' | 'sso-linking' | 'signup-confirmed';
 
@@ -273,10 +274,21 @@ const Auth = () => {
   );
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 via-gray-800 to-black relative overflow-hidden">
+      <MouseTracker />
+      
+      {/* Background grid effect */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="grid grid-cols-20 grid-rows-12 h-full w-full">
+          {Array.from({ length: 240 }).map((_, i) => (
+            <div key={i} className="border border-axanar-teal/20"></div>
+          ))}
+        </div>
+      </div>
+
       <Navigation />
       
-      <main className="flex-grow flex items-center justify-center px-4 py-16">
+      <main className="flex-grow flex items-center justify-center px-4 py-16 relative z-10">
         {authFlow === 'main' && renderMainAuth()}
         {authFlow === 'lookup' && (
           <AccountLookup
