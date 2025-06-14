@@ -12,6 +12,7 @@ import RadarBlips from "@/components/auth/RadarBlips";
 import MainAuthForm from "@/components/auth/MainAuthForm";
 import SignupForm from "@/components/auth/SignupForm";
 import StarField from "@/components/StarField";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type AuthFlow = 'main' | 'lookup' | 'password-reset' | 'sso-linking' | 'signup-confirmed';
 
@@ -21,6 +22,7 @@ const Auth = () => {
   const [ssoProvider, setSsoProvider] = useState('');
   const [battleMode, setBattleMode] = useState(true);
   const { user } = useAuth();
+  const isMobile = useIsMobile();
 
   // Redirect if already authenticated
   if (user) {
@@ -95,6 +97,75 @@ const Auth = () => {
     }
   };
 
+  // Mobile layout with Trek-inspired design
+  if (isMobile) {
+    return (
+      <div className="min-h-screen flex flex-col bg-black relative overflow-hidden">
+        {/* Star field backdrop */}
+        <StarField />
+
+        {/* Mobile Trek interface grid */}
+        <div className="absolute inset-0 opacity-20 z-10">
+          <div className="grid grid-cols-8 grid-rows-16 h-full w-full">
+            {Array.from({ length: 128 }).map((_, i) => (
+              <div key={i} className="border border-axanar-teal/20"></div>
+            ))}
+          </div>
+        </div>
+
+        {/* Battle effects layer - reduced for mobile */}
+        {battleMode && (
+          <div className="absolute inset-0 z-20 pointer-events-none opacity-60">
+            <MouseTracker />
+            <RadarBlips />
+          </div>
+        )}
+
+        {/* Mobile navigation */}
+        <div className="relative z-50">
+          <Navigation 
+            battleMode={battleMode} 
+            onBattleModeToggle={setBattleMode} 
+          />
+        </div>
+        
+        {/* Mobile main content - full screen utilization */}
+        <main className="flex-grow flex flex-col justify-center px-4 py-4 relative z-40 min-h-0">
+          {/* Mobile Trek-style header */}
+          <div className="text-center mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-black/60 border border-axanar-teal/50 rounded backdrop-blur-sm">
+              <div className="w-2 h-2 bg-axanar-teal rounded-full animate-pulse"></div>
+              <span className="text-axanar-teal text-xs font-mono tracking-wider">STARFLEET COMMAND</span>
+              <div className="w-2 h-2 bg-axanar-teal rounded-full animate-pulse"></div>
+            </div>
+          </div>
+
+          {/* Auth form container - optimized for mobile */}
+          <div data-card className="relative z-50 w-full max-w-sm mx-auto">
+            {renderAuthFlow()}
+          </div>
+
+          {/* Mobile Trek-style status bar */}
+          <div className="mt-6 text-center">
+            <div className="inline-flex items-center gap-3 px-3 py-2 bg-black/40 border border-axanar-teal/30 rounded text-xs font-mono text-axanar-teal/80">
+              <span>SYS: ONLINE</span>
+              <div className="w-1 h-1 bg-green-400 rounded-full animate-pulse"></div>
+              <span>SEC: ALPHA</span>
+              <div className="w-1 h-1 bg-axanar-teal rounded-full animate-pulse"></div>
+              <span>AUTH: READY</span>
+            </div>
+          </div>
+        </main>
+        
+        {/* Mobile footer */}
+        <div className="relative z-50">
+          <Footer />
+        </div>
+      </div>
+    );
+  }
+
+  // Desktop/Tablet layout - existing viewscreen design
   return (
     <div className="min-h-screen flex flex-col bg-black relative overflow-hidden">
       {/* Star field backdrop - lowest layer */}
