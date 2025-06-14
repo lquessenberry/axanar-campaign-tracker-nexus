@@ -14,12 +14,46 @@ interface Blip {
 const RadarBlips = () => {
   const [blips, setBlips] = useState<Blip[]>([]);
 
+  const generateSafePosition = () => {
+    // Define the safe zones to avoid the center card area
+    // Card is roughly in the center, so we'll avoid a rectangular area in the middle
+    const cardAreaLeft = 25; // 25% from left
+    const cardAreaRight = 75; // 75% from left
+    const cardAreaTop = 25; // 25% from top
+    const cardAreaBottom = 75; // 75% from top
+    
+    let x, y;
+    let attempts = 0;
+    const maxAttempts = 50;
+    
+    do {
+      x = Math.random() * 100;
+      y = Math.random() * 100;
+      attempts++;
+      
+      // Check if position is outside the card area
+      const isOutsideCardArea = (
+        x < cardAreaLeft || 
+        x > cardAreaRight || 
+        y < cardAreaTop || 
+        y > cardAreaBottom
+      );
+      
+      if (isOutsideCardArea || attempts >= maxAttempts) {
+        break;
+      }
+    } while (true);
+    
+    return { x, y };
+  };
+
   useEffect(() => {
     const createBlip = () => {
+      const position = generateSafePosition();
       const newBlip: Blip = {
         id: Date.now() + Math.random(),
-        x: Math.random() * 100,
-        y: Math.random() * 100,
+        x: position.x,
+        y: position.y,
         opacity: 0,
         size: Math.random() * 8 + 4, // 4-12px
         isAppearing: true,
