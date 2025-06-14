@@ -7,7 +7,6 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Users, 
   Gift, 
@@ -45,12 +44,10 @@ const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState("overview");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedDonors, setSelectedDonors] = useState<Set<string>>(new Set());
-  const [filters, setFilters] = useState({
-    searchTerm: '',
-    sortBy: 'created_at',
-    sortOrder: 'desc' as 'asc' | 'desc',
-    statusFilter: 'all'
-  });
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState('created_at');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [statusFilter, setStatusFilter] = useState('all');
 
   const {
     totalCount,
@@ -59,10 +56,16 @@ const AdminDashboard = () => {
     donors,
     isLoading: donorsLoading,
     totalPages,
+    itemsPerPage,
     isLoadingTotal,
     isLoadingActive,
     isLoadingRaised
-  } = useAdminDonorsData(currentPage, filters);
+  } = useAdminDonorsData(currentPage, {
+    searchTerm,
+    sortBy,
+    sortOrder,
+    statusFilter
+  });
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -106,6 +109,15 @@ const AdminDashboard = () => {
     setSelectedDonors(newSelected);
   };
 
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      const allIds = new Set(donors?.map(donor => donor.id) || []);
+      setSelectedDonors(allIds);
+    } else {
+      setSelectedDonors(new Set());
+    }
+  };
+
   const handleEdit = (donor: any) => {
     console.log('Edit donor:', donor);
     // TODO: Implement edit functionality
@@ -124,6 +136,30 @@ const AdminDashboard = () => {
   const handleActivate = (donor: any) => {
     console.log('Activate donor:', donor);
     // TODO: Implement activate functionality
+  };
+
+  const handleBulkEmail = () => {
+    console.log('Bulk email to', selectedDonors.size, 'donors');
+  };
+
+  const handleBulkExport = () => {
+    console.log('Bulk export', selectedDonors.size, 'donors');
+  };
+
+  const handleBulkCreateAccounts = () => {
+    console.log('Bulk create accounts for', selectedDonors.size, 'donors');
+  };
+
+  const handleBulkDelete = () => {
+    console.log('Bulk delete', selectedDonors.size, 'donors');
+  };
+
+  const handleClearFilters = () => {
+    setSearchTerm('');
+    setSortBy('created_at');
+    setSortOrder('desc');
+    setStatusFilter('all');
+    setCurrentPage(1);
   };
 
   const renderOverview = () => (
@@ -248,15 +284,27 @@ const AdminDashboard = () => {
         </CardHeader>
         <CardContent className="space-y-4">
           <DonorSearchAndFilters
-            filters={filters}
-            onFiltersChange={setFilters}
-            onPageChange={setCurrentPage}
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            sortBy={sortBy}
+            onSortChange={setSortBy}
+            sortOrder={sortOrder}
+            onSortOrderToggle={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+            statusFilter={statusFilter}
+            onStatusFilterChange={setStatusFilter}
+            onClearFilters={handleClearFilters}
           />
           
           {selectedDonors.size > 0 && (
             <DonorBulkActions
-              selectedDonors={selectedDonors}
-              onClearSelection={() => setSelectedDonors(new Set())}
+              selectedCount={selectedDonors.size}
+              onSelectAll={handleSelectAll}
+              onBulkEmail={handleBulkEmail}
+              onBulkExport={handleBulkExport}
+              onBulkCreateAccounts={handleBulkCreateAccounts}
+              onBulkDelete={handleBulkDelete}
+              totalCount={totalCount || 0}
+              allSelected={donors?.length > 0 && selectedDonors.size === donors.length}
             />
           )}
           
@@ -277,6 +325,8 @@ const AdminDashboard = () => {
               <DonorPagination
                 currentPage={currentPage}
                 totalPages={totalPages}
+                totalCount={totalCount || 0}
+                itemsPerPage={itemsPerPage}
                 onPageChange={setCurrentPage}
               />
             </>
@@ -286,11 +336,11 @@ const AdminDashboard = () => {
     </div>
   );
 
-  const renderPlaceholderSection = (title: string, description: string, icon: any) => (
+  const renderPlaceholderSection = (title: string, description: string, IconComponent: any) => (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          {icon && <icon className="h-5 w-5" />}
+          <IconComponent className="h-5 w-5" />
           {title}
         </CardTitle>
         <CardDescription>{description}</CardDescription>
