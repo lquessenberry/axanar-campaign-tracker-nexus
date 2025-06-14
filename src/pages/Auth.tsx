@@ -11,6 +11,7 @@ import MouseTracker from "@/components/auth/MouseTracker";
 import RadarBlips from "@/components/auth/RadarBlips";
 import MainAuthForm from "@/components/auth/MainAuthForm";
 import SignupForm from "@/components/auth/SignupForm";
+import StarField from "@/components/StarField";
 
 type AuthFlow = 'main' | 'lookup' | 'password-reset' | 'sso-linking' | 'signup-confirmed';
 
@@ -95,19 +96,22 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 via-gray-800 to-black relative overflow-hidden">
-      {/* Background grid effect - lowest layer */}
-      <div className="absolute inset-0 opacity-5 z-0">
+    <div className="min-h-screen flex flex-col bg-black relative overflow-hidden">
+      {/* Star field backdrop - lowest layer */}
+      <StarField />
+
+      {/* Background grid effect - above starfield */}
+      <div className="absolute inset-0 opacity-3 z-10">
         <div className="grid grid-cols-20 grid-rows-12 h-full w-full">
           {Array.from({ length: 240 }).map((_, i) => (
-            <div key={i} className="border border-axanar-teal/20"></div>
+            <div key={i} className="border border-axanar-teal/10"></div>
           ))}
         </div>
       </div>
 
       {/* Battle effects layer - background only */}
       {battleMode && (
-        <div className="absolute inset-0 z-10 pointer-events-none">
+        <div className="absolute inset-0 z-20 pointer-events-none">
           <MouseTracker />
           <RadarBlips />
         </div>
