@@ -142,12 +142,7 @@ const RadarBlips = () => {
       opacity: 1,
     };
 
-    setWaypoints([waypoint]); // Only one waypoint at a time
-
-    // Remove waypoint after ships reach it
-    setTimeout(() => {
-      setWaypoints([]);
-    }, 5000);
+    setWaypoints([waypoint]); // Only one waypoint at a time - stays until replaced
   };
 
   const calculateVFormationPosition = (targetX: number, targetY: number, index: number, totalShips: number) => {
@@ -178,45 +173,53 @@ const RadarBlips = () => {
     const clickX = ((event.clientX - rect.left) / rect.width) * 100;
     const clickY = ((event.clientY - rect.top) / rect.height) * 100;
 
-    // Check if click is near any visible Klingon ships (within 20% distance)
-    const nearbyKlingon = blips.find(blip => {
-      if (blip.type !== 'klingon' || !blip.isVisible) return false;
-      const distance = Math.sqrt(
-        Math.pow(clickX - blip.x, 2) + Math.pow(clickY - blip.y, 2)
-      );
-      return distance < 20; // 20% of screen distance
-    });
-
-    if (nearbyKlingon) {
-      // Create waypoint at click position
-      createWaypoint(clickX, clickY);
-      
-      // Command Federation ships to form V formation at the waypoint
-      setBlips(prevBlips => 
-        prevBlips.map((blip, index) => {
-          if (blip.type === 'federation') {
-            const fedShips = prevBlips.filter(b => b.type === 'federation');
-            const formationIndex = fedShips.findIndex(f => f.id === blip.id);
-            const formationPos = calculateVFormationPosition(clickX, clickY, formationIndex, fedShips.length);
-            
-            return {
-              ...blip,
-              targetX: formationPos.x,
-              targetY: formationPos.y,
-              formationIndex,
-            };
-          }
-          return blip;
-        })
-      );
-      
-      // Set user command active and clear it after ships reach destination
-      setUserCommandActive(true);
-      setTimeout(() => setUserCommandActive(false), 5000);
-      
-      console.log(`Federation ships commanded to V formation at: ${clickX.toFixed(1)}%, ${clickY.toFixed(1)}%`);
-    }
-  }, [blips]);
+    // Create waypoint at click position (no longer requires nearby Klingons)
+    createWaypoint(clickX, clickY);
+    
+    // Command Federation ships to form V formation at the waypoint
+    setBlips(prevBlips => 
+      prevBlips.map((blip, index) => {
+        if (blip.type === 'federation') {
+          const fedShips = prevBlips.filter(b => b.type === 'federation');
+          const formationIndex = fedShips.findIndex(f => f.id === blip.id);
+          const formationPos = calculateVFormationPosition(clickX, clickY, formationIndex, fedShips.length);
+          
+          return {
+            ...blip,
+            targetX: formationPos.x,
+            targetY: formationPos.y,
+            formationIndex,
+          };
+        }
+        return blip;
+      })
+    );
+    
+    // Set user command active
+    setUserCommandActive(true);
+    // Don't auto-clear user command - let it persist until new command or ships reach target
+    setTimeout(() => {
+      // Check if ships have reached their targets before clearing command
+      setBlips(prevBlips => {
+        const fedShips = prevBlips.filter(b => b.type === 'federation');
+        const allReachedTarget = fedShips.every(ship => {
+          if (ship.targetX === undefined || ship.targetY === undefined) return true;
+          const distance = Math.sqrt(
+            Math.pow(ship.x - ship.targetX, 2) + Math.pow(ship.y - ship.targetY, 2)
+          );
+          return distance < 5; // Close enough to target
+        });
+        
+        if (allReachedTarget) {
+          setUserCommandActive(false);
+        }
+        
+        return prevBlips;
+      });
+    }, 5000);
+    
+    console.log(`Federation ships commanded to V formation at: ${clickX.toFixed(1)}%, ${clickY.toFixed(1)}%`);
+  }, []);
 
   useEffect(() => {
     const generateBlips = () => {
@@ -331,6 +334,14 @@ const RadarBlips = () => {
             if (userCommandActive && blip.targetX !== undefined && blip.targetY !== undefined) {
               targetX = blip.targetX;
               targetY = blip.targetY;
+            } else if (waypoints.length > 0) {
+              // If there's a waypoint but no active user command, go to waypoint
+              const waypoint = waypoints[0];
+              const fedShips = prevBlips.filter(b => b.type === 'federation');
+              const formationIndex = fedShips.findIndex(f => f.id === blip.id);
+              const formationPos = calculateVFormationPosition(waypoint.x, waypoint.y, formationIndex, fedShips.length);
+              targetX = formationPos.x;
+              targetY = formationPos.y;
             } else if (klingons.length > 0) {
               // Otherwise, find nearest visible Klingon
               const nearestKlingon = klingons.reduce((nearest, klingon) => {
@@ -438,7 +449,7 @@ const RadarBlips = () => {
         </div>
       ))}
       
-      {/* Render waypoints */}
+      {/* Render waypoints - now persistent until replaced */}
       {waypoints.map((waypoint) => (
         <div
           key={waypoint.id}
