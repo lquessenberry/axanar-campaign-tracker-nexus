@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import FederationShipIcon from './FederationShipIcon';
 import KlingonShipIcon from './KlingonShipIcon';
@@ -25,9 +24,26 @@ interface Laser {
   opacity: number;
 }
 
+interface Explosion {
+  id: number;
+  x: number;
+  y: number;
+  particles: Array<{
+    id: number;
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    color: string;
+    life: number;
+    maxLife: number;
+  }>;
+}
+
 const RadarBlips = () => {
   const [blips, setBlips] = useState<Blip[]>([]);
   const [lasers, setLasers] = useState<Laser[]>([]);
+  const [explosions, setExplosions] = useState<Explosion[]>([]);
 
   const generateSafePosition = () => {
     let x, y;
@@ -37,6 +53,40 @@ const RadarBlips = () => {
       // Keep away from the center area where auth card is (roughly 30-70% of screen)
     } while (x > 25 && x < 75 && y > 20 && y < 80);
     return { x, y };
+  };
+
+  const createExplosion = (x: number, y: number) => {
+    const particles = [];
+    const particleCount = 12;
+    
+    for (let i = 0; i < particleCount; i++) {
+      const angle = (i / particleCount) * Math.PI * 2;
+      const speed = 2 + Math.random() * 3;
+      particles.push({
+        id: i,
+        x: 0,
+        y: 0,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        color: Math.random() > 0.5 ? '#ff4444' : '#ff8800',
+        life: 60,
+        maxLife: 60,
+      });
+    }
+
+    const explosion: Explosion = {
+      id: Date.now() + Math.random(),
+      x,
+      y,
+      particles,
+    };
+
+    setExplosions(prev => [...prev, explosion]);
+
+    // Remove explosion after animation completes
+    setTimeout(() => {
+      setExplosions(prev => prev.filter(exp => exp.id !== explosion.id));
+    }, 1000);
   };
 
   const fireLaser = (fromBlip: Blip, toBlip: Blip) => {
@@ -58,6 +108,14 @@ const RadarBlips = () => {
     };
 
     setLasers(prev => [...prev, newLaser]);
+
+    // Occasionally create explosion when laser hits (10% chance)
+    if (Math.random() < 0.1) {
+      createExplosion(toCenterX, toCenterY);
+      
+      // Remove the target ship if it explodes
+      setBlips(prevBlips => prevBlips.filter(blip => blip.id !== toBlip.id));
+    }
 
     // Remove laser after animation
     setTimeout(() => {
@@ -223,6 +281,29 @@ const RadarBlips = () => {
     };
   }, []);
 
+  // Animation loop for explosion particles
+  useEffect(() => {
+    const animateExplosions = () => {
+      setExplosions(prevExplosions => 
+        prevExplosions.map(explosion => ({
+          ...explosion,
+          particles: explosion.particles.map(particle => ({
+            ...particle,
+            x: particle.x + particle.vx,
+            y: particle.y + particle.vy,
+            life: particle.life - 1,
+            vx: particle.vx * 0.98, // Slow down over time
+            vy: particle.vy * 0.98,
+          })).filter(particle => particle.life > 0)
+        })).filter(explosion => explosion.particles.length > 0)
+      );
+    };
+
+    const explosionInterval = setInterval(animateExplosions, 16); // ~60fps
+
+    return () => clearInterval(explosionInterval);
+  }, []);
+
   return (
     <div className="fixed inset-0 pointer-events-none z-0">
       {/* Render ships */}
@@ -262,6 +343,32 @@ const RadarBlips = () => {
             animation: 'fade-out 0.3s ease-out forwards',
           }}
         />
+      ))}
+
+      {/* Render explosions */}
+      {explosions.map((explosion) => (
+        <div
+          key={explosion.id}
+          className="absolute pointer-events-none"
+          style={{
+            left: `${explosion.x}%`,
+            top: `${explosion.y}%`,
+          }}
+        >
+          {explosion.particles.map((particle) => (
+            <div
+              key={particle.id}
+              className="absolute w-1 h-1 rounded-full"
+              style={{
+                left: `${particle.x}px`,
+                top: `${particle.y}px`,
+                backgroundColor: particle.color,
+                opacity: particle.life / particle.maxLife,
+                boxShadow: `0 0 4px ${particle.color}`,
+              }}
+            />
+          ))}
+        </div>
       ))}
     </div>
   );
