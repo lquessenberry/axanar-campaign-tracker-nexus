@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import FederationShipIcon from './FederationShipIcon';
 import KlingonShipIcon from './KlingonShipIcon';
+import { Waypoints } from 'lucide-react';
 
 interface Blip {
   id: number;
@@ -12,6 +13,14 @@ interface Blip {
   targetX?: number;
   targetY?: number;
   isVisible?: boolean;
+  formationIndex?: number;
+}
+
+interface Waypoint {
+  id: number;
+  x: number;
+  y: number;
+  opacity: number;
 }
 
 interface Laser {
@@ -44,6 +53,7 @@ const RadarBlips = () => {
   const [blips, setBlips] = useState<Blip[]>([]);
   const [lasers, setLasers] = useState<Laser[]>([]);
   const [explosions, setExplosions] = useState<Explosion[]>([]);
+  const [waypoints, setWaypoints] = useState<Waypoint[]>([]);
   const [userCommandActive, setUserCommandActive] = useState(false);
 
   const generateSafePosition = () => {
@@ -124,6 +134,45 @@ const RadarBlips = () => {
     }, 300);
   };
 
+  const createWaypoint = (x: number, y: number) => {
+    const waypoint: Waypoint = {
+      id: Date.now(),
+      x,
+      y,
+      opacity: 1,
+    };
+
+    setWaypoints([waypoint]); // Only one waypoint at a time
+
+    // Remove waypoint after ships reach it
+    setTimeout(() => {
+      setWaypoints([]);
+    }, 5000);
+  };
+
+  const calculateVFormationPosition = (targetX: number, targetY: number, index: number, totalShips: number) => {
+    // V formation parameters
+    const wingSpan = 15; // Distance between ships in the formation
+    const depth = 8; // How far back the wings extend
+    
+    if (index === 0) {
+      // Lead ship at the point of the V
+      return { x: targetX, y: targetY };
+    }
+    
+    // Calculate wing positions
+    const isLeftWing = index % 2 === 1;
+    const wingPosition = Math.floor((index + 1) / 2);
+    
+    const offsetX = isLeftWing ? -wingSpan * wingPosition : wingSpan * wingPosition;
+    const offsetY = depth * wingPosition;
+    
+    return {
+      x: targetX + offsetX,
+      y: targetY + offsetY
+    };
+  };
+
   const handleMouseClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const clickX = ((event.clientX - rect.left) / rect.width) * 100;
@@ -139,14 +188,22 @@ const RadarBlips = () => {
     });
 
     if (nearbyKlingon) {
-      // Command all Federation ships to move toward the clicked position
+      // Create waypoint at click position
+      createWaypoint(clickX, clickY);
+      
+      // Command Federation ships to form V formation at the waypoint
       setBlips(prevBlips => 
-        prevBlips.map(blip => {
+        prevBlips.map((blip, index) => {
           if (blip.type === 'federation') {
+            const fedShips = prevBlips.filter(b => b.type === 'federation');
+            const formationIndex = fedShips.findIndex(f => f.id === blip.id);
+            const formationPos = calculateVFormationPosition(clickX, clickY, formationIndex, fedShips.length);
+            
             return {
               ...blip,
-              targetX: clickX,
-              targetY: clickY,
+              targetX: formationPos.x,
+              targetY: formationPos.y,
+              formationIndex,
             };
           }
           return blip;
@@ -155,9 +212,9 @@ const RadarBlips = () => {
       
       // Set user command active and clear it after ships reach destination
       setUserCommandActive(true);
-      setTimeout(() => setUserCommandActive(false), 3000);
+      setTimeout(() => setUserCommandActive(false), 5000);
       
-      console.log(`Federation ships commanded to position: ${clickX.toFixed(1)}%, ${clickY.toFixed(1)}%`);
+      console.log(`Federation ships commanded to V formation at: ${clickX.toFixed(1)}%, ${clickY.toFixed(1)}%`);
     }
   }, [blips]);
 
@@ -208,7 +265,7 @@ const RadarBlips = () => {
           prevBlips.map(blip => {
             if (blip.type === 'klingon') {
               if (!blip.isVisible && Math.random() < 0.3) {
-                // Fade in
+                // Fade in at new position (cloaking technology)
                 const { x, y } = generateSafePosition();
                 return {
                   ...blip,
@@ -218,7 +275,7 @@ const RadarBlips = () => {
                   opacity: 0.7 + Math.random() * 0.3,
                 };
               } else if (blip.isVisible && Math.random() < 0.2) {
-                // Fade out
+                // Cloak (fade out)
                 return {
                   ...blip,
                   isVisible: false,
@@ -378,6 +435,22 @@ const RadarBlips = () => {
           ) : (
             <KlingonShipIcon size={36} className="text-red-500" />
           )}
+        </div>
+      ))}
+      
+      {/* Render waypoints */}
+      {waypoints.map((waypoint) => (
+        <div
+          key={waypoint.id}
+          className="absolute transition-all duration-300 ease-in-out"
+          style={{
+            left: `${waypoint.x}%`,
+            top: `${waypoint.y}%`,
+            opacity: waypoint.opacity,
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
+          <Waypoints size={24} className="text-axanar-teal animate-pulse" />
         </div>
       ))}
       
