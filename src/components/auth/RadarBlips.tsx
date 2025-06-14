@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useCallback } from 'react';
 import FederationShipIcon from './FederationShipIcon';
 import KlingonShipIcon from './KlingonShipIcon';
@@ -169,7 +170,16 @@ const RadarBlips = () => {
   };
 
   const handleMouseClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
-    // Prevent event bubbling
+    // Check if the click target is an interactive element or its child
+    const target = event.target as Element;
+    const isInteractiveElement = target.closest('button, a, input, select, textarea, [role="button"]');
+    
+    if (isInteractiveElement) {
+      // Let the click pass through to the interactive element
+      return;
+    }
+    
+    // Prevent event bubbling only for non-interactive clicks
     event.preventDefault();
     event.stopPropagation();
     
@@ -389,10 +399,20 @@ const RadarBlips = () => {
       className="fixed inset-0 z-0 cursor-crosshair"
       onClick={handleMouseClick}
       style={{ 
-        pointerEvents: 'auto',
+        pointerEvents: 'none',
         backgroundColor: 'transparent'
       }}
     >
+      {/* Click capture layer - only captures clicks in empty space */}
+      <div 
+        className="absolute inset-0"
+        style={{ 
+          pointerEvents: 'auto',
+          backgroundColor: 'transparent'
+        }}
+        onClickCapture={handleMouseClick}
+      />
+      
       {/* Render ships */}
       {blips.map((blip) => (
         <div
