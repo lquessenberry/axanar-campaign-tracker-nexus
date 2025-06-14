@@ -26,6 +26,8 @@ const ShipSystem = ({ blips }: ShipSystemProps) => {
             transform: `scale(${blip.scale})`,
             zIndex: 5,
           }}
+          data-ship-type={blip.type}
+          data-ship-index={blip.type === 'federation' ? index : index - 4}
         >
           {blip.type === 'federation' ? (
             <>
