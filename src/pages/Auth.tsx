@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -122,7 +121,7 @@ const Auth = () => {
       <CardHeader className="text-center">
         <CardTitle className="text-2xl font-bold">Join Axanar</CardTitle>
         <CardDescription>
-          Sign in to your account or create a new one
+          Sign in to your account or check for existing account
         </CardDescription>
       </CardHeader>
       
@@ -130,7 +129,7 @@ const Auth = () => {
         <Tabs defaultValue="signin" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="signin">Sign In</TabsTrigger>
-            <TabsTrigger value="signup">Sign Up</TabsTrigger>
+            <TabsTrigger value="signup">Account Lookup</TabsTrigger>
           </TabsList>
           
           <TabsContent value="signin">
@@ -180,7 +179,7 @@ const Auth = () => {
             <div className="space-y-4">
               <div className="text-center p-4 bg-muted rounded-md">
                 <p className="text-sm text-muted-foreground">
-                  Before creating a new account, let's check if you already have one with us.
+                  This is an invite-only platform. Check if you already have an account or if you're eligible to create one.
                 </p>
               </div>
               
@@ -190,71 +189,6 @@ const Auth = () => {
               >
                 Check for Existing Account
               </Button>
-              
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">
-                    Or create new account directly
-                  </span>
-                </div>
-              </div>
-
-              <form onSubmit={handleSignUp} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="signup-fullname">Full Name</Label>
-                  <Input
-                    id="signup-fullname"
-                    name="fullName"
-                    type="text"
-                    placeholder="Enter your full name"
-                    required
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="signup-username">Username</Label>
-                  <Input
-                    id="signup-username"
-                    name="username"
-                    type="text"
-                    placeholder="Choose a username"
-                    required
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="signup-email">Email</Label>
-                  <Input
-                    id="signup-email"
-                    name="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    required
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="signup-password">Password</Label>
-                  <Input
-                    id="signup-password"
-                    name="password"
-                    type="password"
-                    placeholder="Create a password"
-                    required
-                  />
-                </div>
-                
-                <Button 
-                  type="submit" 
-                  className="w-full bg-axanar-teal hover:bg-axanar-teal/90"
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Creating account..." : "Create Account"}
-                </Button>
-              </form>
             </div>
           </TabsContent>
         </Tabs>
