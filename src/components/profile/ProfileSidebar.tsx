@@ -4,10 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BarChart3, Heart, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
-
-interface User {
-  email: string;
-}
+import { User } from "@supabase/supabase-js";
 
 interface ProfileSidebarProps {
   user: User;
@@ -33,7 +30,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Email</span>
-              <span className="text-sm font-medium truncate">{user.email}</span>
+              <span className="text-sm font-medium truncate">{user.email || 'No email'}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Profile Views</span>
