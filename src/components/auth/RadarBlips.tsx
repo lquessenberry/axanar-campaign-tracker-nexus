@@ -16,7 +16,7 @@ const RadarBlips = () => {
     handleMouseClick
   } = useBattleLogic();
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // Only handle clicks if they're not on interactive elements
     const target = e.target as Element;
     if (target.closest('[data-card]') || target.closest('button') || target.closest('a')) {
