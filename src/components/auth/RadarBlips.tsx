@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import KlingonShipIcon from './KlingonShipIcon';
 
@@ -96,7 +97,7 @@ const RadarBlips = () => {
             }}
           >
             <KlingonShipIcon 
-              size={blip.size * 1.5} 
+              size={blip.size * 2.25} 
               className="text-axanar-teal"
             />
           </div>
