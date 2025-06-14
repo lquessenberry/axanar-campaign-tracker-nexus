@@ -55,7 +55,7 @@ const RadarBlips = () => {
         x: position.x,
         y: position.y,
         opacity: 0,
-        size: Math.random() * 8 + 4, // 4-12px
+        size: Math.random() * 4 + 8, // 8-12px (increased from 4-12px)
         isAppearing: true,
       };
 
@@ -125,13 +125,13 @@ const RadarBlips = () => {
           <div 
             className="flex items-center justify-center animate-pulse"
             style={{
-              width: `${blip.size * 2}px`,
-              height: `${blip.size * 2}px`,
+              width: `${blip.size * 3}px`,
+              height: `${blip.size * 3}px`,
               filter: `drop-shadow(0 0 ${blip.size}px rgba(14, 165, 233, 0.6))`,
             }}
           >
             <KlingonShipIcon 
-              size={blip.size * 2.25} 
+              size={blip.size * 3} 
               className="text-axanar-teal"
             />
           </div>
