@@ -9,10 +9,16 @@ interface MousePosition {
 const MouseTracker = () => {
   const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 0, y: 0 });
   const [isTracking, setIsTracking] = useState(false);
+  const [isHoveringCard, setIsHoveringCard] = useState(false);
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
+      
+      // Check if mouse is over a card element
+      const target = e.target as Element;
+      const isOverCard = target.closest('[data-card]') !== null;
+      setIsHoveringCard(isOverCard);
       
       // Activate tracking when mouse moves
       if (!isTracking) {
@@ -22,6 +28,7 @@ const MouseTracker = () => {
 
     const handleMouseLeave = () => {
       setIsTracking(false);
+      setIsHoveringCard(false);
     };
 
     window.addEventListener('mousemove', updateMousePosition);
@@ -33,7 +40,7 @@ const MouseTracker = () => {
     };
   }, [isTracking]);
 
-  if (!isTracking) return null;
+  if (!isTracking || isHoveringCard) return null;
 
   return (
     <div className="fixed inset-0 pointer-events-none z-50">
