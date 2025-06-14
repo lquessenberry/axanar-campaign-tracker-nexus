@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import KlingonShipIcon from './KlingonShipIcon';
 import FederationShipIcon from './FederationShipIcon';
@@ -353,13 +352,13 @@ const RadarBlips = () => {
           <div 
             className={`flex items-center justify-center ${ship.isCombat ? 'animate-pulse' : ''}`}
             style={{
-              width: `${ship.size * 2.5}px`,
-              height: `${ship.size * 2.5}px`,
-              filter: `drop-shadow(0 0 ${ship.size}px rgba(59, 130, 246, 0.6))`,
+              width: `${ship.size * 12.5}px`,
+              height: `${ship.size * 12.5}px`,
+              filter: `drop-shadow(0 0 ${ship.size * 5}px rgba(59, 130, 246, 0.6))`,
             }}
           >
             <FederationShipIcon 
-              size={ship.size * 2.5} 
+              size={ship.size * 12.5} 
               className="text-blue-400"
             />
           </div>
@@ -369,8 +368,8 @@ const RadarBlips = () => {
             <div 
               className="absolute bg-gray-900/80 border border-blue-500/50 rounded px-1 py-0.5 text-xs text-blue-400 font-mono backdrop-blur-sm"
               style={{
-                left: `${ship.size * 1.5 + 8}px`,
-                top: `${-ship.size / 3}px`,
+                left: `${ship.size * 7.5 + 8}px`,
+                top: `${-ship.size * 1.5}px`,
                 whiteSpace: 'nowrap',
               }}
             >
