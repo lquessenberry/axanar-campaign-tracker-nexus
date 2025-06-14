@@ -38,5 +38,8 @@ export const BATTLE_CONFIG = {
   KLINGON_FIRE_CHANCE: 0.2,
   KLINGON_TORPEDO_CHANCE: 0.15, // Chance for Klingons to fire torpedoes
   PATROL_CHANGE_CHANCE: 0.05,
-  TORPEDO_UPDATE_INTERVAL: 50 // How often torpedoes update position
+  TORPEDO_UPDATE_INTERVAL: 50, // How often torpedoes update position
+  FEDERATION_SHIELD_STRENGTH: 100,
+  SHIELD_DAMAGE_REDUCTION: 0.7, // Shields absorb 70% of damage
+  SHIELD_HIT_DISPLAY_TIME: 500,
 };

@@ -1,8 +1,8 @@
 
-
 import { Blip } from '../types/battleTypes';
 import FederationShipIcon from '../FederationShipIcon';
 import KlingonShipIcon from '../KlingonShipIcon';
+import ShieldEffect from './ShieldEffect';
 
 interface ShipSystemProps {
   blips: Blip[];
@@ -29,6 +29,14 @@ const ShipSystem = ({ blips }: ShipSystemProps) => {
         >
           {blip.type === 'federation' ? (
             <>
+              {/* Federation ship shield effect */}
+              {blip.shields !== undefined && (
+                <ShieldEffect 
+                  isActive={blip.shields > 0}
+                  shieldStrength={blip.shields}
+                  isHit={blip.shieldHit || false}
+                />
+              )}
               <FederationShipIcon size={32} className="text-axanar-teal" />
               {/* Federation ship label */}
               <div 
@@ -57,4 +65,3 @@ const ShipSystem = ({ blips }: ShipSystemProps) => {
 };
 
 export default ShipSystem;
-

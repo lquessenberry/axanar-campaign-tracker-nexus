@@ -1,4 +1,3 @@
-
 export interface Blip {
   id: number;
   x: number;
@@ -10,6 +9,9 @@ export interface Blip {
   targetY?: number;
   isVisible?: boolean;
   formationIndex?: number;
+  shields?: number;
+  maxShields?: number;
+  shieldHit?: boolean;
 }
 
 export interface Laser {

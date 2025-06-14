@@ -82,8 +82,39 @@ export const useBattleLogic = () => {
     setLasers(prev => [...prev, newLaser]);
 
     if (Math.random() < BATTLE_CONFIG.EXPLOSION_CHANCE) {
-      createExplosion(toCenterX, toCenterY);
-      setBlips(prevBlips => prevBlips.filter(blip => blip.id !== toBlip.id));
+      // Check if target has shields (Federation ships)
+      if (toBlip.type === 'federation' && toBlip.shields && toBlip.shields > 0) {
+        // Shields absorb some damage
+        const shieldDamage = 20;
+        setBlips(prevBlips => prevBlips.map(blip => {
+          if (blip.id === toBlip.id) {
+            const newShields = Math.max(0, blip.shields! - shieldDamage);
+            return {
+              ...blip,
+              shields: newShields,
+              shieldHit: true
+            };
+          }
+          return blip;
+        }));
+
+        // Clear shield hit effect after delay
+        setTimeout(() => {
+          setBlips(prevBlips => prevBlips.map(blip => 
+            blip.id === toBlip.id ? { ...blip, shieldHit: false } : blip
+          ));
+        }, BATTLE_CONFIG.SHIELD_HIT_DISPLAY_TIME);
+
+        // Only destroy ship if shields are down
+        if (toBlip.shields <= 20) {
+          createExplosion(toCenterX, toCenterY);
+          setBlips(prevBlips => prevBlips.filter(blip => blip.id !== toBlip.id));
+        }
+      } else {
+        // No shields or shields down - normal damage
+        createExplosion(toCenterX, toCenterY);
+        setBlips(prevBlips => prevBlips.filter(blip => blip.id !== toBlip.id));
+      }
     }
 
     setTimeout(() => {
@@ -152,7 +183,7 @@ export const useBattleLogic = () => {
         });
       }
       
-      // Generate Federation ships
+      // Generate Federation ships with shields
       for (let i = BATTLE_CONFIG.KLINGON_SHIPS; i < BATTLE_CONFIG.KLINGON_SHIPS + BATTLE_CONFIG.FEDERATION_SHIPS; i++) {
         const { x, y } = generateSafePosition();
         
@@ -165,6 +196,9 @@ export const useBattleLogic = () => {
           scale: 0.8 + Math.random() * 0.3,
           targetX: x,
           targetY: y,
+          shields: BATTLE_CONFIG.FEDERATION_SHIELD_STRENGTH,
+          maxShields: BATTLE_CONFIG.FEDERATION_SHIELD_STRENGTH,
+          shieldHit: false,
         });
       }
       
@@ -224,7 +258,29 @@ export const useBattleLogic = () => {
                   calculateDistance(blip.x, blip.y, torpedo.x, torpedo.y) < 5
                 );
                 if (targetBlip) {
-                  return prevBlips.filter(blip => blip.id !== targetBlip.id);
+                  // Check if target has shields
+                  if (targetBlip.type === 'federation' && targetBlip.shields && targetBlip.shields > 0) {
+                    const torpedoDamage = 40; // Torpedoes do more damage than lasers
+                    const newShields = Math.max(0, targetBlip.shields - torpedoDamage);
+                    
+                    return prevBlips.map(blip => {
+                      if (blip.id === targetBlip.id) {
+                        if (newShields <= 0) {
+                          // Shields down, ship destroyed
+                          return null;
+                        }
+                        return {
+                          ...blip,
+                          shields: newShields,
+                          shieldHit: true
+                        };
+                      }
+                      return blip;
+                    }).filter(Boolean) as Blip[];
+                  } else {
+                    // No shields - direct hit destroys ship
+                    return prevBlips.filter(blip => blip.id !== targetBlip.id);
+                  }
                 }
                 return prevBlips;
               });
