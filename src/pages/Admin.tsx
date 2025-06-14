@@ -46,6 +46,25 @@ const Admin = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Card className="bg-card border-border md:col-span-2 lg:col-span-3">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-card-foreground">
+                <BarChart3 className="h-5 w-5 text-primary" />
+                Unified Admin Dashboard
+              </CardTitle>
+              <CardDescription className="text-muted-foreground">
+                Access all admin features in one comprehensive interface
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link to="/admin/dashboard">
+                <Button className="w-full" size="lg">
+                  Open Admin Dashboard
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
           <Card className="bg-card border-border">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-card-foreground">

@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
+import AdminDashboard from "./pages/AdminDashboard";
 import AdminPledges from "./pages/AdminPledges";
 import AdminRewards from "./pages/AdminRewards";
 import AdminDonors from "./pages/AdminDonors";
