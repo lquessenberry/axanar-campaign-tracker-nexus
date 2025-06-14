@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -138,7 +137,7 @@ const Profile = () => {
               
               <div className="flex-1">
                 {isEditing ? (
-                  <div className="space-y-3 bg-white/5 p-4 rounded-lg backdrop-blur-sm border border-white/10">
+                  <div className="space-y-2 bg-white/5 p-3 rounded-lg backdrop-blur-sm border border-white/10">
                     <div>
                       <Label htmlFor="full_name" className="text-white text-sm font-medium mb-1 block">
                         Full Name
@@ -147,7 +146,7 @@ const Profile = () => {
                         id="full_name"
                         value={formData.full_name}
                         onChange={(e) => setFormData(prev => ({ ...prev, full_name: e.target.value }))}
-                        className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:bg-white/15 focus:border-axanar-teal h-9"
+                        className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:bg-white/15 focus:border-axanar-teal h-8"
                         placeholder="Enter your full name"
                       />
                     </div>
@@ -159,7 +158,7 @@ const Profile = () => {
                         id="username"
                         value={formData.username}
                         onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
-                        className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:bg-white/15 focus:border-axanar-teal h-9"
+                        className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:bg-white/15 focus:border-axanar-teal h-8"
                         placeholder="Enter your username"
                       />
                     </div>
@@ -247,23 +246,9 @@ const Profile = () => {
                 <Card>
                   <CardContent className="p-6">
                     <h3 className="text-lg font-bold mb-4">About</h3>
-                    {isEditing ? (
-                      <div>
-                        <Label htmlFor="bio">Bio</Label>
-                        <Textarea
-                          id="bio"
-                          value={formData.bio}
-                          onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
-                          placeholder="Tell us about yourself..."
-                          className="mt-1"
-                          rows={4}
-                        />
-                      </div>
-                    ) : (
-                      <p className="text-muted-foreground">
-                        {profile?.bio || 'No bio added yet. Click "Edit Profile" to add information about yourself.'}
-                      </p>
-                    )}
+                    <p className="text-muted-foreground">
+                      {profile?.bio || 'No bio added yet. Click "Edit Profile" to add information about yourself.'}
+                    </p>
                   </CardContent>
                 </Card>
 
