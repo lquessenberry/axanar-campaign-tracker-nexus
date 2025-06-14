@@ -96,8 +96,8 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 via-gray-800 to-black relative overflow-hidden">
-      {/* Background grid effect */}
-      <div className="absolute inset-0 opacity-5">
+      {/* Background grid effect - lowest layer */}
+      <div className="absolute inset-0 opacity-5 z-0">
         <div className="grid grid-cols-20 grid-rows-12 h-full w-full">
           {Array.from({ length: 240 }).map((_, i) => (
             <div key={i} className="border border-axanar-teal/20"></div>
@@ -105,26 +105,33 @@ const Auth = () => {
         </div>
       </div>
 
-      <Navigation 
-        battleMode={battleMode} 
-        onBattleModeToggle={setBattleMode} 
-      />
+      {/* Battle effects layer - background only */}
+      {battleMode && (
+        <div className="absolute inset-0 z-10 pointer-events-none">
+          <MouseTracker />
+          <RadarBlips />
+        </div>
+      )}
+
+      {/* Navigation - top level */}
+      <div className="relative z-50">
+        <Navigation 
+          battleMode={battleMode} 
+          onBattleModeToggle={setBattleMode} 
+        />
+      </div>
       
-      <main className="flex-grow flex items-center justify-center px-4 py-16 relative z-10">
-        {/* Battle mechanics contained within main */}
-        {battleMode && (
-          <>
-            <MouseTracker />
-            <RadarBlips />
-          </>
-        )}
-        
-        <div data-card>
+      {/* Main content - top level */}
+      <main className="flex-grow flex items-center justify-center px-4 py-16 relative z-40">
+        <div data-card className="relative z-50">
           {renderAuthFlow()}
         </div>
       </main>
       
-      <Footer />
+      {/* Footer - top level */}
+      <div className="relative z-50">
+        <Footer />
+      </div>
     </div>
   );
 };

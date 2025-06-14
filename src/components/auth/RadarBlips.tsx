@@ -27,20 +27,15 @@ const RadarBlips = () => {
 
   return (
     <div className="absolute inset-0 pointer-events-none">
-      {/* Only capture clicks within the main content area, not nav/footer */}
+      {/* Click handler only for the main area where battle effects should work */}
       <div 
-        className="absolute top-0 left-0 right-0 bottom-0 pointer-events-auto cursor-crosshair"
+        className="absolute inset-0 pointer-events-auto cursor-crosshair"
         onClick={handleClick}
-        style={{
-          // Constrain to just the main content area
-          top: '0',
-          left: '0',
-          right: '0', 
-          bottom: '0'
-        }}
       >
-        {/* Battle elements only respond to clicks within this div */}
+        {/* This div captures clicks for battle mechanics only */}
       </div>
+      
+      {/* All battle visual elements */}
       <ShipSystem blips={blips} />
       <ReticleInfo reticleInfo={reticleInfo} />
       <LaserSystem lasers={lasers} />
