@@ -155,7 +155,7 @@ const RadarBlips = () => {
             newTargetX = nearestKlingon.x;
             newTargetY = nearestKlingon.y;
           } else {
-            // Patrol if no targets
+            // Patrol if no targets - use safe positioning for new patrol target
             const distanceToTarget = calculateDistance(ship.x, ship.y, ship.targetX, ship.targetY);
             if (distanceToTarget < 5) {
               const newTarget = generateSafePosition();
