@@ -26,9 +26,9 @@ export const BATTLE_CONFIG = {
   COMBAT_RANGE: 15,
   KLINGON_COMBAT_RANGE: 12,
   PATROL_DISTANCE: 5,
-  SHIP_SPEED: 0.5,
+  SHIP_SPEED: 0.2, // Reduced from 0.5 for smoother movement
   SHIP_OFFSET: 1.5,
-  EXPLOSION_CHANCE: 0.1,
+  EXPLOSION_CHANCE: 0.03, // Reduced from 0.1 for longer battles
   KLINGON_FADE_CHANCE: 0.3,
   KLINGON_CLOAK_CHANCE: 0.2,
   FEDERATION_FIRE_CHANCE: 0.3,
