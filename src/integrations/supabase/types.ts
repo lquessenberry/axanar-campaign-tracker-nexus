@@ -9,6 +9,42 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      account_recovery_attempts: {
+        Row: {
+          attempt_type: string
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          ip_address: string | null
+          recovery_token: string
+          used_at: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          attempt_type: string
+          created_at?: string
+          email: string
+          expires_at?: string
+          id?: string
+          ip_address?: string | null
+          recovery_token?: string
+          used_at?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          attempt_type?: string
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          ip_address?: string | null
+          recovery_token?: string
+          used_at?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       addresses: {
         Row: {
           address1: string | null
@@ -2103,6 +2139,17 @@ export type Database = {
           is_linked: boolean
         }[]
       }
+      check_email_in_system: {
+        Args: { check_email: string }
+        Returns: {
+          exists_in_auth: boolean
+          exists_in_donors: boolean
+          has_auth_link: boolean
+          auth_user_id: string
+          donor_id: string
+          suggested_providers: string[]
+        }[]
+      }
       create_auth_users_for_donors: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -2138,6 +2185,20 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: Json[]
       }
+      initiate_account_recovery: {
+        Args: {
+          user_email: string
+          recovery_type: string
+          client_ip?: string
+          client_user_agent?: string
+        }
+        Returns: {
+          recovery_token: string
+          expires_at: string
+          success: boolean
+          message: string
+        }[]
+      }
       is_admin: {
         Args: { check_user_id: string }
         Returns: boolean
@@ -2172,6 +2233,14 @@ export type Database = {
           make_content_manager: boolean
         }
         Returns: undefined
+      }
+      validate_recovery_token: {
+        Args: { token: string; user_email: string }
+        Returns: {
+          is_valid: boolean
+          attempt_type: string
+          message: string
+        }[]
       }
     }
     Enums: {
