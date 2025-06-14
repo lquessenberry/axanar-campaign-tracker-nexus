@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -96,7 +97,7 @@ const Auth = () => {
     }
   };
 
-  // Mobile layout with Trek-inspired design
+  // Mobile layout with Trek-inspired design - edge to edge
   if (isMobile) {
     return (
       <div className="min-h-screen flex flex-col bg-black relative overflow-hidden">
@@ -128,10 +129,10 @@ const Auth = () => {
           />
         </div>
         
-        {/* Mobile main content - minimal padding, full utilization */}
-        <main className="flex-grow flex flex-col justify-center px-3 py-2 relative z-40 min-h-0">
-          {/* Mobile Trek-style header - compact */}
-          <div className="text-center mb-3">
+        {/* Mobile main content - NO padding, edge-to-edge */}
+        <main className="flex-grow flex flex-col justify-center relative z-40 min-h-0">
+          {/* Mobile Trek-style header - compact, no margin */}
+          <div className="text-center mb-2 px-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-black/70 border border-axanar-teal/50 rounded backdrop-blur-sm">
               <div className="w-1.5 h-1.5 bg-axanar-teal rounded-full animate-pulse"></div>
               <span className="text-axanar-teal text-xs font-mono tracking-wider">STARFLEET COMMAND</span>
@@ -139,13 +140,13 @@ const Auth = () => {
             </div>
           </div>
 
-          {/* Auth form container - full width with minimal margins */}
-          <div data-card className="relative z-50 w-full max-w-full mx-auto">
+          {/* Auth form container - truly edge-to-edge */}
+          <div data-card className="relative z-50 w-full px-2">
             {renderAuthFlow()}
           </div>
 
-          {/* Mobile Trek-style status bar - compact */}
-          <div className="mt-3 text-center">
+          {/* Mobile Trek-style status bar - compact, no margin */}
+          <div className="mt-2 text-center px-2">
             <div className="inline-flex items-center gap-2 px-2 py-1 bg-black/50 border border-axanar-teal/30 rounded text-xs font-mono text-axanar-teal/80">
               <span className="text-xs">SYS: ONLINE</span>
               <div className="w-1 h-1 bg-green-400 rounded-full animate-pulse"></div>
