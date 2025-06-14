@@ -1,4 +1,5 @@
 
+
 import { Blip } from '../types/battleTypes';
 import FederationShipIcon from '../FederationShipIcon';
 import KlingonShipIcon from '../KlingonShipIcon';
@@ -8,10 +9,13 @@ interface ShipSystemProps {
 }
 
 const ShipSystem = ({ blips }: ShipSystemProps) => {
+  // Federation ship registries for the 5 ships
+  const federationRegistries = ['NCC-1650', 'NCC-1657', 'NCC-1653', 'NCC-1651', 'NCC-1668'];
+
   return (
     <>
       {/* Render ships */}
-      {blips.map((blip) => (
+      {blips.map((blip, index) => (
         <div
           key={blip.id}
           className="absolute transition-all duration-500 ease-in-out pointer-events-none"
@@ -24,7 +28,16 @@ const ShipSystem = ({ blips }: ShipSystemProps) => {
           }}
         >
           {blip.type === 'federation' ? (
-            <FederationShipIcon size={32} className="text-axanar-teal" />
+            <>
+              <FederationShipIcon size={32} className="text-axanar-teal" />
+              {/* Federation ship label */}
+              <div 
+                className="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black/80 border border-axanar-teal/50 rounded px-2 py-1 text-xs text-axanar-teal font-mono whitespace-nowrap backdrop-blur-sm"
+                style={{ fontSize: '10px' }}
+              >
+                {federationRegistries[index % federationRegistries.length]}
+              </div>
+            </>
           ) : (
             <>
               <KlingonShipIcon size={36} className="text-red-500" />
@@ -44,3 +57,4 @@ const ShipSystem = ({ blips }: ShipSystemProps) => {
 };
 
 export default ShipSystem;
+
