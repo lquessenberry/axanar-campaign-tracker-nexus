@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -112,7 +111,7 @@ const Profile = () => {
         {/* Profile Header */}
         <section className="bg-axanar-dark text-white">
           <div className="container mx-auto px-4 py-10">
-            <div className="flex flex-col md:flex-row md:items-center gap-6">
+            <div className="flex flex-col md:flex-row md:items-start gap-6">
               <div className="relative">
                 <div className="w-24 h-24 rounded-full bg-axanar-teal/20 ring-4 ring-axanar-teal flex items-center justify-center">
                   {profile?.avatar_url ? (
@@ -125,34 +124,55 @@ const Profile = () => {
                     <User className="h-12 w-12 text-axanar-teal" />
                   )}
                 </div>
-                <Button
-                  size="sm"
-                  variant="secondary"
-                  className="absolute -bottom-2 -right-2 h-8 w-8 rounded-full p-0"
-                >
-                  <Camera className="h-4 w-4" />
-                </Button>
+                {!isEditing && (
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    className="absolute -bottom-2 -right-2 h-8 w-8 rounded-full p-0"
+                  >
+                    <Camera className="h-4 w-4" />
+                  </Button>
+                )}
               </div>
               
               <div className="flex-1">
                 {isEditing ? (
-                  <div className="space-y-4">
+                  <div className="space-y-4 bg-white/10 p-6 rounded-lg backdrop-blur-sm">
                     <div>
-                      <Label htmlFor="full_name" className="text-white">Full Name</Label>
+                      <Label htmlFor="full_name" className="text-white text-sm font-medium mb-2 block">
+                        Full Name
+                      </Label>
                       <Input
                         id="full_name"
                         value={formData.full_name}
                         onChange={(e) => setFormData(prev => ({ ...prev, full_name: e.target.value }))}
-                        className="mt-1"
+                        className="bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:bg-white/30 focus:border-axanar-teal"
+                        placeholder="Enter your full name"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="username" className="text-white">Username</Label>
+                      <Label htmlFor="username" className="text-white text-sm font-medium mb-2 block">
+                        Username
+                      </Label>
                       <Input
                         id="username"
                         value={formData.username}
                         onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
-                        className="mt-1"
+                        className="bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:bg-white/30 focus:border-axanar-teal"
+                        placeholder="Enter your username"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="bio" className="text-white text-sm font-medium mb-2 block">
+                        Bio
+                      </Label>
+                      <Textarea
+                        id="bio"
+                        value={formData.bio}
+                        onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
+                        placeholder="Tell us about yourself..."
+                        className="bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:bg-white/30 focus:border-axanar-teal resize-none"
+                        rows={3}
                       />
                     </div>
                   </div>
@@ -168,7 +188,7 @@ const Profile = () => {
                   </div>
                 )}
                 
-                <div className="flex space-x-6 mt-3">
+                <div className="flex space-x-6 mt-4">
                   <div>
                     <p className="text-lg font-bold">{pledges?.length || 0}</p>
                     <p className="text-xs text-axanar-silver/60">Projects Backed</p>
@@ -191,6 +211,7 @@ const Profile = () => {
                       variant="outline" 
                       onClick={handleCancel}
                       disabled={updateProfile.isPending}
+                      className="border-white/30 text-white hover:bg-white/10"
                     >
                       Cancel
                     </Button>
