@@ -30,10 +30,18 @@ const RadarBlips = () => {
       className="absolute inset-0 z-0 cursor-crosshair"
       onClick={handleClick}
       style={{ 
-        pointerEvents: 'auto',
-        backgroundColor: 'transparent'
+        pointerEvents: 'none'
       }}
     >
+      <div 
+        className="absolute inset-0"
+        style={{ 
+          pointerEvents: 'auto'
+        }}
+        onClick={handleClick}
+      >
+        {/* Battle elements only respond to clicks within this inner div */}
+      </div>
       <ShipSystem blips={blips} />
       <ReticleInfo reticleInfo={reticleInfo} />
       <LaserSystem lasers={lasers} />
