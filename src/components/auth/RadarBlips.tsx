@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import FederationShipIcon from './FederationShipIcon';
 import KlingonShipIcon from './KlingonShipIcon';
@@ -14,8 +15,19 @@ interface Blip {
   isVisible?: boolean;
 }
 
+interface Laser {
+  id: number;
+  fromX: number;
+  fromY: number;
+  toX: number;
+  toY: number;
+  color: string;
+  opacity: number;
+}
+
 const RadarBlips = () => {
   const [blips, setBlips] = useState<Blip[]>([]);
+  const [lasers, setLasers] = useState<Laser[]>([]);
 
   const generateSafePosition = () => {
     let x, y;
@@ -25,6 +37,25 @@ const RadarBlips = () => {
       // Keep away from the center area where auth card is (roughly 30-70% of screen)
     } while (x > 25 && x < 75 && y > 20 && y < 80);
     return { x, y };
+  };
+
+  const fireLaser = (fromBlip: Blip, toBlip: Blip) => {
+    const newLaser: Laser = {
+      id: Date.now() + Math.random(),
+      fromX: fromBlip.x,
+      fromY: fromBlip.y,
+      toX: toBlip.x,
+      toY: toBlip.y,
+      color: fromBlip.type === 'federation' ? '#14b8a6' : '#ef4444',
+      opacity: 1,
+    };
+
+    setLasers(prev => [...prev, newLaser]);
+
+    // Remove laser after animation
+    setTimeout(() => {
+      setLasers(prev => prev.filter(laser => laser.id !== newLaser.id));
+    }, 300);
   };
 
   useEffect(() => {
@@ -96,10 +127,39 @@ const RadarBlips = () => {
       );
     }, 1000);
 
-    // Federation chase animation
+    // Federation chase animation and laser combat
     const chaseInterval = setInterval(() => {
       setBlips(prevBlips => {
         const klingons = prevBlips.filter(b => b.type === 'klingon' && b.isVisible);
+        const federations = prevBlips.filter(b => b.type === 'federation');
+        
+        // Check for laser combat opportunities
+        federations.forEach(fed => {
+          klingons.forEach(klingon => {
+            const distance = Math.sqrt(
+              Math.pow(fed.x - klingon.x, 2) + Math.pow(fed.y - klingon.y, 2)
+            );
+            
+            // Fire lasers when close enough
+            if (distance < 15 && Math.random() < 0.3) {
+              fireLaser(fed, klingon);
+            }
+          });
+        });
+
+        // Klingons fire back at Federation ships
+        klingons.forEach(klingon => {
+          federations.forEach(fed => {
+            const distance = Math.sqrt(
+              Math.pow(klingon.x - fed.x, 2) + Math.pow(klingon.y - fed.y, 2)
+            );
+            
+            // Klingons fire back when close
+            if (distance < 12 && Math.random() < 0.2) {
+              fireLaser(klingon, fed);
+            }
+          });
+        });
         
         return prevBlips.map(blip => {
           if (blip.type === 'federation' && klingons.length > 0) {
@@ -158,6 +218,7 @@ const RadarBlips = () => {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0">
+      {/* Render ships */}
       {blips.map((blip) => (
         <div
           key={blip.id}
@@ -175,6 +236,25 @@ const RadarBlips = () => {
             <KlingonShipIcon size={36} className="text-red-500" />
           )}
         </div>
+      ))}
+      
+      {/* Render laser beams */}
+      {lasers.map((laser) => (
+        <div
+          key={laser.id}
+          className="absolute pointer-events-none"
+          style={{
+            left: `${laser.fromX}%`,
+            top: `${laser.fromY}%`,
+            width: `${Math.sqrt(Math.pow(laser.toX - laser.fromX, 2) + Math.pow(laser.toY - laser.fromY, 2))}%`,
+            height: '2px',
+            background: `linear-gradient(90deg, ${laser.color} 0%, transparent 100%)`,
+            opacity: laser.opacity,
+            transformOrigin: '0 50%',
+            transform: `rotate(${Math.atan2(laser.toY - laser.fromY, laser.toX - laser.fromX) * 180 / Math.PI}deg)`,
+            animation: 'fade-out 0.3s ease-out forwards',
+          }}
+        />
       ))}
     </div>
   );
