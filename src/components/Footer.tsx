@@ -1,42 +1,28 @@
 
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Footer = () => {
+  const { user } = useAuth();
+
   return (
     <footer className="bg-axanar-dark text-white">
       <div className="container mx-auto py-8 px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <h3 className="font-display text-xl font-bold mb-4 text-axanar-teal">
-              About Axanar
-            </h3>
-            <p className="text-sm text-axanar-silver/70">
-              An invite-only crowdfunding platform for the Axanar Universe fan projects.
-            </p>
+        {user && (
+          <div className="grid grid-cols-1 gap-8">
+            <div>
+              <h4 className="font-medium mb-4">Support</h4>
+              <ul className="space-y-2 text-sm text-axanar-silver/70">
+                <li><Link to="/faq" className="hover:text-axanar-teal transition-colors">FAQ</Link></li>
+                <li><Link to="/support" className="hover:text-axanar-teal transition-colors">Contact Support</Link></li>
+                <li><Link to="/terms" className="hover:text-axanar-teal transition-colors">Terms of Service</Link></li>
+                <li><Link to="/privacy" className="hover:text-axanar-teal transition-colors">Privacy Policy</Link></li>
+              </ul>
+            </div>
           </div>
-          
-          <div>
-            <h4 className="font-medium mb-4">Platform</h4>
-            <ul className="space-y-2 text-sm text-axanar-silver/70">
-              <li><Link to="/" className="hover:text-axanar-teal transition-colors">Home</Link></li>
-              <li><Link to="/campaigns" className="hover:text-axanar-teal transition-colors">Active Campaigns</Link></li>
-              <li><Link to="/about" className="hover:text-axanar-teal transition-colors">About Axanar</Link></li>
-              <li><Link to="/how-it-works" className="hover:text-axanar-teal transition-colors">How It Works</Link></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h4 className="font-medium mb-4">Support</h4>
-            <ul className="space-y-2 text-sm text-axanar-silver/70">
-              <li><Link to="/faq" className="hover:text-axanar-teal transition-colors">FAQ</Link></li>
-              <li><Link to="/support" className="hover:text-axanar-teal transition-colors">Contact Support</Link></li>
-              <li><Link to="/terms" className="hover:text-axanar-teal transition-colors">Terms of Service</Link></li>
-              <li><Link to="/privacy" className="hover:text-axanar-teal transition-colors">Privacy Policy</Link></li>
-            </ul>
-          </div>
-        </div>
+        )}
         
-        <div className="border-t border-white/10 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
+        <div className={`border-t border-white/10 ${user ? 'mt-8' : 'mt-0'} pt-6 flex flex-col md:flex-row justify-between items-center`}>
           <div className="flex items-center space-x-3">
             <img 
               src="/lovable-uploads/4ae57c3d-f1da-43e2-93ec-016f24a0b0c4.png" 
