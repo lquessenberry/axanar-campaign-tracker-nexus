@@ -82,6 +82,48 @@ const HeroSection = () => {
             </div>
           </div>
         </div>
+
+        {/* Encouraging Message Section */}
+        <div className="relative mt-8 md:mt-16 overflow-hidden">
+          {/* Warp Field Background Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url('/lovable-uploads/5e041d9c-79a3-418c-8bb0-3d84978f452a.png')`
+            }}
+          />
+          
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-axanar-blue/70 to-black/90"></div>
+          
+          {/* Content */}
+          <div className="relative z-10 container mx-auto px-4 py-12 md:py-20">
+            <div className="text-center max-w-4xl mx-auto">
+              <h2 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-6 text-shadow-lg">
+                Your Journey Continues
+              </h2>
+              <p className="text-lg md:text-xl lg:text-2xl text-axanar-silver mb-8 text-shadow leading-relaxed">
+                Thank you for being part of the Axanar legacy. Your support has brought us closer to the stars, 
+                and together we're writing the next chapter of Star Trek history. Every contribution, every moment 
+                of faith in our vision, helps us boldly go where no fan production has gone before.
+              </p>
+              <div className="flex flex-col sm:flex-row justify-center gap-4 md:gap-6">
+                <div className="text-center">
+                  <div className="text-2xl md:text-3xl font-display font-bold text-axanar-teal mb-2">United</div>
+                  <div className="text-sm md:text-base text-axanar-silver">In Purpose</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl md:text-3xl font-display font-bold text-axanar-teal mb-2">Determined</div>
+                  <div className="text-sm md:text-base text-axanar-silver">In Vision</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl md:text-3xl font-display font-bold text-axanar-teal mb-2">Infinite</div>
+                  <div className="text-sm md:text-base text-axanar-silver">In Possibility</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     );
   }
@@ -150,6 +192,48 @@ const HeroSection = () => {
                   <div className="w-1.5 md:w-2 h-1.5 md:h-2 bg-blue-400 rounded-full animate-pulse delay-100"></div>
                   <div className="w-1.5 md:w-2 h-1.5 md:h-2 bg-blue-400 rounded-full animate-pulse delay-200"></div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Encouraging Message Section */}
+      <div className="relative mt-8 md:mt-16 overflow-hidden">
+        {/* Warp Field Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('/lovable-uploads/5e041d9c-79a3-418c-8bb0-3d84978f452a.png')`
+          }}
+        />
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-axanar-blue/70 to-black/90"></div>
+        
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-4 py-12 md:py-20">
+          <div className="text-center max-w-4xl mx-auto">
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-6 text-shadow-lg">
+              Join the Axanar Legacy
+            </h2>
+            <p className="text-lg md:text-xl lg:text-2xl text-axanar-silver mb-8 text-shadow leading-relaxed">
+              Be part of something extraordinary. Your support helps us create the Star Trek story that fans have 
+              been waiting for. Together, we're building more than just a film—we're creating a piece of Trek history 
+              that will inspire generations of fans to boldly go where no one has gone before.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4 md:gap-6">
+              <div className="text-center">
+                <div className="text-2xl md:text-3xl font-display font-bold text-axanar-teal mb-2">United</div>
+                <div className="text-sm md:text-base text-axanar-silver">In Purpose</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl md:text-3xl font-display font-bold text-axanar-teal mb-2">Determined</div>
+                <div className="text-sm md:text-base text-axanar-silver">In Vision</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl md:text-3xl font-display font-bold text-axanar-teal mb-2">Infinite</div>
+                <div className="text-sm md:text-base text-axanar-silver">In Possibility</div>
               </div>
             </div>
           </div>
