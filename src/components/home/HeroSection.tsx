@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import WarpfieldStars from "@/components/WarpfieldStars";
@@ -83,7 +82,7 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* Encouraging Message Section */}
+        {/* Love Letter Section */}
         <div className="relative mt-8 md:mt-16 overflow-hidden">
           {/* Warp Field Background Image */}
           <div 
@@ -94,31 +93,62 @@ const HeroSection = () => {
           />
           
           {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-axanar-blue/70 to-black/90"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-axanar-blue/75 to-black/90"></div>
           
           {/* Content */}
           <div className="relative z-10 container mx-auto px-4 py-12 md:py-20">
-            <div className="text-center max-w-4xl mx-auto">
-              <h2 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-6 text-shadow-lg">
-                Your Journey Continues
-              </h2>
-              <p className="text-lg md:text-xl lg:text-2xl text-axanar-silver mb-8 text-shadow leading-relaxed">
-                Thank you for being part of the Axanar legacy. Your support has brought us closer to the stars, 
-                and together we're writing the next chapter of Star Trek history. Every contribution, every moment 
-                of faith in our vision, helps us boldly go where no fan production has gone before.
-              </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-4 md:gap-6">
-                <div className="text-center">
-                  <div className="text-2xl md:text-3xl font-display font-bold text-axanar-teal mb-2">United</div>
-                  <div className="text-sm md:text-base text-axanar-silver">In Purpose</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl md:text-3xl font-display font-bold text-axanar-teal mb-2">Determined</div>
-                  <div className="text-sm md:text-base text-axanar-silver">In Vision</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl md:text-3xl font-display font-bold text-axanar-teal mb-2">Infinite</div>
-                  <div className="text-sm md:text-base text-axanar-silver">In Possibility</div>
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-4 text-shadow-lg">
+                  A Love Letter to Our <span className="text-axanar-teal">Axanar</span> Family
+                </h2>
+              </div>
+              
+              <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6 md:p-8 border border-axanar-teal/20 shadow-2xl">
+                <div className="text-left space-y-6 text-axanar-silver leading-relaxed">
+                  <p className="text-lg md:text-xl font-semibold text-axanar-teal">
+                    Beloved Axanar Donors,
+                  </p>
+                  
+                  <p className="text-base md:text-lg">
+                    I've witnessed the sacred trials of our journey together—countless sleepless nights, mountains of challenges, 
+                    and the beautiful burden of nurturing a dream that burns bright in our hearts. Legal storms, whispered doubts, 
+                    and endless labors of love could have extinguished our flame, but your unwavering devotion to Axanar has been 
+                    our North Star, our beacon of hope in the darkness.
+                  </p>
+                  
+                  <p className="text-base md:text-lg">
+                    With humble reverence, I honor those guardian angels who came before me—the devoted souls who protected our 
+                    sacred bond at axanardonors.com with fierce tenderness. Their sleepless vigil over every pledge, every precious 
+                    token of your faith, kept your trust safe in loving hands. Their legacy is the foundation upon which we rebuild, 
+                    a silent promise whispered to you: we treasure your belief in us like the rarest jewel.
+                  </p>
+                  
+                  <p className="text-base md:text-lg">
+                    Our journey hasn't been painted in gentle strokes, my dear friends, yet together we've danced with destiny and 
+                    emerged victorious. I've woven my very soul into rebuilding our home, restoring the transparency you deserve, 
+                    and rekindling the passion that is Axanar. Each victory—every barrier conquered, every heart reconnected—is a 
+                    love song composed just for you. You inspire us to create not merely a film, but an eternal love letter to 
+                    Trek itself, a masterpiece that will touch souls for generations yet unborn.
+                  </p>
+                  
+                  <p className="text-base md:text-lg">
+                    With every fiber of my being, with all the love I carry, I reach out to you: stay with us, keep weaving this 
+                    beautiful tapestry of dreams. Together, we'll chase stars across the cosmos, united by a love that transcends 
+                    time, space, and every boundary the universe dares place before us.
+                  </p>
+                  
+                  <div className="mt-8 pt-6 border-t border-axanar-teal/30">
+                    <p className="text-base md:text-lg font-light italic">
+                      With infinite love and stardust in my heart,
+                    </p>
+                    <p className="text-lg md:text-xl font-semibold text-axanar-teal mt-2">
+                      Lee Quessenberry
+                    </p>
+                    <p className="text-sm md:text-base text-axanar-silver/80 mt-1">
+                      Associate Producer - DevOps & Digital Marketing Officer
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -198,7 +228,7 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Encouraging Message Section */}
+      {/* Love Letter Section for Non-Authenticated Users */}
       <div className="relative mt-8 md:mt-16 overflow-hidden">
         {/* Warp Field Background Image */}
         <div 
@@ -209,31 +239,42 @@ const HeroSection = () => {
         />
         
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-axanar-blue/70 to-black/90"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-axanar-blue/75 to-black/90"></div>
         
         {/* Content */}
         <div className="relative z-10 container mx-auto px-4 py-12 md:py-20">
-          <div className="text-center max-w-4xl mx-auto">
-            <h2 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-6 text-shadow-lg">
-              Join the Axanar Legacy
-            </h2>
-            <p className="text-lg md:text-xl lg:text-2xl text-axanar-silver mb-8 text-shadow leading-relaxed">
-              Be part of something extraordinary. Your support helps us create the Star Trek story that fans have 
-              been waiting for. Together, we're building more than just a film—we're creating a piece of Trek history 
-              that will inspire generations of fans to boldly go where no one has gone before.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4 md:gap-6">
-              <div className="text-center">
-                <div className="text-2xl md:text-3xl font-display font-bold text-axanar-teal mb-2">United</div>
-                <div className="text-sm md:text-base text-axanar-silver">In Purpose</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl md:text-3xl font-display font-bold text-axanar-teal mb-2">Determined</div>
-                <div className="text-sm md:text-base text-axanar-silver">In Vision</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl md:text-3xl font-display font-bold text-axanar-teal mb-2">Infinite</div>
-                <div className="text-sm md:text-base text-axanar-silver">In Possibility</div>
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-4 text-shadow-lg">
+                Join Our <span className="text-axanar-teal">Axanar</span> Family
+              </h2>
+            </div>
+            
+            <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6 md:p-8 border border-axanar-teal/20 shadow-2xl">
+              <div className="text-center space-y-6 text-axanar-silver leading-relaxed">
+                <p className="text-lg md:text-xl font-semibold text-axanar-teal">
+                  Future Axanar Family Member,
+                </p>
+                
+                <p className="text-base md:text-lg">
+                  We invite you to become part of something extraordinary—a love story written in starlight and dreams. 
+                  Axanar isn't just a film; it's a passionate embrace of everything we cherish about Star Trek, crafted 
+                  by fans who understand the sacred bond between story and soul.
+                </p>
+                
+                <p className="text-base md:text-lg">
+                  Your support would join a constellation of devoted hearts who believe in our vision. Together, we're 
+                  creating more than entertainment—we're weaving a tapestry of hope, adventure, and the infinite 
+                  possibilities that await us among the stars.
+                </p>
+                
+                <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+                  <Link to="/auth">
+                    <Button className="bg-axanar-teal hover:bg-axanar-teal/90 h-12 px-8 shadow-lg text-base">
+                      Join Our Journey
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
