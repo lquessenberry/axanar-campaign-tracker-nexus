@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 export const usePasswordReset = (email: string, onSuccess: () => void) => {
   const [password, setPassword] = useState('');
@@ -14,18 +15,27 @@ export const usePasswordReset = (email: string, onSuccess: () => void) => {
   const handleResetRequest = async () => {
     setIsLoading(true);
     try {
-      // In a real implementation, you would call Supabase's password reset
-      // For now, we'll simulate the email being sent
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { error } = await supabase.functions.invoke('send-password-reset', {
+        body: {
+          email,
+          redirectUrl: window.location.origin
+        }
+      });
+
+      if (error) {
+        throw error;
+      }
+
       setIsEmailSent(true);
       toast({
         title: "Password reset email sent",
         description: "Please check your email for password reset instructions.",
       });
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Password reset error:', error);
       toast({
         title: "Error",
-        description: "Failed to send password reset email. Please try again.",
+        description: error.message || "Failed to send password reset email. Please try again.",
         variant: "destructive",
       });
     } finally {
