@@ -11,14 +11,9 @@ interface PasswordResetProps {
 
 const PasswordReset = ({ email, onBack, onSuccess }: PasswordResetProps) => {
   const {
-    password,
-    setPassword,
-    confirmPassword,
-    setConfirmPassword,
     isLoading,
     isEmailSent,
     handleResetRequest,
-    handlePasswordUpdate,
   } = usePasswordReset(email, onSuccess);
 
   if (!isEmailSent) {
@@ -35,12 +30,6 @@ const PasswordReset = ({ email, onBack, onSuccess }: PasswordResetProps) => {
   return (
     <PasswordResetConfirmation
       email={email}
-      password={password}
-      confirmPassword={confirmPassword}
-      isLoading={isLoading}
-      onPasswordChange={setPassword}
-      onConfirmPasswordChange={setConfirmPassword}
-      onPasswordUpdate={handlePasswordUpdate}
       onBack={onBack}
     />
   );
