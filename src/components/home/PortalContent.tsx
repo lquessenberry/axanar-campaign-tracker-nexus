@@ -9,7 +9,7 @@ const PortalContent = () => {
         <span className="text-axanar-teal">Axanar</span> Donor Portal
       </h1>
       <p className="text-base md:text-lg lg:text-xl text-axanar-silver max-w-2xl mx-auto mb-6 md:mb-8 text-shadow">
-        Your exclusive gateway to manage your Axanar contributions, update your information, and access your donor benefits.
+        Welcome to your exclusive donor portal. Sign in to access your account, view your contribution history, and manage your Axanar donor benefits.
       </p>
       <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
         <Link to="/auth">

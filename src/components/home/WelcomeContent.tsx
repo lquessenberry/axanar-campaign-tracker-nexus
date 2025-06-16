@@ -6,10 +6,10 @@ const WelcomeContent = () => {
   return (
     <div className="text-center max-w-4xl px-4 md:px-8">
       <h1 className="text-2xl md:text-3xl lg:text-5xl font-display font-bold mb-4 text-shadow-lg">
-        Welcome back to <span className="text-axanar-teal">Axanar</span>
+        Welcome back, <span className="text-axanar-teal">Axanar</span> Family
       </h1>
       <p className="text-base md:text-lg lg:text-xl text-axanar-silver max-w-2xl mx-auto mb-6 md:mb-8 text-shadow">
-        Access your donor portal to manage your account, view your contribution history, and stay connected with the Axanar Universe.
+        Thank you for being part of our journey. Your continued support makes the Axanar Universe possible. Access your donor portal to manage your account and stay connected with our progress.
       </p>
       <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
         <Link to="/dashboard">
