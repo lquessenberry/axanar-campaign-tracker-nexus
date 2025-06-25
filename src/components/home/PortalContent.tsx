@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 const PortalContent = () => {
   return (
     <div className="text-center max-w-4xl px-4 md:px-8">
-      <h1 className="text-2xl md:text-3xl lg:text-5xl font-display font-bold mb-4 text-shadow-lg flex items-center justify-center gap-2 md:gap-3">
+      <h1 className="text-2xl md:text-3xl lg:text-5xl font-display font-bold mb-4 text-shadow-lg flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3">
         <img 
           src="/lovable-uploads/4ae57c3d-f1da-43e2-93ec-016f24a0b0c4.png" 
           alt="AXANAR" 
