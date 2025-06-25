@@ -30,6 +30,55 @@
   font-display: swap;
 }
 
+/* Star Trek Font Pack */
+@font-face {
+  font-family: 'StarTrek';
+  src: url('/fonts/startrek/StarTrek.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'StarTrekFilm';
+  src: url('/fonts/startrek/StarTrekFilm.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'StarTrekPi';
+  src: url('/fonts/startrek/StarTrekPi.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'StarfleetBoldExtended';
+  src: url('/fonts/startrek/StarfleetBoldExtended.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Venetian301';
+  src: url('/fonts/startrek/Venetian301.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Square721Condensed';
+  src: url('/fonts/startrek/Square721Condensed.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   :root {
     --background: 210 40% 98%;
@@ -129,5 +178,18 @@
 
   .text-shadow-lg {
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+  }
+
+  /* Star Trek themed typography utilities */
+  .text-startrek {
+    @apply font-startrek tracking-wider;
+  }
+
+  .text-starfleet {
+    @apply font-starfleet font-bold tracking-widest uppercase;
+  }
+
+  .text-venetian {
+    @apply font-venetian;
   }
 }

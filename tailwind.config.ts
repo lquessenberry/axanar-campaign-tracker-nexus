@@ -130,6 +130,13 @@ export default {
 				'sans': ['Inter', 'sans-serif'],
 				'display': ['Orbitron', 'sans-serif'],
 				'custom': ['CustomFont', 'Inter', 'sans-serif'],
+				// Star Trek Font Pack
+				'startrek': ['StarTrek', 'Orbitron', 'sans-serif'],
+				'startrek-film': ['StarTrekFilm', 'Orbitron', 'sans-serif'],
+				'startrek-pi': ['StarTrekPi', 'sans-serif'],
+				'starfleet': ['StarfleetBoldExtended', 'Orbitron', 'sans-serif'],
+				'venetian': ['Venetian301', 'serif'],
+				'square': ['Square721Condensed', 'sans-serif'],
 			},
 			backgroundImage: {
 				'space': "url('/lovable-uploads/284dc990-6904-4420-a006-2aafd617b57f.png')",
