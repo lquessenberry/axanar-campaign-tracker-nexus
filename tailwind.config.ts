@@ -129,6 +129,7 @@ export default {
 			fontFamily: {
 				'sans': ['Inter', 'sans-serif'],
 				'display': ['Orbitron', 'sans-serif'],
+				'custom': ['CustomFont', 'Inter', 'sans-serif'],
 			},
 			backgroundImage: {
 				'space': "url('/lovable-uploads/284dc990-6904-4420-a006-2aafd617b57f.png')",
