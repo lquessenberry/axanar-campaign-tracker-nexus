@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -26,7 +25,7 @@ const LoveLetterSection = ({ isAuthenticated }: LoveLetterSectionProps) => {
           <div className="text-center mb-8">
             <h2 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-4 text-shadow-lg">
               {isAuthenticated ? (
-                <>A Love Letter to Our <span className="text-axanar-teal">Axanar</span> Family</>
+                <>Welcome <span className="text-axanar-teal">Axanar</span> Donors!</>
               ) : (
                 <>Join Our <span className="text-axanar-teal">Axanar</span> Family</>
               )}
