@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -8,46 +7,45 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-
 interface MainAuthFormProps {
   onStartAccountLookup: () => void;
 }
-
-const MainAuthForm = ({ onStartAccountLookup }: MainAuthFormProps) => {
+const MainAuthForm = ({
+  onStartAccountLookup
+}: MainAuthFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const { signIn } = useAuth();
-  const { toast } = useToast();
-
+  const {
+    signIn
+  } = useAuth();
+  const {
+    toast
+  } = useToast();
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
-
-    const { error } = await signIn(email, password);
-
+    const {
+      error
+    } = await signIn(email, password);
     if (error) {
       toast({
         title: "Error",
         description: error.message,
-        variant: "destructive",
+        variant: "destructive"
       });
     } else {
       toast({
         title: "Welcome back!",
-        description: "You've been signed in successfully.",
+        description: "You've been signed in successfully."
       });
     }
-
     setIsLoading(false);
   };
-
-  return (
-    <Card className="w-full max-w-md">
+  return <Card className="w-full max-w-md">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl font-bold">Join Axanar</CardTitle>
+        <CardTitle className="text-2xl font-bold">Welcome Back!</CardTitle>
         <CardDescription>
           Sign in to your account or check for existing account
         </CardDescription>
@@ -64,40 +62,19 @@ const MainAuthForm = ({ onStartAccountLookup }: MainAuthFormProps) => {
             <form onSubmit={handleSignIn} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="signin-email">Email</Label>
-                <Input
-                  id="signin-email"
-                  name="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  required
-                />
+                <Input id="signin-email" name="email" type="email" placeholder="Enter your email" required />
               </div>
               
               <div className="space-y-2">
                 <Label htmlFor="signin-password">Password</Label>
-                <Input
-                  id="signin-password"
-                  name="password"
-                  type="password"
-                  placeholder="Enter your password"
-                  required
-                />
+                <Input id="signin-password" name="password" type="password" placeholder="Enter your password" required />
               </div>
               
-              <Button 
-                type="submit" 
-                className="w-full bg-axanar-teal hover:bg-axanar-teal/90"
-                disabled={isLoading}
-              >
+              <Button type="submit" className="w-full bg-axanar-teal hover:bg-axanar-teal/90" disabled={isLoading}>
                 {isLoading ? "Signing in..." : "Sign In"}
               </Button>
 
-              <Button
-                type="button"
-                variant="ghost"
-                className="w-full"
-                onClick={onStartAccountLookup}
-              >
+              <Button type="button" variant="ghost" className="w-full" onClick={onStartAccountLookup}>
                 Forgot password or need help?
               </Button>
             </form>
@@ -111,10 +88,7 @@ const MainAuthForm = ({ onStartAccountLookup }: MainAuthFormProps) => {
                 </p>
               </div>
               
-              <Button 
-                onClick={onStartAccountLookup}
-                className="w-full bg-axanar-teal hover:bg-axanar-teal/90"
-              >
+              <Button onClick={onStartAccountLookup} className="w-full bg-axanar-teal hover:bg-axanar-teal/90">
                 Check for Existing Account
               </Button>
             </div>
@@ -122,16 +96,11 @@ const MainAuthForm = ({ onStartAccountLookup }: MainAuthFormProps) => {
         </Tabs>
         
         <div className="mt-6 text-center">
-          <Link 
-            to="/" 
-            className="text-sm text-muted-foreground hover:text-axanar-teal"
-          >
+          <Link to="/" className="text-sm text-muted-foreground hover:text-axanar-teal">
             Back to home
           </Link>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 };
-
 export default MainAuthForm;
