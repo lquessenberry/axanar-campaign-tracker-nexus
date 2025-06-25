@@ -24,11 +24,7 @@ const LoveLetterSection = ({ isAuthenticated }: LoveLetterSectionProps) => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
             <h2 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-4 text-shadow-lg">
-              {isAuthenticated ? (
-                <>Welcome <span className="text-axanar-teal">Axanar</span> Donors!</>
-              ) : (
-                <>Join Our <span className="text-axanar-teal">Axanar</span> Family</>
-              )}
+              Welcome Back <span className="text-axanar-teal">Axanar</span> Donors!
             </h2>
           </div>
           
