@@ -9,7 +9,7 @@ const PortalContent = () => {
         <img 
           src="/lovable-uploads/4ae57c3d-f1da-43e2-93ec-016f24a0b0c4.png" 
           alt="AXANAR" 
-          className="h-6 md:h-8 lg:h-12 w-auto inline-block transform scale-[2] -translate-y-3 m-6"
+          className="h-6 md:h-8 lg:h-12 w-auto inline-block transform scale-[2] -translate-y-3 mx-12 my-6"
         />
         Donor Portal
       </h1>
