@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
@@ -211,22 +210,22 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navigation />
       
-      <SidebarProvider>
-        <div className="flex w-full">
+      <div className="flex-1 flex">
+        <SidebarProvider>
           <AdminSidebar
             activeSection={activeSection}
             onSectionChange={setActiveSection}
           />
           
-          <main className="flex-1 p-6">
+          <main className="flex-1 p-6 overflow-auto">
             <AdminHeader activeSection={activeSection} />
             {renderContent()}
           </main>
-        </div>
-      </SidebarProvider>
+        </SidebarProvider>
+      </div>
       
       <Footer />
     </div>
