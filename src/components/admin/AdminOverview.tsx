@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { 
   Users, 
   DollarSign, 
-  BarChart3
+  BarChart3,
+  Gift
 } from "lucide-react";
 
 interface AdminOverviewProps {
