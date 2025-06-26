@@ -17,7 +17,7 @@ interface AdminSidebarProps {
 
 const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => {
   return (
-    <Sidebar className="border-r h-full">
+    <Sidebar className="border-r">
       <SidebarHeader className="p-4">
         <div className="flex items-center gap-2">
           <Shield className="h-6 w-6 text-primary" />
