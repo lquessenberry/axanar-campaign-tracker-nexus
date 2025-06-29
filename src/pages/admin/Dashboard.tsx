@@ -356,10 +356,12 @@ const Dashboard = () => {
     <AdminLayout title="Admin Dashboard">
       <div className="flex flex-1 min-h-0">
         <SidebarProvider>
-          <AdminSidebar
-            activeSection={activeSection}
-            onSectionChange={setActiveSection}
-          />
+          <div className="sticky left-0 top-16 h-[calc(100vh-4rem)] z-10">
+            <AdminSidebar
+              activeSection={activeSection}
+              onSectionChange={setActiveSection}
+            />
+          </div>
           
           <div className="flex-1 flex flex-col min-w-0">
             <div className="py-6 flex-1 overflow-auto">

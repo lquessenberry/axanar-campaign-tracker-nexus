@@ -17,8 +17,8 @@ interface AdminSidebarProps {
 
 const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => {
   return (
-    <Sidebar className="border-r">
-      <SidebarHeader className="p-4">
+    <Sidebar className="border-r h-full overflow-auto">
+      <SidebarHeader className="p-4 sticky top-0 bg-background">
         <div className="flex items-center gap-2">
           <Shield className="h-6 w-6 text-primary" />
           <h2 className="text-lg font-semibold">Admin Panel</h2>
