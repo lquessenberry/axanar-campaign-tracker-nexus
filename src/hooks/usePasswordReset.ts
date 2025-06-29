@@ -11,11 +11,9 @@ export const usePasswordReset = (email: string, onSuccess: () => void) => {
   const handleResetRequest = async () => {
     setIsLoading(true);
     try {
-      const { error } = await supabase.functions.invoke('send-password-reset', {
-        body: {
-          email,
-          redirectUrl: window.location.origin
-        }
+      // Use Supabase's native password reset functionality instead of custom Edge Function
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth/reset-password`,
       });
 
       if (error) {

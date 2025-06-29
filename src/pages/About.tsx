@@ -11,47 +11,47 @@ const About = () => {
     {
       icon: Heart,
       title: "Community First",
-      description: "We believe in the power of passionate fans to bring incredible sci-fi projects to life."
+      description: "Keeping our dedicated donor community connected to the Axanar projects they've supported."
     },
     {
       icon: Shield,
-      title: "Trust & Transparency",
-      description: "Every campaign is vetted, and we provide clear communication throughout the funding process."
+      title: "Data Security",
+      description: "Your donor information is securely migrated and protected in our new platform."
     },
     {
       icon: Target,
-      title: "Creator Success",
-      description: "We're committed to helping creators achieve their vision and deliver amazing experiences."
+      title: "Simplified Recovery",
+      description: "Easy account recovery process for existing donors from our previous platform."
     },
     {
       icon: Zap,
-      title: "Innovation",
-      description: "We embrace new technologies and creative approaches to storytelling in the Axanar universe."
+      title: "Improved Experience",
+      description: "Our new platform offers better performance and reliability than our previous system."
     }
   ];
 
   const stats = [
-    { number: "50+", label: "Projects Funded" },
-    { number: "$2M+", label: "Raised for Creators" },
-    { number: "25K+", label: "Community Members" },
-    { number: "98%", label: "Successful Deliveries" }
+    { number: "100%", label: "Donor Data Migrated" },
+    { number: "24/7", label: "Admin Support" },
+    { number: "25K+", label: "Existing Donor Accounts" },
+    { number: "5x", label: "Faster Performance" }
   ];
 
   const team = [
     {
-      name: "Alex Chen",
+      name: "Lee Quessenberry",
       role: "Platform Director",
-      bio: "Former film producer with 15 years in sci-fi entertainment, passionate about independent storytelling."
+      bio: "Leading our platform migration efforts to ensure all donor information is properly transitioned."
     },
     {
       name: "Sarah Martinez",
-      role: "Community Manager",
-      bio: "Lifelong sci-fi fan and community builder, ensuring every backer feels valued and heard."
+      role: "Donor Support Manager",
+      bio: "Dedicated to helping existing donors recover accounts and update their information."
     },
     {
       name: "David Kim",
       role: "Technology Lead",
-      bio: "Full-stack developer dedicated to creating seamless experiences for creators and supporters."
+      bio: "Full-stack developer who migrated our system from Laravel/Artisan to our new modern platform."
     }
   ];
 
@@ -64,38 +64,42 @@ const About = () => {
         <section className="hero-gradient py-16 px-4">
           <div className="container mx-auto text-center text-white">
             <h1 className="text-3xl md:text-5xl font-bold mb-4">
-              About <span className="text-axanar-teal">Axanar</span> Crowdfunding
+              About the <span className="text-axanar-teal">Axanar</span> Donor Tracking Platform
             </h1>
             <p className="text-lg md:text-xl text-axanar-silver max-w-3xl mx-auto mb-8">
-              We're building the premier platform for sci-fi creators and fans to collaborate, 
-              bringing the rich Axanar universe to life through community-powered funding.
+              Our newly migrated platform helps existing Axanar donors manage their accounts, 
+              update information, and stay connected with the projects they've supported.
             </p>
           </div>
         </section>
 
-        {/* Mission Section */}
+        {/* Platform Migration Section */}
         <section className="py-16 px-4">
           <div className="container mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h2 className="text-2xl md:text-3xl font-bold mb-6">Our Mission</h2>
+                <h2 className="text-2xl md:text-3xl font-bold mb-6">Platform Migration</h2>
                 <p className="text-muted-foreground mb-6 text-lg">
-                  To democratize sci-fi storytelling by connecting passionate creators with engaged 
-                  fans who want to see innovative projects come to life in the Axanar universe.
+                  We've successfully migrated our donor management system from the previous 
+                  Laravel/Artisan platform to a modern, faster, and more secure system.
                 </p>
                 <p className="text-muted-foreground mb-8">
-                  We believe that the best stories emerge when creators have the freedom to pursue 
-                  their vision, supported by a community that shares their passion for exploration, 
-                  adventure, and the limitless possibilities of science fiction.
+                  This new platform is specifically designed for existing Axanar donors to recover their 
+                  accounts, update their profile information, and ensure we have accurate shipping details 
+                  for rewards delivery. No new sign-ups are being accepted at this time.
                 </p>
-                <Link to="/campaigns">
+                <Link to="/login">
                   <Button className="bg-axanar-teal hover:bg-axanar-teal/90">
-                    Explore Projects
+                    Recover Your Account
                   </Button>
                 </Link>
               </div>
-              <div className="aspect-video bg-gradient-to-br from-axanar-teal/20 to-axanar-dark/20 rounded-lg flex items-center justify-center border">
-                <Users className="h-24 w-24 text-axanar-teal/50" />
+              <div className="aspect-video rounded-lg overflow-hidden border border-axanar-dark/20">
+                <img 
+                  src="/images/axanar-crew.jpg" 
+                  alt="Axanar crew members discussing the platform" 
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
@@ -183,33 +187,32 @@ const About = () => {
           </div>
         </section>
 
-        {/* Story Section */}
+        {/* Platform Details Section */}
         <section className="py-16 px-4">
           <div className="container mx-auto max-w-4xl">
             <div className="text-center mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">Our Story</h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">Why We Migrated</h2>
             </div>
 
             <div className="prose prose-lg mx-auto text-muted-foreground">
               <p className="mb-6">
-                Founded by passionate fans of the Axanar universe, our platform emerged from a simple 
-                observation: incredible sci-fi stories often struggle to find the funding they need to 
-                reach their full potential.
+                After years of running our previous donor management system on Laravel/Artisan, we 
+                faced increasing challenges with performance, security, and maintenance of the aging codebase.
               </p>
               <p className="mb-6">
-                We saw talented creators with amazing visions, and dedicated fans eager to support them, 
-                but no easy way to connect the two. Traditional funding models often meant compromise, 
-                diluted creative vision, or projects that never saw the light of day.
+                The original platform was becoming unstable and difficult to maintain, risking the 
+                donor data and creating frustrations for both administrators and donors trying to 
+                update their information.
               </p>
               <p className="mb-6">
-                So we built something different. A platform where creators maintain creative control, 
-                fans get exclusive access and rewards, and everyone benefits from transparent, 
-                community-driven funding.
+                We've now completed a comprehensive migration of all donor data to this new platform, 
+                which offers improved security, faster performance, and a more streamlined experience 
+                for accessing and updating your information.
               </p>
               <p>
-                Today, we're proud to be the home for innovative Axanar universe projects, from 
-                short films and series to games, books, and interactive experiences. Every project 
-                funded through our platform represents a victory for independent sci-fi storytelling.
+                This system is exclusively for existing Axanar donors to recover their accounts and 
+                ensure we have their current contact and shipping information. Our dedicated admin team 
+                is available to assist with any account recovery issues.
               </p>
             </div>
           </div>
@@ -219,21 +222,21 @@ const About = () => {
         <section className="py-16 px-4 bg-axanar-dark text-white">
           <div className="container mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Ready to Be Part of the Story?
+              Need Help Recovering Your Account?
             </h2>
             <p className="text-axanar-silver max-w-2xl mx-auto mb-8">
-              Whether you're a creator with a vision or a fan looking to support amazing projects, 
-              there's a place for you in our community.
+              Our admin team is ready to help existing donors recover their accounts 
+              and update their information in our new donor tracking platform.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link to="/campaigns">
+              <Link to="/login">
                 <Button className="bg-axanar-teal hover:bg-axanar-teal/90 h-12 px-8">
-                  Support Projects
+                  Recover Account
                 </Button>
               </Link>
-              <Link to="/auth">
+              <Link to="/support">
                 <Button variant="outline" className="border-white/30 hover:bg-white/10 h-12 px-8">
-                  Start Creating
+                  Contact Support
                 </Button>
               </Link>
             </div>
