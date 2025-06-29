@@ -12,6 +12,12 @@ import Dashboard from "./pages/Dashboard";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
+import About from "./pages/About";
+import HowItWorks from "./pages/HowItWorks";
+import FAQ from "./pages/FAQ";
+import Privacy from "./pages/Privacy";
+import Support from "./pages/Support";
+import Terms from "./pages/Terms";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminPledges from "./pages/admin/Pledges";
 import AdminRewards from "./pages/admin/Rewards";
@@ -40,6 +46,12 @@ const App = () => (
             <Route path="/admin/rewards" element={<AdminRewards />} />
             <Route path="/admin/donors" element={<AdminDonors />} />
             <Route path="/admin/admins" element={<AdminManagement />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/support" element={<Support />} />
+            <Route path="/terms" element={<Terms />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
