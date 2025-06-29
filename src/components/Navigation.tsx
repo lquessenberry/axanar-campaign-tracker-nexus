@@ -45,6 +45,25 @@ const Navigation = ({ battleMode = true, onBattleModeToggle }: NavigationProps) 
               className="h-8 w-auto"
             />
           </Link>
+          
+          {/* Main Navigation Links - Desktop */}
+          <div className="hidden md:flex items-center space-x-4">
+            <Link to="/about">
+              <Button variant="ghost" size="sm" className="text-white hover:text-axanar-teal hover:bg-white/10">
+                About
+              </Button>
+            </Link>
+            <Link to="/how-it-works">
+              <Button variant="ghost" size="sm" className="text-white hover:text-axanar-teal hover:bg-white/10">
+                How It Works
+              </Button>
+            </Link>
+            <Link to="/faq">
+              <Button variant="ghost" size="sm" className="text-white hover:text-axanar-teal hover:bg-white/10">
+                FAQ
+              </Button>
+            </Link>
+          </div>
 
           {/* Auth Section */}
           <div className="hidden md:flex items-center space-x-4">
@@ -180,6 +199,49 @@ const Navigation = ({ battleMode = true, onBattleModeToggle }: NavigationProps) 
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Access Portal
+                  </Link>
+                  <hr className="border-axanar-silver/20 my-4" />
+                  <Link 
+                    to="/about" 
+                    className={`hover:text-axanar-teal transition-colors ${isActive('/about') ? 'text-axanar-teal' : ''}`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    About
+                  </Link>
+                  <Link 
+                    to="/how-it-works" 
+                    className={`hover:text-axanar-teal transition-colors ${isActive('/how-it-works') ? 'text-axanar-teal' : ''}`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    How It Works
+                  </Link>
+                  <Link 
+                    to="/faq" 
+                    className={`hover:text-axanar-teal transition-colors ${isActive('/faq') ? 'text-axanar-teal' : ''}`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    FAQ
+                  </Link>
+                  <Link 
+                    to="/support" 
+                    className={`hover:text-axanar-teal transition-colors ${isActive('/support') ? 'text-axanar-teal' : ''}`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Support
+                  </Link>
+                  <Link 
+                    to="/privacy" 
+                    className={`hover:text-axanar-teal transition-colors ${isActive('/privacy') ? 'text-axanar-teal' : ''}`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Privacy Policy
+                  </Link>
+                  <Link 
+                    to="/terms" 
+                    className={`hover:text-axanar-teal transition-colors ${isActive('/terms') ? 'text-axanar-teal' : ''}`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Terms of Service
                   </Link>
                 </>
               )}
