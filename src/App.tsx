@@ -12,11 +12,11 @@ import Dashboard from "./pages/Dashboard";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
-import AdminDashboard from "./pages/AdminDashboard";
-import AdminPledges from "./pages/AdminPledges";
-import AdminRewards from "./pages/AdminRewards";
-import AdminDonors from "./pages/AdminDonors";
-import AdminManagement from "./pages/AdminManagement";
+import AdminDashboard from "./pages/admin/Dashboard";
+import AdminPledges from "./pages/admin/Pledges";
+import AdminRewards from "./pages/admin/Rewards";
+import AdminDonors from "./pages/admin/Donors";
+import AdminManagement from "./pages/admin/Admins";
 
 const queryClient = new QueryClient();
 
