@@ -55,7 +55,7 @@ const AdminRewards = () => {
   const [sortBy, setSortBy] = useState("created_at");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [statusFilter, setStatusFilter] = useState<"all" | "available" | "unavailable">("all");
-  const [campaignFilter, setCampaignFilter] = useState("");
+  const [campaignFilter, setCampaignFilter] = useState("all-campaigns");
 
   // State for reward operations
   const [showRewardDialog, setShowRewardDialog] = useState(false);
@@ -79,7 +79,7 @@ const AdminRewards = () => {
     sortBy,
     sortOrder,
     statusFilter,
-    campaignId: campaignFilter,
+    campaignId: campaignFilter === "all-campaigns" ? "" : campaignFilter,
   });
 
   // Get reward mutations
@@ -123,7 +123,7 @@ const AdminRewards = () => {
     setSortBy("created_at");
     setSortOrder("desc");
     setStatusFilter("all");
-    setCampaignFilter("");
+    setCampaignFilter("all-campaigns");
     setCurrentPage(1);
   };
 

@@ -108,9 +108,9 @@ const RewardSearchAndFilters = ({
             <SelectValue placeholder="All Campaigns" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Campaigns</SelectItem>
+            <SelectItem value="all-campaigns">All Campaigns</SelectItem>
             {isLoadingCampaigns ? (
-              <SelectItem value="" disabled>Loading campaigns...</SelectItem>
+              <SelectItem value="loading" disabled>Loading campaigns...</SelectItem>
             ) : (
               campaigns.map(campaign => (
                 <SelectItem key={campaign.id} value={campaign.id}>
