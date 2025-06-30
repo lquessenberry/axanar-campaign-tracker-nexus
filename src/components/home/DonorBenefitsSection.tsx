@@ -17,7 +17,7 @@ const DonorBenefitsSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
           <div className="group p-8 rounded-xl bg-gradient-to-br from-card via-card to-card/50 border-2 border-transparent hover:border-axanar-teal/30 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-axanar-teal/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-axanar-teal/20 to-axanar-teal/10 text-axanar-teal flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg group-hover:shadow-axanar-teal/20">
+            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-axanar-teal/30 to-axanar-teal/20 text-axanar-teal flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg group-hover:shadow-axanar-teal/30">
               <img src="/images/phaser.svg" alt="Exclusive Access icon" className="h-10 w-10 group-hover:animate-pulse" />
             </div>
             <h3 className="text-2xl font-bold mb-3 group-hover:text-axanar-teal transition-colors duration-300">Exclusive Access</h3>
@@ -29,7 +29,7 @@ const DonorBenefitsSection = () => {
           
           <div className="group p-8 rounded-xl bg-gradient-to-br from-card via-card to-card/50 border-2 border-transparent hover:border-yellow-400/30 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-yellow-400/20 to-yellow-400/10 text-yellow-400 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg group-hover:shadow-yellow-400/20">
+            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-yellow-400/30 to-yellow-400/20 text-yellow-400 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg group-hover:shadow-yellow-400/30">
               <img src="/images/research.svg" alt="Recognition icon" className="h-10 w-10 group-hover:animate-pulse" />
             </div>
             <h3 className="text-2xl font-bold mb-3 group-hover:text-yellow-400 transition-colors duration-300">Recognition</h3>
@@ -41,7 +41,7 @@ const DonorBenefitsSection = () => {
           
           <div className="group p-8 rounded-xl bg-gradient-to-br from-card via-card to-card/50 border-2 border-transparent hover:border-purple-400/30 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-purple-400/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-400/20 to-purple-400/10 text-purple-400 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg group-hover:shadow-purple-400/20">
+            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-400/30 to-purple-400/20 text-purple-400 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg group-hover:shadow-purple-400/30">
               <img src="/images/perk.svg" alt="Perks icon" className="h-10 w-10 group-hover:animate-pulse" />
             </div>
             <h3 className="text-2xl font-bold mb-3 group-hover:text-purple-400 transition-colors duration-300">Perks</h3>
