@@ -1,10 +1,5 @@
 
-import { useAuth } from "@/contexts/AuthContext";
-
 const DonorBenefitsSection = () => {
-  const { user } = useAuth();
-
-  if (!user) return null;
 
   return (
     <section className="py-16 px-4">
