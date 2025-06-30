@@ -26,6 +26,7 @@ export const useUserProfile = () => {
         // Return donor data formatted as profile
         return {
           id: user.id,
+          donor_id: donor.id,  // Include donor_id for address handling
           username: donor.email?.split('@')[0] || null,
           full_name: donor.full_name || `${donor.first_name || ''} ${donor.last_name || ''}`.trim() || null,
           bio: null,
@@ -38,6 +39,7 @@ export const useUserProfile = () => {
       // Return basic profile from auth user
       return {
         id: user.id,
+        donor_id: null,  // No donor record found
         username: user.email?.split('@')[0] || null,
         full_name: user.user_metadata?.full_name || null,
         bio: null,

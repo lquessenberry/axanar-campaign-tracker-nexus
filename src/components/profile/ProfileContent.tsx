@@ -1,7 +1,12 @@
 
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Heart, BarChart3 } from "lucide-react";
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Heart, BarChart3, PlusCircle } from "lucide-react";
+import { useDonorAddresses } from "@/hooks/useAddressOperations";
+import AddressCard from "./AddressCard";
+import AddressForm from "./AddressForm";
+import { UserProfile } from "@/types/profile";
 
 interface Pledge {
   id: string;
@@ -19,16 +24,20 @@ interface Campaign {
 }
 
 interface ProfileContentProps {
-  profile: any;
+  profile: UserProfile | null;
   pledges: Pledge[] | undefined;
   campaigns: Campaign[] | undefined;
+  donorId?: string | null;
 }
 
 const ProfileContent: React.FC<ProfileContentProps> = ({
   profile,
   pledges,
   campaigns,
+  donorId,
 }) => {
+  const [showAddAddressForm, setShowAddAddressForm] = useState(false);
+  const { data: addresses, isLoading: addressesLoading, refetch: refetchAddresses } = useDonorAddresses(donorId);
   return (
     <div className="lg:col-span-2 space-y-6">
       {/* Bio Section */}
@@ -82,6 +91,68 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
           </div>
         </CardContent>
       </Card>
+
+      {/* Address Section */}
+      {donorId && (
+        <Card>
+          <CardHeader className="pb-3">
+            <div className="flex justify-between items-center">
+              <CardTitle className="text-lg">Shipping Address</CardTitle>
+              {!showAddAddressForm && (
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => setShowAddAddressForm(true)}
+                  disabled={addressesLoading}
+                >
+                  <PlusCircle className="h-4 w-4 mr-2" /> Add Address
+                </Button>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            {addressesLoading ? (
+              <p className="text-center py-4 text-muted-foreground">Loading addresses...</p>
+            ) : addresses && addresses.length > 0 ? (
+              <div className="space-y-4">
+                {addresses.map(address => (
+                  <AddressCard 
+                    key={address.id} 
+                    address={address} 
+                    donorId={donorId} 
+                    onAddressUpdated={refetchAddresses}
+                  />
+                ))}
+              </div>
+            ) : showAddAddressForm ? null : (
+              <p className="text-center py-4 text-muted-foreground">
+                No addresses found. Add a shipping address to receive physical rewards.
+              </p>
+            )}
+            
+            {showAddAddressForm && (
+              <div className="mt-4">
+                <AddressForm 
+                  address={null} 
+                  donorId={donorId} 
+                  onSuccess={() => {
+                    setShowAddAddressForm(false);
+                    refetchAddresses();
+                  }}
+                />
+                <div className="mt-2">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setShowAddAddressForm(false)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };

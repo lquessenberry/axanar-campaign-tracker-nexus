@@ -1,0 +1,37 @@
+/* Admin Sidebar Styling */
+[data-sidebar="sidebar"] {
+  background: #1a202c; /* Dark blue background */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+[data-sidebar="header"] {
+  background: #1a202c; /* Dark blue background */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-sidebar="content"] {
+  background: #1a202c; /* Dark blue background */
+}
+
+[data-sidebar="menu"] {
+  background: #1a202c; /* Dark blue background */
+}
+
+[data-sidebar="menu-item"] {
+  color: white;
+}
+
+[data-sidebar="menu-button"] {
+  margin: 2px 0;
+  color: white !important; /* Ensure white text */
+}
+
+[data-sidebar="menu-button"][data-active="true"] {
+  background: rgba(66, 153, 225, 0.25); /* Lighter blue for active state */
+  color: white !important;
+}
+
+[data-sidebar="menu-button"]:hover {
+  background: rgba(66, 153, 225, 0.15); /* Lighter blue for hover state */
+  color: white !important;
+}
