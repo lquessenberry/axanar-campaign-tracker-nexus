@@ -1,6 +1,6 @@
 
 import { useAuth } from "@/contexts/AuthContext";
-import { Shield, Star, Gift } from "lucide-react";
+import { Shield, Star } from "lucide-react";
 
 const DonorBenefitsSection = () => {
   const { user } = useAuth();
@@ -43,7 +43,7 @@ const DonorBenefitsSection = () => {
           <div className="group p-8 rounded-xl bg-gradient-to-br from-card via-card to-card/50 border-2 border-transparent hover:border-purple-400/30 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-purple-400/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-400/20 to-purple-400/10 text-purple-400 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg group-hover:shadow-purple-400/20">
-              <Gift className="h-10 w-10 group-hover:animate-pulse" />
+              <img src="/images/perk.svg" alt="Perks icon" className="h-10 w-10 group-hover:animate-pulse" />
             </div>
             <h3 className="text-2xl font-bold mb-3 group-hover:text-purple-400 transition-colors duration-300">Perks</h3>
             <p className="text-muted-foreground group-hover:text-foreground/80 transition-colors duration-300">
