@@ -1,20 +1,16 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-
 interface LoveLetterSectionProps {
   isAuthenticated: boolean;
 }
-
-const LoveLetterSection = ({ isAuthenticated }: LoveLetterSectionProps) => {
-  return (
-    <div className="relative mt-8 md:mt-16 overflow-hidden">
+const LoveLetterSection = ({
+  isAuthenticated
+}: LoveLetterSectionProps) => {
+  return <div className="relative mt-8 md:mt-16 overflow-hidden">
       {/* Warp Field Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url('/lovable-uploads/5e041d9c-79a3-418c-8bb0-3d84978f452a.png')`
-        }}
-      />
+      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
+      backgroundImage: `url('/lovable-uploads/5e041d9c-79a3-418c-8bb0-3d84978f452a.png')`
+    }} />
       
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-axanar-blue/75 to-black/90"></div>
@@ -29,8 +25,7 @@ const LoveLetterSection = ({ isAuthenticated }: LoveLetterSectionProps) => {
           </div>
           
           <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6 md:p-8 border border-axanar-teal/20 shadow-2xl">
-            {isAuthenticated ? (
-              <div className="text-left space-y-6 text-axanar-silver leading-relaxed">
+            {isAuthenticated ? <div className="text-left space-y-6 text-axanar-silver leading-relaxed">
                 <p className="text-lg md:text-xl font-semibold text-axanar-teal">
                   Beloved Axanar Donors,
                 </p>
@@ -62,12 +57,8 @@ const LoveLetterSection = ({ isAuthenticated }: LoveLetterSectionProps) => {
                     Associate Producer - DevOps & Digital Marketing Officer
                   </p>
                 </div>
-              </div>
-            ) : (
-              <div className="text-center space-y-6 text-axanar-silver leading-relaxed">
-                <p className="text-lg md:text-xl font-semibold text-axanar-teal">
-                  Future Axanar Family Member,
-                </p>
+              </div> : <div className="text-center space-y-6 text-axanar-silver leading-relaxed">
+                <p className="text-lg md:text-xl font-semibold text-axanar-teal">Welcome back Axanar donors,</p>
                 
                 <p className="text-base md:text-lg">
                   We invite you to become part of something extraordinary—a love story written in starlight and dreams. 
@@ -88,13 +79,10 @@ const LoveLetterSection = ({ isAuthenticated }: LoveLetterSectionProps) => {
                     </Button>
                   </Link>
                 </div>
-              </div>
-            )}
+              </div>}
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default LoveLetterSection;
