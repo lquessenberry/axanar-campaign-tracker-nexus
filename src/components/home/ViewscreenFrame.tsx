@@ -15,7 +15,7 @@ const ViewscreenFrame = ({ children }: ViewscreenFrameProps) => {
           {/* Inner Frame */}
           <div className="relative bg-gradient-to-br from-gray-800 via-gray-700 to-gray-900 p-2 md:p-4 rounded-none md:rounded-2xl">
             {/* Viewscreen */}
-            <div className="relative h-2/3 md:h-[60vh] lg:h-[70vh] xl:h-[75vh] rounded-none md:rounded-xl overflow-hidden border-2 md:border-4 border-gray-600 shadow-inner">
+            <div className="relative h-[67vh] md:h-[60vh] lg:h-[70vh] xl:h-[75vh] rounded-none md:rounded-xl overflow-hidden border-2 md:border-4 border-gray-600 shadow-inner">
               {/* Warpfield Background */}
               <div className="absolute inset-0 bg-black">
                 <WarpfieldStars />
