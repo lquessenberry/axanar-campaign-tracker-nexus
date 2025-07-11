@@ -8,7 +8,7 @@ interface ViewscreenFrameProps {
 
 const ViewscreenFrame = ({ children }: ViewscreenFrameProps) => {
   return (
-    <div className="container mx-auto relative px-0 md:px-4">
+    <div className="container mx-auto relative px-0 md:px-4 max-h-screen">
       <div className="relative max-w-6xl mx-auto">
         {/* Outer Frame */}
         <div className="relative bg-gradient-to-br from-gray-700 via-gray-600 to-gray-800 p-2 md:p-6 rounded-none md:rounded-3xl shadow-2xl">
