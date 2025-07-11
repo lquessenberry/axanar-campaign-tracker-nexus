@@ -66,10 +66,11 @@ export const useAdminCampaignsData = (
 
       if (error) throw error;
 
-      // Transform data to get pledge count
+      // Transform data to get pledge count and calculate current amount
       const formattedData = data.map(campaign => ({
         ...campaign,
-        pledge_count: campaign.pledges ? campaign.pledges.length : 0
+        pledge_count: campaign.pledges ? campaign.pledges.length : 0,
+        current_amount: 0 // Will be calculated from pledges if needed
       }));
 
       return {

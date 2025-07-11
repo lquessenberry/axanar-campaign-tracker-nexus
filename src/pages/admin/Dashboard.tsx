@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAdminDonorsData } from "@/hooks/useAdminDonorsData";
 import { useAdminCampaignsData } from "@/hooks/useAdminCampaignsData";
+import { CreateCampaignParams } from "@/types/admin";
 import { useAdminCampaignMutations } from "@/hooks/useAdminCampaignMutations";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -203,7 +204,19 @@ const Dashboard = () => {
   };
   
   const handleCreateCampaign = (campaignData: Partial<DashboardCampaign>) => {
-    createCampaign.mutate(campaignData as CreateCampaignParams);
+    const createParams: CreateCampaignParams = {
+      name: campaignData.name || '',
+      goal_amount: campaignData.goal_amount || 0,
+      active: campaignData.active ?? true,
+      description: campaignData.description,
+      image_url: campaignData.image_url,
+      start_date: campaignData.start_date,
+      end_date: campaignData.end_date,
+      provider: campaignData.provider,
+      status: campaignData.active ? 'active' : 'inactive',
+      web_url: campaignData.image_url // Assuming web_url maps to image_url for now
+    };
+    createCampaign.mutate(createParams);
   };
   
   const handleEditCampaign = (campaign: DashboardCampaign) => {

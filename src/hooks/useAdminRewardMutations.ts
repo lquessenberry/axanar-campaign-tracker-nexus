@@ -139,8 +139,8 @@ export const useAdminRewardMutations = () => {
       queryClient.invalidateQueries({ queryKey: ['admin-rewards'] });
       queryClient.invalidateQueries({ queryKey: ['admin-rewards-stats'] });
       toast({
-        title: reward.is_available ? "Reward Available" : "Reward Unavailable",
-        description: `The reward is now ${reward.is_available ? "available" : "unavailable"} to donors.`
+        title: "Reward Updated",
+        description: "The reward has been successfully updated."
       });
     },
     onError: (error: any) => {
