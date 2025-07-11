@@ -7,7 +7,7 @@ const PortalContent = () => {
         <span>Welcome Back Axanar Donors!</span>
       </h1>
       <p className="text-xs md:text-sm lg:text-base xl:text-lg text-axanar-silver max-w-xs md:max-w-sm lg:max-w-lg xl:max-w-xl mx-auto mb-3 md:mb-4 lg:mb-6 text-shadow leading-relaxed">
-        Join our constellation of devoted hearts in this love story written in starlight and dreams. Access your donor portal to review your contribution history, manage benefits, and be part of something extraordinary—a passionate embrace of Star Trek crafted by fans who understand the sacred bond between story and soul.
+        Rejoin and get familiar with the all new revitalized Axanar Donors platform to check your rewards and donation statuses that make Axanar possible.
       </p>
       <div className="flex flex-col sm:flex-row justify-center gap-2 md:gap-3">
         <Link to="/auth">
