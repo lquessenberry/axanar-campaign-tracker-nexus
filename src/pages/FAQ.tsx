@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import EmailTest from "@/components/EmailTest";
 
 const FAQ = () => {
   const generalFaqs = [
@@ -141,6 +142,14 @@ const FAQ = () => {
                   </AccordionItem>
                 ))}
               </Accordion>
+            </div>
+            
+            {/* Email Test Section */}
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold mb-6">
+                Email Test
+              </h2>
+              <EmailTest />
             </div>
             
             <div className="text-center">
