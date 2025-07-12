@@ -123,7 +123,7 @@ The Axanar Team
     `;
 
     const emailResponse = await resend.emails.send({
-      from: "Axanar <noreply@donors.axanar.com>",
+      from: "Axanar <noreply@axanar.com>",
       to: email,
       subject: "Account Recovery - Axanar Donor Platform",
       html: emailHtml,
