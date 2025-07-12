@@ -47,8 +47,8 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Create recovery URL (update with your actual domain)
-    const recoveryUrl = `https://your-domain.com/auth?token=${recoveryToken}&email=${encodeURIComponent(email)}&type=recovery`;
+    // Create recovery URL
+    const recoveryUrl = `https://donors.axanar.com/auth?token=${recoveryToken}&email=${encodeURIComponent(email)}&type=recovery`;
 
     const emailHtml = `
       <!DOCTYPE html>
@@ -123,7 +123,7 @@ The Axanar Team
     `;
 
     const emailResponse = await resend.emails.send({
-      from: "Axanar <noreply@yourdomain.com>", // Update with your verified domain
+      from: "Axanar <noreply@donors.axanar.com>",
       to: email,
       subject: "Account Recovery - Axanar Donor Platform",
       html: emailHtml,
