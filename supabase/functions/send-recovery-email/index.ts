@@ -47,8 +47,8 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Create recovery URL - using lovable.dev URL for testing, update to donors.axanar.com for production
-    const recoveryUrl = `https://your-project.lovable.dev/auth?token=${recoveryToken}&email=${encodeURIComponent(email)}&type=recovery`;
+    // Create recovery URL - using lovable.app URL for testing, update to donors.axanar.com for production
+    const recoveryUrl = `https://axanar-campaign-tracker-nexus.lovable.app/auth?token=${recoveryToken}&email=${encodeURIComponent(email)}&type=recovery`;
 
     const emailHtml = `
       <!DOCTYPE html>
