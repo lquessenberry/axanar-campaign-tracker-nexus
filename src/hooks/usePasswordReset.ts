@@ -15,7 +15,7 @@ export const usePasswordReset = (email: string, onSuccess: () => void) => {
       const { data, error } = await supabase.functions.invoke('send-password-reset', {
         body: {
           email: email,
-          redirectUrl: `${window.location.origin}/auth`
+          redirectUrl: `${window.location.origin}`
         }
       });
 
