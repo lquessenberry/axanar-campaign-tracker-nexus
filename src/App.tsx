@@ -23,6 +23,7 @@ import AdminPledges from "./pages/admin/Pledges";
 import AdminRewards from "./pages/admin/Rewards";
 import AdminDonors from "./pages/admin/Donors";
 import AdminManagement from "./pages/admin/Admins";
+import PasswordReset from "./pages/PasswordReset";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/login" element={<Auth />} />
+            <Route path="/auth/reset-password" element={<PasswordReset />} />
             <Route path="/register" element={<Auth />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/dashboard" element={<Dashboard />} />
