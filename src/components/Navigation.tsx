@@ -70,21 +70,27 @@ const Navigation = ({ battleMode = true, onBattleModeToggle }: NavigationProps) 
             {user ? (
               <div className="flex items-center space-x-4">
                 <Link to="/dashboard">
-                  <Button variant="ghost" size="sm" className="text-white hover:text-axanar-teal hover:bg-white/10">
+                  <Button variant="ghost" size="sm" className={`text-white hover:text-axanar-teal hover:bg-white/10 ${
+                    isActive('/dashboard') ? 'bg-axanar-teal/20 text-axanar-teal' : ''
+                  }`}>
                     <User className="h-4 w-4 mr-2" />
                     Donor Dashboard
                   </Button>
                 </Link>
                 {isAdmin && (
                   <Link to="/admin">
-                    <Button variant="ghost" size="sm" className="text-white hover:text-axanar-teal hover:bg-white/10">
+                    <Button variant="ghost" size="sm" className={`text-white hover:text-axanar-teal hover:bg-white/10 ${
+                      isActive('/admin') ? 'bg-axanar-teal/20 text-axanar-teal' : ''
+                    }`}>
                       <Shield className="h-4 w-4 mr-2" />
                       Admin
                     </Button>
                   </Link>
                 )}
                 <Link to="/profile">
-                  <Button variant="ghost" size="sm" className="text-white hover:text-axanar-teal hover:bg-white/10">
+                  <Button variant="ghost" size="sm" className={`text-white hover:text-axanar-teal hover:bg-white/10 ${
+                    isActive('/profile') ? 'bg-axanar-teal/20 text-axanar-teal' : ''
+                  }`}>
                     <User className="h-4 w-4 mr-2" />
                     Account
                   </Button>
@@ -160,7 +166,9 @@ const Navigation = ({ battleMode = true, onBattleModeToggle }: NavigationProps) 
                   {isAdmin && (
                     <Link 
                       to="/admin" 
-                      className="hover:text-axanar-teal transition-colors"
+                      className={`hover:text-axanar-teal transition-colors ${
+                        isActive('/admin') ? 'text-axanar-teal' : ''
+                      }`}
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Admin
