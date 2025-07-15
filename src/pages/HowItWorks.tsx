@@ -167,8 +167,8 @@ const HowItWorks = () => {
             <ImprovedHowItWorks sections={howItWorksSections} />
             
             {/* Contact Support Section */}
-            <div className="mb-12">
-              <h2 className="mb-6 text-center">
+            <div className="my-16 py-8">
+              <h2 className="mb-8 text-center">
                 Need Help Getting Started?
               </h2>
               <ContactForm />
