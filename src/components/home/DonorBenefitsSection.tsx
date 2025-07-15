@@ -2,8 +2,14 @@
 const DonorBenefitsSection = () => {
 
   return (
-    <section className="py-16 px-4">
-      <div className="container mx-auto text-center">
+    <section className="relative py-16 px-4">
+      {/* Top angled divider */}
+      <div className="absolute top-0 left-0 w-full h-16 bg-background" style={{clipPath: 'polygon(0 100%, 100% 0, 100% 100%, 0 100%)'}}></div>
+      
+      {/* Bottom angled divider */}
+      <div className="absolute bottom-0 left-0 w-full h-16 bg-background" style={{clipPath: 'polygon(0 0, 100% 100%, 100% 0, 0 0)'}}></div>
+      
+      <div className="container mx-auto text-center relative z-10">
         <h2 className="text-2xl md:text-3xl font-bold mb-4">Your Donor Benefits</h2>
         <p className="text-muted-foreground max-w-2xl mx-auto mb-12">
           As a valued member of the Axanar community, enjoy exclusive access and benefits
