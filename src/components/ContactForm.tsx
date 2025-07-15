@@ -164,34 +164,34 @@ Time submitted: ${new Date().toLocaleString()}
   return <Card className="w-full max-w-2xl mx-auto">
       
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium mb-2">
+            <label htmlFor="name" className="sr-only">
               Name *
             </label>
-            <Input id="name" name="name" placeholder="Your full name" value={formData.name} onChange={handleInputChange} required />
+            <Input id="name" name="name" placeholder="Your full name *" value={formData.name} onChange={handleInputChange} required className="text-lg h-12" />
           </div>
           
           <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-2">
+            <label htmlFor="email" className="sr-only">
               Email Address *
             </label>
-            <Input id="email" name="email" type="email" placeholder="your.email@example.com" value={formData.email} onChange={handleInputChange} required />
+            <Input id="email" name="email" type="email" placeholder="your.email@example.com *" value={formData.email} onChange={handleInputChange} required className="text-lg h-12" />
           </div>
         </div>
         
         <div>
-          <label htmlFor="subject" className="block text-sm font-medium mb-2">
+          <label htmlFor="subject" className="sr-only">
             Subject *
           </label>
-          <Input id="subject" name="subject" placeholder="What is this regarding?" value={formData.subject} onChange={handleInputChange} required />
+          <Input id="subject" name="subject" placeholder="What is this regarding? *" value={formData.subject} onChange={handleInputChange} required className="text-lg h-12" />
         </div>
         
         <div>
-          <label htmlFor="message" className="block text-sm font-medium mb-2">
+          <label htmlFor="message" className="sr-only">
             Message *
           </label>
-          <Textarea id="message" name="message" rows={6} placeholder="Please describe your inquiry or issue in detail..." value={formData.message} onChange={handleInputChange} required />
+          <Textarea id="message" name="message" rows={6} placeholder="Please describe your inquiry or issue in detail... *" value={formData.message} onChange={handleInputChange} required className="text-lg p-4" />
         </div>
         
         {/* hCaptcha */}
