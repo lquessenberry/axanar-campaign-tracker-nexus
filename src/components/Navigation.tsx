@@ -71,8 +71,8 @@ const Navigation = ({ battleMode = true, onBattleModeToggle }: NavigationProps) 
               <div className="flex items-center space-x-4">
                 <Link to="/dashboard">
                   <Button variant="ghost" size="sm" className="text-white hover:text-axanar-teal hover:bg-white/10">
-                    <BarChart3 className="h-4 w-4 mr-2" />
-                    Dashboard
+                    <User className="h-4 w-4 mr-2" />
+                    Donor Dashboard
                   </Button>
                 </Link>
                 {isAdmin && (
@@ -146,7 +146,7 @@ const Navigation = ({ battleMode = true, onBattleModeToggle }: NavigationProps) 
                     }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    Dashboard
+                    Donor Dashboard
                   </Link>
                   <Link 
                     to="/profile" 
