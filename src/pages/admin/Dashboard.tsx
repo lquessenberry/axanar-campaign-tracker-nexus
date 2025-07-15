@@ -3,7 +3,7 @@ import { useAdminDonorsData } from "@/hooks/useAdminDonorsData";
 import { useAdminCampaignsData } from "@/hooks/useAdminCampaignsData";
 import { CreateCampaignParams } from "@/types/admin";
 import { useAdminCampaignMutations } from "@/hooks/useAdminCampaignMutations";
-import AdminLayout from "@/components/admin/AdminLayout";
+import Navigation from "@/components/Navigation";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { 
   DollarSign, 
@@ -366,25 +366,42 @@ const Dashboard = () => {
   };
 
   return (
-    <AdminLayout title="Admin Dashboard">
+    <div className="min-h-screen bg-background flex flex-col">
+      {/* Fixed Navigation Header */}
+      <div className="sticky top-0 z-50 bg-background border-b">
+        <Navigation />
+      </div>
+      
+      {/* Full Height Admin Interface */}
       <div className="flex flex-1 min-h-0">
         <SidebarProvider>
-          <div className="sticky left-0 top-16 h-[calc(100vh-4rem)] z-10">
+          {/* Enhanced Admin Sidebar - Fixed positioning */}
+          <div className="relative">
             <AdminSidebar
               activeSection={activeSection}
               onSectionChange={setActiveSection}
             />
           </div>
           
-          <div className="flex-1 flex flex-col min-w-0">
-            <div className="py-6 flex-1 overflow-auto">
-              <AdminHeader activeSection={activeSection} />
-              {renderContent()}
+          {/* Main Content Area */}
+          <div className="flex-1 flex flex-col min-w-0 bg-background">
+            <div className="flex-1 overflow-auto">
+              <div className="p-6">
+                <AdminHeader activeSection={activeSection} />
+                {renderContent()}
+              </div>
+            </div>
+            
+            {/* Inline Footer - Stays within content area */}
+            <div className="border-t bg-muted/30 px-6 py-4">
+              <div className="text-sm text-muted-foreground text-center">
+                © 2025 AXANAR Admin Dashboard. All rights reserved.
+              </div>
             </div>
           </div>
         </SidebarProvider>
       </div>
-    </AdminLayout>
+    </div>
   );
 };
 
