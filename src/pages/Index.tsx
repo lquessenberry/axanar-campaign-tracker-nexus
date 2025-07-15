@@ -31,7 +31,7 @@ const Index = () => {
         
         {/* CTA Section for non-authenticated users */}
         {!user && (
-          <section className="py-16 px-4">
+          <section className="py-16 px-4 bg-muted/50 dark:bg-muted">
             <div className="container mx-auto">
               <AxanarCTA
                 badge="Warp Drive Engaged"
