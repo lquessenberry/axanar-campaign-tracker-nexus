@@ -22,7 +22,7 @@ const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => 
   const isCollapsed = state === "collapsed";
 
   return (
-    <Sidebar className="bg-gradient-to-b from-axanar-dark to-slate-900 border-r border-axanar-silver/20 h-full overflow-hidden shadow-2xl">
+    <Sidebar className="bg-gradient-to-b from-axanar-dark to-slate-900 border-r border-axanar-silver/20 h-full overflow-hidden shadow-2xl z-50">
       {/* Enhanced Header with Gradient Background */}
       <SidebarHeader className="p-6 bg-gradient-to-r from-axanar-teal/20 to-transparent border-b border-axanar-silver/20">
         <div className="flex items-center justify-between">
