@@ -169,14 +169,14 @@ Time submitted: ${new Date().toLocaleString()}
             <label htmlFor="name" className="sr-only">
               Name *
             </label>
-            <Input id="name" name="name" placeholder="Your full name *" value={formData.name} onChange={handleInputChange} required className="text-xl h-14" />
+            <Input id="name" name="name" placeholder="Your full name *" value={formData.name} onChange={handleInputChange} required className="text-xl h-14 font-space-grotesk" />
           </div>
           
           <div>
             <label htmlFor="email" className="sr-only">
               Email Address *
             </label>
-            <Input id="email" name="email" type="email" placeholder="your.email@example.com *" value={formData.email} onChange={handleInputChange} required className="text-lg h-12" />
+            <Input id="email" name="email" type="email" placeholder="your.email@example.com *" value={formData.email} onChange={handleInputChange} required className="text-lg h-12 font-space-grotesk" />
           </div>
         </div>
         
@@ -184,14 +184,14 @@ Time submitted: ${new Date().toLocaleString()}
           <label htmlFor="subject" className="sr-only">
             Subject *
           </label>
-          <Input id="subject" name="subject" placeholder="What is this regarding? *" value={formData.subject} onChange={handleInputChange} required className="text-lg h-12" />
+          <Input id="subject" name="subject" placeholder="What is this regarding? *" value={formData.subject} onChange={handleInputChange} required className="text-lg h-12 font-space-grotesk" />
         </div>
         
         <div>
           <label htmlFor="message" className="sr-only">
             Message *
           </label>
-          <Textarea id="message" name="message" rows={6} placeholder="Please describe your inquiry or issue in detail... *" value={formData.message} onChange={handleInputChange} required className="text-lg p-4" />
+          <Textarea id="message" name="message" rows={6} placeholder="Please describe your inquiry or issue in detail... *" value={formData.message} onChange={handleInputChange} required className="text-lg p-4 font-space-grotesk" />
         </div>
         
         {/* hCaptcha */}
