@@ -6,7 +6,7 @@ const DonorBenefitsSection = () => {
       {/* Top SVG divider */}
       <div className="absolute -top-1 left-0 w-full h-20">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none" className="w-full h-full">
-          <path fill="#000001" d="M500.2,94.7L0,0v100h1000V0L500.2,94.7z"></path>
+          <path fill="#000001" d="M761.9,59.4L643.1,76L333.9,6.2L0.1,99H0v-99h1000V99"></path>
         </svg>
       </div>
       
