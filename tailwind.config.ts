@@ -127,10 +127,12 @@ export default {
 				'pulse-glow': 'pulse-glow 2s ease-in-out infinite'
 			},
 			fontFamily: {
-				'sans': ['Inter', 'sans-serif'],
-				'display': ['Orbitron', 'sans-serif'],
-				'custom': ['CustomFont', 'Inter', 'sans-serif'],
-				// Star Trek Font Pack
+				'sans': ['Space Grotesk', 'sans-serif'],
+				'mono': ['Space Mono', 'monospace'],
+				'display': ['Michroma', 'sans-serif'],
+				'heading': ['Geo', 'sans-serif'],
+				// Legacy fonts
+				'custom': ['CustomFont', 'Space Grotesk', 'sans-serif'],
 				'startrek': ['StarTrek', 'Orbitron', 'sans-serif'],
 				'startrek-film': ['StarTrekFilm', 'Orbitron', 'sans-serif'],
 				'startrek-pi': ['StarTrekPi', 'sans-serif'],
