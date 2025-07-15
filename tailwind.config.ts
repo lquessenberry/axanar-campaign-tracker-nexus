@@ -130,7 +130,7 @@ export default {
 				'sans': ['Space Grotesk', 'sans-serif'],
 				'mono': ['Space Mono', 'monospace'],
 				'display': ['Michroma', 'sans-serif'],
-				'heading': ['Smooch Sans', 'sans-serif'],
+				'heading': ['Oxanium', 'sans-serif'],
 				// Legacy fonts
 				'custom': ['CustomFont', 'Space Grotesk', 'sans-serif'],
 				'startrek': ['StarTrek', 'Orbitron', 'sans-serif'],
