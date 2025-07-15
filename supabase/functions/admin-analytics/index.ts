@@ -47,45 +47,62 @@ serve(async (req) => {
   }
 
   try {
+    console.log('Admin analytics function called');
+    
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    // Verify admin access
+    // Get auth token from request headers
     const authHeader = req.headers.get('authorization');
+    console.log('Auth header present:', !!authHeader);
+    
     if (!authHeader) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      console.error('No authorization header');
+      return new Response(JSON.stringify({ error: 'Unauthorized - No token provided' }), {
         status: 401,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
+    // Verify the user with the provided token
+    const token = authHeader.replace('Bearer ', '');
+    const { data: { user }, error: userError } = await supabase.auth.getUser(token);
+    
+    console.log('User verification:', { user: !!user, error: userError });
+    
+    if (userError || !user) {
+      console.error('Invalid token or user not found:', userError);
       return new Response(JSON.stringify({ error: 'Invalid token' }), {
         status: 401,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
-    const { data: adminCheck } = await supabase
+    // Check admin status using the service role key
+    const { data: adminCheck, error: adminError } = await supabase
       .from('admin_users')
       .select('*')
       .eq('user_id', user.id)
       .single();
 
-    if (!adminCheck) {
-      return new Response(JSON.stringify({ error: 'Access denied' }), {
+    console.log('Admin check:', { admin: !!adminCheck, error: adminError });
+
+    if (adminError || !adminCheck) {
+      console.error('Access denied - not an admin:', adminError);
+      return new Response(JSON.stringify({ error: 'Access denied - Admin privileges required' }), {
         status: 403,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
+    console.log('Starting data queries...');
+
     // Execute optimized analytics queries in parallel
     const [
       donorsResult,
-      activeDonorsResult,
+      activeDonorsResult, 
       totalRaisedResult,
       campaignsResult,
       activeCampaignsResult,
@@ -100,7 +117,7 @@ serve(async (req) => {
       // Active donors (using view for better performance)
       supabase.from('donor_pledge_totals').select('*', { count: 'exact', head: true }),
       
-      // Total raised using aggregated view
+      // Total raised using the optimized function
       supabase.rpc('get_total_raised'),
       
       // Total campaigns
@@ -125,20 +142,40 @@ serve(async (req) => {
       // Top campaigns
       supabase
         .from('campaign_totals')
-        .select('campaign_id, campaign_name, total_amount, backers_count, goal_amount')
+        .select('campaign_id, campaign_name, total_amount, backers_count')
         .order('total_amount', { ascending: false })
         .limit(5)
     ]);
 
-    if (donorsResult.error) throw donorsResult.error;
-    if (activeDonorsResult.error) throw activeDonorsResult.error;
-    if (totalRaisedResult.error) throw totalRaisedResult.error;
-    if (campaignsResult.error) throw campaignsResult.error;
-    if (activeCampaignsResult.error) throw activeCampaignsResult.error;
-    if (rewardsResult.error) throw rewardsResult.error;
-    if (pledgesResult.error) throw pledgesResult.error;
-    if (topDonorsResult.error) throw topDonorsResult.error;
-    if (topCampaignsResult.error) throw topCampaignsResult.error;
+    console.log('Query results:', {
+      donors: { count: donorsResult.count, error: donorsResult.error },
+      activeDonors: { count: activeDonorsResult.count, error: activeDonorsResult.error },
+      totalRaised: { data: totalRaisedResult.data, error: totalRaisedResult.error },
+      campaigns: { count: campaignsResult.count, error: campaignsResult.error },
+      activeCampaigns: { count: activeCampaignsResult.count, error: activeCampaignsResult.error },
+      rewards: { count: rewardsResult.count, error: rewardsResult.error },
+      pledges: { count: pledgesResult.count, error: pledgesResult.error },
+      topDonors: { length: topDonorsResult.data?.length, error: topDonorsResult.error },
+      topCampaigns: { length: topCampaignsResult.data?.length, error: topCampaignsResult.error }
+    });
+
+    // Check for any errors in the queries
+    const errors = [
+      donorsResult.error,
+      activeDonorsResult.error,
+      totalRaisedResult.error,
+      campaignsResult.error,
+      activeCampaignsResult.error,
+      rewardsResult.error,
+      pledgesResult.error,
+      topDonorsResult.error,
+      topCampaignsResult.error
+    ].filter(Boolean);
+
+    if (errors.length > 0) {
+      console.error('Query errors:', errors);
+      throw new Error(`Database query failed: ${errors.map(e => e.message).join(', ')}`);
+    }
 
     const totalDonors = donorsResult.count || 0;
     const activeDonors = activeDonorsResult.count || 0;
@@ -178,10 +215,12 @@ serve(async (req) => {
           name: campaign.campaign_name || 'Unknown',
           totalRaised: Number(campaign.total_amount || 0),
           donorCount: Number(campaign.backers_count || 0),
-          goalAmount: Number(campaign.goal_amount || 0),
+          goalAmount: 0, // Will need to add goal_amount to campaign_totals view
         })),
       },
     };
+
+    console.log('Final analytics response:', analytics);
 
     return new Response(JSON.stringify(analytics), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

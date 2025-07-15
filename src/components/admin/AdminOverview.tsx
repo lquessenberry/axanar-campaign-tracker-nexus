@@ -18,7 +18,7 @@ interface AdminOverviewProps {
 }
 
 const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
-  const { data: analytics, isLoading, error } = useAdminAnalytics();
+  const { data: analytics, isLoading, error, isUsingFallback } = useAdminAnalytics();
 
   if (isLoading) {
     return (
@@ -42,8 +42,13 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
 
   if (error) {
     return (
-      <div className="text-center py-8 text-destructive">
-        Error loading analytics: {error.message}
+      <div className="text-center py-8">
+        <div className="text-destructive mb-2">
+          Error loading analytics: {error.message}
+        </div>
+        <div className="text-sm text-muted-foreground">
+          Using fallback data loading system...
+        </div>
       </div>
     );
   }
@@ -52,6 +57,14 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
 
   return (
     <div className="space-y-6">
+      {/* Show status indicator if using fallback */}
+      {isUsingFallback && (
+        <div className="bg-yellow-50 dark:bg-yellow-950 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3">
+          <p className="text-sm text-yellow-800 dark:text-yellow-200">
+            ⚠️ Using fallback data system. Edge functions may be warming up.
+          </p>
+        </div>
+      )}
       {/* Enhanced Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 border-blue-200 dark:border-blue-800">
