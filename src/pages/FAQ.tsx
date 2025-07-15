@@ -116,7 +116,7 @@ const FAQ = () => {
             
             {/* Contact Support Section */}
             <div className="mb-12">
-              <h2 className="mb-6">
+              <h2 className="mb-6 text-center">
                 Contact Support
               </h2>
               <ContactForm />
