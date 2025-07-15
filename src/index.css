@@ -173,7 +173,7 @@
   }
 
   h3 {
-    @apply font-heading font-normal;
+    @apply font-heading font-normal uppercase;
     font-size: clamp(1.5rem, 5vw, 2.25rem);
     line-height: 1.25;
     letter-spacing: 0.015em;
