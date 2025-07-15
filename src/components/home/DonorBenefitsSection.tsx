@@ -10,8 +10,12 @@ const DonorBenefitsSection = () => {
         </svg>
       </div>
       
-      {/* Bottom angled divider */}
-      <div className="absolute -bottom-1 left-0 w-full h-20" style={{backgroundColor: '#111827', clipPath: 'polygon(0 0, 100% 50%, 100% 100%, 0 100%)'}}></div>
+      {/* Bottom SVG divider */}
+      <div className="absolute -bottom-1 left-0 w-full h-20">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none" className="w-full h-full">
+          <path fill="#111827" d="M737.9,94.7L0,0v100h1000V0L737.9,94.7z"></path>
+        </svg>
+      </div>
       
       <div className="container mx-auto text-center relative z-10">
         <h2 className="text-2xl md:text-3xl font-bold mb-4">Your Donor Benefits</h2>
