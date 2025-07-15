@@ -57,6 +57,14 @@ const Support = () => {
         {/* Support Options */}
         <section className="py-12 px-4">
           <div className="container mx-auto">
+            {/* Support hero image */}
+            <div className="aspect-[16/6] rounded-lg overflow-hidden border border-primary/20 mb-12">
+              <img 
+                src="/images/support.jpg" 
+                alt="Support team ready to assist" 
+                className="w-full h-full object-cover"
+              />
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
               <Card className="text-center">
                 <CardContent className="pt-6">

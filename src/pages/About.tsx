@@ -95,12 +95,21 @@ const About = () => {
                   </Button>
                 </Link>
               </div>
-              <div className="aspect-video rounded-lg overflow-hidden border border-axanar-dark/20">
-                <img 
-                  src="/images/axanar-crew.jpg" 
-                  alt="Axanar crew members discussing the platform" 
-                  className="w-full h-full object-cover"
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="aspect-video rounded-lg overflow-hidden border border-axanar-dark/20">
+                  <img 
+                    src="/images/axanar-crew.jpg" 
+                    alt="Axanar crew members discussing the platform" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="aspect-video rounded-lg overflow-hidden border border-axanar-dark/20">
+                  <img 
+                    src="/images/security.svg" 
+                    alt="Security and data protection" 
+                    className="w-full h-full object-contain bg-muted/30 p-8"
+                  />
+                </div>
               </div>
             </div>
           </div>

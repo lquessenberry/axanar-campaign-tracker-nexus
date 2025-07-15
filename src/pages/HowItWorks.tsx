@@ -151,8 +151,15 @@ const HowItWorks = () => {
       
       <main className="flex-grow">
         {/* Header */}
-        <section className="bg-axanar-dark text-white py-12">
-          <div className="container mx-auto px-4 text-center">
+        <section className="bg-axanar-dark text-white py-12 relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10">
+            <img 
+              src="/images/security.svg" 
+              alt="Security background" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="container mx-auto px-4 text-center relative z-10">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               How the <span className="text-axanar-teal">Axanar</span> Platform Works
             </h1>
@@ -163,16 +170,56 @@ const HowItWorks = () => {
           </div>
         </section>
         
+        {/* Platform Migration Visual */}
+        <section className="py-8 px-4 bg-muted/30">
+          <div className="container mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+              <div className="aspect-video rounded-lg overflow-hidden border border-primary/20">
+                <img 
+                  src="/images/recover.jpg" 
+                  alt="Account recovery process" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="aspect-video rounded-lg overflow-hidden border border-primary/20">
+                <img 
+                  src="/images/profileupdate.jpg" 
+                  alt="Profile update interface" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="aspect-video rounded-lg overflow-hidden border border-primary/20">
+                <img 
+                  src="/images/pledges.jpg" 
+                  alt="Pledge management dashboard" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="py-12 px-4">
           <div className="container mx-auto">
             <ImprovedHowItWorks sections={howItWorksSections} />
             
             {/* Contact Support Section */}
             <div className="my-16 py-8">
-              <h2 className="mb-8 text-center">
-                Need Help Getting Started?
-              </h2>
-              <ContactForm />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                  <h2 className="mb-8 text-center lg:text-left">
+                    Need Help Getting Started?
+                  </h2>
+                  <ContactForm />
+                </div>
+                <div className="aspect-video rounded-lg overflow-hidden border border-primary/20">
+                  <img 
+                    src="/images/support.jpg" 
+                    alt="Support team ready to help" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
             </div>
             <AxanarCTA
               badge="Platform Migration Complete"
