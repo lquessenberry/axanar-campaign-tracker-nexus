@@ -3,8 +3,12 @@ const DonorBenefitsSection = () => {
 
   return (
     <section className="relative py-24 px-4">
-      {/* Top angled divider */}
-      <div className="absolute -top-1 left-0 w-full h-20" style={{backgroundColor: '#000001', clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 50%)'}}></div>
+      {/* Top SVG divider */}
+      <div className="absolute -top-1 left-0 w-full h-20">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none" className="w-full h-full">
+          <path fill="#000001" d="M500.2,94.7L0,0v100h1000V0L500.2,94.7z"></path>
+        </svg>
+      </div>
       
       {/* Bottom angled divider */}
       <div className="absolute -bottom-1 left-0 w-full h-20" style={{backgroundColor: '#111827', clipPath: 'polygon(0 0, 100% 50%, 100% 100%, 0 100%)'}}></div>
