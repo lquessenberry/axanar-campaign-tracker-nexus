@@ -33,8 +33,12 @@ const Navigation = ({ battleMode = true, onBattleModeToggle }: NavigationProps) 
     onBattleModeToggle?.(newBattleMode);
   };
 
+  const isAdminPage = location.pathname.startsWith('/admin');
+
   return (
-    <nav className="bg-axanar-dark text-white border-b border-axanar-silver/20">
+    <nav className={`bg-axanar-dark text-white border-b border-axanar-silver/20 ${
+      isAdminPage ? 'relative z-40' : ''
+    }`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
