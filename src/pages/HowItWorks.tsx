@@ -146,8 +146,8 @@ const HowItWorks = () => {
                             {step.number}
                           </div>
                         </div>
-                        <CardTitle className="text-xl">{step.title}</CardTitle>
-                        <CardDescription className="text-base">
+                        <CardTitle className="text-2xl">{step.title}</CardTitle>
+                        <CardDescription className="text-xl">
                           {step.description}
                         </CardDescription>
                       </CardHeader>
@@ -156,7 +156,7 @@ const HowItWorks = () => {
                           {step.details.map((detail, i) => (
                             <li key={i} className="flex items-start gap-2">
                               <ArrowRight className="h-4 w-4 text-axanar-teal mt-0.5 flex-shrink-0" />
-                              <span className="text-sm text-muted-foreground">{detail}</span>
+                              <span className="text-lg text-muted-foreground">{detail}</span>
                             </li>
                           ))}
                         </ul>
@@ -227,7 +227,7 @@ const HowItWorks = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">Why did you migrate to a new platform?</CardTitle>
+                  <CardTitle className="text-2xl">Why did you migrate to a new platform?</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription>
@@ -239,7 +239,7 @@ const HowItWorks = () => {
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">Can I sign up as a new donor?</CardTitle>
+                  <CardTitle className="text-2xl">Can I sign up as a new donor?</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription>
@@ -251,7 +251,7 @@ const HowItWorks = () => {
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">What if I can't recover my account?</CardTitle>
+                  <CardTitle className="text-2xl">What if I can't recover my account?</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription>
@@ -263,7 +263,7 @@ const HowItWorks = () => {
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">Is my donation history preserved?</CardTitle>
+                  <CardTitle className="text-2xl">Is my donation history preserved?</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription>
