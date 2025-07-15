@@ -267,9 +267,6 @@ const Dashboard = () => {
       case "overview":
         return (
           <AdminOverview
-            totalCount={totalCount || 0}
-            activeDonorsCount={activeDonorsCount || 0}
-            totalRaised={totalRaised || 0}
             onSectionChange={setActiveSection}
           />
         );
@@ -356,9 +353,6 @@ const Dashboard = () => {
       default:
         return (
           <AdminOverview
-            totalCount={totalCount || 0}
-            activeDonorsCount={activeDonorsCount || 0}
-            totalRaised={totalRaised || 0}
             onSectionChange={setActiveSection}
           />
         );

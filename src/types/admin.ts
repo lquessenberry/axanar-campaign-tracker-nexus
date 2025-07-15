@@ -27,6 +27,25 @@ export interface Campaign {
   pledge_count?: number;
 }
 
+// Re-export enhanced types from adminData
+export type { 
+  AdminAnalytics, 
+  AdminDonor, 
+  DonorsResponse, 
+  PaginationInfo, 
+  DonorStats,
+  DonorFilters,
+  AdminCampaign,
+  AdminReward,
+  AdminPledge,
+  TopDonor,
+  TopCampaign,
+  ApiResponse,
+  ApiError,
+  AdminSearchFilters,
+  BulkActionResult
+} from './adminData';
+
 export interface CreateCampaignParams {
   name: string;
   description?: string;

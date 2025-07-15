@@ -2205,6 +2205,10 @@ export type Database = {
         }
         Returns: undefined
       }
+      get_admin_analytics: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
       get_admin_users: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -2219,6 +2223,10 @@ export type Database = {
       get_all_users: {
         Args: Record<PropertyKey, never>
         Returns: Json[]
+      }
+      get_total_raised: {
+        Args: Record<PropertyKey, never>
+        Returns: number
       }
       initiate_account_recovery: {
         Args: {
