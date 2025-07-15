@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import AxanarCTA from "@/components/AxanarCTA";
 import { Users, Target, Shield, Heart, Star, Zap } from "lucide-react";
 
 const About = () => {
@@ -218,28 +219,29 @@ const About = () => {
           </div>
         </section>
 
+        
         {/* CTA Section */}
-        <section className="py-16 px-4 bg-axanar-dark text-white">
-          <div className="container mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Need Help Recovering Your Account?
-            </h2>
-            <p className="text-axanar-silver max-w-2xl mx-auto mb-8">
-              Our admin team is ready to help existing donors recover their accounts 
-              and update their information in our new donor tracking platform.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link to="/login">
-                <Button className="bg-axanar-teal hover:bg-axanar-teal/90 h-12 px-8">
-                  Recover Account
-                </Button>
-              </Link>
-              <Link to="/support">
-                <Button variant="outline" className="border-white/30 hover:bg-white/10 h-12 px-8">
-                  Contact Support
-                </Button>
-              </Link>
-            </div>
+        <section className="py-16 px-4">
+          <div className="container mx-auto">
+            <AxanarCTA
+              badge="Mission Control Ready"
+              title="Join the Federation of Donors"
+              description="Help us continue building the future of Star Trek storytelling. Our mission requires dedicated supporters like you to bring Axanar to life."
+              buttons={[
+                {
+                  to: "/auth",
+                  text: "Access Donor Portal",
+                  emoji: "🌟",
+                  primary: true
+                },
+                {
+                  to: "/how-it-works",
+                  text: "Learn More",
+                  emoji: "📋"
+                }
+              ]}
+              subtitle="Together, we're creating something the galaxy has never seen before."
+            />
           </div>
         </section>
       </main>

@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CheckCircle, Mail, Phone, Users, HelpCircle } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import AxanarCTA from "@/components/AxanarCTA";
 
 const Support = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -220,6 +221,29 @@ const Support = () => {
                   )}
                 </CardContent>
               </Card>
+            </div>
+            
+            {/* CTA Section */}
+            <div className="mt-16">
+              <AxanarCTA
+                badge="Starfleet Communications Open"
+                title="Still Need Assistance, Captain?"
+                description="Our dedicated support crew is standing by on all frequencies. Whether you need help with account recovery or have questions about the mission, we're here to help."
+                buttons={[
+                  {
+                    to: "/auth",
+                    text: "Try Account Recovery",
+                    emoji: "🔐",
+                    primary: true
+                  },
+                  {
+                    to: "/faq",
+                    text: "Check Database",
+                    emoji: "📊"
+                  }
+                ]}
+                subtitle="Remember: No mission is accomplished alone. We're in this together."
+              />
             </div>
           </div>
         </section>
