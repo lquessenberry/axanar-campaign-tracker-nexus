@@ -4,10 +4,10 @@ const DonorBenefitsSection = () => {
   return (
     <section className="relative py-16 px-4">
       {/* Top angled divider */}
-      <div className="absolute top-0 left-0 w-full h-16 bg-background" style={{clipPath: 'polygon(0 100%, 100% 0, 100% 100%, 0 100%)'}}></div>
+      <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-br from-card/50 to-background/80" style={{clipPath: 'polygon(0 100%, 100% 0, 100% 100%, 0 100%)'}}></div>
       
       {/* Bottom angled divider */}
-      <div className="absolute bottom-0 left-0 w-full h-16 bg-background" style={{clipPath: 'polygon(0 0, 100% 100%, 100% 0, 0 0)'}}></div>
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-tr from-background/80 to-card/50" style={{clipPath: 'polygon(0 0, 100% 100%, 100% 0, 0 0)'}}></div>
       
       <div className="container mx-auto text-center relative z-10">
         <h2 className="text-2xl md:text-3xl font-bold mb-4">Your Donor Benefits</h2>
