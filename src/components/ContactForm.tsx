@@ -169,7 +169,7 @@ Time submitted: ${new Date().toLocaleString()}
             <label htmlFor="name" className="sr-only">
               Name *
             </label>
-            <Input id="name" name="name" placeholder="Your full name *" value={formData.name} onChange={handleInputChange} required className="text-lg h-12" />
+            <Input id="name" name="name" placeholder="Your full name *" value={formData.name} onChange={handleInputChange} required className="text-xl h-14" />
           </div>
           
           <div>
