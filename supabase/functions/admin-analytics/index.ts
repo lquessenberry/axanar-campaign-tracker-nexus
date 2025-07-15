@@ -139,7 +139,7 @@ serve(async (req) => {
         .order('total_donated', { ascending: false })
         .limit(5),
       
-      // Top campaigns
+      // Top campaigns  
       supabase
         .from('campaign_totals')
         .select('campaign_id, campaign_name, total_amount, backers_count')
