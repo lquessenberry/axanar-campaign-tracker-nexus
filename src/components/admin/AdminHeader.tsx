@@ -24,7 +24,7 @@ const AdminHeader = ({ activeSection }: AdminHeaderProps) => {
 
   return (
     <div className="mb-6 flex items-center gap-4">
-      <SidebarTrigger />
+      <SidebarTrigger className="h-12 w-12 text-lg" />
       <div>
         <h1 className="font-bold">
           {sidebarItems.find(item => item.id === activeSection)?.label || "Dashboard"}
