@@ -54,21 +54,21 @@ const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => 
                 className={`
                   w-full group relative overflow-hidden transition-all duration-300 ease-out
                   ${activeSection === item.id 
-                    ? 'bg-gradient-to-r from-axanar-teal to-axanar-teal/80 text-white shadow-lg shadow-axanar-teal/25 border border-axanar-teal/50' 
-                    : 'text-axanar-silver hover:text-white hover:bg-white/10 hover:shadow-md hover:scale-105'
+                    ? 'bg-gradient-to-r from-primary to-primary/80 text-primary-foreground shadow-lg shadow-primary/25 border border-primary/50' 
+                    : 'text-sidebar-foreground hover:text-sidebar-foreground hover:bg-sidebar-accent hover:shadow-md hover:scale-105'
                   }
                   rounded-lg px-4 py-3 font-medium
                 `}
               >
                 <div className="flex items-center gap-3 relative z-10">
                   <item.icon className={`h-5 w-5 transition-transform duration-300 ${
-                    activeSection === item.id ? 'scale-110' : 'group-hover:scale-110'
+                    activeSection === item.id ? 'scale-110 text-primary-foreground' : 'group-hover:scale-110'
                   }`} />
                   {!isCollapsed && (
                     <>
                       <span className="flex-1 text-left font-semibold">{item.label}</span>
                       {activeSection === item.id && (
-                        <ChevronRight className="h-4 w-4 animate-pulse" />
+                        <ChevronRight className="h-4 w-4 animate-pulse text-primary-foreground" />
                       )}
                     </>
                   )}
@@ -76,7 +76,7 @@ const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => 
                 
                 {/* Subtle hover effect background */}
                 <div className={`
-                  absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent 
+                  absolute inset-0 bg-gradient-to-r from-transparent via-sidebar-accent/20 to-transparent 
                   transform translate-x-full group-hover:translate-x-0 transition-transform duration-500
                   ${activeSection === item.id ? 'hidden' : ''}
                 `} />
