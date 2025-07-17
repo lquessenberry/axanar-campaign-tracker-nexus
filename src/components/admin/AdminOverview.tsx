@@ -191,12 +191,12 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
               {topMetrics.topDonors?.slice(0, 5).map((donor, index) => (
                 <div key={donor.id} className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-axanar-gold/20 rounded-full flex items-center justify-center text-sm font-bold text-axanar-gold">
+                    <div className="w-8 h-8 bg-axanar-gold/20 rounded-full flex items-center justify-center text-base font-bold text-axanar-gold">
                       {index + 1}
                     </div>
                     <div>
-                      <p className="font-medium text-sm">{donor.name}</p>
-                      <p className="text-xs text-muted-foreground">{donor.pledgeCount} pledges</p>
+                      <p className="font-medium text-base">{donor.name}</p>
+                      <p className="text-sm text-muted-foreground">{donor.pledgeCount} pledges</p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -224,19 +224,19 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
               {topMetrics.topCampaigns?.slice(0, 5).map((campaign, index) => (
                 <div key={campaign.id} className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-axanar-teal/20 rounded-full flex items-center justify-center text-sm font-bold text-axanar-teal">
+                    <div className="w-8 h-8 bg-axanar-teal/20 rounded-full flex items-center justify-center text-base font-bold text-axanar-teal">
                       {index + 1}
                     </div>
                     <div>
-                      <p className="font-medium text-sm">{campaign.name}</p>
-                      <p className="text-xs text-muted-foreground">{campaign.donorCount} donors</p>
+                      <p className="font-medium text-base">{campaign.name}</p>
+                      <p className="text-sm text-muted-foreground">{campaign.donorCount} donors</p>
                     </div>
                   </div>
                   <div className="text-right">
                     <p className="font-bold text-axanar-teal">
                       ${campaign.totalRaised.toLocaleString()}
                     </p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-sm text-muted-foreground">
                       {campaign.goalAmount ? ((campaign.totalRaised / campaign.goalAmount) * 100).toFixed(0) + '%' : 'N/A'}
                     </p>
                   </div>
