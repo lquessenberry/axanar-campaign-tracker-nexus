@@ -38,7 +38,7 @@ const AdminHeader = ({ activeSection }: AdminHeaderProps) => {
         )}
       </div>
       <div>
-        <h1 className="text-lg font-bold tracking-tight">
+        <h1 className="text-5xl font-bold tracking-tight">
           {currentSection?.label || "Dashboard"}
         </h1>
         <p className="text-muted-foreground">
