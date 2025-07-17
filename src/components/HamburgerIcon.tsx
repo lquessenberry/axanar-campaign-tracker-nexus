@@ -12,40 +12,40 @@ const HamburgerIcon: React.FC<HamburgerIconProps> = ({ isOpen }) => {
       viewBox="0 0 24 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="filter drop-shadow-[1px_1px_2px_rgba(0,0,0,0.2)] drop-shadow-[-1px_-1px_2px_rgba(255,255,255,0.2)]"
+      className="transition-all duration-300"
     >
       <rect
-        className={`transform transition-transform duration-300 ease-in-out ${
-          isOpen ? 'rotate-45 translate-x-[5px] translate-y-[5px]' : ''
+        className={`transform transition-all duration-300 ease-in-out origin-center ${
+          isOpen ? 'rotate-45 translate-y-2' : ''
         }`}
         x="0"
         y="2"
         width="24"
-        height="4"
-        rx="1"
-        fill="#D4A017"
+        height="3"
+        rx="1.5"
+        fill="currentColor"
       />
       <rect
-        className={`transition-opacity duration-300 ease-in-out ${
-          isOpen ? 'opacity-0' : 'opacity-100'
+        className={`transition-all duration-300 ease-in-out ${
+          isOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
         }`}
         x="0"
-        y="8"
+        y="8.5"
         width="24"
-        height="4"
-        rx="1"
-        fill="#D4A017"
+        height="3"
+        rx="1.5"
+        fill="currentColor"
       />
       <rect
-        className={`transform transition-transform duration-300 ease-in-out ${
-          isOpen ? '-rotate-45 translate-x-[5px] translate-y-[-5px]' : ''
+        className={`transform transition-all duration-300 ease-in-out origin-center ${
+          isOpen ? '-rotate-45 -translate-y-2' : ''
         }`}
         x="0"
-        y="14"
+        y="15"
         width="24"
-        height="4"
-        rx="1"
-        fill="#D4A017"
+        height="3"
+        rx="1.5"
+        fill="currentColor"
       />
     </svg>
   );
