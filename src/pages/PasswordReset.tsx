@@ -97,7 +97,18 @@ const PasswordReset = () => {
     setIsLoading(true);
 
     try {
-      // Update the password using Supabase auth
+      // First verify the OTP token to establish a session
+      const { error: verifyError } = await supabase.auth.verifyOtp({
+        token_hash: token,
+        type: 'recovery',
+        email: email
+      });
+
+      if (verifyError) {
+        throw verifyError;
+      }
+
+      // Now update the password with the established session
       const { error } = await supabase.auth.updateUser({
         password: password
       });
