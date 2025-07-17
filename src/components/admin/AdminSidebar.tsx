@@ -63,7 +63,7 @@ const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => 
                     ? 'bg-gradient-to-r from-primary to-primary/80 text-primary-foreground shadow-lg shadow-primary/25 border border-primary/50' 
                     : 'text-sidebar-foreground hover:text-sidebar-foreground hover:bg-sidebar-accent hover:shadow-md hover:scale-105'
                   }
-                  rounded-lg px-4 py-3 font-medium
+                  rounded-lg px-4 py-6 font-medium
                 `}
               >
                 <div className="flex items-center gap-3 relative z-10">
