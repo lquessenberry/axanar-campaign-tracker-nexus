@@ -28,7 +28,7 @@ const AdminHeader = ({ activeSection }: AdminHeaderProps) => {
   return (
     <div className="mb-6 flex items-center gap-4">
       <div className="flex items-center gap-4">
-        <div className="p-2 bg-sidebar-accent/20 rounded-lg">
+        <div className="p-2 bg-primary/10 rounded-lg">
           <SidebarTrigger className="h-10 w-10" />
         </div>
         {CurrentIcon && (
