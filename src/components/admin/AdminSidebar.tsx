@@ -28,7 +28,7 @@ const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-axanar-teal/20 rounded-lg backdrop-blur-sm">
-              <Shield className="h-7 w-7 text-axanar-teal" />
+              <Shield className="h-14 w-14 text-axanar-teal" />
             </div>
             {!isCollapsed && (
               <div className="animate-fade-in">
@@ -61,14 +61,14 @@ const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => 
                 `}
               >
                 <div className="flex items-center gap-3 relative z-10">
-                  <item.icon className={`h-6 w-6 transition-transform duration-300 ${
+                  <item.icon className={`h-12 w-12 transition-transform duration-300 ${
                     activeSection === item.id ? 'scale-110 text-primary-foreground' : 'group-hover:scale-110'
                   }`} />
                   {!isCollapsed && (
                     <>
                       <span className="flex-1 text-left font-semibold">{item.label}</span>
                       {activeSection === item.id && (
-                        <ChevronRight className="h-5 w-5 animate-pulse text-primary-foreground" />
+                        <ChevronRight className="h-10 w-10 animate-pulse text-primary-foreground" />
                       )}
                     </>
                   )}
