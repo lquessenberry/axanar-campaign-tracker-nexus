@@ -44,7 +44,7 @@ const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => 
             )}
           </div>
           {!isCollapsed && (
-            <SidebarTrigger className="text-axanar-silver hover:text-white hover:bg-white/10 rounded-md p-1" />
+            <SidebarTrigger className="text-axanar-silver hover:text-white hover:bg-white/10 rounded-md p-3 animate-[bounce_3s_ease-in-out_infinite] h-12 w-12" />
           )}
         </div>
       </SidebarHeader>
