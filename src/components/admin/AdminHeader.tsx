@@ -28,10 +28,12 @@ const AdminHeader = ({ activeSection }: AdminHeaderProps) => {
   return (
     <div className="mb-6 flex items-center gap-4">
       <div className="flex items-center gap-4">
-        <SidebarTrigger className="h-12 w-12 text-lg" />
+        <div className="p-2 bg-sidebar-accent/20 rounded-lg">
+          <SidebarTrigger className="h-10 w-10" />
+        </div>
         {CurrentIcon && (
           <div className="p-2 bg-primary/10 rounded-lg">
-            <CurrentIcon className="h-12 w-12 text-primary" />
+            <CurrentIcon className="h-10 w-10 text-primary" />
           </div>
         )}
       </div>
