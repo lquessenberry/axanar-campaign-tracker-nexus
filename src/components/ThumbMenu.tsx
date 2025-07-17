@@ -4,9 +4,8 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
+import HamburgerIcon from "./HamburgerIcon";
 import { 
-  Menu, 
-  X, 
   User, 
   LogIn, 
   LogOut, 
@@ -83,7 +82,7 @@ const ThumbMenu = () => {
               : 'bg-axanar-teal hover:bg-axanar-teal/90'
           }`}
         >
-          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          <HamburgerIcon isOpen={isOpen} />
         </Button>
 
         {/* Menu Items */}
