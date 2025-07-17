@@ -76,13 +76,28 @@ const ThumbMenu = () => {
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           onClick={() => setIsOpen(!isOpen)}
-          className={`w-14 h-14 rounded-full shadow-lg transition-all duration-300 ${
+          className={`w-14 h-14 rounded-full shadow-lg transition-all duration-300 relative overflow-hidden ${
             isOpen 
               ? 'bg-red-600 hover:bg-red-700 rotate-45' 
               : 'bg-axanar-teal hover:bg-axanar-teal/90'
           }`}
+          style={{
+            backgroundImage: `
+              radial-gradient(circle at 25% 25%, transparent 20%, currentColor 21%, currentColor 35%, transparent 36%),
+              radial-gradient(circle at 75% 25%, transparent 20%, currentColor 21%, currentColor 35%, transparent 36%),
+              radial-gradient(circle at 25% 75%, transparent 20%, currentColor 21%, currentColor 35%, transparent 36%),
+              radial-gradient(circle at 75% 75%, transparent 20%, currentColor 21%, currentColor 35%, transparent 36%),
+              radial-gradient(circle at 50% 50%, transparent 20%, currentColor 21%, currentColor 35%, transparent 36%)
+            `,
+            backgroundSize: '12px 12px',
+            backgroundPosition: '0 0, 6px 0, 0 6px, 6px 6px, 3px 3px',
+            opacity: 0.1
+          }}
         >
-          <HamburgerIcon isOpen={isOpen} />
+          <div className="absolute inset-0 bg-current opacity-80 rounded-full"></div>
+          <div className="relative z-10">
+            <HamburgerIcon isOpen={isOpen} />
+          </div>
         </Button>
 
         {/* Menu Items */}
