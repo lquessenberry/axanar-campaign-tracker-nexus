@@ -24,7 +24,7 @@ const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => 
   return (
     <Sidebar className="bg-gradient-to-b from-axanar-dark to-slate-900 border-r border-axanar-silver/20 h-full overflow-hidden shadow-2xl z-50">
       {/* Enhanced Header with Gradient Background */}
-      <SidebarHeader className="p-6 bg-gradient-to-r from-axanar-teal/20 to-transparent border-b border-axanar-silver/20">
+      <SidebarHeader className="p-6 bg-gradient-to-r from-primary/60 to-primary/30 border-b border-sidebar-border">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-axanar-teal/20 rounded-lg backdrop-blur-sm">
