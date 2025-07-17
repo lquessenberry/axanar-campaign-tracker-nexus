@@ -28,14 +28,26 @@ const handler = async (req: Request): Promise<Response> => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     // First validate the recovery token
-    const { data: tokenValidation } = await supabase
+    const { data: tokenValidation, error: tokenError } = await supabase
       .rpc('validate_recovery_token', {
         token: token,
         user_email: email
       });
 
+    console.log('Token validation result:', { tokenValidation, tokenError });
+
+    if (tokenError) {
+      console.error('Token validation RPC error:', tokenError);
+      return new Response(JSON.stringify({ 
+        error: `Token validation failed: ${tokenError.message}`
+      }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+
     if (!tokenValidation || tokenValidation.length === 0 || !tokenValidation[0].is_valid) {
-      console.error('Invalid recovery token');
+      console.error('Invalid recovery token - validation response:', tokenValidation);
       return new Response(JSON.stringify({ 
         error: tokenValidation?.[0]?.message || 'Invalid or expired recovery token'
       }), {
