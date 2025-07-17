@@ -22,12 +22,22 @@ const AdminHeader = ({ activeSection }: AdminHeaderProps) => {
     return descriptions[section as keyof typeof descriptions] || "";
   };
 
+  const currentSection = sidebarItems.find(item => item.id === activeSection);
+  const CurrentIcon = currentSection?.icon;
+
   return (
     <div className="mb-6 flex items-center gap-4">
-      <SidebarTrigger className="h-12 w-12 text-lg" />
+      <div className="flex items-center gap-4">
+        <SidebarTrigger className="h-12 w-12 text-lg" />
+        {CurrentIcon && (
+          <div className="p-2 bg-primary/10 rounded-lg">
+            <CurrentIcon className="h-12 w-12 text-primary" />
+          </div>
+        )}
+      </div>
       <div>
         <h1 className="font-bold">
-          {sidebarItems.find(item => item.id === activeSection)?.label || "Dashboard"}
+          {currentSection?.label || "Dashboard"}
         </h1>
         <p className="text-muted-foreground">
           {getSectionDescription(activeSection)}
