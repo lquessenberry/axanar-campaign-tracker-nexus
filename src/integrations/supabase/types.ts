@@ -2185,6 +2185,14 @@ export type Database = {
           suggested_providers: string[]
         }[]
       }
+      check_recovery_token_validity: {
+        Args: { token: string; user_email: string }
+        Returns: {
+          is_valid: boolean
+          attempt_type: string
+          message: string
+        }[]
+      }
       create_auth_users_for_donors: {
         Args: Record<PropertyKey, never>
         Returns: {

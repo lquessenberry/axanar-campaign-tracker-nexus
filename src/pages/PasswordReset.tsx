@@ -35,7 +35,7 @@ const PasswordReset = () => {
       }
 
       try {
-        const { data } = await supabase.rpc('validate_recovery_token', {
+        const { data } = await supabase.rpc('check_recovery_token_validity', {
           token: token,
           user_email: email
         });
