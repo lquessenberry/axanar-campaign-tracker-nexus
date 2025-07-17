@@ -81,23 +81,20 @@ const ThumbMenu = () => {
               ? 'bg-red-600 hover:bg-red-700 rotate-45' 
               : 'bg-axanar-teal hover:bg-axanar-teal/90'
           }`}
-          style={{
-            backgroundImage: `
-              radial-gradient(circle at 25% 25%, transparent 20%, currentColor 21%, currentColor 35%, transparent 36%),
-              radial-gradient(circle at 75% 25%, transparent 20%, currentColor 21%, currentColor 35%, transparent 36%),
-              radial-gradient(circle at 25% 75%, transparent 20%, currentColor 21%, currentColor 35%, transparent 36%),
-              radial-gradient(circle at 75% 75%, transparent 20%, currentColor 21%, currentColor 35%, transparent 36%),
-              radial-gradient(circle at 50% 50%, transparent 20%, currentColor 21%, currentColor 35%, transparent 36%)
-            `,
-            backgroundSize: '12px 12px',
-            backgroundPosition: '0 0, 6px 0, 0 6px, 6px 6px, 3px 3px',
-            opacity: 0.1
-          }}
         >
-          <div className="absolute inset-0 bg-current opacity-80 rounded-full"></div>
-          <div className="relative z-10">
-            <HamburgerIcon isOpen={isOpen} />
-          </div>
+          <div 
+            className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage: `
+                radial-gradient(circle at 10px 9px, transparent 4px, rgba(255,255,255,0.3) 5px, rgba(255,255,255,0.3) 6px, transparent 7px),
+                radial-gradient(circle at 25px 9px, transparent 4px, rgba(255,255,255,0.3) 5px, rgba(255,255,255,0.3) 6px, transparent 7px),
+                radial-gradient(circle at 17.5px 22px, transparent 4px, rgba(255,255,255,0.3) 5px, rgba(255,255,255,0.3) 6px, transparent 7px)
+              `,
+              backgroundSize: '35px 30px',
+              backgroundPosition: '0 0'
+            }}
+          />
+          <HamburgerIcon isOpen={isOpen} />
         </Button>
 
         {/* Menu Items */}
