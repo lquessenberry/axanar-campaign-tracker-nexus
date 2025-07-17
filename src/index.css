@@ -81,83 +81,83 @@
 
 @layer base {
   :root {
-    --background: 95.7% 0.0026 106.4488;
-    --foreground: 35.58% 0.0017 106.4855;
+    --background: 40 2% 95%;
+    --foreground: 40 2% 35%;
 
-    --card: 93.65% 0.0027 106.4508;
-    --card-foreground: 35.58% 0.0017 106.4855;
+    --card: 40 3% 92%;
+    --card-foreground: 40 2% 35%;
 
-    --popover: 93.65% 0.0027 106.4508;
-    --popover-foreground: 35.58% 0.0017 106.4855;
+    --popover: 40 3% 92%;
+    --popover-foreground: 40 2% 35%;
 
-    --primary: 57.92% 0.1504 43.8094;
-    --primary-foreground: 100% 0 0;
+    --primary: 44 75% 60%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 51.55% 0.0060 67.6928;
-    --secondary-foreground: 100% 0 0;
+    --secondary: 68 3% 50%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 98.18% 0.0013 106.4234;
-    --muted-foreground: 63.51% 0.0057 67.7228;
+    --muted: 40 1% 97%;
+    --muted-foreground: 68 3% 62%;
 
-    --accent: 88.91% 0.0046 78.2963;
-    --accent-foreground: 35.58% 0.0017 106.4855;
+    --accent: 78 5% 87%;
+    --accent-foreground: 40 2% 35%;
 
-    --destructive: 57.71% 0.2152 27.3250;
-    --destructive-foreground: 100% 0 0;
+    --destructive: 27 85% 58%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 86.01% 0.0027 106.4566;
-    --input: 93.65% 0.0027 106.4508;
-    --ring: 57.92% 0.1504 43.8094;
+    --border: 40 3% 84%;
+    --input: 40 3% 92%;
+    --ring: 44 75% 60%;
 
-    --sidebar: 93.65% 0.0027 106.4508;
-    --sidebar-foreground: 35.58% 0.0017 106.4855;
-    --sidebar-primary: 57.92% 0.1504 43.8094;
-    --sidebar-primary-foreground: 100% 0 0;
-    --sidebar-accent: 88.91% 0.0046 78.2963;
-    --sidebar-accent-foreground: 35.58% 0.0017 106.4855;
-    --sidebar-border: 86.01% 0.0027 106.4566;
-    --sidebar-ring: 57.92% 0.1504 43.8094;
+    --sidebar: 40 3% 92%;
+    --sidebar-foreground: 40 2% 35%;
+    --sidebar-primary: 44 75% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 78 5% 87%;
+    --sidebar-accent-foreground: 40 2% 35%;
+    --sidebar-border: 40 3% 84%;
+    --sidebar-ring: 44 75% 60%;
 
     --radius: 1rem;
   }
 
   .dark {
-    --background: 22.64% 0 0;
-    --foreground: 93.65% 0.0027 106.4508;
+    --background: 0 0% 22%;
+    --foreground: 40 3% 92%;
 
-    --card: 28.50% 0 0;
-    --card-foreground: 93.65% 0.0027 106.4508;
+    --card: 0 0% 28%;
+    --card-foreground: 40 3% 92%;
 
-    --popover: 28.50% 0 0;
-    --popover-foreground: 93.65% 0.0027 106.4508;
+    --popover: 0 0% 28%;
+    --popover-foreground: 40 3% 92%;
 
-    --primary: 69.07% 0.1491 45.8018;
-    --primary-foreground: 22.64% 0 0;
+    --primary: 46 75% 70%;
+    --primary-foreground: 0 0% 22%;
 
-    --secondary: 43.13% 0 0;
-    --secondary-foreground: 93.65% 0.0027 106.4508;
+    --secondary: 0 0% 43%;
+    --secondary-foreground: 40 3% 92%;
 
-    --muted: 26.03% 0 0;
-    --muted-foreground: 63.51% 0.0057 67.7228;
+    --muted: 0 0% 26%;
+    --muted-foreground: 68 3% 62%;
 
-    --accent: 35.62% 0 0;
-    --accent-foreground: 93.65% 0.0027 106.4508;
+    --accent: 0 0% 36%;
+    --accent-foreground: 40 3% 92%;
 
-    --destructive: 44.37% 0.1613 26.8994;
-    --destructive-foreground: 98.18% 0.0013 106.4234;
+    --destructive: 27 65% 44%;
+    --destructive-foreground: 40 1% 97%;
 
-    --border: 37.15% 0 0;
-    --input: 28.50% 0 0;
-    --ring: 69.07% 0.1491 45.8018;
+    --border: 0 0% 37%;
+    --input: 0 0% 28%;
+    --ring: 46 75% 70%;
 
-    --sidebar: 28.50% 0 0;
-    --sidebar-foreground: 93.65% 0.0027 106.4508;
-    --sidebar-primary: 69.07% 0.1491 45.8018;
-    --sidebar-primary-foreground: 22.64% 0 0;
-    --sidebar-accent: 35.62% 0 0;
-    --sidebar-accent-foreground: 93.65% 0.0027 106.4508;
-    --sidebar-border: 37.15% 0 0;
-    --sidebar-ring: 69.07% 0.1491 45.8018;
+    --sidebar: 0 0% 28%;
+    --sidebar-foreground: 40 3% 92%;
+    --sidebar-primary: 46 75% 70%;
+    --sidebar-primary-foreground: 0 0% 22%;
+    --sidebar-accent: 0 0% 36%;
+    --sidebar-accent-foreground: 40 3% 92%;
+    --sidebar-border: 0 0% 37%;
+    --sidebar-ring: 46 75% 70%;
   }
 
   * {
