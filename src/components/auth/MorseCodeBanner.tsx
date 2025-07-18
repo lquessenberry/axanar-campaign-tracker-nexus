@@ -131,13 +131,21 @@ const MorseCodeBanner = () => {
     setCurrentMessage(initialTransmission);
     setIsTransmitting(true);
 
-    // Continuously generate new transmissions
-    const transmissionInterval = setInterval(() => {
-      const newTransmission = generateTransmission();
-      setCurrentMessage(newTransmission);
-    }, 8000 + Math.random() * 4000); // New transmission every 8-12 seconds
+    const scheduleNextTransmission = (message: string) => {
+      // Calculate scroll duration based on message length
+      // Each character takes about 0.2 seconds to scroll at 25s total animation
+      const scrollDuration = Math.max(25000, message.length * 200);
+      
+      // Wait for current transmission to completely finish before starting new one
+      setTimeout(() => {
+        const newTransmission = generateTransmission();
+        setCurrentMessage(newTransmission);
+        scheduleNextTransmission(newTransmission);
+      }, scrollDuration + 1000); // Add 1 second buffer for clean transition
+    };
 
-    return () => clearInterval(transmissionInterval);
+    // Schedule the first next transmission
+    scheduleNextTransmission(initialTransmission);
   }, []);
 
   // Always show the banner when there's a message
