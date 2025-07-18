@@ -126,24 +126,22 @@ const MorseCodeBanner = () => {
   };
 
   useEffect(() => {
+    // Start with an initial transmission
+    const initialTransmission = generateTransmission();
+    setCurrentMessage(initialTransmission);
+    setIsTransmitting(true);
+
+    // Continuously generate new transmissions
     const transmissionInterval = setInterval(() => {
-      setIsTransmitting(true);
-      
-      // Generate a new transmission
       const newTransmission = generateTransmission();
       setCurrentMessage(newTransmission);
-      
-      // Stop transmitting after the message duration
-      setTimeout(() => {
-        setIsTransmitting(false);
-      }, 8000 + Math.random() * 4000); // 8-12 seconds
-      
-    }, 12000 + Math.random() * 8000); // Every 12-20 seconds
+    }, 8000 + Math.random() * 4000); // New transmission every 8-12 seconds
 
     return () => clearInterval(transmissionInterval);
   }, []);
 
-  if (!isTransmitting || !currentMessage) return null;
+  // Always show the banner when there's a message
+  if (!currentMessage) return null;
 
   // Color coding based on transmission type
   const getBannerColors = () => {
