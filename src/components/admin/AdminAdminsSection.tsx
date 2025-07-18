@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { AdminUser } from "@/types/admin";
 import DebugPanel from "@/components/admin/DebugPanel";
 import AddAdminForm from "@/components/admin/AddAdminForm";
+import AddNewUserForm from "@/components/admin/AddNewUserForm";
 import AdminList from "@/components/admin/AdminList";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -105,7 +106,10 @@ const AdminAdminsSection = () => {
       <CardContent>
         <div className="grid gap-6">
           <DebugPanel />
-          <AddAdminForm onAdminAdded={fetchAdmins} />
+          <div className="grid md:grid-cols-2 gap-6">
+            <AddAdminForm onAdminAdded={fetchAdmins} />
+            <AddNewUserForm onUserCreated={fetchAdmins} />
+          </div>
           <AdminList 
             admins={admins}
             loading={loading}
