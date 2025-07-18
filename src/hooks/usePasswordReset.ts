@@ -11,7 +11,7 @@ export const usePasswordReset = (email: string, onSuccess: () => void) => {
   const handleResetRequest = async () => {
     setIsLoading(true);
     try {
-      // Use our custom email function for password reset
+      // Call the edge function directly - this handles both token generation and email sending
       const { data, error } = await supabase.functions.invoke('send-password-reset', {
         body: {
           email: email,
