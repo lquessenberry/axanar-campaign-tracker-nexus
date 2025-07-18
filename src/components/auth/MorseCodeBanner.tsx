@@ -187,27 +187,47 @@ const MorseCodeBanner = () => {
   const colors = getBannerColors();
 
   return (
-    <div className={`fixed top-16 left-0 w-full z-30 ${colors.bg} border-y ${colors.border}`}>
-      <div className="relative overflow-hidden">
-        {/* Scrolling text - slowed down to 25s */}
-        <div className={`animate-[scroll_25s_linear_infinite] whitespace-nowrap ${colors.text} font-mono text-xs py-1`}>
-          <span className="inline-block px-4">
-            {currentMessage}
-          </span>
-        </div>
-        
-        {/* Static overlay effect */}
-        <div className={`absolute inset-0 ${colors.overlay} animate-pulse`} />
-        
-        {/* Transmission indicator */}
-        <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
-          <div className={`w-1 h-1 ${colors.indicator} rounded-full animate-pulse`} />
-          <span className={`${colors.indicatorText} font-mono text-xs`}>
-            {transmissionType === 'threat' ? 'RED' : transmissionType === 'scrambled' ? 'SCR' : 'TX'}
-          </span>
+    <>
+      <div className={`fixed top-16 left-0 w-full z-30 ${colors.bg} border-y ${colors.border}`}>
+        <div className="relative overflow-hidden">
+          {/* Scrolling text - slowed down to 25s */}
+          <div className={`animate-[scroll_25s_linear_infinite] whitespace-nowrap ${colors.text} font-mono text-xs py-1`}>
+            <span className="inline-block px-4">
+              {currentMessage}
+            </span>
+          </div>
+          
+          {/* Static overlay effect */}
+          <div className={`absolute inset-0 ${colors.overlay} animate-pulse`} />
+          
+          {/* Transmission indicator */}
+          <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
+            <div className={`w-1 h-1 ${colors.indicator} rounded-full animate-pulse`} />
+            <span className={`${colors.indicatorText} font-mono text-xs`}>
+              {transmissionType === 'threat' ? 'RED' : transmissionType === 'scrambled' ? 'SCR' : 'TX'}
+            </span>
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Descrambler marquee for scrambled transmissions */}
+      {transmissionType === 'scrambled' && (
+        <div className="fixed top-[4.5rem] left-0 w-full z-29 bg-orange-900/80 border-b border-orange-500/30">
+          <div className="relative overflow-hidden">
+            <div className="animate-[scroll_15s_linear_infinite] whitespace-nowrap text-orange-300 font-mono text-xs py-1">
+              <span className="inline-block px-4">
+                ▓░▒ DESCRAMBLER ACTIVE ▒░▓ SIGNAL ANALYSIS: 67% ░▒▓ PATTERN RECOGNITION ▓▒░ FREQ MODULATION DETECTED ░▒▓ DESCRAMBLING... ▒▓░ PARTIAL DECODE ░▓▒ TRANSMISSION INTEGRITY: 42% ▓░▒ QUANTUM INTERFERENCE ▒░▓ SIGNAL CLARIFICATION ░▒▓ DESCRAMBLER WORKING ▓▒░
+              </span>
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-500/5 to-transparent animate-pulse" />
+            <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
+              <div className="w-1 h-1 bg-orange-400 rounded-full animate-pulse" />
+              <span className="text-orange-300/70 font-mono text-xs">DCR</span>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
