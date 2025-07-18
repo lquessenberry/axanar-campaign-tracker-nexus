@@ -127,7 +127,6 @@ export default {
 						transform: 'translateX(-100%)'
 					}
 				}
-				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
