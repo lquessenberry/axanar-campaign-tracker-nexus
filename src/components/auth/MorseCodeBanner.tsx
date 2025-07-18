@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
 const MorseCodeBanner = () => {
-  const [currentMessage, setCurrentMessage] = useState('');
-  const [isTransmitting, setIsTransmitting] = useState(false);
-  const [transmissionType, setTransmissionType] = useState<'normal' | 'scrambled' | 'threat'>('normal');
+  const [messageQueue, setMessageQueue] = useState<Array<{message: string, type: 'normal' | 'scrambled' | 'threat'}>>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const captains = ['CAPT. GARTH', 'CAPT. SAM', 'CAPT. SONYA'];
   
@@ -62,7 +62,7 @@ const MorseCodeBanner = () => {
     return `${rank} ${name}`;
   };
 
-  const generateTransmission = () => {
+  const generateTransmissionWithType = (): {message: string, type: 'normal' | 'scrambled' | 'threat'} => {
     const fromCaptain = captains[Math.floor(Math.random() * captains.length)];
     const toCaptain = captains.filter(c => c !== fromCaptain)[Math.floor(Math.random() * 2)];
     const maneuver = tacticalManeuvers[Math.floor(Math.random() * tacticalManeuvers.length)];
@@ -75,13 +75,11 @@ const MorseCodeBanner = () => {
     const rand = Math.random();
     let type: 'normal' | 'scrambled' | 'threat' = 'normal';
     
-    if (rand < 0.3) {
-      type = 'scrambled'; // 30% chance of scrambled
+    if (rand < 0.25) {
+      type = 'scrambled'; // 25% chance of scrambled
     } else if (rand < 0.15) {
       type = 'threat'; // 15% chance of threat
     }
-    
-    setTransmissionType(type);
 
     if (type === 'scrambled') {
       // Scrambled transmissions with heavy interference
@@ -92,7 +90,10 @@ const MorseCodeBanner = () => {
         `${generateInterference()} ▒▒▒ STATIC ▒▒▒ ${deadTransmissionNoise[Math.floor(Math.random() * deadTransmissionNoise.length)]} ▒▒▒ ${generateHeavyInterference()}`,
         `${generateHeavyInterference()} ▓░▒█ TRANSMISSION CORRUPTED █▒░▓ ${generateHeavyInterference()}`
       ];
-      return scrambledTypes[Math.floor(Math.random() * scrambledTypes.length)];
+      return {
+        message: scrambledTypes[Math.floor(Math.random() * scrambledTypes.length)],
+        type: 'scrambled'
+      };
     }
 
     if (type === 'threat') {
@@ -104,7 +105,10 @@ const MorseCodeBanner = () => {
         `${generateInterference()} 🚨 MULTIPLE CONTACTS :: ${toCaptain} :: KLINGON ATTACK FORMATION :: EXECUTE ${maneuver} 🚨 ${generateInterference()}`,
         `${generateInterference()} ⚠️ INCOMING PHOTON TORPEDOES :: ALL SHIPS :: ${maneuver} :: STARDATE ${stardate} ⚠️ ${generateInterference()}`
       ];
-      return threatTypes[Math.floor(Math.random() * threatTypes.length)];
+      return {
+        message: threatTypes[Math.floor(Math.random() * threatTypes.length)],
+        type: 'threat'
+      };
     }
 
     // Normal transmissions including crew dialog
@@ -122,30 +126,52 @@ const MorseCodeBanner = () => {
       `${generateInterference()} ${crewMember2} TO ALL STATIONS :: ${maneuver} COMMENCING :: REPORT STATUS TO ${fromCaptain} ${generateInterference()}`
     ];
 
-    return normalTypes[Math.floor(Math.random() * normalTypes.length)];
+    return {
+      message: normalTypes[Math.floor(Math.random() * normalTypes.length)],
+      type: 'normal'
+    };
   };
 
+  // Initialize message queue with several transmissions
   useEffect(() => {
-    // Start with an initial transmission
-    const initialTransmission = generateTransmission();
-    setCurrentMessage(initialTransmission);
-    setIsTransmitting(true);
-
-    // Continuously generate new transmissions
-    const transmissionInterval = setInterval(() => {
-      const newTransmission = generateTransmission();
-      setCurrentMessage(newTransmission);
-    }, 8000 + Math.random() * 4000); // New transmission every 8-12 seconds
-
-    return () => clearInterval(transmissionInterval);
+    const initialQueue = Array.from({ length: 10 }, () => generateTransmissionWithType());
+    setMessageQueue(initialQueue);
   }, []);
 
-  // Always show the banner when there's a message
-  if (!currentMessage) return null;
+  // Cycle through messages continuously
+  useEffect(() => {
+    if (messageQueue.length === 0) return;
 
+    const interval = setInterval(() => {
+      setIsTransitioning(true);
+      
+      setTimeout(() => {
+        setCurrentIndex((prevIndex) => {
+          const nextIndex = (prevIndex + 1) % messageQueue.length;
+          
+          // Add a new message to keep the queue fresh
+          if (nextIndex === 0) {
+            const newTransmission = generateTransmissionWithType();
+            setMessageQueue(prev => [...prev.slice(1), newTransmission]);
+          }
+          
+          return nextIndex;
+        });
+        setIsTransitioning(false);
+      }, 300); // Short transition duration
+      
+    }, 12000); // Each message displays for 12 seconds
+
+    return () => clearInterval(interval);
+  }, [messageQueue.length]);
+
+  if (messageQueue.length === 0) return null;
+
+  const currentTransmission = messageQueue[currentIndex];
+  
   // Color coding based on transmission type
-  const getBannerColors = () => {
-    switch (transmissionType) {
+  const getBannerColors = (type: 'normal' | 'scrambled' | 'threat') => {
+    switch (type) {
       case 'threat':
         return {
           bg: 'bg-red-900/90',
@@ -176,26 +202,29 @@ const MorseCodeBanner = () => {
     }
   };
 
-  const colors = getBannerColors();
+  const colors = getBannerColors(currentTransmission.type);
 
   return (
-    <div className={`fixed top-16 left-0 w-full z-30 ${colors.bg} border-y ${colors.border}`}>
+    <div className={`fixed top-16 left-0 w-full z-30 transition-all duration-300 ${colors.bg} border-y ${colors.border} ${isTransitioning ? 'opacity-60' : 'opacity-100'}`}>
       <div className="relative overflow-hidden">
-        {/* Scrolling text - slowed down to 25s */}
-        <div className={`animate-[scroll_25s_linear_infinite] whitespace-nowrap ${colors.text} font-mono text-xs py-1`}>
+        {/* Scrolling text that completely exits before next message */}
+        <div 
+          key={currentIndex} 
+          className={`animate-[scroll_25s_linear_infinite] whitespace-nowrap ${colors.text} font-mono text-xs py-1 transition-colors duration-500`}
+        >
           <span className="inline-block px-4">
-            {currentMessage}
+            {currentTransmission.message}
           </span>
         </div>
         
         {/* Static overlay effect */}
-        <div className={`absolute inset-0 ${colors.overlay} animate-pulse`} />
+        <div className={`absolute inset-0 ${colors.overlay} animate-pulse transition-all duration-500`} />
         
         {/* Transmission indicator */}
         <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
-          <div className={`w-1 h-1 ${colors.indicator} rounded-full animate-pulse`} />
-          <span className={`${colors.indicatorText} font-mono text-xs`}>
-            {transmissionType === 'threat' ? 'RED' : transmissionType === 'scrambled' ? 'SCR' : 'TX'}
+          <div className={`w-1 h-1 ${colors.indicator} rounded-full animate-pulse transition-colors duration-500`} />
+          <span className={`${colors.indicatorText} font-mono text-xs transition-colors duration-500`}>
+            {currentTransmission.type === 'threat' ? 'RED' : currentTransmission.type === 'scrambled' ? 'SCR' : 'TX'}
           </span>
         </div>
       </div>
