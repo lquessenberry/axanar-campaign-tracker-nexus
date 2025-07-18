@@ -6,8 +6,9 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, Mail, Shield, User } from 'lucide-react';
-import { useEmailCheck, useInitiateRecovery } from '@/hooks/useAccountRecovery';
+import { useEmailCheck } from '@/hooks/useAccountRecovery';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 interface AccountLookupProps {
   onPasswordReset: (email: string) => void;
@@ -19,10 +20,10 @@ interface AccountLookupProps {
 const AccountLookup = ({ onPasswordReset, onSSOLink, onProceedToSignup, onCancel }: AccountLookupProps) => {
   const [email, setEmail] = useState('');
   const [hasChecked, setHasChecked] = useState(false);
+  const [isResettingPassword, setIsResettingPassword] = useState(false);
   const { toast } = useToast();
   
   const { data: emailCheck, isLoading: isChecking, error: checkError } = useEmailCheck(email);
-  const { mutate: initiateRecovery, isPending: isInitiatingRecovery } = useInitiateRecovery();
 
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,60 +32,43 @@ const AccountLookup = ({ onPasswordReset, onSSOLink, onProceedToSignup, onCancel
     }
   };
 
-  const handlePasswordReset = () => {
-    initiateRecovery(
-      { email, recoveryType: 'password_reset' },
-      {
-        onSuccess: (result) => {
-          if (result.success) {
-            toast({
-              title: "Password reset sent",
-              description: "Please check your email for password reset instructions.",
-            });
-            onPasswordReset(email);
-          } else {
-            toast({
-              title: "Error",
-              description: result.message,
-              variant: "destructive",
-            });
-          }
-        },
-        onError: (error) => {
-          toast({
-            title: "Error",
-            description: "Failed to send password reset email. Please try again.",
-            variant: "destructive",
-          });
+  const handlePasswordReset = async () => {
+    setIsResettingPassword(true);
+    try {
+      // Call the edge function directly - this handles both token generation and email sending
+      const { data, error } = await supabase.functions.invoke('send-password-reset', {
+        body: {
+          email: email,
+          redirectUrl: `${window.location.origin}`
         }
+      });
+
+      if (error) {
+        throw error;
       }
-    );
+
+      toast({
+        title: "Password reset email sent",
+        description: "Please check your email for password reset instructions.",
+      });
+      
+      // Navigate to confirmation screen
+      onPasswordReset(email);
+    } catch (error: any) {
+      console.error('Password reset error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to send password reset email. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsResettingPassword(false);
+    }
   };
 
   const handleSSOLink = (provider: string) => {
-    initiateRecovery(
-      { email, recoveryType: 'sso_link' },
-      {
-        onSuccess: (result) => {
-          if (result.success) {
-            onSSOLink(email, provider);
-          } else {
-            toast({
-              title: "Error",
-              description: result.message,
-              variant: "destructive",
-            });
-          }
-        },
-        onError: (error) => {
-          toast({
-            title: "Error",
-            description: "Failed to initiate SSO linking. Please try again.",
-            variant: "destructive",
-          });
-        }
-      }
-    );
+    // For SSO linking, we still use the database function since it doesn't send emails
+    onSSOLink(email, provider);
   };
 
   const getProviderDisplayName = (provider: string) => {
@@ -229,9 +213,9 @@ const AccountLookup = ({ onPasswordReset, onSSOLink, onProceedToSignup, onCancel
               <Button 
                 onClick={handlePasswordReset}
                 className="w-full"
-                disabled={isInitiatingRecovery}
+                disabled={isResettingPassword}
               >
-                {isInitiatingRecovery ? (
+                {isResettingPassword ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Sending...
@@ -251,7 +235,7 @@ const AccountLookup = ({ onPasswordReset, onSSOLink, onProceedToSignup, onCancel
                     onClick={() => handleSSOLink(provider)}
                     variant="outline"
                     className="w-full"
-                    disabled={isInitiatingRecovery}
+                    disabled={false}
                   >
                     Sign in with {getProviderDisplayName(provider)}
                   </Button>
