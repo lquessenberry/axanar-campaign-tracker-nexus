@@ -210,7 +210,7 @@ const MorseCodeBanner = () => {
         {/* Scrolling text that completely exits before next message */}
         <div 
           key={currentIndex} 
-          className={`animate-[scroll_25s_linear_infinite] whitespace-nowrap ${colors.text} font-mono text-xs py-1 transition-colors duration-500`}
+          className={`animate-[scroll_120s_linear_infinite] whitespace-nowrap ${colors.text} font-mono text-xs py-1 transition-colors duration-500`}
         >
           <span className="inline-block px-4">
             {currentTransmission.message}
