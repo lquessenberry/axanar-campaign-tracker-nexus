@@ -22,7 +22,7 @@ const Footer = () => {
           </div>
         )}
         
-        <div className={`border-t border-white/10 ${user ? 'mt-8' : 'mt-0'} pt-6 flex flex-col md:flex-row justify-between items-center`}>
+        <div className={`border-t border-white/10 ${user ? 'mt-8' : 'mt-0'} pt-6 flex flex-col md:flex-row justify-between items-baseline`}>
           <div className="flex items-baseline space-x-3">
             <img 
               src="/lovable-uploads/4ae57c3d-f1da-43e2-93ec-016f24a0b0c4.png" 
