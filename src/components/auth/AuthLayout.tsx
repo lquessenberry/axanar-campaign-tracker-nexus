@@ -4,6 +4,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import StarField from '@/components/StarField';
 import MouseTracker from '@/components/auth/MouseTracker';
+import MorseCodeBanner from '@/components/auth/MorseCodeBanner';
 import RadarBlips from '@/components/auth/RadarBlips';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -38,6 +39,9 @@ const AuthLayout = ({ children, battleMode, onBattleModeToggle }: AuthLayoutProp
             <RadarBlips />
           </div>
         )}
+
+        {/* Morse Code Banner */}
+        <MorseCodeBanner />
 
         {/* Mobile navigation - compact and edge-to-edge */}
         <div className="relative z-50 flex-shrink-0">
@@ -84,7 +88,10 @@ const AuthLayout = ({ children, battleMode, onBattleModeToggle }: AuthLayoutProp
           <MouseTracker />
           <RadarBlips />
         </div>
-      )}
+        )}
+
+        {/* Morse Code Banner */}
+        <MorseCodeBanner />
 
       {/* Navigation - top level */}
       <div className="relative z-50">
