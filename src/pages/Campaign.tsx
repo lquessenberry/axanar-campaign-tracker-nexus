@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import ProgressBar from "@/components/ProgressBar";
 import PerkCard from "@/components/PerkCard";
 import { cn } from "@/lib/utils";
+import DOMPurify from "dompurify";
 
 // Mock campaign data
 const campaignData = {
@@ -269,7 +270,16 @@ const Campaign = () => {
                   </TabsList>
                   
                   <TabsContent value="story" className="pt-6">
-                    <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: campaign.longDescription }} />
+                    <div 
+                      className="prose max-w-none" 
+                      dangerouslySetInnerHTML={{ 
+                        __html: DOMPurify.sanitize(campaign.longDescription, {
+                          ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li'],
+                          ALLOWED_ATTR: ['class'],
+                          KEEP_CONTENT: true
+                        })
+                      }} 
+                    />
                   </TabsContent>
                   
                   <TabsContent value="updates" className="pt-6 space-y-8">
