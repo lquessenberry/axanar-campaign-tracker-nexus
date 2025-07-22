@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 const PortalContent = () => {
   return <div className="text-center w-full px-2 md:px-4">
-      <h1 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-display font-bold mb-3 md:mb-4 text-shadow-lg flex flex-col items-center justify-center gap-1 md:gap-2">
+      <h1 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-display font-bold mb-3 md:mb-4 text-shadow-lg flex flex-col items-center justify-center gap-1 md:gap-2 text-center">
         <img src="/lovable-uploads/4ae57c3d-f1da-43e2-93ec-016f24a0b0c4.png" alt="AXANAR" className="h-4 md:h-6 lg:h-8 xl:h-12 w-auto inline-block transform scale-[2.25] lg:scale-[2] -translate-y-1 lg:-translate-y-3 lg:mx-12 my-3 lg:my-6 mx-[12px]" />
         <span className="my-[20px]">Welcome Back Axanar Donors!</span>
       </h1>
