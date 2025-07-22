@@ -136,13 +136,6 @@ export type Database = {
             foreignKeyName: "addresses_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
-            referencedRelation: "vw_donors_pending_auth_activation"
-            referencedColumns: ["donor_id"]
-          },
-          {
-            foreignKeyName: "addresses_donor_id_fkey"
-            columns: ["donor_id"]
-            isOneToOne: false
             referencedRelation: "vw_donors_with_addresses"
             referencedColumns: ["donor_id"]
           },
@@ -268,13 +261,6 @@ export type Database = {
             foreignKeyName: "alerts_seen_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
-            referencedRelation: "vw_donors_pending_auth_activation"
-            referencedColumns: ["donor_id"]
-          },
-          {
-            foreignKeyName: "alerts_seen_donor_id_fkey"
-            columns: ["donor_id"]
-            isOneToOne: false
             referencedRelation: "vw_donors_with_addresses"
             referencedColumns: ["donor_id"]
           },
@@ -345,13 +331,6 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "vw_donor_pledge_summary"
-            referencedColumns: ["donor_id"]
-          },
-          {
-            foreignKeyName: "audit_trail_donor_id_fkey"
-            columns: ["donor_id"]
-            isOneToOne: false
-            referencedRelation: "vw_donors_pending_auth_activation"
             referencedColumns: ["donor_id"]
           },
           {
@@ -560,13 +539,6 @@ export type Database = {
             foreignKeyName: "donor_campaign_packages_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
-            referencedRelation: "vw_donors_pending_auth_activation"
-            referencedColumns: ["donor_id"]
-          },
-          {
-            foreignKeyName: "donor_campaign_packages_donor_id_fkey"
-            columns: ["donor_id"]
-            isOneToOne: false
             referencedRelation: "vw_donors_with_addresses"
             referencedColumns: ["donor_id"]
           },
@@ -644,13 +616,6 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "vw_donor_pledge_summary"
-            referencedColumns: ["donor_id"]
-          },
-          {
-            foreignKeyName: "donor_sku_items_donor_id_fkey"
-            columns: ["donor_id"]
-            isOneToOne: false
-            referencedRelation: "vw_donors_pending_auth_activation"
             referencedColumns: ["donor_id"]
           },
           {
@@ -800,13 +765,6 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "vw_donor_pledge_summary"
-            referencedColumns: ["donor_id"]
-          },
-          {
-            foreignKeyName: "notifications_donor_id_fkey"
-            columns: ["donor_id"]
-            isOneToOne: false
-            referencedRelation: "vw_donors_pending_auth_activation"
             referencedColumns: ["donor_id"]
           },
           {
@@ -1006,13 +964,6 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "vw_donor_pledge_summary"
-            referencedColumns: ["donor_id"]
-          },
-          {
-            foreignKeyName: "pledges_donor_id_fkey"
-            columns: ["donor_id"]
-            isOneToOne: false
-            referencedRelation: "vw_donors_pending_auth_activation"
             referencedColumns: ["donor_id"]
           },
           {
@@ -1303,13 +1254,6 @@ export type Database = {
             foreignKeyName: "src_indiegogo_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
-            referencedRelation: "vw_donors_pending_auth_activation"
-            referencedColumns: ["donor_id"]
-          },
-          {
-            foreignKeyName: "src_indiegogo_donor_id_fkey"
-            columns: ["donor_id"]
-            isOneToOne: false
             referencedRelation: "vw_donors_with_addresses"
             referencedColumns: ["donor_id"]
           },
@@ -1410,13 +1354,6 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "vw_donor_pledge_summary"
-            referencedColumns: ["donor_id"]
-          },
-          {
-            foreignKeyName: "src_kickstarter_axanar_donor_id_fkey"
-            columns: ["donor_id"]
-            isOneToOne: false
-            referencedRelation: "vw_donors_pending_auth_activation"
             referencedColumns: ["donor_id"]
           },
           {
@@ -1529,13 +1466,6 @@ export type Database = {
             foreignKeyName: "src_kickstarter_prelude_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
-            referencedRelation: "vw_donors_pending_auth_activation"
-            referencedColumns: ["donor_id"]
-          },
-          {
-            foreignKeyName: "src_kickstarter_prelude_donor_id_fkey"
-            columns: ["donor_id"]
-            isOneToOne: false
             referencedRelation: "vw_donors_with_addresses"
             referencedColumns: ["donor_id"]
           },
@@ -1618,13 +1548,6 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "vw_donor_pledge_summary"
-            referencedColumns: ["donor_id"]
-          },
-          {
-            foreignKeyName: "src_paypal_axanar_donor_id_fkey"
-            columns: ["donor_id"]
-            isOneToOne: false
-            referencedRelation: "vw_donors_pending_auth_activation"
             referencedColumns: ["donor_id"]
           },
           {
@@ -1719,13 +1642,6 @@ export type Database = {
             foreignKeyName: "src_paypal_prelude_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
-            referencedRelation: "vw_donors_pending_auth_activation"
-            referencedColumns: ["donor_id"]
-          },
-          {
-            foreignKeyName: "src_paypal_prelude_donor_id_fkey"
-            columns: ["donor_id"]
-            isOneToOne: false
             referencedRelation: "vw_donors_with_addresses"
             referencedColumns: ["donor_id"]
           },
@@ -1811,13 +1727,6 @@ export type Database = {
             foreignKeyName: "src_secret_perks_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
-            referencedRelation: "vw_donors_pending_auth_activation"
-            referencedColumns: ["donor_id"]
-          },
-          {
-            foreignKeyName: "src_secret_perks_donor_id_fkey"
-            columns: ["donor_id"]
-            isOneToOne: false
             referencedRelation: "vw_donors_with_addresses"
             referencedColumns: ["donor_id"]
           },
@@ -1878,15 +1787,13 @@ export type Database = {
       }
       donor_auth_relationships: {
         Row: {
-          auth_created_at: string | null
-          auth_user_id: string | null
+          contact_info: string | null
+          contact_preference: string | null
+          display_name: string | null
           donor_id: string | null
-          email: string | null
-          email_confirmed_at: string | null
-          first_name: string | null
-          has_auth_account: boolean | null
-          last_login: string | null
-          last_name: string | null
+          donor_name: string | null
+          profile_id: string | null
+          profile_user_id: string | null
         }
         Relationships: []
       }
@@ -1948,13 +1855,6 @@ export type Database = {
             foreignKeyName: "pledges_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
-            referencedRelation: "vw_donors_pending_auth_activation"
-            referencedColumns: ["donor_id"]
-          },
-          {
-            foreignKeyName: "pledges_donor_id_fkey"
-            columns: ["donor_id"]
-            isOneToOne: false
             referencedRelation: "vw_donors_with_addresses"
             referencedColumns: ["donor_id"]
           },
@@ -2005,13 +1905,6 @@ export type Database = {
             foreignKeyName: "pledges_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
-            referencedRelation: "vw_donors_pending_auth_activation"
-            referencedColumns: ["donor_id"]
-          },
-          {
-            foreignKeyName: "pledges_donor_id_fkey"
-            columns: ["donor_id"]
-            isOneToOne: false
             referencedRelation: "vw_donors_with_addresses"
             referencedColumns: ["donor_id"]
           },
@@ -2037,21 +1930,40 @@ export type Database = {
       }
       vw_donor_details: {
         Row: {
-          auth_account_created_at: string | null
-          auth_account_updated_at: string | null
-          auth_email: string | null
           auth_user_id: string | null
           donor_created_at: string | null
           donor_email: string | null
           donor_id: string | null
           donor_name: string | null
           donor_updated_at: string | null
-          email_confirmed_at: string | null
           first_name: string | null
           full_name: string | null
           last_name: string | null
-          last_sign_in_at: string | null
           legacy_id: number | null
+        }
+        Insert: {
+          auth_user_id?: string | null
+          donor_created_at?: string | null
+          donor_email?: string | null
+          donor_id?: string | null
+          donor_name?: string | null
+          donor_updated_at?: string | null
+          first_name?: string | null
+          full_name?: string | null
+          last_name?: string | null
+          legacy_id?: number | null
+        }
+        Update: {
+          auth_user_id?: string | null
+          donor_created_at?: string | null
+          donor_email?: string | null
+          donor_id?: string | null
+          donor_name?: string | null
+          donor_updated_at?: string | null
+          first_name?: string | null
+          full_name?: string | null
+          last_name?: string | null
+          legacy_id?: number | null
         }
         Relationships: []
       }
@@ -2072,33 +1984,6 @@ export type Database = {
           reward_id: string | null
           reward_name: string | null
           reward_price: number | null
-        }
-        Relationships: []
-      }
-      vw_donors_pending_auth_activation: {
-        Row: {
-          donor_created_at: string | null
-          donor_email: string | null
-          donor_full_name: string | null
-          donor_id: string | null
-          first_name: string | null
-          last_name: string | null
-        }
-        Insert: {
-          donor_created_at?: string | null
-          donor_email?: string | null
-          donor_full_name?: never
-          donor_id?: string | null
-          first_name?: string | null
-          last_name?: string | null
-        }
-        Update: {
-          donor_created_at?: string | null
-          donor_email?: string | null
-          donor_full_name?: never
-          donor_id?: string | null
-          first_name?: string | null
-          last_name?: string | null
         }
         Relationships: []
       }
@@ -2268,6 +2153,10 @@ export type Database = {
           result_status: string
           count: number
         }[]
+      }
+      log_admin_action: {
+        Args: { action_type: string; target_user_id: string; details?: Json }
+        Returns: undefined
       }
       remove_admin_user: {
         Args: { target_user_id: string }
