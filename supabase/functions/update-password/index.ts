@@ -29,7 +29,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // First validate the recovery token
     const { data: tokenValidation, error: tokenError } = await supabase
-      .rpc('validate_recovery_token', {
+      .rpc('check_recovery_token_validity', {
         token: token,
         user_email: email
       });
