@@ -18,7 +18,7 @@ interface AxanarCTAProps {
 const AxanarCTA = ({ badge, title, description, buttons, subtitle }: AxanarCTAProps) => {
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-primary/5 to-axanar-teal/10 border border-primary/20 rounded-2xl p-8 md:p-12">
-      <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(0deg,transparent,black)] opacity-20"></div>
+      <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(0deg,transparent,black)] opacity-20 flex items-center justify-center"></div>
       <div className="relative z-10 max-w-2xl mx-auto text-center">
         {badge && (
           <div className="inline-flex items-center gap-2 bg-primary/10 backdrop-blur-sm border border-primary/20 rounded-full px-4 py-2 text-sm font-medium text-primary mb-6">
