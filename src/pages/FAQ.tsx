@@ -99,15 +99,48 @@ const FAQ = () => {
       
       <main className="flex-grow">
         {/* Header */}
-        <section className="bg-axanar-dark text-white py-12">
-          <div className="container mx-auto px-4 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Frequently Asked Questions
+        <section 
+          className="relative min-h-[60vh] flex items-center justify-center text-white py-24 overflow-hidden"
+          onPointerMove={(e) => {
+            const { currentTarget: el, clientX: x, clientY: y } = e;
+            const { top: t, left: l, width: w, height: h } = el.getBoundingClientRect();
+            el.style.setProperty('--posX', `${x - l - w / 2}`);
+            el.style.setProperty('--posY', `${y - t - h / 2}`);
+          }}
+          style={{
+            '--x': 'calc(var(--posX, 0) * 1px)',
+            '--y': 'calc(var(--posY, 0) * 1px)',
+            backgroundImage: `
+              linear-gradient(115deg, rgb(211, 255, 215), rgb(0, 0, 0)),
+              radial-gradient(90% 100% at calc(50% + var(--x)) calc(0% + var(--y)), rgb(200, 200, 200), rgb(0, 22, 0, 0.45)),
+              radial-gradient(100% 100% at calc(80% - var(--x)) calc(0% - var(--y)), rgb(250, 255, 0), rgb(0, 36, 0, 0)),
+              radial-gradient(150% 210% at calc(100% + var(--x)) calc(0% + var(--y)), rgb(20, 175, 125), rgb(0, 0, 10, 255)),
+              radial-gradient(100% 100% at calc(100% - var(--x)) calc(30% - var(--y)), rgb(255, 77, 0), rgb(0, 0, 200, 255)),
+              linear-gradient(60deg, rgb(255, 0, 0), rgb(120, 86, 255))
+            `,
+            backgroundBlendMode: 'overlay, overlay, difference, difference, difference, normal'
+          } as React.CSSProperties}
+        >
+          {/* Hero Content - Centered */}
+          <div className="container mx-auto px-4 text-center relative z-10 max-w-5xl">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white leading-tight drop-shadow-2xl" style={{
+              textShadow: '0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.4), 0 4px 8px rgba(0, 0, 0, 0.8)'
+            }}>
+              Frequently Asked <span className="bg-gradient-to-r from-white via-white to-white bg-clip-text text-transparent" style={{
+                textShadow: '0 0 20px rgba(255, 255, 255, 0.6), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)',
+                filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.4))'
+              }}>Questions</span>
             </h1>
-            <p className="text-xl text-axanar-silver max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-white max-w-4xl mx-auto leading-relaxed drop-shadow-2xl" style={{
+              textShadow: '0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.4), 0 4px 8px rgba(0, 0, 0, 0.8)'
+            }}>
               Find answers about our platform migration and how existing donors can recover their accounts.
             </p>
           </div>
+
+          {/* Decorative elements */}
+          <div className="absolute top-10 left-10 w-32 h-32 bg-accent/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
         </section>
         
         <section className="py-12 px-4">
