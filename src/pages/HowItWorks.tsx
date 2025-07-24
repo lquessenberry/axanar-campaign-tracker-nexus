@@ -184,8 +184,13 @@ const HowItWorks = () => {
 
           {/* Hero Content - Centered */}
           <div className="container mx-auto px-4 text-center relative z-10 max-w-5xl">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-accent to-primary-glow bg-clip-text text-transparent leading-tight">
-              How the <span className="text-accent">Axanar</span> Platform Works
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white leading-tight drop-shadow-2xl" style={{
+              textShadow: '0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.4), 0 4px 8px rgba(0, 0, 0, 0.8)'
+            }}>
+              How the <span className="bg-gradient-to-r from-accent via-primary-glow to-accent bg-clip-text text-transparent animate-pulse" style={{
+                textShadow: '0 0 30px rgba(0, 255, 255, 1), 0 0 60px rgba(0, 255, 255, 0.6), 0 0 90px rgba(0, 255, 255, 0.3)',
+                filter: 'drop-shadow(0 0 10px rgba(0, 255, 255, 0.8))'
+              }}>Axanar</span> Platform Works
             </h1>
             <p className="text-xl md:text-2xl text-white max-w-4xl mx-auto leading-relaxed drop-shadow-2xl" style={{
               textShadow: '0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.4), 0 4px 8px rgba(0, 0, 0, 0.8)'
