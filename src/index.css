@@ -5,34 +5,34 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Typography Scale - Base 18pt */
+/* Typography Scale - Base 18pt with 1.16 ratio */
 @layer base {
   html {
     font-size: 18px; /* Base size */
   }
   
   h1 {
-    @apply text-[2.5rem] md:text-[3rem] lg:text-[3.5rem] font-bold leading-tight;
+    @apply text-[3.048rem] md:text-[3.536rem] lg:text-[4.102rem] font-bold leading-tight;
   }
   
   h2 {
-    @apply text-[1.75rem] md:text-[2rem] lg:text-[2.25rem] font-semibold leading-tight;
+    @apply text-[2.628rem] md:text-[3.048rem] lg:text-[3.536rem] font-semibold leading-tight;
   }
   
   h3 {
-    @apply text-[1.5rem] md:text-[1.75rem] font-semibold leading-snug;
+    @apply text-[2.267rem] md:text-[2.628rem] font-semibold leading-snug;
   }
   
   h4 {
-    @apply text-[1.25rem] md:text-[1.5rem] font-medium leading-snug;
+    @apply text-[1.953rem] md:text-[2.267rem] font-medium leading-snug;
   }
   
   h5 {
-    @apply text-[1.125rem] md:text-[1.25rem] font-medium leading-normal;
+    @apply text-[1.684rem] md:text-[1.953rem] font-medium leading-normal;
   }
   
   h6 {
-    @apply text-[1rem] md:text-[1.125rem] font-medium leading-normal;
+    @apply text-[1.452rem] md:text-[1.684rem] font-medium leading-normal;
   }
   
   p {
