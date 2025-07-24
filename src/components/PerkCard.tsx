@@ -1,7 +1,13 @@
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Check } from "lucide-react";
+import { 
+  EnhancedCard, 
+  EnhancedCardContent, 
+  EnhancedCardFooter,
+  EnhancedProgress
+} from "@/components/ui/enhanced-card";
+import { Badge } from "@/components/ui/badge";
+import { Check, Star, Package, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface PerkCardProps {
@@ -27,60 +33,95 @@ const PerkCard = ({
 }: PerkCardProps) => {
   const isSoldOut = limit ? claimed >= limit : false;
   const availableCount = limit ? limit - claimed : null;
+  const claimedPercentage = limit ? (claimed / limit) * 100 : 0;
   
   return (
-    <Card className={cn(
-      "flex flex-col h-full", 
-      isPopular && "border-axanar-accent shadow-md relative",
-      isSoldOut && "opacity-70"
-    )}>
+    <EnhancedCard 
+      variant={isPopular ? "accent" : "primary"}
+      className={cn(
+        "flex flex-col h-full relative min-h-[28rem]",
+        isSoldOut && "opacity-70 grayscale"
+      )}
+    >
       {isPopular && (
-        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-          <span className="badge-primary bg-axanar-accent px-3 py-1">Most Popular</span>
+        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
+          <Badge className="bg-accent text-accent-foreground px-3 py-1 flex items-center gap-1">
+            <Star className="h-3 w-3" />
+            Most Popular
+          </Badge>
         </div>
       )}
       
-      <CardContent className="pt-6 flex-grow">
-        <h3 className="text-xl font-bold">{title}</h3>
-        <div className="my-3">
-          <span className="text-2xl font-bold">${price}</span>
-          <span className="text-muted-foreground text-sm ml-1">USD</span>
+      {/* Header */}
+      <div className="p-6 pb-2">
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="text-xl font-bold">{title}</h3>
+          {limit && (
+            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+              <Package className="h-3 w-3" />
+              <span>Limited</span>
+            </div>
+          )}
         </div>
+        <div className="flex items-baseline gap-1">
+          <span className="text-3xl font-bold">${price}</span>
+          <span className="text-muted-foreground text-sm">USD</span>
+        </div>
+      </div>
+      
+      {/* Content */}
+      <EnhancedCardContent className="flex-grow">
+        <p className="text-sm text-muted-foreground mb-6">{description}</p>
         
-        <p className="text-sm text-muted-foreground mb-4">{description}</p>
-        
-        <div className="space-y-2 mb-4">
+        <div className="space-y-3 mb-6">
+          <h4 className="text-sm font-semibold text-foreground">Includes:</h4>
           {features.map((feature, index) => (
-            <div key={index} className="flex items-start">
-              <Check className="h-4 w-4 text-axanar-teal mr-2 mt-1 flex-shrink-0" />
+            <div key={index} className="flex items-start gap-2">
+              <Check className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
               <span className="text-sm">{feature}</span>
             </div>
           ))}
         </div>
         
-        <div className="text-sm space-y-1 mt-4">
-          <p className="text-muted-foreground">
-            {limit ? (
-              <span>
-                {claimed} of {limit} claimed {availableCount && `(${availableCount} left)`}
-              </span>
-            ) : (
+        {/* Availability Progress */}
+        {limit && (
+          <div className="mb-4">
+            <EnhancedProgress 
+              value={claimed} 
+              max={limit}
+              label="Claimed"
+              variant={claimedPercentage > 80 ? "warning" : "success"}
+              showPercentage={false}
+            />
+            <div className="flex justify-between items-center mt-1 text-xs text-muted-foreground">
               <span>{claimed} claimed</span>
-            )}
-          </p>
-          <p className="text-muted-foreground">Est. delivery: {estimatedDelivery}</p>
+              <span>{availableCount} remaining</span>
+            </div>
+          </div>
+        )}
+        
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Clock className="h-4 w-4" />
+          <span>Est. delivery: {estimatedDelivery}</span>
         </div>
-      </CardContent>
+      </EnhancedCardContent>
       
-      <CardFooter className="pt-2">
+      {/* Footer */}
+      <EnhancedCardFooter>
         <Button 
-          className="w-full bg-axanar-teal hover:bg-axanar-teal/90" 
+          className={cn(
+            "w-full transition-all duration-200",
+            isPopular 
+              ? "bg-accent hover:bg-accent/90 text-accent-foreground" 
+              : "bg-primary hover:bg-primary/90",
+            isSoldOut && "cursor-not-allowed opacity-50"
+          )}
           disabled={isSoldOut}
         >
-          {isSoldOut ? "Sold Out" : "Back this Perk"}
+          {isSoldOut ? "Sold Out" : `Back this Perk • $${price}`}
         </Button>
-      </CardFooter>
-    </Card>
+      </EnhancedCardFooter>
+    </EnhancedCard>
   );
 };
 
