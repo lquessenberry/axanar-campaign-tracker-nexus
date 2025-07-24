@@ -75,7 +75,7 @@ const ViewscreenDescrambler = ({ children, descramblerState, isVisible }: Viewsc
   };
 
   return (
-    <div className="relative w-full h-full" style={{ transform: 'scale(2)', transformOrigin: 'center' }}>
+    <div className="relative w-full h-full">
       {/* Klingon Red Alert Overlay */}
       {redAlert && (
         <div 

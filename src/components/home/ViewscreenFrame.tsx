@@ -69,17 +69,20 @@ const ViewscreenFrame = ({ children, onDescrambleStart }: ViewscreenFrameProps) 
                   </div>
                 </div>
                 
-                {/* Content Overlay with Descrambler */}
+                {/* Content Overlay */}
                 <div className="absolute inset-0 flex items-center justify-center text-white z-10 p-4 md:p-6 lg:p-8">
                   <div className="w-full max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-3xl mx-auto overflow-hidden">
-                    <ViewscreenDescrambler 
-                      descramblerState={descramblerState}
-                      isVisible={isDescrambling}
-                    >
-                      {children}
-                    </ViewscreenDescrambler>
+                    {children}
                   </div>
                 </div>
+                
+                {/* Descrambler Effect (Full Viewscreen) */}
+                <ViewscreenDescrambler 
+                  descramblerState={descramblerState}
+                  isVisible={isDescrambling}
+                >
+                  <div></div>
+                </ViewscreenDescrambler>
                 
                 {/* Corner Status Lights */}
                 <div className="absolute top-1 md:top-2 left-1 md:left-2 w-2 md:w-3 h-2 md:h-3 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
@@ -127,17 +130,20 @@ const ViewscreenFrame = ({ children, onDescrambleStart }: ViewscreenFrameProps) 
                       </div>
                     </div>
                     
-                    {/* Content Overlay with Descrambler */}
+                    {/* Content Overlay */}
                     <div className="absolute inset-0 flex items-center justify-center text-white z-10 p-8">
                       <div className="w-full max-w-4xl mx-auto overflow-hidden">
-                        <ViewscreenDescrambler 
-                          descramblerState={descramblerState}
-                          isVisible={isDescrambling}
-                        >
-                          {children}
-                        </ViewscreenDescrambler>
+                        {children}
                       </div>
                     </div>
+                    
+                    {/* Descrambler Effect (Full Viewscreen) */}
+                    <ViewscreenDescrambler 
+                      descramblerState={descramblerState}
+                      isVisible={isDescrambling}
+                    >
+                      <div></div>
+                    </ViewscreenDescrambler>
                     
                     {/* Corner Status Lights */}
                     <div className="absolute top-2 left-2 w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
