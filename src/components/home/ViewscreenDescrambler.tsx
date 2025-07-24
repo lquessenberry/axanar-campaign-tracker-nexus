@@ -9,6 +9,8 @@ interface ViewscreenDescramblerProps {
 
 const ViewscreenDescrambler = ({ children, descramblerState, isVisible }: ViewscreenDescramblerProps) => {
   const [scanlinePosition, setScanlinePosition] = useState(0);
+  const [redAlert, setRedAlert] = useState(false);
+  const [klingonGlitch, setKlingonGlitch] = useState(false);
 
   useEffect(() => {
     if (!descramblerState.isActive) return;
@@ -19,6 +21,29 @@ const ViewscreenDescrambler = ({ children, descramblerState, isVisible }: Viewsc
 
     return () => clearInterval(interval);
   }, [descramblerState.isActive]);
+
+  // Random Klingon intrusion effects
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const triggerKlingonGlitch = () => {
+      if (Math.random() < 0.3) { // 30% chance
+        setRedAlert(true);
+        setKlingonGlitch(true);
+        
+        setTimeout(() => {
+          setRedAlert(false);
+          setKlingonGlitch(false);
+        }, 150 + Math.random() * 200); // 150-350ms duration
+      }
+      
+      // Schedule next potential glitch
+      setTimeout(triggerKlingonGlitch, 800 + Math.random() * 2200); // 0.8-3s interval
+    };
+
+    const timeout = setTimeout(triggerKlingonGlitch, 500 + Math.random() * 1000);
+    return () => clearTimeout(timeout);
+  }, [isVisible]);
 
   if (!isVisible) return <>{children}</>;
 
@@ -50,7 +75,35 @@ const ViewscreenDescrambler = ({ children, descramblerState, isVisible }: Viewsc
   };
 
   return (
-    <div className="relative w-full h-full">
+    <div className="absolute inset-0 w-full h-full">
+      {/* Klingon Red Alert Overlay */}
+      {redAlert && (
+        <div 
+          className="absolute inset-0 z-50 pointer-events-none animate-pulse"
+          style={{
+            background: `
+              radial-gradient(circle at center, rgba(220, 38, 38, ${klingonGlitch ? 0.4 : 0.2}) 0%, transparent 70%),
+              repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 1px,
+                rgba(220, 38, 38, 0.1) 1px,
+                rgba(220, 38, 38, 0.1) 2px
+              )
+            `,
+            animation: klingonGlitch ? 'none' : 'pulse 0.1s infinite',
+            filter: klingonGlitch ? 'contrast(2) brightness(1.5) hue-rotate(10deg)' : 'none',
+          }}
+        />
+      )}
+
+      {/* Klingon Intrusion Warning */}
+      {redAlert && (
+        <div className="absolute top-4 left-4 z-50 text-red-400 text-xs font-mono opacity-90 animate-pulse">
+          ⚠ UNAUTHORIZED ACCESS DETECTED
+        </div>
+      )}
+
       {/* Static Noise Overlay */}
       {descramblerState.staticIntensity > 0 && (
         <div 
