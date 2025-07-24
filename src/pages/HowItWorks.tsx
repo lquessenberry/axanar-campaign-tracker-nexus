@@ -151,22 +151,28 @@ const HowItWorks = () => {
       
       <main className="flex-grow">
         {/* Header */}
-        <section className="relative min-h-[60vh] flex items-center justify-center text-white py-24 overflow-hidden">
-          {/* Multi-layered Gradient Background */}
-          <div className="absolute inset-0">
-            {/* Base gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-dark to-background"></div>
-            
-            {/* Secondary overlay gradient */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-accent/20 via-transparent to-primary/30"></div>
-            
-            {/* Radial gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-radial from-primary-glow/30 via-transparent to-transparent"></div>
-            
-            {/* Animated gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/10 to-transparent animate-pulse"></div>
-          </div>
-
+        <section 
+          className="relative min-h-[60vh] flex items-center justify-center text-white py-24 overflow-hidden"
+          onPointerMove={(e) => {
+            const { currentTarget: el, clientX: x, clientY: y } = e;
+            const { top: t, left: l, width: w, height: h } = el.getBoundingClientRect();
+            el.style.setProperty('--posX', `${x - l - w / 2}`);
+            el.style.setProperty('--posY', `${y - t - h / 2}`);
+          }}
+          style={{
+            '--x': 'calc(var(--posX, 0) * 1px)',
+            '--y': 'calc(var(--posY, 0) * 1px)',
+            backgroundImage: `
+              linear-gradient(115deg, rgb(211, 255, 215), rgb(0, 0, 0)),
+              radial-gradient(90% 100% at calc(50% + var(--x)) calc(0% + var(--y)), rgb(200, 200, 200), rgb(0, 22, 0, 0.45)),
+              radial-gradient(100% 100% at calc(80% - var(--x)) calc(0% - var(--y)), rgb(250, 255, 0), rgb(0, 36, 0, 0)),
+              radial-gradient(150% 210% at calc(100% + var(--x)) calc(0% + var(--y)), rgb(20, 175, 125), rgb(0, 0, 10, 255)),
+              radial-gradient(100% 100% at calc(100% - var(--x)) calc(30% - var(--y)), rgb(255, 77, 0), rgb(0, 0, 200, 255)),
+              linear-gradient(60deg, rgb(255, 0, 0), rgb(120, 86, 255))
+            `,
+            backgroundBlendMode: 'overlay, overlay, difference, difference, difference, normal'
+          } as React.CSSProperties}
+        >
           {/* Security background image with enhanced opacity */}
           <div className="absolute inset-0 opacity-5">
             <img 
