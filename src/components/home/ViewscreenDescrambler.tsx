@@ -1,0 +1,139 @@
+import { ReactNode, useEffect, useState } from "react";
+import { DescrambleState } from "@/hooks/useDescrambleEffect";
+
+interface ViewscreenDescramblerProps {
+  children: ReactNode;
+  descramblerState: DescrambleState;
+  isVisible: boolean;
+}
+
+const ViewscreenDescrambler = ({ children, descramblerState, isVisible }: ViewscreenDescramblerProps) => {
+  const [scanlinePosition, setScanlinePosition] = useState(0);
+
+  useEffect(() => {
+    if (!descramblerState.isActive) return;
+
+    const interval = setInterval(() => {
+      setScanlinePosition(prev => (prev + 2) % 100);
+    }, 50);
+
+    return () => clearInterval(interval);
+  }, [descramblerState.isActive]);
+
+  if (!isVisible) return <>{children}</>;
+
+  const getPhaseStyles = () => {
+    const { phase, staticIntensity } = descramblerState;
+    
+    switch (phase) {
+      case 'scrambling':
+        return {
+          filter: `contrast(${1 + staticIntensity * 0.5}) brightness(${0.8 + staticIntensity * 0.3}) hue-rotate(${staticIntensity * 20}deg)`,
+          opacity: 0.7 + staticIntensity * 0.3,
+        };
+      case 'tuningIn':
+        return {
+          filter: `contrast(${1 + staticIntensity * 0.3}) brightness(${0.9 + staticIntensity * 0.2}) hue-rotate(${staticIntensity * 10}deg)`,
+          opacity: 0.8 + staticIntensity * 0.2,
+        };
+      case 'signalLock':
+        return {
+          filter: `contrast(${1 + staticIntensity * 0.1}) brightness(${0.95 + staticIntensity * 0.1})`,
+          opacity: 0.9 + staticIntensity * 0.1,
+        };
+      default:
+        return {
+          filter: 'none',
+          opacity: 1,
+        };
+    }
+  };
+
+  return (
+    <div className="relative w-full h-full">
+      {/* Static Noise Overlay */}
+      {descramblerState.staticIntensity > 0 && (
+        <div 
+          className="absolute inset-0 z-20 pointer-events-none"
+          style={{
+            background: `
+              radial-gradient(circle at 20% 50%, rgba(59, 130, 246, ${descramblerState.staticIntensity * 0.1}) 0%, transparent 50%),
+              radial-gradient(circle at 80% 50%, rgba(239, 68, 68, ${descramblerState.staticIntensity * 0.1}) 0%, transparent 50%),
+              repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(255, 255, 255, ${descramblerState.staticIntensity * 0.03}) 2px,
+                rgba(255, 255, 255, ${descramblerState.staticIntensity * 0.03}) 4px
+              )
+            `,
+            opacity: descramblerState.staticIntensity,
+          }}
+        />
+      )}
+
+      {/* Scanning Line */}
+      {descramblerState.isActive && (
+        <div 
+          className="absolute inset-0 z-30 pointer-events-none"
+          style={{
+            background: `linear-gradient(
+              to bottom,
+              transparent ${scanlinePosition}%,
+              rgba(0, 255, 255, 0.3) ${scanlinePosition + 1}%,
+              rgba(0, 255, 255, 0.1) ${scanlinePosition + 2}%,
+              transparent ${scanlinePosition + 3}%
+            )`,
+          }}
+        />
+      )}
+
+      {/* Frequency Tuning Bars */}
+      {descramblerState.phase === 'tuningIn' && (
+        <div className="absolute top-2 left-2 z-40 flex space-x-1">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div
+              key={i}
+              className="w-1 bg-green-400 opacity-60"
+              style={{
+                height: `${Math.random() * 20 + 5}px`,
+                animation: `pulse ${0.5 + Math.random() * 0.5}s infinite`,
+              }}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Signal Strength Indicator */}
+      {descramblerState.phase === 'signalLock' && (
+        <div className="absolute top-2 right-2 z-40 text-green-400 text-xs font-mono opacity-80">
+          SIGNAL LOCK: {Math.round(descramblerState.progress * 100)}%
+        </div>
+      )}
+
+      {/* Content with Phase Effects */}
+      <div 
+        className="relative z-10 w-full h-full transition-all duration-100"
+        style={getPhaseStyles()}
+      >
+        {children}
+      </div>
+
+      {/* RGB Separation Effect */}
+      {descramblerState.staticIntensity > 0.5 && (
+        <div 
+          className="absolute inset-0 z-20 pointer-events-none mix-blend-screen"
+          style={{
+            background: `
+              radial-gradient(circle at 30% 40%, rgba(255, 0, 0, ${descramblerState.staticIntensity * 0.1}) 0%, transparent 50%),
+              radial-gradient(circle at 70% 60%, rgba(0, 255, 0, ${descramblerState.staticIntensity * 0.1}) 0%, transparent 50%),
+              radial-gradient(circle at 50% 80%, rgba(0, 0, 255, ${descramblerState.staticIntensity * 0.1}) 0%, transparent 50%)
+            `,
+          }}
+        />
+      )}
+    </div>
+  );
+};
+
+export default ViewscreenDescrambler;
