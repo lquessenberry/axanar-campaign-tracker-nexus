@@ -36,7 +36,7 @@ const ImprovedHowItWorks: React.FC<ImprovedHowItWorksProps> = ({ sections }) => 
     <div className="space-y-8">
       {sections.map((section, sectionIndex) => (
         <div key={sectionIndex} className="space-y-4">
-          <h2 className="mb-6">
+          <h2 className="mb-6 text-[1.75rem] md:text-[2rem] lg:text-[2.25rem] font-semibold leading-tight">
             {section.title}
           </h2>
           
