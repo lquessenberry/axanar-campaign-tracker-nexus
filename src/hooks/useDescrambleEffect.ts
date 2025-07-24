@@ -21,14 +21,14 @@ export interface DescrambleState {
 }
 
 const DEFAULT_OPTIONS: Required<DescrambleOptions> = {
-  duration: 2000,
+  duration: 200000,
   scrambleIntensity: 0.8,
   characters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?',
   phases: {
-    scrambling: 500,
-    tuningIn: 1000,
-    signalLock: 300,
-    complete: 200
+    scrambling: 50000,
+    tuningIn: 100000,
+    signalLock: 30000,
+    complete: 20000
   }
 };
 
