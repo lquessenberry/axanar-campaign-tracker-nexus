@@ -187,8 +187,10 @@ const HowItWorks = () => {
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-accent to-primary-glow bg-clip-text text-transparent leading-tight">
               How the <span className="text-accent">Axanar</span> Platform Works
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground/90 max-w-4xl mx-auto leading-relaxed">
-              We've migrated from our old Laravel/Artisan platform to this new system. 
+            <p className="text-xl md:text-2xl text-white max-w-4xl mx-auto leading-relaxed drop-shadow-2xl" style={{
+              textShadow: '0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.4), 0 4px 8px rgba(0, 0, 0, 0.8)'
+            }}>
+              We&apos;ve migrated from our old Laravel/Artisan platform to this new system. 
               Learn how to recover and manage your existing donor account.
             </p>
           </div>
