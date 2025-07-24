@@ -151,23 +151,45 @@ const HowItWorks = () => {
       
       <main className="flex-grow">
         {/* Header */}
-        <section className="bg-axanar-dark text-white py-12 relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10">
+        <section className="relative min-h-[60vh] flex items-center justify-center text-white py-24 overflow-hidden">
+          {/* Multi-layered Gradient Background */}
+          <div className="absolute inset-0">
+            {/* Base gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-dark to-background"></div>
+            
+            {/* Secondary overlay gradient */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-accent/20 via-transparent to-primary/30"></div>
+            
+            {/* Radial gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-radial from-primary-glow/30 via-transparent to-transparent"></div>
+            
+            {/* Animated gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/10 to-transparent animate-pulse"></div>
+          </div>
+
+          {/* Security background image with enhanced opacity */}
+          <div className="absolute inset-0 opacity-5">
             <img 
               src="/images/security.svg" 
               alt="Security background" 
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="container mx-auto px-4 text-center relative z-10">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              How the <span className="text-axanar-teal">Axanar</span> Platform Works
+
+          {/* Hero Content - Centered */}
+          <div className="container mx-auto px-4 text-center relative z-10 max-w-5xl">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-accent to-primary-glow bg-clip-text text-transparent leading-tight">
+              How the <span className="text-accent">Axanar</span> Platform Works
             </h1>
-            <p className="text-xl text-axanar-silver max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-muted-foreground/90 max-w-4xl mx-auto leading-relaxed">
               We've migrated from our old Laravel/Artisan platform to this new system. 
               Learn how to recover and manage your existing donor account.
             </p>
           </div>
+
+          {/* Decorative elements */}
+          <div className="absolute top-10 left-10 w-32 h-32 bg-accent/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
         </section>
         
         {/* Platform Migration Visual */}
