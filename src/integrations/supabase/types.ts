@@ -120,6 +120,51 @@ export type Database = {
           },
         ]
       }
+      admin_action_audit: {
+        Row: {
+          action_type: string
+          admin_user_id: string
+          created_at: string | null
+          error_message: string | null
+          id: string
+          ip_address: unknown | null
+          new_values: Json | null
+          old_values: Json | null
+          success: boolean | null
+          target_id: string | null
+          target_table: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          action_type: string
+          admin_user_id: string
+          created_at?: string | null
+          error_message?: string | null
+          id?: string
+          ip_address?: unknown | null
+          new_values?: Json | null
+          old_values?: Json | null
+          success?: boolean | null
+          target_id?: string | null
+          target_table?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          action_type?: string
+          admin_user_id?: string
+          created_at?: string | null
+          error_message?: string | null
+          id?: string
+          ip_address?: unknown | null
+          new_values?: Json | null
+          old_values?: Json | null
+          success?: boolean | null
+          target_id?: string | null
+          target_table?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       admin_users: {
         Row: {
           created_at: string | null
@@ -697,6 +742,39 @@ export type Database = {
           name?: string
           price?: number | null
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      password_reset_security_log: {
+        Row: {
+          attempt_count: number | null
+          blocked_until: string | null
+          created_at: string | null
+          email: string
+          id: string
+          ip_address: unknown | null
+          last_attempt: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          attempt_count?: number | null
+          blocked_until?: string | null
+          created_at?: string | null
+          email: string
+          id?: string
+          ip_address?: unknown | null
+          last_attempt?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          attempt_count?: number | null
+          blocked_until?: string | null
+          created_at?: string | null
+          email?: string
+          id?: string
+          ip_address?: unknown | null
+          last_attempt?: string | null
+          user_agent?: string | null
         }
         Relationships: []
       }
@@ -1486,6 +1564,14 @@ export type Database = {
           suggested_providers: string[]
         }[]
       }
+      check_password_reset_rate_limit: {
+        Args: { user_email: string; client_ip?: string }
+        Returns: {
+          allowed: boolean
+          remaining_attempts: number
+          reset_time: string
+        }[]
+      }
       check_recovery_token_validity: {
         Args: { token: string; user_email: string }
         Returns: {
@@ -1513,6 +1599,10 @@ export type Database = {
           raw_app_meta_data: Json
         }
         Returns: undefined
+      }
+      enhanced_admin_security_check: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
       }
       get_admin_analytics: {
         Args: Record<PropertyKey, never>
@@ -1574,9 +1664,25 @@ export type Database = {
         Args: { action_type: string; target_user_id: string; details?: Json }
         Returns: undefined
       }
+      log_admin_action_enhanced: {
+        Args: {
+          action_type: string
+          target_table?: string
+          target_id?: string
+          old_values?: Json
+          new_values?: Json
+          client_ip?: string
+          client_user_agent?: string
+        }
+        Returns: undefined
+      }
       remove_admin_user: {
         Args: { target_user_id: string }
         Returns: undefined
+      }
+      sanitize_text_input: {
+        Args: { input_text: string }
+        Returns: string
       }
       unban_user: {
         Args: { target_user_id: string }
@@ -1590,7 +1696,19 @@ export type Database = {
         }
         Returns: undefined
       }
+      validate_email_secure: {
+        Args: { email_input: string }
+        Returns: boolean
+      }
       validate_recovery_token: {
+        Args: { token: string; user_email: string }
+        Returns: {
+          is_valid: boolean
+          attempt_type: string
+          message: string
+        }[]
+      }
+      validate_recovery_token_secure: {
         Args: { token: string; user_email: string }
         Returns: {
           is_valid: boolean
