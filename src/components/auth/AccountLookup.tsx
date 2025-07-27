@@ -38,7 +38,7 @@ const AccountLookup = ({ onPasswordReset, onSSOLink, onProceedToSignup, onCancel
       // Call the edge function directly - this handles both token generation and email sending
       const { data, error } = await supabase.functions.invoke('send-password-reset', {
         body: {
-          email: email,
+          email: email.toLowerCase().trim(),
           redirectUrl: `${window.location.origin}`
         }
       });

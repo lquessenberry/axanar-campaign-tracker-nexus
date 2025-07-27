@@ -20,14 +20,15 @@ interface RecoveryResult {
 
 export const useEmailCheck = (email: string) => {
   return useQuery({
-    queryKey: ['email-check', email],
+    queryKey: ['email-check', email.toLowerCase().trim()],
     queryFn: async () => {
-      if (!email || !email.includes('@')) {
+      const normalizedEmail = email.toLowerCase().trim();
+      if (!normalizedEmail || !normalizedEmail.includes('@')) {
         return null;
       }
 
       const { data, error } = await supabase
-        .rpc('check_email_in_system', { check_email: email });
+        .rpc('check_email_in_system', { check_email: normalizedEmail });
 
       if (error) throw error;
       return data?.[0] as EmailCheckResult | null;
@@ -47,7 +48,7 @@ export const useInitiateRecovery = () => {
     }) => {
       const { data, error } = await supabase
         .rpc('initiate_account_recovery', {
-          user_email: email,
+          user_email: email.toLowerCase().trim(),
           recovery_type: recoveryType,
           client_ip: null, // Could be enhanced to get real IP
           client_user_agent: navigator.userAgent
@@ -71,7 +72,7 @@ export const useValidateRecoveryToken = () => {
       const { data, error } = await supabase
         .rpc('validate_recovery_token', {
           token: token,
-          user_email: email
+          user_email: email.toLowerCase().trim()
         });
 
       if (error) throw error;
