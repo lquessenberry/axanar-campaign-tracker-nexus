@@ -8,13 +8,17 @@ import MorseCodeBanner from '@/components/auth/MorseCodeBanner';
 import RadarBlips from '@/components/auth/RadarBlips';
 import { useIsMobile } from '@/hooks/use-mobile';
 
+import { AlertLevel } from '@/hooks/useAlertSystem';
+
 interface AuthLayoutProps {
   children: ReactNode;
   battleMode: boolean;
   onBattleModeToggle: (value: boolean) => void;
+  alertLevel?: AlertLevel;
+  onAlertCycle?: () => void;
 }
 
-const AuthLayout = ({ children, battleMode, onBattleModeToggle }: AuthLayoutProps) => {
+const AuthLayout = ({ children, battleMode, onBattleModeToggle, alertLevel = 'normal', onAlertCycle }: AuthLayoutProps) => {
   const isMobile = useIsMobile();
 
   if (isMobile) {
@@ -47,7 +51,9 @@ const AuthLayout = ({ children, battleMode, onBattleModeToggle }: AuthLayoutProp
         <div className="relative z-50 flex-shrink-0">
           <Navigation 
             battleMode={battleMode} 
-            onBattleModeToggle={onBattleModeToggle} 
+            onBattleModeToggle={onBattleModeToggle}
+            alertLevel={alertLevel}
+            onAlertCycle={onAlertCycle}
           />
         </div>
         
@@ -97,7 +103,9 @@ const AuthLayout = ({ children, battleMode, onBattleModeToggle }: AuthLayoutProp
       <div className="relative z-50">
         <Navigation 
           battleMode={battleMode} 
-          onBattleModeToggle={onBattleModeToggle} 
+          onBattleModeToggle={onBattleModeToggle}
+          alertLevel={alertLevel}
+          onAlertCycle={onAlertCycle}
         />
       </div>
       

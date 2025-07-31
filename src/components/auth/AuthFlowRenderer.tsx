@@ -1,5 +1,6 @@
 
 import { AuthFlow } from '@/hooks/useAuthFlow';
+import { AlertLevel } from '@/hooks/useAlertSystem';
 import MainAuthForm from '@/components/auth/MainAuthForm';
 import AccountLookup from '@/components/auth/AccountLookup';
 import PasswordReset from '@/components/auth/PasswordReset';
@@ -10,6 +11,8 @@ interface AuthFlowRendererProps {
   authFlow: AuthFlow;
   recoveryEmail: string;
   ssoProvider: string;
+  alertLevel?: AlertLevel;
+  isAlertActive?: boolean;
   onStartAccountLookup: () => void;
   onPasswordReset: (email: string) => void;
   onSSOLink: (email: string, provider: string) => void;
@@ -22,6 +25,8 @@ const AuthFlowRenderer = ({
   authFlow,
   recoveryEmail,
   ssoProvider,
+  alertLevel = 'normal',
+  isAlertActive = false,
   onStartAccountLookup,
   onPasswordReset,
   onSSOLink,
@@ -31,7 +36,11 @@ const AuthFlowRenderer = ({
 }: AuthFlowRendererProps) => {
   switch (authFlow) {
     case 'main':
-      return <MainAuthForm onStartAccountLookup={onStartAccountLookup} />;
+      return <MainAuthForm 
+        onStartAccountLookup={onStartAccountLookup} 
+        alertLevel={alertLevel}
+        isAlertActive={isAlertActive}
+      />;
     case 'lookup':
       return (
         <AccountLookup
@@ -61,7 +70,11 @@ const AuthFlowRenderer = ({
     case 'signup-confirmed':
       return <SignupForm recoveryEmail={recoveryEmail} onBack={onBackToMain} />;
     default:
-      return <MainAuthForm onStartAccountLookup={onStartAccountLookup} />;
+      return <MainAuthForm 
+        onStartAccountLookup={onStartAccountLookup} 
+        alertLevel={alertLevel}
+        isAlertActive={isAlertActive}
+      />;
   }
 };
 

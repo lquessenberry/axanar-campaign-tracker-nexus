@@ -1,10 +1,11 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthLayout from "@/components/auth/AuthLayout";
 import AuthFlowRenderer from "@/components/auth/AuthFlowRenderer";
 import { useAuthFlow } from "@/hooks/useAuthFlow";
+import { useAlertSystem } from "@/hooks/useAlertSystem";
 
 const Auth = () => {
   const [battleMode, setBattleMode] = useState(true);
@@ -20,6 +21,17 @@ const Auth = () => {
     handleBackToMain,
     handleAuthSuccess,
   } = useAuthFlow();
+  
+  const {
+    alertLevel,
+    isAlertActive,
+    cycleAlert,
+  } = useAlertSystem();
+
+  // Update battle mode based on alert level
+  useEffect(() => {
+    setBattleMode(alertLevel !== 'normal');
+  }, [alertLevel]);
 
   // Redirect if already authenticated
   if (user) {
@@ -27,11 +39,18 @@ const Auth = () => {
   }
 
   return (
-    <AuthLayout battleMode={battleMode} onBattleModeToggle={setBattleMode}>
+    <AuthLayout 
+      battleMode={battleMode} 
+      onBattleModeToggle={setBattleMode}
+      alertLevel={alertLevel}
+      onAlertCycle={cycleAlert}
+    >
       <AuthFlowRenderer
         authFlow={authFlow}
         recoveryEmail={recoveryEmail}
         ssoProvider={ssoProvider}
+        alertLevel={alertLevel}
+        isAlertActive={isAlertActive}
         onStartAccountLookup={handleStartAccountLookup}
         onPasswordReset={handlePasswordReset}
         onSSOLink={handleSSOLink}

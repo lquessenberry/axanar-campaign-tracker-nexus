@@ -7,11 +7,18 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import ConsoleGlitch from "./ConsoleGlitch";
+import { AlertLevel } from "@/hooks/useAlertSystem";
+
 interface MainAuthFormProps {
   onStartAccountLookup: () => void;
+  alertLevel?: AlertLevel;
+  isAlertActive?: boolean;
 }
 const MainAuthForm = ({
-  onStartAccountLookup
+  onStartAccountLookup,
+  alertLevel = 'normal',
+  isAlertActive = false
 }: MainAuthFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -43,7 +50,8 @@ const MainAuthForm = ({
     }
     setIsLoading(false);
   };
-  return <Card className="w-full max-w-md">
+  return <ConsoleGlitch alertLevel={alertLevel} isActive={isAlertActive}>
+    <Card className="w-full max-w-md">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl font-bold">Welcome Back!</CardTitle>
         <CardDescription>
@@ -101,6 +109,7 @@ const MainAuthForm = ({
           </Link>
         </div>
       </CardContent>
-    </Card>;
+    </Card>
+  </ConsoleGlitch>;
 };
 export default MainAuthForm;

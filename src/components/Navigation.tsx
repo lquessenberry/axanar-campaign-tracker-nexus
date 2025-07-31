@@ -4,13 +4,16 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
 import { Menu, X, User, LogOut, BarChart3, Shield, AlertTriangle } from "lucide-react";
+import { AlertLevel } from "@/hooks/useAlertSystem";
 
 interface NavigationProps {
   battleMode?: boolean;
   onBattleModeToggle?: (enabled: boolean) => void;
+  alertLevel?: AlertLevel;
+  onAlertCycle?: () => void;
 }
 
-const Navigation = ({ battleMode = true, onBattleModeToggle }: NavigationProps) => {
+const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'normal', onAlertCycle }: NavigationProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
   const { data: isAdmin } = useAdminCheck();
@@ -28,9 +31,31 @@ const Navigation = ({ battleMode = true, onBattleModeToggle }: NavigationProps) 
     }
   };
 
-  const handleBattleModeToggle = () => {
-    const newBattleMode = !battleMode;
-    onBattleModeToggle?.(newBattleMode);
+  const handleAlertClick = () => {
+    onAlertCycle?.();
+  };
+
+  const getAlertButtonProps = () => {
+    switch (alertLevel) {
+      case 'warning':
+        return {
+          variant: 'secondary' as const,
+          className: 'text-yellow-400 bg-yellow-900/20 hover:bg-yellow-900/30 border-yellow-400/30',
+          text: 'Yellow Alert'
+        };
+      case 'red-alert':
+        return {
+          variant: 'destructive' as const,
+          className: 'text-red-400 bg-red-900/30 hover:bg-red-900/40 border-red-400/40 animate-pulse',
+          text: 'Red Alert'
+        };
+      default:
+        return {
+          variant: 'ghost' as const,
+          className: 'text-white hover:text-yellow-400 hover:bg-white/10',
+          text: 'Status Normal'
+        };
+    }
   };
 
   const isAdminPage = location.pathname.startsWith('/admin');
@@ -113,16 +138,13 @@ const Navigation = ({ battleMode = true, onBattleModeToggle }: NavigationProps) 
               <div className="flex items-center space-x-4">
                 {location.pathname === '/auth' && (
                   <Button 
-                    variant="ghost" 
+                    variant={getAlertButtonProps().variant}
                     size="sm"
-                    onClick={handleBattleModeToggle}
-                    className={`${battleMode 
-                      ? 'text-red-400 bg-red-900/20 hover:bg-red-900/30' 
-                      : 'text-white hover:text-red-400 hover:bg-white/10'
-                    }`}
+                    onClick={handleAlertClick}
+                    className={getAlertButtonProps().className}
                   >
                     <AlertTriangle className="h-4 w-4 mr-2" />
-                    Red Alert
+                    {getAlertButtonProps().text}
                   </Button>
                 )}
                 <Link to="/auth">
@@ -194,15 +216,16 @@ const Navigation = ({ battleMode = true, onBattleModeToggle }: NavigationProps) 
                   {location.pathname === '/auth' && (
                     <button 
                       onClick={() => {
-                        handleBattleModeToggle();
+                        handleAlertClick();
                         setIsMenuOpen(false);
                       }}
-                      className={`text-left transition-colors ${battleMode 
-                        ? 'text-red-400' 
-                        : 'hover:text-red-400'
+                      className={`text-left transition-colors ${
+                        alertLevel === 'red-alert' ? 'text-red-400' :
+                        alertLevel === 'warning' ? 'text-yellow-400' :
+                        'hover:text-yellow-400'
                       }`}
                     >
-                      Red Alert {battleMode ? '(ON)' : '(OFF)'}
+                      {getAlertButtonProps().text}
                     </button>
                   )}
                   <Link 
