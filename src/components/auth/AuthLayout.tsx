@@ -41,7 +41,7 @@ const AuthLayout = ({ children, battleMode, onBattleModeToggle }: AuthLayoutProp
         )}
 
         {/* Morse Code Banner */}
-        <MorseCodeBanner />
+        {battleMode && <MorseCodeBanner />}
 
         {/* Mobile navigation - compact and edge-to-edge */}
         <div className="relative z-50 flex-shrink-0">
@@ -91,7 +91,7 @@ const AuthLayout = ({ children, battleMode, onBattleModeToggle }: AuthLayoutProp
         )}
 
         {/* Morse Code Banner */}
-        <MorseCodeBanner />
+        {battleMode && <MorseCodeBanner />}
 
       {/* Navigation - top level */}
       <div className="relative z-50">
