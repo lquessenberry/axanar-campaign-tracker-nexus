@@ -1,4 +1,5 @@
 
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,7 +25,7 @@ import {
   Target,
   TrendingUp
 } from "lucide-react";
-import { useState } from "react";
+
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -33,8 +34,9 @@ const Dashboard = () => {
   const { data: achievements } = useUserAchievements();
   const { data: recruitmentData } = useUserRecruitment();
   
-  const [leaderboardCategory, setLeaderboardCategory] = useState<LeaderboardCategory>('total_donated');
-  const { data: leaderboardData, isLoading: leaderboardLoading } = useLeaderboard(leaderboardCategory, 10);
+  // Temporarily disabled to fix React dispatcher error
+  // const [leaderboardCategory, setLeaderboardCategory] = useState<LeaderboardCategory>('total_donated');
+  // const { data: leaderboardData, isLoading: leaderboardLoading } = useLeaderboard(leaderboardCategory, 10);
 
   if (!user) {
     return (
@@ -197,7 +199,8 @@ const Dashboard = () => {
           </section>
         )}
 
-        {/* Leaderboard Section */}
+        {/* Leaderboard Section - Temporarily Disabled */}
+        {/* 
         <section className="pb-8">
           <div className="container mx-auto px-4">
             <LeaderboardTable
@@ -208,6 +211,7 @@ const Dashboard = () => {
             />
           </div>
         </section>
+        */}
 
         {/* Contribution History */}
         <section className="pb-8">
