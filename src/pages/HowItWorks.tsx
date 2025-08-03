@@ -247,14 +247,6 @@ const HowItWorks = () => {
           <div className="absolute bottom-0 left-0 w-16 h-16 border-l-4 border-b-4 border-accent rounded-bl-lg opacity-60"></div>
           <div className="absolute bottom-0 right-0 w-16 h-16 border-r-4 border-b-4 border-accent rounded-br-lg opacity-60"></div>
           
-          {/* Starfield background */}
-          <div className="absolute inset-0 opacity-20">
-            <div className="absolute top-4 right-8 w-1 h-1 bg-accent rounded-full animate-pulse"></div>
-            <div className="absolute top-12 right-16 w-0.5 h-0.5 bg-primary rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
-            <div className="absolute top-20 right-24 w-1 h-1 bg-accent rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
-            <div className="absolute bottom-8 left-12 w-0.5 h-0.5 bg-primary rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
-            <div className="absolute bottom-16 left-20 w-1 h-1 bg-accent rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
-          </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
             {/* Starfleet Delta Section */}
