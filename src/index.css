@@ -1,14 +1,15 @@
-
-/* Google Fonts are now loaded in index.html */
+/* ============= AXANAR STAR TREK DESIGN SYSTEM ============= */
+/* Typography: Eurostile (content), Bebas Neue (headings), Inter (admin) */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Typography Scale - Harmonious Scale with Consistent Spacing */
+/* ============= AXANAR FLUID TYPOGRAPHY SYSTEM ============= */
+/* Star Trek-inspired design with fluid scaling for immersive experience */
 @layer base {
   html {
-    font-size: 16px; /* Standard base size for better browser compatibility */
+    font-size: 16px; /* Base size for rem calculations */
   }
 }
 
@@ -88,83 +89,95 @@
 
 @layer base {
   :root {
-    --background: 40 2% 95%;
-    --foreground: 40 2% 35%;
+    /* ============= AXANAR STAR TREK COLOR PALETTE ============= */
+    /* Light mode - LCARS inspired with blues, grays, and accents */
+    --background: 210 15% 95%; /* Light blue-gray */
+    --foreground: 210 25% 15%; /* Dark blue-gray */
 
-    --card: 40 3% 92%;
-    --card-foreground: 40 2% 35%;
+    --card: 210 20% 92%; /* Slightly blue card background */
+    --card-foreground: 210 25% 15%;
 
-    --popover: 40 3% 92%;
-    --popover-foreground: 40 2% 35%;
+    --popover: 210 20% 92%;
+    --popover-foreground: 210 25% 15%;
 
-    --primary: 44 75% 60%;
+    /* Primary: Star Trek Blue (#1C2526 equivalent) */
+    --primary: 195 25% 25%; /* Deep blue-gray */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 68 3% 50%;
+    /* Secondary: Trek Gray (#4A4A4A equivalent) */
+    --secondary: 0 0% 29%; /* Medium gray */
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 40 1% 97%;
-    --muted-foreground: 68 3% 62%;
+    --muted: 210 15% 97%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 78 5% 87%;
-    --accent-foreground: 40 2% 35%;
+    /* Accent: Trek Yellow (#FFC107) */
+    --accent: 45 100% 51%; /* Trek yellow */
+    --accent-foreground: 0 0% 0%;
 
-    --destructive: 27 85% 58%;
+    /* Destructive: Trek Red (#D32F2F) */
+    --destructive: 0 70% 50%; /* Trek red */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 40 3% 84%;
-    --input: 40 3% 92%;
-    --ring: 44 75% 60%;
+    --border: 210 15% 85%;
+    --input: 210 20% 88%;
+    --ring: 195 25% 25%;
 
-    --sidebar: 40 3% 92%;
-    --sidebar-foreground: 40 2% 35%;
-    --sidebar-primary: 44 75% 60%;
+    --sidebar: 210 20% 92%;
+    --sidebar-foreground: 210 25% 15%;
+    --sidebar-primary: 195 25% 25%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 78 5% 87%;
-    --sidebar-accent-foreground: 40 2% 35%;
-    --sidebar-border: 40 3% 84%;
-    --sidebar-ring: 44 75% 60%;
+    --sidebar-accent: 45 100% 51%;
+    --sidebar-accent-foreground: 0 0% 0%;
+    --sidebar-border: 210 15% 85%;
+    --sidebar-ring: 195 25% 25%;
 
-    --radius: 1rem;
+    --radius: 0.75rem; /* LCARS-style rounded corners */
   }
 
   .dark {
-    --background: 0 0% 22%;
-    --foreground: 40 3% 92%;
+    /* ============= AXANAR DARK MODE - DEFAULT STAR TREK AESTHETIC ============= */
+    /* Dark mode inspired by starship interfaces and LCARS */
+    --background: 195 25% 8%; /* Deep space black-blue */
+    --foreground: 210 20% 90%; /* Light blue-gray text */
 
-    --card: 0 0% 28%;
-    --card-foreground: 40 3% 92%;
+    --card: 195 25% 12%; /* Dark blue card */
+    --card-foreground: 210 20% 90%;
 
-    --popover: 0 0% 28%;
-    --popover-foreground: 40 3% 92%;
+    --popover: 195 25% 12%;
+    --popover-foreground: 210 20% 90%;
 
-    --primary: 46 75% 70%;
-    --primary-foreground: 0 0% 22%;
+    /* Primary: Brighter Trek Blue for dark mode */
+    --primary: 195 60% 55%; /* Bright trek blue */
+    --primary-foreground: 195 25% 8%;
 
-    --secondary: 0 0% 43%;
-    --secondary-foreground: 40 3% 92%;
+    /* Secondary: Lighter gray for dark mode */
+    --secondary: 0 0% 35%; /* Lighter gray */
+    --secondary-foreground: 210 20% 90%;
 
-    --muted: 0 0% 26%;
-    --muted-foreground: 68 3% 62%;
+    --muted: 195 25% 15%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 0 0% 36%;
-    --accent-foreground: 40 3% 92%;
+    /* Accent: Trek Yellow (same in dark) */
+    --accent: 45 100% 60%; /* Slightly brighter yellow */
+    --accent-foreground: 0 0% 0%;
 
-    --destructive: 27 65% 44%;
-    --destructive-foreground: 40 1% 97%;
+    /* Destructive: Trek Red (brighter for dark) */
+    --destructive: 0 75% 60%; /* Brighter red */
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 37%;
-    --input: 0 0% 28%;
-    --ring: 46 75% 70%;
+    --border: 195 25% 20%;
+    --input: 195 25% 16%;
+    --ring: 195 60% 55%;
 
-    --sidebar: 0 0% 28%;
-    --sidebar-foreground: 40 3% 92%;
-    --sidebar-primary: 46 75% 70%;
-    --sidebar-primary-foreground: 0 0% 22%;
-    --sidebar-accent: 0 0% 36%;
-    --sidebar-accent-foreground: 40 3% 92%;
-    --sidebar-border: 0 0% 37%;
-    --sidebar-ring: 46 75% 70%;
+    --sidebar: 195 25% 12%;
+    --sidebar-foreground: 210 20% 90%;
+    --sidebar-primary: 195 60% 55%;
+    --sidebar-primary-foreground: 195 25% 8%;
+    --sidebar-accent: 45 100% 60%;
+    --sidebar-accent-foreground: 0 0% 0%;
+    --sidebar-border: 195 25% 20%;
+    --sidebar-ring: 195 60% 55%;
   }
 
   * {
@@ -172,136 +185,159 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground;
+    font-family: 'Eurostile', system-ui, sans-serif; /* Trek-inspired content font */
     font-feature-settings: "kern" 1, "liga" 1, "clig" 1;
     line-height: 1.6;
-    font-size: 1rem; /* 16px base size */
+    font-size: clamp(16px, 2.5vw + 0.5rem, 18px); /* Fluid body text */
     font-weight: 400;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.005em;
   }
 
-  /* Unified Typography Scale - Type Scale: 1.250 (Major Third) */
-  /* Base: 1rem (16px) | Scale: 1.25x multiplier */
+  /* ============= AXANAR FLUID TYPOGRAPHY HIERARCHY ============= */
+  /* Inspired by LCARS and Star Trek interfaces with fluid scaling */
   
   h1 {
-    @apply font-display font-bold;
-    font-size: clamp(2.44rem, 8vw, 3.815rem); /* 61px max */
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    font-family: 'Bebas Neue', 'Orbitron', system-ui, sans-serif; /* Bold condensed titles */
+    font-size: clamp(32px, 5vw + 1rem, 48px); /* Fluid H1 scaling */
+    line-height: 1.2;
+    letter-spacing: 0.02em;
     margin-bottom: 1.5rem;
-    font-weight: 700;
+    font-weight: 400; /* Bebas Neue is naturally bold */
+    text-transform: uppercase;
+    @apply text-foreground;
   }
 
   h2 {
-    @apply font-display font-semibold;
-    font-size: clamp(1.95rem, 6vw, 3.052rem); /* 49px max */
-    line-height: 1.2;
-    letter-spacing: -0.015em;
+    font-family: 'Bebas Neue', 'Orbitron', system-ui, sans-serif;
+    font-size: clamp(24px, 3.5vw + 0.8rem, 36px); /* Fluid H2 scaling */
+    line-height: 1.3;
+    letter-spacing: 0.015em;
     margin-bottom: 1.25rem;
-    font-weight: 600;
+    font-weight: 400;
+    text-transform: uppercase;
+    @apply text-foreground;
   }
 
   h3 {
-    @apply font-heading font-semibold;
-    font-size: clamp(1.56rem, 4vw, 2.441rem); /* 39px max */
-    line-height: 1.3;
-    letter-spacing: -0.01em;
+    font-family: 'Bebas Neue', 'Orbitron', system-ui, sans-serif;
+    font-size: clamp(20px, 3vw + 0.6rem, 28px); /* Fluid H3 scaling */
+    line-height: 1.4;
+    letter-spacing: 0.01em;
     margin-bottom: 1rem;
-    font-weight: 600;
+    font-weight: 400;
+    text-transform: uppercase;
+    @apply text-foreground;
   }
 
   h4 {
-    @apply font-heading font-medium;
-    font-size: clamp(1.25rem, 3vw, 1.953rem); /* 31px max */
-    line-height: 1.35;
-    letter-spacing: -0.005em;
+    font-family: 'Eurostile', system-ui, sans-serif; /* Content font for smaller headings */
+    font-size: clamp(18px, 2.5vw + 0.5rem, 22px);
+    line-height: 1.45;
+    letter-spacing: 0.005em;
     margin-bottom: 0.75rem;
-    font-weight: 500;
+    font-weight: 600;
+    @apply text-foreground;
   }
 
   h5 {
-    @apply font-heading font-medium;
-    font-size: clamp(1rem, 2.5vw, 1.563rem); /* 25px max */
-    line-height: 1.4;
+    font-family: 'Eurostile', system-ui, sans-serif;
+    font-size: clamp(16px, 2vw + 0.4rem, 20px);
+    line-height: 1.5;
     margin-bottom: 0.5rem;
-    font-weight: 500;
+    font-weight: 600;
+    @apply text-foreground;
   }
 
   h6 {
-    @apply font-heading font-medium;
-    font-size: clamp(0.8rem, 2vw, 1.25rem); /* 20px max */
-    line-height: 1.45;
+    font-family: 'Eurostile', system-ui, sans-serif;
+    font-size: clamp(14px, 1.5vw + 0.3rem, 18px);
+    line-height: 1.5;
     margin-bottom: 0.5rem;
-    font-weight: 500;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
+    @apply text-muted-foreground;
   }
 
-  /* Body Text */
+  /* Magazine-Style Body Text */
   p {
-    @apply font-sans;
-    font-size: 1rem; /* 16px */
+    font-family: 'Eurostile', system-ui, sans-serif; /* Editorial font */
+    font-size: clamp(16px, 2.5vw + 0.5rem, 18px); /* Fluid body text */
     line-height: 1.6;
     margin-bottom: 1rem;
     font-weight: 400;
-    max-width: 65ch;
+    max-width: 75ch; /* Optimal reading length */
+    letter-spacing: 0.01em;
+    @apply text-foreground;
   }
 
-  /* Unified Text Size Scale */
+  /* ============= AXANAR FLUID TEXT SIZE UTILITIES ============= */
+  /* Responsive text sizes with clamp() for perfect scaling */
+  
   .text-xs {
-    font-size: 0.64rem; /* 10.24px - Major Third down */
+    font-size: clamp(10px, 1.5vw + 0.2rem, 12px);
     line-height: 1.4;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.02em;
+    font-family: 'Inter', system-ui, sans-serif; /* Admin/UI font */
   }
 
   .text-sm {
-    font-size: 0.8rem; /* 12.8px - Major Third down */
+    font-size: clamp(12px, 2vw + 0.3rem, 14px);
     line-height: 1.5;
-    letter-spacing: 0.005em;
+    letter-spacing: 0.01em;
+    font-family: 'Inter', system-ui, sans-serif;
   }
 
   .text-base {
-    font-size: 1rem; /* 16px - Base size */
+    font-size: clamp(16px, 2.5vw + 0.5rem, 18px); /* Body text */
     line-height: 1.6;
+    font-family: 'Eurostile', system-ui, sans-serif;
   }
 
   .text-lg {
-    font-size: 1.25rem; /* 20px - Major Third up */
+    font-size: clamp(18px, 3vw + 0.6rem, 22px);
     line-height: 1.5;
     letter-spacing: -0.005em;
+    font-family: 'Eurostile', system-ui, sans-serif;
   }
 
   .text-xl {
-    font-size: 1.563rem; /* 25px - Major Third up */
+    font-size: clamp(20px, 3.5vw + 0.7rem, 26px);
     line-height: 1.4;
     letter-spacing: -0.01em;
+    font-family: 'Bebas Neue', system-ui, sans-serif;
   }
 
   .text-2xl {
-    font-size: 1.953rem; /* 31px - Major Third up */
+    font-size: clamp(24px, 4vw + 0.8rem, 32px);
     line-height: 1.35;
     letter-spacing: -0.015em;
+    font-family: 'Bebas Neue', system-ui, sans-serif;
   }
 
   .text-3xl {
-    font-size: 2.441rem; /* 39px - Major Third up */
+    font-size: clamp(28px, 4.5vw + 1rem, 40px);
     line-height: 1.3;
     letter-spacing: -0.02em;
+    font-family: 'Bebas Neue', system-ui, sans-serif;
   }
 
   .text-4xl {
-    font-size: 3.052rem; /* 49px - Major Third up */
+    font-size: clamp(32px, 5vw + 1rem, 48px);
     line-height: 1.2;
     letter-spacing: -0.025em;
+    font-family: 'Bebas Neue', system-ui, sans-serif;
   }
 
   .text-5xl {
-    font-size: 3.815rem; /* 61px - Major Third up */
+    font-size: clamp(40px, 6vw + 1.5rem, 64px);
     line-height: 1.1;
     letter-spacing: -0.03em;
+    font-family: 'Bebas Neue', system-ui, sans-serif;
   }
 
-  /* Font Weights - Unified */
+  /* ============= AXANAR FONT WEIGHTS & UTILITIES ============= */
   .font-light { font-weight: 300; }
   .font-normal { font-weight: 400; }
   .font-medium { font-weight: 500; }
@@ -309,93 +345,171 @@
   .font-bold { font-weight: 700; }
   .font-extrabold { font-weight: 800; }
 
-  /* Spacing Scale - Based on 0.5rem (8px) increments */
-  .space-y-1 > * + * { margin-top: 0.25rem; } /* 4px */
-  .space-y-2 > * + * { margin-top: 0.5rem; }  /* 8px */
-  .space-y-3 > * + * { margin-top: 0.75rem; } /* 12px */
-  .space-y-4 > * + * { margin-top: 1rem; }    /* 16px */
-  .space-y-6 > * + * { margin-top: 1.5rem; }  /* 24px */
-  .space-y-8 > * + * { margin-top: 2rem; }    /* 32px */
+  /* Font Family Utilities */
+  .font-trek-heading { font-family: 'Bebas Neue', 'Orbitron', system-ui, sans-serif; }
+  .font-trek-content { font-family: 'Eurostile', system-ui, sans-serif; }
+  .font-trek-admin { font-family: 'Inter', system-ui, sans-serif; }
+  .font-trek-tech { font-family: 'Orbitron', monospace; }
 
-  /* Code and monospace */
-  code, pre, kbd, samp {
-    @apply font-mono;
-    font-feature-settings: "kern" 0, "liga" 0;
-    font-size: 0.875rem;
+  /* Admin Interface Text - Inter for clarity */
+  .admin-text {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(14px, 2vw + 0.4rem, 16px);
     line-height: 1.5;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.005em;
   }
 
-  /* Button text - Consistent sizing */
+  /* Code and monospace - LCARS style */
+  code, pre, kbd, samp {
+    font-family: 'Orbitron', 'Monaco', monospace;
+    font-feature-settings: "kern" 0, "liga" 0;
+    font-size: clamp(12px, 1.8vw + 0.3rem, 14px);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    @apply bg-muted text-muted-foreground;
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+  }
+
+  /* Button text - LCARS inspired */
   button, .btn {
-    font-size: 1rem;
+    font-family: 'Eurostile', system-ui, sans-serif;
+    font-size: clamp(14px, 2vw + 0.4rem, 16px);
     line-height: 1.4;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.02em;
     font-weight: 500;
+    text-transform: uppercase;
+    transition: all 0.3s ease; /* LCARS smooth transitions */
   }
 
-  /* Lists */
+  /* Lists with Trek styling */
   ul, ol {
     margin-bottom: 1rem;
     padding-left: 1.5rem;
   }
 
   li {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
     line-height: 1.6;
-    font-size: 1rem;
+    font-size: clamp(16px, 2.5vw + 0.5rem, 18px);
+    font-family: 'Eurostile', system-ui, sans-serif;
   }
 
-  /* Links */
+  /* Links with LCARS-style transitions */
   a {
     text-decoration-thickness: 1px;
-    text-underline-offset: 2px;
-    transition: all 0.2s ease;
+    text-underline-offset: 3px;
+    transition: all 0.3s ease;
+    @apply text-primary hover:text-accent;
   }
 
   /* Small text elements */
   small {
-    font-size: 0.8rem;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(12px, 1.8vw + 0.3rem, 14px);
     line-height: 1.5;
     font-weight: 400;
+    @apply text-muted-foreground;
   }
 }
 
 @layer components {
+  /* ============= AXANAR COMPONENT STYLES ============= */
+  /* LCARS-inspired components with Star Trek aesthetics */
+  
   .hero-gradient {
-    @apply bg-gradient-to-b from-axanar-dark to-black;
+    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
+  }
+  
+  .axanar-gradient {
+    background: linear-gradient(135deg, hsl(195 25% 8%) 0%, hsl(195 60% 15%) 50%, hsl(195 25% 8%) 100%);
+  }
+  
+  .lcars-panel {
+    @apply bg-card border border-border rounded-lg p-6;
+    background: linear-gradient(145deg, hsl(var(--card)), hsl(var(--muted)));
+    box-shadow: 0 4px 6px -1px hsl(var(--primary) / 0.1), 0 2px 4px -1px hsl(var(--primary) / 0.06);
+  }
+  
+  .lcars-button {
+    @apply bg-primary hover:bg-primary/90 text-primary-foreground;
+    @apply px-6 py-3 rounded-lg font-trek-content text-sm uppercase tracking-wider;
+    @apply transition-all duration-300 ease-out;
+    @apply border-2 border-transparent hover:border-accent;
+    box-shadow: 0 2px 8px hsl(var(--primary) / 0.3);
+  }
+  
+  .lcars-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px hsl(var(--primary) / 0.4);
+  }
+  
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: clamp(1rem, 3vw, 2rem);
+    padding: clamp(1rem, 5vw, 2rem);
   }
   
   .badge {
-    @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+    @apply inline-flex items-center px-3 py-1 text-xs font-trek-admin font-medium uppercase tracking-wider;
+    @apply rounded-full border transition-colors duration-300;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
   }
 
   .badge-primary {
-    @apply badge bg-primary text-primary-foreground hover:bg-primary/80;
+    @apply badge bg-primary/20 text-primary border-primary/30 hover:bg-primary/30;
   }
 
   .badge-secondary {
-    @apply badge bg-secondary text-secondary-foreground hover:bg-secondary/80;
+    @apply badge bg-secondary/20 text-secondary-foreground border-secondary/30 hover:bg-secondary/30;
+  }
+  
+  .badge-accent {
+    @apply badge bg-accent/20 text-accent-foreground border-accent/30 hover:bg-accent/30;
   }
 
   .text-shadow {
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 2px 4px hsl(var(--background) / 0.8);
   }
 
   .text-shadow-lg {
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+    text-shadow: 0 4px 8px hsl(var(--background) / 0.9);
+  }
+  
+  .text-glow {
+    text-shadow: 0 0 10px hsl(var(--primary) / 0.5), 0 0 20px hsl(var(--primary) / 0.3);
   }
 
-  /* Star Trek themed typography utilities */
-  .text-startrek {
-    @apply font-startrek tracking-wider;
+  /* LCARS-style data displays */
+  .data-display {
+    @apply font-trek-tech text-accent bg-muted/50 px-3 py-1 rounded border-l-4 border-accent;
+    letter-spacing: 0.1em;
   }
-
-  .text-starfleet {
-    @apply font-starfleet font-bold tracking-widest uppercase;
+  
+  /* Trek-themed form elements */
+  .trek-input {
+    @apply bg-input border border-border rounded-md px-4 py-2;
+    @apply font-trek-content text-foreground placeholder:text-muted-foreground;
+    @apply focus:border-primary focus:ring-2 focus:ring-primary/20;
+    @apply transition-all duration-300;
   }
-
-  .text-venetian {
-    @apply font-venetian;
+  
+  /* Navigation elements */
+  .trek-nav-link {
+    @apply font-trek-content text-sm uppercase tracking-wider;
+    @apply text-muted-foreground hover:text-primary;
+    @apply transition-colors duration-300;
+    @apply relative;
+  }
+  
+  .trek-nav-link::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-accent;
+    @apply transition-all duration-300;
+  }
+  
+  .trek-nav-link:hover::after {
+    @apply w-full;
   }
 }

@@ -135,12 +135,21 @@ export default {
 				'pulse-glow': 'pulse-glow 2s ease-in-out infinite'
 			},
 			fontFamily: {
-				'sans': ['Space Grotesk', 'system-ui', 'sans-serif'],
-				'mono': ['Space Mono', 'ui-monospace', 'monospace'],
-				'display': ['Michroma', 'system-ui', 'sans-serif'],
-				'heading': ['Oxanium', 'system-ui', 'sans-serif'],
-				// Legacy fonts
-				'custom': ['CustomFont', 'Space Grotesk', 'sans-serif'],
+				// ============= AXANAR STAR TREK TYPOGRAPHY =============
+				'sans': ['Eurostile', 'system-ui', 'sans-serif'], // Content font
+				'heading': ['Bebas Neue', 'Orbitron', 'system-ui', 'sans-serif'], // Bold headings
+				'display': ['Bebas Neue', 'Orbitron', 'system-ui', 'sans-serif'], // Display text
+				'admin': ['Inter', 'system-ui', 'sans-serif'], // Admin interface
+				'mono': ['Orbitron', 'Monaco', 'monospace'], // Code/tech text
+				
+				// Trek-specific utilities
+				'trek-heading': ['Bebas Neue', 'Orbitron', 'system-ui', 'sans-serif'],
+				'trek-content': ['Eurostile', 'system-ui', 'sans-serif'],
+				'trek-admin': ['Inter', 'system-ui', 'sans-serif'],
+				'trek-tech': ['Orbitron', 'Monaco', 'monospace'],
+				
+				// Legacy fonts (preserved for compatibility)
+				'custom': ['CustomFont', 'Eurostile', 'sans-serif'],
 				'startrek': ['StarTrek', 'Orbitron', 'sans-serif'],
 				'startrek-film': ['StarTrekFilm', 'Orbitron', 'sans-serif'],
 				'startrek-pi': ['StarTrekPi', 'sans-serif'],
@@ -149,17 +158,21 @@ export default {
 				'square': ['Square721Condensed', 'sans-serif'],
 			},
 			fontSize: {
-				'xs': ['0.64rem', { lineHeight: '1.4', letterSpacing: '0.01em' }],
-				'sm': ['0.8rem', { lineHeight: '1.5', letterSpacing: '0.005em' }],
-				'base': ['1rem', { lineHeight: '1.6' }],
-				'lg': ['1.25rem', { lineHeight: '1.5', letterSpacing: '-0.005em' }],
-				'xl': ['1.563rem', { lineHeight: '1.4', letterSpacing: '-0.01em' }],
-				'2xl': ['1.953rem', { lineHeight: '1.35', letterSpacing: '-0.015em' }],
-				'3xl': ['2.441rem', { lineHeight: '1.3', letterSpacing: '-0.02em' }],
-				'4xl': ['3.052rem', { lineHeight: '1.2', letterSpacing: '-0.025em' }],
-				'5xl': ['3.815rem', { lineHeight: '1.1', letterSpacing: '-0.03em' }],
+				// ============= AXANAR FLUID TEXT SCALE =============
+				// Using clamp() for responsive scaling
+				'xs': ['clamp(10px, 1.5vw + 0.2rem, 12px)', { lineHeight: '1.4', letterSpacing: '0.02em' }],
+				'sm': ['clamp(12px, 2vw + 0.3rem, 14px)', { lineHeight: '1.5', letterSpacing: '0.01em' }],
+				'base': ['clamp(16px, 2.5vw + 0.5rem, 18px)', { lineHeight: '1.6', letterSpacing: '0.01em' }],
+				'lg': ['clamp(18px, 3vw + 0.6rem, 22px)', { lineHeight: '1.5', letterSpacing: '-0.005em' }],
+				'xl': ['clamp(20px, 3.5vw + 0.7rem, 26px)', { lineHeight: '1.4', letterSpacing: '-0.01em' }],
+				'2xl': ['clamp(24px, 4vw + 0.8rem, 32px)', { lineHeight: '1.35', letterSpacing: '-0.015em' }],
+				'3xl': ['clamp(28px, 4.5vw + 1rem, 40px)', { lineHeight: '1.3', letterSpacing: '-0.02em' }],
+				'4xl': ['clamp(32px, 5vw + 1rem, 48px)', { lineHeight: '1.2', letterSpacing: '-0.025em' }],
+				'5xl': ['clamp(40px, 6vw + 1.5rem, 64px)', { lineHeight: '1.1', letterSpacing: '-0.03em' }],
 			},
 			spacing: {
+				// ============= LCARS-INSPIRED SPACING SCALE =============
+				// Precise spacing for Star Trek interfaces
 				'0': '0px',
 				'0.5': '0.125rem', /* 2px */
 				'1': '0.25rem',    /* 4px */
@@ -179,6 +192,7 @@ export default {
 				'12': '3rem',      /* 48px */
 				'14': '3.5rem',    /* 56px */
 				'16': '4rem',      /* 64px */
+				'18': '4.5rem',    /* 72px */
 				'20': '5rem',      /* 80px */
 				'24': '6rem',      /* 96px */
 				'28': '7rem',      /* 112px */

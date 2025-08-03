@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
 import { Menu, X, User, LogOut, BarChart3, Shield, AlertTriangle } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { AlertLevel } from "@/hooks/useAlertSystem";
 
 interface NavigationProps {
@@ -61,9 +62,9 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
   const isAdminPage = location.pathname.startsWith('/admin');
 
   return (
-    <nav className={`bg-axanar-dark text-white border-b border-axanar-silver/20 ${
+    <nav className={`bg-background/95 backdrop-blur-md border-b border-border/50 ${
       isAdminPage ? 'relative z-40' : ''
-    }`}>
+    } sticky top-0 z-50`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -78,17 +79,17 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
           {/* Main Navigation Links - Desktop */}
           <div className="hidden md:flex items-center space-x-4">
             <Link to="/about">
-              <Button variant="ghost" size="sm" className="text-white hover:text-axanar-teal hover:bg-white/10">
+              <Button variant="ghost" size="sm" className="trek-nav-link font-trek-content">
                 About
               </Button>
             </Link>
             <Link to="/how-it-works">
-              <Button variant="ghost" size="sm" className="text-white hover:text-axanar-teal hover:bg-white/10">
+              <Button variant="ghost" size="sm" className="trek-nav-link font-trek-content">
                 How It Works
               </Button>
             </Link>
             <Link to="/faq">
-              <Button variant="ghost" size="sm" className="text-white hover:text-axanar-teal hover:bg-white/10">
+              <Button variant="ghost" size="sm" className="trek-nav-link font-trek-content">
                 FAQ
               </Button>
             </Link>
@@ -96,6 +97,7 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
 
           {/* Auth Section */}
           <div className="hidden md:flex items-center space-x-4">
+            <ThemeToggle />
             {user ? (
               <div className="flex items-center space-x-4">
                 <Link to="/dashboard">
