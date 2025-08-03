@@ -148,7 +148,7 @@ const HowItWorks = () => {
             
             {/* Contact Support Section */}
             <div className="my-16 py-8">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center justify-center">
                 <div>
                   <h2 className="mb-8 text-center lg:text-left">
                     Need Help Getting Started?
