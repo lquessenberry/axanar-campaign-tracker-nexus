@@ -37,7 +37,7 @@ const FAQ = () => {
         {
           id: "migration-reason",
           question: "Why has the platform been migrated?",
-          answer: "We've migrated from our previous Laravel/Artisan platform to this new system due to stability, security, and performance issues with the old system. The new platform provides better protection for your donor information and a more reliable experience."
+          answer: "We've migrated from our previous Laravel/Artisan platform to this new system due to stability, security, and performance issues with the old system. The new platform provides better protection for your donor information and a more reliable experience. Learn more about the migration benefits on our <Link to='/how-it-works' className='text-axanar-teal hover:underline'>How It Works page</Link>."
         },
         {
           id: "new-account",
@@ -47,7 +47,7 @@ const FAQ = () => {
         {
           id: "account-recovery",
           question: "How do I recover my donor account?",
-          answer: "Click on the 'Login' button and select 'Recover Account'. Enter the email address you used for your original donation. You'll receive instructions to verify your identity and set up a new password for the migrated platform."
+          answer: "Click on the 'Login' button and select 'Recover Account'. Enter the email address you used for your original donation. You'll receive instructions to verify your identity and set up a new password for the migrated platform. For a detailed step-by-step guide, visit our <Link to='/how-it-works' className='text-axanar-teal hover:underline'>How It Works page</Link>."
         },
         {
           id: "data-preservation",
@@ -62,7 +62,7 @@ const FAQ = () => {
         {
           id: "email-recovery",
           question: "What if I can't remember what email I used for my donation?",
-          answer: "If you can't remember which email you used or are having trouble recovering your account, please contact our admin team through the Support page. They can help verify your identity and assist with account recovery."
+          answer: "If you can't remember which email you used or are having trouble recovering your account, please contact our admin team through the <Link to='/support' className='text-axanar-teal hover:underline'>Support page</Link>. They can help verify your identity and assist with account recovery. You can also review the complete recovery process on our <Link to='/how-it-works' className='text-axanar-teal hover:underline'>How It Works page</Link>."
         }
       ]
     },
@@ -72,7 +72,7 @@ const FAQ = () => {
         {
           id: "recovery-trouble",
           question: "I'm having trouble recovering my account. What should I do?",
-          answer: "If you're experiencing difficulties recovering your account, first make sure you're using the correct email address that you used for your original donation. If problems persist, please contact our admin team through the Support page for personalized assistance."
+          answer: "If you're experiencing difficulties recovering your account, first make sure you're using the correct email address that you used for your original donation. If problems persist, please contact our admin team through the <Link to='/support' className='text-axanar-teal hover:underline'>Support page</Link> for personalized assistance. For detailed recovery instructions, see our <Link to='/how-it-works' className='text-axanar-teal hover:underline'>How It Works page</Link>."
         },
         {
           id: "platform-security",

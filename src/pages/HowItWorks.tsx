@@ -26,7 +26,7 @@ const HowItWorks = () => {
       id: "step-4-support",
       title: "Step 4: Get Support",
       description: "Connect with our admin team for any assistance with your account or pledges.",
-      details: ["Contact administrators for help with account recovery", "Request assistance with missing or incorrect information", "Get updates on reward fulfillment status", "Report any issues with the platform functionality", "Schedule one-on-one assistance if needed"]
+      details: ["Contact administrators for help with account recovery", "Request assistance with missing or incorrect information", "Get updates on reward fulfillment status", "Report any issues with the platform functionality", "Check our <Link to='/faq' className='text-axanar-teal hover:underline'>FAQ page</Link> for common questions before contacting support"]
     }]
   }, {
     title: "Platform Migration Benefits",
@@ -50,8 +50,8 @@ const HowItWorks = () => {
     title: "Technical Information",
     items: [{
       id: "why-migrate",
-      title: "Why We Migrated Platforms",
-      description: "Understanding the technical reasons behind our platform migration.",
+      title: "Why We Migrated Platforms", 
+      description: "Understanding the technical reasons behind our platform migration. See our <Link to='/faq' className='text-axanar-teal hover:underline'>FAQ</Link> for more migration details.",
       details: ["The previous Laravel/Artisan platform was becoming unstable", "Frequent security vulnerabilities required constant patching", "Performance issues were affecting user experience", "Maintenance costs were becoming prohibitively expensive", "Modern React/Supabase stack provides better scalability"]
     }, {
       id: "data-migration",
@@ -116,7 +116,7 @@ const HowItWorks = () => {
             textShadow: '0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.4), 0 4px 8px rgba(0, 0, 0, 0.8)'
           }}>
               We&apos;ve migrated from our old Laravel/Artisan platform to this new system. 
-              Learn how to recover and manage your existing donor account.
+              Learn how to recover and manage your existing donor account. Check our <Link to="/faq" className="text-white hover:text-axanar-teal underline transition-colors">FAQ</Link> for quick answers to common questions.
             </p>
           </div>
 
