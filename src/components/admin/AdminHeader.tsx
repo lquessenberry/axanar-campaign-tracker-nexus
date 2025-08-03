@@ -26,22 +26,22 @@ const AdminHeader = ({ activeSection }: AdminHeaderProps) => {
   const CurrentIcon = currentSection?.icon;
 
   return (
-    <div className="mb-6 flex items-center gap-4">
-      <div className="flex flex-col items-center gap-4">
-        <div className="p-2 bg-primary/10 rounded-lg">
-          <SidebarTrigger className="h-10 w-10" />
+    <div className="mb-8 flex items-start gap-6">
+      <div className="flex items-center gap-3">
+        <div className="p-3 bg-primary/10 rounded-xl border border-primary/20">
+          <SidebarTrigger className="h-8 w-8 text-primary" />
         </div>
         {CurrentIcon && (
-          <div className="p-2 bg-primary/10 rounded-lg">
-            <CurrentIcon className="h-10 w-10 text-primary" />
+          <div className="p-3 bg-primary/10 rounded-xl border border-primary/20">
+            <CurrentIcon className="h-8 w-8 text-primary" />
           </div>
         )}
       </div>
-      <div>
-        <h1 className="text-8xl font-bold tracking-tight">
+      <div className="flex-1">
+        <h1 className="text-4xl font-bold tracking-tight mb-2">
           {currentSection?.label || "Dashboard"}
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-muted-foreground text-lg">
           {getSectionDescription(activeSection)}
         </p>
       </div>
