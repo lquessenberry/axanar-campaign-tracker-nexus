@@ -23,6 +23,7 @@ import AdminRewardsSection from "@/components/admin/AdminRewardsSection";
 import AdminCampaignsSection from "@/components/admin/AdminCampaignsSection";
 import AdminAdminsSection from "@/components/admin/AdminAdminsSection";
 import AdminPledgesSection from "@/components/admin/AdminPledgesSection";
+import UserProfiles from "./UserProfiles";
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState("overview");
@@ -342,6 +343,8 @@ const Dashboard = () => {
           onBulkActivate={handleBulkActivateCampaigns}
           onBulkDeactivate={handleBulkDeactivateCampaigns}
         />;
+      case "user-profiles":
+        return <UserProfiles />;
       case "admins":
         return <AdminAdminsSection />;
       case "notifications":

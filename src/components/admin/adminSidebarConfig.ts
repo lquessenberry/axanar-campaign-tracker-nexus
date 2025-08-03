@@ -10,6 +10,7 @@ import {
   Bell,
   FileText,
   MessageCircle,
+  UserSearch,
 } from "lucide-react";
 
 export const sidebarItems = [
@@ -19,6 +20,7 @@ export const sidebarItems = [
   { id: "rewards", label: "Rewards", icon: Gift },
   { id: "campaigns", label: "Campaigns", icon: BarChart3 },
   { id: "messages", label: "Messages", icon: MessageCircle },
+  { id: "user-profiles", label: "User Profiles", icon: UserSearch },
   { id: "admins", label: "Admin Users", icon: UserCog },
   { id: "notifications", label: "Notifications", icon: Bell },
   { id: "reports", label: "Reports", icon: FileText },
