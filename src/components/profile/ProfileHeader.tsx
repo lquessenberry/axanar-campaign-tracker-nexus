@@ -10,6 +10,7 @@ import { useBackgroundUpload } from "@/hooks/useBackgroundUpload";
 import { useUpdateProfile } from "@/hooks/useUserProfile";
 import StarField from "@/components/StarField";
 import MouseTracker from "@/components/auth/MouseTracker";
+import RankPips from "./RankPips";
 
 interface ProfileData {
   id: string;
@@ -271,69 +272,80 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             </div>
           </div>
           
-          <div className="md:ml-auto flex gap-2">
-            {isEditing ? (
-              <>
-                <Button 
-                  variant="outline" 
-                  onClick={onCancel}
-                  disabled={isLoading}
-                  className="border-white/40 text-white hover:bg-white/20 hover:text-white bg-transparent"
-                >
-                  Cancel
-                </Button>
-                <Button 
-                  className="bg-axanar-teal hover:bg-axanar-teal/90 text-white"
-                  onClick={onSave}
-                  disabled={isLoading}
-                >
-                  {isLoading ? 'Saving...' : 'Save Changes'}
-                </Button>
-              </>
-            ) : (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
+          {/* Rank Pip System */}
+          <div className="md:ml-auto flex flex-col md:flex-row gap-4">
+            <RankPips 
+              totalDonated={totalPledged}
+              xp={totalPledged * 10} // Convert donations to XP for now
+              profileCompletion={75} // Placeholder - will need to calculate this
+              isAdmin={false} // Will need to pass this from profile data
+              className="md:w-64"
+            />
+            
+            <div className="flex gap-2">
+              {isEditing ? (
+                <>
+                  <Button 
+                    variant="outline" 
+                    onClick={onCancel}
+                    disabled={isLoading}
+                    className="border-white/40 text-white hover:bg-white/20 hover:text-white bg-transparent"
+                  >
+                    Cancel
+                  </Button>
                   <Button 
                     className="bg-axanar-teal hover:bg-axanar-teal/90 text-white"
-                    disabled={isUploading || isUploadingBackground}
+                    onClick={onSave}
+                    disabled={isLoading}
                   >
-                    <Settings className="h-4 w-4 mr-2" />
-                    Edit Profile
-                    <ChevronDown className="h-4 w-4 ml-2" />
+                    {isLoading ? 'Saving...' : 'Save Changes'}
                   </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent 
-                  align="end" 
-                  className="w-56 bg-white border border-gray-200 shadow-lg z-50"
-                >
-                  <DropdownMenuItem onClick={onEdit} className="cursor-pointer">
-                    <Edit className="h-4 w-4 mr-2" />
-                    Edit Profile Info
-                  </DropdownMenuItem>
-                  
-                  <DropdownMenuSeparator />
-                  
-                  <DropdownMenuItem 
-                    onClick={handleBackgroundClick} 
-                    className="cursor-pointer"
-                    disabled={isUploadingBackground}
-                  >
-                    <Image className="h-4 w-4 mr-2" />
-                    {profile?.background_url ? 'Change Background' : 'Add Background'}
-                  </DropdownMenuItem>
-                  
-                  {profile?.background_url && (
-                    <DropdownMenuItem 
-                      onClick={handleRemoveBackground} 
-                      className="cursor-pointer text-red-600 focus:text-red-600"
+                </>
+              ) : (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button 
+                      className="bg-axanar-teal hover:bg-axanar-teal/90 text-white"
+                      disabled={isUploading || isUploadingBackground}
                     >
-                      <X className="h-4 w-4 mr-2" />
-                      Remove Background
+                      <Settings className="h-4 w-4 mr-2" />
+                      Edit Profile
+                      <ChevronDown className="h-4 w-4 ml-2" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent 
+                    align="end" 
+                    className="w-56 bg-white border border-gray-200 shadow-lg z-50"
+                  >
+                    <DropdownMenuItem onClick={onEdit} className="cursor-pointer">
+                      <Edit className="h-4 w-4 mr-2" />
+                      Edit Profile Info
                     </DropdownMenuItem>
-                  )}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
+                    
+                    <DropdownMenuSeparator />
+                    
+                    <DropdownMenuItem 
+                      onClick={handleBackgroundClick} 
+                      className="cursor-pointer"
+                      disabled={isUploadingBackground}
+                    >
+                      <Image className="h-4 w-4 mr-2" />
+                      {profile?.background_url ? 'Change Background' : 'Add Background'}
+                    </DropdownMenuItem>
+                    
+                    {profile?.background_url && (
+                      <DropdownMenuItem 
+                        onClick={handleRemoveBackground} 
+                        className="cursor-pointer text-red-600 focus:text-red-600"
+                      >
+                        <X className="h-4 w-4 mr-2" />
+                        Remove Background
+                      </DropdownMenuItem>
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+            </div>
           </div>
         </div>
         
