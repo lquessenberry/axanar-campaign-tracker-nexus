@@ -226,22 +226,6 @@ const AccountLookup = ({ onPasswordReset, onSSOLink, onProceedToSignup, onCancel
               </Button>
             )}
 
-            {emailCheck.suggested_providers.length > 0 && (
-              <div className="space-y-2">
-                <div className="text-sm font-medium">Or sign in with:</div>
-                {emailCheck.suggested_providers.map((provider) => (
-                  <Button
-                    key={provider}
-                    onClick={() => handleSSOLink(provider)}
-                    variant="outline"
-                    className="w-full"
-                    disabled={false}
-                  >
-                    Sign in with {getProviderDisplayName(provider)}
-                  </Button>
-                ))}
-              </div>
-            )}
 
             {emailCheck.exists_in_donors && !emailCheck.exists_in_auth && (
               <div className="pt-2 border-t">
