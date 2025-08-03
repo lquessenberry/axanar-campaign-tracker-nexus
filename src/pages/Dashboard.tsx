@@ -8,7 +8,9 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useUserPledges } from "@/hooks/useUserPledges";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { useUserAchievements, useUserRecruitment } from "@/hooks/useUserAchievements";
+import { useLeaderboard, LeaderboardCategory } from "@/hooks/useLeaderboard";
 import AchievementBadge from "@/components/profile/AchievementBadge";
+import LeaderboardTable from "@/components/leaderboard/LeaderboardTable";
 import { 
   DollarSign, 
   Users, 
@@ -19,8 +21,10 @@ import {
   Shield,
   Trophy,
   Zap,
-  Target
+  Target,
+  TrendingUp
 } from "lucide-react";
+import { useState } from "react";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -28,6 +32,9 @@ const Dashboard = () => {
   const { data: profile, isLoading: profileLoading } = useUserProfile();
   const { data: achievements } = useUserAchievements();
   const { data: recruitmentData } = useUserRecruitment();
+  
+  const [leaderboardCategory, setLeaderboardCategory] = useState<LeaderboardCategory>('total_donated');
+  const { data: leaderboardData, isLoading: leaderboardLoading } = useLeaderboard(leaderboardCategory, 10);
 
   if (!user) {
     return (
@@ -189,6 +196,18 @@ const Dashboard = () => {
             </div>
           </section>
         )}
+
+        {/* Leaderboard Section */}
+        <section className="pb-8">
+          <div className="container mx-auto px-4">
+            <LeaderboardTable
+              data={leaderboardData?.leaderboard || []}
+              category={leaderboardCategory}
+              userPosition={leaderboardData?.userPosition}
+              onCategoryChange={setLeaderboardCategory}
+            />
+          </div>
+        </section>
 
         {/* Contribution History */}
         <section className="pb-8">
