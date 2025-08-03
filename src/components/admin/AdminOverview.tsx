@@ -67,110 +67,110 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
       )}
       {/* Enhanced Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 border-blue-200 dark:border-blue-800">
+        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 tactical:from-primary/5 tactical:to-primary/10 tactical:border-primary/20 klingon:from-klingon-primary/5 klingon:to-klingon-primary/10 klingon:border-klingon-accent/20 border-blue-200 dark:border-blue-800">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Donors</CardTitle>
-            <Users className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+            <CardTitle className="text-sm font-medium klingon:font-klingon">Total Donors</CardTitle>
+            <Users className="h-4 w-4 text-blue-600 dark:text-blue-400 tactical:text-primary klingon:text-klingon-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-700 dark:text-blue-300">
+            <div className="text-2xl font-bold text-blue-700 dark:text-blue-300 tactical:text-primary klingon:text-klingon-alert klingon:font-klingon">
               {overview.totalDonors?.toLocaleString() || 0}
             </div>
-            <p className="text-xs text-blue-600 dark:text-blue-400">All registered donors</p>
+            <p className="text-xs text-blue-600 dark:text-blue-400 tactical:text-primary/70 klingon:text-klingon-accent/70 klingon:font-klingon">All registered donors</p>
           </CardContent>
         </Card>
         
-        <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950 dark:to-green-900 border-green-200 dark:border-green-800">
+        <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950 dark:to-green-900 tactical:from-secondary/5 tactical:to-secondary/10 tactical:border-secondary/20 klingon:from-klingon-accent/5 klingon:to-klingon-accent/10 klingon:border-klingon-primary/20 border-green-200 dark:border-green-800">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Donors</CardTitle>
-            <TrendingUp className="h-4 w-4 text-green-600 dark:text-green-400" />
+            <CardTitle className="text-sm font-medium klingon:font-klingon">Active Donors</CardTitle>
+            <TrendingUp className="h-4 w-4 text-green-600 dark:text-green-400 tactical:text-secondary klingon:text-klingon-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-700 dark:text-green-300">
+            <div className="text-2xl font-bold text-green-700 dark:text-green-300 tactical:text-secondary klingon:text-klingon-alert klingon:font-klingon">
               {overview.activeDonors?.toLocaleString() || 0}
             </div>
-            <p className="text-xs text-green-600 dark:text-green-400">Donors with pledges</p>
+            <p className="text-xs text-green-600 dark:text-green-400 tactical:text-secondary/70 klingon:text-klingon-primary/70 klingon:font-klingon">Donors with pledges</p>
           </CardContent>
         </Card>
         
-        <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-950 dark:to-yellow-900 border-yellow-200 dark:border-yellow-800">
+        <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-950 dark:to-yellow-900 tactical:from-accent/5 tactical:to-accent/10 tactical:border-accent/20 klingon:from-klingon-alert/5 klingon:to-klingon-alert/10 klingon:border-klingon-alert/20 border-yellow-200 dark:border-yellow-800">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Raised</CardTitle>
-            <DollarSign className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+            <CardTitle className="text-sm font-medium klingon:font-klingon">Total Raised</CardTitle>
+            <DollarSign className="h-4 w-4 text-yellow-600 dark:text-yellow-400 tactical:text-accent klingon:text-klingon-alert" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-yellow-700 dark:text-yellow-300">
+            <div className="text-2xl font-bold text-yellow-700 dark:text-yellow-300 tactical:text-accent klingon:text-klingon-alert klingon:font-klingon">
               ${overview.totalRaised?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
             </div>
-            <p className="text-xs text-yellow-600 dark:text-yellow-400">Across all campaigns</p>
+            <p className="text-xs text-yellow-600 dark:text-yellow-400 tactical:text-accent/70 klingon:text-klingon-alert/70 klingon:font-klingon">Across all campaigns</p>
           </CardContent>
         </Card>
         
-        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900 border-purple-200 dark:border-purple-800">
+        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900 tactical:from-muted/5 tactical:to-muted/10 tactical:border-muted-foreground/20 klingon:from-klingon-primary/5 klingon:to-klingon-primary/10 klingon:border-klingon-primary/20 border-purple-200 dark:border-purple-800">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Conversion Rate</CardTitle>
-            <BarChart3 className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+            <CardTitle className="text-sm font-medium klingon:font-klingon">Conversion Rate</CardTitle>
+            <BarChart3 className="h-4 w-4 text-purple-600 dark:text-purple-400 tactical:text-muted-foreground klingon:text-klingon-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-purple-700 dark:text-purple-300">
+            <div className="text-2xl font-bold text-purple-700 dark:text-purple-300 tactical:text-muted-foreground klingon:text-klingon-alert klingon:font-klingon">
               {overview.conversionRate?.toFixed(1)}%
             </div>
-            <p className="text-xs text-purple-600 dark:text-purple-400">Active vs total donors</p>
+            <p className="text-xs text-purple-600 dark:text-purple-400 tactical:text-muted-foreground/70 klingon:text-klingon-primary/70 klingon:font-klingon">Active vs total donors</p>
           </CardContent>
         </Card>
 
         {/* Additional Enhanced Metrics */}
-        <Card className="bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-950 dark:to-teal-900 border-teal-200 dark:border-teal-800">
+        <Card className="bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-950 dark:to-teal-900 tactical:from-primary/5 tactical:to-primary/10 tactical:border-primary/20 klingon:from-klingon-accent/5 klingon:to-klingon-accent/10 klingon:border-klingon-accent/20 border-teal-200 dark:border-teal-800">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Avg Donation</CardTitle>
-            <Target className="h-4 w-4 text-teal-600 dark:text-teal-400" />
+            <CardTitle className="text-sm font-medium klingon:font-klingon">Avg Donation</CardTitle>
+            <Target className="h-4 w-4 text-teal-600 dark:text-teal-400 tactical:text-primary klingon:text-klingon-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-teal-700 dark:text-teal-300">
+            <div className="text-2xl font-bold text-teal-700 dark:text-teal-300 tactical:text-primary klingon:text-klingon-alert klingon:font-klingon">
               ${overview.averageDonation?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
             </div>
-            <p className="text-xs text-teal-600 dark:text-teal-400">Per active donor</p>
+            <p className="text-xs text-teal-600 dark:text-teal-400 tactical:text-primary/70 klingon:text-klingon-accent/70 klingon:font-klingon">Per active donor</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-950 dark:to-indigo-900 border-indigo-200 dark:border-indigo-800">
+        <Card className="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-950 dark:to-indigo-900 tactical:from-secondary/5 tactical:to-secondary/10 tactical:border-secondary/20 klingon:from-klingon-primary/5 klingon:to-klingon-primary/10 klingon:border-klingon-primary/20 border-indigo-200 dark:border-indigo-800">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Campaigns</CardTitle>
-            <Award className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+            <CardTitle className="text-sm font-medium klingon:font-klingon">Total Campaigns</CardTitle>
+            <Award className="h-4 w-4 text-indigo-600 dark:text-indigo-400 tactical:text-secondary klingon:text-klingon-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-indigo-700 dark:text-indigo-300">
+            <div className="text-2xl font-bold text-indigo-700 dark:text-indigo-300 tactical:text-secondary klingon:text-klingon-alert klingon:font-klingon">
               {overview.totalCampaigns?.toLocaleString() || 0}
             </div>
-            <p className="text-xs text-indigo-600 dark:text-indigo-400">
+            <p className="text-xs text-indigo-600 dark:text-indigo-400 tactical:text-secondary/70 klingon:text-klingon-primary/70 klingon:font-klingon">
               {overview.activeCampaigns || 0} active
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-950 dark:to-orange-900 border-orange-200 dark:border-orange-800">
+        <Card className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-950 dark:to-orange-900 tactical:from-accent/5 tactical:to-accent/10 tactical:border-accent/20 klingon:from-klingon-alert/5 klingon:to-klingon-alert/10 klingon:border-klingon-alert/20 border-orange-200 dark:border-orange-800">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Rewards</CardTitle>
-            <Gift className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+            <CardTitle className="text-sm font-medium klingon:font-klingon">Total Rewards</CardTitle>
+            <Gift className="h-4 w-4 text-orange-600 dark:text-orange-400 tactical:text-accent klingon:text-klingon-alert" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-orange-700 dark:text-orange-300">
+            <div className="text-2xl font-bold text-orange-700 dark:text-orange-300 tactical:text-accent klingon:text-klingon-alert klingon:font-klingon">
               {overview.totalRewards?.toLocaleString() || 0}
             </div>
-            <p className="text-xs text-orange-600 dark:text-orange-400">Available rewards</p>
+            <p className="text-xs text-orange-600 dark:text-orange-400 tactical:text-accent/70 klingon:text-klingon-alert/70 klingon:font-klingon">Available rewards</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-rose-50 to-rose-100 dark:from-rose-950 dark:to-rose-900 border-rose-200 dark:border-rose-800">
+        <Card className="bg-gradient-to-br from-rose-50 to-rose-100 dark:from-rose-950 dark:to-rose-900 tactical:from-muted/5 tactical:to-muted/10 tactical:border-muted-foreground/20 klingon:from-klingon-accent/5 klingon:to-klingon-accent/10 klingon:border-klingon-accent/20 border-rose-200 dark:border-rose-800">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Pledges</CardTitle>
-            <BarChart3 className="h-4 w-4 text-rose-600 dark:text-rose-400" />
+            <CardTitle className="text-sm font-medium klingon:font-klingon">Total Pledges</CardTitle>
+            <BarChart3 className="h-4 w-4 text-rose-600 dark:text-rose-400 tactical:text-muted-foreground klingon:text-klingon-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-rose-700 dark:text-rose-300">
+            <div className="text-2xl font-bold text-rose-700 dark:text-rose-300 tactical:text-muted-foreground klingon:text-klingon-alert klingon:font-klingon">
               {overview.totalPledges?.toLocaleString() || 0}
             </div>
-            <p className="text-xs text-rose-600 dark:text-rose-400">All time pledges</p>
+            <p className="text-xs text-rose-600 dark:text-rose-400 tactical:text-muted-foreground/70 klingon:text-klingon-accent/70 klingon:font-klingon">All time pledges</p>
           </CardContent>
         </Card>
       </div>
