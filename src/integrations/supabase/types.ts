@@ -1445,6 +1445,60 @@ export type Database = {
           },
         ]
       }
+      user_achievements: {
+        Row: {
+          achievement_data: Json | null
+          achievement_type: string
+          earned_at: string | null
+          id: string
+          is_visible: boolean | null
+          user_id: string
+        }
+        Insert: {
+          achievement_data?: Json | null
+          achievement_type: string
+          earned_at?: string | null
+          id?: string
+          is_visible?: boolean | null
+          user_id: string
+        }
+        Update: {
+          achievement_data?: Json | null
+          achievement_type?: string
+          earned_at?: string | null
+          id?: string
+          is_visible?: boolean | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_recruits: {
+        Row: {
+          id: string
+          recruited_at: string | null
+          recruited_user_id: string
+          recruiter_id: string
+          recruitment_code: string | null
+          status: string | null
+        }
+        Insert: {
+          id?: string
+          recruited_at?: string | null
+          recruited_user_id: string
+          recruiter_id: string
+          recruitment_code?: string | null
+          status?: string | null
+        }
+        Update: {
+          id?: string
+          recruited_at?: string | null
+          recruited_user_id?: string
+          recruiter_id?: string
+          recruitment_code?: string | null
+          status?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       campaign_totals: {
@@ -1540,6 +1594,10 @@ export type Database = {
       ban_user: {
         Args: { target_user_id: string }
         Returns: boolean
+      }
+      calculate_donation_achievements: {
+        Args: { user_uuid: string }
+        Returns: undefined
       }
       check_current_user_is_admin: {
         Args: Record<PropertyKey, never>
