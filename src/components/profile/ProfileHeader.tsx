@@ -1,9 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { User, Camera, Image, X } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { User, Camera, Image, X, ChevronDown, Edit, Settings } from "lucide-react";
 import { useAvatarUpload } from "@/hooks/useAvatarUpload";
 import { useBackgroundUpload } from "@/hooks/useBackgroundUpload";
 import { useUpdateProfile } from "@/hooks/useUserProfile";
@@ -123,40 +124,6 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         <div className="absolute inset-0 bg-black/50" />
       )}
       
-      {/* Background image controls */}
-      {!isEditing && (
-        <div className="absolute top-4 right-4 z-10 flex gap-2">
-          <Button
-            size="sm"
-            variant="secondary"
-            onClick={handleBackgroundClick}
-            disabled={isUploadingBackground}
-            className="h-8 px-3 bg-white/20 hover:bg-white/30 text-white border-white/40"
-          >
-            <Image className="h-4 w-4 mr-1" />
-            {profile?.background_url ? 'Change' : 'Add'} Background
-          </Button>
-          {profile?.background_url && (
-            <Button
-              size="sm"
-              variant="destructive"
-              onClick={handleRemoveBackground}
-              className="h-8 px-3"
-            >
-              <X className="h-4 w-4 mr-1" />
-              Remove
-            </Button>
-          )}
-          <input
-            ref={backgroundInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleBackgroundFileChange}
-            className="hidden"
-          />
-        </div>
-      )}
-
       <div className="container mx-auto px-4 py-10 relative z-20">
         <div className="flex flex-col md:flex-row md:items-start gap-6">
           <div className="relative">
@@ -285,15 +252,60 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 </Button>
               </>
             ) : (
-              <Button 
-                className="bg-axanar-teal hover:bg-axanar-teal/90 text-white"
-                onClick={onEdit}
-              >
-                Edit Profile
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button 
+                    className="bg-axanar-teal hover:bg-axanar-teal/90 text-white"
+                    disabled={isUploading || isUploadingBackground}
+                  >
+                    <Settings className="h-4 w-4 mr-2" />
+                    Edit Profile
+                    <ChevronDown className="h-4 w-4 ml-2" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent 
+                  align="end" 
+                  className="w-56 bg-white border border-gray-200 shadow-lg z-50"
+                >
+                  <DropdownMenuItem onClick={onEdit} className="cursor-pointer">
+                    <Edit className="h-4 w-4 mr-2" />
+                    Edit Profile Info
+                  </DropdownMenuItem>
+                  
+                  <DropdownMenuSeparator />
+                  
+                  <DropdownMenuItem 
+                    onClick={handleBackgroundClick} 
+                    className="cursor-pointer"
+                    disabled={isUploadingBackground}
+                  >
+                    <Image className="h-4 w-4 mr-2" />
+                    {profile?.background_url ? 'Change Background' : 'Add Background'}
+                  </DropdownMenuItem>
+                  
+                  {profile?.background_url && (
+                    <DropdownMenuItem 
+                      onClick={handleRemoveBackground} 
+                      className="cursor-pointer text-red-600 focus:text-red-600"
+                    >
+                      <X className="h-4 w-4 mr-2" />
+                      Remove Background
+                    </DropdownMenuItem>
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
             )}
           </div>
         </div>
+        
+        {/* Hidden file inputs */}
+        <input
+          ref={backgroundInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleBackgroundFileChange}
+          className="hidden"
+        />
       </div>
     </section>
   );
