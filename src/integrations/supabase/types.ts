@@ -108,6 +108,13 @@ export type Database = {
             foreignKeyName: "addresses_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "addresses_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
             referencedRelation: "donors"
             referencedColumns: ["id"]
           },
@@ -264,6 +271,13 @@ export type Database = {
             foreignKeyName: "alerts_seen_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "alerts_seen_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
             referencedRelation: "donors"
             referencedColumns: ["id"]
           },
@@ -320,6 +334,13 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "contributor_leaderboard"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "audit_trail_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
             referencedColumns: ["donor_id"]
           },
           {
@@ -465,6 +486,13 @@ export type Database = {
             foreignKeyName: "donor_campaign_packages_campaign_id_fkey"
             columns: ["campaign_id"]
             isOneToOne: false
+            referencedRelation: "campaign_analytics"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "donor_campaign_packages_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
             referencedRelation: "campaign_totals"
             referencedColumns: ["campaign_id"]
           },
@@ -480,6 +508,13 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "contributor_leaderboard"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_campaign_packages_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
             referencedColumns: ["donor_id"]
           },
           {
@@ -549,6 +584,13 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "contributor_leaderboard"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_sku_items_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
             referencedColumns: ["donor_id"]
           },
           {
@@ -717,6 +759,13 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "contributor_leaderboard"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "notifications_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
             referencedColumns: ["donor_id"]
           },
           {
@@ -892,6 +941,13 @@ export type Database = {
             foreignKeyName: "pledges_campaign_id_fkey"
             columns: ["campaign_id"]
             isOneToOne: false
+            referencedRelation: "campaign_analytics"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "pledges_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
             referencedRelation: "campaign_totals"
             referencedColumns: ["campaign_id"]
           },
@@ -907,6 +963,13 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "contributor_leaderboard"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
             referencedColumns: ["donor_id"]
           },
           {
@@ -1004,6 +1067,13 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "rewards_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaign_analytics"
+            referencedColumns: ["campaign_id"]
+          },
           {
             foreignKeyName: "rewards_campaign_id_fkey"
             columns: ["campaign_id"]
@@ -1144,6 +1214,13 @@ export type Database = {
             foreignKeyName: "src_indiegogo_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_indiegogo_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
             referencedRelation: "donors"
             referencedColumns: ["id"]
           },
@@ -1230,6 +1307,13 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "contributor_leaderboard"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_kickstarter_axanar_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
             referencedColumns: ["donor_id"]
           },
           {
@@ -1328,6 +1412,13 @@ export type Database = {
             foreignKeyName: "src_kickstarter_prelude_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_kickstarter_prelude_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
             referencedRelation: "donors"
             referencedColumns: ["id"]
           },
@@ -1396,6 +1487,13 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "contributor_leaderboard"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_paypal_axanar_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
             referencedColumns: ["donor_id"]
           },
           {
@@ -1476,6 +1574,13 @@ export type Database = {
             foreignKeyName: "src_paypal_prelude_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_paypal_prelude_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
             referencedRelation: "donors"
             referencedColumns: ["id"]
           },
@@ -1541,6 +1646,13 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "contributor_leaderboard"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "src_secret_perks_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
             referencedColumns: ["donor_id"]
           },
           {
@@ -1622,6 +1734,22 @@ export type Database = {
       }
     }
     Views: {
+      campaign_analytics: {
+        Row: {
+          active: boolean | null
+          campaign_id: string | null
+          end_date: string | null
+          goal_amount: number | null
+          name: string | null
+          progress_percentage: number | null
+          start_date: string | null
+          status: string | null
+          total_pledges: number | null
+          total_raised: number | null
+          unique_donors: number | null
+        }
+        Relationships: []
+      }
       campaign_totals: {
         Row: {
           active: boolean | null
@@ -1654,6 +1782,24 @@ export type Database = {
           recruitment_xp: number | null
           recruits_confirmed: number | null
           total_contributions: number | null
+          total_donated: number | null
+          years_supporting: number | null
+        }
+        Relationships: []
+      }
+      donor_pledge_totals: {
+        Row: {
+          avatar_url: string | null
+          campaigns_supported: number | null
+          donor_id: string | null
+          donor_name: string | null
+          email: string | null
+          first_name: string | null
+          first_pledge_date: string | null
+          full_name: string | null
+          last_name: string | null
+          last_pledge_date: string | null
+          pledge_count: number | null
           total_donated: number | null
           years_supporting: number | null
         }
@@ -1842,6 +1988,30 @@ export type Database = {
       get_all_users: {
         Args: Record<PropertyKey, never>
         Returns: Json[]
+      }
+      get_campaign_analytics_paginated: {
+        Args: {
+          page_size?: number
+          page_offset?: number
+          search_term?: string
+          sort_column?: string
+          sort_direction?: string
+        }
+        Returns: Json
+      }
+      get_comprehensive_admin_analytics: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
+      get_donor_analytics: {
+        Args: {
+          page_size?: number
+          page_offset?: number
+          search_term?: string
+          sort_column?: string
+          sort_direction?: string
+        }
+        Returns: Json
       }
       get_leaderboard: {
         Args: { category_type?: string; limit_count?: number }
