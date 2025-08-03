@@ -113,7 +113,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
   return (
     <section 
-      className="relative bg-axanar-dark text-white overflow-hidden min-h-[33vh]"
+      className="relative bg-axanar-dark text-white overflow-hidden min-h-[33vh] flex items-center"
       onPointerMove={(e) => {
         const { currentTarget: el, clientX: x, clientY: y } = e;
         const { top: t, left: l, width: w, height: h } = el.getBoundingClientRect();
