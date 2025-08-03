@@ -28,7 +28,7 @@ export const useUserProfile = () => {
           id: user.id,
           username: donor.email?.split('@')[0] || null,
           full_name: donor.full_name || `${donor.first_name || ''} ${donor.last_name || ''}`.trim() || null,
-          bio: donor.bio || null,
+          bio: (donor as any).bio || null,
           avatar_url: donor.avatar_url || null,
           created_at: donor.created_at,
           updated_at: donor.updated_at
