@@ -1,4 +1,3 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 interface TimedPromptProps {
@@ -8,27 +7,27 @@ interface TimedPromptProps {
 }
 
 const TimedPrompt = ({ isVisible, message, onDismiss }: TimedPromptProps) => {
+  if (!isVisible) return null;
+
   return (
-    <Dialog open={isVisible} onOpenChange={onDismiss}>
-      <DialogContent className="sm:max-w-md bg-red-900/90 border-red-500 text-red-100">
-        <DialogHeader>
-          <DialogTitle className="text-red-100 text-center font-mono">
-            ⚠️ SECURITY ALERT ⚠️
-          </DialogTitle>
-        </DialogHeader>
-        <div className="text-center space-y-4">
-          <p className="text-red-200 font-mono text-lg animate-pulse">
+    <div className="fixed inset-0 z-50 bg-red-900/95 backdrop-blur-sm flex items-center justify-center">
+      <div className="text-center space-y-8 px-4">
+        <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold font-mono text-red-100 animate-pulse">
+          RED ALERT
+        </h1>
+        <div className="space-y-4">
+          <p className="text-xl md:text-2xl lg:text-3xl text-red-200 font-mono animate-pulse">
             {message}
           </p>
           <Button 
             onClick={onDismiss}
-            className="bg-red-600 hover:bg-red-700 text-white border-red-500"
+            className="bg-red-600 hover:bg-red-700 text-white border-red-500 text-lg px-8 py-3"
           >
             ACKNOWLEDGED
           </Button>
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
   );
 };
 
