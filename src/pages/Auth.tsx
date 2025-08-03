@@ -34,7 +34,7 @@ const Auth = () => {
     isPromptVisible,
     promptMessage,
     dismissPrompt
-  } = useTimedPrompt();
+  } = useTimedPrompt(alertLevel);
 
   // Update battle mode based on alert level
   useEffect(() => {
