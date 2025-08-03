@@ -125,11 +125,11 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         '--y': 'calc(var(--posY, 0) * 1px)',
         backgroundImage: profile?.background_url 
           ? `
-              url(${profile.background_url}),
-              radial-gradient(90% 100% at calc(50% + var(--x)) calc(0% + var(--y)), rgba(64, 224, 208, 0.9), rgba(255, 255, 255, 0.4)),
-              radial-gradient(100% 100% at calc(80% - var(--x)) calc(0% - var(--y)), rgba(255, 255, 255, 0.8), rgba(64, 224, 208, 0.3)),
-              radial-gradient(150% 210% at calc(100% + var(--x)) calc(0% + var(--y)), rgba(64, 224, 208, 0.7), rgba(0, 255, 255, 0.5)),
-              radial-gradient(80% 80% at calc(20% + var(--x)) calc(80% + var(--y)), rgba(255, 255, 255, 0.6), rgba(64, 224, 208, 0.4))
+              radial-gradient(90% 100% at calc(50% + var(--x)) calc(0% + var(--y)), rgba(64, 224, 208, 0.95), rgba(255, 255, 255, 0.6)),
+              radial-gradient(100% 100% at calc(80% - var(--x)) calc(0% - var(--y)), rgba(255, 255, 255, 0.85), rgba(64, 224, 208, 0.4)),
+              radial-gradient(150% 210% at calc(100% + var(--x)) calc(0% + var(--y)), rgba(0, 255, 255, 0.8), rgba(64, 224, 208, 0.6)),
+              radial-gradient(80% 80% at calc(20% + var(--x)) calc(80% + var(--y)), rgba(255, 255, 255, 0.7), rgba(0, 255, 255, 0.5)),
+              url(${profile.background_url})
             ` 
           : `
               radial-gradient(90% 100% at calc(50% + var(--x)) calc(0% + var(--y)), rgba(64, 224, 208, 1.0), rgba(0, 255, 255, 0.6)),
@@ -138,10 +138,14 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               radial-gradient(80% 80% at calc(20% + var(--x)) calc(80% + var(--y)), rgba(255, 255, 255, 0.7), rgba(0, 255, 255, 0.4)),
               linear-gradient(60deg, rgb(0, 10, 15), rgb(0, 20, 25))
             `,
-        backgroundSize: '100% auto, 400% 400%, 400% 400%, 400% 400%, 400% 400%' + (profile?.background_url ? '' : ', 100% 100%'),
-        backgroundPosition: 'center top, center, center, center, center' + (profile?.background_url ? '' : ', center'),
+        backgroundSize: profile?.background_url 
+          ? '400% 400%, 400% 400%, 400% 400%, 400% 400%, 100% auto'
+          : '400% 400%, 400% 400%, 400% 400%, 400% 400%, 100% 100%',
+        backgroundPosition: profile?.background_url 
+          ? 'center, center, center, center, center top'
+          : 'center, center, center, center, center',
         backgroundRepeat: 'no-repeat',
-        backgroundBlendMode: profile?.background_url ? 'normal, overlay, screen, multiply' : 'overlay, screen, multiply, normal'
+        backgroundBlendMode: profile?.background_url ? 'overlay, screen, color-dodge, multiply, normal' : 'overlay, screen, multiply, color-dodge, normal'
       } as React.CSSProperties}
     >
       {/* StarField layer - subtle background effect */}
