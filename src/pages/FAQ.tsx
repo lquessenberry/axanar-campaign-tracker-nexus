@@ -112,12 +112,12 @@ const FAQ = () => {
             '--x': 'calc(var(--posX, 0) * 1px)',
             '--y': 'calc(var(--posY, 0) * 1px)',
             backgroundImage: `
-              linear-gradient(115deg, rgb(50, 60, 70), rgb(0, 0, 0)),
-              radial-gradient(90% 100% at calc(50% + var(--x)) calc(0% + var(--y)), rgb(40, 50, 60), rgb(0, 5, 10, 0.8)),
-              radial-gradient(100% 100% at calc(80% - var(--x)) calc(0% - var(--y)), rgb(60, 70, 80), rgb(0, 10, 20, 0.6)),
-              radial-gradient(150% 210% at calc(100% + var(--x)) calc(0% + var(--y)), rgb(30, 40, 50), rgb(0, 0, 5, 255)),
-              radial-gradient(100% 100% at calc(100% - var(--x)) calc(30% - var(--y)), rgb(45, 55, 65), rgb(0, 0, 10, 255)),
-              linear-gradient(60deg, rgb(20, 30, 40), rgb(30, 40, 50))
+              linear-gradient(115deg, rgb(80, 120, 160), rgb(10, 10, 10)),
+              radial-gradient(90% 100% at calc(50% + var(--x)) calc(0% + var(--y)), rgb(100, 140, 180), rgb(5, 15, 25, 0.6)),
+              radial-gradient(100% 100% at calc(80% - var(--x)) calc(0% - var(--y)), rgb(120, 160, 200), rgb(10, 20, 30, 0.4)),
+              radial-gradient(150% 210% at calc(100% + var(--x)) calc(0% + var(--y)), rgb(60, 100, 140), rgb(5, 5, 15, 255)),
+              radial-gradient(100% 100% at calc(100% - var(--x)) calc(30% - var(--y)), rgb(90, 130, 170), rgb(10, 10, 20, 255)),
+              linear-gradient(60deg, rgb(70, 110, 150), rgb(50, 90, 130))
             `,
             backgroundBlendMode: 'overlay, overlay, difference, difference, difference, normal'
           } as React.CSSProperties}
