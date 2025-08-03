@@ -58,21 +58,43 @@ export const useUpdateProfile = () => {
     mutationFn: async (updates: { username?: string; full_name?: string; bio?: string; avatar_url?: string }) => {
       if (!user) throw new Error('User not authenticated');
       
-      // Call the edge function to handle profile updates
-      const { data, error } = await supabase.functions.invoke('update-profile', {
-        body: updates
-      });
+      console.log('Starting profile update with data:', updates);
+      
+      try {
+        // Call the edge function to handle profile updates with timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+        
+        const { data, error } = await supabase.functions.invoke('update-profile', {
+          body: updates,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
 
-      if (error) {
-        console.error('Profile update error:', error);
-        throw new Error(error.message || 'Failed to update profile');
+        clearTimeout(timeoutId);
+        
+        console.log('Edge function response:', { data, error });
+
+        if (error) {
+          console.error('Profile update error:', error);
+          throw new Error(error.message || 'Failed to update profile');
+        }
+
+        if (!data?.success) {
+          console.error('Profile update failed:', data);
+          throw new Error(data?.error || 'Failed to update profile');
+        }
+
+        console.log('Profile updated successfully:', data.profile);
+        return data.profile;
+      } catch (err) {
+        console.error('Profile update error:', err);
+        if (err instanceof Error && err.name === 'AbortError') {
+          throw new Error('Request timeout - please try again');
+        }
+        throw err;
       }
-
-      if (!data?.success) {
-        throw new Error(data?.error || 'Failed to update profile');
-      }
-
-      return data.profile;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user-profile', user?.id] });

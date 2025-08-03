@@ -29,3 +29,6 @@ verify_jwt = true
 
 [functions.send-recovery-email]
 verify_jwt = true
+
+[functions.update-profile]
+verify_jwt = true
