@@ -6,6 +6,8 @@ import AuthLayout from "@/components/auth/AuthLayout";
 import AuthFlowRenderer from "@/components/auth/AuthFlowRenderer";
 import { useAuthFlow } from "@/hooks/useAuthFlow";
 import { useAlertSystem } from "@/hooks/useAlertSystem";
+import { useTimedPrompt } from "@/hooks/useTimedPrompt";
+import TimedPrompt from "@/components/auth/TimedPrompt";
 
 const Auth = () => {
   const [battleMode, setBattleMode] = useState(true);
@@ -28,6 +30,12 @@ const Auth = () => {
     cycleAlert,
   } = useAlertSystem();
 
+  const {
+    isPromptVisible,
+    promptMessage,
+    dismissPrompt
+  } = useTimedPrompt();
+
   // Update battle mode based on alert level
   useEffect(() => {
     setBattleMode(alertLevel !== 'normal');
@@ -39,26 +47,34 @@ const Auth = () => {
   }
 
   return (
-    <AuthLayout 
-      battleMode={battleMode} 
-      onBattleModeToggle={setBattleMode}
-      alertLevel={alertLevel}
-      onAlertCycle={cycleAlert}
-    >
-      <AuthFlowRenderer
-        authFlow={authFlow}
-        recoveryEmail={recoveryEmail}
-        ssoProvider={ssoProvider}
+    <>
+      <AuthLayout 
+        battleMode={battleMode} 
+        onBattleModeToggle={setBattleMode}
         alertLevel={alertLevel}
-        isAlertActive={isAlertActive}
-        onStartAccountLookup={handleStartAccountLookup}
-        onPasswordReset={handlePasswordReset}
-        onSSOLink={handleSSOLink}
-        onProceedToSignup={handleProceedToSignup}
-        onBackToMain={handleBackToMain}
-        onAuthSuccess={handleAuthSuccess}
+        onAlertCycle={cycleAlert}
+      >
+        <AuthFlowRenderer
+          authFlow={authFlow}
+          recoveryEmail={recoveryEmail}
+          ssoProvider={ssoProvider}
+          alertLevel={alertLevel}
+          isAlertActive={isAlertActive}
+          onStartAccountLookup={handleStartAccountLookup}
+          onPasswordReset={handlePasswordReset}
+          onSSOLink={handleSSOLink}
+          onProceedToSignup={handleProceedToSignup}
+          onBackToMain={handleBackToMain}
+          onAuthSuccess={handleAuthSuccess}
+        />
+      </AuthLayout>
+      
+      <TimedPrompt 
+        isVisible={isPromptVisible}
+        message={promptMessage}
+        onDismiss={dismissPrompt}
       />
-    </AuthLayout>
+    </>
   );
 };
 
