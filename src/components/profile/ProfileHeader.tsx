@@ -121,7 +121,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     >
       {/* Dark overlay for text readability */}
       {profile?.background_url && (
-        <div className="absolute inset-0 bg-black/50 pt-[61vh]" />
+        <div className="absolute inset-0 bg-black/50" />
       )}
       
       <div className="container mx-auto px-4 py-10 relative z-20">
