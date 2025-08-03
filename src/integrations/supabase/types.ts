@@ -550,6 +550,7 @@ export type Database = {
         Row: {
           admin: boolean | null
           auth_user_id: string | null
+          avatar_url: string | null
           created_at: string | null
           deleted: boolean | null
           donor_name: string | null
@@ -571,6 +572,7 @@ export type Database = {
         Insert: {
           admin?: boolean | null
           auth_user_id?: string | null
+          avatar_url?: string | null
           created_at?: string | null
           deleted?: boolean | null
           donor_name?: string | null
@@ -592,6 +594,7 @@ export type Database = {
         Update: {
           admin?: boolean | null
           auth_user_id?: string | null
+          avatar_url?: string | null
           created_at?: string | null
           deleted?: boolean | null
           donor_name?: string | null
