@@ -21,7 +21,6 @@ interface DonorTableProps {
   donors: Donor[];
   selectedDonors: Set<string>;
   onSelectDonor: (donorId: string, checked: boolean) => void;
-  onEdit: (donor: Donor) => void;
   onSendEmail: (donor: Donor) => void;
   onBan: (donor: Donor) => void;
   onActivate: (donor: Donor) => void;
@@ -31,7 +30,6 @@ const DonorTable = ({
   donors, 
   selectedDonors, 
   onSelectDonor,
-  onEdit,
   onSendEmail,
   onBan,
   onActivate
@@ -90,7 +88,6 @@ const DonorTable = ({
               <TableCell>
                 <DonorActions
                   donor={donor}
-                  onEdit={onEdit}
                   onSendEmail={onSendEmail}
                   onBan={onBan}
                   onActivate={onActivate}

@@ -186,7 +186,6 @@ const Donors = () => {
             donors={donors || []} 
             selectedDonors={selectedDonors}
             onSelectDonor={handleSelectDonor}
-            onEdit={handleEdit}
             onSendEmail={handleSendEmail}
             onBan={handleBan}
             onActivate={handleActivate}

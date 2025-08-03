@@ -91,10 +91,6 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleEdit = (donor: any) => {
-    console.log('Edit donor:', donor);
-    // TODO: Implement edit functionality
-  };
 
   const handleSendEmail = (donor: any) => {
     console.log('Send email to donor:', donor);
@@ -170,7 +166,6 @@ const AdminDashboard = () => {
             onSortOrderToggle={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
             onStatusFilterChange={setStatusFilter}
             onClearFilters={handleClearFilters}
-            onEdit={handleEdit}
             onSendEmail={handleSendEmail}
             onBan={handleBan}
             onActivate={handleActivate}

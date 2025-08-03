@@ -44,7 +44,6 @@ interface AdminDonorsSectionProps {
   onSortOrderToggle: () => void;
   onStatusFilterChange: (status: string) => void;
   onClearFilters: () => void;
-  onEdit: (donor: Donor) => void;
   onSendEmail: (donor: Donor) => void;
   onBan: (donor: Donor) => void;
   onActivate: (donor: Donor) => void;
@@ -79,7 +78,6 @@ const AdminDonorsSection = ({
   onSortOrderToggle,
   onStatusFilterChange,
   onClearFilters,
-  onEdit,
   onSendEmail,
   onBan,
   onActivate,
@@ -138,7 +136,6 @@ const AdminDonorsSection = ({
                 donors={donors || []}
                 selectedDonors={selectedDonors}
                 onSelectDonor={onSelectDonor}
-                onEdit={onEdit}
                 onSendEmail={onSendEmail}
                 onBan={onBan}
                 onActivate={onActivate}

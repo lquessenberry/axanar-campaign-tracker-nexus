@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Edit, Mail, Ban, UserCheck } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface Donor {
   id: string;
@@ -18,13 +19,22 @@ interface Donor {
 
 interface DonorActionsProps {
   donor: Donor;
-  onEdit: (donor: Donor) => void;
   onSendEmail: (donor: Donor) => void;
   onBan: (donor: Donor) => void;
   onActivate: (donor: Donor) => void;
 }
 
-const DonorActions = ({ donor, onEdit, onSendEmail, onBan, onActivate }: DonorActionsProps) => {
+const DonorActions = ({ donor, onSendEmail, onBan, onActivate }: DonorActionsProps) => {
+  const navigate = useNavigate();
+
+  const handleEditDonor = () => {
+    if (donor.auth_user_id) {
+      navigate(`/profile/${donor.auth_user_id}`);
+    } else {
+      // For legacy donors without auth_user_id, we could show a message or create an account first
+      onActivate(donor);
+    }
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -34,7 +44,7 @@ const DonorActions = ({ donor, onEdit, onSendEmail, onBan, onActivate }: DonorAc
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => onEdit(donor)}>
+        <DropdownMenuItem onClick={handleEditDonor}>
           <Edit className="mr-2 h-4 w-4" />
           Edit Donor
         </DropdownMenuItem>

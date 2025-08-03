@@ -135,10 +135,6 @@ const Dashboard = () => {
     [key: string]: any; // For other properties that might come from API
   }
 
-  const handleEdit = (donor: Donor) => {
-    console.log('Edit donor:', donor);
-    // TODO: Implement edit functionality
-  };
 
   const handleSendEmail = (donor: Donor) => {
     console.log('Send email to donor:', donor);
@@ -298,7 +294,6 @@ const Dashboard = () => {
             onSortOrderToggle={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
             onStatusFilterChange={setStatusFilter}
             onClearFilters={handleClearFilters}
-            onEdit={handleEdit}
             onSendEmail={handleSendEmail}
             onBan={handleBan}
             onActivate={handleActivate}
