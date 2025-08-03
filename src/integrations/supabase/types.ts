@@ -551,6 +551,7 @@ export type Database = {
           admin: boolean | null
           auth_user_id: string | null
           avatar_url: string | null
+          bio: string | null
           created_at: string | null
           deleted: boolean | null
           donor_name: string | null
@@ -573,6 +574,7 @@ export type Database = {
           admin?: boolean | null
           auth_user_id?: string | null
           avatar_url?: string | null
+          bio?: string | null
           created_at?: string | null
           deleted?: boolean | null
           donor_name?: string | null
@@ -595,6 +597,7 @@ export type Database = {
           admin?: boolean | null
           auth_user_id?: string | null
           avatar_url?: string | null
+          bio?: string | null
           created_at?: string | null
           deleted?: boolean | null
           donor_name?: string | null

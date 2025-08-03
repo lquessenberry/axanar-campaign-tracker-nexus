@@ -71,6 +71,8 @@ export const useUpdateProfile = () => {
           .from('donors')
           .update({
             full_name: updates.full_name,
+            bio: updates.bio,
+            avatar_url: updates.avatar_url,
             updated_at: new Date().toISOString()
           })
           .eq('auth_user_id', user.id)
@@ -80,17 +82,22 @@ export const useUpdateProfile = () => {
         if (error) throw error;
         return data;
       } else {
-        // Update auth user metadata for users without donor records
-        const { data, error } = await supabase.auth.updateUser({
-          data: {
-            full_name: updates.full_name,
+        // For users without donor records, we'll need to update both auth metadata and create a profiles record
+        const { data: profileData, error: profileError } = await supabase
+          .from('profiles')
+          .upsert({
+            id: user.id,
             username: updates.username,
-            bio: updates.bio
-          }
-        });
+            full_name: updates.full_name,
+            bio: updates.bio,
+            avatar_url: updates.avatar_url,
+            updated_at: new Date().toISOString()
+          })
+          .select()
+          .maybeSingle();
 
-        if (error) throw error;
-        return data.user;
+        if (profileError) throw profileError;
+        return profileData;
       }
     },
     onSuccess: () => {

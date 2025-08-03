@@ -1,10 +1,12 @@
 
-import React from "react";
+import React, { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { User, Camera } from "lucide-react";
+import { useAvatarUpload } from "@/hooks/useAvatarUpload";
+import { useUpdateProfile } from "@/hooks/useUserProfile";
 
 interface ProfileData {
   full_name?: string;
@@ -49,6 +51,30 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   campaignsCount,
   totalPledged,
 }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { uploadAvatar, isUploading } = useAvatarUpload();
+  const updateProfile = useUpdateProfile();
+
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const avatarUrl = await uploadAvatar(file);
+    if (avatarUrl) {
+      // Update profile with new avatar URL
+      await updateProfile.mutateAsync({ avatar_url: avatarUrl });
+    }
+
+    // Reset file input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   return (
     <section className="bg-axanar-dark text-white">
       <div className="container mx-auto px-4 py-10">
@@ -66,13 +92,24 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               )}
             </div>
             {!isEditing && (
-              <Button
-                size="sm"
-                variant="secondary"
-                className="absolute -bottom-2 -right-2 h-8 w-8 rounded-full p-0"
-              >
-                <Camera className="h-4 w-4" />
-              </Button>
+              <>
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  onClick={handleAvatarClick}
+                  disabled={isUploading}
+                  className="absolute -bottom-2 -right-2 h-8 w-8 rounded-full p-0"
+                >
+                  <Camera className="h-4 w-4" />
+                </Button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+              </>
             )}
           </div>
           
