@@ -240,7 +240,67 @@ const HowItWorks = () => {
             
             {/* Contact Support Section */}
             <div className="my-16 py-8">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="relative bg-gradient-to-r from-background via-card to-background border-2 border-primary/30 rounded-lg p-8 overflow-hidden">
+          {/* LCARS-style corner accents */}
+          <div className="absolute top-0 left-0 w-16 h-16 border-l-4 border-t-4 border-accent rounded-tl-lg opacity-60"></div>
+          <div className="absolute top-0 right-0 w-16 h-16 border-r-4 border-t-4 border-accent rounded-tr-lg opacity-60"></div>
+          <div className="absolute bottom-0 left-0 w-16 h-16 border-l-4 border-b-4 border-accent rounded-bl-lg opacity-60"></div>
+          <div className="absolute bottom-0 right-0 w-16 h-16 border-r-4 border-b-4 border-accent rounded-br-lg opacity-60"></div>
+          
+          {/* Starfield background */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-4 right-8 w-1 h-1 bg-accent rounded-full animate-pulse"></div>
+            <div className="absolute top-12 right-16 w-0.5 h-0.5 bg-primary rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+            <div className="absolute top-20 right-24 w-1 h-1 bg-accent rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+            <div className="absolute bottom-8 left-12 w-0.5 h-0.5 bg-primary rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
+            <div className="absolute bottom-16 left-20 w-1 h-1 bg-accent rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+            {/* Starfleet Delta Section */}
+            <div className="flex justify-center lg:justify-start">
+              <div className="w-32 h-32 relative">
+                {/* Starfleet Delta SVG */}
+                <svg viewBox="0 0 100 100" className="w-full h-full">
+                  <defs>
+                    <linearGradient id="deltaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style={{stopColor: '#FFD700', stopOpacity: 1}} />
+                      <stop offset="50%" style={{stopColor: '#FFA500', stopOpacity: 1}} />
+                      <stop offset="100%" style={{stopColor: '#FF8C00', stopOpacity: 1}} />
+                    </linearGradient>
+                  </defs>
+                  <path d="M50 15 L35 70 L50 60 L65 70 Z" fill="url(#deltaGradient)" stroke="#B8860B" strokeWidth="2"/>
+                  <circle cx="50" cy="40" r="6" fill="#FFD700"/>
+                </svg>
+              </div>
+            </div>
+            
+            {/* Form Section */}
+            <div className="space-y-6">
+              <h2 className="text-3xl lg:text-4xl font-trek-heading text-destructive uppercase tracking-wider text-center lg:text-left">
+                BOLDLY GO: SUBSCRIBE NOW
+              </h2>
+              
+              <div className="flex flex-col sm:flex-row gap-4">
+                <input
+                  type="email"
+                  placeholder="name@example.com"
+                  className="flex-1 px-4 py-3 bg-input border border-border rounded-md font-trek-content text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                  required
+                />
+                <button 
+                  type="submit"
+                  className="px-8 py-3 bg-accent hover:bg-accent/90 text-accent-foreground font-trek-content font-bold uppercase tracking-wider rounded-md transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                >
+                  SUBMIT
+                </button>
+              </div>
+              
+              <p className="text-sm text-muted-foreground text-center lg:text-left font-trek-content">
+                Join the Axanar community and stay updated on our latest missions
+              </p>
+            </div>
+          </div>
                 <div>
                   <h2 className="mb-8 text-center lg:text-left">
                     Need Help Getting Started?
