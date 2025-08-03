@@ -44,48 +44,30 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    // Verify authentication
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader) {
-      return new Response(
-        JSON.stringify({ error: "Authentication required" }),
-        {
-          status: 401,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        }
-      );
-    }
-
-    const token = authHeader.replace('Bearer ', '');
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    let user = null;
+    let isAuthenticated = false;
     
-    if (authError || !user) {
-      console.error("Authentication failed:", authError);
-      return new Response(
-        JSON.stringify({ error: "Invalid authentication token" }),
-        {
-          status: 401,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
+    // Check for authentication (optional for contact forms)
+    const authHeader = req.headers.get('Authorization');
+    if (authHeader) {
+      const token = authHeader.replace('Bearer ', '');
+      const { data: { user: authUser }, error: authError } = await supabase.auth.getUser(token);
+      
+      if (!authError && authUser) {
+        user = authUser;
+        isAuthenticated = true;
+        
+        // For authenticated users, check if they're admin for advanced features
+        const { data: adminCheck } = await supabase
+          .from('admin_users')
+          .select('user_id')
+          .eq('user_id', user.id)
+          .maybeSingle();
+          
+        if (adminCheck) {
+          console.log("Admin user sending email");
         }
-      );
-    }
-
-    // Check if user is admin
-    const { data: adminCheck, error: adminError } = await supabase
-      .from('admin_users')
-      .select('user_id')
-      .eq('user_id', user.id)
-      .single();
-
-    if (adminError || !adminCheck) {
-      console.error("Admin verification failed:", adminError);
-      return new Response(
-        JSON.stringify({ error: "Admin access required" }),
-        {
-          status: 403,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        }
-      );
+      }
     }
 
     const emailData: SendEmailRequest = await req.json();
@@ -138,17 +120,30 @@ const handler = async (req: Request): Promise<Response> => {
       }
     }
 
-    // Rate limiting: Check recent email sends by this user
+    // Rate limiting based on IP for unauthenticated users, user ID for authenticated
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+    let rateLimitKey = 'anonymous';
+    let rateLimitValue = 10; // Lower limit for anonymous users
+    
+    if (user) {
+      rateLimitKey = `email_sent by ${user.id}`;
+      rateLimitValue = 50; // Higher limit for authenticated users
+    } else {
+      // For anonymous users, we can't easily rate limit by IP in this context
+      // So we'll use a global rate limit
+      rateLimitKey = 'anonymous_email_sends';
+      rateLimitValue = 100; // Global limit for all anonymous sends
+    }
+
     const { count: recentEmails } = await supabase
       .from('audit_trail')
       .select('*', { count: 'exact' })
-      .eq('action', `email_sent by ${user.id}`)
+      .eq('action', rateLimitKey)
       .gte('created_at', oneHourAgo);
 
-    if (recentEmails && recentEmails >= 50) {
+    if (recentEmails && recentEmails >= rateLimitValue) {
       return new Response(
-        JSON.stringify({ error: "Rate limit exceeded. Maximum 50 emails per hour." }),
+        JSON.stringify({ error: `Rate limit exceeded. Maximum ${rateLimitValue} emails per hour.` }),
         {
           status: 429,
           headers: { "Content-Type": "application/json", ...corsHeaders },
@@ -172,14 +167,16 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Log the email send action for audit purposes
     try {
+      const auditAction = user ? `email_sent by ${user.id}` : 'anonymous_email_sends';
       await supabase
         .from('audit_trail')
         .insert({
-          action: `email_sent by ${user.id}`,
+          action: auditAction,
           details: JSON.stringify({
             to: emailData.to,
             subject: emailData.subject,
             email_id: emailResponse.data?.id,
+            authenticated: isAuthenticated,
             timestamp: new Date().toISOString()
           })
         });

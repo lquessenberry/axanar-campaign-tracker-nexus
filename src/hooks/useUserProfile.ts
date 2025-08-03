@@ -58,19 +58,40 @@ export const useUpdateProfile = () => {
     mutationFn: async (updates: { username?: string; full_name?: string; bio?: string; avatar_url?: string }) => {
       if (!user) throw new Error('User not authenticated');
       
-      // Try to update donor record
-      const { data, error } = await supabase
+      // Check if user has a donor record first
+      const { data: existingDonor } = await supabase
         .from('donors')
-        .update({
-          full_name: updates.full_name,
-          updated_at: new Date().toISOString()
-        })
+        .select('id')
         .eq('auth_user_id', user.id)
-        .select()
-        .single();
+        .maybeSingle();
 
-      if (error) throw error;
-      return data;
+      if (existingDonor) {
+        // Update donor record
+        const { data, error } = await supabase
+          .from('donors')
+          .update({
+            full_name: updates.full_name,
+            updated_at: new Date().toISOString()
+          })
+          .eq('auth_user_id', user.id)
+          .select()
+          .maybeSingle();
+
+        if (error) throw error;
+        return data;
+      } else {
+        // Update auth user metadata for users without donor records
+        const { data, error } = await supabase.auth.updateUser({
+          data: {
+            full_name: updates.full_name,
+            username: updates.username,
+            bio: updates.bio
+          }
+        });
+
+        if (error) throw error;
+        return data.user;
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user-profile', user?.id] });
