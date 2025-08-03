@@ -141,6 +141,7 @@ export default {
 				'display': ['Bebas Neue', 'Orbitron', 'system-ui', 'sans-serif'], // Display text
 				'admin': ['Inter', 'system-ui', 'sans-serif'], // Admin interface
 				'mono': ['Orbitron', 'Monaco', 'monospace'], // Code/tech text
+				'klingon': ['pIqaD', 'Orbitron', 'monospace'], // Klingon theme
 				
 				// Trek-specific utilities
 				'trek-heading': ['Bebas Neue', 'Orbitron', 'system-ui', 'sans-serif'],

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-type Theme = 'dark' | 'light';
+type Theme = 'dark' | 'light' | 'tactical' | 'klingon';
 
 type ThemeProviderContextType = {
   theme: Theme;
@@ -29,7 +29,7 @@ export function ThemeProvider({
   useEffect(() => {
     const root = window.document.documentElement;
     
-    root.classList.remove('light', 'dark');
+    root.classList.remove('light', 'dark', 'tactical', 'klingon');
     root.classList.add(theme);
     
     // Store theme preference
@@ -37,7 +37,15 @@ export function ThemeProvider({
   }, [theme, storageKey]);
 
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+    setTheme((prevTheme) => {
+      switch (prevTheme) {
+        case 'light': return 'dark';
+        case 'dark': return 'tactical';
+        case 'tactical': return 'klingon';
+        case 'klingon': return 'light';
+        default: return 'dark';
+      }
+    });
   };
 
   const value = {

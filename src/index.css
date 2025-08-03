@@ -243,6 +243,77 @@
     --lcars-text-secondary: var(--lcars-red);
   }
 
+  /* ============= KLINGON MODE (tlhIngan Hol) ============= */
+  .klingon {
+    /* Klingon Color Palette - Militaristic Dark Red Theme */
+    --background: 0 0% 0%; /* Pure black */
+    --foreground: 0 0% 98%; /* Near white */
+    --card: 0 72% 15%; /* Dark red card background */
+    --card-foreground: 0 0% 98%;
+    --popover: 0 72% 15%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 72% 30%; /* Dark red primary */
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 84% 35%; /* Darker red secondary */
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 10%; /* Very dark gray */
+    --muted-foreground: 0 0% 65%;
+    --accent: 0 100% 50%; /* Bright red accent */
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 84% 25%; /* Dark red border */
+    --input: 0 72% 15%;
+    --ring: 0 100% 50%;
+    --radius: 0.5rem;
+    
+    /* Klingon sidebar */
+    --sidebar: 0 72% 10%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 0 100% 50%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 0 84% 25%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 84% 25%;
+    --sidebar-ring: 0 100% 50%;
+    
+    /* Klingon LCARS overrides */
+    --lcars-panel-bg: 0 72% 8%;
+    --lcars-panel-border: 0 100% 50%;
+    --lcars-button-primary: 0 72% 30%;
+    --lcars-button-secondary: 0 100% 50%;
+    --lcars-text-primary: 0 0% 98%;
+    --lcars-text-secondary: 0 100% 50%;
+  }
+
+  /* Klingon theme typography override */
+  .klingon {
+    font-family: 'pIqaD', 'Orbitron', monospace !important;
+  }
+
+  .klingon * {
+    font-family: 'pIqaD', 'Orbitron', monospace !important;
+  }
+
+  /* Klingon specific component styles */
+  .klingon .btn-lcars {
+    background: linear-gradient(135deg, hsl(0 72% 30%), hsl(0 84% 35%));
+    border: 2px solid hsl(0 100% 50%);
+    color: hsl(0 0% 98%);
+    box-shadow: 0 4px 8px rgba(139, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .klingon .btn-lcars:hover {
+    background: linear-gradient(135deg, hsl(0 84% 35%), hsl(0 100% 40%));
+    box-shadow: 0 6px 12px rgba(139, 0, 0, 0.4);
+  }
+
+  .klingon .lcars-panel {
+    background: linear-gradient(135deg, hsl(0 72% 15%), hsl(0 84% 20%));
+    border: 2px solid hsl(0 100% 50%);
+    box-shadow: 0 4px 12px rgba(139, 0, 0, 0.5);
+  }
+
   * {
     @apply border-border;
   }

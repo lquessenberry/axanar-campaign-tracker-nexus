@@ -1,6 +1,7 @@
-import { Moon, Sun, Zap } from "lucide-react";
+import { Moon, Sun, Zap, Sword } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useTranslation } from 'react-i18next';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,16 +11,16 @@ import {
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
+  const { t, i18n } = useTranslation();
 
-  const handleThemeChange = (newTheme: 'light' | 'dark' | 'tactical') => {
-    if (newTheme === 'tactical') {
-      document.documentElement.classList.remove('light', 'dark');
-      document.documentElement.classList.add('tactical');
-      localStorage.setItem('axanar-ui-theme', 'tactical');
+  const handleThemeChange = (newTheme: 'light' | 'dark' | 'tactical' | 'klingon') => {
+    setTheme(newTheme);
+    
+    // Switch language for Klingon theme
+    if (newTheme === 'klingon') {
+      i18n.changeLanguage('tlh');
     } else {
-      document.documentElement.classList.remove('light', 'dark', 'tactical');
-      document.documentElement.classList.add(newTheme);
-      setTheme(newTheme);
+      i18n.changeLanguage('en');
     }
   };
 
@@ -34,6 +35,10 @@ export function ThemeToggle() {
         >
           {theme === 'dark' ? (
             <Moon className="h-4 w-4 transition-all" />
+          ) : theme === 'tactical' ? (
+            <Zap className="h-4 w-4 transition-all" />
+          ) : theme === 'klingon' ? (
+            <Sword className="h-4 w-4 transition-all" />
           ) : (
             <Sun className="h-4 w-4 transition-all" />
           )}
@@ -46,21 +51,28 @@ export function ThemeToggle() {
           className="font-trek-content"
         >
           <Sun className="mr-2 h-4 w-4" />
-          Standard LCARS
+          {t('standard-lcars')}
         </DropdownMenuItem>
         <DropdownMenuItem 
           onClick={() => handleThemeChange('dark')}
           className="font-trek-content"
         >
           <Moon className="mr-2 h-4 w-4" />
-          Night Mode
+          {t('night-mode')}
         </DropdownMenuItem>
         <DropdownMenuItem 
           onClick={() => handleThemeChange('tactical')}
           className="font-trek-content"
         >
           <Zap className="mr-2 h-4 w-4" />
-          Tactical Mode
+          {t('tactical-mode')}
+        </DropdownMenuItem>
+        <DropdownMenuItem 
+          onClick={() => handleThemeChange('klingon')}
+          className="font-trek-content"
+        >
+          <Sword className="mr-2 h-4 w-4" />
+          {t('klingon-mode')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
