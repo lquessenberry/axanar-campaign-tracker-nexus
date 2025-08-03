@@ -91,7 +91,7 @@ export const useBackgroundUpload = () => {
         .from('profiles')
         .select('background_url')
         .eq('id', user.id)
-        .single();
+        .maybeSingle();
 
       if (profile?.background_url) {
         // Extract file path from URL

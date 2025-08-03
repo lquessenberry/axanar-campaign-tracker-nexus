@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { User, Camera } from "lucide-react";
+import { User, Camera, Image, X } from "lucide-react";
 import { useAvatarUpload } from "@/hooks/useAvatarUpload";
+import { useBackgroundUpload } from "@/hooks/useBackgroundUpload";
 import { useUpdateProfile } from "@/hooks/useUserProfile";
 
 interface ProfileData {
@@ -13,6 +14,7 @@ interface ProfileData {
   full_name?: string | null;
   bio?: string | null;
   avatar_url?: string | null;
+  background_url?: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -53,11 +55,17 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   totalPledged,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const backgroundInputRef = useRef<HTMLInputElement>(null);
   const { uploadAvatar, isUploading } = useAvatarUpload();
+  const { uploadBackground, removeBackground, isUploading: isUploadingBackground } = useBackgroundUpload();
   const updateProfile = useUpdateProfile();
 
   const handleAvatarClick = () => {
     fileInputRef.current?.click();
+  };
+
+  const handleBackgroundClick = () => {
+    backgroundInputRef.current?.click();
   };
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,9 +84,80 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     }
   };
 
+  const handleBackgroundFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const backgroundUrl = await uploadBackground(file);
+    if (backgroundUrl) {
+      // Update profile with new background URL
+      await updateProfile.mutateAsync({ background_url: backgroundUrl });
+    }
+
+    // Reset file input
+    if (backgroundInputRef.current) {
+      backgroundInputRef.current.value = '';
+    }
+  };
+
+  const handleRemoveBackground = async () => {
+    const success = await removeBackground();
+    if (success) {
+      // Update profile to remove background URL
+      await updateProfile.mutateAsync({ background_url: null });
+    }
+  };
+
   return (
-    <section className="bg-axanar-dark text-white">
-      <div className="container mx-auto px-4 py-10">
+    <section 
+      className="relative bg-axanar-dark text-white overflow-hidden"
+      style={{
+        backgroundImage: profile?.background_url ? `url(${profile.background_url})` : undefined,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* Dark overlay for text readability */}
+      {profile?.background_url && (
+        <div className="absolute inset-0 bg-black/50" />
+      )}
+      
+      {/* Background image controls */}
+      {!isEditing && (
+        <div className="absolute top-4 right-4 z-10 flex gap-2">
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={handleBackgroundClick}
+            disabled={isUploadingBackground}
+            className="h-8 px-3 bg-white/20 hover:bg-white/30 text-white border-white/40"
+          >
+            <Image className="h-4 w-4 mr-1" />
+            {profile?.background_url ? 'Change' : 'Add'} Background
+          </Button>
+          {profile?.background_url && (
+            <Button
+              size="sm"
+              variant="destructive"
+              onClick={handleRemoveBackground}
+              className="h-8 px-3"
+            >
+              <X className="h-4 w-4 mr-1" />
+              Remove
+            </Button>
+          )}
+          <input
+            ref={backgroundInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleBackgroundFileChange}
+            className="hidden"
+          />
+        </div>
+      )}
+
+      <div className="container mx-auto px-4 py-10 relative z-20">
         <div className="flex flex-col md:flex-row md:items-start gap-6">
           <div className="relative">
             <div className="w-24 h-24 rounded-full bg-axanar-teal/20 ring-4 ring-axanar-teal flex items-center justify-center">
