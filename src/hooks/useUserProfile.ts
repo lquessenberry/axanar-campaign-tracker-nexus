@@ -11,40 +11,35 @@ export const useUserProfile = () => {
     queryFn: async () => {
       if (!user) throw new Error('User not authenticated');
       
-      // Check if user has a donor record
-      const { data: donor, error: donorError } = await supabase
-        .from('donors')
+      // Get profile from the new profiles table
+      const { data: profile, error } = await supabase
+        .from('profiles')
         .select('*')
-        .eq('auth_user_id', user.id)
+        .eq('id', user.id)
         .maybeSingle();
 
-      if (donorError && donorError.code !== 'PGRST116') {
-        throw donorError;
+      if (error) {
+        console.error('Error fetching profile:', error);
+        throw error;
       }
 
-      if (donor) {
-        // Return donor data formatted as profile
-        return {
-          id: user.id,
-          username: donor.email?.split('@')[0] || null,
-          full_name: donor.full_name || `${donor.first_name || ''} ${donor.last_name || ''}`.trim() || null,
-          bio: (donor as any).bio || null,
-          avatar_url: donor.avatar_url || null,
-          created_at: donor.created_at,
-          updated_at: donor.updated_at
-        };
+      // If no profile exists, create one
+      if (!profile) {
+        const { data: newProfile, error: insertError } = await supabase
+          .from('profiles')
+          .insert([{ id: user.id }])
+          .select()
+          .single();
+
+        if (insertError) {
+          console.error('Error creating profile:', insertError);
+          throw insertError;
+        }
+
+        return newProfile;
       }
 
-      // Return basic profile from auth user
-      return {
-        id: user.id,
-        username: user.email?.split('@')[0] || null,
-        full_name: user.user_metadata?.full_name || null,
-        bio: null,
-        avatar_url: null,
-        created_at: user.created_at,
-        updated_at: user.updated_at
-      };
+      return profile;
     },
     enabled: !!user,
   });
@@ -55,46 +50,25 @@ export const useUpdateProfile = () => {
   const { user } = useAuth();
   
   return useMutation({
-    mutationFn: async (updates: { username?: string; full_name?: string; bio?: string; avatar_url?: string }) => {
+    mutationFn: async (updates: { username?: string; first_name?: string; last_name?: string; avatar?: string }) => {
       if (!user) throw new Error('User not authenticated');
       
-      console.log('Starting profile update with data:', updates);
+      console.log('Updating profile with:', updates);
       
-      try {
-        // Call the edge function to handle profile updates with timeout
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-        
-        const { data, error } = await supabase.functions.invoke('update-profile', {
-          body: updates,
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
+      const { data, error } = await supabase
+        .from('profiles')
+        .update(updates)
+        .eq('id', user.id)
+        .select()
+        .single();
 
-        clearTimeout(timeoutId);
-        
-        console.log('Edge function response:', { data, error });
-
-        if (error) {
-          console.error('Profile update error:', error);
-          throw new Error(error.message || 'Failed to update profile');
-        }
-
-        if (!data?.success) {
-          console.error('Profile update failed:', data);
-          throw new Error(data?.error || 'Failed to update profile');
-        }
-
-        console.log('Profile updated successfully:', data.profile);
-        return data.profile;
-      } catch (err) {
-        console.error('Profile update error:', err);
-        if (err instanceof Error && err.name === 'AbortError') {
-          throw new Error('Request timeout - please try again');
-        }
-        throw err;
+      if (error) {
+        console.error('Profile update error:', error);
+        throw error;
       }
+
+      console.log('Profile updated successfully:', data);
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user-profile', user?.id] });

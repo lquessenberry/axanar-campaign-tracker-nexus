@@ -1,25 +1,24 @@
-
 import React, { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { User, Camera } from "lucide-react";
 import { useAvatarUpload } from "@/hooks/useAvatarUpload";
 import { useUpdateProfile } from "@/hooks/useUserProfile";
 
 interface ProfileData {
-  full_name?: string;
-  username?: string;
-  bio?: string;
-  avatar_url?: string;
-  created_at?: string;
+  id: string;
+  username?: string | null;
+  first_name?: string | null;
+  last_name?: string | null;
+  avatar?: string | null;
+  updated_at: string;
 }
 
 interface FormData {
-  full_name: string;
   username: string;
-  bio: string;
+  first_name: string;
+  last_name: string;
 }
 
 interface ProfileHeaderProps {
@@ -66,7 +65,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     const avatarUrl = await uploadAvatar(file);
     if (avatarUrl) {
       // Update profile with new avatar URL
-      await updateProfile.mutateAsync({ avatar_url: avatarUrl });
+      await updateProfile.mutateAsync({ avatar: avatarUrl });
     }
 
     // Reset file input
@@ -75,16 +74,18 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     }
   };
 
+  const fullName = profile ? `${profile.first_name || ''} ${profile.last_name || ''}`.trim() : '';
+
   return (
     <section className="bg-axanar-dark text-white">
       <div className="container mx-auto px-4 py-10">
         <div className="flex flex-col md:flex-row md:items-start gap-6">
           <div className="relative">
             <div className="w-24 h-24 rounded-full bg-axanar-teal/20 ring-4 ring-axanar-teal flex items-center justify-center">
-              {profile?.avatar_url ? (
+              {profile?.avatar ? (
                 <img
-                  src={profile.avatar_url}
-                  alt={profile.full_name || profile.username || 'User'}
+                  src={profile.avatar}
+                  alt={fullName || profile.username || 'User'}
                   className="w-full h-full rounded-full object-cover"
                 />
               ) : (
@@ -117,15 +118,27 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             {isEditing ? (
               <div className="space-y-2 bg-white/5 p-3 rounded-lg backdrop-blur-sm border border-white/10">
                 <div>
-                  <Label htmlFor="full_name" className="text-white text-sm font-medium mb-1 block">
-                    Full Name
+                  <Label htmlFor="first_name" className="text-white text-sm font-medium mb-1 block">
+                    First Name
                   </Label>
                   <Input
-                    id="full_name"
-                    value={formData.full_name}
-                    onChange={(e) => setFormData(prev => ({ ...prev, full_name: e.target.value }))}
+                    id="first_name"
+                    value={formData.first_name}
+                    onChange={(e) => setFormData(prev => ({ ...prev, first_name: e.target.value }))}
                     className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:bg-white/15 focus:border-axanar-teal h-8"
-                    placeholder="Enter your full name"
+                    placeholder="Enter your first name"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="last_name" className="text-white text-sm font-medium mb-1 block">
+                    Last Name
+                  </Label>
+                  <Input
+                    id="last_name"
+                    value={formData.last_name}
+                    onChange={(e) => setFormData(prev => ({ ...prev, last_name: e.target.value }))}
+                    className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:bg-white/15 focus:border-axanar-teal h-8"
+                    placeholder="Enter your last name"
                   />
                 </div>
                 <div>
@@ -140,26 +153,13 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                     placeholder="Enter your username"
                   />
                 </div>
-                <div>
-                  <Label htmlFor="bio" className="text-white text-sm font-medium mb-1 block">
-                    Bio
-                  </Label>
-                  <Textarea
-                    id="bio"
-                    value={formData.bio}
-                    onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
-                    placeholder="Tell us about yourself..."
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:bg-white/15 focus:border-axanar-teal resize-none"
-                    rows={2}
-                  />
-                </div>
               </div>
             ) : (
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold">
-                  {profile?.full_name || profile?.username || 'Anonymous User'}
+                  {fullName || profile?.username || 'Anonymous User'}
                 </h1>
-                {profile?.username && profile?.full_name && (
+                {profile?.username && (
                   <p className="text-axanar-silver/80 mt-1">@{profile.username}</p>
                 )}
                 <p className="text-axanar-silver/80 mt-1">Member since {memberSince}</p>

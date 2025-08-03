@@ -22,18 +22,18 @@ const Profile = () => {
   
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    full_name: '',
+    first_name: '',
+    last_name: '',
     username: '',
-    bio: '',
   });
 
   // Initialize form data when profile loads
   React.useEffect(() => {
     if (profile) {
       setFormData({
-        full_name: profile.full_name || '',
+        first_name: (profile as any).first_name || '',
+        last_name: (profile as any).last_name || '',
         username: profile.username || '',
-        bio: profile.bio || '',
       });
     }
   }, [profile]);
@@ -71,9 +71,9 @@ const Profile = () => {
   const handleCancel = () => {
     if (profile) {
       setFormData({
-        full_name: profile.full_name || '',
+        first_name: (profile as any).first_name || '',
+        last_name: (profile as any).last_name || '',
         username: profile.username || '',
-        bio: profile.bio || '',
       });
     }
     setIsEditing(false);
