@@ -143,12 +143,14 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       } as React.CSSProperties}
     >
       {/* StarField layer - above background but below overlay */}
-      <div className="absolute inset-0 opacity-30 z-5">
+      <div className="absolute inset-0 z-5">
         <StarField />
       </div>
       
       {/* Mouse tracker effect */}
-      <MouseTracker />
+      <div className="absolute inset-0 z-15">
+        <MouseTracker />
+      </div>
       
       {/* Dark overlay for text readability */}
       {profile?.background_url && (
