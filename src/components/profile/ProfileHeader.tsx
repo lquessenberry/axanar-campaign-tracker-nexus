@@ -8,6 +8,8 @@ import { User, Camera, Image, X, ChevronDown, Edit, Settings } from "lucide-reac
 import { useAvatarUpload } from "@/hooks/useAvatarUpload";
 import { useBackgroundUpload } from "@/hooks/useBackgroundUpload";
 import { useUpdateProfile } from "@/hooks/useUserProfile";
+import StarField from "@/components/StarField";
+import MouseTracker from "@/components/auth/MouseTracker";
 
 interface ProfileData {
   id: string;
@@ -119,9 +121,17 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         backgroundRepeat: 'no-repeat'
       }}
     >
+      {/* StarField layer - above background but below overlay */}
+      <div className="absolute inset-0 opacity-30 z-5">
+        <StarField />
+      </div>
+      
+      {/* Mouse tracker effect */}
+      <MouseTracker />
+      
       {/* Dark overlay for text readability */}
       {profile?.background_url && (
-        <div className="absolute inset-x-0 top-0 h-[33vh] bg-black/50" />
+        <div className="absolute inset-x-0 top-0 h-[33vh] bg-black/50 z-10" />
       )}
       
       <div className="container mx-auto px-4 py-10 relative z-20">
