@@ -136,8 +136,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               radial-gradient(150% 210% at calc(100% + var(--x)) calc(0% + var(--y)), rgba(64, 224, 208, 0.6), rgba(0, 0, 0, 0.4)),
               linear-gradient(60deg, rgb(0, 10, 15), rgb(0, 20, 25))
             `,
-        backgroundSize: '300% 300%, 300% 300%, 300% 300%' + (profile?.background_url ? ', cover' : ', 100% 100%'),
-        backgroundPosition: 'center, center, center' + (profile?.background_url ? ', center' : ', center'),
+        backgroundSize: '100% auto, 300% 300%, 300% 300%, 300% 300%' + (profile?.background_url ? '' : ', 100% 100%'),
+        backgroundPosition: 'center top, center, center, center' + (profile?.background_url ? '' : ', center'),
         backgroundRepeat: 'no-repeat',
         backgroundBlendMode: profile?.background_url ? 'normal, overlay, screen, multiply' : 'overlay, screen, multiply, normal'
       } as React.CSSProperties}
