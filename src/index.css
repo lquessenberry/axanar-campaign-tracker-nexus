@@ -89,95 +89,158 @@
 
 @layer base {
   :root {
-    /* ============= AXANAR STAR TREK COLOR PALETTE ============= */
-    /* Light mode - LCARS inspired with blues, grays, and accents */
-    --background: 210 15% 95%; /* Light blue-gray */
-    --foreground: 210 25% 15%; /* Dark blue-gray */
-
-    --card: 210 20% 92%; /* Slightly blue card background */
-    --card-foreground: 210 25% 15%;
-
-    --popover: 210 20% 92%;
-    --popover-foreground: 210 25% 15%;
-
-    /* Primary: Star Trek Blue (#1C2526 equivalent) */
-    --primary: 195 25% 25%; /* Deep blue-gray */
+    /* ============= LCARS COLOR PALETTE ============= */
+    /* Primary LCARS Colors */
+    --lcars-yellow: 48 100% 67%;      /* #FFC107 - LCARS Orange/Yellow */
+    --lcars-blue: 207 100% 50%;       /* #2196F3 - LCARS Blue */
+    --lcars-light-blue: 195 100% 61%; /* #0288D1 - Light Blue */
+    --lcars-dark-blue: 211 100% 44%;  /* #1565C0 - Dark Blue */
+    --lcars-red: 4 90% 58%;           /* #D32F2F - Alert Red */
+    --lcars-orange: 36 100% 50%;      /* #F57C00 - Tactical Orange */
+    --lcars-gray: 210 11% 71%;        /* #B0BEC5 - LCARS Gray */
+    --lcars-light-gray: 210 15% 87%;  /* #CFD8DC - Light Gray */
+    --lcars-dark-gray: 200 18% 54%;   /* #78909C - Dark Gray */
+    
+    /* ============= DESIGN TOKENS ============= */
+    /* Typography */
+    --font-heading: 'Eurostile', 'Swiss 911 Ultra Compressed', 'Bebas Neue', sans-serif;
+    --font-body: 'Arial', 'Helvetica', sans-serif;
+    --font-mono: 'Orbitron', 'Monaco', monospace;
+    
+    /* Spacing */
+    --spacing-unit: 0.75rem;
+    --lcars-gap: var(--spacing-unit);
+    
+    /* Effects */
+    --lcars-glow: 0 0 10px currentColor;
+    --lcars-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    --lcars-shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.3);
+    
+    /* ============= STANDARD LCARS MODE (Light) ============= */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 98%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: var(--lcars-blue);
     --primary-foreground: 0 0% 100%;
-
-    /* Secondary: Trek Gray (#4A4A4A equivalent) */
-    --secondary: 0 0% 29%; /* Medium gray */
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 210 15% 97%;
-    --muted-foreground: 0 0% 45%;
-
-    /* Accent: Trek Yellow (#FFC107) */
-    --accent: 45 100% 51%; /* Trek yellow */
+    --secondary: var(--lcars-light-gray);
+    --secondary-foreground: 0 0% 0%;
+    --muted: var(--lcars-light-gray);
+    --muted-foreground: var(--lcars-dark-gray);
+    --accent: var(--lcars-yellow);
     --accent-foreground: 0 0% 0%;
-
-    /* Destructive: Trek Red (#D32F2F) */
-    --destructive: 0 70% 50%; /* Trek red */
+    --destructive: var(--lcars-red);
     --destructive-foreground: 0 0% 100%;
-
-    --border: 210 15% 85%;
-    --input: 210 20% 88%;
-    --ring: 195 25% 25%;
-
-    --sidebar: 210 20% 92%;
-    --sidebar-foreground: 210 25% 15%;
-    --sidebar-primary: 195 25% 25%;
+    --border: var(--lcars-gray);
+    --input: var(--lcars-light-gray);
+    --ring: var(--lcars-yellow);
+    --radius: 0.5rem;
+    
+    /* Chart colors for data displays */
+    --chart-1: var(--lcars-blue);
+    --chart-2: var(--lcars-yellow);
+    --chart-3: var(--lcars-red);
+    --chart-4: var(--lcars-light-blue);
+    --chart-5: var(--lcars-orange);
+    
+    /* Sidebar */
+    --sidebar: var(--lcars-light-gray);
+    --sidebar-foreground: 0 0% 0%;
+    --sidebar-primary: var(--lcars-blue);
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 45 100% 51%;
+    --sidebar-accent: var(--lcars-yellow);
     --sidebar-accent-foreground: 0 0% 0%;
-    --sidebar-border: 210 15% 85%;
-    --sidebar-ring: 195 25% 25%;
-
-    --radius: 0.75rem; /* LCARS-style rounded corners */
+    --sidebar-border: var(--lcars-gray);
+    --sidebar-ring: var(--lcars-yellow);
+    
+    /* LCARS Panel Styling */
+    --lcars-panel-bg: 0 0% 8%;
+    --lcars-panel-border: var(--lcars-yellow);
+    --lcars-button-primary: var(--lcars-blue);
+    --lcars-button-secondary: var(--lcars-yellow);
+    --lcars-text-primary: var(--lcars-yellow);
+    --lcars-text-secondary: var(--lcars-blue);
   }
 
+  /* ============= NIGHT MODE (Enhanced Dark) ============= */
   .dark {
-    /* ============= AXANAR DARK MODE - DEFAULT STAR TREK AESTHETIC ============= */
-    /* Dark mode inspired by starship interfaces and LCARS */
-    --background: 195 25% 8%; /* Deep space black-blue */
-    --foreground: 210 20% 90%; /* Light blue-gray text */
-
-    --card: 195 25% 12%; /* Dark blue card */
-    --card-foreground: 210 20% 90%;
-
-    --popover: 195 25% 12%;
-    --popover-foreground: 210 20% 90%;
-
-    /* Primary: Brighter Trek Blue for dark mode */
-    --primary: 195 60% 55%; /* Bright trek blue */
-    --primary-foreground: 195 25% 8%;
-
-    /* Secondary: Lighter gray for dark mode */
-    --secondary: 0 0% 35%; /* Lighter gray */
-    --secondary-foreground: 210 20% 90%;
-
-    --muted: 195 25% 15%;
-    --muted-foreground: 0 0% 65%;
-
-    /* Accent: Trek Yellow (same in dark) */
-    --accent: 45 100% 60%; /* Slightly brighter yellow */
+    --background: 0 0% 0%;
+    --foreground: var(--lcars-yellow);
+    --card: 220 13% 8%;
+    --card-foreground: var(--lcars-yellow);
+    --popover: 220 13% 8%;
+    --popover-foreground: var(--lcars-yellow);
+    --primary: var(--lcars-blue);
+    --primary-foreground: 0 0% 0%;
+    --secondary: 220 13% 15%;
+    --secondary-foreground: var(--lcars-yellow);
+    --muted: 220 13% 15%;
+    --muted-foreground: var(--lcars-gray);
+    --accent: var(--lcars-yellow);
     --accent-foreground: 0 0% 0%;
+    --destructive: var(--lcars-red);
+    --destructive-foreground: var(--lcars-yellow);
+    --border: 220 13% 15%;
+    --input: 220 13% 15%;
+    --ring: var(--lcars-yellow);
+    
+    /* Enhanced dark sidebar */
+    --sidebar: 220 13% 8%;
+    --sidebar-foreground: var(--lcars-yellow);
+    --sidebar-primary: var(--lcars-yellow);
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 220 13% 15%;
+    --sidebar-accent-foreground: var(--lcars-yellow);
+    --sidebar-border: 220 13% 15%;
+    --sidebar-ring: var(--lcars-yellow);
+    
+    /* Dark mode overrides */
+    --lcars-panel-bg: 0 0% 5%;
+    --lcars-text-primary: var(--lcars-yellow);
+    --lcars-text-secondary: var(--lcars-blue);
+  }
 
-    /* Destructive: Trek Red (brighter for dark) */
-    --destructive: 0 75% 60%; /* Brighter red */
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 195 25% 20%;
-    --input: 195 25% 16%;
-    --ring: 195 60% 55%;
-
-    --sidebar: 195 25% 12%;
-    --sidebar-foreground: 210 20% 90%;
-    --sidebar-primary: 195 60% 55%;
-    --sidebar-primary-foreground: 195 25% 8%;
-    --sidebar-accent: 45 100% 60%;
-    --sidebar-accent-foreground: 0 0% 0%;
-    --sidebar-border: 195 25% 20%;
-    --sidebar-ring: 195 60% 55%;
+  /* ============= TACTICAL MODE (4 Years War Theme) ============= */
+  .tactical {
+    --background: 0 0% 3%;
+    --foreground: var(--lcars-orange);
+    --card: 4 25% 8%;
+    --card-foreground: var(--lcars-orange);
+    --popover: 4 25% 8%;
+    --popover-foreground: var(--lcars-orange);
+    --primary: var(--lcars-red);
+    --primary-foreground: var(--lcars-orange);
+    --secondary: 4 25% 15%;
+    --secondary-foreground: var(--lcars-orange);
+    --muted: 4 25% 15%;
+    --muted-foreground: var(--lcars-dark-gray);
+    --accent: var(--lcars-orange);
+    --accent-foreground: 0 0% 0%;
+    --destructive: var(--lcars-red);
+    --destructive-foreground: var(--lcars-orange);
+    --border: 4 25% 15%;
+    --input: 4 25% 15%;
+    --ring: var(--lcars-orange);
+    
+    /* Tactical sidebar */
+    --sidebar: 4 25% 8%;
+    --sidebar-foreground: var(--lcars-orange);
+    --sidebar-primary: var(--lcars-red);
+    --sidebar-primary-foreground: var(--lcars-orange);
+    --sidebar-accent: 4 25% 15%;
+    --sidebar-accent-foreground: var(--lcars-orange);
+    --sidebar-border: 4 25% 15%;
+    --sidebar-ring: var(--lcars-orange);
+    
+    /* Tactical overrides */
+    --lcars-panel-bg: 4 25% 5%;
+    --lcars-panel-border: var(--lcars-orange);
+    --lcars-button-primary: var(--lcars-red);
+    --lcars-button-secondary: var(--lcars-orange);
+    --lcars-text-primary: var(--lcars-orange);
+    --lcars-text-secondary: var(--lcars-red);
   }
 
   * {
@@ -511,5 +574,347 @@
   
   .trek-nav-link:hover::after {
     @apply w-full;
+  }
+
+  /* ============= LCARS ENTERPRISE COMPONENTS ============= */
+  /* Early 2000s enterprise software with Star Trek aesthetics */
+  
+  /* LCARS 3D Buttons with beveled edges */
+  .btn-lcars {
+    background: linear-gradient(135deg, hsl(var(--lcars-light-blue)), hsl(var(--lcars-dark-blue)));
+    border: 2px solid hsl(var(--lcars-blue));
+    border-radius: 8px;
+    box-shadow: var(--lcars-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.75rem 1.5rem;
+    color: hsl(var(--background));
+    font-weight: 600;
+  }
+  
+  .btn-lcars:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--lcars-shadow-hover);
+  }
+  
+  .btn-lcars:active {
+    transform: translateY(1px);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  /* LCARS Secondary Button */
+  .btn-lcars-secondary {
+    background: linear-gradient(135deg, hsl(var(--lcars-yellow)), hsl(var(--lcars-orange)));
+    border: 2px solid hsl(var(--lcars-yellow));
+    color: hsl(var(--background));
+  }
+
+  /* LCARS Alert Button */
+  .btn-lcars-alert {
+    background: linear-gradient(135deg, hsl(var(--lcars-red)), hsl(var(--lcars-orange)));
+    border: 2px solid hsl(var(--lcars-red));
+    color: hsl(var(--foreground));
+  }
+
+  /* LCARS Navigation Bar */
+  .nav-lcars {
+    background: hsl(var(--background));
+    display: flex;
+    gap: var(--lcars-gap);
+    padding: var(--lcars-gap);
+    border-left: 4px solid hsl(var(--lcars-yellow));
+    border-bottom: 1px solid hsl(var(--border));
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-lcars a {
+    color: hsl(var(--lcars-yellow));
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+  }
+  
+  .nav-lcars a:hover {
+    background: hsl(var(--lcars-yellow) / 0.1);
+    border-color: hsl(var(--lcars-yellow));
+    color: hsl(var(--lcars-blue));
+  }
+
+  /* LCARS Panel System */
+  .lcars-panel-system {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--lcars-gap);
+    padding: var(--lcars-gap);
+  }
+
+  .lcars-display-panel {
+    background: hsl(var(--lcars-panel-bg));
+    border: 2px solid hsl(var(--lcars-panel-border));
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .lcars-display-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, hsl(var(--lcars-yellow)), hsl(var(--lcars-blue)), hsl(var(--lcars-red)));
+  }
+
+  .lcars-display-panel h3 {
+    color: hsl(var(--lcars-text-primary));
+    margin-bottom: 1rem;
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .lcars-display-panel .content {
+    color: hsl(var(--lcars-text-secondary));
+    font-family: var(--font-body);
+    line-height: 1.6;
+  }
+
+  /* LCARS Status Indicators */
+  .lcars-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+
+  .lcars-status.active {
+    background: hsl(var(--lcars-blue) / 0.2);
+    color: hsl(var(--lcars-blue));
+    border: 1px solid hsl(var(--lcars-blue));
+  }
+
+  .lcars-status.alert {
+    background: hsl(var(--lcars-red) / 0.2);
+    color: hsl(var(--lcars-red));
+    border: 1px solid hsl(var(--lcars-red));
+  }
+
+  .lcars-status.warning {
+    background: hsl(var(--lcars-orange) / 0.2);
+    color: hsl(var(--lcars-orange));
+    border: 1px solid hsl(var(--lcars-orange));
+  }
+
+  /* LCARS Data Grid */
+  .lcars-data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: hsl(var(--border));
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .lcars-data-cell {
+    background: hsl(var(--card));
+    padding: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: hsl(var(--foreground));
+  }
+
+  .lcars-data-cell.header {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  /* LCARS Form Elements */
+  .lcars-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: 12px;
+  }
+
+  .lcars-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .lcars-form-label {
+    font-family: var(--font-heading);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: hsl(var(--lcars-text-primary));
+    font-weight: 600;
+  }
+
+  .lcars-form-input {
+    padding: 0.75rem 1rem;
+    background: hsl(var(--input));
+    border: 2px solid hsl(var(--border));
+    border-radius: 6px;
+    font-family: var(--font-body);
+    color: hsl(var(--foreground));
+    transition: all 0.3s ease;
+  }
+
+  .lcars-form-input:focus {
+    outline: none;
+    border-color: hsl(var(--lcars-blue));
+    box-shadow: 0 0 0 3px hsl(var(--lcars-blue) / 0.2);
+  }
+
+  /* LCARS Progress Bars */
+  .lcars-progress {
+    width: 100%;
+    height: 24px;
+    background: hsl(var(--muted));
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid hsl(var(--border));
+  }
+
+  .lcars-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, hsl(var(--lcars-blue)), hsl(var(--lcars-light-blue)));
+    transition: width 0.5s ease;
+    position: relative;
+  }
+
+  .lcars-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3));
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* LCARS Alerts and Notifications */
+  .lcars-alert {
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid;
+    font-family: var(--font-body);
+    margin: 1rem 0;
+  }
+
+  .lcars-alert.info {
+    background: hsl(var(--lcars-blue) / 0.1);
+    border-color: hsl(var(--lcars-blue));
+    color: hsl(var(--lcars-blue));
+  }
+
+  .lcars-alert.warning {
+    background: hsl(var(--lcars-orange) / 0.1);
+    border-color: hsl(var(--lcars-orange));
+    color: hsl(var(--lcars-orange));
+  }
+
+  .lcars-alert.error {
+    background: hsl(var(--lcars-red) / 0.1);
+    border-color: hsl(var(--lcars-red));
+    color: hsl(var(--lcars-red));
+  }
+
+  /* Enterprise Software Aesthetic */
+  .enterprise-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-body);
+    background: hsl(var(--card));
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .enterprise-table th {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    padding: 1rem;
+    text-align: left;
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+
+  .enterprise-table td {
+    padding: 1rem;
+    border-bottom: 1px solid hsl(var(--border));
+    color: hsl(var(--foreground));
+  }
+
+  .enterprise-table tr:hover {
+    background: hsl(var(--muted) / 0.5);
+  }
+
+  /* Circuit Pattern Background */
+  .circuit-pattern {
+    background-image: 
+      radial-gradient(circle at 2px 2px, hsl(var(--primary) / 0.05) 1px, transparent 0);
+    background-size: 20px 20px;
+  }
+
+  /* LCARS Corner Elements */
+  .lcars-corner {
+    position: relative;
+  }
+
+  .lcars-corner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border-top: 3px solid hsl(var(--lcars-yellow));
+    border-left: 3px solid hsl(var(--lcars-yellow));
+    border-radius: 8px 0 0 0;
+  }
+
+  .lcars-corner::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    border-bottom: 3px solid hsl(var(--lcars-yellow));
+    border-right: 3px solid hsl(var(--lcars-yellow));
+    border-radius: 0 0 8px 0;
   }
 }

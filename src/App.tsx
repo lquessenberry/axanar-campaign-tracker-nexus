@@ -28,6 +28,7 @@ import AdminDonors from "./pages/admin/Donors";
 import AdminManagement from "./pages/admin/Admins";
 import AdminMessages from "./pages/admin/Messages";
 import PasswordReset from "./pages/PasswordReset";
+import LCARSShowcase from "./pages/LCARSShowcase";
 
 const queryClient = new QueryClient();
 
@@ -61,6 +62,7 @@ const App = () => (
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/support" element={<Support />} />
             <Route path="/terms" element={<Terms />} />
+            <Route path="/lcars" element={<LCARSShowcase />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
