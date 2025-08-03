@@ -111,7 +111,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
   return (
     <section 
-      className="relative bg-axanar-dark text-white overflow-hidden min-h-80"
+      className="relative bg-axanar-dark text-white overflow-hidden min-h-[61vh]"
       style={{
         backgroundImage: profile?.background_url ? `url(${profile.background_url})` : undefined,
         backgroundSize: 'cover',
