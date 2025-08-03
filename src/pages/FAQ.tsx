@@ -3,6 +3,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
 import ImprovedFAQ from "@/components/ImprovedFAQ";
+import StarField from "@/components/StarField";
 
 const FAQ = () => {
   const faqSections = [
@@ -111,16 +112,21 @@ const FAQ = () => {
             '--x': 'calc(var(--posX, 0) * 1px)',
             '--y': 'calc(var(--posY, 0) * 1px)',
             backgroundImage: `
-              linear-gradient(115deg, rgb(211, 255, 215), rgb(0, 0, 0)),
-              radial-gradient(90% 100% at calc(50% + var(--x)) calc(0% + var(--y)), rgb(200, 200, 200), rgb(0, 22, 0, 0.45)),
-              radial-gradient(100% 100% at calc(80% - var(--x)) calc(0% - var(--y)), rgb(250, 255, 0), rgb(0, 36, 0, 0)),
-              radial-gradient(150% 210% at calc(100% + var(--x)) calc(0% + var(--y)), rgb(20, 175, 125), rgb(0, 0, 10, 255)),
-              radial-gradient(100% 100% at calc(100% - var(--x)) calc(30% - var(--y)), rgb(255, 77, 0), rgb(0, 0, 200, 255)),
-              linear-gradient(60deg, rgb(255, 0, 0), rgb(120, 86, 255))
+              linear-gradient(115deg, rgb(50, 60, 70), rgb(0, 0, 0)),
+              radial-gradient(90% 100% at calc(50% + var(--x)) calc(0% + var(--y)), rgb(40, 50, 60), rgb(0, 5, 10, 0.8)),
+              radial-gradient(100% 100% at calc(80% - var(--x)) calc(0% - var(--y)), rgb(60, 70, 80), rgb(0, 10, 20, 0.6)),
+              radial-gradient(150% 210% at calc(100% + var(--x)) calc(0% + var(--y)), rgb(30, 40, 50), rgb(0, 0, 5, 255)),
+              radial-gradient(100% 100% at calc(100% - var(--x)) calc(30% - var(--y)), rgb(45, 55, 65), rgb(0, 0, 10, 255)),
+              linear-gradient(60deg, rgb(20, 30, 40), rgb(30, 40, 50))
             `,
             backgroundBlendMode: 'overlay, overlay, difference, difference, difference, normal'
           } as React.CSSProperties}
         >
+          {/* Starfield Background Layer */}
+          <div className="absolute inset-0 opacity-30">
+            <StarField />
+          </div>
+
           {/* Hero Content - Centered */}
           <div className="container mx-auto px-4 text-center relative z-10 max-w-5xl">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white leading-tight drop-shadow-2xl" style={{
