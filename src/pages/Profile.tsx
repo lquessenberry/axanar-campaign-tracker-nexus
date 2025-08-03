@@ -122,8 +122,8 @@ const Profile = () => {
           totalPledged={totalPledged}
         />
         
-        <section className="py-8 px-4">
-          <div className="container mx-auto max-w-4xl">
+        <section className="py-8 px-6">
+          <div className="container mx-auto max-w-7xl">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <ProfileContent
                 profile={profile}
