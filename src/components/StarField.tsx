@@ -8,6 +8,8 @@ interface Star {
   size: number;
   twinkle: number;
   twinkleSpeed: number;
+  vx: number; // velocity x
+  vy: number; // velocity y
 }
 
 const StarField = () => {
@@ -58,7 +60,9 @@ const StarField = () => {
           color: getRandomStarColor(),
           size: Math.random() * 2 + 0.5,
           twinkle: Math.random() * Math.PI * 2,
-          twinkleSpeed: Math.random() * 0.02 + 0.005
+          twinkleSpeed: Math.random() * 0.02 + 0.005,
+          vx: (Math.random() - 0.5) * 0.2, // slow horizontal drift
+          vy: (Math.random() - 0.5) * 0.2  // slow vertical drift
         });
       }
       
@@ -70,6 +74,16 @@ const StarField = () => {
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       starsRef.current.forEach((star) => {
+        // Update position with gentle drift
+        star.x += star.vx;
+        star.y += star.vy;
+        
+        // Wrap around screen edges
+        if (star.x < 0) star.x = canvas.width;
+        if (star.x > canvas.width) star.x = 0;
+        if (star.y < 0) star.y = canvas.height;
+        if (star.y > canvas.height) star.y = 0;
+        
         // Update twinkle
         star.twinkle += star.twinkleSpeed;
         
