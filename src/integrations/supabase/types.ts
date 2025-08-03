@@ -653,6 +653,33 @@ export type Database = {
         }
         Relationships: []
       }
+      messages: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: number
+          is_read: boolean | null
+          recipient_id: string
+          sender_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: number
+          is_read?: boolean | null
+          recipient_id: string
+          sender_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: number
+          is_read?: boolean | null
+          recipient_id?: string
+          sender_id?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           created_at: string | null
@@ -919,6 +946,7 @@ export type Database = {
           created_at: string
           full_name: string | null
           id: string
+          is_admin: boolean | null
           updated_at: string
           username: string | null
         }
@@ -928,6 +956,7 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id: string
+          is_admin?: boolean | null
           updated_at?: string
           username?: string | null
         }
@@ -937,6 +966,7 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id?: string
+          is_admin?: boolean | null
           updated_at?: string
           username?: string | null
         }
@@ -1742,6 +1772,10 @@ export type Database = {
           suggested_providers: string[]
         }[]
       }
+      check_is_admin: {
+        Args: { user_id: string }
+        Returns: boolean
+      }
       check_password_reset_rate_limit: {
         Args: { user_email: string; client_ip?: string }
         Returns: {
@@ -1785,6 +1819,14 @@ export type Database = {
       get_admin_analytics: {
         Args: Record<PropertyKey, never>
         Returns: Json
+      }
+      get_admin_profiles: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          username: string
+          full_name: string
+        }[]
       }
       get_admin_users: {
         Args: Record<PropertyKey, never>

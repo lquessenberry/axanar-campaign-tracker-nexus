@@ -11,6 +11,7 @@ import ThumbMenu from "@/components/ThumbMenu";
 import Index from "./pages/Index";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
+import Messages from "./pages/Messages";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
@@ -25,6 +26,7 @@ import AdminPledges from "./pages/admin/Pledges";
 import AdminRewards from "./pages/admin/Rewards";
 import AdminDonors from "./pages/admin/Donors";
 import AdminManagement from "./pages/admin/Admins";
+import AdminMessages from "./pages/admin/Messages";
 import PasswordReset from "./pages/PasswordReset";
 
 const queryClient = new QueryClient();
@@ -45,12 +47,14 @@ const App = () => (
             <Route path="/register" element={<Auth />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/messages" element={<Messages />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/pledges" element={<AdminPledges />} />
             <Route path="/admin/rewards" element={<AdminRewards />} />
             <Route path="/admin/donors" element={<AdminDonors />} />
             <Route path="/admin/admins" element={<AdminManagement />} />
+            <Route path="/admin/messages" element={<AdminMessages />} />
             <Route path="/about" element={<About />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/faq" element={<FAQ />} />

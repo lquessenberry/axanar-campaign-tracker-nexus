@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
-import { Menu, X, User, LogOut, BarChart3, Shield, AlertTriangle } from "lucide-react";
+import { Menu, X, User, LogOut, BarChart3, Shield, AlertTriangle, MessageCircle } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { AlertLevel } from "@/hooks/useAlertSystem";
 
@@ -108,6 +108,14 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
                     Donor Dashboard
                   </Button>
                 </Link>
+                <Link to="/messages">
+                  <Button variant="ghost" size="sm" className={`text-white hover:text-axanar-teal hover:bg-white/10 ${
+                    isActive('/messages') ? 'bg-axanar-teal/20 text-axanar-teal' : ''
+                  }`}>
+                    <MessageCircle className="h-4 w-4 mr-2" />
+                    Messages
+                  </Button>
+                </Link>
                 {isAdmin && (
                   <Link to="/admin">
                     <Button variant="ghost" size="sm" className={`text-white hover:text-axanar-teal hover:bg-white/10 ${
@@ -190,6 +198,15 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Account
+                  </Link>
+                  <Link 
+                    to="/messages" 
+                    className={`hover:text-axanar-teal transition-colors ${
+                      isActive('/messages') ? 'text-axanar-teal' : ''
+                    }`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Messages
                   </Link>
                   {isAdmin && (
                     <Link 
