@@ -42,7 +42,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
     if (pledges && pledges.length > 0) {
       calculateAchievements.mutate();
     }
-  }, [pledges?.length]);
+  }, [pledges?.length, calculateAchievements]);
   
   // Calculate donation stats
   const totalDonated = pledges?.reduce((sum, pledge) => sum + Number(pledge.amount), 0) || 0;

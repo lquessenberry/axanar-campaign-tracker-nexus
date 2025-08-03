@@ -8,8 +8,9 @@ import Footer from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUserPledges } from "@/hooks/useUserPledges";
 import { useUserProfile } from "@/hooks/useUserProfile";
-import { useUserAchievements, useUserRecruitment } from "@/hooks/useUserAchievements";
-import { useLeaderboard, LeaderboardCategory } from "@/hooks/useLeaderboard";
+// Temporarily disable these hooks to fix React dispatcher error
+// import { useUserAchievements, useUserRecruitment } from "@/hooks/useUserAchievements";
+// import { useLeaderboard, LeaderboardCategory } from "@/hooks/useLeaderboard";
 import AchievementBadge from "@/components/profile/AchievementBadge";
 import LeaderboardTable from "@/components/leaderboard/LeaderboardTable";
 import { 
@@ -31,8 +32,9 @@ const Dashboard = () => {
   const { user } = useAuth();
   const { data: pledges, isLoading: pledgesLoading } = useUserPledges();
   const { data: profile, isLoading: profileLoading } = useUserProfile();
-  const { data: achievements } = useUserAchievements();
-  const { data: recruitmentData } = useUserRecruitment();
+  // Temporarily disabled to fix React dispatcher error
+  // const { data: achievements } = useUserAchievements();
+  // const { data: recruitmentData } = useUserRecruitment();
   
   // Temporarily disabled to fix React dispatcher error
   // const [leaderboardCategory, setLeaderboardCategory] = useState<LeaderboardCategory>('total_donated');
@@ -60,23 +62,13 @@ const Dashboard = () => {
   const totalPledged = pledges?.reduce((sum, pledge) => sum + Number(pledge.amount), 0) || 0;
   const totalContributions = pledges?.length || 0;
   
-  // Calculate gamification metrics
-  const profileXP = (profile?.full_name && profile?.bio) ? 50 : 0;
-  const achievementXP = achievements?.reduce((sum, achievement) => {
-    const type = achievement.achievement_type;
-    if (type === 'first_supporter') return sum + 25;
-    if (type === 'committed_backer') return sum + 50;
-    if (type === 'major_supporter') return sum + 100;
-    if (type === 'champion_donor') return sum + 200;
-    if (type === 'veteran_supporter') return sum + 150;
-    if (type === 'multi_campaign_supporter') return sum + 75;
-    return sum + 10;
-  }, 0) || 0;
-  const recruitCount = recruitmentData?.filter(r => r.status === 'confirmed').length || 0;
-  const recruitmentXP = recruitCount * 25;
+  // Temporarily disabled gamification metrics to fix React dispatcher error
+  const profileXP = 0; // (profile?.full_name && profile?.bio) ? 50 : 0;
+  const achievementXP = 0;
+  const recruitCount = 0;
+  const recruitmentXP = 0;
   const totalXP = profileXP + achievementXP + recruitmentXP;
-  
-  const canRecruit = totalPledged >= 100 && (profile?.full_name && profile?.bio);
+  const canRecruit = false; // totalPledged >= 100 && (profile?.full_name && profile?.bio);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -127,9 +119,9 @@ const Dashboard = () => {
                   <Zap className="h-4 w-4 text-axanar-teal" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-axanar-teal">{totalXP}</div>
+                  <div className="text-2xl font-bold text-axanar-teal">0</div>
                   <p className="text-xs text-muted-foreground">
-                    {totalXP >= 500 ? 'Legend Status' : `${500 - totalXP} XP to Legend`}
+                    Gamification coming soon
                   </p>
                 </CardContent>
               </Card>
@@ -140,9 +132,9 @@ const Dashboard = () => {
                   <Trophy className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{achievements?.length || 0}</div>
+                  <div className="text-2xl font-bold">0</div>
                   <p className="text-xs text-muted-foreground">
-                    Unlocked milestones
+                    Coming soon
                   </p>
                 </CardContent>
               </Card>
@@ -153,9 +145,9 @@ const Dashboard = () => {
                   <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{recruitCount}</div>
+                  <div className="text-2xl font-bold">0</div>
                   <p className="text-xs text-muted-foreground">
-                    {canRecruit ? 'Accounts re-enlisted' : 'Qualify at $100+'}
+                    Coming soon
                   </p>
                 </CardContent>
               </Card>
@@ -163,7 +155,8 @@ const Dashboard = () => {
           </div>
         </section>
 
-        {/* Achievements Showcase */}
+        {/* Achievements Showcase - Temporarily Disabled */}
+        {/*
         {achievements && achievements.length > 0 && (
           <section className="pb-8">
             <div className="container mx-auto px-4">
@@ -198,6 +191,7 @@ const Dashboard = () => {
             </div>
           </section>
         )}
+        */}
 
         {/* Leaderboard Section - Temporarily Disabled */}
         {/* 
