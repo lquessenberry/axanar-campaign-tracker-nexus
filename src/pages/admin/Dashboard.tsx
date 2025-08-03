@@ -23,6 +23,7 @@ import AdminRewardsSection from "@/components/admin/AdminRewardsSection";
 import AdminCampaignsSection from "@/components/admin/AdminCampaignsSection";
 import AdminAdminsSection from "@/components/admin/AdminAdminsSection";
 import AdminPledgesSection from "@/components/admin/AdminPledgesSection";
+import DonorMigrationSection from "@/components/admin/DonorMigrationSection";
 import UserProfiles from "./UserProfiles";
 
 const Dashboard = () => {
@@ -347,7 +348,17 @@ const Dashboard = () => {
       case "reports":
         return <AdminPlaceholderSection title="Reports & Analytics" description="Generate detailed reports and analytics" Icon={FileText} />;
       case "settings":
-        return <AdminPlaceholderSection title="Platform Settings" description="Configure platform-wide settings" Icon={Settings} />;
+        return (
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-3xl font-bold">Platform Settings</h1>
+              <p className="text-muted-foreground mt-2">
+                Configure platform-wide settings and data management.
+              </p>
+            </div>
+            <DonorMigrationSection />
+          </div>
+        );
       default:
         return (
           <AdminOverview
