@@ -142,8 +142,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         backgroundBlendMode: profile?.background_url ? 'normal, overlay, screen, multiply' : 'overlay, screen, multiply, normal'
       } as React.CSSProperties}
     >
-      {/* StarField layer - above background but below overlay */}
-      <div className="absolute inset-0 z-5">
+      {/* StarField layer - subtle background effect */}
+      <div className="absolute inset-0 opacity-10 z-5">
         <StarField />
       </div>
       
