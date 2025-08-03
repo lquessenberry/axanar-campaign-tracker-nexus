@@ -50,7 +50,7 @@ export const useUpdateProfile = () => {
   const { user } = useAuth();
   
   return useMutation({
-    mutationFn: async (updates: { username?: string; first_name?: string; last_name?: string; avatar?: string }) => {
+    mutationFn: async (updates: { username?: string; full_name?: string; bio?: string; avatar_url?: string }) => {
       if (!user) throw new Error('User not authenticated');
       
       console.log('Updating profile with:', updates);
