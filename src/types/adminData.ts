@@ -26,9 +26,10 @@ export interface AdminAnalytics {
 export interface TopDonor {
   id: string;
   name: string;
-  email: string;
+  email?: string;
   totalDonated: number;
   pledgeCount: number;
+  authUserId?: string | null;
 }
 
 export interface TopCampaign {

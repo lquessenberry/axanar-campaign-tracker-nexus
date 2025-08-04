@@ -30,35 +30,62 @@ export const useAdminUserProfile = (userId: string) => {
     queryFn: async (): Promise<{ profile: UserProfile | null; donor: DonorData | null }> => {
       if (!user) throw new Error('Not authenticated');
 
+      console.log('Fetching profile for user ID:', userId);
+
       // First check if current user is admin
       const { data: isAdmin, error: adminError } = await supabase.rpc('check_current_user_is_admin');
       if (adminError || !isAdmin) {
         throw new Error('Admin access required');
       }
 
-      // Get profile data
+      // Try to get profile data first (assuming userId is an auth user ID)
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
         .maybeSingle();
 
-      if (profileError) {
-        console.error('Error fetching profile:', profileError);
+      if (profile) {
+        console.log('Found auth user profile:', profile);
+        // Get donor data linked to this auth user
+        const { data: donor, error: donorError } = await supabase
+          .from('donors')
+          .select('*')
+          .eq('auth_user_id', userId)
+          .maybeSingle();
+
+        if (donorError) {
+          console.error('Error fetching donor data:', donorError);
+        }
+
+        return { profile, donor };
       }
 
-      // Get donor data linked to this user
+      // If no profile found, try treating userId as a donor ID
+      console.log('No profile found, trying as donor ID...');
       const { data: donor, error: donorError } = await supabase
         .from('donors')
         .select('*')
-        .eq('auth_user_id', userId)
+        .eq('id', userId)
         .maybeSingle();
 
-      if (donorError) {
-        console.error('Error fetching donor data:', donorError);
+      if (donor) {
+        console.log('Found donor data:', donor);
+        // If donor has auth_user_id, get the profile
+        let linkedProfile = null;
+        if (donor.auth_user_id) {
+          const { data: profileData } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', donor.auth_user_id)
+            .maybeSingle();
+          linkedProfile = profileData;
+        }
+        return { profile: linkedProfile, donor };
       }
 
-      return { profile, donor };
+      console.log('No user or donor found with ID:', userId);
+      return { profile: null, donor: null };
     },
     enabled: !!user && !!userId,
   });

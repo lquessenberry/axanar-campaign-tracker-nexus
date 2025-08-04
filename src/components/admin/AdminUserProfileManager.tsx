@@ -196,8 +196,21 @@ const AdminUserProfileManager: React.FC<AdminUserProfileManagerProps> = ({
               <div className="flex items-center justify-center py-8">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
               </div>
-            ) : (
+            ) : userData?.donor || userData?.profile ? (
               <div className="space-y-6">
+                {/* Show legacy donor notice if no profile exists */}
+                {userData?.donor && !userData?.profile && (
+                  <div className="bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
+                    <h4 className="font-medium text-amber-800 dark:text-amber-200 mb-2">
+                      Legacy Donor Profile
+                    </h4>
+                    <p className="text-sm text-amber-700 dark:text-amber-300">
+                      This is a legacy donor who hasn't created an authentication account yet. 
+                      Profile information may be limited and editing is restricted to donor details only.
+                    </p>
+                  </div>
+                )}
+
                 {/* Profile Information */}
                 <div>
                   <h3 className="text-lg font-semibold mb-4">Profile Information</h3>
@@ -307,6 +320,10 @@ const AdminUserProfileManager: React.FC<AdminUserProfileManagerProps> = ({
                     </div>
                   </>
                 )}
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">No user data found</p>
               </div>
             )}
           </CardContent>

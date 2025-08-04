@@ -24,9 +24,10 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
   const { data: analytics, isLoading, error, isUsingFallback } = useAdminAnalytics();
   const navigate = useNavigate();
 
-  const handleViewDonorProfile = (authUserId: string) => {
-    // Navigate to the profile page with the user's auth ID
-    navigate(`/admin/dashboard?section=user-profiles&userId=${authUserId}`);
+  const handleViewDonorProfile = (donorId: string) => {
+    console.log('handleViewDonorProfile called with donorId:', donorId);
+    // Navigate to the profile page with the donor ID (can be auth_user_id or donor_id)
+    navigate(`/admin/dashboard?section=user-profiles&userId=${donorId}`);
   };
 
   if (isLoading) {
@@ -63,6 +64,8 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
   }
 
   const { overview, topMetrics } = analytics || { overview: {}, topMetrics: { topDonors: [], topCampaigns: [] } };
+  
+  console.log('AdminOverview topMetrics.topDonors:', topMetrics.topDonors);
 
   return (
     <div className="space-y-6">
@@ -206,27 +209,20 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <button
-                          onClick={() => donor.authUserId && handleViewDonorProfile(donor.authUserId)}
-                          className={`font-medium text-base text-left transition-colors ${
-                            donor.authUserId 
-                              ? 'hover:text-primary underline-offset-4 hover:underline cursor-pointer' 
-                              : 'text-muted-foreground cursor-not-allowed'
-                          }`}
-                          disabled={!donor.authUserId}
-                          title={donor.authUserId ? 'View profile' : 'Legacy donor - no profile available'}
+                          onClick={() => handleViewDonorProfile(donor.id)}
+                          className="font-medium text-base hover:text-primary underline-offset-4 hover:underline text-left transition-colors cursor-pointer"
+                          title="View donor profile"
                         >
                           {donor.name}
                         </button>
-                        {donor.authUserId && (
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => handleViewDonorProfile(donor.authUserId)}
-                            className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0"
-                          >
-                            <Eye className="h-3 w-3" />
-                          </Button>
-                        )}
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => handleViewDonorProfile(donor.id)}
+                          className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0"
+                        >
+                          <Eye className="h-3 w-3" />
+                        </Button>
                       </div>
                       <p className="text-sm text-muted-foreground">{donor.pledgeCount} pledges</p>
                     </div>
