@@ -81,7 +81,13 @@ const UnifiedPreviewModal: React.FC<UnifiedPreviewModalProps> = ({
   }, [isOpen, fileUrl, fileType]);
 
   const loadOptimizedModel = async () => {
-    if (!sceneRef.current || !fileUrl) return;
+    console.log('🔥 loadOptimizedModel called');
+    console.log('📍 fileUrl:', fileUrl);
+    
+    if (!fileUrl) {
+      console.log('❌ No fileUrl provided, aborting');
+      return;
+    }
 
     console.log('🔄 Loading OBJ model with optimization:', fileUrl);
     
@@ -96,7 +102,12 @@ const UnifiedPreviewModal: React.FC<UnifiedPreviewModalProps> = ({
       'color.webp', 'color.jpg', 'color.png', 'color.tga'
     ];
 
-    await loadModel(fileUrl, textureBasePath, commonTextureNames);
+    console.log('🎨 Texture base path:', textureBasePath);
+    console.log('🖼️ Texture files to try:', commonTextureNames);
+    console.log('🚀 About to call loadModel hook...');
+    
+    const result = await loadModel(fileUrl, textureBasePath, commonTextureNames);
+    console.log('🎯 loadModel hook returned:', result);
   };
 
   const optimizeImageForWeb = async () => {
