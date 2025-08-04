@@ -11,6 +11,9 @@ import {
   FileText,
   MessageCircle,
   UserSearch,
+  FolderOpen,
+  Box,
+  HardDrive,
 } from "lucide-react";
 
 export const sidebarItems = [
@@ -21,6 +24,9 @@ export const sidebarItems = [
   { id: "campaigns", label: "Campaigns", icon: BarChart3 },
   { id: "messages", label: "Messages", icon: MessageCircle },
   { id: "user-profiles", label: "User Profiles", icon: UserSearch },
+  { id: "file-manager", label: "File Manager", icon: FolderOpen },
+  { id: "models", label: "3D Models", icon: Box },
+  { id: "storage", label: "Storage", icon: HardDrive },
   { id: "admins", label: "Admin Users", icon: UserCog },
   { id: "notifications", label: "Notifications", icon: Bell },
   { id: "reports", label: "Reports", icon: FileText },
