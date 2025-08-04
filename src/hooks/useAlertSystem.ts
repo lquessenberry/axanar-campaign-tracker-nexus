@@ -26,7 +26,7 @@ export const useAlertSystem = () => {
           return { level: 'warning', isActive: true, timeInLevel: 0 };
         } else if (prev.level === 'warning' && newTimeInLevel >= 8) {
           return { level: 'red-alert', isActive: true, timeInLevel: 0 };
-        } else if (prev.level === 'red-alert' && newTimeInLevel >= 15) {
+        } else if (prev.level === 'red-alert' && newTimeInLevel >= 60) {
           return { level: 'normal', isActive: false, timeInLevel: 0 };
         }
         
