@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Loader2, RotateCcw, ZoomIn, ZoomOut } from 'lucide-react';
 
@@ -27,6 +27,7 @@ const ModelPreviewModal: React.FC<ModelPreviewModalProps> = ({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log('Modal effect triggered:', { isOpen, modelUrl, mountRef: !!mountRef.current }); // Debug log
     if (!isOpen || !mountRef.current) return;
 
     initThreeJS();
@@ -38,6 +39,7 @@ const ModelPreviewModal: React.FC<ModelPreviewModalProps> = ({
   }, [isOpen, modelUrl]);
 
   const initThreeJS = () => {
+    console.log('Initializing Three.js'); // Debug log
     if (!mountRef.current) return;
 
     // Scene
@@ -62,6 +64,7 @@ const ModelPreviewModal: React.FC<ModelPreviewModalProps> = ({
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     rendererRef.current = renderer;
 
+    console.log('Three.js setup complete, adding to DOM'); // Debug log
     mountRef.current.appendChild(renderer.domElement);
 
     // Lights
@@ -132,6 +135,7 @@ const ModelPreviewModal: React.FC<ModelPreviewModalProps> = ({
   const loadModel = async () => {
     if (!sceneRef.current) return;
 
+    console.log('Loading model:', modelUrl); // Debug log
     setLoading(true);
     setError(null);
 
@@ -221,6 +225,9 @@ const ModelPreviewModal: React.FC<ModelPreviewModalProps> = ({
       <DialogContent className="max-w-4xl w-full">
         <DialogHeader>
           <DialogTitle>3D Model Preview: {modelName}</DialogTitle>
+          <DialogDescription>
+            Interactive 3D preview of the uploaded model. Drag to rotate, scroll to zoom.
+          </DialogDescription>
         </DialogHeader>
         
         <div className="space-y-4">

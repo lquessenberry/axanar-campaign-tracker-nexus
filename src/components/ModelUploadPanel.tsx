@@ -142,7 +142,9 @@ const ModelUploadPanel: React.FC = () => {
   };
 
   const handleViewFile = (file: UploadedFile) => {
+    console.log('Viewing file:', file); // Debug log
     if (file.type === 'obj') {
+      console.log('Opening 3D preview modal'); // Debug log
       setPreviewModal({
         isOpen: true,
         modelUrl: file.url,
@@ -155,6 +157,7 @@ const ModelUploadPanel: React.FC = () => {
   };
 
   const closePreviewModal = () => {
+    console.log('Closing preview modal'); // Debug log
     setPreviewModal({
       isOpen: false,
       modelUrl: '',
