@@ -12,7 +12,11 @@ import {
   RefreshCw,
   Search,
   Image,
-  FileText
+  FileText,
+  ChevronDown,
+  ChevronRight,
+  Folder,
+  FolderOpen
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -30,13 +34,31 @@ interface ModelFile {
   type: 'obj' | 'texture' | 'material' | 'other';
 }
 
+interface ModelGroup {
+  id: string;
+  name: string;
+  mainModel?: ModelFile;
+  textures: ModelFile[];
+  materials: ModelFile[];
+  otherFiles: ModelFile[];
+  totalSize: number;
+  created_at: string;
+}
+
+interface StandaloneFile extends ModelFile {
+  isStandalone: true;
+}
+
 const AdminModelsSection: React.FC = () => {
   const { user } = useAuth();
   const [models, setModels] = useState<ModelFile[]>([]);
+  const [modelGroups, setModelGroups] = useState<ModelGroup[]>([]);
+  const [standaloneFiles, setStandaloneFiles] = useState<StandaloneFile[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState<string>('all');
   const [showUploadPanel, setShowUploadPanel] = useState(false);
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
   const [previewModal, setPreviewModal] = useState<{
     isOpen: boolean;
     fileUrl: string;
@@ -52,6 +74,10 @@ const AdminModelsSection: React.FC = () => {
   useEffect(() => {
     loadModels();
   }, []);
+
+  useEffect(() => {
+    groupModelFiles();
+  }, [models]);
 
   const loadModels = async () => {
     setLoading(true);
@@ -116,6 +142,84 @@ const AdminModelsSection: React.FC = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const groupModelFiles = () => {
+    const groups: { [key: string]: ModelFile[] } = {};
+    const standalone: ModelFile[] = [];
+
+    models.forEach(file => {
+      // Extract base name for grouping (remove timestamp and extension)
+      let baseName = file.name;
+      
+      // Handle starship files specifically
+      if (file.name.startsWith('starship-')) {
+        // Extract pattern: starship-{timestamp}-{index}.{ext}
+        const match = file.name.match(/^(starship-\d+)-\d+\./);
+        if (match) {
+          baseName = match[1]; // e.g., "starship-1754341218865"
+        }
+      } else {
+        // For other files, try to group by removing common suffixes
+        baseName = file.name.replace(/\.(obj|png|jpg|jpeg|tga|mtl|bmp)$/i, '');
+        // Remove common numbering patterns
+        baseName = baseName.replace(/-\d+$/, '').replace(/_\d+$/, '');
+      }
+
+      if (!groups[baseName]) {
+        groups[baseName] = [];
+      }
+      groups[baseName].push(file);
+    });
+
+    // Convert to ModelGroup format
+    const modelGroups: ModelGroup[] = [];
+    const standaloneFiles: StandaloneFile[] = [];
+
+    Object.entries(groups).forEach(([baseName, files]) => {
+      if (files.length === 1 && !files[0].name.startsWith('starship-')) {
+        // Single file that's not part of starship series - treat as standalone
+        standaloneFiles.push({ ...files[0], isStandalone: true });
+      } else {
+        // Create a group
+        const mainModel = files.find(f => f.type === 'obj');
+        const textures = files.filter(f => f.type === 'texture');
+        const materials = files.filter(f => f.type === 'material');
+        const otherFiles = files.filter(f => f.type === 'other');
+        
+        const totalSize = files.reduce((sum, f) => sum + f.size, 0);
+        const earliestDate = files.reduce((earliest, f) => 
+          f.created_at < earliest ? f.created_at : earliest, files[0].created_at);
+
+        modelGroups.push({
+          id: baseName,
+          name: baseName,
+          mainModel,
+          textures,
+          materials,
+          otherFiles,
+          totalSize,
+          created_at: earliestDate
+        });
+      }
+    });
+
+    // Sort groups by creation date (newest first)
+    modelGroups.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+    standaloneFiles.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
+    setModelGroups(modelGroups);
+    setStandaloneFiles(standaloneFiles);
+  };
+
+  const toggleGroupExpansion = (groupId: string) => {
+    const newExpanded = new Set(expandedGroups);
+    if (newExpanded.has(groupId)) {
+      newExpanded.delete(groupId);
+    } else {
+      newExpanded.add(groupId);
+    }
+    setExpandedGroups(newExpanded);
   };
 
   const handleDeleteModel = async (model: ModelFile) => {
@@ -210,14 +314,29 @@ const AdminModelsSection: React.FC = () => {
     }
   };
 
-  const filteredModels = models.filter(model => {
-    const matchesSearch = model.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = typeFilter === 'all' || model.type === typeFilter;
+  // Filter and search functionality
+  const filteredGroups = modelGroups.filter(group => {
+    const matchesSearch = group.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      group.mainModel?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      group.textures.some(t => t.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    
+    const matchesType = typeFilter === 'all' || 
+      (typeFilter === 'obj' && group.mainModel) ||
+      (typeFilter === 'texture' && group.textures.length > 0) ||
+      (typeFilter === 'material' && group.materials.length > 0);
+    
+    return matchesSearch && matchesType;
+  });
+
+  const filteredStandalone = standaloneFiles.filter(file => {
+    const matchesSearch = file.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = typeFilter === 'all' || file.type === typeFilter;
     return matchesSearch && matchesType;
   });
 
   const modelStats = {
     total: models.length,
+    groups: modelGroups.length,
     obj: models.filter(m => m.type === 'obj').length,
     textures: models.filter(m => m.type === 'texture').length,
     materials: models.filter(m => m.type === 'material').length,
@@ -266,6 +385,18 @@ const AdminModelsSection: React.FC = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-2">
+              <Folder className="h-5 w-5 text-orange-500" />
+              <div>
+                <div className="text-sm text-muted-foreground">Model Groups</div>
+                <div className="text-2xl font-bold">{modelStats.groups}</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-2">
@@ -357,12 +488,12 @@ const AdminModelsSection: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Models List */}
+      {/* Models Hierarchy */}
       <Card>
         <CardHeader>
-          <CardTitle>Models ({filteredModels.length})</CardTitle>
+          <CardTitle>Model Hierarchy ({filteredGroups.length + filteredStandalone.length})</CardTitle>
           <CardDescription>
-            All uploaded 3D models and associated files
+            3D models organized by groups with their associated textures and materials
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -371,57 +502,236 @@ const AdminModelsSection: React.FC = () => {
               <RefreshCw className="w-8 h-8 animate-spin mx-auto mb-4" />
               <p>Loading models...</p>
             </div>
-          ) : filteredModels.length === 0 ? (
+          ) : (filteredGroups.length === 0 && filteredStandalone.length === 0) ? (
             <div className="text-center py-8 text-muted-foreground">
               <Box className="w-12 h-12 mx-auto mb-4 opacity-50" />
               <p>No models found</p>
             </div>
           ) : (
             <div className="space-y-3">
-              {filteredModels.map((model, index) => (
-                <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center gap-3 flex-1">
-                    {getTypeIcon(model.type)}
-                    <div className="flex-1">
-                      <div className="font-medium">{model.name}</div>
-                      <div className="text-sm text-muted-foreground flex items-center gap-2">
-                        <Badge className={getTypeBadgeColor(model.type)}>
-                          {model.type.toUpperCase()}
-                        </Badge>
-                        <span>{formatFileSize(model.size)}</span>
-                        <span>•</span>
-                        <span>{new Date(model.created_at).toLocaleDateString()}</span>
-                        <span>•</span>
-                        <span>Owner: {model.owner_id}</span>
+              {/* Model Groups */}
+              {filteredGroups.map((group) => (
+                <div key={group.id} className="border rounded-lg">
+                  {/* Group Header */}
+                  <div 
+                    className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/50"
+                    onClick={() => toggleGroupExpansion(group.id)}
+                  >
+                    <div className="flex items-center gap-3 flex-1">
+                      {expandedGroups.has(group.id) ? (
+                        <ChevronDown className="w-4 h-4" />
+                      ) : (
+                        <ChevronRight className="w-4 h-4" />
+                      )}
+                      {expandedGroups.has(group.id) ? (
+                        <FolderOpen className="w-5 h-5 text-orange-500" />
+                      ) : (
+                        <Folder className="w-5 h-5 text-orange-500" />
+                      )}
+                      <div className="flex-1">
+                        <div className="font-medium flex items-center gap-2">
+                          {group.name}
+                          {group.mainModel && (
+                            <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20">
+                              MODEL
+                            </Badge>
+                          )}
+                        </div>
+                        <div className="text-sm text-muted-foreground flex items-center gap-2">
+                          <span>{group.mainModel ? '1 model' : 'No model'}</span>
+                          <span>•</span>
+                          <span>{group.textures.length} texture(s)</span>
+                          <span>•</span>
+                          <span>{group.materials.length} material(s)</span>
+                          <span>•</span>
+                          <span>{formatFileSize(group.totalSize)}</span>
+                          <span>•</span>
+                          <span>{new Date(group.created_at).toLocaleDateString()}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleViewModel(model)}
-                    >
-                      <Eye className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleDownloadModel(model)}
-                    >
-                      <Download className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => handleDeleteModel(model)}
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  </div>
+
+                  {/* Group Files */}
+                  {expandedGroups.has(group.id) && (
+                    <div className="border-t bg-muted/20">
+                      {/* Main Model */}
+                      {group.mainModel && (
+                        <div className="flex items-center justify-between p-4 pl-12 border-b border-muted/50">
+                          <div className="flex items-center gap-3 flex-1">
+                            {getTypeIcon(group.mainModel.type)}
+                            <div className="flex-1">
+                              <div className="font-medium">{group.mainModel.name}</div>
+                              <div className="text-sm text-muted-foreground flex items-center gap-2">
+                                <Badge className={getTypeBadgeColor(group.mainModel.type)}>
+                                  {group.mainModel.type.toUpperCase()}
+                                </Badge>
+                                <span>{formatFileSize(group.mainModel.size)}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleViewModel(group.mainModel!)}
+                            >
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleDownloadModel(group.mainModel!)}
+                            >
+                              <Download className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => handleDeleteModel(group.mainModel!)}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Textures */}
+                      {group.textures.map((texture, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 pl-12 border-b border-muted/50 last:border-b-0">
+                          <div className="flex items-center gap-3 flex-1">
+                            {getTypeIcon(texture.type)}
+                            <div className="flex-1">
+                              <div className="font-medium">{texture.name}</div>
+                              <div className="text-sm text-muted-foreground flex items-center gap-2">
+                                <Badge className={getTypeBadgeColor(texture.type)}>
+                                  {texture.type.toUpperCase()}
+                                </Badge>
+                                <span>{formatFileSize(texture.size)}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleViewModel(texture)}
+                            >
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleDownloadModel(texture)}
+                            >
+                              <Download className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => handleDeleteModel(texture)}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+
+                      {/* Materials and Other Files */}
+                      {[...group.materials, ...group.otherFiles].map((file, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 pl-12 border-b border-muted/50 last:border-b-0">
+                          <div className="flex items-center gap-3 flex-1">
+                            {getTypeIcon(file.type)}
+                            <div className="flex-1">
+                              <div className="font-medium">{file.name}</div>
+                              <div className="text-sm text-muted-foreground flex items-center gap-2">
+                                <Badge className={getTypeBadgeColor(file.type)}>
+                                  {file.type.toUpperCase()}
+                                </Badge>
+                                <span>{formatFileSize(file.size)}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleViewModel(file)}
+                            >
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleDownloadModel(file)}
+                            >
+                              <Download className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => handleDeleteModel(file)}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
+
+              {/* Standalone Files */}
+              {filteredStandalone.length > 0 && (
+                <>
+                  {filteredGroups.length > 0 && <div className="border-t pt-4 mt-4" />}
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-medium text-muted-foreground">Standalone Files</h3>
+                    {filteredStandalone.map((file, index) => (
+                      <div key={index} className="flex items-center justify-between p-3 border rounded-lg bg-muted/10">
+                        <div className="flex items-center gap-3 flex-1">
+                          {getTypeIcon(file.type)}
+                          <div className="flex-1">
+                            <div className="font-medium">{file.name}</div>
+                            <div className="text-sm text-muted-foreground flex items-center gap-2">
+                              <Badge className={getTypeBadgeColor(file.type)}>
+                                {file.type.toUpperCase()}
+                              </Badge>
+                              <span>{formatFileSize(file.size)}</span>
+                              <span>•</span>
+                              <span>{new Date(file.created_at).toLocaleDateString()}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleViewModel(file)}
+                          >
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDownloadModel(file)}
+                          >
+                            <Download className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => handleDeleteModel(file)}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           )}
         </CardContent>
