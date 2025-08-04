@@ -16,8 +16,10 @@ import {
   ChevronDown,
   ChevronRight,
   Folder,
-  FolderOpen
+  FolderOpen,
+  User
 } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
@@ -57,6 +59,7 @@ const AdminModelsSection: React.FC = () => {
   const [models, setModels] = useState<ModelFile[]>([]);
   const [modelGroups, setModelGroups] = useState<ModelGroup[]>([]);
   const [standaloneFiles, setStandaloneFiles] = useState<StandaloneFile[]>([]);
+  const [userProfiles, setUserProfiles] = useState<Record<string, { avatar_url?: string; background_url?: string; username?: string }>>({});
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState<string>('all');
@@ -80,7 +83,32 @@ const AdminModelsSection: React.FC = () => {
 
   useEffect(() => {
     groupModelFiles();
+    loadUserProfiles();
   }, [models]);
+
+  const loadUserProfiles = async () => {
+    const uniqueOwnerIds = [...new Set(models.map(m => m.owner_id))];
+    
+    if (uniqueOwnerIds.length === 0) return;
+
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id, username, avatar_url, background_url')
+        .in('id', uniqueOwnerIds);
+
+      if (error) throw error;
+
+      const profilesMap = data?.reduce((acc, profile) => {
+        acc[profile.id] = profile;
+        return acc;
+      }, {} as Record<string, { avatar_url?: string; background_url?: string; username?: string }>) || {};
+
+      setUserProfiles(profilesMap);
+    } catch (error) {
+      console.error('Error loading user profiles:', error);
+    }
+  };
 
   const loadModels = async () => {
     setLoading(true);
@@ -546,11 +574,21 @@ const AdminModelsSection: React.FC = () => {
           ) : (
             <div className="space-y-3">
               {/* Model Groups */}
-              {filteredGroups.map((group) => (
-                <div key={group.id} className="border rounded-lg">
+              {filteredGroups.map((group) => {
+                const ownerProfile = group.mainModel ? userProfiles[group.mainModel.owner_id] : null;
+                return (
+                <div key={group.id} className="border rounded-lg relative overflow-hidden">
+                  {/* Background Image */}
+                  {ownerProfile?.background_url && (
+                    <div 
+                      className="absolute inset-0 bg-cover bg-center opacity-5"
+                      style={{ backgroundImage: `url(${ownerProfile.background_url})` }}
+                    />
+                  )}
+                  
                   {/* Group Header */}
                   <div 
-                    className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/50"
+                    className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/50 relative z-10"
                     onClick={() => toggleGroupExpansion(group.id)}
                   >
                     <div className="flex items-center gap-3 flex-1">
@@ -600,6 +638,21 @@ const AdminModelsSection: React.FC = () => {
                          )}
                        </div>
                     </div>
+                    
+                    {/* User Avatar */}
+                    {ownerProfile && (
+                      <div className="flex items-center gap-2 ml-4">
+                        <div className="text-xs text-muted-foreground">
+                          {ownerProfile.username || 'User'}
+                        </div>
+                        <Avatar className="w-8 h-8">
+                          <AvatarImage src={ownerProfile.avatar_url} />
+                          <AvatarFallback>
+                            <User className="w-4 h-4" />
+                          </AvatarFallback>
+                        </Avatar>
+                      </div>
+                    )}
                   </div>
 
                   {/* Group Files */}
@@ -728,9 +781,10 @@ const AdminModelsSection: React.FC = () => {
                         </div>
                       ))}
                     </div>
-                  )}
-                </div>
-              ))}
+                   )}
+                 </div>
+                );
+               })}
 
               {/* Standalone Files */}
               {filteredStandalone.length > 0 && (
