@@ -146,7 +146,7 @@ const FAQ = () => {
           </div>
 
           {/* Decorative elements */}
-          <StarshipBackground className="absolute top-10 left-10 w-32 h-32" />
+          <StarshipBackground className="absolute inset-0 m-auto w-96 h-96" />
           <div className="absolute bottom-10 right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
         </section>
         

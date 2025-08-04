@@ -24,7 +24,9 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
     });
 
     // Set renderer size to match container
-    const size = 128; // w-32 h-32 = 128px
+    const container = mountRef.current;
+    const rect = container.getBoundingClientRect();
+    const size = Math.min(rect.width, rect.height) || 384; // Default to w-96 (384px)
     renderer.setSize(size, size);
     renderer.setClearColor(0x000000, 0);
     mountRef.current.appendChild(renderer.domElement);
