@@ -584,44 +584,66 @@ const AdminModelsSection: React.FC = () => {
                 console.log(`Group ${group.id}: ownerProfile =`, ownerProfile, 'mainModel owner_id =', group.mainModel?.owner_id);
                 
                 // Federation asset backgrounds for groups without user backgrounds
-                const federationAssets = [
-                  'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb', // blue starry night
-                  'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05', // foggy mountain summit
-                  'https://images.unsplash.com/photo-1469474968028-56623f02e425', // mountain hit by sun rays
-                  'https://images.unsplash.com/photo-1492321936769-bc49830bc1d1e', // white building under stars
-                  'https://images.unsplash.com/photo-1551038247-3d9af20df552', // blue and white building across sky
-                  'https://images.unsplash.com/photo-1473177104440-ffee2f376098', // empty cathedral interior
-                  'https://images.unsplash.com/photo-1497604401993-f2e922e5cb0a', // glass building worm's eye view
-                ];
-                
-                const federationBg = federationAssets[Math.abs(group.id.charCodeAt(0)) % federationAssets.length];
-                const backgroundImage = ownerProfile?.background_url || federationBg;
-                
-                return (
-                <div key={group.id} className="border rounded-lg relative overflow-hidden">
-                  {/* Background Image */}
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center opacity-5"
-                    style={{ backgroundImage: `url(${backgroundImage})` }}
-                  />
-                  
-                  {/* Group Header */}
-                  <div 
-                    className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/50 relative z-10"
-                    onClick={() => toggleGroupExpansion(group.id)}
-                  >
-                    <div className="flex items-center gap-3 flex-1">
-                      {expandedGroups.has(group.id) ? (
-                        <ChevronDown className="w-4 h-4" />
-                      ) : (
-                        <ChevronRight className="w-4 h-4" />
-                      )}
-                      {expandedGroups.has(group.id) ? (
-                        <FolderOpen className="w-5 h-5 text-orange-500" />
-                      ) : (
-                        <Folder className="w-5 h-5 text-orange-500" />
-                      )}
-                       <div className="flex-1">
+                 const federationAssets = [
+                   '/images/axanar-crew.jpg',
+                   '/images/pledges.jpg', 
+                   '/images/support.jpg',
+                   '/images/profileupdate.jpg',
+                   '/images/recover.jpg',
+                   '/images/signal-2025-06-29-161322_003.jpeg',
+                   '/images/signal-2025-06-29-161322_005.jpeg',
+                   '/images/signal-2025-06-29-165249_003.jpeg'
+                 ];
+                 
+                 const federationBg = federationAssets[Math.abs(group.id.charCodeAt(0)) % federationAssets.length];
+                 const backgroundImage = ownerProfile?.background_url || federationBg;
+                 
+                 return (
+                 <div key={group.id} className="border rounded-lg relative overflow-hidden">
+                   {/* Background Image */}
+                   <div 
+                     className="absolute inset-0 bg-cover bg-center opacity-20"
+                     style={{ backgroundImage: `url(${backgroundImage})` }}
+                   />
+                   
+                   {/* Group Header */}
+                   <div 
+                     className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/50 relative z-10"
+                     onClick={() => toggleGroupExpansion(group.id)}
+                   >
+                     <div className="flex items-center gap-3 flex-1">
+                       {/* Signature Profile Card */}
+                       <div className="signature-card flex items-center bg-gradient-to-br from-slate-700/90 to-slate-900/90 rounded-md p-2 min-w-[160px] h-[60px] border border-cyan-400/30 mr-3">
+                         <img 
+                           src={ownerProfile?.avatar_url || `https://via.placeholder.com/40`} 
+                           alt="Profile Picture"
+                           className="w-10 h-10 rounded-full border-2 border-cyan-400 mr-2 flex-shrink-0"
+                         />
+                         <div className="flex flex-col justify-center min-w-0 flex-1">
+                           <div className="text-xs font-bold text-cyan-400 truncate">
+                             {ownerProfile?.username || 'Unknown User'}
+                           </div>
+                           <div className="text-[10px] text-slate-300/70">
+                             Model Creator
+                           </div>
+                           <div className="flex justify-start mt-0.5">
+                             <div className="w-3 h-3 bg-cyan-400 rounded-sm mr-1" title="Creator Badge" />
+                             <div className="w-3 h-3 bg-slate-600 rounded-sm" title="Contributor" />
+                           </div>
+                         </div>
+                       </div>
+
+                       {expandedGroups.has(group.id) ? (
+                         <ChevronDown className="w-4 h-4" />
+                       ) : (
+                         <ChevronRight className="w-4 h-4" />
+                       )}
+                       {expandedGroups.has(group.id) ? (
+                         <FolderOpen className="w-5 h-5 text-orange-500" />
+                       ) : (
+                         <Folder className="w-5 h-5 text-orange-500" />
+                       )}
+                        <div className="flex-1">
                          <div className="font-medium flex items-center gap-2">
                            {group.displayName || group.name}
                            {group.category && (
