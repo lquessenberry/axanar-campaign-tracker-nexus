@@ -258,7 +258,7 @@ const Dashboard = () => {
                             </span>
                           </div>
                           <p className="text-sm text-muted-foreground mb-2">
-                            Contributed on {new Date(pledge.created_at).toLocaleDateString()}
+                            Contributed on {pledge.created_at ? new Date(pledge.created_at).toLocaleDateString() : "Date unavailable"}
                           </p>
                           <div className="flex items-center gap-2">
                             <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded">
