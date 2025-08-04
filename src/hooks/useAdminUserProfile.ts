@@ -29,65 +29,102 @@ export const useAdminUserProfile = (userId: string) => {
     queryKey: ['admin-user-profile', userId],
     queryFn: async (): Promise<{ profile: UserProfile | null; donor: DonorData | null }> => {
       if (!user) throw new Error('Not authenticated');
+      if (!userId) return { profile: null, donor: null };
 
-      console.log('Fetching profile for user ID:', userId);
+      console.log('🔍 Fetching profile for user ID:', userId);
 
-      // First check if current user is admin
-      const { data: isAdmin, error: adminError } = await supabase.rpc('check_current_user_is_admin');
-      if (adminError || !isAdmin) {
-        throw new Error('Admin access required');
-      }
+      try {
+        // First check if current user is admin
+        const { data: isAdmin, error: adminError } = await supabase.rpc('check_current_user_is_admin');
+        if (adminError) {
+          console.error('❌ Admin check error:', adminError);
+          throw new Error('Admin check failed');
+        }
+        if (!isAdmin) {
+          console.error('❌ Not admin');
+          throw new Error('Admin access required');
+        }
 
-      // Try to get profile data first (assuming userId is an auth user ID)
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .maybeSingle();
+        console.log('✅ Admin access confirmed');
 
-      if (profile) {
-        console.log('Found auth user profile:', profile);
-        // Get donor data linked to this auth user
+        // Try to get profile data first (assuming userId is an auth user ID)
+        console.log('🔍 Checking for auth user profile...');
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', userId)
+          .maybeSingle();
+
+        if (profileError) {
+          console.error('❌ Profile fetch error:', profileError);
+        }
+
+        if (profile) {
+          console.log('✅ Found auth user profile:', profile);
+          // Get donor data linked to this auth user
+          const { data: donor, error: donorError } = await supabase
+            .from('donors')
+            .select('*')
+            .eq('auth_user_id', userId)
+            .maybeSingle();
+
+          if (donorError) {
+            console.error('❌ Donor fetch error:', donorError);
+          } else {
+            console.log('📊 Associated donor data:', donor);
+          }
+
+          return { profile, donor };
+        }
+
+        // If no profile found, try treating userId as a donor ID
+        console.log('🔍 No profile found, trying as donor ID...');
         const { data: donor, error: donorError } = await supabase
           .from('donors')
           .select('*')
-          .eq('auth_user_id', userId)
+          .eq('id', userId)
           .maybeSingle();
 
         if (donorError) {
-          console.error('Error fetching donor data:', donorError);
+          console.error('❌ Donor lookup error:', donorError);
+          throw donorError;
         }
 
-        return { profile, donor };
-      }
-
-      // If no profile found, try treating userId as a donor ID
-      console.log('No profile found, trying as donor ID...');
-      const { data: donor, error: donorError } = await supabase
-        .from('donors')
-        .select('*')
-        .eq('id', userId)
-        .maybeSingle();
-
-      if (donor) {
-        console.log('Found donor data:', donor);
-        // If donor has auth_user_id, get the profile
-        let linkedProfile = null;
-        if (donor.auth_user_id) {
-          const { data: profileData } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', donor.auth_user_id)
-            .maybeSingle();
-          linkedProfile = profileData;
+        if (donor) {
+          console.log('✅ Found donor data:', donor);
+          // If donor has auth_user_id, get the profile
+          let linkedProfile = null;
+          if (donor.auth_user_id) {
+            console.log('🔗 Donor has auth account, fetching profile...');
+            const { data: profileData, error: linkedProfileError } = await supabase
+              .from('profiles')
+              .select('*')
+              .eq('id', donor.auth_user_id)
+              .maybeSingle();
+            
+            if (linkedProfileError) {
+              console.error('❌ Linked profile error:', linkedProfileError);
+            } else {
+              console.log('✅ Found linked profile:', profileData);
+              linkedProfile = profileData;
+            }
+          } else {
+            console.log('ℹ️ Legacy donor - no auth account');
+          }
+          return { profile: linkedProfile, donor };
         }
-        return { profile: linkedProfile, donor };
-      }
 
-      console.log('No user or donor found with ID:', userId);
-      return { profile: null, donor: null };
+        console.log('❌ No user or donor found with ID:', userId);
+        return { profile: null, donor: null };
+        
+      } catch (error) {
+        console.error('💥 Fatal error in useAdminUserProfile:', error);
+        throw error;
+      }
     },
     enabled: !!user && !!userId,
+    retry: 1,
+    staleTime: 30000, // 30 seconds
   });
 };
 

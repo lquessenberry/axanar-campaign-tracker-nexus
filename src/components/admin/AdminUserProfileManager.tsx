@@ -195,6 +195,7 @@ const AdminUserProfileManager: React.FC<AdminUserProfileManagerProps> = ({
             {isLoadingProfile ? (
               <div className="flex items-center justify-center py-8">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                <span className="ml-2 text-muted-foreground">Loading user data...</span>
               </div>
             ) : userData?.donor || userData?.profile ? (
               <div className="space-y-6">
@@ -211,47 +212,52 @@ const AdminUserProfileManager: React.FC<AdminUserProfileManagerProps> = ({
                   </div>
                 )}
 
-                {/* Profile Information */}
-                <div>
-                  <h3 className="text-lg font-semibold mb-4">Profile Information</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Profile Information - only show if user has a profile */}
+                {userData?.profile && (
+                  <>
                     <div>
-                      <Label htmlFor="full_name">Full Name</Label>
-                      <Input
-                        id="full_name"
-                        value={formData.full_name}
-                        onChange={(e) => setFormData(prev => ({ ...prev, full_name: e.target.value }))}
-                        disabled={!isEditing}
-                        placeholder="Enter full name"
-                      />
+                      <h3 className="text-lg font-semibold mb-4">Profile Information</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="full_name">Full Name</Label>
+                          <Input
+                            id="full_name"
+                            value={formData.full_name}
+                            onChange={(e) => setFormData(prev => ({ ...prev, full_name: e.target.value }))}
+                            disabled={!isEditing}
+                            placeholder="Enter full name"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="username">Username</Label>
+                          <Input
+                            id="username"
+                            value={formData.username}
+                            onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
+                            disabled={!isEditing}
+                            placeholder="Enter username"
+                          />
+                        </div>
+                      </div>
+                      <div className="mt-4">
+                        <Label htmlFor="bio">Bio</Label>
+                        <Textarea
+                          id="bio"
+                          value={formData.bio}
+                          onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
+                          disabled={!isEditing}
+                          placeholder="Enter bio"
+                          rows={3}
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <Label htmlFor="username">Username</Label>
-                      <Input
-                        id="username"
-                        value={formData.username}
-                        onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
-                        disabled={!isEditing}
-                        placeholder="Enter username"
-                      />
-                    </div>
-                  </div>
-                  <div className="mt-4">
-                    <Label htmlFor="bio">Bio</Label>
-                    <Textarea
-                      id="bio"
-                      value={formData.bio}
-                      onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
-                      disabled={!isEditing}
-                      placeholder="Enter bio"
-                      rows={3}
-                    />
-                  </div>
-                </div>
 
-                <Separator />
+                    <Separator />
+                  </>
+                )}
 
                 {/* Donor Information */}
+                {userData?.donor && (
                 <div>
                   <h3 className="text-lg font-semibold mb-4">Donor Information</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -298,6 +304,7 @@ const AdminUserProfileManager: React.FC<AdminUserProfileManagerProps> = ({
                     </div>
                   </div>
                 </div>
+                )}
 
                 {/* Account Information */}
                 {userData?.profile && (
