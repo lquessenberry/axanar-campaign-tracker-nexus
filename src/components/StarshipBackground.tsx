@@ -1,17 +1,50 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface StarshipBackgroundProps {
   className?: string;
-  modelPath?: string;
 }
 
 const StarshipBackground: React.FC<StarshipBackgroundProps> = ({ 
-  className = "absolute top-10 left-10 w-32 h-32",
-  modelPath = "/models/starship.obj"
+  className = "absolute top-10 left-10 w-32 h-32"
 }) => {
+  const { user } = useAuth();
   const mountRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>();
+  const [modelUrl, setModelUrl] = useState<string | null>(null);
+
+  // Fetch uploaded model files
+  useEffect(() => {
+    const fetchModels = async () => {
+      if (!user) return;
+      
+      try {
+        const { data, error } = await supabase.storage
+          .from('models')
+          .list(user.id, {
+            limit: 10,
+            sortBy: { column: 'created_at', order: 'desc' }
+          });
+
+        if (error) throw error;
+
+        // Find the first .obj file
+        const objFile = data?.find(file => file.name.toLowerCase().endsWith('.obj'));
+        if (objFile) {
+          const { data: publicData } = supabase.storage
+            .from('models')
+            .getPublicUrl(`${user.id}/${objFile.name}`);
+          setModelUrl(publicData.publicUrl);
+        }
+      } catch (error) {
+        console.error('Error fetching models:', error);
+      }
+    };
+
+    fetchModels();
+  }, [user]);
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -73,16 +106,17 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       return group;
     };
 
-    // Try to load OBJ model, fallback to simple mesh
+    // Try to load uploaded OBJ model, fallback to simple mesh
     let starship: THREE.Object3D;
 
-    try {
-      // For now, create fallback starship
-      // TODO: Implement OBJLoader when .obj file is available
+    if (modelUrl) {
+      // TODO: Implement OBJLoader for uploaded models
+      // For now, use fallback until we implement proper OBJ loading
+      console.log('Using uploaded model URL:', modelUrl);
       starship = createFallbackStarship();
       scene.add(starship);
-    } catch (error) {
-      console.log('Using fallback starship model');
+    } else {
+      // Use fallback starship
       starship = createFallbackStarship();
       scene.add(starship);
     }
@@ -124,7 +158,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       }
       renderer.dispose();
     };
-  }, [modelPath]);
+  }, [modelUrl]);
 
   return (
     <div 

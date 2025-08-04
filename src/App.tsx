@@ -30,6 +30,7 @@ import AdminMessages from "./pages/admin/Messages";
 import PasswordReset from "./pages/PasswordReset";
 import LCARSShowcase from "./pages/LCARSShowcase";
 import VanityProfile from "./pages/VanityProfile";
+import ModelManager from "./pages/ModelManager";
 
 const queryClient = new QueryClient();
 
@@ -65,6 +66,7 @@ const App = () => (
             <Route path="/support" element={<Support />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/lcars" element={<LCARSShowcase />} />
+            <Route path="/models" element={<ModelManager />} />
             <Route path="/:username/profile" element={<VanityProfile />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
