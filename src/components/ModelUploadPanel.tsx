@@ -6,7 +6,7 @@ import { Progress } from '@/components/ui/progress';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
-import ModelPreviewModal from './ModelPreviewModal';
+import UnifiedPreviewModal from './UnifiedPreviewModal';
 
 interface UploadedFile {
   name: string;
@@ -37,12 +37,14 @@ const ModelUploadPanel: React.FC = () => {
   const [pendingFiles, setPendingFiles] = useState<FileList | null>(null);
   const [previewModal, setPreviewModal] = useState<{
     isOpen: boolean;
-    modelUrl: string;
-    modelName: string;
+    fileUrl: string;
+    fileName: string;
+    fileType: 'obj' | 'texture';
   }>({
     isOpen: false,
-    modelUrl: '',
-    modelName: ''
+    fileUrl: '',
+    fileName: '',
+    fileType: 'obj'
   });
 
   const handleFileSelection = (files: FileList | null) => {
@@ -265,25 +267,21 @@ const ModelUploadPanel: React.FC = () => {
 
   const handleViewFile = (file: UploadedFile) => {
     console.log('Viewing file:', file); // Debug log
-    if (file.type === 'obj') {
-      console.log('Opening 3D preview modal'); // Debug log
-      setPreviewModal({
-        isOpen: true,
-        modelUrl: file.url,
-        modelName: file.name
-      });
-    } else {
-      // For texture files, open in new tab
-      window.open(file.url, '_blank');
-    }
+    setPreviewModal({
+      isOpen: true,
+      fileUrl: file.url,
+      fileName: file.name,
+      fileType: file.type
+    });
   };
 
   const closePreviewModal = () => {
     console.log('Closing preview modal'); // Debug log
     setPreviewModal({
       isOpen: false,
-      modelUrl: '',
-      modelName: ''
+      fileUrl: '',
+      fileName: '',
+      fileType: 'obj'
     });
   };
 
@@ -477,12 +475,13 @@ const ModelUploadPanel: React.FC = () => {
         </div>
       </CardContent>
 
-      {/* 3D Model Preview Modal */}
-      <ModelPreviewModal
+      {/* Unified Preview Modal */}
+      <UnifiedPreviewModal
         isOpen={previewModal.isOpen}
         onClose={closePreviewModal}
-        modelUrl={previewModal.modelUrl}
-        modelName={previewModal.modelName}
+        fileUrl={previewModal.fileUrl}
+        fileName={previewModal.fileName}
+        fileType={previewModal.fileType}
       />
     </Card>
   );
