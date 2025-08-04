@@ -27,6 +27,32 @@ export const useFallbackAdminData = () => {
       // Get total raised using the database function
       const { data: totalRaised } = await supabase.rpc('get_total_raised');
 
+      // Get top donors with auth_user_id
+      const { data: topDonorsData } = await supabase
+        .from('donor_pledge_totals')
+        .select(`
+          donor_id,
+          total_donated,
+          pledge_count,
+          donor_name,
+          full_name,
+          first_name,
+          last_name,
+          donors!inner (
+            auth_user_id
+          )
+        `)
+        .order('total_donated', { ascending: false })
+        .limit(5);
+
+      const topDonors = topDonorsData?.map((donor: any) => ({
+        id: donor.donor_id,
+        name: donor.donor_name || donor.full_name || `${donor.first_name || ''} ${donor.last_name || ''}`.trim() || 'Unknown Donor',
+        totalDonated: Number(donor.total_donated || 0),
+        pledgeCount: Number(donor.pledge_count || 0),
+        authUserId: donor.donors?.[0]?.auth_user_id || null
+      })) || [];
+
       return {
         overview: {
           totalDonors: donorsResult.count || 0,
@@ -45,7 +71,7 @@ export const useFallbackAdminData = () => {
           pledgeGrowth: 0,
         },
         topMetrics: {
-          topDonors: [],
+          topDonors,
           topCampaigns: [],
         },
       };

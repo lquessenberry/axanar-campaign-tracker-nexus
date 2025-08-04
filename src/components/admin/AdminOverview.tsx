@@ -24,10 +24,9 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
   const { data: analytics, isLoading, error, isUsingFallback } = useAdminAnalytics();
   const navigate = useNavigate();
 
-  const handleViewDonorProfile = (donorId: string) => {
-    // Navigate to the profile page with the donor's linked user ID
-    // We'll need to look up the auth_user_id from the donor_id
-    navigate(`/admin/dashboard?section=user-profiles&userId=${donorId}`);
+  const handleViewDonorProfile = (authUserId: string) => {
+    // Navigate to the profile page with the user's auth ID
+    navigate(`/admin/dashboard?section=user-profiles&userId=${authUserId}`);
   };
 
   if (isLoading) {
@@ -207,19 +206,27 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <button
-                          onClick={() => handleViewDonorProfile(donor.id)}
-                          className="font-medium text-base hover:text-primary underline-offset-4 hover:underline text-left transition-colors"
+                          onClick={() => donor.authUserId && handleViewDonorProfile(donor.authUserId)}
+                          className={`font-medium text-base text-left transition-colors ${
+                            donor.authUserId 
+                              ? 'hover:text-primary underline-offset-4 hover:underline cursor-pointer' 
+                              : 'text-muted-foreground cursor-not-allowed'
+                          }`}
+                          disabled={!donor.authUserId}
+                          title={donor.authUserId ? 'View profile' : 'Legacy donor - no profile available'}
                         >
                           {donor.name}
                         </button>
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={() => handleViewDonorProfile(donor.id)}
-                          className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0"
-                        >
-                          <Eye className="h-3 w-3" />
-                        </Button>
+                        {donor.authUserId && (
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleViewDonorProfile(donor.authUserId)}
+                            className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0"
+                          >
+                            <Eye className="h-3 w-3" />
+                          </Button>
+                        )}
                       </div>
                       <p className="text-sm text-muted-foreground">{donor.pledgeCount} pledges</p>
                     </div>
