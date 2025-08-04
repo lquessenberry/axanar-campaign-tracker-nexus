@@ -126,8 +126,12 @@ const HowItWorks = () => {
         </section>
         
         {/* Platform Migration Visual */}
-        <section className="py-8 px-4 bg-muted/30">
-          <div className="container mx-auto">
+        <section className="relative py-8 px-4 bg-muted/30">
+          {/* Security background image with enhanced opacity */}
+          <div className="absolute inset-0 opacity-5">
+            <img src="/images/security.svg" alt="Security background" className="w-full h-full object-cover" />
+          </div>
+          <div className="container mx-auto relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
               <div className="aspect-video rounded-lg overflow-hidden border border-primary/20">
                 <img src="/images/recover.jpg" alt="Account recovery process" className="w-full h-full object-cover" />
