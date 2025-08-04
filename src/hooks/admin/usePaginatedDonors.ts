@@ -50,31 +50,36 @@ export const usePaginatedDonors = (currentPage: number, filters: DonorFilters = 
 
       if (donorError) throw donorError;
 
-      // Then get pledge totals for these specific donors
+      // Then get pledge totals and last pledge dates for these specific donors
       const donorIds = donorData.map(donor => donor.id);
       
       const { data: pledgeData, error: pledgeError } = await supabase
         .from('pledges')
-        .select('donor_id, amount')
+        .select('donor_id, amount, created_at')
         .in('donor_id', donorIds);
 
       if (pledgeError) throw pledgeError;
 
-      // Calculate totals for each donor
+      // Calculate totals and find last pledge dates for each donor
       const pledgeTotals = pledgeData.reduce((acc, pledge) => {
         if (!acc[pledge.donor_id]) {
-          acc[pledge.donor_id] = { total: 0, count: 0 };
+          acc[pledge.donor_id] = { total: 0, count: 0, lastDate: pledge.created_at };
         }
         acc[pledge.donor_id].total += Number(pledge.amount);
         acc[pledge.donor_id].count += 1;
+        // Keep track of the most recent date
+        if (new Date(pledge.created_at) > new Date(acc[pledge.donor_id].lastDate)) {
+          acc[pledge.donor_id].lastDate = pledge.created_at;
+        }
         return acc;
-      }, {} as Record<string, { total: number; count: number }>);
+      }, {} as Record<string, { total: number; count: number; lastDate: string }>);
 
-      // Combine donor data with pledge totals
+      // Combine donor data with pledge totals and last pledge dates
       let donorsWithTotals = donorData.map(donor => ({
         ...donor,
         totalPledges: pledgeTotals[donor.id]?.total || 0,
-        pledgeCount: pledgeTotals[donor.id]?.count || 0
+        pledgeCount: pledgeTotals[donor.id]?.count || 0,
+        lastPledgeDate: pledgeTotals[donor.id]?.lastDate
       }));
 
       // Sort by pledge totals if needed (since we can't sort in the database query for calculated fields)
