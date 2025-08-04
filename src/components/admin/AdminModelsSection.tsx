@@ -37,6 +37,9 @@ interface ModelFile {
 interface ModelGroup {
   id: string;
   name: string;
+  displayName?: string;
+  tags: string[];
+  category?: 'starship' | 'prop' | 'character' | 'environment' | 'other';
   mainModel?: ModelFile;
   textures: ModelFile[];
   materials: ModelFile[];
@@ -144,6 +147,36 @@ const AdminModelsSection: React.FC = () => {
     }
   };
 
+  const generateDisplayName = (baseName: string): string => {
+    if (baseName.startsWith('starship-')) {
+      return 'USS ARES-1650 - Starship';
+    }
+    // Format other model names
+    return baseName.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  };
+
+  const generateTags = (baseName: string, files: ModelFile[]): string[] => {
+    const tags: string[] = [];
+    
+    if (baseName.startsWith('starship-')) {
+      tags.push('starship', 'uss-ares', 'federation', 'axanar');
+    }
+    
+    if (files.some(f => f.type === 'obj')) tags.push('3d-model');
+    if (files.some(f => f.type === 'texture')) tags.push('textured');
+    if (files.some(f => f.type === 'material')) tags.push('materials');
+    
+    return tags;
+  };
+
+  const determineCategory = (baseName: string): 'starship' | 'prop' | 'character' | 'environment' | 'other' => {
+    if (baseName.startsWith('starship-')) return 'starship';
+    if (baseName.includes('character') || baseName.includes('person')) return 'character';
+    if (baseName.includes('prop') || baseName.includes('item')) return 'prop';
+    if (baseName.includes('environment') || baseName.includes('scene')) return 'environment';
+    return 'other';
+  };
+
   const groupModelFiles = () => {
     const groups: { [key: string]: ModelFile[] } = {};
     const standalone: ModelFile[] = [];
@@ -194,6 +227,9 @@ const AdminModelsSection: React.FC = () => {
         modelGroups.push({
           id: baseName,
           name: baseName,
+          displayName: generateDisplayName(baseName),
+          tags: generateTags(baseName, files),
+          category: determineCategory(baseName),
           mainModel,
           textures,
           materials,
@@ -528,27 +564,41 @@ const AdminModelsSection: React.FC = () => {
                       ) : (
                         <Folder className="w-5 h-5 text-orange-500" />
                       )}
-                      <div className="flex-1">
-                        <div className="font-medium flex items-center gap-2">
-                          {group.name}
-                          {group.mainModel && (
-                            <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20">
-                              MODEL
-                            </Badge>
-                          )}
-                        </div>
-                        <div className="text-sm text-muted-foreground flex items-center gap-2">
-                          <span>{group.mainModel ? '1 model' : 'No model'}</span>
-                          <span>•</span>
-                          <span>{group.textures.length} texture(s)</span>
-                          <span>•</span>
-                          <span>{group.materials.length} material(s)</span>
-                          <span>•</span>
-                          <span>{formatFileSize(group.totalSize)}</span>
-                          <span>•</span>
-                          <span>{new Date(group.created_at).toLocaleDateString()}</span>
-                        </div>
-                      </div>
+                       <div className="flex-1">
+                         <div className="font-medium flex items-center gap-2">
+                           {group.displayName || group.name}
+                           {group.category && (
+                             <Badge className="bg-purple-500/10 text-purple-500 border-purple-500/20">
+                               {group.category.toUpperCase()}
+                             </Badge>
+                           )}
+                           {group.mainModel && (
+                             <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20">
+                               MODEL
+                             </Badge>
+                           )}
+                         </div>
+                         <div className="text-sm text-muted-foreground flex items-center gap-2 flex-wrap">
+                           <span>{group.mainModel ? '1 model' : 'No model'}</span>
+                           <span>•</span>
+                           <span>{group.textures.length} texture(s)</span>
+                           <span>•</span>
+                           <span>{group.materials.length} material(s)</span>
+                           <span>•</span>
+                           <span>{formatFileSize(group.totalSize)}</span>
+                           <span>•</span>
+                           <span>{new Date(group.created_at).toLocaleDateString()}</span>
+                         </div>
+                         {group.tags.length > 0 && (
+                           <div className="flex items-center gap-1 mt-1 flex-wrap">
+                             {group.tags.map((tag, tagIndex) => (
+                               <Badge key={tagIndex} variant="outline" className="text-xs">
+                                 {tag}
+                               </Badge>
+                             ))}
+                           </div>
+                         )}
+                       </div>
                     </div>
                   </div>
 
