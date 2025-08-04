@@ -152,15 +152,15 @@ serve(async (req) => {
     
     const { data: pledgeTotals } = await supabase
       .from('donor_pledge_totals')
-      .select('donor_id, total_donated, pledge_count, last_pledge_date')
+      .select('donor_id, total_donated, pledge_count, first_pledge_date')
       .in('donor_id', donorIds);
 
-    // Create lookup map for pledge data
+    // Create lookup map for pledge data using first_pledge_date as the pledge date
     const pledgeMap = new Map(
       pledgeTotals?.map(p => [p.donor_id, {
         totalPledges: Number(p.total_donated || 0),
         pledgeCount: Number(p.pledge_count || 0),
-        lastPledgeDate: p.last_pledge_date
+        lastPledgeDate: p.first_pledge_date
       }]) || []
     );
 
@@ -173,7 +173,7 @@ serve(async (req) => {
     const activeDonors = statsResult.count || 0;
     const totalRaised = totalRaisedResult.data || 0;
 
-    // Transform data
+    // Transform data using donor created_at as pledge date
     const donors: DonorData[] = (donorsData || []).map(donor => {
       const pledgeData = pledgeMap.get(donor.donor_id) || { totalPledges: 0, pledgeCount: 0, lastPledgeDate: undefined };
       
@@ -190,7 +190,7 @@ serve(async (req) => {
         email_verified_at: donor.email_confirmed_at,
         totalPledges: pledgeData.totalPledges,
         pledgeCount: pledgeData.pledgeCount,
-        lastPledgeDate: pledgeData.lastPledgeDate,
+        lastPledgeDate: pledgeData.lastPledgeDate || donor.donor_created_at,
         hasAuthAccount: !!donor.auth_user_id,
         isActive: pledgeData.pledgeCount > 0,
       };

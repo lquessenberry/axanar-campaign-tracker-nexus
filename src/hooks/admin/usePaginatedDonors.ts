@@ -61,21 +61,28 @@ export const usePaginatedDonors = (currentPage: number, filters: DonorFilters = 
 
       const { data: pledgeData, error: pledgeError } = await supabase
         .from('pledges')
-        .select('donor_id, amount, created_at')
+        .select(`
+          donor_id, 
+          amount,
+          donors!inner (
+            created_at
+          )
+        `)
         .in('donor_id', donorIds);
 
       if (pledgeError) throw pledgeError;
 
-      // Calculate totals and find last pledge dates for each donor
+      // Calculate totals using donor created_at as pledge date
       const pledgeTotals = pledgeData.reduce((acc, pledge) => {
+        const donorCreatedAt = pledge.donors?.created_at;
         if (!acc[pledge.donor_id]) {
-          acc[pledge.donor_id] = { total: 0, count: 0, lastDate: pledge.created_at };
+          acc[pledge.donor_id] = { total: 0, count: 0, lastDate: donorCreatedAt };
         }
         acc[pledge.donor_id].total += Number(pledge.amount);
         acc[pledge.donor_id].count += 1;
-        // Keep track of the most recent date
-        if (new Date(pledge.created_at) > new Date(acc[pledge.donor_id].lastDate)) {
-          acc[pledge.donor_id].lastDate = pledge.created_at;
+        // Use donor created_at as the pledge date
+        if (donorCreatedAt && (!acc[pledge.donor_id].lastDate || new Date(donorCreatedAt) > new Date(acc[pledge.donor_id].lastDate))) {
+          acc[pledge.donor_id].lastDate = donorCreatedAt;
         }
         return acc;
       }, {} as Record<string, { total: number; count: number; lastDate: string }>);
