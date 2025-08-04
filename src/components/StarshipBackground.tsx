@@ -107,109 +107,153 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       return group;
     };
 
-    // Load the Ares 1650 starship model
+    // Try to get the Ares 1650 model from Supabase storage
+    const getAres1650ModelUrl = async (): Promise<string | null> => {
+      try {
+        // List files in the models bucket to find the Ares 1650 model
+        const { data: files, error } = await supabase.storage
+          .from('models')
+          .list('', {
+            limit: 100,
+            sortBy: { column: 'created_at', order: 'desc' }
+          });
+
+        if (error) throw error;
+
+        // Look for Ares 1650 starship model (various possible names)
+        const ares1650File = files?.find(file => 
+          file.name.toLowerCase().includes('ares') && 
+          file.name.toLowerCase().includes('1650') &&
+          file.name.toLowerCase().endsWith('.obj')
+        ) || files?.find(file => 
+          file.name.toLowerCase().includes('starship') &&
+          file.name.toLowerCase().endsWith('.obj')
+        );
+
+        if (ares1650File) {
+          const { data: publicData } = supabase.storage
+            .from('models')
+            .getPublicUrl(ares1650File.name);
+          
+          console.log('Found Ares 1650 model:', ares1650File.name);
+          return publicData.publicUrl;
+        }
+
+        return null;
+      } catch (error) {
+        console.error('Error fetching Ares 1650 model from storage:', error);
+        return null;
+      }
+    };
+
+    // Load models from Supabase storage
     let starship: THREE.Object3D;
     
-    // URL for Ares 1650 starship model - replace with actual model URL when available
-    const ares1650ModelUrl = '/models/ares-1650-starship.obj'; // Add your Ares 1650 model here
-    
-    const loadAres1650Model = async () => {
+    const loadModelsFromStorage = async () => {
       try {
         const loader = new OBJLoader();
         
-        // Try to load the Ares 1650 model first
-        const object = await new Promise<THREE.Object3D>((resolve, reject) => {
-          loader.load(
-            ares1650ModelUrl,
-            (loadedObject) => {
-              console.log('Ares 1650 model loaded successfully');
-              
-              // Apply materials to make it look like a starship
-              loadedObject.traverse((child) => {
-                if (child instanceof THREE.Mesh) {
-                  child.material = new THREE.MeshPhongMaterial({ 
-                    color: 0xcccccc,
-                    shininess: 100,
-                    specular: 0x222222
-                  });
-                  child.castShadow = true;
-                  child.receiveShadow = true;
-                }
+        // Try to get Ares 1650 model from Supabase storage first
+        const ares1650ModelUrl = await getAres1650ModelUrl();
+        
+        if (ares1650ModelUrl) {
+          // Load the Ares 1650 model from storage
+          const object = await new Promise<THREE.Object3D>((resolve, reject) => {
+            loader.load(
+              ares1650ModelUrl,
+              (loadedObject) => {
+                console.log('Ares 1650 model loaded successfully');
+                
+                // Apply materials to make it look like a starship
+                loadedObject.traverse((child) => {
+                  if (child instanceof THREE.Mesh) {
+                    child.material = new THREE.MeshPhongMaterial({ 
+                      color: 0xcccccc,
+                      shininess: 100,
+                      specular: 0x222222
+                    });
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                  }
+                });
+                
+                // Scale and position the model
+                const box = new THREE.Box3().setFromObject(loadedObject);
+                const size = box.getSize(new THREE.Vector3());
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const scale = maxDim > 0 ? 4 / maxDim : 1;
+                loadedObject.scale.setScalar(scale);
+                
+                // Center the model
+                const center = box.getCenter(new THREE.Vector3());
+                loadedObject.position.sub(center.multiplyScalar(scale));
+                
+                resolve(loadedObject);
+              },
+              undefined,
+              (error) => {
+                console.log('Ares 1650 model failed to load:', error);
+                reject(error);
+              }
+            );
+          });
+          
+          starship = object;
+          scene.add(starship);
+          
+        } else {
+          // Fallback to user uploaded model or simple mesh
+          if (modelUrl) {
+            try {
+              const object = await new Promise<THREE.Object3D>((resolve, reject) => {
+                loader.load(
+                  modelUrl,
+                  (loadedObject) => {
+                    console.log('User uploaded model loaded successfully');
+                    
+                    loadedObject.traverse((child) => {
+                      if (child instanceof THREE.Mesh) {
+                        child.material = new THREE.MeshPhongMaterial({ 
+                          color: 0xaaaaaa,
+                          shininess: 80
+                        });
+                      }
+                    });
+                    
+                    const box = new THREE.Box3().setFromObject(loadedObject);
+                    const size = box.getSize(new THREE.Vector3());
+                    const maxDim = Math.max(size.x, size.y, size.z);
+                    const scale = maxDim > 0 ? 4 / maxDim : 1;
+                    loadedObject.scale.setScalar(scale);
+                    
+                    resolve(loadedObject);
+                  },
+                  undefined,
+                  reject
+                );
               });
               
-              // Scale and position the model
-              const box = new THREE.Box3().setFromObject(loadedObject);
-              const size = box.getSize(new THREE.Vector3());
-              const maxDim = Math.max(size.x, size.y, size.z);
-              const scale = maxDim > 0 ? 4 / maxDim : 1;
-              loadedObject.scale.setScalar(scale);
-              
-              // Center the model
-              const center = box.getCenter(new THREE.Vector3());
-              loadedObject.position.sub(center.multiplyScalar(scale));
-              
-              resolve(loadedObject);
-            },
-            undefined,
-            (error) => {
-              console.log('Ares 1650 model not found, using fallback');
-              reject(error);
+              starship = object;
+              scene.add(starship);
+            } catch (userModelError) {
+              console.log('User model failed to load, using fallback mesh');
+              starship = createFallbackStarship();
+              scene.add(starship);
             }
-          );
-        });
-        
-        starship = object;
-        scene.add(starship);
-        
-      } catch (error) {
-        // Fallback to user uploaded model or simple mesh
-        if (modelUrl) {
-          try {
-            const loader = new OBJLoader();
-            const object = await new Promise<THREE.Object3D>((resolve, reject) => {
-              loader.load(
-                modelUrl,
-                (loadedObject) => {
-                  console.log('User uploaded model loaded successfully');
-                  
-                  loadedObject.traverse((child) => {
-                    if (child instanceof THREE.Mesh) {
-                      child.material = new THREE.MeshPhongMaterial({ 
-                        color: 0xaaaaaa,
-                        shininess: 80
-                      });
-                    }
-                  });
-                  
-                  const box = new THREE.Box3().setFromObject(loadedObject);
-                  const size = box.getSize(new THREE.Vector3());
-                  const maxDim = Math.max(size.x, size.y, size.z);
-                  const scale = maxDim > 0 ? 4 / maxDim : 1;
-                  loadedObject.scale.setScalar(scale);
-                  
-                  resolve(loadedObject);
-                },
-                undefined,
-                reject
-              );
-            });
-            
-            starship = object;
-            scene.add(starship);
-          } catch (userModelError) {
-            console.log('User model failed to load, using fallback mesh');
+          } else {
+            console.log('No models available, using fallback mesh');
             starship = createFallbackStarship();
             scene.add(starship);
           }
-        } else {
-          console.log('No models available, using fallback mesh');
-          starship = createFallbackStarship();
-          scene.add(starship);
         }
+      } catch (error) {
+        console.error('Error loading models:', error);
+        starship = createFallbackStarship();
+        scene.add(starship);
       }
     };
     
-    loadAres1650Model();
+    loadModelsFromStorage();
 
     // Position camera
     camera.position.set(0, 0, 8);
