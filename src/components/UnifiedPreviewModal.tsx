@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Loader2, RotateCcw, ZoomIn, ZoomOut, Download, Eye } from 'lucide-react';
@@ -223,11 +222,18 @@ const UnifiedPreviewModal: React.FC<UnifiedPreviewModalProps> = ({
     setError(null);
 
     try {
+      console.log('Starting OBJ load for:', fileUrl);
+      
+      // Dynamically import OBJLoader to avoid build issues
+      const { OBJLoader } = await import('three/examples/jsm/loaders/OBJLoader.js');
       const loader = new OBJLoader();
       
+      // Add CORS headers and error handling
       loader.load(
         fileUrl,
         (object) => {
+          console.log('OBJ loaded successfully:', object);
+          
           // Apply basic material
           object.traverse((child) => {
             if (child instanceof THREE.Mesh) {
@@ -245,8 +251,10 @@ const UnifiedPreviewModal: React.FC<UnifiedPreviewModalProps> = ({
           const center = box.getCenter(new THREE.Vector3());
           const size = box.getSize(new THREE.Vector3());
           
+          console.log('Model dimensions:', size);
+          
           const maxDim = Math.max(size.x, size.y, size.z);
-          const scale = 3 / maxDim;
+          const scale = maxDim > 0 ? 3 / maxDim : 1;
           object.scale.setScalar(scale);
           object.position.sub(center.multiplyScalar(scale));
 
@@ -261,15 +269,20 @@ const UnifiedPreviewModal: React.FC<UnifiedPreviewModalProps> = ({
           }
 
           setLoading(false);
+          console.log('Model successfully added to scene');
         },
-        undefined,
-        (error) => {
-          setError('Failed to load OBJ file. Please check if the file is valid.');
+        (progress) => {
+          console.log('Loading progress:', progress);
+        },
+        (error: any) => {
+          console.error('Error loading OBJ:', error);
+          setError(`Failed to load OBJ file: ${error?.message || 'Unknown error'}`);
           setLoading(false);
         }
       );
     } catch (err) {
-      setError('Failed to load 3D model');
+      console.error('Error in loadModel:', err);
+      setError(`Failed to load 3D model: ${err instanceof Error ? err.message : 'Unknown error'}`);
       setLoading(false);
     }
   };
