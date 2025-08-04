@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAdminAnalytics } from "@/hooks/useAdminAnalytics";
+import { useNavigate } from "react-router-dom";
 import { 
   Users, 
   DollarSign, 
@@ -10,7 +11,9 @@ import {
   Gift,
   TrendingUp,
   Award,
-  Target
+  Target,
+  ExternalLink,
+  Eye
 } from "lucide-react";
 
 interface AdminOverviewProps {
@@ -19,6 +22,13 @@ interface AdminOverviewProps {
 
 const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
   const { data: analytics, isLoading, error, isUsingFallback } = useAdminAnalytics();
+  const navigate = useNavigate();
+
+  const handleViewDonorProfile = (donorId: string) => {
+    // Navigate to the profile page with the donor's linked user ID
+    // We'll need to look up the auth_user_id from the donor_id
+    navigate(`/admin/dashboard?section=user-profiles&userId=${donorId}`);
+  };
 
   if (isLoading) {
     return (
@@ -189,13 +199,28 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
           <CardContent>
             <div className="space-y-4">
               {topMetrics.topDonors?.slice(0, 5).map((donor, index) => (
-                <div key={donor.id} className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
+                <div key={donor.id} className="flex items-center justify-between group hover:bg-muted/50 p-2 rounded-lg transition-colors">
+                  <div className="flex items-center gap-3 flex-1">
                     <div className="w-8 h-8 bg-axanar-gold/20 rounded-full flex items-center justify-center text-base font-bold text-axanar-gold">
                       {index + 1}
                     </div>
-                    <div>
-                      <p className="font-medium text-base">{donor.name}</p>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleViewDonorProfile(donor.id)}
+                          className="font-medium text-base hover:text-primary underline-offset-4 hover:underline text-left transition-colors"
+                        >
+                          {donor.name}
+                        </button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => handleViewDonorProfile(donor.id)}
+                          className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0"
+                        >
+                          <Eye className="h-3 w-3" />
+                        </Button>
+                      </div>
                       <p className="text-sm text-muted-foreground">{donor.pledgeCount} pledges</p>
                     </div>
                   </div>
@@ -284,6 +309,14 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
             >
               <BarChart3 className="h-4 w-4 mr-2 text-axanar-red" />
               Manage Campaigns
+            </Button>
+            <Button 
+              variant="outline" 
+              className="w-full justify-start bg-gradient-to-r from-blue-500/10 to-transparent hover:from-blue-500/20 border-blue-500/30"
+              onClick={() => onSectionChange("user-profiles")}
+            >
+              <Eye className="h-4 w-4 mr-2 text-blue-500" />
+              View User Profiles
             </Button>
           </CardContent>
         </Card>
