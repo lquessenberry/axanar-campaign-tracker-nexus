@@ -84,7 +84,7 @@ const AdminDashboard = () => {
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      const allIds = new Set(donors?.map(donor => donor.id) || []);
+      const allIds = new Set<string>(donors?.map(donor => donor.id) || []);
       setSelectedDonors(allIds);
     } else {
       setSelectedDonors(new Set());

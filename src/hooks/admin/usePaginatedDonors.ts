@@ -41,6 +41,8 @@ export const usePaginatedDonors = (currentPage: number, filters: DonorFilters = 
         query = query.order('first_name', { ascending: sortOrder === 'asc' });
       } else if (sortBy === 'email') {
         query = query.order('email', { ascending: sortOrder === 'asc' });
+      } else if (sortBy === 'created_at') {
+        query = query.order('created_at', { ascending: sortOrder === 'asc' });
       } else {
         query = query.order(sortBy, { ascending: sortOrder === 'asc' });
       }
@@ -53,6 +55,10 @@ export const usePaginatedDonors = (currentPage: number, filters: DonorFilters = 
       // Then get pledge totals and last pledge dates for these specific donors
       const donorIds = donorData.map(donor => donor.id);
       
+      if (donorIds.length === 0) {
+        return [];
+      }
+
       const { data: pledgeData, error: pledgeError } = await supabase
         .from('pledges')
         .select('donor_id, amount, created_at')

@@ -28,6 +28,7 @@ interface DonorData {
   email_verified_at: string | null;
   totalPledges: number;
   pledgeCount: number;
+  lastPledgeDate?: string;
   hasAuthAccount: boolean;
   isActive: boolean;
 }
@@ -146,19 +147,20 @@ serve(async (req) => {
     const { data: donorsData, error: donorsError } = await query;
     if (donorsError) throw donorsError;
 
-    // Get pledge totals for each donor in parallel
+    // Get pledge totals and last pledge dates for each donor
     const donorIds = donorsData?.map(d => d.donor_id) || [];
     
     const { data: pledgeTotals } = await supabase
       .from('donor_pledge_totals')
-      .select('donor_id, total_donated, pledge_count')
+      .select('donor_id, total_donated, pledge_count, last_pledge_date')
       .in('donor_id', donorIds);
 
     // Create lookup map for pledge data
     const pledgeMap = new Map(
       pledgeTotals?.map(p => [p.donor_id, {
         totalPledges: Number(p.total_donated || 0),
-        pledgeCount: Number(p.pledge_count || 0)
+        pledgeCount: Number(p.pledge_count || 0),
+        lastPledgeDate: p.last_pledge_date
       }]) || []
     );
 
@@ -173,7 +175,7 @@ serve(async (req) => {
 
     // Transform data
     const donors: DonorData[] = (donorsData || []).map(donor => {
-      const pledgeData = pledgeMap.get(donor.donor_id) || { totalPledges: 0, pledgeCount: 0 };
+      const pledgeData = pledgeMap.get(donor.donor_id) || { totalPledges: 0, pledgeCount: 0, lastPledgeDate: undefined };
       
       return {
         id: donor.donor_id,
@@ -188,6 +190,7 @@ serve(async (req) => {
         email_verified_at: donor.email_confirmed_at,
         totalPledges: pledgeData.totalPledges,
         pledgeCount: pledgeData.pledgeCount,
+        lastPledgeDate: pledgeData.lastPledgeDate,
         hasAuthAccount: !!donor.auth_user_id,
         isActive: pledgeData.pledgeCount > 0,
       };
