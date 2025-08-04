@@ -60,14 +60,17 @@ const UnifiedPreviewModal: React.FC<UnifiedPreviewModalProps> = ({
   });
 
   useEffect(() => {
+    console.log('🔥 UnifiedPreviewModal useEffect triggered:', { isOpen, fileType, fileUrl });
     if (!isOpen) return;
 
     if (fileType === 'obj') {
+      console.log('🎯 Loading OBJ file in UnifiedPreviewModal');
       if (mountRef.current) {
         initThreeJS();
         loadOptimizedModel();
       }
     } else {
+      console.log('🖼️ Loading texture file in UnifiedPreviewModal');
       // For texture files, optimize if needed
       optimizeImageForWeb();
     }

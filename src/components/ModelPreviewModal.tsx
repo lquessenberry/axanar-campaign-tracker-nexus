@@ -53,9 +53,10 @@ const ModelPreviewModal: React.FC<ModelPreviewModalProps> = ({
   });
 
   useEffect(() => {
-    console.log('Modal effect triggered:', { isOpen, modelUrl, mountRef: !!mountRef.current });
+    console.log('🔥 ModelPreviewModal useEffect triggered:', { isOpen, modelUrl, mountRef: !!mountRef.current });
     if (!isOpen || !mountRef.current) return;
 
+    console.log('🎯 Initializing ModelPreviewModal');
     initThreeJS();
     loadOptimizedModel();
 
