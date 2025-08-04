@@ -89,6 +89,8 @@ const AdminModelsSection: React.FC = () => {
   const loadUserProfiles = async () => {
     const uniqueOwnerIds = [...new Set(models.map(m => m.owner_id))];
     
+    console.log('Loading profiles for owner IDs:', uniqueOwnerIds);
+    
     if (uniqueOwnerIds.length === 0) return;
 
     try {
@@ -99,11 +101,14 @@ const AdminModelsSection: React.FC = () => {
 
       if (error) throw error;
 
+      console.log('Loaded user profiles:', data);
+
       const profilesMap = data?.reduce((acc, profile) => {
         acc[profile.id] = profile;
         return acc;
       }, {} as Record<string, { avatar_url?: string; background_url?: string; username?: string }>) || {};
 
+      console.log('Profiles map:', profilesMap);
       setUserProfiles(profilesMap);
     } catch (error) {
       console.error('Error loading user profiles:', error);
@@ -576,6 +581,7 @@ const AdminModelsSection: React.FC = () => {
               {/* Model Groups */}
               {filteredGroups.map((group) => {
                 const ownerProfile = group.mainModel ? userProfiles[group.mainModel.owner_id] : null;
+                console.log(`Group ${group.id}: ownerProfile =`, ownerProfile, 'mainModel owner_id =', group.mainModel?.owner_id);
                 
                 // Federation asset backgrounds for groups without user backgrounds
                 const federationAssets = [
