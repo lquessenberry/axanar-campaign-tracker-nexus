@@ -576,15 +576,28 @@ const AdminModelsSection: React.FC = () => {
               {/* Model Groups */}
               {filteredGroups.map((group) => {
                 const ownerProfile = group.mainModel ? userProfiles[group.mainModel.owner_id] : null;
+                
+                // Federation asset backgrounds for groups without user backgrounds
+                const federationAssets = [
+                  'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb', // blue starry night
+                  'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05', // foggy mountain summit
+                  'https://images.unsplash.com/photo-1469474968028-56623f02e425', // mountain hit by sun rays
+                  'https://images.unsplash.com/photo-1492321936769-bc49830bc1d1e', // white building under stars
+                  'https://images.unsplash.com/photo-1551038247-3d9af20df552', // blue and white building across sky
+                  'https://images.unsplash.com/photo-1473177104440-ffee2f376098', // empty cathedral interior
+                  'https://images.unsplash.com/photo-1497604401993-f2e922e5cb0a', // glass building worm's eye view
+                ];
+                
+                const federationBg = federationAssets[Math.abs(group.id.charCodeAt(0)) % federationAssets.length];
+                const backgroundImage = ownerProfile?.background_url || federationBg;
+                
                 return (
                 <div key={group.id} className="border rounded-lg relative overflow-hidden">
                   {/* Background Image */}
-                  {ownerProfile?.background_url && (
-                    <div 
-                      className="absolute inset-0 bg-cover bg-center opacity-5"
-                      style={{ backgroundImage: `url(${ownerProfile.background_url})` }}
-                    />
-                  )}
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center opacity-5"
+                    style={{ backgroundImage: `url(${backgroundImage})` }}
+                  />
                   
                   {/* Group Header */}
                   <div 
