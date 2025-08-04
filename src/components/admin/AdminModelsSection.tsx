@@ -453,7 +453,7 @@ const AdminModelsSection: React.FC = () => {
       )}
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-2">
@@ -522,6 +522,77 @@ const AdminModelsSection: React.FC = () => {
                 <div className="text-sm text-muted-foreground">Total Size</div>
                 <div className="text-xl font-bold">{formatFileSize(modelStats.totalSize)}</div>
               </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Trophy Categories */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+        <Card className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-yellow-500/20">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Box className="h-5 w-5 text-yellow-500" />
+                <div>
+                  <div className="text-sm text-muted-foreground">Gold Trophy</div>
+                  <div className="text-xs text-yellow-500">500 Points</div>
+                </div>
+              </div>
+              <Button size="sm" variant="outline" className="text-yellow-500 border-yellow-500/50">
+                Buy
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-gray-400/10 to-gray-600/10 border-gray-400/20">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Box className="h-5 w-5 text-gray-400" />
+                <div>
+                  <div className="text-sm text-muted-foreground">Silver Trophy</div>
+                  <div className="text-xs text-gray-400">300 Points</div>
+                </div>
+              </div>
+              <Button size="sm" variant="outline" className="text-gray-400 border-gray-400/50">
+                Buy
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-amber-600/10 to-amber-800/10 border-amber-600/20">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Box className="h-5 w-5 text-amber-600" />
+                <div>
+                  <div className="text-sm text-muted-foreground">Bronze Trophy</div>
+                  <div className="text-xs text-amber-600">150 Points</div>
+                </div>
+              </div>
+              <Button size="sm" variant="outline" className="text-amber-600 border-amber-600/50">
+                Buy
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border-cyan-500/20">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Box className="h-5 w-5 text-cyan-500" />
+                <div>
+                  <div className="text-sm text-muted-foreground">Special Trophy</div>
+                  <div className="text-xs text-cyan-500">1000 Points</div>
+                </div>
+              </div>
+              <Button size="sm" variant="outline" className="text-cyan-500 border-cyan-500/50">
+                Buy
+              </Button>
             </div>
           </CardContent>
         </Card>
