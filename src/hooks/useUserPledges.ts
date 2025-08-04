@@ -1,4 +1,3 @@
-
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -11,23 +10,26 @@ export const useUserPledges = () => {
     queryFn: async () => {
       if (!user) throw new Error('User not authenticated');
       
-      // First, find the donor record linked to this user
+      // First, find all donor records linked to this user
       const { data: donorData, error: donorError } = await supabase
         .from('donors')
         .select('id')
-        .eq('auth_user_id', user.id)
-        .maybeSingle();
+        .eq('auth_user_id', user.id);
       
       if (donorError) {
-        console.error('Error fetching donor:', donorError);
+        console.error('Error fetching donors:', donorError);
         return [];
       }
       
-      if (!donorData) {
-        // No donor record linked to this user yet
+      if (!donorData || donorData.length === 0) {
+        // No donor records linked to this user yet
         return [];
       }
       
+      // Get all donor IDs
+      const donorIds = donorData.map(donor => donor.id);
+      
+      // Fetch pledges for all linked donor records
       const { data, error } = await supabase
         .from('pledges')
         .select(`
@@ -40,7 +42,7 @@ export const useUserPledges = () => {
             provider
           )
         `)
-        .eq('donor_id', donorData.id)
+        .in('donor_id', donorIds)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
