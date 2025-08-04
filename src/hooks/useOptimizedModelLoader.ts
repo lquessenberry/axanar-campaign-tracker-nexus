@@ -45,6 +45,9 @@ export const useOptimizedModelLoader = ({
 
     try {
       console.log('🚀 Starting optimized model load:', modelUrl);
+      console.log('📍 Model URL being loaded:', modelUrl);
+      console.log('🎨 Texture base path:', textureBasePath);
+      console.log('🖼️ Texture files to try:', textureFiles);
       
       // Load OBJ file
       setProgress(25);

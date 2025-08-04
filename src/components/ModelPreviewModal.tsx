@@ -162,19 +162,33 @@ const ModelPreviewModal: React.FC<ModelPreviewModalProps> = ({
     if (!sceneRef.current || !modelUrl) return;
 
     console.log('🔄 Loading model with optimization:', modelUrl);
+    console.log('📝 Model name:', modelName);
     
-    // Extract texture path and files if available
-    // Assuming textures are in same directory as model
-    const urlParts = modelUrl.split('/');
-    const textureBasePath = urlParts.slice(0, -1).join('/');
+    // For Supabase storage URLs, extract the proper texture base path
+    let textureBasePath = '';
+    let commonTextureNames: string[] = [];
     
-    // For now, we'll try common texture names
-    // In production, you'd get these from your file management system
-    const commonTextureNames = [
-      'diffuse.webp', 'diffuse.jpg', 'diffuse.png', 'diffuse.tga',
-      'albedo.webp', 'albedo.jpg', 'albedo.png', 'albedo.tga',
-      'color.webp', 'color.jpg', 'color.png', 'color.tga'
-    ];
+    if (modelUrl.includes('supabase.co/storage')) {
+      // This is a Supabase storage URL
+      console.log('📦 Detected Supabase storage URL');
+      
+      // Extract the base path for textures (same directory as the model)
+      const urlParts = modelUrl.split('/');
+      textureBasePath = urlParts.slice(0, -1).join('/');
+      
+      // For now, just try to load the model without specific textures
+      // In production, you'd get the texture list from your storage management
+      commonTextureNames = [];
+    } else {
+      // Standard file path
+      const urlParts = modelUrl.split('/');
+      textureBasePath = urlParts.slice(0, -1).join('/');
+      commonTextureNames = [
+        'diffuse.webp', 'diffuse.jpg', 'diffuse.png', 'diffuse.tga',
+        'albedo.webp', 'albedo.jpg', 'albedo.png', 'albedo.tga',
+        'color.webp', 'color.jpg', 'color.png', 'color.tga'
+      ];
+    }
 
     await loadModel(modelUrl, textureBasePath, commonTextureNames);
   };
