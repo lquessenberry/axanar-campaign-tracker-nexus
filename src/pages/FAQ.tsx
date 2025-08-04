@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
 import ImprovedFAQ from "@/components/ImprovedFAQ";
 import StarField from "@/components/StarField";
+import StarshipBackground from "@/components/StarshipBackground";
 
 const FAQ = () => {
   const faqSections = [
@@ -145,7 +146,7 @@ const FAQ = () => {
           </div>
 
           {/* Decorative elements */}
-          <div className="absolute top-10 left-10 w-32 h-32 bg-accent/10 rounded-full blur-3xl animate-pulse"></div>
+          <StarshipBackground className="absolute top-10 left-10 w-32 h-32" />
           <div className="absolute bottom-10 right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
         </section>
         
