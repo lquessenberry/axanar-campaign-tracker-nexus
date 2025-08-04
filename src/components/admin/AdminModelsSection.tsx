@@ -527,7 +527,7 @@ const AdminModelsSection: React.FC = () => {
         </Card>
       </div>
 
-      {/* Trophy Categories */}
+      {/* Trophy Model Unlocks */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
         <Card className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-yellow-500/20">
           <CardContent className="p-4">
@@ -535,12 +535,13 @@ const AdminModelsSection: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Box className="h-5 w-5 text-yellow-500" />
                 <div>
-                  <div className="text-sm text-muted-foreground">Gold Trophy</div>
-                  <div className="text-xs text-yellow-500">500 Points</div>
+                  <div className="text-sm font-medium">USS Enterprise Model</div>
+                  <div className="text-xs text-muted-foreground">Gold Tier Unlock</div>
+                  <div className="text-xs text-yellow-500 font-medium">500 Points</div>
                 </div>
               </div>
-              <Button size="sm" variant="outline" className="text-yellow-500 border-yellow-500/50">
-                Buy
+              <Button size="sm" variant="outline" className="text-yellow-500 border-yellow-500/50 hover:bg-yellow-500/10">
+                Unlock
               </Button>
             </div>
           </CardContent>
@@ -552,12 +553,13 @@ const AdminModelsSection: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Box className="h-5 w-5 text-gray-400" />
                 <div>
-                  <div className="text-sm text-muted-foreground">Silver Trophy</div>
-                  <div className="text-xs text-gray-400">300 Points</div>
+                  <div className="text-sm font-medium">Klingon Bird of Prey</div>
+                  <div className="text-xs text-muted-foreground">Silver Tier Unlock</div>
+                  <div className="text-xs text-gray-400 font-medium">300 Points</div>
                 </div>
               </div>
-              <Button size="sm" variant="outline" className="text-gray-400 border-gray-400/50">
-                Buy
+              <Button size="sm" variant="outline" className="text-gray-400 border-gray-400/50 hover:bg-gray-400/10">
+                Unlock
               </Button>
             </div>
           </CardContent>
@@ -569,12 +571,13 @@ const AdminModelsSection: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Box className="h-5 w-5 text-amber-600" />
                 <div>
-                  <div className="text-sm text-muted-foreground">Bronze Trophy</div>
-                  <div className="text-xs text-amber-600">150 Points</div>
+                  <div className="text-sm font-medium">Federation Shuttle</div>
+                  <div className="text-xs text-muted-foreground">Bronze Tier Unlock</div>
+                  <div className="text-xs text-amber-600 font-medium">150 Points</div>
                 </div>
               </div>
-              <Button size="sm" variant="outline" className="text-amber-600 border-amber-600/50">
-                Buy
+              <Button size="sm" variant="outline" className="text-amber-600 border-amber-600/50 hover:bg-amber-600/10">
+                Unlock
               </Button>
             </div>
           </CardContent>
@@ -586,12 +589,13 @@ const AdminModelsSection: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Box className="h-5 w-5 text-cyan-500" />
                 <div>
-                  <div className="text-sm text-muted-foreground">Special Trophy</div>
-                  <div className="text-xs text-cyan-500">1000 Points</div>
+                  <div className="text-sm font-medium">USS Ares Starship</div>
+                  <div className="text-xs text-muted-foreground">Special Edition</div>
+                  <div className="text-xs text-cyan-500 font-medium">1000 Points</div>
                 </div>
               </div>
-              <Button size="sm" variant="outline" className="text-cyan-500 border-cyan-500/50">
-                Buy
+              <Button size="sm" variant="outline" className="text-cyan-500 border-cyan-500/50 hover:bg-cyan-500/10">
+                Unlock
               </Button>
             </div>
           </CardContent>
