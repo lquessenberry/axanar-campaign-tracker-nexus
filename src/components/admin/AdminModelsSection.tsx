@@ -716,10 +716,10 @@ const AdminModelsSection: React.FC = () => {
                  return (
                  <div key={group.id} className="border rounded-lg relative overflow-hidden">
                    {/* Background Image */}
-                   <div 
-                     className="absolute inset-0 bg-cover bg-center opacity-20"
-                     style={{ backgroundImage: `url(${backgroundImage})` }}
-                   />
+                    <div 
+                      className="absolute inset-0 bg-cover bg-center opacity-20 pointer-events-none"
+                      style={{ backgroundImage: `url(${backgroundImage})` }}
+                    />
                    
                    {/* Group Header */}
                    <div 
