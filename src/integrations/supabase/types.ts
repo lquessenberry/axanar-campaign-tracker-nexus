@@ -646,6 +646,7 @@ export type Database = {
           reset_pass: string | null
           temp_id: number | null
           updated_at: string | null
+          username: string | null
         }
         Insert: {
           admin?: boolean | null
@@ -669,6 +670,7 @@ export type Database = {
           reset_pass?: string | null
           temp_id?: number | null
           updated_at?: string | null
+          username?: string | null
         }
         Update: {
           admin?: boolean | null
@@ -692,6 +694,7 @@ export type Database = {
           reset_pass?: string | null
           temp_id?: number | null
           updated_at?: string | null
+          username?: string | null
         }
         Relationships: []
       }
@@ -1964,6 +1967,10 @@ export type Database = {
       enhanced_admin_security_check: {
         Args: Record<PropertyKey, never>
         Returns: boolean
+      }
+      generate_username_from_email: {
+        Args: { email_input: string }
+        Returns: string
       }
       get_admin_analytics: {
         Args: Record<PropertyKey, never>

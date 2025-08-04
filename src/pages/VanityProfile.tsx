@@ -26,11 +26,11 @@ const VanityProfile = () => {
         return { userId: profile.id, type: 'profile' };
       }
 
-      // If no profile found, try donor_name in donors table
+      // If no profile found, try username in donors table
       const { data: donor, error: donorError } = await supabase
         .from('donors')
-        .select('id, auth_user_id, donor_name')
-        .eq('donor_name', username)
+        .select('id, auth_user_id, username, donor_name')
+        .eq('username', username)
         .maybeSingle();
 
       if (donorError) throw donorError;

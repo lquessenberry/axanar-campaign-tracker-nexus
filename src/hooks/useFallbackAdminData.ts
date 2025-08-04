@@ -27,7 +27,7 @@ export const useFallbackAdminData = () => {
       // Get total raised using the database function
       const { data: totalRaised } = await supabase.rpc('get_total_raised');
 
-      // Get top donors with auth_user_id
+      // Get top donors with auth_user_id and username
       const { data: topDonorsData } = await supabase
         .from('donor_pledge_totals')
         .select(`
@@ -39,7 +39,8 @@ export const useFallbackAdminData = () => {
           first_name,
           last_name,
           donors!inner (
-            auth_user_id
+            auth_user_id,
+            username
           )
         `)
         .order('total_donated', { ascending: false })
@@ -50,7 +51,8 @@ export const useFallbackAdminData = () => {
         name: donor.donor_name || donor.full_name || `${donor.first_name || ''} ${donor.last_name || ''}`.trim() || 'Unknown Donor',
         totalDonated: Number(donor.total_donated || 0),
         pledgeCount: Number(donor.pledge_count || 0),
-        authUserId: donor.donors?.[0]?.auth_user_id || null
+        authUserId: donor.donors?.[0]?.auth_user_id || null,
+        username: donor.donors?.[0]?.username || null
       })) || [];
 
       return {

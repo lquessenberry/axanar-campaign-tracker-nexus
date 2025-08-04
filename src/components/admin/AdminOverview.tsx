@@ -209,7 +209,7 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <a
-                          href={`/${donor.name?.replace(/\s+/g, '')}/profile`}
+                          href={`/${donor.username || donor.name?.replace(/\s+/g, '') || 'user'}/profile`}
                           className="font-medium text-base hover:text-primary underline-offset-4 hover:underline text-left transition-colors cursor-pointer"
                           title="View donor profile"
                         >

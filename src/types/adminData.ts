@@ -30,6 +30,7 @@ export interface TopDonor {
   totalDonated: number;
   pledgeCount: number;
   authUserId?: string | null;
+  username?: string;
 }
 
 export interface TopCampaign {
