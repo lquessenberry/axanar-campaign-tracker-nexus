@@ -58,22 +58,130 @@ const UnifiedPreviewModal: React.FC<UnifiedPreviewModalProps> = ({
       const contentLength = parseInt(response.headers.get('content-length') || '0');
       const contentType = response.headers.get('content-type') || '';
       
-      // If file is large (>5MB) or is TGA, create optimized version
-      if (contentLength > 5 * 1024 * 1024 || fileName.toLowerCase().endsWith('.tga')) {
+      console.log('Image file info:', { fileName, contentLength, contentType });
+      
+      // If file is TGA or large (>5MB), create optimized version
+      if (fileName.toLowerCase().endsWith('.tga') || contentLength > 5 * 1024 * 1024) {
+        console.log('Creating optimized version for:', fileName);
         await createOptimizedImage();
       } else {
+        console.log('Using original image:', fileName);
         setOptimizedImageUrl(fileUrl);
         setLoading(false);
       }
     } catch (err) {
       console.error('Error optimizing image:', err);
-      setOptimizedImageUrl(fileUrl); // Fallback to original
-      setLoading(false);
+      // For TGA files that fail optimization, try to load them directly
+      if (fileName.toLowerCase().endsWith('.tga')) {
+        await loadTGAFile();
+      } else {
+        setOptimizedImageUrl(fileUrl); // Fallback to original
+        setLoading(false);
+      }
     }
+  };
+
+  const loadTGAFile = async (): Promise<void> => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        console.log('Loading TGA file:', fileUrl);
+        
+        // Fetch the TGA file as ArrayBuffer
+        const response = await fetch(fileUrl);
+        const arrayBuffer = await response.arrayBuffer();
+        const dataView = new DataView(arrayBuffer);
+        
+        // Parse TGA header (simplified for common formats)
+        const imageType = dataView.getUint8(2);
+        const width = dataView.getUint16(12, true);
+        const height = dataView.getUint16(14, true);
+        const bitsPerPixel = dataView.getUint8(16);
+        
+        console.log('TGA info:', { imageType, width, height, bitsPerPixel });
+        
+        if (imageType !== 2 || bitsPerPixel !== 24) {
+          throw new Error('Unsupported TGA format. Only 24-bit uncompressed TGA files are supported.');
+        }
+        
+        // Create canvas and convert TGA to displayable format
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        if (!ctx) {
+          throw new Error('Could not get canvas context');
+        }
+        
+        // Calculate optimal display size
+        const maxSize = 2048;
+        let displayWidth = width;
+        let displayHeight = height;
+        
+        if (width > maxSize || height > maxSize) {
+          const ratio = Math.min(maxSize / width, maxSize / height);
+          displayWidth = Math.floor(width * ratio);
+          displayHeight = Math.floor(height * ratio);
+        }
+        
+        canvas.width = displayWidth;
+        canvas.height = displayHeight;
+        
+        // Parse TGA pixel data (BGR format, bottom-up)
+        const imageData = ctx.createImageData(width, height);
+        const pixels = imageData.data;
+        const dataStart = 18; // TGA header is 18 bytes
+        
+        for (let y = 0; y < height; y++) {
+          for (let x = 0; x < width; x++) {
+            const srcIndex = dataStart + ((height - 1 - y) * width + x) * 3; // Bottom-up
+            const dstIndex = (y * width + x) * 4;
+            
+            pixels[dstIndex] = dataView.getUint8(srcIndex + 2);     // R (from B)
+            pixels[dstIndex + 1] = dataView.getUint8(srcIndex + 1); // G
+            pixels[dstIndex + 2] = dataView.getUint8(srcIndex);     // B (from R)
+            pixels[dstIndex + 3] = 255;                             // A
+          }
+        }
+        
+        // Create temporary canvas for original size
+        const tempCanvas = document.createElement('canvas');
+        const tempCtx = tempCanvas.getContext('2d');
+        if (!tempCtx) throw new Error('Could not get temp canvas context');
+        
+        tempCanvas.width = width;
+        tempCanvas.height = height;
+        tempCtx.putImageData(imageData, 0, 0);
+        
+        // Scale to display size
+        ctx.drawImage(tempCanvas, 0, 0, width, height, 0, 0, displayWidth, displayHeight);
+        
+        canvas.toBlob((blob) => {
+          if (blob) {
+            const optimizedUrl = URL.createObjectURL(blob);
+            console.log('TGA converted successfully');
+            setOptimizedImageUrl(optimizedUrl);
+            setLoading(false);
+            resolve();
+          } else {
+            reject(new Error('Failed to convert TGA to displayable format'));
+          }
+        }, 'image/jpeg', 0.9);
+        
+      } catch (err) {
+        console.error('TGA loading error:', err);
+        reject(err);
+      }
+    });
   };
 
   const createOptimizedImage = async (): Promise<void> => {
     return new Promise((resolve, reject) => {
+      // For TGA files, use the specialized TGA loader
+      if (fileName.toLowerCase().endsWith('.tga')) {
+        loadTGAFile().then(resolve).catch(reject);
+        return;
+      }
+      
+      // For other image formats
       const img = new Image();
       img.crossOrigin = 'anonymous';
       
