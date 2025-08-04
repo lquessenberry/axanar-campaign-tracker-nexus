@@ -162,6 +162,11 @@
     --lcars-button-secondary: var(--lcars-yellow);
     --lcars-text-primary: var(--lcars-yellow);
     --lcars-text-secondary: var(--lcars-blue);
+    
+    /* Sci-Fi Animations */
+    --glow-primary: 0 0 20px hsl(var(--lcars-blue)), 0 0 40px hsl(var(--lcars-blue)), 0 0 60px hsl(var(--lcars-blue));
+    --glow-secondary: 0 0 20px hsl(var(--lcars-yellow)), 0 0 40px hsl(var(--lcars-yellow)), 0 0 60px hsl(var(--lcars-yellow));
+    --glow-alert: 0 0 20px hsl(var(--lcars-red)), 0 0 40px hsl(var(--lcars-red)), 0 0 60px hsl(var(--lcars-red));
   }
 
   /* ============= NIGHT MODE (Enhanced Dark) ============= */
@@ -891,6 +896,97 @@
   @keyframes shimmer {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
+  }
+
+  /* Sci-Fi Specific Animations */
+  @keyframes data-stream {
+    0% { transform: translateY(100%); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-100%); opacity: 0; }
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 5px hsl(var(--lcars-blue)), 0 0 10px hsl(var(--lcars-blue)); }
+    50% { box-shadow: 0 0 20px hsl(var(--lcars-blue)), 0 0 30px hsl(var(--lcars-blue)), 0 0 40px hsl(var(--lcars-blue)); }
+  }
+
+  @keyframes scan-line {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100vw); }
+  }
+
+  @keyframes hologram-flicker {
+    0%, 100% { opacity: 1; }
+    97% { opacity: 1; }
+    98% { opacity: 0.8; }
+    99% { opacity: 0.9; }
+  }
+
+  @keyframes matrix-fall {
+    0% { transform: translateY(-100vh); }
+    100% { transform: translateY(100vh); }
+  }
+
+  @keyframes energy-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Cage Era Specific Animations */
+  @keyframes pre-kirk-glow {
+    0%, 100% { text-shadow: 0 0 10px hsl(var(--lcars-yellow)), 0 0 20px hsl(var(--lcars-yellow)); }
+    50% { text-shadow: 0 0 20px hsl(var(--lcars-yellow)), 0 0 30px hsl(var(--lcars-yellow)), 0 0 40px hsl(var(--lcars-yellow)); }
+  }
+
+  @keyframes enterprise-startup {
+    0% { opacity: 0; transform: scale(0.8) rotateY(-10deg); }
+    50% { opacity: 0.8; transform: scale(1.05) rotateY(5deg); }
+    100% { opacity: 1; transform: scale(1) rotateY(0deg); }
+  }
+
+  @keyframes tactical-alert {
+    0%, 100% { background-color: transparent; }
+    50% { background-color: hsl(var(--lcars-red) / 0.2); }
+  }
+
+  /* Utility Classes for Sci-Fi Effects */
+  .animate-data-stream {
+    animation: data-stream 3s linear infinite;
+  }
+
+  .animate-glow-pulse {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+
+  .animate-scan-line {
+    animation: scan-line 4s linear infinite;
+  }
+
+  .animate-hologram {
+    animation: hologram-flicker 0.1s infinite;
+  }
+
+  .animate-matrix {
+    animation: matrix-fall 10s linear infinite;
+  }
+
+  .animate-energy {
+    background: linear-gradient(-45deg, hsl(var(--lcars-blue)), hsl(var(--lcars-light-blue)), hsl(var(--lcars-blue)), hsl(var(--lcars-light-blue)));
+    background-size: 400% 400%;
+    animation: energy-flow 3s ease infinite;
+  }
+
+  .animate-pre-kirk {
+    animation: pre-kirk-glow 3s ease-in-out infinite;
+  }
+
+  .animate-enterprise {
+    animation: enterprise-startup 1s ease-out;
+  }
+
+  .animate-tactical {
+    animation: tactical-alert 1s ease-in-out infinite;
   }
 
   /* LCARS Alerts and Notifications */
