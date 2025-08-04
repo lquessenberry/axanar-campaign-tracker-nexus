@@ -25,6 +25,9 @@ import AdminAdminsSection from "@/components/admin/AdminAdminsSection";
 import AdminPledgesSection from "@/components/admin/AdminPledgesSection";
 import DonorMigrationSection from "@/components/admin/DonorMigrationSection";
 import UserProfiles from "./UserProfiles";
+import AdminFileManagerSection from "@/components/admin/AdminFileManagerSection";
+import AdminModelsSection from "@/components/admin/AdminModelsSection";
+import AdminStorageSection from "@/components/admin/AdminStorageSection";
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState("overview");
@@ -341,6 +344,12 @@ const Dashboard = () => {
         />;
       case "user-profiles":
         return <UserProfiles />;
+      case "file-manager":
+        return <AdminFileManagerSection />;
+      case "models":
+        return <AdminModelsSection />;
+      case "storage":
+        return <AdminStorageSection />;
       case "admins":
         return <AdminAdminsSection />;
       case "notifications":
