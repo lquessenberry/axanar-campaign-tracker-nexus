@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Loader2, RotateCcw, ZoomIn, ZoomOut } from 'lucide-react';
@@ -140,45 +141,68 @@ const ModelPreviewModal: React.FC<ModelPreviewModalProps> = ({
     setError(null);
 
     try {
-      // For now, create a placeholder model since OBJLoader needs to be imported
-      // TODO: Implement proper OBJ loader
-      const geometry = new THREE.BoxGeometry(2, 2, 2);
-      const material = new THREE.MeshPhongMaterial({ 
-        color: 0x888888,
-        shininess: 100 
-      });
-      const placeholder = new THREE.Mesh(geometry, material);
-      placeholder.castShadow = true;
-      placeholder.receiveShadow = true;
-
-      // Add some detail to make it look more like a spaceship
-      const detail1 = new THREE.CylinderGeometry(0.3, 0.8, 3, 8);
-      const detailMesh1 = new THREE.Mesh(detail1, new THREE.MeshPhongMaterial({ color: 0x4444ff }));
-      detailMesh1.rotation.z = Math.PI / 2;
-      detailMesh1.position.set(0, 1.5, 0);
-      placeholder.add(detailMesh1);
-
-      const detailMesh2 = new THREE.Mesh(detail1, new THREE.MeshPhongMaterial({ color: 0x4444ff }));
-      detailMesh2.rotation.z = Math.PI / 2;
-      detailMesh2.position.set(0, -1.5, 0);
-      placeholder.add(detailMesh2);
-
-      // Center the model
-      const box = new THREE.Box3().setFromObject(placeholder);
-      const center = box.getCenter(new THREE.Vector3());
-      placeholder.position.sub(center);
-
-      // Add to scene
-      if (modelRef.current) {
-        sceneRef.current.remove(modelRef.current);
-      }
+      const loader = new OBJLoader();
       
-      sceneRef.current.add(placeholder);
-      modelRef.current = placeholder;
+      // Load the OBJ file
+      loader.load(
+        modelUrl,
+        // onLoad
+        (object) => {
+          console.log('OBJ loaded successfully:', object); // Debug log
+          
+          // Apply basic material to the loaded model
+          object.traverse((child) => {
+            if (child instanceof THREE.Mesh) {
+              child.material = new THREE.MeshPhongMaterial({ 
+                color: 0x888888,
+                shininess: 100 
+              });
+              child.castShadow = true;
+              child.receiveShadow = true;
+            }
+          });
 
-      setLoading(false);
+          // Center the model
+          const box = new THREE.Box3().setFromObject(object);
+          const center = box.getCenter(new THREE.Vector3());
+          const size = box.getSize(new THREE.Vector3());
+          
+          // Scale the model to fit in view
+          const maxDim = Math.max(size.x, size.y, size.z);
+          const scale = 3 / maxDim; // Scale to fit roughly in a 3-unit box
+          object.scale.setScalar(scale);
+          
+          // Center the model
+          object.position.sub(center.multiplyScalar(scale));
+
+          // Remove previous model if any
+          if (modelRef.current && sceneRef.current) {
+            sceneRef.current.remove(modelRef.current);
+          }
+          
+          // Add to scene
+          if (sceneRef.current) {
+            sceneRef.current.add(object);
+            modelRef.current = object;
+          }
+
+          setLoading(false);
+          console.log('Model successfully added to scene'); // Debug log
+        },
+        // onProgress
+        (progress) => {
+          console.log('Loading progress:', progress); // Debug log
+        },
+        // onError
+        (error) => {
+          console.error('Error loading OBJ:', error); // Debug log
+          setError('Failed to load OBJ file. Please check if the file is valid.');
+          setLoading(false);
+        }
+      );
+
     } catch (err) {
-      console.error('Error loading model:', err);
+      console.error('Error in loadModel:', err);
       setError('Failed to load 3D model');
       setLoading(false);
     }
@@ -286,7 +310,8 @@ const ModelPreviewModal: React.FC<ModelPreviewModalProps> = ({
 
           {/* Info */}
           <div className="text-sm text-muted-foreground">
-            <p><strong>Note:</strong> This is a preview using a placeholder model. Full OBJ file loading will be implemented in a future update.</p>
+            <p><strong>Model:</strong> {modelName}</p>
+            <p><strong>Controls:</strong> Drag to rotate • Scroll to zoom • Use buttons above for reset and zoom</p>
           </div>
         </div>
       </DialogContent>
