@@ -6,6 +6,7 @@ import { Progress } from '@/components/ui/progress';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
+import ModelPreviewModal from './ModelPreviewModal';
 
 interface UploadedFile {
   name: string;
@@ -20,6 +21,15 @@ const ModelUploadPanel: React.FC = () => {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
+  const [previewModal, setPreviewModal] = useState<{
+    isOpen: boolean;
+    modelUrl: string;
+    modelName: string;
+  }>({
+    isOpen: false,
+    modelUrl: '',
+    modelName: ''
+  });
 
   const handleFileUpload = async (files: FileList | null) => {
     if (!files || !user) {
@@ -131,6 +141,27 @@ const ModelUploadPanel: React.FC = () => {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
+  const handleViewFile = (file: UploadedFile) => {
+    if (file.type === 'obj') {
+      setPreviewModal({
+        isOpen: true,
+        modelUrl: file.url,
+        modelName: file.name
+      });
+    } else {
+      // For texture files, open in new tab
+      window.open(file.url, '_blank');
+    }
+  };
+
+  const closePreviewModal = () => {
+    setPreviewModal({
+      isOpen: false,
+      modelUrl: '',
+      modelName: ''
+    });
+  };
+
   return (
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
@@ -200,7 +231,7 @@ const ModelUploadPanel: React.FC = () => {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => window.open(file.url, '_blank')}
+                      onClick={() => handleViewFile(file)}
                     >
                       View
                     </Button>
@@ -229,6 +260,14 @@ const ModelUploadPanel: React.FC = () => {
           </ul>
         </div>
       </CardContent>
+
+      {/* 3D Model Preview Modal */}
+      <ModelPreviewModal
+        isOpen={previewModal.isOpen}
+        onClose={closePreviewModal}
+        modelUrl={previewModal.modelUrl}
+        modelName={previewModal.modelName}
+      />
     </Card>
   );
 };
