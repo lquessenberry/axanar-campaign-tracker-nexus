@@ -11,6 +11,23 @@ export const useUserPledges = () => {
     queryFn: async () => {
       if (!user) throw new Error('User not authenticated');
       
+      // First, find the donor record linked to this user
+      const { data: donorData, error: donorError } = await supabase
+        .from('donors')
+        .select('id')
+        .eq('auth_user_id', user.id)
+        .maybeSingle();
+      
+      if (donorError) {
+        console.error('Error fetching donor:', donorError);
+        return [];
+      }
+      
+      if (!donorData) {
+        // No donor record linked to this user yet
+        return [];
+      }
+      
       const { data, error } = await supabase
         .from('pledges')
         .select(`
@@ -23,7 +40,7 @@ export const useUserPledges = () => {
             provider
           )
         `)
-        .eq('donor_id', user.id)
+        .eq('donor_id', donorData.id)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
