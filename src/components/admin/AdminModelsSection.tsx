@@ -527,76 +527,116 @@ const AdminModelsSection: React.FC = () => {
         </Card>
       </div>
 
-      {/* Trophy Model Unlocks */}
+      {/* Ship Model Purchases with Naming Rights */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
         <Card className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-yellow-500/20">
           <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Box className="h-5 w-5 text-yellow-500" />
-                <div>
-                  <div className="text-sm font-medium">USS Enterprise Model</div>
-                  <div className="text-xs text-muted-foreground">Gold Tier Unlock</div>
-                  <div className="text-xs text-yellow-500 font-medium">500 Points</div>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Box className="h-5 w-5 text-yellow-500" />
+                  <div>
+                    <div className="text-sm font-medium">USS Enterprise Model</div>
+                    <div className="text-xs text-muted-foreground">Gold Tier + Naming Rights</div>
+                    <div className="text-xs text-yellow-500 font-medium">500 Points</div>
+                  </div>
                 </div>
+                <Button size="sm" variant="outline" className="text-yellow-500 border-yellow-500/50 hover:bg-yellow-500/10">
+                  Purchase
+                </Button>
               </div>
-              <Button size="sm" variant="outline" className="text-yellow-500 border-yellow-500/50 hover:bg-yellow-500/10">
-                Unlock
-              </Button>
+              <div className="border-t pt-2">
+                <Input 
+                  placeholder="Enter ship name..." 
+                  className="text-xs h-7" 
+                  disabled
+                />
+                <div className="text-xs text-muted-foreground mt-1">Naming rights unlocked after purchase</div>
+              </div>
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-gray-400/10 to-gray-600/10 border-gray-400/20">
           <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Box className="h-5 w-5 text-gray-400" />
-                <div>
-                  <div className="text-sm font-medium">Klingon Bird of Prey</div>
-                  <div className="text-xs text-muted-foreground">Silver Tier Unlock</div>
-                  <div className="text-xs text-gray-400 font-medium">300 Points</div>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Box className="h-5 w-5 text-gray-400" />
+                  <div>
+                    <div className="text-sm font-medium">Klingon Bird of Prey</div>
+                    <div className="text-xs text-muted-foreground">Silver Tier + Naming Rights</div>
+                    <div className="text-xs text-gray-400 font-medium">300 Points</div>
+                  </div>
                 </div>
+                <Button size="sm" variant="outline" className="text-gray-400 border-gray-400/50 hover:bg-gray-400/10">
+                  Purchase
+                </Button>
               </div>
-              <Button size="sm" variant="outline" className="text-gray-400 border-gray-400/50 hover:bg-gray-400/10">
-                Unlock
-              </Button>
+              <div className="border-t pt-2">
+                <Input 
+                  placeholder="Enter ship name..." 
+                  className="text-xs h-7" 
+                  disabled
+                />
+                <div className="text-xs text-muted-foreground mt-1">Naming rights unlocked after purchase</div>
+              </div>
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-amber-600/10 to-amber-800/10 border-amber-600/20">
           <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Box className="h-5 w-5 text-amber-600" />
-                <div>
-                  <div className="text-sm font-medium">Federation Shuttle</div>
-                  <div className="text-xs text-muted-foreground">Bronze Tier Unlock</div>
-                  <div className="text-xs text-amber-600 font-medium">150 Points</div>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Box className="h-5 w-5 text-amber-600" />
+                  <div>
+                    <div className="text-sm font-medium">Federation Shuttle</div>
+                    <div className="text-xs text-muted-foreground">Bronze Tier + Naming Rights</div>
+                    <div className="text-xs text-amber-600 font-medium">150 Points</div>
+                  </div>
                 </div>
+                <Button size="sm" variant="outline" className="text-amber-600 border-amber-600/50 hover:bg-amber-600/10">
+                  Purchase
+                </Button>
               </div>
-              <Button size="sm" variant="outline" className="text-amber-600 border-amber-600/50 hover:bg-amber-600/10">
-                Unlock
-              </Button>
+              <div className="border-t pt-2">
+                <Input 
+                  placeholder="Enter ship name..." 
+                  className="text-xs h-7" 
+                  disabled
+                />
+                <div className="text-xs text-muted-foreground mt-1">Naming rights unlocked after purchase</div>
+              </div>
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border-cyan-500/20">
           <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Box className="h-5 w-5 text-cyan-500" />
-                <div>
-                  <div className="text-sm font-medium">USS Ares Starship</div>
-                  <div className="text-xs text-muted-foreground">Special Edition</div>
-                  <div className="text-xs text-cyan-500 font-medium">1000 Points</div>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Box className="h-5 w-5 text-cyan-500" />
+                  <div>
+                    <div className="text-sm font-medium">USS Ares Starship</div>
+                    <div className="text-xs text-muted-foreground">Special Edition + Naming Rights</div>
+                    <div className="text-xs text-cyan-500 font-medium">1000 Points</div>
+                  </div>
                 </div>
+                <Button size="sm" variant="outline" className="text-cyan-500 border-cyan-500/50 hover:bg-cyan-500/10">
+                  Purchase
+                </Button>
               </div>
-              <Button size="sm" variant="outline" className="text-cyan-500 border-cyan-500/50 hover:bg-cyan-500/10">
-                Unlock
-              </Button>
+              <div className="border-t pt-2">
+                <Input 
+                  placeholder="Enter ship name..." 
+                  className="text-xs h-7" 
+                  disabled
+                />
+                <div className="text-xs text-muted-foreground mt-1">Naming rights unlocked after purchase</div>
+              </div>
             </div>
           </CardContent>
         </Card>
