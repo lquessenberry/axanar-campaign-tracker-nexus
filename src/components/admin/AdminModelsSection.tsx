@@ -18,6 +18,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
 import ModelUploadPanel from '@/components/ModelUploadPanel';
+import UnifiedPreviewModal from '@/components/UnifiedPreviewModal';
 
 interface ModelFile {
   name: string;
@@ -36,6 +37,17 @@ const AdminModelsSection: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState<string>('all');
   const [showUploadPanel, setShowUploadPanel] = useState(false);
+  const [previewModal, setPreviewModal] = useState<{
+    isOpen: boolean;
+    fileUrl: string;
+    fileName: string;
+    fileType: 'obj' | 'texture';
+  }>({
+    isOpen: false,
+    fileUrl: '',
+    fileName: '',
+    fileType: 'obj'
+  });
 
   useEffect(() => {
     loadModels();
@@ -152,6 +164,24 @@ const AdminModelsSection: React.FC = () => {
         variant: "destructive"
       });
     }
+  };
+
+  const handleViewModel = (model: ModelFile) => {
+    setPreviewModal({
+      isOpen: true,
+      fileUrl: model.public_url,
+      fileName: model.name,
+      fileType: model.type === 'obj' ? 'obj' : 'texture'
+    });
+  };
+
+  const closePreviewModal = () => {
+    setPreviewModal({
+      isOpen: false,
+      fileUrl: '',
+      fileName: '',
+      fileType: 'obj'
+    });
   };
 
   const formatFileSize = (bytes: number) => {
@@ -371,7 +401,7 @@ const AdminModelsSection: React.FC = () => {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => window.open(model.public_url, '_blank')}
+                      onClick={() => handleViewModel(model)}
                     >
                       <Eye className="w-4 h-4" />
                     </Button>
@@ -396,6 +426,15 @@ const AdminModelsSection: React.FC = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Unified Preview Modal */}
+      <UnifiedPreviewModal
+        isOpen={previewModal.isOpen}
+        onClose={closePreviewModal}
+        fileUrl={previewModal.fileUrl}
+        fileName={previewModal.fileName}
+        fileType={previewModal.fileType}
+      />
     </div>
   );
 };
