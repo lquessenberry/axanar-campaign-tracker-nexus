@@ -88,22 +88,36 @@ const UnifiedPreviewModal: React.FC<UnifiedPreviewModalProps> = ({
         
         // Fetch the TGA file as ArrayBuffer
         const response = await fetch(fileUrl);
-        const arrayBuffer = await response.arrayBuffer();
-        const dataView = new DataView(arrayBuffer);
-        
-        // Parse TGA header (simplified for common formats)
-        const imageType = dataView.getUint8(2);
-        const width = dataView.getUint16(12, true);
-        const height = dataView.getUint16(14, true);
-        const bitsPerPixel = dataView.getUint8(16);
-        
-        console.log('TGA info:', { imageType, width, height, bitsPerPixel });
-        
-        if (imageType !== 2 || bitsPerPixel !== 24) {
-          throw new Error('Unsupported TGA format. Only 24-bit uncompressed TGA files are supported.');
+        if (!response.ok) {
+          throw new Error(`Failed to fetch TGA file: ${response.statusText}`);
         }
         
-        // Create canvas and convert TGA to displayable format
+        const arrayBuffer = await response.arrayBuffer();
+        const data = new Uint8Array(arrayBuffer);
+        
+        // Parse TGA header
+        const idLength = data[0];
+        const colorMapType = data[1];
+        const imageType = data[2];
+        const width = data[12] | (data[13] << 8);
+        const height = data[14] | (data[15] << 8);
+        const bitsPerPixel = data[16];
+        const imageDescriptor = data[17];
+        
+        console.log('TGA header:', { 
+          idLength, colorMapType, imageType, width, height, bitsPerPixel, imageDescriptor 
+        });
+        
+        // Support multiple TGA formats
+        if (imageType !== 2 && imageType !== 10) { // Uncompressed and RLE compressed RGB
+          throw new Error(`Unsupported TGA image type: ${imageType}. Only RGB formats are supported.`);
+        }
+        
+        if (bitsPerPixel !== 24 && bitsPerPixel !== 32) {
+          throw new Error(`Unsupported bit depth: ${bitsPerPixel}. Only 24-bit and 32-bit TGA files are supported.`);
+        }
+        
+        // Create canvas for conversion
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
         
@@ -111,7 +125,7 @@ const UnifiedPreviewModal: React.FC<UnifiedPreviewModalProps> = ({
           throw new Error('Could not get canvas context');
         }
         
-        // Calculate optimal display size
+        // Calculate optimal display size (preserve original for textures)
         const maxSize = 2048;
         let displayWidth = width;
         let displayHeight = height;
@@ -125,20 +139,79 @@ const UnifiedPreviewModal: React.FC<UnifiedPreviewModalProps> = ({
         canvas.width = displayWidth;
         canvas.height = displayHeight;
         
-        // Parse TGA pixel data (BGR format, bottom-up)
+        // Parse pixel data
+        const bytesPerPixel = bitsPerPixel / 8;
         const imageData = ctx.createImageData(width, height);
         const pixels = imageData.data;
-        const dataStart = 18; // TGA header is 18 bytes
+        const dataStart = 18 + idLength;
         
-        for (let y = 0; y < height; y++) {
-          for (let x = 0; x < width; x++) {
-            const srcIndex = dataStart + ((height - 1 - y) * width + x) * 3; // Bottom-up
-            const dstIndex = (y * width + x) * 4;
+        // Handle bottom-up vs top-down orientation
+        const isBottomUp = (imageDescriptor & 0x20) === 0;
+        
+        if (imageType === 2) {
+          // Uncompressed RGB/RGBA
+          for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+              const actualY = isBottomUp ? (height - 1 - y) : y;
+              const srcIndex = dataStart + (actualY * width + x) * bytesPerPixel;
+              const dstIndex = (y * width + x) * 4;
+              
+              // TGA stores as BGR(A)
+              pixels[dstIndex] = data[srcIndex + 2];     // R
+              pixels[dstIndex + 1] = data[srcIndex + 1]; // G
+              pixels[dstIndex + 2] = data[srcIndex];     // B
+              pixels[dstIndex + 3] = bytesPerPixel === 4 ? data[srcIndex + 3] : 255; // A
+            }
+          }
+        } else if (imageType === 10) {
+          // RLE compressed RGB/RGBA
+          let pixelIndex = 0;
+          let dataIndex = dataStart;
+          
+          while (pixelIndex < width * height && dataIndex < data.length) {
+            const packet = data[dataIndex++];
+            const isRLE = (packet & 0x80) !== 0;
+            const count = (packet & 0x7F) + 1;
             
-            pixels[dstIndex] = dataView.getUint8(srcIndex + 2);     // R (from B)
-            pixels[dstIndex + 1] = dataView.getUint8(srcIndex + 1); // G
-            pixels[dstIndex + 2] = dataView.getUint8(srcIndex);     // B (from R)
-            pixels[dstIndex + 3] = 255;                             // A
+            if (isRLE) {
+              // RLE packet - repeat next pixel
+              const b = data[dataIndex++];
+              const g = data[dataIndex++];
+              const r = data[dataIndex++];
+              const a = bytesPerPixel === 4 ? data[dataIndex++] : 255;
+              
+              for (let i = 0; i < count && pixelIndex < width * height; i++) {
+                const x = pixelIndex % width;
+                const y = Math.floor(pixelIndex / width);
+                const actualY = isBottomUp ? (height - 1 - y) : y;
+                const dstIndex = (actualY * width + x) * 4;
+                
+                pixels[dstIndex] = r;
+                pixels[dstIndex + 1] = g;
+                pixels[dstIndex + 2] = b;
+                pixels[dstIndex + 3] = a;
+                pixelIndex++;
+              }
+            } else {
+              // Raw packet - copy next pixels
+              for (let i = 0; i < count && pixelIndex < width * height; i++) {
+                const b = data[dataIndex++];
+                const g = data[dataIndex++];
+                const r = data[dataIndex++];
+                const a = bytesPerPixel === 4 ? data[dataIndex++] : 255;
+                
+                const x = pixelIndex % width;
+                const y = Math.floor(pixelIndex / width);
+                const actualY = isBottomUp ? (height - 1 - y) : y;
+                const dstIndex = (actualY * width + x) * 4;
+                
+                pixels[dstIndex] = r;
+                pixels[dstIndex + 1] = g;
+                pixels[dstIndex + 2] = b;
+                pixels[dstIndex + 3] = a;
+                pixelIndex++;
+              }
+            }
           }
         }
         
@@ -154,20 +227,27 @@ const UnifiedPreviewModal: React.FC<UnifiedPreviewModalProps> = ({
         // Scale to display size
         ctx.drawImage(tempCanvas, 0, 0, width, height, 0, 0, displayWidth, displayHeight);
         
+        // Convert to PNG for web-safe texture use
         canvas.toBlob((blob) => {
           if (blob) {
             const optimizedUrl = URL.createObjectURL(blob);
-            console.log('TGA converted successfully');
+            console.log('TGA converted to PNG successfully:', {
+              originalSize: `${width}x${height}`,
+              displaySize: `${displayWidth}x${displayHeight}`,
+              format: 'PNG'
+            });
             setOptimizedImageUrl(optimizedUrl);
             setLoading(false);
             resolve();
           } else {
-            reject(new Error('Failed to convert TGA to displayable format'));
+            reject(new Error('Failed to convert TGA to PNG'));
           }
-        }, 'image/jpeg', 0.9);
+        }, 'image/png'); // Use PNG for better texture compatibility
         
       } catch (err) {
         console.error('TGA loading error:', err);
+        setError(`TGA Error: ${err instanceof Error ? err.message : 'Unknown error'}`);
+        setLoading(false);
         reject(err);
       }
     });
@@ -181,7 +261,7 @@ const UnifiedPreviewModal: React.FC<UnifiedPreviewModalProps> = ({
         return;
       }
       
-      // For other image formats
+      // For other image formats, convert to PNG for better quality
       const img = new Image();
       img.crossOrigin = 'anonymous';
       
@@ -195,32 +275,34 @@ const UnifiedPreviewModal: React.FC<UnifiedPreviewModalProps> = ({
             return;
           }
 
-          // Calculate optimal size (max 2048px on longest side)
+          // Calculate optimal size (max 2048px on longest side for textures)
           const maxSize = 2048;
           let { width, height } = img;
           
           if (width > maxSize || height > maxSize) {
             const ratio = Math.min(maxSize / width, maxSize / height);
-            width *= ratio;
-            height *= ratio;
+            width = Math.floor(width * ratio);
+            height = Math.floor(height * ratio);
           }
 
           canvas.width = width;
           canvas.height = height;
           
-          // Draw and compress
+          // Draw image
           ctx.drawImage(img, 0, 0, width, height);
           
+          // Convert to PNG for texture compatibility
           canvas.toBlob((blob) => {
             if (blob) {
               const optimizedUrl = URL.createObjectURL(blob);
+              console.log('Image optimized to PNG:', { width, height });
               setOptimizedImageUrl(optimizedUrl);
               setLoading(false);
               resolve();
             } else {
-              reject(new Error('Failed to create optimized image'));
+              reject(new Error('Failed to create optimized PNG'));
             }
-          }, 'image/jpeg', 0.85);
+          }, 'image/png'); // Use PNG instead of JPEG for textures
           
         } catch (err) {
           reject(err);
@@ -228,7 +310,7 @@ const UnifiedPreviewModal: React.FC<UnifiedPreviewModalProps> = ({
       };
 
       img.onerror = () => {
-        // Fallback to original image
+        console.warn('Failed to load image, using original:', fileUrl);
         setOptimizedImageUrl(fileUrl);
         setLoading(false);
         resolve();
