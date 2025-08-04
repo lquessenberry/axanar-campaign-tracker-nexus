@@ -1085,3 +1085,19 @@
     border-radius: 0 0 8px 0;
   }
 }
+
+/* Siren ripple animation for red alert */
+@keyframes siren-ripple {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}

@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import type { AlertLevel } from './useAlertSystem';
 
 const PROMPT_MESSAGES = [
-  "Ensign! Are you at your post?",
-  "Security alert: Unauthorized access detected. Please identify yourself.",
-  "Commander, your presence is required at the command console.",
-  "Bridge to Security: Please confirm status.",
-  "All hands, report to stations immediately."
+  "IDENTITY VERIFICATION REQUIRED • Access your account to confirm your rank and clearance level",
+  "UNAUTHORIZED ACCESS DETECTED • Login to verify your Starfleet credentials and mission status", 
+  "SECURITY PROTOCOL ACTIVE • Account verification needed to access classified systems",
+  "ALL PERSONNEL REPORT • Authenticate your identity to receive mission briefings",
+  "CLEARANCE VALIDATION PENDING • Login required to confirm your security authorization"
 ];
 
 export const useTimedPrompt = (alertLevel: AlertLevel, delayMs: number = 20000) => {
