@@ -340,6 +340,11 @@ const AdminModelsSection: React.FC = () => {
   };
 
   const handleViewModel = (model: ModelFile) => {
+    console.log('🔥 handleViewModel clicked!');
+    console.log('📄 Model details:', model);
+    console.log('🔗 Public URL:', model.public_url);
+    console.log('📦 File type:', model.type);
+    
     setPreviewModal({
       isOpen: true,
       fileUrl: model.public_url,
