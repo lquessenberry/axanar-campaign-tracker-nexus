@@ -208,13 +208,13 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => handleViewDonorProfile(donor.id)}
+                        <a
+                          href={`/${donor.name?.replace(/\s+/g, '')}/profile`}
                           className="font-medium text-base hover:text-primary underline-offset-4 hover:underline text-left transition-colors cursor-pointer"
                           title="View donor profile"
                         >
                           {donor.name}
-                        </button>
+                        </a>
                         <Button
                           size="sm"
                           variant="ghost"
