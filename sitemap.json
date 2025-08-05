@@ -1,0 +1,99 @@
+{
+  "sitemap": {
+    "public_routes": {
+      "home": "/",
+      "auth": {
+        "login": "/auth",
+        "register": "/register",
+        "login_alt": "/login",
+        "password_reset": "/auth/reset-password"
+      },
+      "information": {
+        "about": "/about",
+        "how_it_works": "/how-it-works",
+        "faq": "/faq",
+        "support": "/support",
+        "privacy": "/privacy",
+        "terms": "/terms"
+      },
+      "showcase": {
+        "lcars": "/lcars"
+      },
+      "vanity": {
+        "user_profile": "/:username/profile"
+      }
+    },
+    "authenticated_routes": {
+      "dashboard": "/dashboard",
+      "profile": "/profile",
+      "profile_with_id": "/profile/:userId",
+      "messages": "/messages",
+      "models": "/models"
+    },
+    "admin_routes": {
+      "admin_portal": "/admin",
+      "dashboard": "/admin/dashboard",
+      "pledges": "/admin/pledges",
+      "rewards": "/admin/rewards",
+      "donors": "/admin/donors",
+      "admins": "/admin/admins",
+      "messages": "/admin/messages"
+    },
+    "fallback": {
+      "not_found": "*"
+    }
+  },
+  "navigation_menus": {
+    "public_navigation": {
+      "brand": {
+        "logo": "/lovable-uploads/4ae57c3d-f1da-43e2-93ec-016f24a0b0c4.png",
+        "link": "/"
+      },
+      "main_links": [
+        { "label": "About", "path": "/about", "i18n_key": "about" },
+        { "label": "How It Works", "path": "/how-it-works", "i18n_key": "how-it-works" },
+        { "label": "FAQ", "path": "/faq", "i18n_key": "faq" },
+        { "label": "Support", "path": "/support", "i18n_key": "support" }
+      ],
+      "auth_actions": [
+        { "label": "Access Portal", "path": "/auth", "i18n_key": "access-portal" }
+      ]
+    },
+    "authenticated_navigation": {
+      "user_links": [
+        { "label": "Dashboard", "path": "/dashboard", "i18n_key": "dashboard", "icon": "User" },
+        { "label": "Messages", "path": "/messages", "i18n_key": "messages", "icon": "MessageCircle" },
+        { "label": "Profile", "path": "/profile", "i18n_key": "profile", "icon": "User" }
+      ],
+      "admin_links": [
+        { "label": "Admin", "path": "/admin", "i18n_key": "admin", "icon": "Shield", "requires_admin": true }
+      ],
+      "auth_actions": [
+        { "label": "Sign Out", "action": "signOut", "i18n_key": "sign-out", "icon": "LogOut" }
+      ]
+    },
+    "admin_sidebar": {
+      "sections": [
+        { "id": "overview", "label": "Dashboard", "path": "/admin/dashboard", "icon": "Home" },
+        { "id": "donors", "label": "Donors", "path": "/admin/donors", "icon": "Users" },
+        { "id": "pledges", "label": "Pledges", "path": "/admin/pledges", "icon": "DollarSign" },
+        { "id": "rewards", "label": "Rewards", "path": "/admin/rewards", "icon": "Gift" },
+        { "id": "campaigns", "label": "Campaigns", "icon": "BarChart3" },
+        { "id": "messages", "label": "Messages", "path": "/admin/messages", "icon": "MessageCircle" },
+        { "id": "user-profiles", "label": "User Profiles", "icon": "UserSearch" },
+        { "id": "file-manager", "label": "File Manager", "icon": "FolderOpen" },
+        { "id": "models", "label": "3D Models", "icon": "Box" },
+        { "id": "storage", "label": "Storage", "icon": "HardDrive" },
+        { "id": "admins", "label": "Admin Users", "path": "/admin/admins", "icon": "UserCog" },
+        { "id": "notifications", "label": "Notifications", "icon": "Bell" },
+        { "id": "reports", "label": "Reports", "icon": "FileText" },
+        { "id": "settings", "label": "Settings", "icon": "Settings" }
+      ]
+    }
+  },
+  "access_control": {
+    "public": ["home", "auth", "information", "showcase", "vanity"],
+    "authenticated": ["dashboard", "profile", "messages", "models"],
+    "admin": ["admin_routes"]
+  }
+}
