@@ -2,6 +2,7 @@ import React from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
+import { MobileAdminSidebar } from "@/components/mobile/MobileAdminSidebar";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -24,6 +25,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Navigation />
+      <MobileAdminSidebar />
       <main className="flex-1 container py-8 px-4 mx-auto">
         {title && (
           <div className="mb-6">
