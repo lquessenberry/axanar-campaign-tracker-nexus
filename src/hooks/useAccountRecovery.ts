@@ -11,12 +11,7 @@ interface EmailCheckResult {
   suggested_providers: string[];
 }
 
-interface RecoveryResult {
-  recovery_token: string | null;
-  expires_at: string | null;
-  success: boolean;
-  message: string;
-}
+// RecoveryResult interface removed as it's no longer needed
 
 export const useEmailCheck = (email: string) => {
   return useQuery({
@@ -37,28 +32,8 @@ export const useEmailCheck = (email: string) => {
   });
 };
 
-export const useInitiateRecovery = () => {
-  return useMutation({
-    mutationFn: async ({ 
-      email, 
-      recoveryType 
-    }: { 
-      email: string; 
-      recoveryType: 'password_reset' | 'sso_link' | 'account_verification' 
-    }) => {
-      const { data, error } = await supabase
-        .rpc('initiate_account_recovery', {
-          user_email: email.toLowerCase().trim(),
-          recovery_type: recoveryType,
-          client_ip: null, // Could be enhanced to get real IP
-          client_user_agent: navigator.userAgent
-        });
-
-      if (error) throw error;
-      return data?.[0] as RecoveryResult;
-    },
-  });
-};
+// Note: useInitiateRecovery removed as it's redundant with send-password-reset edge function
+// The send-password-reset edge function handles both token generation and email sending
 
 export const useValidateRecoveryToken = () => {
   return useMutation({
