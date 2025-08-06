@@ -51,7 +51,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
     if (!mountRef.current) return;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 6000); // Increased far plane
     const renderer = new THREE.WebGLRenderer({ 
       alpha: true, 
       antialias: true 
@@ -263,8 +263,8 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
     
     loadModelsFromStorage();
 
-    // Position camera
-    camera.position.set(0, 0, 8);
+    // Position camera further back for larger model
+    camera.position.set(0, 0, 48); // 6x further back
     camera.lookAt(0, 0, 0);
 
     // Animation variables
@@ -275,9 +275,9 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       time += 0.01;
       
       if (starship) {
-        // Gentle floating motion
-        starship.position.y = Math.sin(time * 2) * 0.3;
-        starship.position.x = Math.cos(time * 1.5) * 0.2;
+        // Gentle floating motion (scaled for larger model)
+        starship.position.y = Math.sin(time * 2) * 1.8; // 6x larger movement
+        starship.position.x = Math.cos(time * 1.5) * 1.2; // 6x larger movement
         
         // Keep starship stationary (no rotation)
       }
