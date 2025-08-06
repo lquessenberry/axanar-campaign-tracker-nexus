@@ -240,14 +240,13 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
               allMeshNames.push(child.name || 'unnamed');
               console.log(`Processing mesh ${meshCount}: "${child.name || 'unnamed'}"`);
               
-              // Check if this is a nacelle/bussard part - be more generous with matching
+              // Check if this is a nacelle/bussard part
               if (meshName.includes('nacelle') || 
                   meshName.includes('engine') || 
                   meshName.includes('warp') ||
                   meshName.includes('bussard') ||
                   meshName.includes('collector') ||
-                  meshName.includes('ramscoop') ||
-                  meshCount > meshCount / 2) { // Apply orange to later meshes (often nacelles)
+                  meshName.includes('ramscoop')) {
                 console.log('Applying ORANGE material to nacelle/bussard mesh');
                 child.material = new THREE.MeshPhongMaterial({ 
                   color: 0xff4400,
