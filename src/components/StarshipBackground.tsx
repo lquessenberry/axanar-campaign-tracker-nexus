@@ -327,8 +327,8 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
               // If no proper material was applied by MTL loader, apply our own
               if (!child.material || child.material instanceof THREE.MeshBasicMaterial) {
                 if (meshName.includes('bussard')) {
-                  console.log('Applying ORANGE glowing material to bussard mesh');
-                  child.material = new THREE.MeshPhongMaterial({ 
+                  console.log('Applying ORANGE glowing material to bussard mesh:', child.name);
+                  child.material = new THREE.MeshPhongMaterial({
                     color: 0xff4400,
                     emissive: 0xff3300,
                     emissiveIntensity: 1.2,
@@ -337,6 +337,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                     opacity: 1.0
                   });
                   bussardCollectors.push(child as THREE.Mesh);
+                  console.log('Added bussard to collectors array:', child.name);
                 } else {
                   console.log('Applying hull material to mesh');
                   child.material = new THREE.MeshPhongMaterial({ 
@@ -359,6 +360,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                     child.material.opacity = 1.0;
                   }
                   bussardCollectors.push(child as THREE.Mesh);
+                  console.log('Added existing bussard to collectors array:', child.name);
                 } else {
                   // Ensure other MTL materials are fully opaque
                   console.log('Making existing material opaque for mesh:', child.name);
@@ -545,22 +547,38 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
         });
         
         // Animate bussard collector textures and glow
-        bussardCollectors.forEach((bussard) => {
-          if (bussard.material instanceof THREE.MeshPhongMaterial) {
-            // Spin the texture if it has one
-            if (bussard.material.map) {
-              bussard.material.map.rotation += 0.1; // Fast spin
-              bussard.material.map.needsUpdate = true;
+        if (bussardCollectors.length > 0) {
+          console.log(`Animating ${bussardCollectors.length} bussard collectors`);
+          bussardCollectors.forEach((bussard, index) => {
+            console.log(`Bussard ${index}:`, bussard.name, bussard.material);
+            
+            if (bussard.material instanceof THREE.MeshPhongMaterial) {
+              // Spin the texture if it has one
+              if (bussard.material.map) {
+                bussard.material.map.rotation += 0.1; // Fast spin
+                bussard.material.map.needsUpdate = true;
+                console.log('Spinning texture for:', bussard.name);
+              } else {
+                console.log('No texture map found for:', bussard.name);
+              }
+              
+              // Pulsing orange glow effect
+              const pulse = 0.8 + 0.4 * Math.sin(time * 4);
+              bussard.material.emissiveIntensity = pulse;
             }
             
-            // Pulsing orange glow effect
-            const pulse = 0.8 + 0.4 * Math.sin(time * 4);
-            bussard.material.emissiveIntensity = pulse;
-            
-            // Add slight rotation to the mesh itself for extra effect
-            bussard.rotation.z += 0.02;
+            // Add rotation to the mesh itself for visible spinning effect
+            bussard.rotation.x += 0.03;
+            bussard.rotation.y += 0.02;
+            bussard.rotation.z += 0.025;
+            console.log('Rotating bussard mesh:', bussard.name, bussard.rotation);
+          });
+        } else {
+          // Only log occasionally to avoid spam
+          if (Math.floor(time * 10) % 60 === 0) {
+            console.log('No bussard collectors found in array');
           }
-        });
+        }
         
         // Animate nebulous fog flowing away from camera into distance
         if (fogEffect) {
