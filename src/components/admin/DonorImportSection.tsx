@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { FileSpreadsheet, Upload, AlertTriangle, CheckCircle, Info } from 'lucide-react';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 import * as XLSX from 'xlsx';
 
 interface ImportedDonor {
@@ -85,17 +86,19 @@ const DonorImportSection = () => {
       }
 
       let processedCount = 0;
+      let updatedCount = 0;
+      let createdCount = 0;
       
       for (const batch of batches) {
-        // Process each batch - this would typically call a Supabase function
-        // For now, we'll simulate the import process
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        const result = await processBatch(batch);
+        updatedCount += result.updated;
+        createdCount += result.created;
         
         processedCount += batch.length;
         setImportProgress((processedCount / parsedData.length) * 100);
       }
 
-      toast.success(`Successfully imported ${parsedData.length} donor records`);
+      toast.success(`Import completed! Created: ${createdCount}, Updated: ${updatedCount} records`);
       setParsedData([]);
       setShowPreview(false);
       
@@ -109,6 +112,98 @@ const DonorImportSection = () => {
       setIsImporting(false);
       setImportProgress(0);
     }
+  };
+
+  const processBatch = async (batch: ImportedDonor[]) => {
+    let created = 0;
+    let updated = 0;
+
+    for (const record of batch) {
+      const email = record['Email address - other'];
+      if (!email) continue;
+
+      try {
+        // Check if donor exists
+        const { data: existingDonor } = await supabase
+          .from('donors')
+          .select('*')
+          .eq('email', email.toLowerCase().trim())
+          .single();
+
+        const donorData = {
+          email: email.toLowerCase().trim(),
+          first_name: record['First name'] || null,
+          last_name: record['Last name'] || null,
+          full_name: record['First name'] && record['Last name'] 
+            ? `${record['First name']} ${record['Last name']}` 
+            : record['First name'] || record['Last name'] || null,
+          donor_name: record['First name'] && record['Last name'] 
+            ? `${record['First name']} ${record['Last name']}` 
+            : record['First name'] || record['Last name'] || null,
+          created_at: record['Created At'] ? new Date(record['Created At']).toISOString() : undefined,
+          updated_at: record['Updated At'] ? new Date(record['Updated At']).toISOString() : new Date().toISOString(),
+        };
+
+        let donorId;
+
+        if (existingDonor) {
+          // Update existing donor
+          await supabase
+            .from('donors')
+            .update(donorData)
+            .eq('id', existingDonor.id);
+          donorId = existingDonor.id;
+          updated++;
+        } else {
+          // Create new donor
+          const { data: newDonor } = await supabase
+            .from('donors')
+            .insert(donorData)
+            .select('id')
+            .single();
+          donorId = newDonor?.id;
+          created++;
+        }
+
+        // Handle address data if available
+        if (donorId && (record['Street address line 1 - Home'] || record['City - Home'])) {
+          const addressData = {
+            donor_id: donorId,
+            address1: record['Street address line 1 - Home'] || null,
+            city: record['City - Home'] || null,
+            state: record['State/Province - Home'] || null,
+            postal_code: record['Zip/Postal Code - Home'] || null,
+            country: record['Country - Home'] || null,
+            phone: record['Phone - home'] || null,
+            is_primary: true,
+          };
+
+          // Check if address exists
+          const { data: existingAddress } = await supabase
+            .from('addresses')
+            .select('*')
+            .eq('donor_id', donorId)
+            .eq('is_primary', true)
+            .single();
+
+          if (existingAddress) {
+            await supabase
+              .from('addresses')
+              .update(addressData)
+              .eq('id', existingAddress.id);
+          } else {
+            await supabase
+              .from('addresses')
+              .insert(addressData);
+          }
+        }
+
+      } catch (error) {
+        console.error(`Error processing record for ${email}:`, error);
+      }
+    }
+
+    return { created, updated };
   };
 
   const resetImport = () => {
