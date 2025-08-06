@@ -162,6 +162,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
     let starship: THREE.Object3D;
     let warpTrails: THREE.Group[] = [];
     let fogEffect: { fogGroup: THREE.Group; particles: THREE.Mesh[] };
+    let bussardCollectors: THREE.Mesh[] = [];
     
     // Create nebulous fog particles flowing into perspective
     const createNebulousFog = () => {
@@ -326,15 +327,16 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
               // If no proper material was applied by MTL loader, apply our own
               if (!child.material || child.material instanceof THREE.MeshBasicMaterial) {
                 if (meshName.includes('bussard')) {
-                  console.log('Applying ORANGE material to bussard mesh');
+                  console.log('Applying ORANGE glowing material to bussard mesh');
                   child.material = new THREE.MeshPhongMaterial({ 
                     color: 0xff4400,
-                    emissive: 0xff2200,
-                    emissiveIntensity: 0.8,
+                    emissive: 0xff3300,
+                    emissiveIntensity: 1.2,
                     shininess: 10,
                     transparent: false,
                     opacity: 1.0
                   });
+                  bussardCollectors.push(child as THREE.Mesh);
                 } else {
                   console.log('Applying hull material to mesh');
                   child.material = new THREE.MeshPhongMaterial({ 
@@ -346,20 +348,33 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                   });
                 }
               } else {
-                // Ensure MTL materials are fully opaque
-                console.log('Making existing material opaque for mesh:', child.name);
-                if (child.material instanceof THREE.MeshPhongMaterial || child.material instanceof THREE.MeshLambertMaterial) {
-                  child.material.transparent = false;
-                  child.material.opacity = 1.0;
-                  console.log('Set opacity to 1.0 for:', child.name);
-                } else if (Array.isArray(child.material)) {
-                  child.material.forEach((mat, idx) => {
-                    if (mat instanceof THREE.MeshPhongMaterial || mat instanceof THREE.MeshLambertMaterial) {
-                      mat.transparent = false;
-                      mat.opacity = 1.0;
-                      console.log(`Set opacity to 1.0 for material ${idx} on mesh:`, child.name);
-                    }
-                  });
+                // Check if this is a bussard collector with existing material
+                if (meshName.includes('bussard')) {
+                  console.log('Found bussard collector with existing material:', child.name);
+                  // Add orange glow to existing material
+                  if (child.material instanceof THREE.MeshPhongMaterial || child.material instanceof THREE.MeshLambertMaterial) {
+                    child.material.emissive = new THREE.Color(0xff3300);
+                    child.material.emissiveIntensity = 1.0;
+                    child.material.transparent = false;
+                    child.material.opacity = 1.0;
+                  }
+                  bussardCollectors.push(child as THREE.Mesh);
+                } else {
+                  // Ensure other MTL materials are fully opaque
+                  console.log('Making existing material opaque for mesh:', child.name);
+                  if (child.material instanceof THREE.MeshPhongMaterial || child.material instanceof THREE.MeshLambertMaterial) {
+                    child.material.transparent = false;
+                    child.material.opacity = 1.0;
+                    console.log('Set opacity to 1.0 for:', child.name);
+                  } else if (Array.isArray(child.material)) {
+                    child.material.forEach((mat, idx) => {
+                      if (mat instanceof THREE.MeshPhongMaterial || mat instanceof THREE.MeshLambertMaterial) {
+                        mat.transparent = false;
+                        mat.opacity = 1.0;
+                        console.log(`Set opacity to 1.0 for material ${idx} on mesh:`, child.name);
+                      }
+                    });
+                  }
                 }
               }
               
@@ -527,6 +542,24 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
               trail.position.y = -20 - (index * 4) + Math.sin(time * 2 + index * 0.3) * 0.5;
             }
           });
+        });
+        
+        // Animate bussard collector textures and glow
+        bussardCollectors.forEach((bussard) => {
+          if (bussard.material instanceof THREE.MeshPhongMaterial) {
+            // Spin the texture if it has one
+            if (bussard.material.map) {
+              bussard.material.map.rotation += 0.1; // Fast spin
+              bussard.material.map.needsUpdate = true;
+            }
+            
+            // Pulsing orange glow effect
+            const pulse = 0.8 + 0.4 * Math.sin(time * 4);
+            bussard.material.emissiveIntensity = pulse;
+            
+            // Add slight rotation to the mesh itself for extra effect
+            bussard.rotation.z += 0.02;
+          }
         });
         
         // Animate nebulous fog flowing away from camera into distance
