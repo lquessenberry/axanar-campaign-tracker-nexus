@@ -24,6 +24,7 @@ import AdminCampaignsSection from "@/components/admin/AdminCampaignsSection";
 import AdminAdminsSection from "@/components/admin/AdminAdminsSection";
 import AdminPledgesSection from "@/components/admin/AdminPledgesSection";
 import DonorMigrationSection from "@/components/admin/DonorMigrationSection";
+import DonorImportSection from "@/components/admin/DonorImportSection";
 import UserProfiles from "./UserProfiles";
 import AdminFileManagerSection from "@/components/admin/AdminFileManagerSection";
 import AdminModelsSection from "@/components/admin/AdminModelsSection";
@@ -273,7 +274,10 @@ const Dashboard = () => {
         );
       case "donors":
         return (
-          <AdminDonorsSection 
+          <div className="space-y-6">
+            <DonorImportSection />
+            <DonorMigrationSection />
+            <AdminDonorsSection
             totalCount={totalCount || 0}
             activeDonorsCount={activeDonorsCount || 0}
             totalRaised={totalRaised || 0}
@@ -306,6 +310,7 @@ const Dashboard = () => {
             onBulkCreateAccounts={handleBulkCreateAccounts}
             onBulkDelete={handleBulkDelete}
           />
+          </div>
         );
       case "pledges":
         return <AdminPledgesSection />;
