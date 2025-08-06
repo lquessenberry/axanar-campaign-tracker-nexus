@@ -270,21 +270,50 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
         } else {
           // Fallback to user uploaded model or simple mesh
           if (modelUrl) {
-            try {
-              const object = await new Promise<THREE.Object3D>((resolve, reject) => {
-                loader.load(
-                  modelUrl,
-                  (loadedObject) => {
-                    console.log('User uploaded model loaded successfully');
-                    
-                    loadedObject.traverse((child) => {
-                      if (child instanceof THREE.Mesh) {
-                        child.material = new THREE.MeshPhongMaterial({ 
-                          color: 0xaaaaaa,
-                          shininess: 80
-                        });
-                      }
-                    });
+              try {
+                const object = await new Promise<THREE.Object3D>((resolve, reject) => {
+                  loader.load(
+                    modelUrl,
+                    async (loadedObject) => {
+                      console.log('User uploaded model loaded successfully');
+                      
+                      // Try to load textures for the model
+                      const textureLoader = new THREE.TextureLoader();
+                      const basePath = modelUrl.substring(0, modelUrl.lastIndexOf('/') + 1);
+                      
+                      // Get available texture files
+                      const { data: files } = await supabase.storage
+                        .from('models')
+                        .list(user?.id || '', { limit: 50 });
+                      
+                      const textureFiles = files?.filter(file => 
+                        file.name.toLowerCase().includes('tga') || 
+                        file.name.toLowerCase().includes('jpg') ||
+                        file.name.toLowerCase().includes('png')
+                      ) || [];
+                      
+                      loadedObject.traverse((child) => {
+                        if (child instanceof THREE.Mesh) {
+                          if (textureFiles.length > 0) {
+                            // Use the first available texture
+                            const textureFile = textureFiles[0];
+                            const { data: textureData } = supabase.storage
+                              .from('models')
+                              .getPublicUrl(`${user?.id}/${textureFile.name}`);
+                            
+                            const texture = textureLoader.load(textureData.publicUrl);
+                            child.material = new THREE.MeshPhongMaterial({ 
+                              map: texture,
+                              shininess: 80
+                            });
+                          } else {
+                            child.material = new THREE.MeshPhongMaterial({ 
+                              color: 0xaaaaaa,
+                              shininess: 80
+                            });
+                          }
+                        }
+                      });
               
               // Add warp trails for user models
               warpTrails = createWarpTrails();
