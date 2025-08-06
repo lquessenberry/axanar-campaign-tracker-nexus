@@ -633,6 +633,9 @@ export type Database = {
           deleted: boolean | null
           donor_name: string | null
           email: string
+          email_lists: string | null
+          email_permission_status: string | null
+          email_status: string | null
           email_verified_at: string | null
           first_name: string | null
           full_name: string | null
@@ -644,6 +647,7 @@ export type Database = {
           password: string | null
           remember_token: string | null
           reset_pass: string | null
+          source_name: string | null
           temp_id: number | null
           updated_at: string | null
           username: string | null
@@ -657,6 +661,9 @@ export type Database = {
           deleted?: boolean | null
           donor_name?: string | null
           email: string
+          email_lists?: string | null
+          email_permission_status?: string | null
+          email_status?: string | null
           email_verified_at?: string | null
           first_name?: string | null
           full_name?: string | null
@@ -668,6 +675,7 @@ export type Database = {
           password?: string | null
           remember_token?: string | null
           reset_pass?: string | null
+          source_name?: string | null
           temp_id?: number | null
           updated_at?: string | null
           username?: string | null
@@ -681,6 +689,9 @@ export type Database = {
           deleted?: boolean | null
           donor_name?: string | null
           email?: string
+          email_lists?: string | null
+          email_permission_status?: string | null
+          email_status?: string | null
           email_verified_at?: string | null
           first_name?: string | null
           full_name?: string | null
@@ -692,6 +703,7 @@ export type Database = {
           password?: string | null
           remember_token?: string | null
           reset_pass?: string | null
+          source_name?: string | null
           temp_id?: number | null
           updated_at?: string | null
           username?: string | null

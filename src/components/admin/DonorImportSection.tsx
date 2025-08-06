@@ -140,6 +140,10 @@ const DonorImportSection = () => {
           donor_name: record['First name'] && record['Last name'] 
             ? `${record['First name']} ${record['Last name']}` 
             : record['First name'] || record['Last name'] || null,
+          email_status: record['Email status - other'] || null,
+          email_permission_status: record['Email permission status - other'] || null,
+          email_lists: record['Email Lists'] || null,
+          source_name: record['Source Name'] || null,
           created_at: record['Created At'] ? new Date(record['Created At']).toISOString() : undefined,
           updated_at: record['Updated At'] ? new Date(record['Updated At']).toISOString() : new Date().toISOString(),
         };
