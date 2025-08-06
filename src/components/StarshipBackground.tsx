@@ -89,7 +89,9 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       const hullMaterial = new THREE.MeshPhongMaterial({ 
         color: 0xcccccc,
         shininess: 100,
-        emissive: 0x333333
+        emissive: 0x333333,
+        transparent: false,
+        opacity: 1.0
       });
       const hull = new THREE.Mesh(hullGeometry, hullMaterial);
       group.add(hull);
@@ -99,7 +101,9 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       const nacelleMaterial = new THREE.MeshPhongMaterial({ 
         color: 0xff6600,
         emissive: 0xff4400,
-        emissiveIntensity: 0.5
+        emissiveIntensity: 0.5,
+        transparent: false,
+        opacity: 1.0
       });
       
       const nacelle1 = new THREE.Mesh(nacelleGeometry, nacelleMaterial);
@@ -296,14 +300,31 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                     color: 0xff4400,
                     emissive: 0xff2200,
                     emissiveIntensity: 0.8,
-                    shininess: 10
+                    shininess: 10,
+                    transparent: false,
+                    opacity: 1.0
                   });
                 } else {
                   console.log('Applying hull material to mesh');
                   child.material = new THREE.MeshPhongMaterial({ 
                     color: 0xcccccc,
                     emissive: 0x333333,
-                    shininess: 50
+                    shininess: 50,
+                    transparent: false,
+                    opacity: 1.0
+                  });
+                }
+              } else {
+                // Ensure MTL materials are fully opaque
+                if (child.material instanceof THREE.MeshPhongMaterial || child.material instanceof THREE.MeshLambertMaterial) {
+                  child.material.transparent = false;
+                  child.material.opacity = 1.0;
+                } else if (Array.isArray(child.material)) {
+                  child.material.forEach(mat => {
+                    if (mat instanceof THREE.MeshPhongMaterial || mat instanceof THREE.MeshLambertMaterial) {
+                      mat.transparent = false;
+                      mat.opacity = 1.0;
+                    }
                   });
                 }
               }
