@@ -104,6 +104,31 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       // No rotation needed for vertical orientation
       group.add(nacelle2);
 
+      
+      // Add warp trails
+      const createWarpTrail = (xOffset: number) => {
+        const trailGroup = new THREE.Group();
+        
+        // Create multiple trail segments for a flowing effect
+        for (let i = 0; i < 8; i++) {
+          const trailGeometry = new THREE.CylinderGeometry(0.1 + i * 0.05, 0.2 + i * 0.08, 3 + i * 0.5, 8);
+          const trailMaterial = new THREE.MeshBasicMaterial({ 
+            color: 0x00aaff,
+            transparent: true,
+            opacity: 0.8 - (i * 0.1)
+          });
+          const trail = new THREE.Mesh(trailGeometry, trailMaterial);
+          trail.position.set(xOffset, -12 - (i * 3), 0);
+          trailGroup.add(trail);
+        }
+        
+        return trailGroup;
+      };
+
+      // Add warp trails to nacelles
+      group.add(createWarpTrail(6));  // Right nacelle trail
+      group.add(createWarpTrail(-6)); // Left nacelle trail
+
       return group;
     };
 
@@ -148,6 +173,41 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
 
     // Load models from Supabase storage
     let starship: THREE.Object3D;
+    let warpTrails: THREE.Group[] = [];
+    
+    // Create warp trail effects
+    const createWarpTrails = () => {
+      const trails: THREE.Group[] = [];
+      
+      // Create two main warp trails
+      for (let side = 0; side < 2; side++) {
+        const trailGroup = new THREE.Group();
+        const xOffset = side === 0 ? 12 : -12; // Position trails at nacelle locations
+        
+        // Create flowing trail particles
+        for (let i = 0; i < 12; i++) {
+          const trailGeometry = new THREE.CylinderGeometry(
+            0.2 + i * 0.1, 
+            0.4 + i * 0.15, 
+            4 + i * 0.8, 
+            8
+          );
+          const trailMaterial = new THREE.MeshBasicMaterial({ 
+            color: new THREE.Color().setHSL(0.6, 1, 0.5 + Math.random() * 0.3),
+            transparent: true,
+            opacity: 0.9 - (i * 0.07)
+          });
+          const trail = new THREE.Mesh(trailGeometry, trailMaterial);
+          trail.position.set(xOffset, -20 - (i * 4), 0);
+          trailGroup.add(trail);
+        }
+        
+        trails.push(trailGroup);
+        scene.add(trailGroup);
+      }
+      
+      return trails;
+    };
     
     const loadModelsFromStorage = async () => {
       try {
@@ -191,6 +251,9 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                 // Orient starship nose up (rotate 90 degrees around X-axis)
                 loadedObject.rotation.x = -Math.PI / 2;
                 
+                // Add warp trails for loaded models
+                warpTrails = createWarpTrails();
+                
                 resolve(loadedObject);
               },
               undefined,
@@ -222,7 +285,9 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                         });
                       }
                     });
-                    
+              
+              // Add warp trails for user models
+              warpTrails = createWarpTrails();
                     const box = new THREE.Box3().setFromObject(loadedObject);
                     const size = box.getSize(new THREE.Vector3());
                     const maxDim = Math.max(size.x, size.y, size.z);
@@ -278,6 +343,18 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
         // Gentle floating motion (scaled for larger model)
         starship.position.y = Math.sin(time * 2) * 1.8; // 6x larger movement
         starship.position.x = Math.cos(time * 1.5) * 1.2; // 6x larger movement
+        
+        // Animate warp trails
+        warpTrails.forEach((trailGroup, groupIndex) => {
+          trailGroup.children.forEach((trail, index) => {
+            if (trail instanceof THREE.Mesh) {
+              // Flowing animation
+              trail.material.opacity = (0.9 - (index * 0.07)) * (0.7 + 0.3 * Math.sin(time * 3 + index * 0.5));
+              // Slight movement for flow effect
+              trail.position.y = -20 - (index * 4) + Math.sin(time * 2 + index * 0.3) * 0.5;
+            }
+          });
+        });
         
         // Keep starship stationary (no rotation)
       }
