@@ -303,15 +303,17 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                             .from('models')
                             .getPublicUrl(`${user?.id}/${textureFile.name}`);
                           
-                          let textureUrl = textureData.publicUrl;
                           console.log('Loading texture:', textureFile.name);
+                          console.log('Texture URL:', textureData.publicUrl);
+                          
+                          let textureUrl = textureData.publicUrl;
                           
                           // Convert TGA files to PNG
                           if (textureFile.name.toLowerCase().includes('tga')) {
                             console.log('Converting TGA to PNG...');
                             const { TGAConverter } = await import('@/utils/tgaConverter');
                             textureUrl = await TGAConverter.convertTGAToDataURL(textureData.publicUrl);
-                            console.log('TGA conversion complete');
+                            console.log('TGA conversion complete, data URL length:', textureUrl.length);
                           }
                           
                           const textureLoader = new THREE.TextureLoader();
@@ -320,26 +322,47 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                               textureUrl,
                               (loadedTexture) => {
                                 console.log('Texture loaded successfully');
+                                console.log('Texture dimensions:', loadedTexture.image.width, 'x', loadedTexture.image.height);
+                                console.log('Texture format:', loadedTexture.format);
+                                console.log('Texture type:', loadedTexture.type);
+                                
+                                // Set texture properties for better quality
+                                loadedTexture.wrapS = THREE.RepeatWrapping;
+                                loadedTexture.wrapT = THREE.RepeatWrapping;
+                                loadedTexture.flipY = false; // Important for some model formats
+                                loadedTexture.needsUpdate = true;
+                                
                                 texResolve(loadedTexture);
                               },
-                              undefined,
-                              texReject
+                              (progress) => {
+                                console.log('Texture loading progress:', progress);
+                              },
+                              (error) => {
+                                console.error('Texture loading error:', error);
+                                texReject(error);
+                              }
                             );
                           });
                           
-                          // Apply texture to all meshes
+                          // Apply texture to all meshes with debugging
+                          let meshCount = 0;
                           loadedObject.traverse((child) => {
                             if (child instanceof THREE.Mesh) {
-                              child.material = new THREE.MeshPhongMaterial({ 
+                              meshCount++;
+                              console.log(`Applying texture to mesh ${meshCount}:`, child.name || 'unnamed');
+                              console.log('Mesh geometry:', child.geometry.type);
+                              console.log('Mesh has UV coordinates:', child.geometry.attributes.uv !== undefined);
+                              
+                              // Try MeshBasicMaterial first for testing
+                              child.material = new THREE.MeshBasicMaterial({ 
                                 map: texture,
-                                shininess: 30,
-                                specular: 0x222222,
-                                // Ensure texture is not too dark
-                                emissive: 0x111111
+                                side: THREE.DoubleSide // Show both sides
                               });
-                              console.log('Applied texture to mesh');
+                              
+                              console.log('Material applied:', child.material.type);
                             }
                           });
+                          console.log(`Total meshes processed: ${meshCount}`);
                         } catch (textureError) {
                           console.error('Failed to load texture:', textureError);
                           // Fallback to default material
