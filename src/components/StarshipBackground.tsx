@@ -163,6 +163,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
     let warpTrails: THREE.Group[] = [];
     let fogEffect: { fogGroup: THREE.Group; particles: THREE.Mesh[] };
     let bussardCollectors: THREE.Mesh[] = [];
+    let bussardSpriteTexture: THREE.Texture;
     
     // Create nebulous fog particles flowing into perspective
     const createNebulousFog = () => {
@@ -328,13 +329,14 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
               if (!child.material || child.material instanceof THREE.MeshBasicMaterial) {
                 if (meshName.includes('bussard')) {
                   console.log('Applying ORANGE glowing material to bussard mesh:', child.name);
-                  child.material = new THREE.MeshPhongMaterial({
+                  child.material = new THREE.MeshPhongMaterial({ 
                     color: 0xff4400,
                     emissive: 0xff3300,
                     emissiveIntensity: 1.2,
                     shininess: 10,
                     transparent: false,
-                    opacity: 1.0
+                    opacity: 1.0,
+                    map: bussardSpriteTexture // Apply the sprite texture
                   });
                   bussardCollectors.push(child as THREE.Mesh);
                   console.log('Added bussard to collectors array:', child.name);
@@ -352,12 +354,14 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                 // Check if this is a bussard collector with existing material
                 if (meshName.includes('bussard')) {
                   console.log('Found bussard collector with existing material:', child.name);
-                  // Add orange glow to existing material
+                  // Add orange glow and sprite texture to existing material
                   if (child.material instanceof THREE.MeshPhongMaterial || child.material instanceof THREE.MeshLambertMaterial) {
                     child.material.emissive = new THREE.Color(0xff3300);
                     child.material.emissiveIntensity = 1.0;
                     child.material.transparent = false;
                     child.material.opacity = 1.0;
+                    child.material.map = bussardSpriteTexture; // Apply sprite texture
+                    child.material.needsUpdate = true;
                   }
                   bussardCollectors.push(child as THREE.Mesh);
                   console.log('Added existing bussard to collectors array:', child.name);
@@ -456,6 +460,16 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       }
     };
     
+    
+    // Load bussard collector sprite texture
+    const textureLoader = new THREE.TextureLoader();
+    bussardSpriteTexture = textureLoader.load('/lovable-uploads/3ab047c6-d669-4558-8270-4f56fd5235c2.png');
+    bussardSpriteTexture.wrapS = THREE.RepeatWrapping;
+    bussardSpriteTexture.wrapT = THREE.RepeatWrapping;
+    // Set up for 5x5 sprite grid
+    bussardSpriteTexture.repeat.set(1/5, 1/5);
+    bussardSpriteTexture.offset.set(0, 0);
+    
     loadModelsFromStorage();
 
     // Position camera further back for larger model
@@ -546,32 +560,28 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
           });
         });
         
-        // Animate bussard collector textures and glow
+        // Animate bussard collector sprite cycles and glow
         if (bussardCollectors.length > 0) {
-          console.log(`Animating ${bussardCollectors.length} bussard collectors`);
+          // Calculate sprite frame (5x5 grid = 25 frames)
+          const frameRate = 8; // frames per second
+          const currentFrame = Math.floor(time * frameRate) % 25;
+          const frameX = currentFrame % 5;
+          const frameY = Math.floor(currentFrame / 5);
+          
+          // Update sprite texture offset for all bussard collectors
+          if (bussardSpriteTexture) {
+            bussardSpriteTexture.offset.set(frameX / 5, frameY / 5);
+            bussardSpriteTexture.needsUpdate = true;
+          }
+          
           bussardCollectors.forEach((bussard, index) => {
-            console.log(`Bussard ${index}:`, bussard.name, bussard.material);
-            
             if (bussard.material instanceof THREE.MeshPhongMaterial) {
-              // Spin the texture if it has one
-              if (bussard.material.map) {
-                bussard.material.map.rotation += 0.1; // Fast spin
-                bussard.material.map.needsUpdate = true;
-                console.log('Spinning texture for:', bussard.name);
-              } else {
-                console.log('No texture map found for:', bussard.name);
-              }
-              
               // Pulsing orange glow effect
-              const pulse = 0.8 + 0.4 * Math.sin(time * 4);
+              const pulse = 0.8 + 0.4 * Math.sin(time * 4 + index * 0.5);
               bussard.material.emissiveIntensity = pulse;
+              
+              console.log(`Frame: ${currentFrame}, Offset: ${frameX/5}, ${frameY/5}`);
             }
-            
-            // Add rotation to the mesh itself for visible spinning effect
-            bussard.rotation.x += 0.03;
-            bussard.rotation.y += 0.02;
-            bussard.rotation.z += 0.025;
-            console.log('Rotating bussard mesh:', bussard.name, bussard.rotation);
           });
         } else {
           // Only log occasionally to avoid spam
