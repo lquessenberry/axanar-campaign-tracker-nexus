@@ -279,7 +279,6 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                       
                       // Try to load textures for the model
                       const textureLoader = new THREE.TextureLoader();
-                      const basePath = modelUrl.substring(0, modelUrl.lastIndexOf('/') + 1);
                       
                       // Get available texture files
                       const { data: files } = await supabase.storage
@@ -292,26 +291,43 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                         file.name.toLowerCase().includes('png')
                       ) || [];
                       
-                      loadedObject.traverse((child) => {
-                        if (child instanceof THREE.Mesh) {
-                          if (textureFiles.length > 0) {
+                      console.log('Found texture files:', textureFiles.map(f => f.name));
+                      
+                      loadedObject.traverse(async (child) => {
+                        if (child instanceof THREE.Mesh && textureFiles.length > 0) {
+                          try {
                             // Use the first available texture
                             const textureFile = textureFiles[0];
                             const { data: textureData } = supabase.storage
                               .from('models')
                               .getPublicUrl(`${user?.id}/${textureFile.name}`);
                             
-                            const texture = textureLoader.load(textureData.publicUrl);
+                            let textureUrl = textureData.publicUrl;
+                            
+                            // Convert TGA files to PNG
+                            if (textureFile.name.toLowerCase().includes('tga')) {
+                              const { TGAConverter } = await import('@/utils/tgaConverter');
+                              textureUrl = await TGAConverter.convertTGAToDataURL(textureData.publicUrl);
+                            }
+                            
+                            const texture = textureLoader.load(textureUrl);
                             child.material = new THREE.MeshPhongMaterial({ 
                               map: texture,
                               shininess: 80
                             });
-                          } else {
+                            console.log('Applied texture to mesh:', textureFile.name);
+                          } catch (textureError) {
+                            console.warn('Failed to load texture, using default material:', textureError);
                             child.material = new THREE.MeshPhongMaterial({ 
                               color: 0xaaaaaa,
                               shininess: 80
                             });
                           }
+                        } else if (child instanceof THREE.Mesh) {
+                          child.material = new THREE.MeshPhongMaterial({ 
+                            color: 0xaaaaaa,
+                            shininess: 80
+                          });
                         }
                       });
               
