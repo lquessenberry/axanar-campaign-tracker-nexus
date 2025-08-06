@@ -78,7 +78,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       const group = new THREE.Group();
       
       // Main hull - oriented nose up
-      const hullGeometry = new THREE.CylinderGeometry(0.3, 0.8, 3, 8);
+      const hullGeometry = new THREE.CylinderGeometry(1.8, 4.8, 18, 8); // 6x larger
       const hullMaterial = new THREE.MeshPhongMaterial({ 
         color: 0x888888,
         shininess: 100 
@@ -88,19 +88,19 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       group.add(hull);
 
       // Nacelles
-      const nacelleGeometry = new THREE.CylinderGeometry(0.2, 0.2, 2, 6);
+      const nacelleGeometry = new THREE.CylinderGeometry(1.2, 1.2, 12, 6); // 6x larger
       const nacelleMaterial = new THREE.MeshPhongMaterial({ 
         color: 0x4444ff,
         emissive: 0x002244 
       });
       
       const nacelle1 = new THREE.Mesh(nacelleGeometry, nacelleMaterial);
-      nacelle1.position.set(1, 0, 0);
+      nacelle1.position.set(6, 0, 0); // 6x larger spacing
       // No rotation needed for vertical orientation
       group.add(nacelle1);
 
       const nacelle2 = new THREE.Mesh(nacelleGeometry, nacelleMaterial);
-      nacelle2.position.set(-1, 0, 0);
+      nacelle2.position.set(-6, 0, 0); // 6x larger spacing
       // No rotation needed for vertical orientation
       group.add(nacelle2);
 
@@ -181,7 +181,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                 const box = new THREE.Box3().setFromObject(loadedObject);
                 const size = box.getSize(new THREE.Vector3());
                 const maxDim = Math.max(size.x, size.y, size.z);
-                const scale = maxDim > 0 ? 4 / maxDim : 1;
+                const scale = maxDim > 0 ? 24 / maxDim : 6; // 6x larger
                 loadedObject.scale.setScalar(scale);
                 
                 // Center the model
@@ -226,7 +226,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                     const box = new THREE.Box3().setFromObject(loadedObject);
                     const size = box.getSize(new THREE.Vector3());
                     const maxDim = Math.max(size.x, size.y, size.z);
-                    const scale = maxDim > 0 ? 4 / maxDim : 1;
+                    const scale = maxDim > 0 ? 24 / maxDim : 6; // 6x larger
                     loadedObject.scale.setScalar(scale);
                     
                     // Center and orient the model
