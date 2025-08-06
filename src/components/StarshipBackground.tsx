@@ -214,47 +214,12 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       
       return trails;
     };
-    
-    const loadModelsFromStorage = async () => {
-      try {
-        // Try to get Ares 1650 model from Supabase storage first
-        const ares1650ModelUrl = await getAres1650ModelUrl();
-        
-        if (ares1650ModelUrl) {
-          // Load the Ares 1650 model from storage
-          const object = await loadModelWithTextures(ares1650ModelUrl, null);
-          starship = object;
-          scene.add(starship);
-          warpTrails = createWarpTrails();
-          
-        } else if (modelUrl) {
-          // Try to load user uploaded model
-          try {
-            const object = await loadModelWithTextures(modelUrl, null);
-            starship = object;
-            scene.add(starship);
-            warpTrails = createWarpTrails();
-          } catch (userModelError) {
-            console.log('User model failed to load, using fallback mesh');
-            starship = createFallbackStarship();
-            scene.add(starship);
-          }
-        } else {
-          console.log('No models available, using fallback mesh');
-          starship = createFallbackStarship();
-          scene.add(starship);
-        }
-      } catch (error) {
-        console.error('Error loading models:', error);
-        starship = createFallbackStarship();
-        scene.add(starship);
-      }
-    };
 
     // Enhanced model loading function with proper texture handling
     const loadModelWithTextures = async (objUrl: string, mtlUrl: string | null): Promise<THREE.Object3D> => {
       return new Promise(async (resolve, reject) => {
         try {
+          console.log('Loading OBJ from:', objUrl);
           const objLoader = new OBJLoader();
           
           // Load the OBJ model
@@ -338,6 +303,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
           loadedObject.position.sub(center.multiplyScalar(scale));
           loadedObject.rotation.x = -Math.PI / 2; // Nose up orientation
           
+          console.log('Model scaled and positioned');
           resolve(loadedObject);
           
         } catch (error) {
@@ -345,6 +311,47 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
           reject(error);
         }
       });
+    };
+     
+    const loadModelsFromStorage = async () => {
+      try {
+        console.log('Starting model loading process...');
+        
+        // Try to get Ares 1650 model from Supabase storage first
+        const ares1650ModelUrl = await getAres1650ModelUrl();
+        console.log('Ares 1650 model URL:', ares1650ModelUrl);
+        
+        if (ares1650ModelUrl) {
+          console.log('Loading Ares 1650 model...');
+          const object = await loadModelWithTextures(ares1650ModelUrl, null);
+          starship = object;
+          scene.add(starship);
+          warpTrails = createWarpTrails();
+          console.log('Ares 1650 model loaded and added to scene');
+          
+        } else if (modelUrl) {
+          console.log('Loading user uploaded model from:', modelUrl);
+          try {
+            const object = await loadModelWithTextures(modelUrl, null);
+            starship = object;
+            scene.add(starship);
+            warpTrails = createWarpTrails();
+            console.log('User model loaded and added to scene');
+          } catch (userModelError) {
+            console.log('User model failed to load, using fallback mesh:', userModelError);
+            starship = createFallbackStarship();
+            scene.add(starship);
+          }
+        } else {
+          console.log('No models available, using fallback mesh');
+          starship = createFallbackStarship();
+          scene.add(starship);
+        }
+      } catch (error) {
+        console.error('Error loading models:', error);
+        starship = createFallbackStarship();
+        scene.add(starship);
+      }
     };
     
     loadModelsFromStorage();
