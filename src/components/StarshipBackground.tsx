@@ -569,27 +569,33 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
           });
         });
         
-        // Animate bussard collector sprite cycles and glow
+        // Animate bussard collector flickering plasma effect
         if (bussardCollectors.length > 0) {
-          // Calculate sprite frame (5x5 grid = 25 frames)
-          const frameRate = 8; // frames per second
-          const currentFrame = Math.floor(time * frameRate) % 25;
-          const frameX = currentFrame % 5;
-          const frameY = Math.floor(currentFrame / 5);
-          
-          // Update sprite texture offset for all bussard collectors
-          if (bussardSpriteTexture) {
-            bussardSpriteTexture.offset.set(frameX / 5, frameY / 5);
-            bussardSpriteTexture.needsUpdate = true;
-          }
-          
           bussardCollectors.forEach((bussard, index) => {
             if (bussard.material instanceof THREE.MeshPhongMaterial) {
-              // Pulsing orange glow effect
-              const pulse = 0.8 + 0.4 * Math.sin(time * 4 + index * 0.5);
-              bussard.material.emissiveIntensity = pulse;
+              // Random flickering effect
+              const flicker1 = Math.random() * 0.5 + 0.5; // 0.5 - 1.0
+              const flicker2 = Math.random() * 0.3 + 0.7; // 0.7 - 1.0
+              const flicker3 = Math.sin(time * 15 + index) * 0.2 + 0.8; // 0.6 - 1.0
               
-              console.log(`Frame: ${currentFrame}, Offset: ${frameX/5}, ${frameY/5}`);
+              // Combine different flicker patterns
+              const combinedFlicker = flicker1 * flicker2 * flicker3;
+              
+              // Apply flickering to emissive intensity
+              bussard.material.emissiveIntensity = combinedFlicker * 1.5;
+              
+              // Occasionally dim dramatically for authentic plasma flicker
+              if (Math.random() < 0.05) { // 5% chance per frame
+                bussard.material.emissiveIntensity *= 0.3;
+              }
+              
+              // Flicker the base color opacity slightly
+              const baseOpacity = 0.8 + Math.random() * 0.2;
+              if (bussard.material.map) {
+                bussard.material.opacity = baseOpacity;
+              }
+              
+              console.log(`Bussard ${index} flicker intensity:`, bussard.material.emissiveIntensity);
             }
           });
         } else {
