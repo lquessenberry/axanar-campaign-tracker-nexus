@@ -238,16 +238,8 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
             console.log('MTL file loaded successfully');
             materials.preload();
             
-            // Override the Ares_Bussard material with orange glow
-            if (materials.materials['Ares_Bussard']) {
-              console.log('Found Ares_Bussard material - making it orange!');
-              materials.materials['Ares_Bussard'] = new THREE.MeshPhongMaterial({
-                color: 0xff4400,
-                emissive: 0xff2200,
-                emissiveIntensity: 0.8,
-                shininess: 10
-              });
-            }
+            // Apply materials exactly as defined in MTL file
+            console.log('Using MTL materials as defined');
             
             // Set materials on loader
             objLoader.setMaterials(materials);
