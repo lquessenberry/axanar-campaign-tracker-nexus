@@ -168,30 +168,30 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       const fogGroup = new THREE.Group();
       const particles: THREE.Mesh[] = [];
       
-      // Create fog particles at various depths
-      for (let i = 0; i < 200; i++) {
+      // Create dense fog particles at various depths
+      for (let i = 0; i < 400; i++) {
         const fogGeometry = new THREE.SphereGeometry(
-          0.3 + Math.random() * 1.2, // Random sizes
-          8, 8
+          0.1 + Math.random() * 0.4, // Much smaller sizes (0.1-0.5)
+          6, 6 // Lower geometry detail for performance
         );
         
         const fogMaterial = new THREE.MeshBasicMaterial({
           color: new THREE.Color().setHSL(
-            0.55 + Math.random() * 0.1, // Blue-cyan range
-            0.3 + Math.random() * 0.4,  // Low to medium saturation
-            0.2 + Math.random() * 0.3   // Dark to medium brightness
+            0.55 + Math.random() * 0.15, // Blue-cyan range
+            0.2 + Math.random() * 0.3,   // Low saturation for foggy look
+            0.15 + Math.random() * 0.25  // Dark to medium brightness
           ),
           transparent: true,
-          opacity: 0.1 + Math.random() * 0.2
+          opacity: 0.05 + Math.random() * 0.1 // Much lower opacity
         });
         
         const particle = new THREE.Mesh(fogGeometry, fogMaterial);
         
         // Position particles in a large area behind the ship
         particle.position.set(
-          (Math.random() - 0.5) * 200, // Wide spread
-          (Math.random() - 0.5) * 100, // Vertical spread
-          -100 - Math.random() * 300    // Behind ship, various depths
+          (Math.random() - 0.5) * 300, // Wider spread
+          (Math.random() - 0.5) * 150, // Taller spread
+          -100 - Math.random() * 400    // Deeper behind ship
         );
         
         // Store initial Z position for reset
@@ -199,6 +199,37 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
         
         particles.push(particle);
         fogGroup.add(particle);
+      }
+      
+      // Add additional wispy fog layers
+      for (let i = 0; i < 100; i++) {
+        const wispGeometry = new THREE.SphereGeometry(
+          0.5 + Math.random() * 1.5, // Larger wispy clouds
+          8, 6
+        );
+        
+        const wispMaterial = new THREE.MeshBasicMaterial({
+          color: new THREE.Color().setHSL(
+            0.6 + Math.random() * 0.1,   // More blue tones
+            0.1 + Math.random() * 0.2,   // Very low saturation
+            0.1 + Math.random() * 0.15   // Very dim
+          ),
+          transparent: true,
+          opacity: 0.02 + Math.random() * 0.05 // Very subtle
+        });
+        
+        const wisp = new THREE.Mesh(wispGeometry, wispMaterial);
+        
+        wisp.position.set(
+          (Math.random() - 0.5) * 400,
+          (Math.random() - 0.5) * 200,
+          -50 - Math.random() * 500
+        );
+        
+        wisp.userData = { initialZ: wisp.position.z, isWisp: true };
+        
+        particles.push(wisp);
+        fogGroup.add(wisp);
       }
       
       scene.add(fogGroup);
@@ -501,24 +532,30 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
         // Animate nebulous fog flowing away from camera into distance
         if (fogEffect) {
           fogEffect.particles.forEach((particle, index) => {
+            // Different speeds for different particle types
+            const speed = particle.userData.isWisp ? 0.8 : 1.2;
+            
             // Move particles away from camera into distance
-            particle.position.z -= 1.5 + Math.sin(time + index * 0.1) * 0.3;
+            particle.position.z -= speed + Math.sin(time + index * 0.1) * 0.2;
             
             // Reset particle when it gets too far away
-            if (particle.position.z < -400) {
-              particle.position.z = 50; // Start near camera
-              particle.position.x = (Math.random() - 0.5) * 200;
-              particle.position.y = (Math.random() - 0.5) * 100;
+            if (particle.position.z < -600) {
+              particle.position.z = 80; // Start closer to camera
+              particle.position.x = (Math.random() - 0.5) * 300;
+              particle.position.y = (Math.random() - 0.5) * 150;
             }
             
             // Subtle rotation and opacity changes
-            particle.rotation.x += 0.001 + Math.sin(time + index * 0.2) * 0.001;
-            particle.rotation.y += 0.002 + Math.cos(time + index * 0.15) * 0.001;
+            particle.rotation.x += 0.0005 + Math.sin(time + index * 0.2) * 0.0005;
+            particle.rotation.y += 0.001 + Math.cos(time + index * 0.15) * 0.0005;
             
-            // Fade particles as they recede into distance
-            const distanceOpacity = Math.max(0, Math.min(1, (particle.position.z + 400) / 350));
+            // Fade particles as they recede into distance with subtle pulsing
+            const baseDistance = Math.max(0, Math.min(1, (particle.position.z + 600) / 500));
+            const pulse = 0.8 + 0.2 * Math.sin(time * 0.5 + index * 0.1);
+            const baseOpacity = particle.userData.isWisp ? 0.03 : 0.08;
+            
             if (particle.material instanceof THREE.MeshBasicMaterial) {
-              particle.material.opacity = (0.1 + Math.random() * 0.2) * distanceOpacity;
+              particle.material.opacity = baseOpacity * baseDistance * pulse;
             }
           });
         }
