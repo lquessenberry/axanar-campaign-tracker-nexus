@@ -157,7 +157,50 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
     // Load models from Supabase storage
     let starship: THREE.Object3D;
     let warpTrails: THREE.Group[] = [];
+    let fogEffect: { fogGroup: THREE.Group; particles: THREE.Mesh[] };
     
+    // Create nebulous fog particles flowing into perspective
+    const createNebulousFog = () => {
+      const fogGroup = new THREE.Group();
+      const particles: THREE.Mesh[] = [];
+      
+      // Create fog particles at various depths
+      for (let i = 0; i < 200; i++) {
+        const fogGeometry = new THREE.SphereGeometry(
+          0.3 + Math.random() * 1.2, // Random sizes
+          8, 8
+        );
+        
+        const fogMaterial = new THREE.MeshBasicMaterial({
+          color: new THREE.Color().setHSL(
+            0.55 + Math.random() * 0.1, // Blue-cyan range
+            0.3 + Math.random() * 0.4,  // Low to medium saturation
+            0.2 + Math.random() * 0.3   // Dark to medium brightness
+          ),
+          transparent: true,
+          opacity: 0.1 + Math.random() * 0.2
+        });
+        
+        const particle = new THREE.Mesh(fogGeometry, fogMaterial);
+        
+        // Position particles in a large area behind the ship
+        particle.position.set(
+          (Math.random() - 0.5) * 200, // Wide spread
+          (Math.random() - 0.5) * 100, // Vertical spread
+          -100 - Math.random() * 300    // Behind ship, various depths
+        );
+        
+        // Store initial Z position for reset
+        particle.userData = { initialZ: particle.position.z };
+        
+        particles.push(particle);
+        fogGroup.add(particle);
+      }
+      
+      scene.add(fogGroup);
+      return { fogGroup, particles };
+    };
+
     // Create warp trail effects
     const createWarpTrails = () => {
       const trails: THREE.Group[] = [];
@@ -309,6 +352,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
           starship = object;
           scene.add(starship);
           warpTrails = createWarpTrails();
+          fogEffect = createNebulousFog();
           console.log('Fed-TOS Ares model loaded and added to scene');
           
         } else if (modelUrl) {
@@ -318,21 +362,25 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
             starship = object;
             scene.add(starship);
             warpTrails = createWarpTrails();
+            fogEffect = createNebulousFog();
             console.log('User model loaded and added to scene');
           } catch (userModelError) {
             console.log('User model failed to load, using fallback mesh:', userModelError);
             starship = createFallbackStarship();
             scene.add(starship);
+            fogEffect = createNebulousFog();
           }
         } else {
           console.log('No models available, using fallback mesh');
           starship = createFallbackStarship();
           scene.add(starship);
+          fogEffect = createNebulousFog();
         }
       } catch (error) {
         console.error('Error loading models:', error);
         starship = createFallbackStarship();
         scene.add(starship);
+        fogEffect = createNebulousFog();
       }
     };
     
@@ -417,7 +465,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
         // Animate warp trails
         warpTrails.forEach((trailGroup, groupIndex) => {
           trailGroup.children.forEach((trail, index) => {
-            if (trail instanceof THREE.Mesh) {
+            if (trail instanceof THREE.Mesh && trail.material instanceof THREE.MeshBasicMaterial) {
               // Flowing animation
               trail.material.opacity = (0.9 - (index * 0.07)) * (0.7 + 0.3 * Math.sin(time * 3 + index * 0.5));
               // Slight movement for flow effect
@@ -425,6 +473,31 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
             }
           });
         });
+        
+        // Animate nebulous fog flowing toward camera
+        if (fogEffect) {
+          fogEffect.particles.forEach((particle, index) => {
+            // Move particles toward camera
+            particle.position.z += 1.5 + Math.sin(time + index * 0.1) * 0.3;
+            
+            // Reset particle when it reaches camera
+            if (particle.position.z > 50) {
+              particle.position.z = particle.userData.initialZ;
+              particle.position.x = (Math.random() - 0.5) * 200;
+              particle.position.y = (Math.random() - 0.5) * 100;
+            }
+            
+            // Subtle rotation and opacity changes
+            particle.rotation.x += 0.001 + Math.sin(time + index * 0.2) * 0.001;
+            particle.rotation.y += 0.002 + Math.cos(time + index * 0.15) * 0.001;
+            
+            // Fade particles as they approach
+            const distanceOpacity = Math.max(0, Math.min(1, (-particle.position.z + 50) / 100));
+            if (particle.material instanceof THREE.MeshBasicMaterial) {
+              particle.material.opacity = (0.1 + Math.random() * 0.2) * distanceOpacity;
+            }
+          });
+        }
       }
 
       renderer.render(scene, camera);
