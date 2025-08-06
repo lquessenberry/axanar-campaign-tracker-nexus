@@ -138,41 +138,18 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       return group;
     };
 
-    // Try to get the Ares 1650 model from Supabase storage
-    const getAres1650ModelUrl = async (): Promise<string | null> => {
+    // Get the Fed-TOS Ares model from Supabase storage
+    const getFedTOSAresModelUrl = async (): Promise<string | null> => {
       try {
-        // List files in the models bucket to find the Ares 1650 model
-        const { data: files, error } = await supabase.storage
+        // Get the specific Fed-TOS Ares model
+        const { data: publicData } = supabase.storage
           .from('models')
-          .list('', {
-            limit: 100,
-            sortBy: { column: 'created_at', order: 'desc' }
-          });
-
-        if (error) throw error;
-
-        // Look for Ares 1650 starship model (various possible names)
-        const ares1650File = files?.find(file => 
-          file.name.toLowerCase().includes('ares') && 
-          file.name.toLowerCase().includes('1650') &&
-          file.name.toLowerCase().endsWith('.obj')
-        ) || files?.find(file => 
-          file.name.toLowerCase().includes('starship') &&
-          file.name.toLowerCase().endsWith('.obj')
-        );
-
-        if (ares1650File) {
-          const { data: publicData } = supabase.storage
-            .from('models')
-            .getPublicUrl(ares1650File.name);
-          
-          console.log('Found Ares 1650 model:', ares1650File.name);
-          return publicData.publicUrl;
-        }
-
-        return null;
+          .getPublicUrl('Fed-TOS_Ares/Fed_TOS_Ares.obj');
+        
+        console.log('Using Fed-TOS Ares model from:', publicData.publicUrl);
+        return publicData.publicUrl;
       } catch (error) {
-        console.error('Error fetching Ares 1650 model from storage:', error);
+        console.error('Error fetching Fed-TOS Ares model from storage:', error);
         return null;
       }
     };
@@ -225,8 +202,10 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
           const mtlLoader = new MTLLoader();
           const objLoader = new OBJLoader();
           
-          // Get MTL URL by replacing .obj with .mtl
-          const mtlPath = objUrl.replace('.obj', '.mtl');
+          // Get MTL URL - use our converted local file for Fed-TOS Ares
+          const mtlPath = objUrl.includes('Fed-TOS_Ares') 
+            ? '/models/Fed_TOS_Ares.mtl'
+            : objUrl.replace('.obj', '.mtl');
           console.log('Looking for MTL file at:', mtlPath);
           
           try {
@@ -320,17 +299,17 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       try {
         console.log('Starting model loading process...');
         
-        // Try to get Ares 1650 model from Supabase storage first
-        const ares1650ModelUrl = await getAres1650ModelUrl();
-        console.log('Ares 1650 model URL:', ares1650ModelUrl);
+        // Try to get Fed-TOS Ares model from Supabase storage first
+        const fedTOSAresModelUrl = await getFedTOSAresModelUrl();
+        console.log('Fed-TOS Ares model URL:', fedTOSAresModelUrl);
         
-        if (ares1650ModelUrl) {
-          console.log('Loading Ares 1650 model...');
-          const object = await loadModelWithTextures(ares1650ModelUrl, null);
+        if (fedTOSAresModelUrl) {
+          console.log('Loading Fed-TOS Ares model...');
+          const object = await loadModelWithTextures(fedTOSAresModelUrl, null);
           starship = object;
           scene.add(starship);
           warpTrails = createWarpTrails();
-          console.log('Ares 1650 model loaded and added to scene');
+          console.log('Fed-TOS Ares model loaded and added to scene');
           
         } else if (modelUrl) {
           console.log('Loading user uploaded model from:', modelUrl);
