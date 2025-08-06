@@ -63,7 +63,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
     const rect = container.getBoundingClientRect();
     const size = Math.min(rect.width, rect.height) || 384; // Default to w-96 (384px)
     renderer.setSize(size, size);
-    renderer.setClearColor(0x000000, 0);
+    renderer.setClearColor(0x000000, 1); // Fully opaque black background
     mountRef.current.appendChild(renderer.domElement);
 
     // Add brighter lights for better texture visibility
@@ -316,14 +316,17 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                 }
               } else {
                 // Ensure MTL materials are fully opaque
+                console.log('Making existing material opaque for mesh:', child.name);
                 if (child.material instanceof THREE.MeshPhongMaterial || child.material instanceof THREE.MeshLambertMaterial) {
                   child.material.transparent = false;
                   child.material.opacity = 1.0;
+                  console.log('Set opacity to 1.0 for:', child.name);
                 } else if (Array.isArray(child.material)) {
-                  child.material.forEach(mat => {
+                  child.material.forEach((mat, idx) => {
                     if (mat instanceof THREE.MeshPhongMaterial || mat instanceof THREE.MeshLambertMaterial) {
                       mat.transparent = false;
                       mat.opacity = 1.0;
+                      console.log(`Set opacity to 1.0 for material ${idx} on mesh:`, child.name);
                     }
                   });
                 }
@@ -548,8 +551,11 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
   return (
     <div 
       ref={mountRef} 
-      className={`${className} pointer-events-auto opacity-60`}
-      style={{ filter: 'drop-shadow(0 0 20px rgba(100, 140, 180, 0.6))' }}
+      className={`${className} pointer-events-auto`}
+      style={{ 
+        filter: 'drop-shadow(0 0 20px rgba(100, 140, 180, 0.6))',
+        zIndex: 10
+      }}
     />
   );
 };
