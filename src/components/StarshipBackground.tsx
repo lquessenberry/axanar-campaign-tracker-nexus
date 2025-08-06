@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -216,187 +217,134 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
     
     const loadModelsFromStorage = async () => {
       try {
-        const loader = new OBJLoader();
-        
         // Try to get Ares 1650 model from Supabase storage first
         const ares1650ModelUrl = await getAres1650ModelUrl();
         
         if (ares1650ModelUrl) {
           // Load the Ares 1650 model from storage
-          const object = await new Promise<THREE.Object3D>((resolve, reject) => {
-            loader.load(
-              ares1650ModelUrl,
-              (loadedObject) => {
-                console.log('Ares 1650 model loaded successfully');
-                
-                // Apply materials to make it look like a starship
-                loadedObject.traverse((child) => {
-                  if (child instanceof THREE.Mesh) {
-                    child.material = new THREE.MeshPhongMaterial({ 
-                      color: 0xcccccc,
-                      shininess: 100,
-                      specular: 0x222222
-                    });
-                    child.castShadow = true;
-                    child.receiveShadow = true;
-                  }
-                });
-                
-                // Scale and position the model
-                const box = new THREE.Box3().setFromObject(loadedObject);
-                const size = box.getSize(new THREE.Vector3());
-                const maxDim = Math.max(size.x, size.y, size.z);
-                const scale = maxDim > 0 ? 24 / maxDim : 6; // 6x larger
-                loadedObject.scale.setScalar(scale);
-                
-                // Center the model
-                const center = box.getCenter(new THREE.Vector3());
-                loadedObject.position.sub(center.multiplyScalar(scale));
-                
-                // Orient starship nose up (rotate 90 degrees around X-axis)
-                loadedObject.rotation.x = -Math.PI / 2;
-                
-                // Add warp trails for loaded models
-                warpTrails = createWarpTrails();
-                
-                resolve(loadedObject);
-              },
-              undefined,
-              (error) => {
-                console.log('Ares 1650 model failed to load:', error);
-                reject(error);
-              }
-            );
-          });
-          
+          const object = await loadModelWithTextures(ares1650ModelUrl, null);
           starship = object;
           scene.add(starship);
+          warpTrails = createWarpTrails();
           
-        } else {
-          // Fallback to user uploaded model or simple mesh
-          if (modelUrl) {
-              try {
-                const object = await new Promise<THREE.Object3D>((resolve, reject) => {
-                  loader.load(
-                    modelUrl,
-                    async (loadedObject) => {
-                      console.log('User uploaded model loaded successfully');
-                      
-                      // Load textures from public folder
-                      try {
-                        const textureLoader = new THREE.TextureLoader();
-                        
-                        console.log('Loading textures from public folder...');
-                        
-                        // Load hull and nacelle textures from public folder
-                        const hullTexture = await new Promise<THREE.Texture>((texResolve, texReject) => {
-                          textureLoader.load('/textures/hull-texture-1.png', texResolve, undefined, texReject);
-                        });
-                        
-                        const nacelleTexture = await new Promise<THREE.Texture>((texResolve, texReject) => {
-                          textureLoader.load('/textures/nacelle-glow-orange.png', texResolve, undefined, texReject);
-                        });
-                        
-                        console.log('Both textures loaded successfully from public folder');
-                        
-                        // Configure textures
-                        [hullTexture, nacelleTexture].forEach(texture => {
-                          texture.wrapS = THREE.RepeatWrapping;
-                          texture.wrapT = THREE.RepeatWrapping;
-                          texture.flipY = false;
-                          texture.needsUpdate = true;
-                        });
-                        
-                        // Apply textures to meshes based on their names/parts
-                        let meshCount = 0;
-                        loadedObject.traverse((child) => {
-                          if (child instanceof THREE.Mesh) {
-                            meshCount++;
-                            const meshName = (child.name || '').toLowerCase();
-                            console.log(`Processing mesh ${meshCount}: "${child.name || 'unnamed'}"`);
-                            
-                            // Check if this is a nacelle part
-                            if (meshName.includes('nacelle') || meshName.includes('engine') || meshName.includes('warp')) {
-                              console.log('Applying ORANGE GLOW texture to nacelle mesh');
-                              child.material = new THREE.MeshPhongMaterial({ 
-                                map: nacelleTexture,
-                                side: THREE.DoubleSide,
-                                shininess: 10,
-                                emissive: 0xff4400, // Bright orange glow
-                                emissiveMap: nacelleTexture,
-                                emissiveIntensity: 0.5,
-                                transparent: true,
-                                opacity: 1.0
-                              });
-                            } else {
-                              console.log('Applying HULL texture to main mesh');
-                              child.material = new THREE.MeshPhongMaterial({ 
-                                map: hullTexture,
-                                side: THREE.DoubleSide,
-                                shininess: 50,
-                                specular: 0x666666,
-                                emissive: 0x111111,
-                                transparent: true,
-                                opacity: 1.0
-                              });
-                            }
-                          }
-                        });
-                        
-                        console.log(`Processed ${meshCount} meshes with proper textures`);
-                      } catch (textureError) {
-                        console.error('Failed to load texture:', textureError);
-                        // Fallback to default material
-                        loadedObject.traverse((child) => {
-                          if (child instanceof THREE.Mesh) {
-                            child.material = new THREE.MeshPhongMaterial({ 
-                              color: 0xaaaaaa,
-                              shininess: 80
-                            });
-                          }
-                        });
-                      }
-                      
-                      // Add warp trails for user models
-                      warpTrails = createWarpTrails();
-                      
-                      // Scale and position the model
-                      const box = new THREE.Box3().setFromObject(loadedObject);
-                      const size = box.getSize(new THREE.Vector3());
-                      const maxDim = Math.max(size.x, size.y, size.z);
-                      const scale = maxDim > 0 ? 24 / maxDim : 6; // 6x larger
-                      loadedObject.scale.setScalar(scale);
-                      
-                      // Center and orient the model
-                      const center = box.getCenter(new THREE.Vector3());
-                      loadedObject.position.sub(center.multiplyScalar(scale));
-                      loadedObject.rotation.x = -Math.PI / 2;
-                      
-                      resolve(loadedObject);
-                  },
-                  undefined,
-                  reject
-                );
-              });
-              
-              starship = object;
-              scene.add(starship);
-            } catch (userModelError) {
-              console.log('User model failed to load, using fallback mesh');
-              starship = createFallbackStarship();
-              scene.add(starship);
-            }
-          } else {
-            console.log('No models available, using fallback mesh');
+        } else if (modelUrl) {
+          // Try to load user uploaded model
+          try {
+            const object = await loadModelWithTextures(modelUrl, null);
+            starship = object;
+            scene.add(starship);
+            warpTrails = createWarpTrails();
+          } catch (userModelError) {
+            console.log('User model failed to load, using fallback mesh');
             starship = createFallbackStarship();
             scene.add(starship);
           }
+        } else {
+          console.log('No models available, using fallback mesh');
+          starship = createFallbackStarship();
+          scene.add(starship);
         }
       } catch (error) {
         console.error('Error loading models:', error);
         starship = createFallbackStarship();
         scene.add(starship);
       }
+    };
+
+    // Enhanced model loading function with proper texture handling
+    const loadModelWithTextures = async (objUrl: string, mtlUrl: string | null): Promise<THREE.Object3D> => {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const objLoader = new OBJLoader();
+          
+          // Load the OBJ model
+          const loadedObject = await new Promise<THREE.Object3D>((objResolve, objReject) => {
+            objLoader.load(objUrl, objResolve, undefined, objReject);
+          });
+          
+          console.log('Model loaded successfully, applying textures...');
+          
+          // Load textures from public folder
+          const textureLoader = new THREE.TextureLoader();
+          
+          // Load hull and nacelle textures from public folder
+          const hullTexture = await new Promise<THREE.Texture>((texResolve, texReject) => {
+            textureLoader.load('/textures/hull-texture-1.png', texResolve, undefined, texReject);
+          });
+          
+          const nacelleTexture = await new Promise<THREE.Texture>((texResolve, texReject) => {
+            textureLoader.load('/textures/nacelle-glow-orange.png', texResolve, undefined, texReject);
+          });
+          
+          console.log('Textures loaded successfully from public folder');
+          
+          // Configure textures
+          [hullTexture, nacelleTexture].forEach(texture => {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.flipY = false;
+            texture.needsUpdate = true;
+          });
+          
+          // Apply textures to meshes based on their names/parts
+          let meshCount = 0;
+          loadedObject.traverse((child) => {
+            if (child instanceof THREE.Mesh) {
+              meshCount++;
+              const meshName = (child.name || '').toLowerCase();
+              console.log(`Processing mesh ${meshCount}: "${child.name || 'unnamed'}"`);
+              
+              // Check if this is a nacelle part
+              if (meshName.includes('nacelle') || meshName.includes('engine') || meshName.includes('warp')) {
+                console.log('Applying ORANGE GLOW texture to nacelle mesh');
+                child.material = new THREE.MeshPhongMaterial({ 
+                  map: nacelleTexture,
+                  side: THREE.DoubleSide,
+                  shininess: 10,
+                  emissive: 0xff4400, // Bright orange glow
+                  emissiveMap: nacelleTexture,
+                  emissiveIntensity: 0.8,
+                  transparent: true,
+                  opacity: 1.0
+                });
+              } else {
+                console.log('Applying HULL texture to main mesh');
+                child.material = new THREE.MeshPhongMaterial({ 
+                  map: hullTexture,
+                  side: THREE.DoubleSide,
+                  shininess: 50,
+                  specular: 0x666666,
+                  emissive: 0x111111,
+                  transparent: true,
+                  opacity: 1.0
+                });
+              }
+              child.castShadow = true;
+              child.receiveShadow = true;
+            }
+          });
+          
+          console.log(`Processed ${meshCount} meshes with proper textures`);
+          
+          // Scale and position the model
+          const box = new THREE.Box3().setFromObject(loadedObject);
+          const size = box.getSize(new THREE.Vector3());
+          const maxDim = Math.max(size.x, size.y, size.z);
+          const scale = maxDim > 0 ? 24 / maxDim : 6;
+          loadedObject.scale.setScalar(scale);
+          
+          // Center and orient the model
+          const center = box.getCenter(new THREE.Vector3());
+          loadedObject.position.sub(center.multiplyScalar(scale));
+          loadedObject.rotation.x = -Math.PI / 2; // Nose up orientation
+          
+          resolve(loadedObject);
+          
+        } catch (error) {
+          console.error('Failed to load model with textures:', error);
+          reject(error);
+        }
+      });
     };
     
     loadModelsFromStorage();
