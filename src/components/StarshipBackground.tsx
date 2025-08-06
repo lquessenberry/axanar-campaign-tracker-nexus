@@ -353,22 +353,18 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                               console.log('Mesh geometry:', child.geometry.type);
                               console.log('Mesh has UV coordinates:', child.geometry.attributes.uv !== undefined);
                               
-                              // Test with bright color first
-                              child.material = new THREE.MeshBasicMaterial({ 
-                                color: 0xff0000, // Bright red for testing
-                                side: THREE.DoubleSide
+                              // Apply texture directly with enhanced material
+                              child.material = new THREE.MeshPhongMaterial({ 
+                                map: texture,
+                                side: THREE.DoubleSide,
+                                shininess: 30,
+                                specular: 0x444444,
+                                emissive: 0x222222, // Add some self-illumination
+                                transparent: true,
+                                opacity: 1.0
                               });
                               
-                              // Then apply texture after a delay to see the difference
-                              setTimeout(() => {
-                                child.material = new THREE.MeshBasicMaterial({ 
-                                  map: texture,
-                                  side: THREE.DoubleSide
-                                });
-                                console.log('Texture applied after delay');
-                              }, 2000);
-                              
-                              console.log('Material applied:', child.material.type);
+                              console.log('Enhanced material applied:', child.material.type);
                             }
                           });
                           console.log(`Total meshes processed: ${meshCount}`);

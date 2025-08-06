@@ -48,23 +48,33 @@ export class TGAConverter {
       const imageData = ctx.createImageData(width, height);
       const data = new Uint8Array(imageData.data);
       
-      // TGA stores pixels as BGR(A), convert to RGBA
+      // TGA stores pixels as BGR(A), convert to RGBA and brighten
       for (let i = 0; i < width * height; i++) {
         const srcIndex = i * bytesPerPixel;
         const dstIndex = i * 4;
         
         if (bytesPerPixel === 3) {
-          // BGR to RGBA
-          data[dstIndex] = pixelData[srcIndex + 2];     // R
-          data[dstIndex + 1] = pixelData[srcIndex + 1]; // G
-          data[dstIndex + 2] = pixelData[srcIndex];     // B
-          data[dstIndex + 3] = 255;                     // A
+          // BGR to RGBA with brightness boost
+          const r = pixelData[srcIndex + 2];
+          const g = pixelData[srcIndex + 1]; 
+          const b = pixelData[srcIndex];
+          
+          // Apply gamma correction and brightness boost
+          data[dstIndex] = Math.min(255, Math.pow(r / 255, 0.8) * 255 * 1.5);     // R
+          data[dstIndex + 1] = Math.min(255, Math.pow(g / 255, 0.8) * 255 * 1.5); // G
+          data[dstIndex + 2] = Math.min(255, Math.pow(b / 255, 0.8) * 255 * 1.5); // B
+          data[dstIndex + 3] = 255;                                                // A
         } else if (bytesPerPixel === 4) {
-          // BGRA to RGBA
-          data[dstIndex] = pixelData[srcIndex + 2];     // R
-          data[dstIndex + 1] = pixelData[srcIndex + 1]; // G
-          data[dstIndex + 2] = pixelData[srcIndex];     // B
-          data[dstIndex + 3] = pixelData[srcIndex + 3]; // A
+          // BGRA to RGBA with brightness boost
+          const r = pixelData[srcIndex + 2];
+          const g = pixelData[srcIndex + 1];
+          const b = pixelData[srcIndex];
+          const a = pixelData[srcIndex + 3];
+          
+          data[dstIndex] = Math.min(255, Math.pow(r / 255, 0.8) * 255 * 1.5);     // R
+          data[dstIndex + 1] = Math.min(255, Math.pow(g / 255, 0.8) * 255 * 1.5); // G
+          data[dstIndex + 2] = Math.min(255, Math.pow(b / 255, 0.8) * 255 * 1.5); // B
+          data[dstIndex + 3] = a;                                                  // A
         }
       }
       
