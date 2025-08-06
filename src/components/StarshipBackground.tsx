@@ -474,15 +474,15 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
           });
         });
         
-        // Animate nebulous fog flowing toward camera
+        // Animate nebulous fog flowing away from camera into distance
         if (fogEffect) {
           fogEffect.particles.forEach((particle, index) => {
-            // Move particles toward camera
-            particle.position.z += 1.5 + Math.sin(time + index * 0.1) * 0.3;
+            // Move particles away from camera into distance
+            particle.position.z -= 1.5 + Math.sin(time + index * 0.1) * 0.3;
             
-            // Reset particle when it reaches camera
-            if (particle.position.z > 50) {
-              particle.position.z = particle.userData.initialZ;
+            // Reset particle when it gets too far away
+            if (particle.position.z < -400) {
+              particle.position.z = 50; // Start near camera
               particle.position.x = (Math.random() - 0.5) * 200;
               particle.position.y = (Math.random() - 0.5) * 100;
             }
@@ -491,8 +491,8 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
             particle.rotation.x += 0.001 + Math.sin(time + index * 0.2) * 0.001;
             particle.rotation.y += 0.002 + Math.cos(time + index * 0.15) * 0.001;
             
-            // Fade particles as they approach
-            const distanceOpacity = Math.max(0, Math.min(1, (-particle.position.z + 50) / 100));
+            // Fade particles as they recede into distance
+            const distanceOpacity = Math.max(0, Math.min(1, (particle.position.z + 400) / 350));
             if (particle.material instanceof THREE.MeshBasicMaterial) {
               particle.material.opacity = (0.1 + Math.random() * 0.2) * distanceOpacity;
             }
