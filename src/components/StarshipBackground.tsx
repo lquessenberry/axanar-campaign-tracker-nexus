@@ -77,14 +77,14 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
     const createFallbackStarship = () => {
       const group = new THREE.Group();
       
-      // Main hull
+      // Main hull - oriented nose up
       const hullGeometry = new THREE.CylinderGeometry(0.3, 0.8, 3, 8);
       const hullMaterial = new THREE.MeshPhongMaterial({ 
         color: 0x888888,
         shininess: 100 
       });
       const hull = new THREE.Mesh(hullGeometry, hullMaterial);
-      hull.rotation.z = Math.PI / 2;
+      // No rotation needed - cylinder already points up by default
       group.add(hull);
 
       // Nacelles
@@ -95,13 +95,13 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       });
       
       const nacelle1 = new THREE.Mesh(nacelleGeometry, nacelleMaterial);
-      nacelle1.position.set(0, 1, 0);
-      nacelle1.rotation.z = Math.PI / 2;
+      nacelle1.position.set(1, 0, 0);
+      // No rotation needed for vertical orientation
       group.add(nacelle1);
 
       const nacelle2 = new THREE.Mesh(nacelleGeometry, nacelleMaterial);
-      nacelle2.position.set(0, -1, 0);
-      nacelle2.rotation.z = Math.PI / 2;
+      nacelle2.position.set(-1, 0, 0);
+      // No rotation needed for vertical orientation
       group.add(nacelle2);
 
       return group;
@@ -188,6 +188,9 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                 const center = box.getCenter(new THREE.Vector3());
                 loadedObject.position.sub(center.multiplyScalar(scale));
                 
+                // Orient starship nose up (rotate 90 degrees around X-axis)
+                loadedObject.rotation.x = -Math.PI / 2;
+                
                 resolve(loadedObject);
               },
               undefined,
@@ -225,6 +228,11 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                     const maxDim = Math.max(size.x, size.y, size.z);
                     const scale = maxDim > 0 ? 4 / maxDim : 1;
                     loadedObject.scale.setScalar(scale);
+                    
+                    // Center and orient the model
+                    const center = box.getCenter(new THREE.Vector3());
+                    loadedObject.position.sub(center.multiplyScalar(scale));
+                    loadedObject.rotation.x = -Math.PI / 2;
                     
                     resolve(loadedObject);
                   },
@@ -271,9 +279,8 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
         starship.position.y = Math.sin(time * 2) * 0.3;
         starship.position.x = Math.cos(time * 1.5) * 0.2;
         
-        // Slow rotation
-        starship.rotation.y += 0.005;
-        starship.rotation.z = Math.sin(time) * 0.1;
+        // Gentle rotation around Y-axis only (keeps nose pointing up)
+        starship.rotation.y += 0.003;
       }
 
       renderer.render(scene, camera);
