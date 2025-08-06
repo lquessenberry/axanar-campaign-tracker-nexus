@@ -412,15 +412,75 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
 
     // Animation variables
     let time = 0;
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetYaw = 0;
+    let targetPitch = 0;
+    let currentYaw = 0;
+    let currentPitch = 0;
+    let isMouseActive = false;
+    let mouseTimeout: NodeJS.Timeout;
+    
+    // Mouse interaction
+    const handleMouseMove = (event: MouseEvent) => {
+      const rect = container.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      // Normalize mouse position (-1 to 1)
+      mouseX = (event.clientX - centerX) / (rect.width / 2);
+      mouseY = (event.clientY - centerY) / (rect.height / 2);
+      
+      // Calculate target rotations
+      targetYaw = mouseX * 0.3; // Max 0.3 radians yaw
+      targetPitch = -mouseY * 0.2; // Max 0.2 radians pitch (inverted Y)
+      
+      isMouseActive = true;
+      
+      // Reset timeout
+      if (mouseTimeout) clearTimeout(mouseTimeout);
+      mouseTimeout = setTimeout(() => {
+        isMouseActive = false;
+      }, 2000); // 2 seconds of inactivity
+    };
+    
+    // Add mouse listener to the container
+    container.addEventListener('mousemove', handleMouseMove);
+    container.addEventListener('mouseenter', handleMouseMove);
+    container.addEventListener('mouseleave', () => {
+      isMouseActive = false;
+      if (mouseTimeout) clearTimeout(mouseTimeout);
+    });
 
     // Animation loop
     const animate = () => {
       time += 0.01;
       
       if (starship) {
-        // Gentle floating motion (scaled for larger model)
-        starship.position.y = Math.sin(time * 2) * 1.8; // 6x larger movement
-        starship.position.x = Math.cos(time * 1.5) * 1.2; // 6x larger movement
+        if (isMouseActive) {
+          // Mouse-controlled movement
+          currentYaw += (targetYaw - currentYaw) * 0.1; // Smooth interpolation
+          currentPitch += (targetPitch - currentPitch) * 0.1;
+          
+          // Apply mouse rotations
+          starship.rotation.y = currentYaw;
+          starship.rotation.x = -Math.PI / 2 + currentPitch; // Keep nose up orientation
+          
+          // Gentle floating motion (reduced when mouse active)
+          starship.position.y = Math.sin(time * 2) * 0.9; // Reduced movement
+          starship.position.x = Math.cos(time * 1.5) * 0.6; // Reduced movement
+        } else {
+          // Floating motion only
+          currentYaw += (0 - currentYaw) * 0.05; // Return to center
+          currentPitch += (0 - currentPitch) * 0.05;
+          
+          starship.rotation.y = currentYaw;
+          starship.rotation.x = -Math.PI / 2 + currentPitch;
+          
+          // Full floating motion when inactive
+          starship.position.y = Math.sin(time * 2) * 1.8; // Full movement
+          starship.position.x = Math.cos(time * 1.5) * 1.2; // Full movement
+        }
         
         // Animate warp trails
         warpTrails.forEach((trailGroup, groupIndex) => {
@@ -433,8 +493,6 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
             }
           });
         });
-        
-        // Keep starship stationary (no rotation)
       }
 
       renderer.render(scene, camera);
@@ -448,6 +506,12 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
+      if (mouseTimeout) {
+        clearTimeout(mouseTimeout);
+      }
+      container.removeEventListener('mousemove', handleMouseMove);
+      container.removeEventListener('mouseenter', handleMouseMove);
+      container.removeEventListener('mouseleave', handleMouseMove);
       if (mountRef.current && renderer.domElement) {
         mountRef.current.removeChild(renderer.domElement);
       }
@@ -458,7 +522,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
   return (
     <div 
       ref={mountRef} 
-      className={`${className} pointer-events-none opacity-60`}
+      className={`${className} pointer-events-auto opacity-60`}
       style={{ filter: 'drop-shadow(0 0 20px rgba(100, 140, 180, 0.6))' }}
     />
   );
