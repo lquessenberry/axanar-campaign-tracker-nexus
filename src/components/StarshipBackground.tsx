@@ -279,8 +279,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
         starship.position.y = Math.sin(time * 2) * 0.3;
         starship.position.x = Math.cos(time * 1.5) * 0.2;
         
-        // Gentle rotation around Y-axis only (keeps nose pointing up)
-        starship.rotation.y += 0.003;
+        // Keep starship stationary (no rotation)
       }
 
       renderer.render(scene, camera);
