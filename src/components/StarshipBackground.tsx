@@ -65,13 +65,18 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
     renderer.setClearColor(0x000000, 0);
     mountRef.current.appendChild(renderer.domElement);
 
-    // Add lights
-    const ambientLight = new THREE.AmbientLight(0x404040, 0.8);
+    // Add brighter lights for better texture visibility
+    const ambientLight = new THREE.AmbientLight(0x404040, 1.5); // Increased intensity
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 2.0); // Increased intensity
     directionalLight.position.set(5, 5, 5);
     scene.add(directionalLight);
+    
+    // Add additional light from the opposite side
+    const backLight = new THREE.DirectionalLight(0xffffff, 1.0);
+    backLight.position.set(-5, -5, -5);
+    scene.add(backLight);
 
     // Create a simple starship mesh if OBJ fails to load
     const createFallbackStarship = () => {
@@ -327,7 +332,10 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                             if (child instanceof THREE.Mesh) {
                               child.material = new THREE.MeshPhongMaterial({ 
                                 map: texture,
-                                shininess: 80
+                                shininess: 30,
+                                specular: 0x222222,
+                                // Ensure texture is not too dark
+                                emissive: 0x111111
                               });
                               console.log('Applied texture to mesh');
                             }
