@@ -63,7 +63,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
     const rect = container.getBoundingClientRect();
     const size = Math.min(rect.width, rect.height) || 384; // Default to w-96 (384px)
     renderer.setSize(size, size);
-    renderer.setClearColor(0x000000, 1); // Fully opaque black background
+    renderer.setClearColor(0x000000, 0); // Transparent background for page content to show
     mountRef.current.appendChild(renderer.domElement);
 
     // Add brighter lights for better texture visibility
@@ -554,7 +554,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       className={`${className} pointer-events-auto`}
       style={{ 
         filter: 'drop-shadow(0 0 20px rgba(100, 140, 180, 0.6))',
-        zIndex: 10
+        zIndex: 5 // Between StarField (1) and page content
       }}
     />
   );
