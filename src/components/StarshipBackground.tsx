@@ -353,11 +353,20 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                               console.log('Mesh geometry:', child.geometry.type);
                               console.log('Mesh has UV coordinates:', child.geometry.attributes.uv !== undefined);
                               
-                              // Try MeshBasicMaterial first for testing
+                              // Test with bright color first
                               child.material = new THREE.MeshBasicMaterial({ 
-                                map: texture,
-                                side: THREE.DoubleSide // Show both sides
+                                color: 0xff0000, // Bright red for testing
+                                side: THREE.DoubleSide
                               });
+                              
+                              // Then apply texture after a delay to see the difference
+                              setTimeout(() => {
+                                child.material = new THREE.MeshBasicMaterial({ 
+                                  map: texture,
+                                  side: THREE.DoubleSide
+                                });
+                                console.log('Texture applied after delay');
+                              }, 2000);
                               
                               console.log('Material applied:', child.material.type);
                             }
