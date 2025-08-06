@@ -215,21 +215,55 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       return trails;
     };
 
-    // Enhanced model loading function with better error handling
+    // Enhanced model loading function with MTL support
     const loadModelWithTextures = async (objUrl: string, mtlUrl: string | null): Promise<THREE.Object3D> => {
       return new Promise(async (resolve, reject) => {
         try {
           console.log('Loading OBJ from:', objUrl);
+          
+          // Try to find and load MTL file first
+          const mtlLoader = new MTLLoader();
           const objLoader = new OBJLoader();
+          
+          // Get MTL URL by replacing .obj with .mtl
+          const mtlPath = objUrl.replace('.obj', '.mtl');
+          console.log('Looking for MTL file at:', mtlPath);
+          
+          try {
+            // Load MTL file
+            const materials = await new Promise<any>((mtlResolve, mtlReject) => {
+              mtlLoader.load(mtlPath, mtlResolve, undefined, mtlReject);
+            });
+            
+            console.log('MTL file loaded successfully');
+            materials.preload();
+            
+            // Override the Ares_Bussard material with orange glow
+            if (materials.materials['Ares_Bussard']) {
+              console.log('Found Ares_Bussard material - making it orange!');
+              materials.materials['Ares_Bussard'] = new THREE.MeshPhongMaterial({
+                color: 0xff4400,
+                emissive: 0xff2200,
+                emissiveIntensity: 0.8,
+                shininess: 10
+              });
+            }
+            
+            // Set materials on loader
+            objLoader.setMaterials(materials);
+            
+          } catch (mtlError) {
+            console.log('MTL file not found or failed to load, proceeding without materials');
+          }
           
           // Load the OBJ model
           const loadedObject = await new Promise<THREE.Object3D>((objResolve, objReject) => {
             objLoader.load(objUrl, objResolve, undefined, objReject);
           });
           
-          console.log('Model loaded successfully, applying basic materials...');
+          console.log('Model loaded successfully');
           
-          // Apply basic materials first (no texture loading for now)
+          // If MTL didn't work, manually apply materials based on mesh names as fallback
           let meshCount = 0;
           const allMeshNames: string[] = [];
           
@@ -240,36 +274,33 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
               allMeshNames.push(child.name || 'unnamed');
               console.log(`Processing mesh ${meshCount}: "${child.name || 'unnamed'}"`);
               
-              // Check if this is a nacelle/bussard part
-              if (meshName.includes('nacelle') || 
-                  meshName.includes('engine') || 
-                  meshName.includes('warp') ||
-                  meshName.includes('bussard') ||
-                  meshName.includes('collector') ||
-                  meshName.includes('ramscoop')) {
-                console.log('Applying ORANGE material to nacelle/bussard mesh');
-                child.material = new THREE.MeshPhongMaterial({ 
-                  color: 0xff4400,
-                  emissive: 0xff2200,
-                  emissiveIntensity: 0.7,
-                  shininess: 10
-                });
-              } else {
-                console.log('Applying hull material to main mesh');
-                child.material = new THREE.MeshPhongMaterial({ 
-                  color: 0xcccccc,
-                  emissive: 0x333333,
-                  shininess: 50
-                });
+              // If no proper material was applied by MTL loader, apply our own
+              if (!child.material || child.material instanceof THREE.MeshBasicMaterial) {
+                if (meshName.includes('bussard')) {
+                  console.log('Applying ORANGE material to bussard mesh');
+                  child.material = new THREE.MeshPhongMaterial({ 
+                    color: 0xff4400,
+                    emissive: 0xff2200,
+                    emissiveIntensity: 0.8,
+                    shininess: 10
+                  });
+                } else {
+                  console.log('Applying hull material to mesh');
+                  child.material = new THREE.MeshPhongMaterial({ 
+                    color: 0xcccccc,
+                    emissive: 0x333333,
+                    shininess: 50
+                  });
+                }
               }
+              
               child.castShadow = true;
               child.receiveShadow = true;
             }
           });
           
           console.log(`All mesh names found:`, allMeshNames);
-          
-          console.log(`Processed ${meshCount} meshes with proper textures`);
+          console.log(`Processed ${meshCount} meshes`);
           
           // Scale and position the model
           const box = new THREE.Box3().setFromObject(loadedObject);
