@@ -10,14 +10,21 @@ import { toast } from 'sonner';
 import * as XLSX from 'xlsx';
 
 interface ImportedDonor {
-  email: string;
-  first_name?: string;
-  last_name?: string;
-  donor_name?: string;
-  amount?: number;
-  created_at?: string;
-  pledge_date?: string;
-  campaign?: string;
+  'First name'?: string;
+  'Last name'?: string;
+  'Email address - other'?: string;
+  'Email status - other'?: string;
+  'Email permission status - other'?: string;
+  'Phone - home'?: string;
+  'Street address line 1 - Home'?: string;
+  'City - Home'?: string;
+  'State/Province - Home'?: string;
+  'Zip/Postal Code - Home'?: string;
+  'Country - Home'?: string;
+  'Email Lists'?: string;
+  'Source Name'?: string;
+  'Created At'?: string;
+  'Updated At'?: string;
   [key: string]: any;
 }
 
@@ -39,9 +46,24 @@ const DonorImportSection = () => {
       const worksheet = workbook.Sheets[sheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet) as ImportedDonor[];
 
-      setParsedData(jsonData);
+      // Validate required fields
+      const validRecords = jsonData.filter(record => 
+        record['Email address - other'] && 
+        record['Email address - other'].toString().includes('@')
+      );
+
+      if (validRecords.length === 0) {
+        toast.error('No valid records found. Please ensure "Email address - other" column contains valid emails.');
+        return;
+      }
+
+      if (validRecords.length < jsonData.length) {
+        toast.warning(`${jsonData.length - validRecords.length} records skipped due to missing or invalid email addresses.`);
+      }
+
+      setParsedData(validRecords);
       setShowPreview(true);
-      toast.success(`Parsed ${jsonData.length} records from ${file.name}`);
+      toast.success(`Parsed ${validRecords.length} valid records from ${file.name}`);
     } catch (error) {
       console.error('Error parsing file:', error);
       toast.error('Failed to parse Excel file. Please check the format.');
@@ -113,8 +135,11 @@ const DonorImportSection = () => {
         <Alert>
           <Info className="h-4 w-4" />
           <AlertDescription>
-            Expected columns: email (required), first_name, last_name, donor_name, amount, 
-            created_at, pledge_date, campaign. Additional columns will be preserved.
+            Expected columns: "First name", "Last name", "Email address - other" (required), 
+            "Email status - other", "Email permission status - other", "Phone - home", 
+            "Street address line 1 - Home", "City - Home", "State/Province - Home", 
+            "Zip/Postal Code - Home", "Country - Home", "Email Lists", "Source Name", 
+            "Created At", "Updated At"
           </AlertDescription>
         </Alert>
 
@@ -147,22 +172,35 @@ const DonorImportSection = () => {
               <table className="w-full text-sm border border-border rounded-md">
                 <thead className="bg-muted">
                   <tr>
-                    {Object.keys(parsedData[0] || {}).slice(0, 6).map((key) => (
-                      <th key={key} className="px-2 py-1 text-left border-r border-border">
-                        {key}
-                      </th>
-                    ))}
+                    <th className="px-2 py-1 text-left border-r border-border">First Name</th>
+                    <th className="px-2 py-1 text-left border-r border-border">Last Name</th>
+                    <th className="px-2 py-1 text-left border-r border-border">Email</th>
+                    <th className="px-2 py-1 text-left border-r border-border">Phone</th>
+                    <th className="px-2 py-1 text-left border-r border-border">City</th>
+                    <th className="px-2 py-1 text-left border-r border-border">Source</th>
                   </tr>
                 </thead>
                 <tbody>
                   {parsedData.slice(0, 5).map((row, index) => (
                     <tr key={index} className="border-t border-border">
-                      {Object.values(row).slice(0, 6).map((value, cellIndex) => (
-                        <td key={cellIndex} className="px-2 py-1 border-r border-border">
-                          {String(value).substring(0, 50)}
-                          {String(value).length > 50 ? '...' : ''}
-                        </td>
-                      ))}
+                      <td className="px-2 py-1 border-r border-border">
+                        {row['First name'] || '-'}
+                      </td>
+                      <td className="px-2 py-1 border-r border-border">
+                        {row['Last name'] || '-'}
+                      </td>
+                      <td className="px-2 py-1 border-r border-border">
+                        {row['Email address - other'] || '-'}
+                      </td>
+                      <td className="px-2 py-1 border-r border-border">
+                        {row['Phone - home'] || '-'}
+                      </td>
+                      <td className="px-2 py-1 border-r border-border">
+                        {row['City - Home'] || '-'}
+                      </td>
+                      <td className="px-2 py-1 border-r border-border">
+                        {row['Source Name'] || '-'}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
