@@ -231,19 +231,28 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
           
           // Apply basic materials first (no texture loading for now)
           let meshCount = 0;
+          const allMeshNames: string[] = [];
+          
           loadedObject.traverse((child) => {
             if (child instanceof THREE.Mesh) {
               meshCount++;
               const meshName = (child.name || '').toLowerCase();
+              allMeshNames.push(child.name || 'unnamed');
               console.log(`Processing mesh ${meshCount}: "${child.name || 'unnamed'}"`);
               
-              // Check if this is a nacelle part - give it orange glow
-              if (meshName.includes('nacelle') || meshName.includes('engine') || meshName.includes('warp')) {
-                console.log('Applying orange material to nacelle mesh');
+              // Check if this is a nacelle/bussard part - be more generous with matching
+              if (meshName.includes('nacelle') || 
+                  meshName.includes('engine') || 
+                  meshName.includes('warp') ||
+                  meshName.includes('bussard') ||
+                  meshName.includes('collector') ||
+                  meshName.includes('ramscoop') ||
+                  meshCount > meshCount / 2) { // Apply orange to later meshes (often nacelles)
+                console.log('Applying ORANGE material to nacelle/bussard mesh');
                 child.material = new THREE.MeshPhongMaterial({ 
-                  color: 0xff6600,
-                  emissive: 0xff4400,
-                  emissiveIntensity: 0.5,
+                  color: 0xff4400,
+                  emissive: 0xff2200,
+                  emissiveIntensity: 0.7,
                   shininess: 10
                 });
               } else {
@@ -258,6 +267,8 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
               child.receiveShadow = true;
             }
           });
+          
+          console.log(`All mesh names found:`, allMeshNames);
           
           console.log(`Processed ${meshCount} meshes with proper textures`);
           
