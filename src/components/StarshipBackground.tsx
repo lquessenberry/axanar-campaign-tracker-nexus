@@ -323,11 +323,15 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
               meshCount++;
               const meshName = (child.name || '').toLowerCase();
               allMeshNames.push(child.name || 'unnamed');
-              console.log(`Processing mesh ${meshCount}: "${child.name || 'unnamed'}"`);
+              console.log(`Processing mesh ${meshCount}: "${child.name || 'unnamed'}" - checking for bussard keywords`);
               
               // If no proper material was applied by MTL loader, apply our own
               if (!child.material || child.material instanceof THREE.MeshBasicMaterial) {
-                if (meshName.includes('bussard')) {
+                // Check for multiple possible bussard collector names
+                if (meshName.includes('bussard') || meshName.includes('collector') || 
+                    meshName.includes('thruster') || meshName.includes('nacelle') ||
+                    meshName.includes('ares_thruster') || meshName.includes('ares_bussard')) {
+                  console.log('🔥 FOUND BUSSARD/THRUSTER MESH:', child.name);
                   console.log('Applying ORANGE glowing material to bussard mesh:', child.name);
                   child.material = new THREE.MeshPhongMaterial({ 
                     color: 0xff4400,
@@ -352,7 +356,10 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                 }
               } else {
                 // Check if this is a bussard collector with existing material
-                if (meshName.includes('bussard')) {
+                if (meshName.includes('bussard') || meshName.includes('collector') || 
+                    meshName.includes('thruster') || meshName.includes('nacelle') ||
+                    meshName.includes('ares_thruster') || meshName.includes('ares_bussard')) {
+                  console.log('🔥 FOUND EXISTING BUSSARD/THRUSTER MESH:', child.name);
                   console.log('Found bussard collector with existing material:', child.name);
                   // Add orange glow and sprite texture to existing material
                   if (child.material instanceof THREE.MeshPhongMaterial || child.material instanceof THREE.MeshLambertMaterial) {
@@ -391,6 +398,8 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
           
           console.log(`All mesh names found:`, allMeshNames);
           console.log(`Processed ${meshCount} meshes`);
+          console.log(`Found ${bussardCollectors.length} bussard collectors`);
+          console.log('Bussard collector names:', bussardCollectors.map(b => b.name));
           
           // Scale and position the model
           const box = new THREE.Box3().setFromObject(loadedObject);
