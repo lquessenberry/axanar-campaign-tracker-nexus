@@ -81,36 +81,35 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
 
     // Create a simple starship mesh if OBJ fails to load
     const createFallbackStarship = () => {
+      console.log('Creating fallback starship mesh');
       const group = new THREE.Group();
       
       // Main hull - oriented nose up
       const hullGeometry = new THREE.CylinderGeometry(1.8, 4.8, 18, 8); // 6x larger
       const hullMaterial = new THREE.MeshPhongMaterial({ 
-        color: 0x888888,
-        shininess: 100 
+        color: 0xcccccc,
+        shininess: 100,
+        emissive: 0x333333
       });
       const hull = new THREE.Mesh(hullGeometry, hullMaterial);
-      // No rotation needed - cylinder already points up by default
       group.add(hull);
 
-      // Nacelles
+      // Nacelles with bright orange glow
       const nacelleGeometry = new THREE.CylinderGeometry(1.2, 1.2, 12, 6); // 6x larger
       const nacelleMaterial = new THREE.MeshPhongMaterial({ 
-        color: 0x4444ff,
-        emissive: 0x002244 
+        color: 0xff6600,
+        emissive: 0xff4400,
+        emissiveIntensity: 0.5
       });
       
       const nacelle1 = new THREE.Mesh(nacelleGeometry, nacelleMaterial);
       nacelle1.position.set(6, 0, 0); // 6x larger spacing
-      // No rotation needed for vertical orientation
       group.add(nacelle1);
 
       const nacelle2 = new THREE.Mesh(nacelleGeometry, nacelleMaterial);
       nacelle2.position.set(-6, 0, 0); // 6x larger spacing
-      // No rotation needed for vertical orientation
       group.add(nacelle2);
 
-      
       // Add warp trails
       const createWarpTrail = (xOffset: number) => {
         const trailGroup = new THREE.Group();
@@ -135,6 +134,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       group.add(createWarpTrail(6));  // Right nacelle trail
       group.add(createWarpTrail(-6)); // Left nacelle trail
 
+      console.log('Fallback starship created with hull and nacelles');
       return group;
     };
 
@@ -215,7 +215,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
       return trails;
     };
 
-    // Enhanced model loading function with proper texture handling
+    // Enhanced model loading function with better error handling
     const loadModelWithTextures = async (objUrl: string, mtlUrl: string | null): Promise<THREE.Object3D> => {
       return new Promise(async (resolve, reject) => {
         try {
@@ -227,31 +227,9 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
             objLoader.load(objUrl, objResolve, undefined, objReject);
           });
           
-          console.log('Model loaded successfully, applying textures...');
+          console.log('Model loaded successfully, applying basic materials...');
           
-          // Load textures from public folder
-          const textureLoader = new THREE.TextureLoader();
-          
-          // Load hull and nacelle textures from public folder
-          const hullTexture = await new Promise<THREE.Texture>((texResolve, texReject) => {
-            textureLoader.load('/textures/hull-texture-1.png', texResolve, undefined, texReject);
-          });
-          
-          const nacelleTexture = await new Promise<THREE.Texture>((texResolve, texReject) => {
-            textureLoader.load('/textures/nacelle-glow-orange.png', texResolve, undefined, texReject);
-          });
-          
-          console.log('Textures loaded successfully from public folder');
-          
-          // Configure textures
-          [hullTexture, nacelleTexture].forEach(texture => {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            texture.flipY = false;
-            texture.needsUpdate = true;
-          });
-          
-          // Apply textures to meshes based on their names/parts
+          // Apply basic materials first (no texture loading for now)
           let meshCount = 0;
           loadedObject.traverse((child) => {
             if (child instanceof THREE.Mesh) {
@@ -259,29 +237,21 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
               const meshName = (child.name || '').toLowerCase();
               console.log(`Processing mesh ${meshCount}: "${child.name || 'unnamed'}"`);
               
-              // Check if this is a nacelle part
+              // Check if this is a nacelle part - give it orange glow
               if (meshName.includes('nacelle') || meshName.includes('engine') || meshName.includes('warp')) {
-                console.log('Applying ORANGE GLOW texture to nacelle mesh');
+                console.log('Applying orange material to nacelle mesh');
                 child.material = new THREE.MeshPhongMaterial({ 
-                  map: nacelleTexture,
-                  side: THREE.DoubleSide,
-                  shininess: 10,
-                  emissive: 0xff4400, // Bright orange glow
-                  emissiveMap: nacelleTexture,
-                  emissiveIntensity: 0.8,
-                  transparent: true,
-                  opacity: 1.0
+                  color: 0xff6600,
+                  emissive: 0xff4400,
+                  emissiveIntensity: 0.5,
+                  shininess: 10
                 });
               } else {
-                console.log('Applying HULL texture to main mesh');
+                console.log('Applying hull material to main mesh');
                 child.material = new THREE.MeshPhongMaterial({ 
-                  map: hullTexture,
-                  side: THREE.DoubleSide,
-                  shininess: 50,
-                  specular: 0x666666,
-                  emissive: 0x111111,
-                  transparent: true,
-                  opacity: 1.0
+                  color: 0xcccccc,
+                  emissive: 0x333333,
+                  shininess: 50
                 });
               }
               child.castShadow = true;
