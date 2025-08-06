@@ -14,13 +14,15 @@ import { toast } from "sonner";
 interface Donor {
   id: string;
   email: string;
-  first_name: string;
-  last_name: string;
-  created_at: string;
-  status: string;
-  total_donated: number;
-  totalPledges: number;
-  pledgeCount: number;
+  first_name?: string;
+  last_name?: string;
+  full_name?: string;
+  donor_name?: string;
+  auth_user_id?: string;
+  created_at?: string;
+  totalDonations: number;
+  donationCount: number;
+  lastDonationDate?: string;
   // Add any other required properties from the components
   [key: string]: any; // For additional properties we might not be aware of
 }

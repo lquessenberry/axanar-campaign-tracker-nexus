@@ -13,9 +13,9 @@ interface Donor {
   email: string;
   auth_user_id?: string;
   created_at?: string;
-  totalPledges: number;
-  pledgeCount: number;
-  lastPledgeDate?: string;
+  totalDonations: number;
+  donationCount: number;
+  lastDonationDate?: string;
 }
 
 interface DonorTableProps {
@@ -45,7 +45,7 @@ const DonorTable = ({
             </TableHead>
             <TableHead className="text-muted-foreground">Name</TableHead>
             <TableHead className="text-muted-foreground">Email</TableHead>
-            <TableHead className="text-muted-foreground">Pledges</TableHead>
+            <TableHead className="text-muted-foreground">Donations</TableHead>
             <TableHead className="text-muted-foreground">Total Donated</TableHead>
             <TableHead className="text-muted-foreground">Last Donation</TableHead>
             <TableHead className="text-muted-foreground">Status</TableHead>
@@ -69,12 +69,12 @@ const DonorTable = ({
                 }
               </TableCell>
               <TableCell className="text-card-foreground">{donor.email}</TableCell>
-              <TableCell className="text-card-foreground">{donor.pledgeCount}</TableCell>
+              <TableCell className="text-card-foreground">{donor.donationCount}</TableCell>
               <TableCell className="text-card-foreground">
-                ${donor.totalPledges.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                ${donor.totalDonations.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </TableCell>
               <TableCell className="text-card-foreground">
-                {donor.lastPledgeDate ? new Date(donor.lastPledgeDate).toLocaleDateString() : 'No donations'}
+                {donor.lastDonationDate ? new Date(donor.lastDonationDate).toLocaleDateString() : 'No donations'}
               </TableCell>
               <TableCell>
                 <Badge 

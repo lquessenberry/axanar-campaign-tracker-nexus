@@ -52,7 +52,7 @@ export const usePaginatedDonors = (currentPage: number, filters: DonorFilters = 
 
       if (donorError) throw donorError;
 
-      // Then get pledge totals and last pledge dates for these specific donors
+      // Then get donation totals and last donation dates for these specific donors
       const donorIds = donorData.map(donor => donor.id);
       
       if (donorIds.length === 0) {
@@ -72,7 +72,7 @@ export const usePaginatedDonors = (currentPage: number, filters: DonorFilters = 
 
       if (pledgeError) throw pledgeError;
 
-      // Calculate totals using donor created_at as pledge date
+      // Calculate totals using donor created_at as donation date
       const pledgeTotals = pledgeData.reduce((acc, pledge) => {
         const donorCreatedAt = pledge.donors?.created_at;
         if (!acc[pledge.donor_id]) {
@@ -80,30 +80,30 @@ export const usePaginatedDonors = (currentPage: number, filters: DonorFilters = 
         }
         acc[pledge.donor_id].total += Number(pledge.amount);
         acc[pledge.donor_id].count += 1;
-        // Use donor created_at as the pledge date
+        // Use donor created_at as the donation date
         if (donorCreatedAt && (!acc[pledge.donor_id].lastDate || new Date(donorCreatedAt) > new Date(acc[pledge.donor_id].lastDate))) {
           acc[pledge.donor_id].lastDate = donorCreatedAt;
         }
         return acc;
       }, {} as Record<string, { total: number; count: number; lastDate: string }>);
 
-      // Combine donor data with pledge totals and last pledge dates
+      // Combine donor data with donation totals and last donation dates
       let donorsWithTotals = donorData.map(donor => ({
         ...donor,
-        totalPledges: pledgeTotals[donor.id]?.total || 0,
-        pledgeCount: pledgeTotals[donor.id]?.count || 0,
-        lastPledgeDate: pledgeTotals[donor.id]?.lastDate
+        totalDonations: pledgeTotals[donor.id]?.total || 0,
+        donationCount: pledgeTotals[donor.id]?.count || 0,
+        lastDonationDate: pledgeTotals[donor.id]?.lastDate
       }));
 
-      // Sort by pledge totals if needed (since we can't sort in the database query for calculated fields)
-      if (sortBy === 'totalPledges') {
+      // Sort by donation totals if needed (since we can't sort in the database query for calculated fields)
+      if (sortBy === 'totalDonations') {
         donorsWithTotals.sort((a, b) => {
-          const comparison = a.totalPledges - b.totalPledges;
+          const comparison = a.totalDonations - b.totalDonations;
           return sortOrder === 'asc' ? comparison : -comparison;
         });
-      } else if (sortBy === 'pledgeCount') {
+      } else if (sortBy === 'donationCount') {
         donorsWithTotals.sort((a, b) => {
-          const comparison = a.pledgeCount - b.pledgeCount;
+          const comparison = a.donationCount - b.donationCount;
           return sortOrder === 'asc' ? comparison : -comparison;
         });
       }

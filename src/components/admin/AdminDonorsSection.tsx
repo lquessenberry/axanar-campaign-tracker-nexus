@@ -15,8 +15,8 @@ interface Donor {
   email: string;
   auth_user_id?: string;
   created_at?: string;
-  totalPledges: number;
-  pledgeCount: number;
+  totalDonations: number;
+  donationCount: number;
 }
 
 interface AdminDonorsSectionProps {

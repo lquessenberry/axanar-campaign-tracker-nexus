@@ -48,8 +48,8 @@ const DonorSearchAndFilters = ({
             <SelectItem value="created_at">Date Joined</SelectItem>
             <SelectItem value="name">Name</SelectItem>
             <SelectItem value="email">Email</SelectItem>
-            <SelectItem value="totalPledges">Total Donated</SelectItem>
-            <SelectItem value="pledgeCount">Pledge Count</SelectItem>
+            <SelectItem value="totalDonations">Total Donated</SelectItem>
+            <SelectItem value="donationCount">Donation Count</SelectItem>
           </SelectContent>
         </Select>
         
