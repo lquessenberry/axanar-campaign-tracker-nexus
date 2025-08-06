@@ -277,10 +277,7 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                     async (loadedObject) => {
                       console.log('User uploaded model loaded successfully');
                       
-                      // Try to load textures for the model
-                      const textureLoader = new THREE.TextureLoader();
-                      
-                      // Get available texture files
+                      // Get available texture files first
                       const { data: files } = await supabase.storage
                         .from('models')
                         .list(user?.id || '', { limit: 50 });
@@ -293,43 +290,71 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                       
                       console.log('Found texture files:', textureFiles.map(f => f.name));
                       
-                      loadedObject.traverse(async (child) => {
-                        if (child instanceof THREE.Mesh && textureFiles.length > 0) {
-                          try {
-                            // Use the first available texture
-                            const textureFile = textureFiles[0];
-                            const { data: textureData } = supabase.storage
-                              .from('models')
-                              .getPublicUrl(`${user?.id}/${textureFile.name}`);
-                            
-                            let textureUrl = textureData.publicUrl;
-                            
-                            // Convert TGA files to PNG
-                            if (textureFile.name.toLowerCase().includes('tga')) {
-                              const { TGAConverter } = await import('@/utils/tgaConverter');
-                              textureUrl = await TGAConverter.convertTGAToDataURL(textureData.publicUrl);
+                      if (textureFiles.length > 0) {
+                        try {
+                          // Load and convert the first texture
+                          const textureFile = textureFiles[0];
+                          const { data: textureData } = supabase.storage
+                            .from('models')
+                            .getPublicUrl(`${user?.id}/${textureFile.name}`);
+                          
+                          let textureUrl = textureData.publicUrl;
+                          console.log('Loading texture:', textureFile.name);
+                          
+                          // Convert TGA files to PNG
+                          if (textureFile.name.toLowerCase().includes('tga')) {
+                            console.log('Converting TGA to PNG...');
+                            const { TGAConverter } = await import('@/utils/tgaConverter');
+                            textureUrl = await TGAConverter.convertTGAToDataURL(textureData.publicUrl);
+                            console.log('TGA conversion complete');
+                          }
+                          
+                          const textureLoader = new THREE.TextureLoader();
+                          const texture = await new Promise<THREE.Texture>((texResolve, texReject) => {
+                            textureLoader.load(
+                              textureUrl,
+                              (loadedTexture) => {
+                                console.log('Texture loaded successfully');
+                                texResolve(loadedTexture);
+                              },
+                              undefined,
+                              texReject
+                            );
+                          });
+                          
+                          // Apply texture to all meshes
+                          loadedObject.traverse((child) => {
+                            if (child instanceof THREE.Mesh) {
+                              child.material = new THREE.MeshPhongMaterial({ 
+                                map: texture,
+                                shininess: 80
+                              });
+                              console.log('Applied texture to mesh');
                             }
-                            
-                            const texture = textureLoader.load(textureUrl);
-                            child.material = new THREE.MeshPhongMaterial({ 
-                              map: texture,
-                              shininess: 80
-                            });
-                            console.log('Applied texture to mesh:', textureFile.name);
-                          } catch (textureError) {
-                            console.warn('Failed to load texture, using default material:', textureError);
+                          });
+                        } catch (textureError) {
+                          console.error('Failed to load texture:', textureError);
+                          // Fallback to default material
+                          loadedObject.traverse((child) => {
+                            if (child instanceof THREE.Mesh) {
+                              child.material = new THREE.MeshPhongMaterial({ 
+                                color: 0xaaaaaa,
+                                shininess: 80
+                              });
+                            }
+                          });
+                        }
+                      } else {
+                        console.log('No texture files found, using default material');
+                        loadedObject.traverse((child) => {
+                          if (child instanceof THREE.Mesh) {
                             child.material = new THREE.MeshPhongMaterial({ 
                               color: 0xaaaaaa,
                               shininess: 80
                             });
                           }
-                        } else if (child instanceof THREE.Mesh) {
-                          child.material = new THREE.MeshPhongMaterial({ 
-                            color: 0xaaaaaa,
-                            shininess: 80
-                          });
-                        }
-                      });
+                        });
+                      }
               
               // Add warp trails for user models
               warpTrails = createWarpTrails();
