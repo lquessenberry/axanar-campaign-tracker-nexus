@@ -282,113 +282,71 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                     async (loadedObject) => {
                       console.log('User uploaded model loaded successfully');
                       
-                      // Get available texture files first
-                      const { data: files } = await supabase.storage
-                        .from('models')
-                        .list(user?.id || '', { limit: 50 });
-                      
-                      const textureFiles = files?.filter(file => 
-                        file.name.toLowerCase().includes('tga') || 
-                        file.name.toLowerCase().includes('jpg') ||
-                        file.name.toLowerCase().includes('png')
-                      ) || [];
-                      
-                      console.log('Found texture files:', textureFiles.map(f => f.name));
-                      
-                       if (textureFiles.length > 0) {
-                         try {
-                           // Load multiple textures
-                           const textureLoader = new THREE.TextureLoader();
-                           
-                           // Load the main hull texture (first available)
-                           const textureFile = textureFiles[0];
-                           const { data: textureData } = supabase.storage
-                             .from('models')
-                             .getPublicUrl(`${user?.id}/${textureFile.name}`);
-                           
-                           console.log('Loading hull texture:', textureFile.name);
-                           
-                           let hullTextureUrl = textureData.publicUrl;
-                           
-                           // Convert TGA files to PNG
-                           if (textureFile.name.toLowerCase().includes('tga')) {
-                             console.log('Converting hull TGA to PNG...');
-                             const { TGAConverter } = await import('@/utils/tgaConverter');
-                             hullTextureUrl = await TGAConverter.convertTGAToDataURL(textureData.publicUrl);
-                             console.log('Hull TGA conversion complete');
-                           }
-                           
-                           // Load hull texture
-                           const hullTexture = await new Promise<THREE.Texture>((texResolve, texReject) => {
-                             textureLoader.load(hullTextureUrl, texResolve, undefined, texReject);
-                           });
-                           
-                           // Load orange nacelle texture
-                           const nacelleTexture = await new Promise<THREE.Texture>((texResolve, texReject) => {
-                             textureLoader.load('/textures/nacelle-glow-orange.png', texResolve, undefined, texReject);
-                           });
-                           
-                           console.log('Both textures loaded successfully');
-                           
-                           // Configure textures
-                           [hullTexture, nacelleTexture].forEach(texture => {
-                             texture.wrapS = THREE.RepeatWrapping;
-                             texture.wrapT = THREE.RepeatWrapping;
-                             texture.flipY = false;
-                             texture.needsUpdate = true;
-                           });
-                           
-                           // Apply textures to meshes based on their names/parts
-                           let meshCount = 0;
-                           loadedObject.traverse((child) => {
-                             if (child instanceof THREE.Mesh) {
-                               meshCount++;
-                               const meshName = (child.name || '').toLowerCase();
-                               console.log(`Processing mesh ${meshCount}: "${child.name || 'unnamed'}"`);
-                               
-                               // Check if this is a nacelle part
-                               if (meshName.includes('nacelle') || meshName.includes('engine') || meshName.includes('warp')) {
-                                 console.log('Applying ORANGE GLOW texture to nacelle mesh');
-                                 child.material = new THREE.MeshPhongMaterial({ 
-                                   map: nacelleTexture,
-                                   side: THREE.DoubleSide,
-                                   shininess: 10,
-                                   emissive: 0x442200, // Orange glow
-                                   emissiveMap: nacelleTexture,
-                                   emissiveIntensity: 0.3,
-                                   transparent: true,
-                                   opacity: 1.0
-                                 });
-                               } else {
-                                 console.log('Applying HULL texture to main mesh');
-                                 child.material = new THREE.MeshPhongMaterial({ 
-                                   map: hullTexture,
-                                   side: THREE.DoubleSide,
-                                   shininess: 30,
-                                   specular: 0x444444,
-                                   emissive: 0x222222,
-                                   transparent: true,
-                                   opacity: 1.0
-                                 });
-                               }
-                             }
-                           });
-                           
-                           console.log(`Processed ${meshCount} meshes with proper textures`);
-                        } catch (textureError) {
-                          console.error('Failed to load texture:', textureError);
-                          // Fallback to default material
-                          loadedObject.traverse((child) => {
-                            if (child instanceof THREE.Mesh) {
+                      // Load textures from public folder
+                      try {
+                        const textureLoader = new THREE.TextureLoader();
+                        
+                        console.log('Loading textures from public folder...');
+                        
+                        // Load hull and nacelle textures from public folder
+                        const hullTexture = await new Promise<THREE.Texture>((texResolve, texReject) => {
+                          textureLoader.load('/textures/hull-texture-1.png', texResolve, undefined, texReject);
+                        });
+                        
+                        const nacelleTexture = await new Promise<THREE.Texture>((texResolve, texReject) => {
+                          textureLoader.load('/textures/nacelle-glow-orange.png', texResolve, undefined, texReject);
+                        });
+                        
+                        console.log('Both textures loaded successfully from public folder');
+                        
+                        // Configure textures
+                        [hullTexture, nacelleTexture].forEach(texture => {
+                          texture.wrapS = THREE.RepeatWrapping;
+                          texture.wrapT = THREE.RepeatWrapping;
+                          texture.flipY = false;
+                          texture.needsUpdate = true;
+                        });
+                        
+                        // Apply textures to meshes based on their names/parts
+                        let meshCount = 0;
+                        loadedObject.traverse((child) => {
+                          if (child instanceof THREE.Mesh) {
+                            meshCount++;
+                            const meshName = (child.name || '').toLowerCase();
+                            console.log(`Processing mesh ${meshCount}: "${child.name || 'unnamed'}"`);
+                            
+                            // Check if this is a nacelle part
+                            if (meshName.includes('nacelle') || meshName.includes('engine') || meshName.includes('warp')) {
+                              console.log('Applying ORANGE GLOW texture to nacelle mesh');
                               child.material = new THREE.MeshPhongMaterial({ 
-                                color: 0xaaaaaa,
-                                shininess: 80
+                                map: nacelleTexture,
+                                side: THREE.DoubleSide,
+                                shininess: 10,
+                                emissive: 0xff4400, // Bright orange glow
+                                emissiveMap: nacelleTexture,
+                                emissiveIntensity: 0.5,
+                                transparent: true,
+                                opacity: 1.0
+                              });
+                            } else {
+                              console.log('Applying HULL texture to main mesh');
+                              child.material = new THREE.MeshPhongMaterial({ 
+                                map: hullTexture,
+                                side: THREE.DoubleSide,
+                                shininess: 50,
+                                specular: 0x666666,
+                                emissive: 0x111111,
+                                transparent: true,
+                                opacity: 1.0
                               });
                             }
-                          });
-                        }
-                      } else {
-                        console.log('No texture files found, using default material');
+                          }
+                        });
+                        
+                        console.log(`Processed ${meshCount} meshes with proper textures`);
+                      } catch (textureError) {
+                        console.error('Failed to load texture:', textureError);
+                        // Fallback to default material
                         loadedObject.traverse((child) => {
                           if (child instanceof THREE.Mesh) {
                             child.material = new THREE.MeshPhongMaterial({ 
@@ -398,21 +356,23 @@ const StarshipBackground: React.FC<StarshipBackgroundProps> = ({
                           }
                         });
                       }
-              
-              // Add warp trails for user models
-              warpTrails = createWarpTrails();
-                    const box = new THREE.Box3().setFromObject(loadedObject);
-                    const size = box.getSize(new THREE.Vector3());
-                    const maxDim = Math.max(size.x, size.y, size.z);
-                    const scale = maxDim > 0 ? 24 / maxDim : 6; // 6x larger
-                    loadedObject.scale.setScalar(scale);
-                    
-                    // Center and orient the model
-                    const center = box.getCenter(new THREE.Vector3());
-                    loadedObject.position.sub(center.multiplyScalar(scale));
-                    loadedObject.rotation.x = -Math.PI / 2;
-                    
-                    resolve(loadedObject);
+                      
+                      // Add warp trails for user models
+                      warpTrails = createWarpTrails();
+                      
+                      // Scale and position the model
+                      const box = new THREE.Box3().setFromObject(loadedObject);
+                      const size = box.getSize(new THREE.Vector3());
+                      const maxDim = Math.max(size.x, size.y, size.z);
+                      const scale = maxDim > 0 ? 24 / maxDim : 6; // 6x larger
+                      loadedObject.scale.setScalar(scale);
+                      
+                      // Center and orient the model
+                      const center = box.getCenter(new THREE.Vector3());
+                      loadedObject.position.sub(center.multiplyScalar(scale));
+                      loadedObject.rotation.x = -Math.PI / 2;
+                      
+                      resolve(loadedObject);
                   },
                   undefined,
                   reject
