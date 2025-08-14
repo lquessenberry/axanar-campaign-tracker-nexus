@@ -2984,6 +2984,14 @@ export type Database = {
           message: string
         }[]
       }
+      create_auth_users_for_all_donors: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          count: number
+          details: string
+          result_status: string
+        }[]
+      }
       create_auth_users_for_donors: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -3062,6 +3070,16 @@ export type Database = {
           sort_direction?: string
         }
         Returns: Json
+      }
+      get_donor_auth_migration_status: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          linked_donors: number
+          migration_progress: number
+          total_donors: number
+          unlinked_no_email: number
+          unlinked_with_email: number
+        }[]
       }
       get_leaderboard: {
         Args: { category_type?: string; limit_count?: number }
