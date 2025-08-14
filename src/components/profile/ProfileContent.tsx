@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Heart, BarChart3, Users2, Trophy, Star, Gift } from "lucide-react";
 import { useUserAchievements, useCalculateAchievements, useUserRecruitment } from "@/hooks/useUserAchievements";
 import AchievementBadge from "./AchievementBadge";
+import AchievementsShowcase from "./AchievementsShowcase";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -173,13 +174,34 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
         </CardContent>
       </Card>
 
-      {/* Achievements Section */}
+      {/* Achievements Showcase */}
+      <AchievementsShowcase 
+        donorData={{
+          donor_tier: profile?.donor_tier,
+          source_platform: profile?.source_platform,
+          source_campaign: profile?.source_campaign,
+          total_donated: totalDonated,
+          total_contributions: pledges?.length || 0,
+          campaigns_supported: campaigns?.length || 0,
+          years_supporting: yearsSupporting,
+          first_contribution_date: pledges?.[pledges.length - 1]?.created_at,
+          source_reward_title: profile?.source_reward_title,
+          source_perk_name: profile?.source_perk_name,
+          email_lists: profile?.email_lists,
+          recruits_confirmed: recruitCount,
+          profile_completeness_score: (profile?.full_name && profile?.bio) ? 100 : 50,
+          activity_score: totalXP,
+          source_amount: profile?.source_amount
+        }}
+      />
+
+      {/* Legacy Achievements Section */}
       {achievements && achievements.length > 0 && (
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center gap-2 mb-4">
               <Trophy className="h-5 w-5 text-axanar-teal" />
-              <h3 className="text-lg font-bold">Achievements Unlocked</h3>
+              <h3 className="text-lg font-bold">Database Achievements</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {achievements.map((achievement) => (
