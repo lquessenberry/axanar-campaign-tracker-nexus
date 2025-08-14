@@ -67,7 +67,7 @@ const App = () => (
             <Route path="/terms" element={<Terms />} />
             <Route path="/lcars" element={<LCARSShowcase />} />
             <Route path="/models" element={<ModelManager />} />
-            <Route path="/:username/profile" element={<VanityProfile />} />
+            <Route path="/u/:username" element={<VanityProfile />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

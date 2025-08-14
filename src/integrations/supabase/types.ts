@@ -3016,6 +3016,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: boolean
       }
+      ensure_profile_usernames: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       generate_username_from_email: {
         Args: { email_input: string }
         Returns: string
@@ -3100,6 +3104,16 @@ export type Database = {
       get_total_raised: {
         Args: Record<PropertyKey, never>
         Returns: number
+      }
+      get_user_by_username: {
+        Args: { lookup_username: string }
+        Returns: {
+          avatar_url: string
+          display_name: string
+          email: string
+          source_type: string
+          user_id: string
+        }[]
       }
       get_user_leaderboard_position: {
         Args: { category_type?: string; user_uuid: string }

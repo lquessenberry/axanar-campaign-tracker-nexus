@@ -2,9 +2,11 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { BarChart3, Heart, Settings } from "lucide-react";
+import { BarChart3, Heart, Settings, Link2, Copy } from "lucide-react";
 import { Link } from "react-router-dom";
 import { User } from "@supabase/supabase-js";
+import { toast } from "sonner";
+import { useUserProfile } from "@/hooks/useUserProfile";
 
 interface ProfileSidebarProps {
   user: User;
@@ -17,6 +19,15 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
   memberSince,
   onSignOut,
 }) => {
+  const { data: profile } = useUserProfile();
+
+  const handleCopyVanityURL = () => {
+    if (profile?.username) {
+      const vanityURL = `${window.location.origin}/u/${profile.username}`;
+      navigator.clipboard.writeText(vanityURL);
+      toast.success("Vanity URL copied to clipboard!");
+    }
+  };
   return (
     <div className="space-y-6">
       {/* Quick Stats */}
@@ -51,6 +62,32 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
                 Dashboard
               </Button>
             </Link>
+            
+            {/* Vanity URL Card */}
+            {profile?.username && (
+              <Card className="bg-primary/5 border-primary/20">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Link2 className="h-4 w-4 text-primary" />
+                    <span className="text-sm font-medium">Your Public Profile</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="text-xs bg-background/50 px-2 py-1 rounded flex-1 truncate">
+                      /u/{profile.username}
+                    </code>
+                    <Button 
+                      size="sm" 
+                      variant="ghost" 
+                      className="h-6 w-6 p-0"
+                      onClick={handleCopyVanityURL}
+                    >
+                      <Copy className="h-3 w-3" />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+            
             <Link to="/">
               <Button variant="outline" className="w-full justify-start">
                 <Heart className="h-4 w-4 mr-2" />
