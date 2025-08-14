@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -632,6 +632,7 @@ export type Database = {
           created_at: string | null
           deleted: boolean | null
           donor_name: string | null
+          donor_tier: string | null
           email: string
           email_lists: string | null
           email_permission_status: string | null
@@ -640,14 +641,33 @@ export type Database = {
           first_name: string | null
           full_name: string | null
           id: string
+          import_file_name: string | null
+          imported_at: string | null
+          is_duplicate: boolean | null
           last_login: string | null
           last_name: string | null
           legacy_id: number | null
           need_update: boolean | null
+          notes: string | null
+          package_count: number | null
           password: string | null
           remember_token: string | null
           reset_pass: string | null
+          reward_lists: string | null
+          sku_count: number | null
+          source: string | null
+          source_amount: string | null
+          source_campaign: string | null
+          source_contribution_date: string | null
+          source_contribution_id: string | null
           source_name: string | null
+          source_order_status: string | null
+          source_payment_status: string | null
+          source_perk_name: string | null
+          source_platform: string | null
+          source_raw_data: Json | null
+          source_record_id: string | null
+          source_reward_title: string | null
           temp_id: number | null
           updated_at: string | null
           username: string | null
@@ -660,6 +680,7 @@ export type Database = {
           created_at?: string | null
           deleted?: boolean | null
           donor_name?: string | null
+          donor_tier?: string | null
           email: string
           email_lists?: string | null
           email_permission_status?: string | null
@@ -668,14 +689,33 @@ export type Database = {
           first_name?: string | null
           full_name?: string | null
           id?: string
+          import_file_name?: string | null
+          imported_at?: string | null
+          is_duplicate?: boolean | null
           last_login?: string | null
           last_name?: string | null
           legacy_id?: number | null
           need_update?: boolean | null
+          notes?: string | null
+          package_count?: number | null
           password?: string | null
           remember_token?: string | null
           reset_pass?: string | null
+          reward_lists?: string | null
+          sku_count?: number | null
+          source?: string | null
+          source_amount?: string | null
+          source_campaign?: string | null
+          source_contribution_date?: string | null
+          source_contribution_id?: string | null
           source_name?: string | null
+          source_order_status?: string | null
+          source_payment_status?: string | null
+          source_perk_name?: string | null
+          source_platform?: string | null
+          source_raw_data?: Json | null
+          source_record_id?: string | null
+          source_reward_title?: string | null
           temp_id?: number | null
           updated_at?: string | null
           username?: string | null
@@ -688,6 +728,7 @@ export type Database = {
           created_at?: string | null
           deleted?: boolean | null
           donor_name?: string | null
+          donor_tier?: string | null
           email?: string
           email_lists?: string | null
           email_permission_status?: string | null
@@ -696,17 +737,745 @@ export type Database = {
           first_name?: string | null
           full_name?: string | null
           id?: string
+          import_file_name?: string | null
+          imported_at?: string | null
+          is_duplicate?: boolean | null
           last_login?: string | null
           last_name?: string | null
           legacy_id?: number | null
           need_update?: boolean | null
+          notes?: string | null
+          package_count?: number | null
           password?: string | null
           remember_token?: string | null
           reset_pass?: string | null
+          reward_lists?: string | null
+          sku_count?: number | null
+          source?: string | null
+          source_amount?: string | null
+          source_campaign?: string | null
+          source_contribution_date?: string | null
+          source_contribution_id?: string | null
           source_name?: string | null
+          source_order_status?: string | null
+          source_payment_status?: string | null
+          source_perk_name?: string | null
+          source_platform?: string | null
+          source_raw_data?: Json | null
+          source_record_id?: string | null
+          source_reward_title?: string | null
           temp_id?: number | null
           updated_at?: string | null
           username?: string | null
+        }
+        Relationships: []
+      }
+      donors_with_duplicate_legacy_ids: {
+        Row: {
+          created_at: string | null
+          donor_tier: string | null
+          email: string | null
+          email_lists: string | null
+          email_permission_status: string | null
+          email_status: string | null
+          first_name: string | null
+          id: string | null
+          import_file_name: string | null
+          imported_at: string | null
+          last_name: string | null
+          legacy_id: number | null
+          legacy_id_occurrence_count: number | null
+          notes: string | null
+          reward_lists: string | null
+          source: string | null
+          source_name: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          donor_tier?: string | null
+          email?: string | null
+          email_lists?: string | null
+          email_permission_status?: string | null
+          email_status?: string | null
+          first_name?: string | null
+          id?: string | null
+          import_file_name?: string | null
+          imported_at?: string | null
+          last_name?: string | null
+          legacy_id?: number | null
+          legacy_id_occurrence_count?: number | null
+          notes?: string | null
+          reward_lists?: string | null
+          source?: string | null
+          source_name?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          donor_tier?: string | null
+          email?: string | null
+          email_lists?: string | null
+          email_permission_status?: string | null
+          email_status?: string | null
+          first_name?: string | null
+          id?: string | null
+          import_file_name?: string | null
+          imported_at?: string | null
+          last_name?: string | null
+          legacy_id?: number | null
+          legacy_id_occurrence_count?: number | null
+          notes?: string | null
+          reward_lists?: string | null
+          source?: string | null
+          source_name?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      legacy_campaigns: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          end_date: string | null
+          id: number
+          image_url: string | null
+          is_active: boolean | null
+          legacy_id: number | null
+          name: string
+          platform: string | null
+          start_date: string | null
+          updated_at: string | null
+          url: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          end_date?: string | null
+          id?: number
+          image_url?: string | null
+          is_active?: boolean | null
+          legacy_id?: number | null
+          name: string
+          platform?: string | null
+          start_date?: string | null
+          updated_at?: string | null
+          url?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          end_date?: string | null
+          id?: number
+          image_url?: string | null
+          is_active?: boolean | null
+          legacy_id?: number | null
+          name?: string
+          platform?: string | null
+          start_date?: string | null
+          updated_at?: string | null
+          url?: string | null
+        }
+        Relationships: []
+      }
+      legacy_donor_packages: {
+        Row: {
+          amount: number | null
+          campaign_id: number | null
+          created_at: string | null
+          donor_id: number | null
+          id: number
+          package_id: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount?: number | null
+          campaign_id?: number | null
+          created_at?: string | null
+          donor_id?: number | null
+          id: number
+          package_id?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number | null
+          campaign_id?: number | null
+          created_at?: string | null
+          donor_id?: number | null
+          id?: number
+          package_id?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "legacy_donor_packages_package_id_fkey"
+            columns: ["package_id"]
+            isOneToOne: false
+            referencedRelation: "legacy_packages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      legacy_donor_skus: {
+        Row: {
+          created_at: string | null
+          date: string | null
+          donation_id: number | null
+          donor_id: number | null
+          id: number
+          sku_id: number | null
+          status: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          date?: string | null
+          donation_id?: number | null
+          donor_id?: number | null
+          id: number
+          sku_id?: number | null
+          status?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          date?: string | null
+          donation_id?: number | null
+          donor_id?: number | null
+          id?: number
+          sku_id?: number | null
+          status?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "legacy_donor_skus_sku_id_fkey"
+            columns: ["sku_id"]
+            isOneToOne: false
+            referencedRelation: "legacy_skus"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      legacy_donors: {
+        Row: {
+          created_at: string | null
+          donor_tier: string | null
+          email: string | null
+          email_lists: string | null
+          email_permission_status: string | null
+          email_status: string | null
+          first_name: string | null
+          id: string
+          import_file_name: string | null
+          imported_at: string | null
+          is_duplicate: boolean | null
+          last_name: string | null
+          legacy_id: number | null
+          notes: string | null
+          package_count: number | null
+          reward_lists: string | null
+          sku_count: number | null
+          source: string | null
+          source_amount: string | null
+          source_campaign: string | null
+          source_contribution_date: string | null
+          source_contribution_id: string | null
+          source_name: string | null
+          source_order_status: string | null
+          source_payment_status: string | null
+          source_perk_name: string | null
+          source_platform: string | null
+          source_raw_data: Json | null
+          source_record_id: string | null
+          source_reward_title: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          donor_tier?: string | null
+          email?: string | null
+          email_lists?: string | null
+          email_permission_status?: string | null
+          email_status?: string | null
+          first_name?: string | null
+          id: string
+          import_file_name?: string | null
+          imported_at?: string | null
+          is_duplicate?: boolean | null
+          last_name?: string | null
+          legacy_id?: number | null
+          notes?: string | null
+          package_count?: number | null
+          reward_lists?: string | null
+          sku_count?: number | null
+          source?: string | null
+          source_amount?: string | null
+          source_campaign?: string | null
+          source_contribution_date?: string | null
+          source_contribution_id?: string | null
+          source_name?: string | null
+          source_order_status?: string | null
+          source_payment_status?: string | null
+          source_perk_name?: string | null
+          source_platform?: string | null
+          source_raw_data?: Json | null
+          source_record_id?: string | null
+          source_reward_title?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          donor_tier?: string | null
+          email?: string | null
+          email_lists?: string | null
+          email_permission_status?: string | null
+          email_status?: string | null
+          first_name?: string | null
+          id?: string
+          import_file_name?: string | null
+          imported_at?: string | null
+          is_duplicate?: boolean | null
+          last_name?: string | null
+          legacy_id?: number | null
+          notes?: string | null
+          package_count?: number | null
+          reward_lists?: string | null
+          sku_count?: number | null
+          source?: string | null
+          source_amount?: string | null
+          source_campaign?: string | null
+          source_contribution_date?: string | null
+          source_contribution_id?: string | null
+          source_name?: string | null
+          source_order_status?: string | null
+          source_payment_status?: string | null
+          source_perk_name?: string | null
+          source_platform?: string | null
+          source_raw_data?: Json | null
+          source_record_id?: string | null
+          source_reward_title?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      legacy_package_skus: {
+        Row: {
+          created_at: string | null
+          id: number
+          package_id: number | null
+          sku_id: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id: number
+          package_id?: number | null
+          sku_id?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          package_id?: number | null
+          sku_id?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "legacy_package_skus_package_id_fkey"
+            columns: ["package_id"]
+            isOneToOne: false
+            referencedRelation: "legacy_packages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "legacy_package_skus_sku_id_fkey"
+            columns: ["sku_id"]
+            isOneToOne: false
+            referencedRelation: "legacy_skus"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      legacy_packages: {
+        Row: {
+          active: boolean | null
+          created_at: string | null
+          id: number
+          name: string | null
+          price: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          active?: boolean | null
+          created_at?: string | null
+          id: number
+          name?: string | null
+          price?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          active?: boolean | null
+          created_at?: string | null
+          id?: number
+          name?: string | null
+          price?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      legacy_pledges: {
+        Row: {
+          amount: number | null
+          campaign_id: number | null
+          created_at: string | null
+          donor_id: string | null
+          donor_reference: number | null
+          id: number
+          legacy_id: number | null
+          perk_id: number | null
+          reward_id: number | null
+          status: string | null
+          updated_at: string | null
+          user_id: number | null
+        }
+        Insert: {
+          amount?: number | null
+          campaign_id?: number | null
+          created_at?: string | null
+          donor_id?: string | null
+          donor_reference?: number | null
+          id?: number
+          legacy_id?: number | null
+          perk_id?: number | null
+          reward_id?: number | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: number | null
+        }
+        Update: {
+          amount?: number | null
+          campaign_id?: number | null
+          created_at?: string | null
+          donor_id?: string | null
+          donor_reference?: number | null
+          id?: number
+          legacy_id?: number | null
+          perk_id?: number | null
+          reward_id?: number | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: number | null
+        }
+        Relationships: []
+      }
+      legacy_rewards: {
+        Row: {
+          amount: number | null
+          campaign_id: number | null
+          created_at: string | null
+          description: string | null
+          id: number
+          image_url: string | null
+          is_active: boolean | null
+          legacy_id: number | null
+          name: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount?: number | null
+          campaign_id?: number | null
+          created_at?: string | null
+          description?: string | null
+          id?: number
+          image_url?: string | null
+          is_active?: boolean | null
+          legacy_id?: number | null
+          name?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number | null
+          campaign_id?: number | null
+          created_at?: string | null
+          description?: string | null
+          id?: number
+          image_url?: string | null
+          is_active?: boolean | null
+          legacy_id?: number | null
+          name?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      legacy_skus: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: number
+          name: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id: number
+          name?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: number
+          name?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      legacy_src_indiegogo: {
+        Row: {
+          amount: number | null
+          contributor_name: string | null
+          email: string | null
+          id: number
+          imported_at: string | null
+          perk_name: string | null
+          pledge_date: string | null
+          raw_data: Json | null
+        }
+        Insert: {
+          amount?: number | null
+          contributor_name?: string | null
+          email?: string | null
+          id?: number
+          imported_at?: string | null
+          perk_name?: string | null
+          pledge_date?: string | null
+          raw_data?: Json | null
+        }
+        Update: {
+          amount?: number | null
+          contributor_name?: string | null
+          email?: string | null
+          id?: number
+          imported_at?: string | null
+          perk_name?: string | null
+          pledge_date?: string | null
+          raw_data?: Json | null
+        }
+        Relationships: []
+      }
+      legacy_src_kickstarter_axanar: {
+        Row: {
+          amount: number | null
+          backer_name: string | null
+          email: string | null
+          id: number
+          imported_at: string | null
+          perk_name: string | null
+          pledge_date: string | null
+          raw_data: Json | null
+        }
+        Insert: {
+          amount?: number | null
+          backer_name?: string | null
+          email?: string | null
+          id?: number
+          imported_at?: string | null
+          perk_name?: string | null
+          pledge_date?: string | null
+          raw_data?: Json | null
+        }
+        Update: {
+          amount?: number | null
+          backer_name?: string | null
+          email?: string | null
+          id?: number
+          imported_at?: string | null
+          perk_name?: string | null
+          pledge_date?: string | null
+          raw_data?: Json | null
+        }
+        Relationships: []
+      }
+      legacy_src_kickstarter_prelude: {
+        Row: {
+          amount: number | null
+          backer_name: string | null
+          email: string | null
+          id: number
+          imported_at: string | null
+          perk_name: string | null
+          pledge_date: string | null
+          raw_data: Json | null
+        }
+        Insert: {
+          amount?: number | null
+          backer_name?: string | null
+          email?: string | null
+          id?: number
+          imported_at?: string | null
+          perk_name?: string | null
+          pledge_date?: string | null
+          raw_data?: Json | null
+        }
+        Update: {
+          amount?: number | null
+          backer_name?: string | null
+          email?: string | null
+          id?: number
+          imported_at?: string | null
+          perk_name?: string | null
+          pledge_date?: string | null
+          raw_data?: Json | null
+        }
+        Relationships: []
+      }
+      legacy_src_paypal_axanar: {
+        Row: {
+          amount: number | null
+          email: string | null
+          first_name: string | null
+          id: number
+          imported_at: string | null
+          last_name: string | null
+          name: string | null
+          perk_name: string | null
+          pledge_date: string | null
+          raw_data: Json | null
+        }
+        Insert: {
+          amount?: number | null
+          email?: string | null
+          first_name?: string | null
+          id?: number
+          imported_at?: string | null
+          last_name?: string | null
+          name?: string | null
+          perk_name?: string | null
+          pledge_date?: string | null
+          raw_data?: Json | null
+        }
+        Update: {
+          amount?: number | null
+          email?: string | null
+          first_name?: string | null
+          id?: number
+          imported_at?: string | null
+          last_name?: string | null
+          name?: string | null
+          perk_name?: string | null
+          pledge_date?: string | null
+          raw_data?: Json | null
+        }
+        Relationships: []
+      }
+      legacy_src_paypal_prelude: {
+        Row: {
+          amount: number | null
+          email: string | null
+          first_name: string | null
+          id: number
+          imported_at: string | null
+          last_name: string | null
+          name: string | null
+          perk_name: string | null
+          pledge_date: string | null
+          raw_data: Json | null
+        }
+        Insert: {
+          amount?: number | null
+          email?: string | null
+          first_name?: string | null
+          id?: number
+          imported_at?: string | null
+          last_name?: string | null
+          name?: string | null
+          perk_name?: string | null
+          pledge_date?: string | null
+          raw_data?: Json | null
+        }
+        Update: {
+          amount?: number | null
+          email?: string | null
+          first_name?: string | null
+          id?: number
+          imported_at?: string | null
+          last_name?: string | null
+          name?: string | null
+          perk_name?: string | null
+          pledge_date?: string | null
+          raw_data?: Json | null
+        }
+        Relationships: []
+      }
+      legacy_src_secret_perks: {
+        Row: {
+          amount: number | null
+          email: string | null
+          first_name: string | null
+          id: number
+          imported_at: string | null
+          last_name: string | null
+          name: string | null
+          perk_name: string | null
+          pledge_date: string | null
+          raw_data: Json | null
+        }
+        Insert: {
+          amount?: number | null
+          email?: string | null
+          first_name?: string | null
+          id?: number
+          imported_at?: string | null
+          last_name?: string | null
+          name?: string | null
+          perk_name?: string | null
+          pledge_date?: string | null
+          raw_data?: Json | null
+        }
+        Update: {
+          amount?: number | null
+          email?: string | null
+          first_name?: string | null
+          id?: number
+          imported_at?: string | null
+          last_name?: string | null
+          name?: string | null
+          perk_name?: string | null
+          pledge_date?: string | null
+          raw_data?: Json | null
+        }
+        Relationships: []
+      }
+      "legacy-user-skus": {
+        Row: {
+          "0": string | null
+          "0_1": string | null
+          "1": string | null
+          "2016-09-17 00:04:24": string | null
+          "6": number | null
+          donation_id: number | null
+          legacy_id: number | null
+        }
+        Insert: {
+          "0"?: string | null
+          "0_1"?: string | null
+          "1"?: string | null
+          "2016-09-17 00:04:24"?: string | null
+          "6"?: number | null
+          donation_id?: number | null
+          legacy_id?: number | null
+        }
+        Update: {
+          "0"?: string | null
+          "0_1"?: string | null
+          "1"?: string | null
+          "2016-09-17 00:04:24"?: string | null
+          "6"?: number | null
+          donation_id?: number | null
+          legacy_id?: number | null
         }
         Relationships: []
       }
@@ -805,6 +1574,90 @@ export type Database = {
             referencedColumns: ["donor_id"]
           },
         ]
+      }
+      orphaned_data_summary: {
+        Row: {
+          donors_missing_email: number | null
+          donors_with_duplicate_emails: number | null
+          donors_with_duplicate_legacy_ids: number | null
+          generated_at: string | null
+          total_donors: number | null
+        }
+        Insert: {
+          donors_missing_email?: number | null
+          donors_with_duplicate_emails?: number | null
+          donors_with_duplicate_legacy_ids?: number | null
+          generated_at?: string | null
+          total_donors?: number | null
+        }
+        Update: {
+          donors_missing_email?: number | null
+          donors_with_duplicate_emails?: number | null
+          donors_with_duplicate_legacy_ids?: number | null
+          generated_at?: string | null
+          total_donors?: number | null
+        }
+        Relationships: []
+      }
+      orphaned_donors_no_email: {
+        Row: {
+          created_at: string | null
+          donor_tier: string | null
+          email: string | null
+          email_lists: string | null
+          email_permission_status: string | null
+          email_status: string | null
+          first_name: string | null
+          id: string | null
+          import_file_name: string | null
+          imported_at: string | null
+          last_name: string | null
+          legacy_id: number | null
+          notes: string | null
+          reward_lists: string | null
+          source: string | null
+          source_name: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          donor_tier?: string | null
+          email?: string | null
+          email_lists?: string | null
+          email_permission_status?: string | null
+          email_status?: string | null
+          first_name?: string | null
+          id?: string | null
+          import_file_name?: string | null
+          imported_at?: string | null
+          last_name?: string | null
+          legacy_id?: number | null
+          notes?: string | null
+          reward_lists?: string | null
+          source?: string | null
+          source_name?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          donor_tier?: string | null
+          email?: string | null
+          email_lists?: string | null
+          email_permission_status?: string | null
+          email_status?: string | null
+          first_name?: string | null
+          id?: string | null
+          import_file_name?: string | null
+          imported_at?: string | null
+          last_name?: string | null
+          legacy_id?: number | null
+          notes?: string | null
+          reward_lists?: string | null
+          source?: string | null
+          source_name?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       package_sku_items: {
         Row: {
@@ -917,6 +1770,45 @@ export type Database = {
         }
         Relationships: []
       }
+      platformuser: {
+        Row: {
+          campaign_id: number | null
+          created_at: string | null
+          email_address: string | null
+          first_name: string | null
+          id: number
+          last_name: string | null
+          legacy_id: number | null
+          platform_id: number | null
+          status: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          campaign_id?: number | null
+          created_at?: string | null
+          email_address?: string | null
+          first_name?: string | null
+          id?: number
+          last_name?: string | null
+          legacy_id?: number | null
+          platform_id?: number | null
+          status?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          campaign_id?: number | null
+          created_at?: string | null
+          email_address?: string | null
+          first_name?: string | null
+          id?: number
+          last_name?: string | null
+          legacy_id?: number | null
+          platform_id?: number | null
+          status?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       pledges: {
         Row: {
           amount: number
@@ -1016,6 +1908,69 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      problematic_donor_emails: {
+        Row: {
+          created_at: string | null
+          donor_tier: string | null
+          email: string | null
+          email_lists: string | null
+          email_occurrence_count: number | null
+          email_permission_status: string | null
+          email_status: string | null
+          first_name: string | null
+          id: string | null
+          import_file_name: string | null
+          imported_at: string | null
+          last_name: string | null
+          legacy_id: number | null
+          notes: string | null
+          reward_lists: string | null
+          source: string | null
+          source_name: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          donor_tier?: string | null
+          email?: string | null
+          email_lists?: string | null
+          email_occurrence_count?: number | null
+          email_permission_status?: string | null
+          email_status?: string | null
+          first_name?: string | null
+          id?: string | null
+          import_file_name?: string | null
+          imported_at?: string | null
+          last_name?: string | null
+          legacy_id?: number | null
+          notes?: string | null
+          reward_lists?: string | null
+          source?: string | null
+          source_name?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          donor_tier?: string | null
+          email?: string | null
+          email_lists?: string | null
+          email_occurrence_count?: number | null
+          email_permission_status?: string | null
+          email_status?: string | null
+          first_name?: string | null
+          id?: string | null
+          import_file_name?: string | null
+          imported_at?: string | null
+          last_name?: string | null
+          legacy_id?: number | null
+          notes?: string | null
+          reward_lists?: string | null
+          source?: string | null
+          source_name?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -1696,6 +2651,27 @@ export type Database = {
           },
         ]
       }
+      temp_user_mappings: {
+        Row: {
+          email: string | null
+          first_name: string | null
+          last_name: string | null
+          legacy_id: number | null
+        }
+        Insert: {
+          email?: string | null
+          first_name?: string | null
+          last_name?: string | null
+          legacy_id?: number | null
+        }
+        Update: {
+          email?: string | null
+          first_name?: string | null
+          last_name?: string | null
+          legacy_id?: number | null
+        }
+        Relationships: []
+      }
       user_achievements: {
         Row: {
           achievement_data: Json | null
@@ -1747,6 +2723,48 @@ export type Database = {
           recruiter_id?: string
           recruitment_code?: string | null
           status?: string | null
+        }
+        Relationships: []
+      }
+      users: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          id: number
+          is_admin: boolean | null
+          is_banned: boolean | null
+          is_verified: boolean | null
+          name: string | null
+          password: string | null
+          permissions: Json | null
+          remember_token: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          id: number
+          is_admin?: boolean | null
+          is_banned?: boolean | null
+          is_verified?: boolean | null
+          name?: string | null
+          password?: string | null
+          permissions?: Json | null
+          remember_token?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          id?: number
+          is_admin?: boolean | null
+          is_banned?: boolean | null
+          is_verified?: boolean | null
+          name?: string | null
+          password?: string | null
+          permissions?: Json | null
+          remember_token?: string | null
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -1823,6 +2841,16 @@ export type Database = {
         }
         Relationships: []
       }
+      orphaned_data_analysis_report: {
+        Row: {
+          donors_with_duplicate_legacy_ids_count: number | null
+          generated_at: string | null
+          orphaned_donors_no_email_count: number | null
+          problematic_donor_emails_count: number | null
+          report_name: string | null
+        }
+        Relationships: []
+      }
       vw_donor_details: {
         Row: {
           auth_user_id: string | null
@@ -1889,9 +2917,9 @@ export type Database = {
       }
       add_admin_user: {
         Args: {
-          target_email: string
-          make_super_admin?: boolean
           make_content_manager?: boolean
+          make_super_admin?: boolean
+          target_email: string
         }
         Returns: undefined
       }
@@ -1918,21 +2946,21 @@ export type Database = {
       check_email_exists: {
         Args: { check_email: string }
         Returns: {
-          exists_in_donors: boolean
-          exists_in_auth: boolean
-          donor_id: string
           auth_id: string
+          donor_id: string
+          exists_in_auth: boolean
+          exists_in_donors: boolean
           is_linked: boolean
         }[]
       }
       check_email_in_system: {
         Args: { check_email: string }
         Returns: {
+          auth_user_id: string
+          donor_id: string
           exists_in_auth: boolean
           exists_in_donors: boolean
           has_auth_link: boolean
-          auth_user_id: string
-          donor_id: string
           suggested_providers: string[]
         }[]
       }
@@ -1941,7 +2969,7 @@ export type Database = {
         Returns: boolean
       }
       check_password_reset_rate_limit: {
-        Args: { user_email: string; client_ip?: string }
+        Args: { client_ip?: string; user_email: string }
         Returns: {
           allowed: boolean
           remaining_attempts: number
@@ -1951,28 +2979,28 @@ export type Database = {
       check_recovery_token_validity: {
         Args: { token: string; user_email: string }
         Returns: {
-          is_valid: boolean
           attempt_type: string
+          is_valid: boolean
           message: string
         }[]
       }
       create_auth_users_for_donors: {
         Args: Record<PropertyKey, never>
         Returns: {
-          result_status: string
           count: number
+          result_status: string
         }[]
       }
       create_legacy_user: {
         Args: {
-          user_id: string
-          email: string
-          password_hash: string
-          email_confirmed: boolean
           created_at: string
+          email: string
+          email_confirmed: boolean
           last_sign_in_at: string
-          raw_user_meta_data: Json
+          password_hash: string
           raw_app_meta_data: Json
+          raw_user_meta_data: Json
+          user_id: string
         }
         Returns: undefined
       }
@@ -1991,20 +3019,20 @@ export type Database = {
       get_admin_profiles: {
         Args: Record<PropertyKey, never>
         Returns: {
+          full_name: string
           id: string
           username: string
-          full_name: string
         }[]
       }
       get_admin_users: {
         Args: Record<PropertyKey, never>
         Returns: {
-          user_id: string
-          email: string
-          is_super_admin: boolean
-          is_content_manager: boolean
           created_at: string
+          email: string
+          is_content_manager: boolean
+          is_super_admin: boolean
           updated_at: string
+          user_id: string
         }[]
       }
       get_all_users: {
@@ -2013,8 +3041,8 @@ export type Database = {
       }
       get_campaign_analytics_paginated: {
         Args: {
-          page_size?: number
           page_offset?: number
+          page_size?: number
           search_term?: string
           sort_column?: string
           sort_direction?: string
@@ -2027,8 +3055,8 @@ export type Database = {
       }
       get_donor_analytics: {
         Args: {
-          page_size?: number
           page_offset?: number
+          page_size?: number
           search_term?: string
           sort_column?: string
           sort_direction?: string
@@ -2038,17 +3066,17 @@ export type Database = {
       get_leaderboard: {
         Args: { category_type?: string; limit_count?: number }
         Returns: {
-          rank: number
-          donor_id: string
-          full_name: string
-          donor_name: string
+          achievements: number
           avatar_url: string
+          donor_id: string
+          donor_name: string
+          full_name: string
           metric_value: number
+          profile_score: number
+          rank: number
+          recruits: number
           total_donated: number
           years_supporting: number
-          achievements: number
-          recruits: number
-          profile_score: number
         }[]
       }
       get_total_raised: {
@@ -2056,26 +3084,46 @@ export type Database = {
         Returns: number
       }
       get_user_leaderboard_position: {
-        Args: { user_uuid: string; category_type?: string }
+        Args: { category_type?: string; user_uuid: string }
         Returns: {
-          user_rank: number
-          total_contributors: number
           metric_value: number
           percentile: number
+          total_contributors: number
+          user_rank: number
         }[]
+      }
+      gtrgm_compress: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      gtrgm_decompress: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      gtrgm_in: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      gtrgm_options: {
+        Args: { "": unknown }
+        Returns: undefined
+      }
+      gtrgm_out: {
+        Args: { "": unknown }
+        Returns: unknown
       }
       initiate_account_recovery: {
         Args: {
-          user_email: string
-          recovery_type: string
           client_ip?: string
           client_user_agent?: string
+          recovery_type: string
+          user_email: string
         }
         Returns: {
-          recovery_token: string
           expires_at: string
-          success: boolean
           message: string
+          recovery_token: string
+          success: boolean
         }[]
       }
       is_admin: {
@@ -2093,25 +3141,32 @@ export type Database = {
       link_donors_to_auth_users: {
         Args: Record<PropertyKey, never>
         Returns: {
-          result_status: string
           count: number
+          result_status: string
         }[]
       }
       log_admin_action: {
-        Args: { action_type: string; target_user_id: string; details?: Json }
+        Args: { action_type: string; details?: Json; target_user_id: string }
         Returns: undefined
       }
       log_admin_action_enhanced: {
         Args: {
           action_type: string
-          target_table?: string
-          target_id?: string
-          old_values?: Json
-          new_values?: Json
           client_ip?: string
           client_user_agent?: string
+          new_values?: Json
+          old_values?: Json
+          target_id?: string
+          target_table?: string
         }
         Returns: undefined
+      }
+      merge_legacy_donor_data: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          action: string
+          count: number
+        }[]
       }
       remove_admin_user: {
         Args: { target_user_id: string }
@@ -2121,15 +3176,27 @@ export type Database = {
         Args: { input_text: string }
         Returns: string
       }
+      set_limit: {
+        Args: { "": number }
+        Returns: number
+      }
+      show_limit: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      show_trgm: {
+        Args: { "": string }
+        Returns: string[]
+      }
       unban_user: {
         Args: { target_user_id: string }
         Returns: boolean
       }
       update_admin_user: {
         Args: {
-          target_user_id: string
-          make_super_admin: boolean
           make_content_manager: boolean
+          make_super_admin: boolean
+          target_user_id: string
         }
         Returns: undefined
       }
@@ -2140,16 +3207,16 @@ export type Database = {
       validate_recovery_token: {
         Args: { token: string; user_email: string }
         Returns: {
-          is_valid: boolean
           attempt_type: string
+          is_valid: boolean
           message: string
         }[]
       }
       validate_recovery_token_secure: {
         Args: { token: string; user_email: string }
         Returns: {
-          is_valid: boolean
           attempt_type: string
+          is_valid: boolean
           message: string
         }[]
       }
