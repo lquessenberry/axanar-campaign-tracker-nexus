@@ -122,6 +122,13 @@ export type Database = {
             foreignKeyName: "addresses_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
+            referencedRelation: "reserve_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "addresses_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
             referencedRelation: "vw_donor_details"
             referencedColumns: ["donor_id"]
           },
@@ -285,6 +292,13 @@ export type Database = {
             foreignKeyName: "alerts_seen_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
+            referencedRelation: "reserve_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "alerts_seen_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
             referencedRelation: "vw_donor_details"
             referencedColumns: ["donor_id"]
           },
@@ -348,6 +362,13 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "audit_trail_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "reserve_users"
             referencedColumns: ["id"]
           },
           {
@@ -528,6 +549,13 @@ export type Database = {
             foreignKeyName: "donor_campaign_packages_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
+            referencedRelation: "reserve_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "donor_campaign_packages_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
             referencedRelation: "vw_donor_details"
             referencedColumns: ["donor_id"]
           },
@@ -598,6 +626,13 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "donor_sku_items_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "reserve_users"
             referencedColumns: ["id"]
           },
           {
@@ -1563,6 +1598,13 @@ export type Database = {
             foreignKeyName: "notifications_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
+            referencedRelation: "reserve_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
             referencedRelation: "vw_donor_details"
             referencedColumns: ["donor_id"]
           },
@@ -1890,6 +1932,13 @@ export type Database = {
             foreignKeyName: "pledges_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
+            referencedRelation: "reserve_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pledges_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
             referencedRelation: "vw_donor_details"
             referencedColumns: ["donor_id"]
           },
@@ -2201,6 +2250,13 @@ export type Database = {
             foreignKeyName: "src_indiegogo_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
+            referencedRelation: "reserve_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "src_indiegogo_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
             referencedRelation: "vw_donor_details"
             referencedColumns: ["donor_id"]
           },
@@ -2294,6 +2350,13 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "src_kickstarter_axanar_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "reserve_users"
             referencedColumns: ["id"]
           },
           {
@@ -2399,6 +2462,13 @@ export type Database = {
             foreignKeyName: "src_kickstarter_prelude_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
+            referencedRelation: "reserve_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "src_kickstarter_prelude_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
             referencedRelation: "vw_donor_details"
             referencedColumns: ["donor_id"]
           },
@@ -2474,6 +2544,13 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "src_paypal_axanar_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "reserve_users"
             referencedColumns: ["id"]
           },
           {
@@ -2561,6 +2638,13 @@ export type Database = {
             foreignKeyName: "src_paypal_prelude_donor_id_fkey"
             columns: ["donor_id"]
             isOneToOne: false
+            referencedRelation: "reserve_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "src_paypal_prelude_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
             referencedRelation: "vw_donor_details"
             referencedColumns: ["donor_id"]
           },
@@ -2633,6 +2717,13 @@ export type Database = {
             columns: ["donor_id"]
             isOneToOne: false
             referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "src_secret_perks_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "reserve_users"
             referencedColumns: ["id"]
           },
           {
