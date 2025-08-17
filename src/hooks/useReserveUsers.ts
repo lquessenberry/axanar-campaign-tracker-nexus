@@ -16,6 +16,8 @@ export interface ReserveUser {
   notes: string;
   createdAt: string;
   updatedAt?: string;
+  importedAt?: string;
+  sourceContributionDate?: string;
 }
 
 export interface ReserveUsersResponse {

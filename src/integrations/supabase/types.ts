@@ -2951,9 +2951,11 @@ export type Database = {
           email_status: string | null
           first_name: string | null
           id: string | null
+          imported_at: string | null
           last_name: string | null
           notes: string | null
           source: string | null
+          source_contribution_date: string | null
           source_name: string | null
           source_platform: string | null
           updated_at: string | null

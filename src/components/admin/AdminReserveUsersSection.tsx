@@ -271,7 +271,30 @@ const AdminReserveUsersSection = () => {
                         <Badge variant="outline">{user.userType}</Badge>
                       </TableCell>
                       <TableCell>
-                        {new Date(user.createdAt).toLocaleDateString()}
+                        {(() => {
+                          // Prioritize source contribution date, then imported date, then updated date
+                          const dateToShow = user.sourceContributionDate || user.importedAt || user.updatedAt || user.createdAt;
+                          if (!dateToShow || dateToShow === '1970-01-01T00:00:00.000Z') {
+                            return 'Unknown';
+                          }
+                          try {
+                            const date = new Date(dateToShow);
+                            const isOriginalContribution = user.sourceContributionDate;
+                            return (
+                              <div className="flex flex-col">
+                                <span>{date.toLocaleDateString()}</span>
+                                {isOriginalContribution && (
+                                  <span className="text-xs text-muted-foreground">Original</span>
+                                )}
+                                {!isOriginalContribution && user.importedAt && (
+                                  <span className="text-xs text-muted-foreground">Imported</span>
+                                )}
+                              </div>
+                            );
+                          } catch {
+                            return 'Invalid Date';
+                          }
+                        })()}
                       </TableCell>
                     </TableRow>
                   ))}
