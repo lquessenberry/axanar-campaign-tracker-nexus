@@ -14,11 +14,13 @@ import {
   FolderOpen,
   Box,
   HardDrive,
+  UserPlus,
 } from "lucide-react";
 
 export const sidebarItems = [
   { id: "overview", label: "Dashboard", icon: Home },
   { id: "donors", label: "Donors", icon: Users },
+  { id: "reserve-users", label: "Reserve Users", icon: UserPlus },
   { id: "pledges", label: "Pledges", icon: DollarSign },
   { id: "rewards", label: "Rewards", icon: Gift },
   { id: "campaigns", label: "Campaigns", icon: BarChart3 },

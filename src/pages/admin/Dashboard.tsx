@@ -29,6 +29,7 @@ import UserProfiles from "./UserProfiles";
 import AdminFileManagerSection from "@/components/admin/AdminFileManagerSection";
 import AdminModelsSection from "@/components/admin/AdminModelsSection";
 import AdminStorageSection from "@/components/admin/AdminStorageSection";
+import AdminReserveUsersSection from "@/components/admin/AdminReserveUsersSection";
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState("overview");
@@ -347,6 +348,8 @@ const Dashboard = () => {
           onBulkActivate={handleBulkActivateCampaigns}
           onBulkDeactivate={handleBulkDeactivateCampaigns}
         />;
+      case "reserve-users":
+        return <AdminReserveUsersSection />;
       case "user-profiles":
         return <UserProfiles />;
       case "file-manager":

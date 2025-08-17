@@ -2851,6 +2851,25 @@ export type Database = {
         }
         Relationships: []
       }
+      reserve_users: {
+        Row: {
+          created_at: string | null
+          display_name: string | null
+          email: string | null
+          email_permission_status: string | null
+          email_status: string | null
+          first_name: string | null
+          id: string | null
+          last_name: string | null
+          notes: string | null
+          source: string | null
+          source_name: string | null
+          source_platform: string | null
+          updated_at: string | null
+          user_type: string | null
+        }
+        Relationships: []
+      }
       vw_donor_details: {
         Row: {
           auth_user_id: string | null
@@ -3100,6 +3119,16 @@ export type Database = {
           total_donated: number
           years_supporting: number
         }[]
+      }
+      get_reserve_users: {
+        Args: {
+          page_offset?: number
+          page_size?: number
+          search_term?: string
+          sort_column?: string
+          sort_direction?: string
+        }
+        Returns: Json
       }
       get_total_raised: {
         Args: Record<PropertyKey, never>
