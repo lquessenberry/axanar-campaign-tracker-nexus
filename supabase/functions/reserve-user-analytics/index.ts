@@ -106,13 +106,12 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Check admin privileges
-    const { data: adminCheck, error: adminError } = await supabase
-      .rpc('check_current_user_is_admin');
+    // Check admin privileges using the user metadata directly
+    const isAdmin = user.user_metadata?.isAdmin === true || user.user_metadata?.role === 'admin';
     
-    console.log('Admin check:', { admin: adminCheck, error: adminError });
+    console.log('Admin check:', { admin: isAdmin, userMetadata: user.user_metadata });
 
-    if (adminError || !adminCheck) {
+    if (!isAdmin) {
       return new Response(
         JSON.stringify({ error: 'Admin access required' }),
         { 
