@@ -123,32 +123,58 @@ Deno.serve(async (req) => {
 
     console.log('Starting comprehensive reserve user analytics...');
 
-    // Get all reserve users with detailed information
-    const { data: reserveUsers, error: reserveError } = await supabase
-      .from('reserve_users')
-      .select(`
-        id,
-        email,
-        first_name,
-        last_name,
-        display_name,
-        source_name,
-        source_platform,
-        email_status,
-        email_permission_status,
-        source,
-        user_type,
-        notes,
-        created_at,
-        updated_at,
-        imported_at,
-        source_contribution_date
-      `);
+    // Get all reserve users with detailed information in batches of 1000
+    let allReserveUsers = [];
+    let offset = 0;
+    const batchSize = 1000;
+    let hasMore = true;
 
-    if (reserveError) {
-      console.error('Error fetching reserve users:', reserveError);
-      throw reserveError;
+    while (hasMore) {
+      console.log(`Fetching batch starting at offset ${offset}...`);
+      
+      const { data: batchUsers, error: batchError } = await supabase
+        .from('reserve_users')
+        .select(`
+          id,
+          email,
+          first_name,
+          last_name,
+          display_name,
+          source_name,
+          source_platform,
+          email_status,
+          email_permission_status,
+          source,
+          user_type,
+          notes,
+          created_at,
+          updated_at,
+          imported_at,
+          source_contribution_date
+        `)
+        .range(offset, offset + batchSize - 1);
+
+      if (batchError) {
+        console.error('Error fetching reserve users batch:', batchError);
+        throw batchError;
+      }
+
+      if (batchUsers && batchUsers.length > 0) {
+        allReserveUsers.push(...batchUsers);
+        console.log(`Fetched ${batchUsers.length} users in this batch. Total so far: ${allReserveUsers.length}`);
+        
+        // If we got less than the batch size, we've reached the end
+        if (batchUsers.length < batchSize) {
+          hasMore = false;
+        } else {
+          offset += batchSize;
+        }
+      } else {
+        hasMore = false;
+      }
     }
+
+    const reserveUsers = allReserveUsers;
 
     console.log(`Found ${reserveUsers?.length || 0} reserve users`);
 
