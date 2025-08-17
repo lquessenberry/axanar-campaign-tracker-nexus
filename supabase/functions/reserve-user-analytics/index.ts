@@ -210,134 +210,174 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Process analytics
+    // Process analytics efficiently to avoid timeouts
     const totalUsers = reserveUsers.length;
     console.log('Processing analytics for', totalUsers, 'users');
 
-    // Platform breakdown
-    const platformGroups = new Map<string, any[]>();
-    reserveUsers.forEach(user => {
-      const platform = user.source_platform || 'Unknown';
-      if (!platformGroups.has(platform)) {
-        platformGroups.set(platform, []);
-      }
-      platformGroups.get(platform)!.push({
-        email: user.email,
-        displayName: user.display_name || `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'N/A',
-        sourceContributionDate: user.source_contribution_date,
-        importedAt: user.imported_at,
-      });
-    });
-
-    const platformBreakdown = Array.from(platformGroups.entries())
-      .map(([platform, users]) => ({
-        platform,
-        count: users.length,
-        percentage: Math.round((users.length / totalUsers) * 100),
-        users: users.slice(0, 10), // Limit to first 10 for performance
-      }))
-      .sort((a, b) => b.count - a.count);
-
-    // Source breakdown
-    const sourceGroups = new Map<string, any[]>();
-    reserveUsers.forEach(user => {
-      const source = user.source_name || user.source || 'Unknown';
-      if (!sourceGroups.has(source)) {
-        sourceGroups.set(source, []);
-      }
-      sourceGroups.get(source)!.push({
-        email: user.email,
-        displayName: user.display_name || `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'N/A',
-        sourceContributionDate: user.source_contribution_date,
-        importedAt: user.imported_at,
-      });
-    });
-
-    const sourceBreakdown = Array.from(sourceGroups.entries())
-      .map(([source, users]) => ({
-        source,
-        count: users.length,
-        percentage: Math.round((users.length / totalUsers) * 100),
-        users: users.slice(0, 10), // Limit to first 10 for performance
-      }))
-      .sort((a, b) => b.count - a.count);
-
-    // Status breakdown
-    const statusGroups = new Map<string, any[]>();
-    reserveUsers.forEach(user => {
-      const status = user.email_status || 'Unknown';
-      if (!statusGroups.has(status)) {
-        statusGroups.set(status, []);
-      }
-      statusGroups.get(status)!.push({
-        email: user.email,
-        displayName: user.display_name || `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'N/A',
-        sourceContributionDate: user.source_contribution_date,
-        importedAt: user.imported_at,
-      });
-    });
-
-    const statusBreakdown = Array.from(statusGroups.entries())
-      .map(([status, users]) => ({
-        status,
-        count: users.length,
-        percentage: Math.round((users.length / totalUsers) * 100),
-        users: users.slice(0, 10), // Limit to first 10 for performance
-      }))
-      .sort((a, b) => b.count - a.count);
-
-    // Date analysis
-    const usersWithOriginalDates = reserveUsers.filter(u => u.source_contribution_date);
-    const usersWithImportedDatesOnly = reserveUsers.filter(u => !u.source_contribution_date && u.imported_at);
-    const usersWithoutValidDates = reserveUsers.filter(u => !u.source_contribution_date && !u.imported_at);
-
-    const originalDates = usersWithOriginalDates
-      .map(u => u.source_contribution_date)
-      .filter(Boolean)
-      .sort();
-
-    const importDates = reserveUsers
-      .map(u => u.imported_at)
-      .filter(Boolean);
+    // Use Maps for efficient counting
+    const platformCounts = new Map<string, number>();
+    const sourceCounts = new Map<string, number>();
+    const statusCounts = new Map<string, number>();
+    const emailCounts = new Map<string, number>();
     
-    const mostCommonImportDate = importDates.length > 0 ? 
-      importDates.reduce((a, b, i, arr) => 
-        arr.filter(d => d === a).length >= arr.filter(d => d === b).length ? a : b
-      ) : null;
+    let validEmails = 0;
+    let withNames = 0;
+    let withOriginalDates = 0;
+    let withImportedDatesOnly = 0;
+    let withoutValidDates = 0;
+    
+    const originalDates: string[] = [];
+    const importDates: string[] = [];
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+    // Single pass through data for efficiency
+    reserveUsers.forEach(user => {
+      // Platform counting
+      const platform = user.source_platform || 'Unknown';
+      platformCounts.set(platform, (platformCounts.get(platform) || 0) + 1);
+      
+      // Source counting
+      const source = user.source_name || user.source || 'Unknown';
+      sourceCounts.set(source, (sourceCounts.get(source) || 0) + 1);
+      
+      // Status counting
+      const status = user.email_status || 'Unknown';
+      statusCounts.set(status, (statusCounts.get(status) || 0) + 1);
+      
+      // Email validation
+      if (user.email && emailRegex.test(user.email)) {
+        validEmails++;
+      }
+      
+      // Email duplicates
+      const email = user.email?.toLowerCase();
+      if (email) {
+        emailCounts.set(email, (emailCounts.get(email) || 0) + 1);
+      }
+      
+      // Name checking
+      if (user.display_name || user.first_name || user.last_name) {
+        withNames++;
+      }
+      
+      // Date analysis
+      if (user.source_contribution_date) {
+        withOriginalDates++;
+        originalDates.push(user.source_contribution_date);
+      } else if (user.imported_at) {
+        withImportedDatesOnly++;
+        importDates.push(user.imported_at);
+      } else {
+        withoutValidDates++;
+      }
+      
+      if (user.imported_at) {
+        importDates.push(user.imported_at);
+      }
+    });
+
+    // Convert to breakdown format with sample users for top categories only
+    const platformBreakdown = Array.from(platformCounts.entries())
+      .map(([platform, count]) => ({
+        platform,
+        count,
+        percentage: Math.round((count / totalUsers) * 100),
+        users: [] // We'll populate this for top platforms only
+      }))
+      .sort((a, b) => b.count - a.count);
+
+    // Add sample users for top 5 platforms
+    platformBreakdown.slice(0, 5).forEach(breakdown => {
+      const sampleUsers = reserveUsers
+        .filter(u => (u.source_platform || 'Unknown') === breakdown.platform)
+        .slice(0, 5)
+        .map(u => ({
+          email: u.email,
+          displayName: u.display_name || `${u.first_name || ''} ${u.last_name || ''}`.trim() || 'N/A',
+          sourceContributionDate: u.source_contribution_date,
+          importedAt: u.imported_at,
+        }));
+      breakdown.users = sampleUsers;
+    });
+
+    const sourceBreakdown = Array.from(sourceCounts.entries())
+      .map(([source, count]) => ({
+        source,
+        count,
+        percentage: Math.round((count / totalUsers) * 100),
+        users: [] // We'll populate this for top sources only
+      }))
+      .sort((a, b) => b.count - a.count);
+
+    // Add sample users for top 5 sources
+    sourceBreakdown.slice(0, 5).forEach(breakdown => {
+      const sampleUsers = reserveUsers
+        .filter(u => (u.source_name || u.source || 'Unknown') === breakdown.source)
+        .slice(0, 5)
+        .map(u => ({
+          email: u.email,
+          displayName: u.display_name || `${u.first_name || ''} ${u.last_name || ''}`.trim() || 'N/A',
+          sourceContributionDate: u.source_contribution_date,
+          importedAt: u.imported_at,
+        }));
+      breakdown.users = sampleUsers;
+    });
+
+    const statusBreakdown = Array.from(statusCounts.entries())
+      .map(([status, count]) => ({
+        status,
+        count,
+        percentage: Math.round((count / totalUsers) * 100),
+        users: [] // We'll populate this for top statuses only
+      }))
+      .sort((a, b) => b.count - a.count);
+
+    // Add sample users for all statuses (usually not too many)
+    statusBreakdown.forEach(breakdown => {
+      const sampleUsers = reserveUsers
+        .filter(u => (u.email_status || 'Unknown') === breakdown.status)
+        .slice(0, 5)
+        .map(u => ({
+          email: u.email,
+          displayName: u.display_name || `${u.first_name || ''} ${u.last_name || ''}`.trim() || 'N/A',
+          sourceContributionDate: u.source_contribution_date,
+          importedAt: u.imported_at,
+        }));
+      breakdown.users = sampleUsers;
+    });
+
+    // Process dates efficiently
+    originalDates.sort();
+    
+    // Find most common import date efficiently
+    const importDateCounts = new Map<string, number>();
+    importDates.forEach(date => {
+      if (date) {
+        importDateCounts.set(date, (importDateCounts.get(date) || 0) + 1);
+      }
+    });
+    
+    const mostCommonImportDate = importDateCounts.size > 0 ? 
+      Array.from(importDateCounts.entries())
+        .sort((a, b) => b[1] - a[1])[0][0] : null;
 
     const dateAnalysis = {
-      withOriginalDates: usersWithOriginalDates.length,
-      withImportedDatesOnly: usersWithImportedDatesOnly.length,
-      withoutValidDates: usersWithoutValidDates.length,
+      withOriginalDates,
+      withImportedDatesOnly,
+      withoutValidDates,
       oldestOriginalDate: originalDates.length > 0 ? originalDates[0] : null,
       newestOriginalDate: originalDates.length > 0 ? originalDates[originalDates.length - 1] : null,
       importBatchDate: mostCommonImportDate,
     };
 
-    // Data quality analysis
-    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-    const validEmails = reserveUsers.filter(u => emailRegex.test(u.email || '')).length;
-    const invalidEmails = totalUsers - validEmails;
-    const withNames = reserveUsers.filter(u => 
-      u.display_name || u.first_name || u.last_name
-    ).length;
-    const withoutNames = totalUsers - withNames;
-
-    // Check for duplicate emails
-    const emailCounts = new Map<string, number>();
-    reserveUsers.forEach(user => {
-      const email = user.email?.toLowerCase();
-      if (email) {
-        emailCounts.set(email, (emailCounts.get(email) || 0) + 1);
-      }
-    });
+    // Count duplicate emails
     const duplicateEmails = Array.from(emailCounts.values()).filter(count => count > 1).length;
 
     const dataQuality = {
       validEmails,
-      invalidEmails,
+      invalidEmails: totalUsers - validEmails,
       withNames,
-      withoutNames,
+      withoutNames: totalUsers - withNames,
       duplicateEmails,
     };
 
