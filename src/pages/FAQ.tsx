@@ -5,8 +5,12 @@ import ContactForm from "@/components/ContactForm";
 import ImprovedFAQ from "@/components/ImprovedFAQ";
 import StarField from "@/components/StarField";
 import StarshipBackground from "@/components/StarshipBackground";
+import GradientSection from "@/components/ui/GradientSection";
+import { useDividerAssets } from "@/hooks/useDividerAssets";
 
 const FAQ = () => {
+  const { getDividerUrl } = useDividerAssets();
+  
   const faqSections = [
     {
       title: "About Axanar",
@@ -150,27 +154,104 @@ const FAQ = () => {
           <div className="absolute bottom-10 right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
         </section>
         
-        <section className="py-12 px-4">
-          <div className="container mx-auto">
-            <ImprovedFAQ sections={faqSections} />
-            
-            {/* Contact Support Section */}
-            <div className="mb-12">
-              <h2 className="mb-6 text-center">
-                Contact Support
-              </h2>
+        {/* FAQ Sections with Dynamic Dividers */}
+        <GradientSection 
+          variant="primary" 
+          pattern="subtle"
+          className="py-16"
+          topDivider={{
+            dividerType: 'wave',
+            color: 'hsl(var(--primary))',
+            storageUrl: getDividerUrl('wave-top')
+          }}
+          bottomDivider={{
+            dividerType: 'curve',
+            color: 'hsl(var(--primary))',
+            storageUrl: getDividerUrl('curve-bottom')
+          }}
+        >
+          <div className="container mx-auto px-4">
+            <ImprovedFAQ sections={[faqSections[0]]} sectionVariant="primary" />
+          </div>
+        </GradientSection>
+
+        <GradientSection 
+          variant="accent" 
+          pattern="gradient"
+          className="py-16"
+          topDivider={{
+            dividerType: 'mountains',
+            color: 'hsl(var(--accent))',
+            storageUrl: getDividerUrl('mountains-top')
+          }}
+          bottomDivider={{
+            dividerType: 'zigzag',
+            color: 'hsl(var(--accent))',
+            storageUrl: getDividerUrl('zigzag-bottom')
+          }}
+        >
+          <div className="container mx-auto px-4">
+            <ImprovedFAQ sections={[faqSections[1]]} sectionVariant="accent" />
+          </div>
+        </GradientSection>
+
+        <GradientSection 
+          variant="secondary" 
+          pattern="deep"
+          className="py-16"
+          topDivider={{
+            dividerType: 'clouds',
+            color: 'hsl(var(--secondary))',
+            storageUrl: getDividerUrl('clouds-top')
+          }}
+          bottomDivider={{
+            dividerType: 'split',
+            color: 'hsl(var(--secondary))',
+            storageUrl: getDividerUrl('split-bottom')
+          }}
+        >
+          <div className="container mx-auto px-4">
+            <ImprovedFAQ sections={[faqSections[2]]} sectionVariant="secondary" />
+          </div>
+        </GradientSection>
+
+        {/* Contact Support Section */}
+        <GradientSection 
+          variant="muted" 
+          pattern="radial"
+          className="py-20"
+          topDivider={{
+            dividerType: 'triangle',
+            color: 'hsl(var(--muted-foreground))',
+            storageUrl: getDividerUrl('triangle-top')
+          }}
+        >
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="mb-16 text-center">
+                <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+                  Contact Support
+                </h2>
+                <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                  Our team is here to help with any questions about your account recovery or the platform.
+                </p>
+              </div>
               <ContactForm />
-            </div>
-            <div className="text-center">
-              <p className="mb-4">
-                Still have questions?
-              </p>
-              <Link to="/support" className="inline-block bg-axanar-teal hover:bg-axanar-teal/90 text-white font-medium py-3 px-6 rounded-full">
-                Contact Support
-              </Link>
+              
+              <div className="text-center mt-12 p-8 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50">
+                <p className="text-lg mb-6 text-foreground">
+                  Still have questions? Our support team is standing by.
+                </p>
+                <Link 
+                  to="/support" 
+                  className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-4 px-8 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                >
+                  Contact Support Team
+                </Link>
+              </div>
             </div>
           </div>
-        </section>
+        </GradientSection>
       </main>
       
       <Footer />
