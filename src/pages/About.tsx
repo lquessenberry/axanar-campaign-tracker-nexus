@@ -10,7 +10,12 @@ import { useDividerAssets } from "@/hooks/useDividerAssets";
 import { Users, Target, Shield, Heart, Star, Zap } from "lucide-react";
 
 const About = () => {
-  const { getDividerUrl } = useDividerAssets();
+  const { getDividerUrl, dividers, loading, error } = useDividerAssets();
+  
+  // Debug: log available dividers
+  console.log('Available dividers:', dividers);
+  console.log('Loading:', loading);
+  console.log('Error:', error);
   const values = [
     {
       icon: Heart,
