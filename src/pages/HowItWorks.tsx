@@ -108,10 +108,6 @@ const HowItWorks = () => {
             `,
         backgroundBlendMode: 'overlay, overlay, difference, difference, difference, normal'
       } as React.CSSProperties}>
-          {/* Security background image with enhanced opacity */}
-          <div className="absolute inset-0 opacity-5">
-            <img src="/images/security.svg" alt="Security background" className="w-full h-full object-cover" />
-          </div>
 
           {/* Hero Content - Centered */}
           <div className="container mx-auto px-4 text-center relative z-10 max-w-5xl">
