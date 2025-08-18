@@ -97,11 +97,15 @@ const SectionDivider: React.FC<SectionDividerProps> = ({
       )}
       style={{
         height: `${height}px`,
-        backgroundImage: `url("${svgUrl}")`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        color: colorValue
+        backgroundColor: colorValue,
+        WebkitMaskImage: `url("${svgUrl}")`,
+        maskImage: `url("${svgUrl}")`,
+        WebkitMaskRepeat: 'no-repeat',
+        maskRepeat: 'no-repeat',
+        WebkitMaskSize: 'cover',
+        maskSize: 'cover',
+        WebkitMaskPosition: 'center',
+        maskPosition: 'center'
       }}
       {...(!semantic && {
         role: "presentation",
