@@ -160,15 +160,15 @@ const FAQ = () => {
           pattern="subtle"
           className="py-16"
           topDivider={{
-            dividerType: 'mountains',
-            color: 'hsl(var(--primary))',
-            flip: true,
-            storageUrl: getDividerUrl('mountains-top')
-          }}
-          bottomDivider={{
             dividerType: 'wave',
             color: 'hsl(var(--primary))',
-            storageUrl: getDividerUrl('wave-bottom')
+            flip: true,
+            storageUrl: getDividerUrl('blood-oath-wave')
+          }}
+          bottomDivider={{
+            dividerType: 'curve',
+            color: 'hsl(var(--primary))',
+            storageUrl: getDividerUrl('header-arc')
           }}
         >
           <div className="container mx-auto px-4">
@@ -184,12 +184,12 @@ const FAQ = () => {
             dividerType: 'clouds',
             color: 'hsl(var(--accent))',
             flip: true,
-            storageUrl: getDividerUrl('clouds-top')
+            storageUrl: getDividerUrl('batleth-sweep')
           }}
           bottomDivider={{
             dividerType: 'zigzag',
             color: 'hsl(var(--accent))',
-            storageUrl: getDividerUrl('zigzag-bottom')
+            storageUrl: getDividerUrl('talon-teeth')
           }}
         >
           <div className="container mx-auto px-4">
@@ -205,12 +205,12 @@ const FAQ = () => {
             dividerType: 'arrow',
             color: 'hsl(var(--secondary))',
             flip: true,
-            storageUrl: getDividerUrl('arrow-top')
+            storageUrl: getDividerUrl('blade-chevron')
           }}
           bottomDivider={{
             dividerType: 'slope',
             color: 'hsl(var(--secondary))',
-            storageUrl: getDividerUrl('slope-bottom')
+            storageUrl: getDividerUrl('armor-plates')
           }}
         >
           <div className="container mx-auto px-4">
@@ -227,12 +227,12 @@ const FAQ = () => {
             dividerType: 'book',
             color: 'hsl(var(--muted-foreground))',
             flip: true,
-            storageUrl: getDividerUrl('book-top')
+            storageUrl: getDividerUrl('honor-bar')
           }}
           bottomDivider={{
             dividerType: 'triangle',
             color: 'hsl(var(--muted-foreground))',
-            storageUrl: getDividerUrl('triangle-bottom')
+            storageUrl: getDividerUrl('docking-bracket')
           }}
         >
           <div className="container mx-auto px-4">
