@@ -82,7 +82,7 @@ const SectionDivider: React.FC<SectionDividerProps> = ({
   const colorValue = getColorValue(color);
 
   const baseClasses = cn(
-    "absolute left-0 w-full overflow-hidden leading-none pointer-events-none",
+    "absolute left-0 w-full overflow-hidden leading-none pointer-events-none z-[1]",
     className
   );
 
@@ -102,8 +102,8 @@ const SectionDivider: React.FC<SectionDividerProps> = ({
         maskImage: `url("${svgUrl}")`,
         WebkitMaskRepeat: 'no-repeat',
         maskRepeat: 'no-repeat',
-        WebkitMaskSize: 'cover',
-        maskSize: 'cover',
+        WebkitMaskSize: '100% 100%',
+        maskSize: '100% 100%',
         WebkitMaskPosition: 'center',
         maskPosition: 'center'
       }}
