@@ -94,7 +94,6 @@ const About = () => {
           topDivider={{
             dividerType: 'curve',
             color: 'hsl(var(--accent))',
-            flip: true,
             storageUrl: getDividerUrl('header-arc')
           }}
           bottomDivider={{
@@ -152,7 +151,6 @@ const About = () => {
           topDivider={{
             dividerType: 'mountains',
             color: 'hsl(var(--secondary))',
-            flip: true,
             storageUrl: getDividerUrl('batleth-sweep')
           }}
           bottomDivider={{
@@ -198,7 +196,6 @@ const About = () => {
           topDivider={{
             dividerType: 'clouds',
             color: 'hsl(var(--primary))',
-            flip: true,
             storageUrl: getDividerUrl('blade-chevron')
           }}
           bottomDivider={{
@@ -239,7 +236,6 @@ const About = () => {
           topDivider={{
             dividerType: 'arrow',
             color: 'hsl(var(--accent))',
-            flip: true,
             storageUrl: getDividerUrl('crest-mask')
           }}
           bottomDivider={{
@@ -288,7 +284,6 @@ const About = () => {
           topDivider={{
             dividerType: 'triangle',
             color: 'hsl(var(--muted-foreground))',
-            flip: true,
             storageUrl: getDividerUrl('honor-bar')
           }}
           bottomDivider={{
@@ -339,7 +334,6 @@ const About = () => {
           topDivider={{
             dividerType: 'wave',
             color: 'hsl(var(--primary))',
-            flip: true,
             storageUrl: getDividerUrl('pill-sweep')
           }}
         >

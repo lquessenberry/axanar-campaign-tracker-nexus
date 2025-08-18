@@ -38,7 +38,6 @@ const SectionDivider: React.FC<SectionDividerProps> = ({
 
   const baseClasses = cn(
     "absolute left-0 w-full overflow-hidden leading-none pointer-events-none",
-    flip && "transform scale-y-[-1]",
     className
   );
 
@@ -47,15 +46,17 @@ const SectionDivider: React.FC<SectionDividerProps> = ({
 
   const DividerSVG = () => (
     <div 
-      className="w-full h-full"
+      className={cn(
+        "w-full h-full",
+        flip && "transform scale-y-[-1]"
+      )}
       style={{
         height: `${height}px`,
         backgroundImage: `url("${svgUrl}")`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        color: color,
-        filter: 'invert(0)' // Ensures currentColor works properly
+        color: color
       }}
     />
   );
