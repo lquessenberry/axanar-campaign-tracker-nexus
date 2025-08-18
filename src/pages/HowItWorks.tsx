@@ -81,7 +81,7 @@ const HowItWorks = () => {
             height: 40
           }}
         >
-        <section className="relative min-h-[60vh] flex items-center justify-center text-white py-24 overflow-hidden" onPointerMove={e => {
+        <section className="relative min-h-[60vh] w-[100vw] flex items-center justify-center text-white py-24 overflow-hidden" onPointerMove={e => {
         const {
           currentTarget: el,
           clientX: x,
