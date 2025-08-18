@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import HeroSection from "@/components/home/HeroSection";
 import DonorBenefitsSection from "@/components/home/DonorBenefitsSection";
 import AxanarCTA from "@/components/AxanarCTA";
+import GradientSection from "@/components/ui/GradientSection";
 import { useAuth } from "@/contexts/AuthContext";
 const Index = () => {
   const {
@@ -26,20 +27,45 @@ const Index = () => {
         <DonorBenefitsSection />
         
         {/* CTA Section for non-authenticated users */}
-        {!user && <section className="py-16 px-4 bg-gray-900">
-            <div className="container mx-auto">
-              <AxanarCTA badge="Warp Drive Engaged" title="Welcome to the Final Frontier" description="Join thousands of Star Trek fans supporting the next chapter of Axanar. Your contribution helps bring professional-quality Trek storytelling to life." buttons={[{
-            to: "/auth",
-            text: "Engage Systems",
-            emoji: "🚀",
-            primary: true
-          }, {
-            to: "/about",
-            text: "Explore Mission",
-            emoji: "🌌"
-          }]} subtitle="Live long and prosper - together we're making Trek history." />
+        {!user && (
+          <GradientSection 
+            variant="primary" 
+            pattern="gradient"
+            className="py-16"
+            topDivider={{
+              dividerType: 'elbow-pad',
+              color: 'ui-accent',
+              height: 40
+            }}
+            bottomDivider={{
+              dividerType: 'pill-sweep',
+              color: 'ui-accent-2',
+              height: 50
+            }}
+          >
+            <div className="container mx-auto px-4">
+              <AxanarCTA 
+                badge="Warp Drive Engaged" 
+                title="Welcome to the Final Frontier" 
+                description="Join thousands of Star Trek fans supporting the next chapter of Axanar. Your contribution helps bring professional-quality Trek storytelling to life." 
+                buttons={[
+                  {
+                    to: "/auth",
+                    text: "Engage Systems",
+                    emoji: "🚀",
+                    primary: true
+                  }, 
+                  {
+                    to: "/about",
+                    text: "Explore Mission",
+                    emoji: "🌌"
+                  }
+                ]} 
+                subtitle="Live long and prosper - together we're making Trek history." 
+              />
             </div>
-          </section>}
+          </GradientSection>
+        )}
       </main>
       
       <Footer />

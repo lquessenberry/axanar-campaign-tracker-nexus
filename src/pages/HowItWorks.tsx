@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
 import ImprovedHowItWorks from "@/components/ImprovedHowItWorks";
 import AxanarCTA from "@/components/AxanarCTA";
+import GradientSection from "@/components/ui/GradientSection";
 const HowItWorks = () => {
   const howItWorksSections = [{
     title: "Account Recovery Process",
@@ -70,6 +71,16 @@ const HowItWorks = () => {
       
       <main className="flex-grow">
         {/* Header */}
+        <GradientSection 
+          variant="primary" 
+          pattern="radial"
+          className="relative min-h-[60vh] flex items-center justify-center text-white py-24 overflow-hidden"
+          bottomDivider={{
+            dividerType: 'segmented-rail',
+            color: 'ui-accent-3',
+            height: 40
+          }}
+        >
         <section className="relative min-h-[60vh] flex items-center justify-center text-white py-24 overflow-hidden" onPointerMove={e => {
         const {
           currentTarget: el,
@@ -124,14 +135,29 @@ const HowItWorks = () => {
           <div className="absolute top-10 left-10 w-32 h-32 bg-accent/10 rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute bottom-10 right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
         </section>
+        </GradientSection>
         
         {/* Platform Migration Visual */}
-        <section className="relative py-8 px-4 bg-muted/30">
+        <GradientSection 
+          variant="muted" 
+          pattern="subtle"
+          className="relative py-8"
+          topDivider={{
+            dividerType: 'data-scallop',
+            color: 'ui-divider',
+            height: 24
+          }}
+          bottomDivider={{
+            dividerType: 'rounded-notch',
+            color: 'ui-divider',
+            height: 16
+          }}
+        >
           {/* Security background image with enhanced opacity */}
           <div className="absolute inset-0 opacity-5">
             <img src="/images/security.svg" alt="Security background" className="w-full h-full object-cover" />
           </div>
-          <div className="container mx-auto relative z-10">
+          <div className="container mx-auto relative z-10 px-4">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
               <div className="aspect-video rounded-lg overflow-hidden border border-primary/20">
                 <img src="/images/recover.jpg" alt="Account recovery process" className="w-full h-full object-cover" />
@@ -144,10 +170,24 @@ const HowItWorks = () => {
               </div>
             </div>
           </div>
-        </section>
+        </GradientSection>
 
-        <section className="py-12 px-4">
-          <div className="container mx-auto">
+        <GradientSection 
+          variant="accent" 
+          pattern="gradient"
+          className="py-12"
+          topDivider={{
+            dividerType: 'header-arc',
+            color: 'ui-accent',
+            height: 50
+          }}
+          bottomDivider={{
+            dividerType: 'tape-edge',
+            color: 'ui-accent',
+            height: 40
+          }}
+        >
+          <div className="container mx-auto px-4">
             <ImprovedHowItWorks sections={howItWorksSections} />
             
             {/* Contact Support Section */}
@@ -175,7 +215,7 @@ const HowItWorks = () => {
             emoji: "💬"
           }]} subtitle="Need help? Our support team is standing by to assist with account recovery." />
           </div>
-        </section>
+        </GradientSection>
       </main>
       
       <Footer />

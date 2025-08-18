@@ -6,10 +6,8 @@ import ImprovedFAQ from "@/components/ImprovedFAQ";
 import StarField from "@/components/StarField";
 import StarshipBackground from "@/components/StarshipBackground";
 import GradientSection from "@/components/ui/GradientSection";
-import { useDividerAssets } from "@/hooks/useDividerAssets";
 
 const FAQ = () => {
-  const { getDividerUrl } = useDividerAssets();
   
   const faqSections = [
     {
@@ -160,15 +158,13 @@ const FAQ = () => {
           pattern="subtle"
           className="py-16"
           topDivider={{
-            dividerType: 'wave',
-            color: 'hsl(var(--primary))',
-            flip: true,
-            storageUrl: getDividerUrl('blood-oath-wave')
+            dividerType: 'pill-sweep',
+            color: 'ui-accent',
+            flip: true
           }}
           bottomDivider={{
-            dividerType: 'curve',
-            color: 'hsl(var(--primary))',
-            storageUrl: getDividerUrl('header-arc')
+            dividerType: 'header-arc',
+            color: 'ui-accent'
           }}
         >
           <div className="container mx-auto px-4">
@@ -181,15 +177,13 @@ const FAQ = () => {
           pattern="gradient"
           className="py-16"
           topDivider={{
-            dividerType: 'clouds',
-            color: 'hsl(var(--accent))',
-            flip: true,
-            storageUrl: getDividerUrl('batleth-sweep')
+            dividerType: 'segmented-rail',
+            color: 'ui-accent-2',
+            flip: true
           }}
           bottomDivider={{
-            dividerType: 'zigzag',
-            color: 'hsl(var(--accent))',
-            storageUrl: getDividerUrl('talon-teeth')
+            dividerType: 'tape-edge',
+            color: 'ui-accent-2'
           }}
         >
           <div className="container mx-auto px-4">
@@ -202,15 +196,13 @@ const FAQ = () => {
           pattern="deep"
           className="py-16"
           topDivider={{
-            dividerType: 'arrow',
-            color: 'hsl(var(--secondary))',
-            flip: true,
-            storageUrl: getDividerUrl('blade-chevron')
+            dividerType: 'elbow-pad',
+            color: 'ui-accent-3',
+            flip: true
           }}
           bottomDivider={{
-            dividerType: 'slope',
-            color: 'hsl(var(--secondary))',
-            storageUrl: getDividerUrl('armor-plates')
+            dividerType: 'step-tabs',
+            color: 'ui-accent-3'
           }}
         >
           <div className="container mx-auto px-4">
@@ -224,15 +216,13 @@ const FAQ = () => {
           pattern="radial"
           className="py-20"
           topDivider={{
-            dividerType: 'book',
-            color: 'hsl(var(--muted-foreground))',
-            flip: true,
-            storageUrl: getDividerUrl('honor-bar')
+            dividerType: 'rounded-notch',
+            color: 'ui-divider',
+            flip: true
           }}
           bottomDivider={{
-            dividerType: 'triangle',
-            color: 'hsl(var(--muted-foreground))',
-            storageUrl: getDividerUrl('docking-bracket')
+            dividerType: 'data-scallop',
+            color: 'ui-divider'
           }}
         >
           <div className="container mx-auto px-4">
