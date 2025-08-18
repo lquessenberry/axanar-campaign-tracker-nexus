@@ -2,11 +2,13 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 
 export interface SectionDividerProps {
-  dividerType?: 'blade-chevron' | 'trefoil-split' | 'batleth-sweep' | 'armor-plates' | 'spine-notch' | 
+  dividerType?: 'elbow-pad' | 'pill-sweep' | 'segmented-rail' | 'data-scallop' | 'header-arc' | 
+               'step-tabs' | 'signal-bars' | 'rounded-notch' | 'tape-edge' | 'corner-bracket' |
+               'blade-chevron' | 'trefoil-split' | 'batleth-sweep' | 'armor-plates' | 'spine-notch' | 
                'talon-teeth' | 'honor-bar' | 'crest-mask' | 'blood-oath-wave' | 'docking-bracket' |
                'wave' | 'curve' | 'triangle' | 'arrow' | 'split' | 'slope' | 'zigzag' | 'mountains' | 'clouds' | 'book';
   variant?: 'top' | 'bottom' | 'both';
-  color?: 'ui-surface' | 'ui-divider' | 'ui-accent' | 'ui-accent-2' | 'primary' | 'accent' | 'secondary' | string;
+  color?: 'ui-surface' | 'ui-divider' | 'ui-accent' | 'ui-accent-2' | 'ui-accent-3' | 'primary' | 'accent' | 'secondary' | string;
   className?: string;
   height?: number;
   flip?: boolean;
@@ -15,7 +17,7 @@ export interface SectionDividerProps {
 }
 
 const SectionDivider: React.FC<SectionDividerProps> = ({
-  dividerType = 'trefoil-split',
+  dividerType = 'segmented-rail',
   variant = 'bottom',
   color = 'ui-accent',
   className,
@@ -24,13 +26,14 @@ const SectionDivider: React.FC<SectionDividerProps> = ({
   storageUrl,
   semantic = false
 }) => {
-  // Map color names to CSS variables
+  // Map color names to CSS variables (supports both Federation and Klingon themes)
   const getColorValue = (colorName: string) => {
     const colorMap = {
       'ui-surface': 'hsl(var(--background))',
       'ui-divider': 'hsl(var(--muted-foreground))',
-      'ui-accent': 'hsl(var(--primary))',
-      'ui-accent-2': 'hsl(var(--accent))',
+      'ui-accent': 'hsl(var(--primary))',        // Federation peach / Klingon blood red
+      'ui-accent-2': 'hsl(var(--accent))',      // Federation cyan / Klingon honor gold  
+      'ui-accent-3': 'hsl(var(--secondary))',   // Federation lilac / Klingon secondary
       'primary': 'hsl(var(--primary))',
       'accent': 'hsl(var(--accent))',
       'secondary': 'hsl(var(--secondary))'
@@ -38,8 +41,20 @@ const SectionDivider: React.FC<SectionDividerProps> = ({
     return colorMap[colorName as keyof typeof colorMap] || colorName;
   };
 
-  // Local SVG paths for fallback (now includes Klingon design system)
+  // Local SVG paths for fallback (Federation/LCARS + Klingon design systems)
   const localDividers = {
+    // Federation/LCARS dividers
+    'elbow-pad': `/src/assets/dividers/elbow-pad.svg`,
+    'pill-sweep': `/src/assets/dividers/pill-sweep.svg`,
+    'segmented-rail': `/src/assets/dividers/segmented-rail.svg`,
+    'data-scallop': `/src/assets/dividers/data-scallop.svg`,
+    'header-arc': `/src/assets/dividers/header-arc.svg`,
+    'step-tabs': `/src/assets/dividers/step-tabs.svg`,
+    'signal-bars': `/src/assets/dividers/signal-bars.svg`,
+    'rounded-notch': `/src/assets/dividers/rounded-notch.svg`,
+    'tape-edge': `/src/assets/dividers/tape-edge.svg`,
+    'corner-bracket': `/src/assets/dividers/corner-bracket.svg`,
+    // Klingon dividers
     'blade-chevron': `/src/assets/dividers/blade-chevron.svg`,
     'trefoil-split': `/src/assets/dividers/trefoil-split.svg`,
     'batleth-sweep': `/src/assets/dividers/batleth-sweep.svg`,
@@ -77,7 +92,7 @@ const SectionDivider: React.FC<SectionDividerProps> = ({
   const DividerSVG = () => (
     <div 
       className={cn(
-        "w-full h-full k-div",
+        "w-full h-full lcars-div",
         flip && "transform scale-y-[-1]"
       )}
       style={{

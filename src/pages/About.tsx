@@ -70,10 +70,10 @@ const About = () => {
           pattern="deep"
           className="py-20"
           bottomDivider={{
-            dividerType: 'batleth-sweep',
+            dividerType: 'pill-sweep',
             color: 'ui-accent-2',
             height: 60,
-            storageUrl: getDividerUrl('batleth-sweep')
+            storageUrl: getDividerUrl('pill-sweep')
           }}
         >
           <div className="container mx-auto text-center px-4">
@@ -93,16 +93,16 @@ const About = () => {
           pattern="gradient"
           className="py-20"
           topDivider={{
-            dividerType: 'trefoil-split',
-            color: 'ui-divider',
+            dividerType: 'segmented-rail',
+            color: 'ui-accent-3',
             height: 40,
-            storageUrl: getDividerUrl('trefoil-split')
+            storageUrl: getDividerUrl('segmented-rail')
           }}
           bottomDivider={{
-            dividerType: 'armor-plates',
-            color: 'ui-accent',
+            dividerType: 'step-tabs',
+            color: 'ui-surface',
             height: 50,
-            storageUrl: getDividerUrl('armor-plates')
+            storageUrl: getDividerUrl('step-tabs')
           }}
         >
           <div className="container mx-auto px-4">
@@ -152,16 +152,16 @@ const About = () => {
           pattern="subtle"
           className="py-20"
           topDivider={{
-            dividerType: 'spine-notch',
+            dividerType: 'rounded-notch',
             color: 'ui-divider',
-            height: 20,
-            storageUrl: getDividerUrl('spine-notch')
+            height: 16,
+            storageUrl: getDividerUrl('rounded-notch')
           }}
           bottomDivider={{
-            dividerType: 'blade-chevron',
+            dividerType: 'elbow-pad',
             color: 'ui-accent',
             height: 40,
-            storageUrl: getDividerUrl('blade-chevron')
+            storageUrl: getDividerUrl('elbow-pad')
           }}
         >
           <div className="container mx-auto px-4">
@@ -199,16 +199,16 @@ const About = () => {
           pattern="radial"
           className="py-20"
           topDivider={{
-            dividerType: 'honor-bar',
+            dividerType: 'data-scallop',
             color: 'ui-divider',
-            height: 16,
-            storageUrl: getDividerUrl('honor-bar')
+            height: 24,
+            storageUrl: getDividerUrl('data-scallop')
           }}
           bottomDivider={{
-            dividerType: 'blood-oath-wave',
-            color: 'ui-accent',
-            height: 16,
-            storageUrl: getDividerUrl('blood-oath-wave')
+            dividerType: 'signal-bars',
+            color: 'ui-accent-2',
+            height: 40,
+            storageUrl: getDividerUrl('signal-bars')
           }}
         >
           <div className="container mx-auto px-4">
@@ -241,16 +241,16 @@ const About = () => {
           pattern="deep"
           className="py-20"
           topDivider={{
-            dividerType: 'crest-mask',
-            color: 'ui-accent-2',
-            height: 80,
-            storageUrl: getDividerUrl('crest-mask')
+            dividerType: 'header-arc',
+            color: 'ui-accent',
+            height: 50,
+            storageUrl: getDividerUrl('header-arc')
           }}
           bottomDivider={{
-            dividerType: 'talon-teeth',
+            dividerType: 'tape-edge',
             color: 'ui-accent',
             height: 40,
-            storageUrl: getDividerUrl('talon-teeth')
+            storageUrl: getDividerUrl('tape-edge')
           }}
         >
           <div className="container mx-auto px-4">
@@ -291,16 +291,16 @@ const About = () => {
           pattern="subtle"
           className="py-20"
           topDivider={{
-            dividerType: 'trefoil-split',
-            color: 'ui-divider',
+            dividerType: 'segmented-rail',
+            color: 'ui-accent-3',
             height: 40,
-            storageUrl: getDividerUrl('trefoil-split')
+            storageUrl: getDividerUrl('segmented-rail')
           }}
           bottomDivider={{
-            dividerType: 'armor-plates',
+            dividerType: 'step-tabs',
             color: 'ui-surface',
             height: 50,
-            storageUrl: getDividerUrl('armor-plates')
+            storageUrl: getDividerUrl('step-tabs')
           }}
         >
           <div className="container mx-auto max-w-5xl px-4">
@@ -343,11 +343,11 @@ const About = () => {
           pattern="gradient"
           className="py-24"
           topDivider={{
-            dividerType: 'blade-chevron',
+            dividerType: 'elbow-pad',
             color: 'ui-accent',
             height: 40,
             flip: true,
-            storageUrl: getDividerUrl('blade-chevron')
+            storageUrl: getDividerUrl('elbow-pad')
           }}
         >
           <div className="container mx-auto px-4">
