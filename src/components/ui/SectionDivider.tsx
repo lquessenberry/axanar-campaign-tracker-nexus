@@ -41,41 +41,41 @@ const SectionDivider: React.FC<SectionDividerProps> = ({
     return colorMap[colorName as keyof typeof colorMap] || colorName;
   };
 
-  // Local SVG paths for fallback (Federation/LCARS + Klingon design systems)
+  // Local SVG paths for dividers (stored in public/images/dividers/)
   const localDividers = {
     // Federation/LCARS dividers
-    'elbow-pad': `/src/assets/dividers/elbow-pad.svg`,
-    'pill-sweep': `/src/assets/dividers/pill-sweep.svg`,
-    'segmented-rail': `/src/assets/dividers/segmented-rail.svg`,
-    'data-scallop': `/src/assets/dividers/data-scallop.svg`,
-    'header-arc': `/src/assets/dividers/header-arc.svg`,
-    'step-tabs': `/src/assets/dividers/step-tabs.svg`,
-    'signal-bars': `/src/assets/dividers/signal-bars.svg`,
-    'rounded-notch': `/src/assets/dividers/rounded-notch.svg`,
-    'tape-edge': `/src/assets/dividers/tape-edge.svg`,
-    'corner-bracket': `/src/assets/dividers/corner-bracket.svg`,
+    'elbow-pad': `/images/dividers/elbow-pad.svg`,
+    'pill-sweep': `/images/dividers/pill-sweep.svg`,
+    'segmented-rail': `/images/dividers/segmented-rail.svg`,
+    'data-scallop': `/images/dividers/data-scallop.svg`,
+    'header-arc': `/images/dividers/header-arc.svg`,
+    'step-tabs': `/images/dividers/step-tabs.svg`,
+    'signal-bars': `/images/dividers/signal-bars.svg`,
+    'rounded-notch': `/images/dividers/rounded-notch.svg`,
+    'tape-edge': `/images/dividers/tape-edge.svg`,
+    'corner-bracket': `/images/dividers/corner-bracket.svg`,
     // Klingon dividers
-    'blade-chevron': `/src/assets/dividers/blade-chevron.svg`,
-    'trefoil-split': `/src/assets/dividers/trefoil-split.svg`,
-    'batleth-sweep': `/src/assets/dividers/batleth-sweep.svg`,
-    'armor-plates': `/src/assets/dividers/armor-plates.svg`,
-    'spine-notch': `/src/assets/dividers/spine-notch.svg`,
-    'talon-teeth': `/src/assets/dividers/talon-teeth.svg`,
-    'honor-bar': `/src/assets/dividers/honor-bar.svg`,
-    'crest-mask': `/src/assets/dividers/crest-mask.svg`,
-    'blood-oath-wave': `/src/assets/dividers/blood-oath-wave.svg`,
-    'docking-bracket': `/src/assets/dividers/docking-bracket.svg`,
+    'blade-chevron': `/images/dividers/blade-chevron.svg`,
+    'trefoil-split': `/images/dividers/trefoil-split.svg`,
+    'batleth-sweep': `/images/dividers/batleth-sweep.svg`,
+    'armor-plates': `/images/dividers/armor-plates.svg`,
+    'spine-notch': `/images/dividers/spine-notch.svg`,
+    'talon-teeth': `/images/dividers/talon-teeth.svg`,
+    'honor-bar': `/images/dividers/honor-bar.svg`,
+    'crest-mask': `/images/dividers/crest-mask.svg`,
+    'blood-oath-wave': `/images/dividers/blood-oath-wave.svg`,
+    'docking-bracket': `/images/dividers/docking-bracket.svg`,
     // Legacy dividers
-    wave: `/src/assets/dividers/wave.svg`,
-    curve: `/src/assets/dividers/curve.svg`,
-    triangle: `/src/assets/dividers/triangle.svg`,
-    arrow: `/src/assets/dividers/arrow.svg`,
-    split: `/src/assets/dividers/split.svg`,
-    slope: `/src/assets/dividers/slope.svg`,
-    zigzag: `/src/assets/dividers/zigzag.svg`,
-    mountains: `/src/assets/dividers/mountains.svg`,
-    clouds: `/src/assets/dividers/clouds.svg`,
-    book: `/src/assets/dividers/book.svg`
+    wave: `/images/dividers/wave.svg`,
+    curve: `/images/dividers/curve.svg`,
+    triangle: `/images/dividers/triangle.svg`,
+    arrow: `/images/dividers/arrow.svg`,
+    split: `/images/dividers/split.svg`,
+    slope: `/images/dividers/slope.svg`,
+    zigzag: `/images/dividers/zigzag.svg`,
+    mountains: `/images/dividers/mountains.svg`,
+    clouds: `/images/dividers/clouds.svg`,
+    book: `/images/dividers/book.svg`
   };
 
   const svgUrl = storageUrl || localDividers[dividerType];

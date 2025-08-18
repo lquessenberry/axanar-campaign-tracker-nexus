@@ -6,16 +6,9 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import AxanarCTA from "@/components/AxanarCTA";
 import GradientSection from "@/components/ui/GradientSection";
-import { useDividerAssets } from "@/hooks/useDividerAssets";
 import { Users, Target, Shield, Heart, Star, Zap } from "lucide-react";
 
 const About = () => {
-  const { getDividerUrl, dividers, loading, error } = useDividerAssets();
-  
-  // Debug: log available dividers
-  console.log('Available dividers:', dividers);
-  console.log('Loading:', loading);
-  console.log('Error:', error);
   const values = [
     {
       icon: Heart,
@@ -77,8 +70,7 @@ const About = () => {
           bottomDivider={{
             dividerType: 'pill-sweep',
             color: 'ui-accent-2',
-            height: 60,
-            storageUrl: getDividerUrl('pill-sweep')
+            height: 60
           }}
         >
           <div className="container mx-auto text-center px-4">
@@ -100,14 +92,12 @@ const About = () => {
           topDivider={{
             dividerType: 'segmented-rail',
             color: 'ui-accent-3',
-            height: 40,
-            storageUrl: getDividerUrl('segmented-rail')
+            height: 40
           }}
           bottomDivider={{
             dividerType: 'step-tabs',
             color: 'ui-surface',
-            height: 50,
-            storageUrl: getDividerUrl('step-tabs')
+            height: 50
           }}
         >
           <div className="container mx-auto px-4">
@@ -159,14 +149,12 @@ const About = () => {
           topDivider={{
             dividerType: 'rounded-notch',
             color: 'ui-divider',
-            height: 16,
-            storageUrl: getDividerUrl('rounded-notch')
+            height: 16
           }}
           bottomDivider={{
             dividerType: 'elbow-pad',
             color: 'ui-accent',
-            height: 40,
-            storageUrl: getDividerUrl('elbow-pad')
+            height: 40
           }}
         >
           <div className="container mx-auto px-4">
@@ -206,14 +194,12 @@ const About = () => {
           topDivider={{
             dividerType: 'data-scallop',
             color: 'ui-divider',
-            height: 24,
-            storageUrl: getDividerUrl('data-scallop')
+            height: 24
           }}
           bottomDivider={{
             dividerType: 'signal-bars',
             color: 'ui-accent-2',
-            height: 40,
-            storageUrl: getDividerUrl('signal-bars')
+            height: 40
           }}
         >
           <div className="container mx-auto px-4">
@@ -248,14 +234,12 @@ const About = () => {
           topDivider={{
             dividerType: 'header-arc',
             color: 'ui-accent',
-            height: 50,
-            storageUrl: getDividerUrl('header-arc')
+            height: 50
           }}
           bottomDivider={{
             dividerType: 'tape-edge',
             color: 'ui-accent',
-            height: 40,
-            storageUrl: getDividerUrl('tape-edge')
+            height: 40
           }}
         >
           <div className="container mx-auto px-4">
@@ -298,14 +282,12 @@ const About = () => {
           topDivider={{
             dividerType: 'segmented-rail',
             color: 'ui-accent-3',
-            height: 40,
-            storageUrl: getDividerUrl('segmented-rail')
+            height: 40
           }}
           bottomDivider={{
             dividerType: 'step-tabs',
             color: 'ui-surface',
-            height: 50,
-            storageUrl: getDividerUrl('step-tabs')
+            height: 50
           }}
         >
           <div className="container mx-auto max-w-5xl px-4">
@@ -351,8 +333,7 @@ const About = () => {
             dividerType: 'elbow-pad',
             color: 'ui-accent',
             height: 40,
-            flip: true,
-            storageUrl: getDividerUrl('elbow-pad')
+            flip: true
           }}
         >
           <div className="container mx-auto px-4">
