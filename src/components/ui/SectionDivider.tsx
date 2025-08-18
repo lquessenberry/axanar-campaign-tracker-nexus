@@ -2,26 +2,55 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 
 export interface SectionDividerProps {
-  dividerType?: 'wave' | 'curve' | 'triangle' | 'arrow' | 'split' | 'slope' | 'zigzag' | 'mountains' | 'clouds' | 'book';
+  dividerType?: 'blade-chevron' | 'trefoil-split' | 'batleth-sweep' | 'armor-plates' | 'spine-notch' | 
+               'talon-teeth' | 'honor-bar' | 'crest-mask' | 'blood-oath-wave' | 'docking-bracket' |
+               'wave' | 'curve' | 'triangle' | 'arrow' | 'split' | 'slope' | 'zigzag' | 'mountains' | 'clouds' | 'book';
   variant?: 'top' | 'bottom' | 'both';
-  color?: string;
+  color?: 'ui-surface' | 'ui-divider' | 'ui-accent' | 'ui-accent-2' | 'primary' | 'accent' | 'secondary' | string;
   className?: string;
   height?: number;
   flip?: boolean;
-  storageUrl?: string; // For custom dividers from axanar-assets
+  storageUrl?: string;
+  semantic?: boolean; // For accessibility - whether this divider has semantic meaning
 }
 
 const SectionDivider: React.FC<SectionDividerProps> = ({
-  dividerType = 'wave',
+  dividerType = 'trefoil-split',
   variant = 'bottom',
-  color = 'currentColor',
+  color = 'ui-accent',
   className,
-  height = 120,
+  height = 40,
   flip = false,
-  storageUrl
+  storageUrl,
+  semantic = false
 }) => {
-  // Local SVG paths for fallback
+  // Map color names to CSS variables
+  const getColorValue = (colorName: string) => {
+    const colorMap = {
+      'ui-surface': 'hsl(var(--background))',
+      'ui-divider': 'hsl(var(--muted-foreground))',
+      'ui-accent': 'hsl(var(--primary))',
+      'ui-accent-2': 'hsl(var(--accent))',
+      'primary': 'hsl(var(--primary))',
+      'accent': 'hsl(var(--accent))',
+      'secondary': 'hsl(var(--secondary))'
+    };
+    return colorMap[colorName as keyof typeof colorMap] || colorName;
+  };
+
+  // Local SVG paths for fallback (now includes Klingon design system)
   const localDividers = {
+    'blade-chevron': `/src/assets/dividers/blade-chevron.svg`,
+    'trefoil-split': `/src/assets/dividers/trefoil-split.svg`,
+    'batleth-sweep': `/src/assets/dividers/batleth-sweep.svg`,
+    'armor-plates': `/src/assets/dividers/armor-plates.svg`,
+    'spine-notch': `/src/assets/dividers/spine-notch.svg`,
+    'talon-teeth': `/src/assets/dividers/talon-teeth.svg`,
+    'honor-bar': `/src/assets/dividers/honor-bar.svg`,
+    'crest-mask': `/src/assets/dividers/crest-mask.svg`,
+    'blood-oath-wave': `/src/assets/dividers/blood-oath-wave.svg`,
+    'docking-bracket': `/src/assets/dividers/docking-bracket.svg`,
+    // Legacy dividers
     wave: `/src/assets/dividers/wave.svg`,
     curve: `/src/assets/dividers/curve.svg`,
     triangle: `/src/assets/dividers/triangle.svg`,
@@ -35,6 +64,7 @@ const SectionDivider: React.FC<SectionDividerProps> = ({
   };
 
   const svgUrl = storageUrl || localDividers[dividerType];
+  const colorValue = getColorValue(color);
 
   const baseClasses = cn(
     "absolute left-0 w-full overflow-hidden leading-none pointer-events-none",
@@ -47,7 +77,7 @@ const SectionDivider: React.FC<SectionDividerProps> = ({
   const DividerSVG = () => (
     <div 
       className={cn(
-        "w-full h-full",
+        "w-full h-full k-div",
         flip && "transform scale-y-[-1]"
       )}
       style={{
@@ -56,8 +86,12 @@ const SectionDivider: React.FC<SectionDividerProps> = ({
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        color: color
+        color: colorValue
       }}
+      {...(!semantic && {
+        role: "presentation",
+        'aria-hidden': "true"
+      })}
     />
   );
 
