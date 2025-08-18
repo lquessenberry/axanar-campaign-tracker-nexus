@@ -160,11 +160,13 @@ const FAQ = () => {
           topDivider={{
             dividerType: 'pill-sweep',
             color: 'ui-accent',
-            flip: true
+            flip: true,
+            height: 56
           }}
           bottomDivider={{
             dividerType: 'header-arc',
-            color: 'ui-accent'
+            color: 'ui-accent',
+            height: 48
           }}
         >
           <div className="container mx-auto px-4">
