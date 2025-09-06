@@ -80,8 +80,23 @@ const Support = () => {
         </section>
         
         {/* Support Options */}
-        <section className="py-12 px-4">
-          <div className="container mx-auto">
+        <section className="relative py-12 px-4 overflow-hidden">
+          {/* Video Background */}
+          <div className="absolute inset-0 z-0">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+            >
+              <source src="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/grok-video-02fbc9a7-3bc9-4af0-8bd7-3d90966861e5.mp4" type="video/mp4" />
+            </video>
+            {/* Dark overlay for better readability */}
+            <div className="absolute inset-0 bg-background/80 backdrop-blur-sm"></div>
+          </div>
+          
+          <div className="container mx-auto relative z-10">
             <div className="aspect-[16/6] rounded-lg overflow-hidden border border-primary/20 mb-12">
               {animationData ? (
                 <Lottie
