@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -23,6 +23,7 @@ const Support = () => {
 
   // Lottie animation state
   const [animationData, setAnimationData] = useState<any | null>(null);
+  const lottieRef = useRef<any>(null);
 
   useEffect(() => {
     const url = "https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/axanar-verse-starfleet-officers-offering-support.json";
@@ -37,6 +38,13 @@ const Support = () => {
         setAnimationData(null);
       });
   }, []);
+
+  // Set speed after animation loads
+  useEffect(() => {
+    if (lottieRef.current && animationData) {
+      lottieRef.current.setSpeed(0.05);
+    }
+  }, [animationData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -80,6 +88,7 @@ const Support = () => {
                   animationData={animationData}
                   loop
                   autoplay
+                  lottieRef={lottieRef}
                   style={{ width: '100%', height: '100%' }}
                 />
               ) : (
