@@ -109,6 +109,19 @@ const HowItWorks = () => {
         backgroundBlendMode: 'overlay, overlay, difference, difference, difference, normal'
       } as React.CSSProperties}>
 
+          {/* Video Background */}
+          <div className="absolute inset-0 z-0">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+            >
+              <source src="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/grok-video-80a043e4-3217-40ac-b41f-10c6cd2d9e4c(1).mp4" type="video/mp4" />
+            </video>
+          </div>
+
           {/* Hero Content - Centered */}
           <div className="container mx-auto px-4 text-center relative z-10 max-w-5xl">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white leading-tight drop-shadow-2xl" style={{
