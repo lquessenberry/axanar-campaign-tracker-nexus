@@ -8,6 +8,7 @@ interface GradientSectionProps {
   topDivider?: Omit<SectionDividerProps, 'variant'>;
   bottomDivider?: Omit<SectionDividerProps, 'variant'>;
   pattern?: 'gradient' | 'subtle' | 'deep' | 'radial';
+  videoUrl?: string;
 }
 const GradientSection: React.FC<GradientSectionProps> = ({
   children,
@@ -15,7 +16,8 @@ const GradientSection: React.FC<GradientSectionProps> = ({
   className,
   topDivider,
   bottomDivider,
-  pattern = 'gradient'
+  pattern = 'gradient',
+  videoUrl
 }) => {
   // Define gradient patterns based on design system colors
   const gradientPatterns = {
@@ -51,17 +53,35 @@ const GradientSection: React.FC<GradientSectionProps> = ({
     }
   };
   const backgroundClass = gradientPatterns[variant][pattern];
-  return <section className={cn("relative", backgroundClass, className)}>
+  return (
+    <section className={cn("relative", className)}>
+      {/* Video Background */}
+      {videoUrl && (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-[66vh] object-cover z-0"
+        >
+          <source src={videoUrl} type="video/mp4" />
+        </video>
+      )}
+      
+      {/* Gradient Overlay */}
+      <div className={cn("absolute inset-0 h-[66vh] bg-background/40 z-10", backgroundClass)} />
+      
       {/* Top Divider */}
       {topDivider && <SectionDivider {...topDivider} variant="top" />}
       
       {/* Content */}
-      <div className="relative z-10">
+      <div className="relative z-20">
         {children}
       </div>
       
       {/* Bottom Divider */}
       {bottomDivider && <SectionDivider variant="bottom" className="py-[240px]" />}
-    </section>;
+    </section>
+  );
 };
 export default GradientSection;

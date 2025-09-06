@@ -55,11 +55,16 @@ const About = () => {
       
       <main className="flex-grow">
         {/* Hero Section */}
-        <GradientSection variant="primary" pattern="deep" className="py-20" bottomDivider={{
-        dividerType: 'pill-sweep',
-        color: 'ui-accent-2',
-        height: 60
-      }}>
+        <GradientSection 
+          variant="primary" 
+          pattern="deep" 
+          className="py-20" 
+          videoUrl="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/grok-video-3ca642bf-53de-4067-afe3-bdfc1f7f5342.mp4"
+          bottomDivider={{
+            dividerType: 'pill-sweep',
+            color: 'ui-accent-2',
+            height: 60
+          }}>
           <div className="container mx-auto text-center px-4">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent my-[146px]">
               About the <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">Axanar</span> Donor Platform
