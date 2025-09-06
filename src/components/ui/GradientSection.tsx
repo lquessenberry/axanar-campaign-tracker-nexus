@@ -76,7 +76,7 @@ const GradientSection: React.FC<GradientSectionProps> = ({
             <source src={videoBackground} type="video/mp4" />
           </video>
           {/* Gradient overlay on video */}
-          <div className={cn("absolute inset-0", backgroundClass)}></div>
+          <div className={cn("absolute inset-0 opacity-40", backgroundClass)}></div>
         </div>
       )}
       
