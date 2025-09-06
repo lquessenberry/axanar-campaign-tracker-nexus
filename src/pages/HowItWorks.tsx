@@ -120,6 +120,8 @@ const HowItWorks = () => {
             >
               <source src="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/grok-video-80a043e4-3217-40ac-b41f-10c6cd2d9e4c(1).mp4" type="video/mp4" />
             </video>
+            {/* Blur and black opacity overlay */}
+            <div className="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
           </div>
 
           {/* Hero Content - Centered */}
