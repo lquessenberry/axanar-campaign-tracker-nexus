@@ -67,6 +67,7 @@ const About = () => {
           variant="primary" 
           pattern="deep"
           className="py-20"
+          videoBackground="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/grok-video-3ca642bf-53de-4067-afe3-bdfc1f7f5342.mp4"
           bottomDivider={{
             dividerType: 'pill-sweep',
             color: 'ui-accent-2',
