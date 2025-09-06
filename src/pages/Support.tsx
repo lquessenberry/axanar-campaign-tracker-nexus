@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -21,6 +21,23 @@ const Support = () => {
     message: ""
   });
 
+  // Lottie animation state
+  const [animationData, setAnimationData] = useState<any | null>(null);
+
+  useEffect(() => {
+    const url = "https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/axanar-verse-starfleet-officers-offering-support.json";
+    fetch(url)
+      .then((res) => {
+        if (!res.ok) throw new Error(`Failed to load Lottie JSON: ${res.status}`);
+        return res.json();
+      })
+      .then((data) => setAnimationData(data))
+      .catch((err) => {
+        console.error("Failed to load Lottie animation:", err);
+        setAnimationData(null);
+      });
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -29,7 +46,6 @@ const Support = () => {
   const handleSelectChange = (value: string) => {
     setFormData((prev) => ({ ...prev, category: value }));
   };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Here you'd typically send the form data to your backend
@@ -59,12 +75,20 @@ const Support = () => {
         <section className="py-12 px-4">
           <div className="container mx-auto">
             <div className="aspect-[16/6] rounded-lg overflow-hidden border border-primary/20 mb-12">
-              <Lottie 
-                animationData="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/axanar-verse-starfleet-officers-offering-support.json"
-                className="w-full h-full"
-                loop={true}
-                autoplay={true}
-              />
+              {animationData ? (
+                <Lottie
+                  animationData={animationData}
+                  loop
+                  autoplay
+                  style={{ width: '100%', height: '100%' }}
+                />
+              ) : (
+                <img
+                  src="/images/support.jpg"
+                  alt="Support team ready to assist"
+                  className="w-full h-full object-cover"
+                />
+              )}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
               <Card className="text-center">
