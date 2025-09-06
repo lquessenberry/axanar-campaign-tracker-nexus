@@ -9,6 +9,7 @@ import { CheckCircle, Mail, Phone, Users, HelpCircle } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import AxanarCTA from "@/components/AxanarCTA";
+import Lottie from "lottie-react";
 
 const Support = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -57,12 +58,12 @@ const Support = () => {
         {/* Support Options */}
         <section className="py-12 px-4">
           <div className="container mx-auto">
-            {/* Support hero image */}
             <div className="aspect-[16/6] rounded-lg overflow-hidden border border-primary/20 mb-12">
-              <img 
-                src="/images/support.jpg" 
-                alt="Support team ready to assist" 
-                className="w-full h-full object-cover"
+              <Lottie 
+                animationData="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/axanar-verse-starfleet-officers-offering-support.json"
+                className="w-full h-full"
+                loop={true}
+                autoplay={true}
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
