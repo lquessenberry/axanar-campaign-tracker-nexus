@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -10,10 +10,12 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import AxanarCTA from "@/components/AxanarCTA";
 import Lottie from "lottie-react";
+import type { LottieRefCurrentProps } from "lottie-react";
 
 const Support = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [animationData, setAnimationData] = useState(null);
+  const lottieRef = useRef<LottieRefCurrentProps>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -29,6 +31,14 @@ const Support = () => {
       .then(data => setAnimationData(data))
       .catch(console.error);
   }, []);
+
+  // Control Lottie playback speed and run once
+  useEffect(() => {
+    if (animationData && lottieRef.current) {
+      lottieRef.current.setSpeed?.(0.2);
+      lottieRef.current.play?.();
+    }
+  }, [animationData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -89,10 +99,12 @@ const Support = () => {
                   >
                     {animationData ? (
                       <Lottie 
+                        lottieRef={lottieRef}
                         animationData={animationData}
                         className="w-full h-full"
                         loop={false}
-                        autoplay={true}
+                        autoplay={false}
+                        onComplete={() => lottieRef.current?.stop?.()}
                       />
                     ) : (
                       <div className="w-full h-full bg-muted animate-pulse rounded-lg" />
