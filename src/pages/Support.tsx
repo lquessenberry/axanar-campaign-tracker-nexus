@@ -91,7 +91,7 @@ const Support = () => {
                       <Lottie 
                         animationData={animationData}
                         className="w-full h-full"
-                        loop={true}
+                        loop={false}
                         autoplay={true}
                       />
                     ) : (
