@@ -1307,11 +1307,11 @@
   
   /* Slow Lottie Animation */
   .slow-lottie svg * {
-    animation-duration: calc(var(--animation-duration, 1s) * 4) !important;
+    animation-duration: calc(var(--animation-duration, 1s) * 8) !important;
   }
   
   .slow-lottie svg animateTransform,
   .slow-lottie svg animate {
-    dur: 8s !important;
+    dur: 16s !important;
   }
 }
