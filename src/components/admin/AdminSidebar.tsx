@@ -1,5 +1,6 @@
 
-import { Shield, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
+import Lottie from "lottie-react";
 import {
   Sidebar,
   SidebarContent,
@@ -34,7 +35,12 @@ const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-axanar-teal/20 rounded-lg backdrop-blur-sm">
-              <Shield className="h-14 w-14 text-axanar-teal" />
+              <Lottie 
+                animationData="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/leonovlottie.json"
+                className="h-14 w-14"
+                loop={true}
+                autoplay={true}
+              />
             </div>
             {!isCollapsed && (
               <div className="animate-fade-in">
