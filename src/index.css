@@ -1304,4 +1304,14 @@
     padding: 1rem;
     border-bottom: 1px solid hsl(var(--border));
   }
+  
+  /* Slow Lottie Animation */
+  .slow-lottie svg * {
+    animation-duration: calc(var(--animation-duration, 1s) * 4) !important;
+  }
+  
+  .slow-lottie svg animateTransform,
+  .slow-lottie svg animate {
+    dur: 8s !important;
+  }
 }

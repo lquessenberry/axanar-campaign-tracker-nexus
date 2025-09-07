@@ -80,17 +80,25 @@ const Support = () => {
           </div>
           
           <div className="container mx-auto relative z-10">
-            <div className="aspect-[16/6] rounded-lg overflow-hidden border border-primary/20 mb-12">
-                  {animationData ? (
-                    <Lottie 
-                      animationData={animationData}
-                      className="w-full h-full"
-                      loop={true}
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-muted animate-pulse rounded-lg" />
-                  )}
-            </div>
+                <div className="aspect-[16/6] rounded-lg overflow-hidden border border-primary/20 mb-12">
+                  <div 
+                    className="w-full h-full slow-lottie"
+                    style={{
+                      '--lottie-speed': '0.3'
+                    } as React.CSSProperties}
+                  >
+                    {animationData ? (
+                      <Lottie 
+                        animationData={animationData}
+                        className="w-full h-full"
+                        loop={true}
+                        autoplay={true}
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-muted animate-pulse rounded-lg" />
+                    )}
+                  </div>
+                </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
               <Card className="text-center">
                 <CardContent className="pt-6">
