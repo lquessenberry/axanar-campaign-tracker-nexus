@@ -38,13 +38,16 @@ const AdminDashboard = () => {
     totalCount,
     activeDonorsCount,
     totalRaised,
+    originalDonorsCount,
+    importedDonorsCount,
     donors,
     isLoading: donorsLoading,
     totalPages,
     itemsPerPage,
     isLoadingTotal,
     isLoadingActive,
-    isLoadingRaised
+    isLoadingRaised,
+    isLoadingBreakdown
   } = useAdminDonorsData(currentPage, {
     searchTerm,
     sortBy,
@@ -145,10 +148,13 @@ const AdminDashboard = () => {
             totalCount={totalCount || 0}
             activeDonorsCount={activeDonorsCount || 0}
             totalRaised={totalRaised || 0}
+            originalDonorsCount={originalDonorsCount || 0}
+            importedDonorsCount={importedDonorsCount || 0}
             donors={donors || []}
             isLoadingTotal={isLoadingTotal}
             isLoadingActive={isLoadingActive}
             isLoadingRaised={isLoadingRaised}
+            isLoadingBreakdown={isLoadingBreakdown}
             donorsLoading={donorsLoading}
             currentPage={currentPage}
             totalPages={totalPages}

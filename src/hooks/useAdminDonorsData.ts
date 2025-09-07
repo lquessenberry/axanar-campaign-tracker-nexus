@@ -15,9 +15,12 @@ export const useAdminDonorsData = (currentPage: number, filters: DonorFilters = 
     totalCount,
     activeDonorsCount,
     totalRaised,
+    originalDonorsCount,
+    importedDonorsCount,
     isLoadingTotal,
     isLoadingActive,
-    isLoadingRaised
+    isLoadingRaised,
+    isLoadingBreakdown
   } = useDonorStats();
 
   const { filteredCount } = useDonorFilters(filters);
@@ -34,12 +37,15 @@ export const useAdminDonorsData = (currentPage: number, filters: DonorFilters = 
     totalCount,
     activeDonorsCount,
     totalRaised,
+    originalDonorsCount,
+    importedDonorsCount,
     donors,
     isLoading,
     totalPages,
     itemsPerPage,
     isLoadingTotal,
     isLoadingActive,
-    isLoadingRaised
+    isLoadingRaised,
+    isLoadingBreakdown
   };
 };

@@ -23,10 +23,13 @@ interface AdminDonorsSectionProps {
   totalCount: number;
   activeDonorsCount: number;
   totalRaised: number;
+  originalDonorsCount: number;
+  importedDonorsCount: number;
   donors: Donor[];
   isLoadingTotal: boolean;
   isLoadingActive: boolean;
   isLoadingRaised: boolean;
+  isLoadingBreakdown: boolean;
   donorsLoading: boolean;
   currentPage: number;
   totalPages: number;
@@ -57,10 +60,13 @@ const AdminDonorsSection = ({
   totalCount,
   activeDonorsCount,
   totalRaised,
+  originalDonorsCount,
+  importedDonorsCount,
   donors,
   isLoadingTotal,
   isLoadingActive,
   isLoadingRaised,
+  isLoadingBreakdown,
   donorsLoading,
   currentPage,
   totalPages,
@@ -92,9 +98,12 @@ const AdminDonorsSection = ({
         totalCount={totalCount}
         activeDonorsCount={activeDonorsCount}
         totalRaised={totalRaised}
+        originalDonorsCount={originalDonorsCount}
+        importedDonorsCount={importedDonorsCount}
         isLoadingTotal={isLoadingTotal}
         isLoadingActive={isLoadingActive}
         isLoadingRaised={isLoadingRaised}
+        isLoadingBreakdown={isLoadingBreakdown}
       />
       
       <Card>

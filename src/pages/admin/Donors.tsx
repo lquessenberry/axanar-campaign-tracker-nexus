@@ -41,13 +41,16 @@ const Donors = () => {
     totalCount,
     activeDonorsCount,
     totalRaised,
+    originalDonorsCount,
+    importedDonorsCount,
     donors,
     isLoading,
     totalPages,
     itemsPerPage,
     isLoadingTotal,
     isLoadingActive,
-    isLoadingRaised
+    isLoadingRaised,
+    isLoadingBreakdown
   } = useAdminDonorsData(currentPage, {
     searchTerm,
     sortBy,
@@ -149,9 +152,12 @@ const Donors = () => {
         totalCount={totalCount || 0}
         activeDonorsCount={activeDonorsCount || 0}
         totalRaised={totalRaised || 0}
+        originalDonorsCount={originalDonorsCount || 0}
+        importedDonorsCount={importedDonorsCount || 0}
         isLoadingTotal={isLoadingTotal}
         isLoadingActive={isLoadingActive}
         isLoadingRaised={isLoadingRaised}
+        isLoadingBreakdown={isLoadingBreakdown}
       />
 
       <DonorSearchAndFilters

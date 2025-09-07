@@ -16,7 +16,7 @@ export const useDonorStats = () => {
     },
   });
 
-  // Get total count of active donors (those with pledges)
+  // Fetch active donor count (those with pledges)
   const { data: activeDonorsCount, isLoading: isLoadingActive } = useQuery({
     queryKey: ['active-donors-count'],
     queryFn: async () => {
@@ -30,6 +30,29 @@ export const useDonorStats = () => {
       const uniqueDonorIds = new Set(data?.map(pledge => pledge.donor_id) || []);
       console.log('Active donors count:', uniqueDonorIds.size);
       return uniqueDonorIds.size;
+    },
+  });
+
+  // Fetch original vs imported donor counts
+  const { data: donorBreakdown, isLoading: isLoadingBreakdown } = useQuery({
+    queryKey: ['donor-breakdown'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('donors')
+        .select('source, source_platform')
+        .not('id', 'is', null);
+
+      if (error) throw error;
+
+      const originalCount = data?.filter(donor => 
+        !donor.source && !donor.source_platform
+      ).length || 0;
+      
+      const importedCount = data?.filter(donor => 
+        donor.source || donor.source_platform
+      ).length || 0;
+
+      return { originalCount, importedCount };
     },
   });
 
@@ -85,8 +108,11 @@ export const useDonorStats = () => {
     totalCount,
     activeDonorsCount,
     totalRaised,
+    originalDonorsCount: donorBreakdown?.originalCount || 0,
+    importedDonorsCount: donorBreakdown?.importedCount || 0,
     isLoadingTotal,
     isLoadingActive,
-    isLoadingRaised
+    isLoadingRaised,
+    isLoadingBreakdown
   };
 };
