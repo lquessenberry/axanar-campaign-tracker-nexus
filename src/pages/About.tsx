@@ -109,7 +109,14 @@ const About = () => {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="aspect-video rounded-2xl overflow-hidden border border-border/50 shadow-lg backdrop-blur-sm">
-                  <img src="/images/axanar-crew.jpg" alt="Axanar crew members discussing the platform" className="w-full h-full object-cover" />
+                  <video 
+                    src="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/grok-video-e05f7a2d-757b-4ac5-85eb-15a6c0f184a4.mp4" 
+                    className="w-full h-full object-cover" 
+                    autoPlay 
+                    loop 
+                    muted 
+                    playsInline
+                  />
                 </div>
                 <div className="aspect-video rounded-2xl overflow-hidden border border-border/50 shadow-lg backdrop-blur-sm">
                   <img src="/images/security.svg" alt="Security and data protection" className="w-full h-full object-contain bg-muted/30 p-8" />
