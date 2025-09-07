@@ -1,6 +1,7 @@
 
 import { ChevronRight } from "lucide-react";
 import Lottie from "lottie-react";
+import { useState, useEffect } from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -21,6 +22,14 @@ interface AdminSidebarProps {
 const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => {
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
+  const [animationData, setAnimationData] = useState(null);
+
+  useEffect(() => {
+    fetch("https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/leonovlottie.json")
+      .then(response => response.json())
+      .then(data => setAnimationData(data))
+      .catch(error => console.error("Failed to load Lottie animation:", error));
+  }, []);
 
   return (
     <Sidebar 
@@ -35,12 +44,14 @@ const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-axanar-teal/20 rounded-lg backdrop-blur-sm">
-              <Lottie 
-                animationData="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/leonovlottie.json"
-                className="h-14 w-14"
-                loop={true}
-                autoplay={true}
-              />
+              {animationData && (
+                <Lottie 
+                  animationData={animationData}
+                  className="h-14 w-14"
+                  loop={true}
+                  autoplay={true}
+                />
+              )}
             </div>
             {!isCollapsed && (
               <div className="animate-fade-in">
