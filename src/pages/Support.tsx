@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -9,9 +9,11 @@ import { CheckCircle, Mail, Phone, Users, HelpCircle } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import AxanarCTA from "@/components/AxanarCTA";
+import Lottie from "lottie-react";
 
 const Support = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [animationData, setAnimationData] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,6 +21,14 @@ const Support = () => {
     category: "",
     message: ""
   });
+
+  // Load Lottie animation data
+  useEffect(() => {
+    fetch("https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/ares.json")
+      .then(response => response.json())
+      .then(data => setAnimationData(data))
+      .catch(console.error);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -71,11 +81,15 @@ const Support = () => {
           
           <div className="container mx-auto relative z-10">
             <div className="aspect-[16/6] rounded-lg overflow-hidden border border-primary/20 mb-12">
-              <img
-                src="/images/support.jpg"
-                alt="Support team ready to assist"
-                className="w-full h-full object-cover"
-              />
+                  {animationData ? (
+                    <Lottie 
+                      animationData={animationData}
+                      className="w-full h-full"
+                      loop={true}
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-muted animate-pulse rounded-lg" />
+                  )}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
               <Card className="text-center">
