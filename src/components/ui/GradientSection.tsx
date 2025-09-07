@@ -62,7 +62,7 @@ const GradientSection: React.FC<GradientSectionProps> = ({
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-[66vh] object-cover z-0"
+          className="absolute inset-0 w-full h-[66vh] object-cover z-0 blur-sm"
         >
           <source src={videoUrl} type="video/mp4" />
         </video>
