@@ -57,15 +57,19 @@ const GradientSection: React.FC<GradientSectionProps> = ({
     <section className={cn("relative", className)}>
       {/* Video Background */}
       {videoUrl && (
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-[66vh] object-cover z-0 blur-sm"
-        >
-          <source src={videoUrl} type="video/mp4" />
-        </video>
+        <>
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-[66vh] object-cover z-0 blur-lg"
+          >
+            <source src={videoUrl} type="video/mp4" />
+          </video>
+          {/* Video Gradient Overlay */}
+          <div className="absolute inset-0 h-[66vh] bg-gradient-to-b from-background/20 via-background/30 to-background/50 z-5" />
+        </>
       )}
       
       {/* Gradient Overlay */}
