@@ -1,7 +1,7 @@
 
 import { ChevronRight } from "lucide-react";
 import Lottie from "lottie-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -23,6 +23,7 @@ const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => 
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
   const [animationData, setAnimationData] = useState(null);
+  const lottieRef = useRef<any>(null);
 
   useEffect(() => {
     fetch("https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/leonovlottie.json")
@@ -30,6 +31,12 @@ const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => 
       .then(data => setAnimationData(data))
       .catch(error => console.error("Failed to load Lottie animation:", error));
   }, []);
+
+  useEffect(() => {
+    if (lottieRef.current) {
+      lottieRef.current.setSpeed(0.5);
+    }
+  }, [animationData]);
 
   return (
     <Sidebar 
@@ -48,8 +55,9 @@ const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => 
                 <Lottie 
                   animationData={animationData}
                   className="h-14 w-14"
-                  loop={true}
+                  loop={false}
                   autoplay={true}
+                  lottieRef={lottieRef}
                 />
               )}
             </div>
