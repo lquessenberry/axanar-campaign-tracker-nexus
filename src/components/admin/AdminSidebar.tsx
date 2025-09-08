@@ -1,7 +1,5 @@
 
 import { ChevronRight } from "lucide-react";
-import Lottie from "lottie-react";
-import { useState, useEffect, useRef } from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -22,21 +20,6 @@ interface AdminSidebarProps {
 const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => {
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
-  const [animationData, setAnimationData] = useState(null);
-  const lottieRef = useRef<any>(null);
-
-  useEffect(() => {
-    fetch("https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/leonovlottie.json")
-      .then(response => response.json())
-      .then(data => setAnimationData(data))
-      .catch(error => console.error("Failed to load Lottie animation:", error));
-  }, []);
-
-  useEffect(() => {
-    if (lottieRef.current) {
-      lottieRef.current.setSpeed(0.5);
-    }
-  }, [animationData]);
 
   return (
     <Sidebar 
@@ -50,17 +33,6 @@ const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => 
       <SidebarHeader className="p-6 bg-gradient-to-r from-slate-800/80 to-slate-700/60 border-b border-sidebar-border">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-axanar-teal/20 rounded-lg backdrop-blur-sm">
-              {animationData && (
-                <Lottie 
-                  animationData={animationData}
-                  className="h-14 w-14"
-                  loop={false}
-                  autoplay={true}
-                  lottieRef={lottieRef}
-                />
-              )}
-            </div>
             {!isCollapsed && (
               <div className="animate-fade-in">
                 <h2 className="text-lg font-bold text-white">Admin Control</h2>
