@@ -31,6 +31,7 @@ import PasswordReset from "./pages/PasswordReset";
 import LCARSShowcase from "./pages/LCARSShowcase";
 import VanityProfile from "./pages/VanityProfile";
 import ModelManager from "./pages/ModelManager";
+import Campaign from "./pages/Campaign";
 
 const queryClient = new QueryClient();
 
@@ -68,6 +69,7 @@ const App = () => (
             <Route path="/lcars" element={<LCARSShowcase />} />
             <Route path="/models" element={<ModelManager />} />
             <Route path="/u/:username" element={<VanityProfile />} />
+            <Route path="/campaign/:id" element={<Campaign />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
