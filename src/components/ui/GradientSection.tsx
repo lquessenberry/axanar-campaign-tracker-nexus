@@ -72,19 +72,8 @@ const GradientSection: React.FC<GradientSectionProps> = ({
         </>
       )}
       
-      {/* Video Background */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute inset-0 w-full h-[66vh] object-cover z-5"
-      >
-        <source src="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/grok-video-6247e4c5-aaa0-43a2-b750-afbb6bc28c11(2).mp4" type="video/mp4" />
-      </video>
-      
       {/* Gradient Overlay */}
-      <div className={cn("absolute inset-0 h-[66vh] bg-background/60 z-10", backgroundClass)} />
+      <div className={cn("absolute inset-0 h-[66vh] bg-background/40 z-10", backgroundClass)} />
       
       {/* Top Divider */}
       {topDivider && <SectionDivider {...topDivider} variant="top" />}
