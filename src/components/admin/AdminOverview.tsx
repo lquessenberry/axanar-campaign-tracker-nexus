@@ -105,12 +105,22 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
           </CardContent>
         </Card>
         
-        <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-950 dark:to-yellow-900 tactical:from-accent/5 tactical:to-accent/10 tactical:border-accent/20 klingon:from-klingon-alert/5 klingon:to-klingon-alert/10 klingon:border-klingon-alert/20 border-yellow-200 dark:border-yellow-800">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="relative overflow-hidden border-yellow-200 dark:border-yellow-800">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          >
+            <source src="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/grok-video-be4a776d-a380-4dc5-8ad8-145f731c927f(2).mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-br from-yellow-50/80 to-yellow-100/80 dark:from-yellow-950/80 dark:to-yellow-900/80 tactical:from-accent/20 tactical:to-accent/30 klingon:from-klingon-alert/20 klingon:to-klingon-alert/30 z-10"></div>
+          <CardHeader className="relative z-20 flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium klingon:font-klingon">Total Raised</CardTitle>
             <DollarSign className="h-4 w-4 text-yellow-600 dark:text-yellow-400 tactical:text-accent klingon:text-klingon-alert" />
           </CardHeader>
-          <CardContent>
+          <CardContent className="relative z-20">
             <div className="text-2xl font-bold text-yellow-700 dark:text-yellow-300 tactical:text-accent klingon:text-klingon-alert klingon:font-klingon">
               ${overview.totalRaised?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
             </div>
