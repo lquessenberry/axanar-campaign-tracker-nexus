@@ -3,11 +3,18 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
-import { Menu, X, User, LogOut, BarChart3, Shield, AlertTriangle, MessageCircle } from "lucide-react";
+import { useCampaigns } from "@/hooks/useCampaigns";
+import { Menu, X, User, LogOut, BarChart3, Shield, AlertTriangle, MessageCircle, ChevronDown } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { AlertLevel } from "@/hooks/useAlertSystem";
 import { useTranslation } from 'react-i18next';
 import { MobileNavigation } from "@/components/mobile/MobileNavigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface NavigationProps {
   battleMode?: boolean;
@@ -20,6 +27,7 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
   const { data: isAdmin } = useAdminCheck();
+  const { data: campaigns = [] } = useCampaigns();
   const location = useLocation();
   const { t } = useTranslation();
 
@@ -98,6 +106,39 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
                   {t('how-it-works')}
                 </Button>
               </Link>
+              
+              {/* Campaigns Dropdown */}
+              {campaigns.length > 0 && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="trek-nav-link font-trek-content">
+                      Campaigns
+                      <ChevronDown className="ml-1 h-3 w-3" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-64">
+                    {campaigns.slice(0, 8).map((campaign) => (
+                      <DropdownMenuItem key={campaign.id} asChild>
+                        <Link to={`/campaign/${campaign.id}`} className="flex flex-col items-start p-3">
+                          <span className="font-medium truncate w-full">{campaign.title}</span>
+                          <div className="flex items-center justify-between w-full mt-1 text-xs text-muted-foreground">
+                            <span>{campaign.category}</span>
+                            <span>${campaign.current_amount.toLocaleString()}</span>
+                          </div>
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                    {campaigns.length > 8 && (
+                      <DropdownMenuItem asChild>
+                        <Link to="/campaigns" className="text-center text-sm text-primary font-medium">
+                          View All Campaigns
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+              
               <Link to="/faq">
                 <Button variant="ghost" size="sm" className="trek-nav-link font-trek-content">
                   {t('faq')}
