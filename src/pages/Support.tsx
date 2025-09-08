@@ -9,13 +9,10 @@ import { CheckCircle, Mail, Phone, Users, HelpCircle } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import AxanarCTA from "@/components/AxanarCTA";
-import Lottie from "lottie-react";
-import type { LottieRefCurrentProps } from "lottie-react";
 
 const Support = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [animationData, setAnimationData] = useState(null);
-  const lottieRef = useRef<LottieRefCurrentProps>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,21 +21,12 @@ const Support = () => {
     message: ""
   });
 
-  // Load Lottie animation data
+  // Set video playback speed to half
   useEffect(() => {
-    fetch("https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/ares.json")
-      .then(response => response.json())
-      .then(data => setAnimationData(data))
-      .catch(console.error);
-  }, []);
-
-  // Control Lottie playback speed and run once
-  useEffect(() => {
-    if (animationData && lottieRef.current) {
-      lottieRef.current.setSpeed?.(0.2);
-      lottieRef.current.play?.();
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.5;
     }
-  }, [animationData]);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -91,25 +79,16 @@ const Support = () => {
           
           <div className="container mx-auto relative z-10">
                 <div className="aspect-[16/6] rounded-lg overflow-hidden border border-primary/20 mb-12">
-                  <div 
-                    className="w-full h-full slow-lottie"
-                    style={{
-                      '--lottie-speed': '0.3'
-                    } as React.CSSProperties}
+                  <video
+                    ref={videoRef}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover"
                   >
-                    {animationData ? (
-                      <Lottie 
-                        lottieRef={lottieRef}
-                        animationData={animationData}
-                        className="w-full h-full"
-                        loop={false}
-                        autoplay={false}
-                        onComplete={() => lottieRef.current?.stop?.()}
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-muted animate-pulse rounded-lg" />
-                    )}
-                  </div>
+                    <source src="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/grok-video-2b554a15-1907-4afb-8a63-adec085e0206(2).mp4" type="video/mp4" />
+                  </video>
                 </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
               <Card className="text-center">
