@@ -116,7 +116,7 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
                       <ChevronDown className="ml-1 h-3 w-3" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" className="w-64">
+                  <DropdownMenuContent align="start" className="w-64 bg-background/95 backdrop-blur-md border z-[60] shadow-lg">
                     {campaigns.slice(0, 8).map((campaign) => (
                       <DropdownMenuItem key={campaign.id} asChild>
                         <Link to={`/campaign/${campaign.id}`} className="flex flex-col items-start p-3">
