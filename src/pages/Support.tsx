@@ -13,6 +13,7 @@ import AxanarCTA from "@/components/AxanarCTA";
 const Support = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const animationData = null; // legacy var removed; ensures no runtime refs
   const [formData, setFormData] = useState({
     name: "",
     email: "",
