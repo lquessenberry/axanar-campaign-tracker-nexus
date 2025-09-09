@@ -196,15 +196,21 @@ const About = () => {
         </GradientSection>
 
         {/* Team Section */}
-        <GradientSection variant="accent" pattern="deep" className="py-20" topDivider={{
-        dividerType: 'header-arc',
-        color: 'ui-accent',
-        height: 50
-      }} bottomDivider={{
-        dividerType: 'tape-edge',
-        color: 'ui-accent',
-        height: 40
-      }}>
+        <GradientSection 
+          variant="accent" 
+          pattern="deep" 
+          className="py-20" 
+          videoUrl="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/grok-video-7cbb5364-0005-4939-92e7-9812db6588cd.mp4"
+          topDivider={{
+            dividerType: 'header-arc',
+            color: 'ui-accent',
+            height: 50
+          }} 
+          bottomDivider={{
+            dividerType: 'tape-edge',
+            color: 'ui-accent',
+            height: 40
+          }}>
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">
