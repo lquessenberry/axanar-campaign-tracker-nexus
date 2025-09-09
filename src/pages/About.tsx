@@ -146,7 +146,11 @@ const About = () => {
                     <Lottie 
                       lottieRef={lottieRef}
                       animationData={lottieData}
-                      className="w-full h-full object-cover bg-muted/30"
+                      className="w-full h-full object-cover"
+                      style={{ 
+                        mixBlendMode: 'screen',
+                        filter: 'contrast(1.2) brightness(1.1)'
+                      }}
                       loop={false}
                       autoplay={true}
                       onDOMLoaded={handleLottieLoad}
