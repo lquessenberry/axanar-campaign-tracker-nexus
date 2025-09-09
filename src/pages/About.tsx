@@ -296,12 +296,12 @@ const About = () => {
                        {index === 0 && communityLottieData ? (
                          <Lottie 
                            animationData={communityLottieData}
-                           className="h-48 w-48"
+                           className="h-96 w-96"
                            loop={true}
                            autoplay={true}
                          />
                        ) : (
-                         <value.icon className="h-48 w-48 text-accent" />
+                         <value.icon className="h-96 w-96 text-accent" />
                        )}
                      </div>
                     <CardTitle className="text-xl font-bold">{value.title}</CardTitle>
