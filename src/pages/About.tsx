@@ -11,6 +11,7 @@ import { useState, useEffect, useRef } from "react";
 const About = () => {
   const [lottieData, setLottieData] = useState(null);
   const [lottieData2, setLottieData2] = useState(null);
+  const [communityLottieData, setCommunityLottieData] = useState(null);
   const [isGlitching, setIsGlitching] = useState(false);
   const lottieRef = useRef<any>();
   const lottieRef2 = useRef<any>();
@@ -27,6 +28,12 @@ const About = () => {
       .then(response => response.json())
       .then(data => setLottieData2(data))
       .catch(error => console.error("Error loading Lottie 2:", error));
+
+    // Load community Lottie
+    fetch("https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/community-first.json")
+      .then(response => response.json())
+      .then(data => setCommunityLottieData(data))
+      .catch(error => console.error("Error loading Community Lottie:", error));
   }, []);
 
   // Add random glitch effect
@@ -285,9 +292,18 @@ const About = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {values.map((value, index) => <Card key={index} className="text-center h-full backdrop-blur-sm border border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                   <CardHeader>
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-secondary/20 to-accent/20 flex items-center justify-center mx-auto mb-6 shadow-lg">
-                      <value.icon className="h-10 w-10 text-accent" />
-                    </div>
+                     <div className="w-20 h-20 rounded-full bg-gradient-to-br from-secondary/20 to-accent/20 flex items-center justify-center mx-auto mb-6 shadow-lg">
+                       {index === 0 && communityLottieData ? (
+                         <Lottie 
+                           animationData={communityLottieData}
+                           className="h-10 w-10"
+                           loop={true}
+                           autoplay={true}
+                         />
+                       ) : (
+                         <value.icon className="h-10 w-10 text-accent" />
+                       )}
+                     </div>
                     <CardTitle className="text-xl font-bold">{value.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
