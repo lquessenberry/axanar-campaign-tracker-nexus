@@ -13,6 +13,7 @@ const About = () => {
   const [lottieData2, setLottieData2] = useState(null);
   const [communityLottieData, setCommunityLottieData] = useState(null);
   const [dataSecurityLottieData, setDataSecurityLottieData] = useState(null);
+  const [simplifiedRecoveryLottieData, setSimplifiedRecoveryLottieData] = useState(null);
   const [isGlitching, setIsGlitching] = useState(false);
   const [visibleCards, setVisibleCards] = useState(new Set());
   const lottieRef = useRef<any>();
@@ -43,6 +44,12 @@ const About = () => {
       .then(response => response.json())
       .then(data => setDataSecurityLottieData(data))
       .catch(error => console.error("Error loading Data Security Lottie:", error));
+
+    // Load simplified recovery Lottie
+    fetch("https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/simplified-recovery.json")
+      .then(response => response.json())
+      .then(data => setSimplifiedRecoveryLottieData(data))
+      .catch(error => console.error("Error loading Simplified Recovery Lottie:", error));
   }, []);
 
   // Intersection Observer for cards
@@ -337,6 +344,13 @@ const About = () => {
                        ) : index === 1 && dataSecurityLottieData && visibleCards.has(index) ? (
                          <Lottie 
                            animationData={dataSecurityLottieData}
+                           className="h-32 w-32"
+                           loop={false}
+                           autoplay={true}
+                         />
+                       ) : index === 2 && simplifiedRecoveryLottieData && visibleCards.has(index) ? (
+                         <Lottie 
+                           animationData={simplifiedRecoveryLottieData}
                            className="h-32 w-32"
                            loop={false}
                            autoplay={true}
