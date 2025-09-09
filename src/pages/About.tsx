@@ -151,7 +151,7 @@ const About = () => {
               {values.map((value, index) => <Card key={index} className="text-center h-full backdrop-blur-sm border border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                   <CardHeader>
                     <div className="w-20 h-20 rounded-full bg-gradient-to-br from-secondary/20 to-accent/20 flex items-center justify-center mx-auto mb-6 shadow-lg">
-                      <value.icon className="h-10 w-10 text-secondary" />
+                      <value.icon className="h-10 w-10 text-accent" />
                     </div>
                     <CardTitle className="text-xl font-bold">{value.title}</CardTitle>
                   </CardHeader>
