@@ -146,7 +146,7 @@ const About = () => {
                     <Lottie 
                       lottieRef={lottieRef}
                       animationData={lottieData}
-                      className="w-full h-full object-contain bg-muted/30 p-8"
+                      className="w-full h-full object-cover bg-muted/30"
                       loop={false}
                       autoplay={true}
                       onDOMLoaded={handleLottieLoad}
