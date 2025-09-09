@@ -7,16 +7,28 @@ import AxanarCTA from "@/components/AxanarCTA";
 import GradientSection from "@/components/ui/GradientSection";
 import { Users, Target, Shield, Heart, Star, Zap } from "lucide-react";
 import Lottie from "lottie-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 const About = () => {
   const [lottieData, setLottieData] = useState(null);
+  const lottieRef = useRef<any>();
 
   useEffect(() => {
     fetch("https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/klingonui.json")
       .then(response => response.json())
       .then(data => setLottieData(data))
       .catch(error => console.error("Error loading Lottie:", error));
-  }, []); 
+  }, []);
+
+  const handleLottieLoad = () => {
+    if (lottieRef.current) {
+      // Set slow speed (0.25x normal speed)
+      lottieRef.current.setSpeed(0.25);
+    }
+  };
+
+  const handleComplete = () => {
+    // Animation completed - already stopped by loop:false
+  };
 
   const values = [{
     icon: Heart,
@@ -132,9 +144,13 @@ const About = () => {
                 <div className="aspect-video rounded-2xl overflow-hidden border border-border/50 shadow-lg backdrop-blur-sm">
                   {lottieData ? (
                     <Lottie 
+                      lottieRef={lottieRef}
                       animationData={lottieData}
                       className="w-full h-full object-contain bg-muted/30 p-8"
-                      loop={true}
+                      loop={false}
+                      autoplay={true}
+                      onDOMLoaded={handleLottieLoad}
+                      onComplete={handleComplete}
                     />
                   ) : (
                     <div className="w-full h-full object-contain bg-muted/30 p-8 flex items-center justify-center">
