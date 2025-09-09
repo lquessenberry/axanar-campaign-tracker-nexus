@@ -13,8 +13,10 @@ const About = () => {
   const [lottieData2, setLottieData2] = useState(null);
   const [communityLottieData, setCommunityLottieData] = useState(null);
   const [isGlitching, setIsGlitching] = useState(false);
+  const [visibleCards, setVisibleCards] = useState(new Set());
   const lottieRef = useRef<any>();
   const lottieRef2 = useRef<any>();
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     // Load first Lottie
@@ -34,6 +36,27 @@ const About = () => {
       .then(response => response.json())
       .then(data => setCommunityLottieData(data))
       .catch(error => console.error("Error loading Community Lottie:", error));
+  }, []);
+
+  // Intersection Observer for cards
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const index = parseInt(entry.target.getAttribute('data-card-index') || '0');
+          if (entry.isIntersecting) {
+            setVisibleCards(prev => new Set([...prev, index]));
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    cardRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   // Add random glitch effect
@@ -290,26 +313,30 @@ const About = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {values.map((value, index) => <Card key={index} className="text-center h-full backdrop-blur-sm border border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              {values.map((value, index) => <Card 
+                key={index} 
+                ref={el => cardRefs.current[index] = el}
+                data-card-index={index}
+                className="text-center h-full backdrop-blur-sm border border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                   <CardHeader>
                      <div className="w-32 h-32 rounded-full bg-gradient-to-br from-secondary/20 to-accent/20 flex items-center justify-center mx-auto mb-6 shadow-lg">
-                       {index === 0 && communityLottieData ? (
+                       {index === 0 && communityLottieData && visibleCards.has(index) ? (
                          <Lottie 
                            animationData={communityLottieData}
                            className="h-32 w-32"
-                           loop={true}
+                           loop={false}
                            autoplay={true}
                          />
                        ) : (
                          <value.icon className="h-32 w-32 text-accent" />
                        )}
                      </div>
-                    <CardTitle className="text-xl font-bold">{value.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-base leading-relaxed">{value.description}</CardDescription>
-                  </CardContent>
-                </Card>)}
+                     <CardTitle className="text-xl font-bold">{value.title}</CardTitle>
+                   </CardHeader>
+                   <CardContent>
+                     <CardDescription className="text-base leading-relaxed">{value.description}</CardDescription>
+                   </CardContent>
+                 </Card>)}
             </div>
           </div>
         </GradientSection>
