@@ -292,16 +292,16 @@ const About = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {values.map((value, index) => <Card key={index} className="text-center h-full backdrop-blur-sm border border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                   <CardHeader>
-                     <div className="w-96 h-96 rounded-full bg-gradient-to-br from-secondary/20 to-accent/20 flex items-center justify-center mx-auto mb-6 shadow-lg">
+                     <div className="w-32 h-32 rounded-full bg-gradient-to-br from-secondary/20 to-accent/20 flex items-center justify-center mx-auto mb-6 shadow-lg">
                        {index === 0 && communityLottieData ? (
                          <Lottie 
                            animationData={communityLottieData}
-                           className="h-96 w-96"
+                           className="h-32 w-32"
                            loop={true}
                            autoplay={true}
                          />
                        ) : (
-                         <value.icon className="h-96 w-96 text-accent" />
+                         <value.icon className="h-32 w-32 text-accent" />
                        )}
                      </div>
                     <CardTitle className="text-xl font-bold">{value.title}</CardTitle>
