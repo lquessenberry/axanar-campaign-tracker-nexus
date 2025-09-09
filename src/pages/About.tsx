@@ -6,7 +6,18 @@ import Footer from "@/components/Footer";
 import AxanarCTA from "@/components/AxanarCTA";
 import GradientSection from "@/components/ui/GradientSection";
 import { Users, Target, Shield, Heart, Star, Zap } from "lucide-react";
+import Lottie from "lottie-react";
+import { useState, useEffect } from "react";
 const About = () => {
+  const [lottieData, setLottieData] = useState(null);
+
+  useEffect(() => {
+    fetch("https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/klingonui.json")
+      .then(response => response.json())
+      .then(data => setLottieData(data))
+      .catch(error => console.error("Error loading Lottie:", error));
+  }, []); 
+
   const values = [{
     icon: Heart,
     title: "Community First",
@@ -119,7 +130,17 @@ const About = () => {
                   />
                 </div>
                 <div className="aspect-video rounded-2xl overflow-hidden border border-border/50 shadow-lg backdrop-blur-sm">
-                  <img src="/images/security.svg" alt="Security and data protection" className="w-full h-full object-contain bg-muted/30 p-8" />
+                  {lottieData ? (
+                    <Lottie 
+                      animationData={lottieData}
+                      className="w-full h-full object-contain bg-muted/30 p-8"
+                      loop={true}
+                    />
+                  ) : (
+                    <div className="w-full h-full object-contain bg-muted/30 p-8 flex items-center justify-center">
+                      <div className="animate-pulse">Loading...</div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
