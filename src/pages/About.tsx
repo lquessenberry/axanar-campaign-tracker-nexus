@@ -10,6 +10,7 @@ import Lottie from "lottie-react";
 import { useState, useEffect, useRef } from "react";
 const About = () => {
   const [lottieData, setLottieData] = useState(null);
+  const [isGlitching, setIsGlitching] = useState(false);
   const lottieRef = useRef<any>();
 
   useEffect(() => {
@@ -17,6 +18,16 @@ const About = () => {
       .then(response => response.json())
       .then(data => setLottieData(data))
       .catch(error => console.error("Error loading Lottie:", error));
+  }, []);
+
+  // Add random glitch effect
+  useEffect(() => {
+    const glitchInterval = setInterval(() => {
+      setIsGlitching(true);
+      setTimeout(() => setIsGlitching(false), 200);
+    }, Math.random() * 8000 + 3000); // Random interval between 3-11 seconds
+
+    return () => clearInterval(glitchInterval);
   }, []);
 
   const handleLottieLoad = () => {
@@ -141,15 +152,32 @@ const About = () => {
                     playsInline
                   />
                 </div>
-                <div className="aspect-video rounded-2xl overflow-hidden border border-border/50 shadow-lg backdrop-blur-sm">
+                <div className={`aspect-video rounded-2xl overflow-hidden border border-border/50 shadow-lg backdrop-blur-sm relative ${isGlitching ? 'animate-pulse' : ''}`}>
+                  {/* Glitch overlay effects */}
+                  <div className={`absolute inset-0 z-10 pointer-events-none transition-opacity duration-200 ${isGlitching ? 'opacity-30' : 'opacity-0'}`}>
+                    {/* Horizontal scan lines */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/20 to-transparent animate-pulse"></div>
+                    {/* Static noise overlay */}
+                    <div className="absolute inset-0 opacity-20" style={{
+                      backgroundImage: `radial-gradient(circle, rgba(0,255,255,0.1) 1px, transparent 1px)`,
+                      backgroundSize: '4px 4px',
+                      animation: isGlitching ? 'glitch-static 0.1s infinite linear' : 'none'
+                    }}></div>
+                    {/* Color separation bars */}
+                    <div className="absolute top-1/4 left-0 w-full h-0.5 bg-red-500/50 transform translate-x-2"></div>
+                    <div className="absolute top-3/4 left-0 w-full h-0.5 bg-green-500/50 transform -translate-x-1"></div>
+                  </div>
+                  
                   {lottieData ? (
                     <Lottie 
                       lottieRef={lottieRef}
                       animationData={lottieData}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover relative z-0"
                       style={{ 
                         mixBlendMode: 'screen',
-                        filter: 'contrast(1.2) brightness(1.1)'
+                        filter: `contrast(1.2) brightness(1.1) ${isGlitching ? 'hue-rotate(30deg) saturate(1.5)' : ''}`,
+                        transform: isGlitching ? 'translateX(2px) scaleX(1.01)' : 'none',
+                        transition: 'filter 0.1s ease, transform 0.1s ease'
                       }}
                       loop={false}
                       autoplay={true}
@@ -160,6 +188,15 @@ const About = () => {
                     <div className="w-full h-full object-contain bg-muted/30 p-8 flex items-center justify-center">
                       <div className="animate-pulse">Loading...</div>
                     </div>
+                  )}
+                  
+                  {/* Random glitch bars */}
+                  {isGlitching && (
+                    <>
+                      <div className="absolute top-[20%] left-0 w-full h-px bg-cyan-400/70 z-20"></div>
+                      <div className="absolute top-[60%] left-0 w-full h-px bg-magenta-400/70 z-20"></div>
+                      <div className="absolute top-[80%] left-0 w-3/4 h-px bg-yellow-400/70 z-20"></div>
+                    </>
                   )}
                 </div>
               </div>
@@ -327,12 +364,18 @@ const About = () => {
         </GradientSection>
 
         {/* CTA Section */}
-        <GradientSection variant="primary" pattern="gradient" className="py-24" topDivider={{
+        <GradientSection variant="primary" pattern="gradient" className={`py-24 relative ${isGlitching ? 'animate-pulse' : ''}`} topDivider={{
         dividerType: 'elbow-pad',
         color: 'ui-accent',
         height: 40,
         flip: true
       }}>
+          {/* Subtle glitch overlay for CTA */}
+          <div className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${isGlitching ? 'opacity-10' : 'opacity-0'}`}>
+            <div className="absolute top-[30%] left-0 w-full h-px bg-cyan-400/30"></div>
+            <div className="absolute top-[70%] left-0 w-2/3 h-px bg-red-400/30"></div>
+          </div>
+          
           <div className="container mx-auto px-4">
             <AxanarCTA badge="Mission Control Ready" title="Join the Federation of Donors" description="Help us continue building the future of Star Trek storytelling. Our mission requires dedicated supporters like you to bring Axanar to life." buttons={[{
             to: "/auth",
