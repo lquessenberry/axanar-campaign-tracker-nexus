@@ -200,7 +200,7 @@ const About = () => {
           variant="accent" 
           pattern="deep" 
           className="py-20" 
-          videoUrl="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/grok-video-7cbb5364-0005-4939-92e7-9812db6588cd.mp4"
+          videoUrl="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/grok-video-64334353-3e81-4433-98bf-aa673bd5d3f4(2).mp4"
           topDivider={{
             dividerType: 'header-arc',
             color: 'ui-accent',
