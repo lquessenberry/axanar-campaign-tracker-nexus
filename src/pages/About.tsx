@@ -25,17 +25,17 @@ const About = () => {
     description: "Our new platform offers better performance and reliability than our previous system."
   }];
   const stats = [{
-    number: "100%",
-    label: "Donor Data Migrated"
+    number: "$1.1M+",
+    label: "Total Raised"
   }, {
-    number: "24/7",
-    label: "Admin Support"
+    number: "3",
+    label: "Major Campaigns"
   }, {
     number: "25K+",
     label: "Existing Donor Accounts"
   }, {
-    number: "5x",
-    label: "Faster Performance"
+    number: "10+",
+    label: "Years of Community"
   }];
   const team = [{
     name: "Lee Quessenberry",
