@@ -10,14 +10,23 @@ import Lottie from "lottie-react";
 import { useState, useEffect, useRef } from "react";
 const About = () => {
   const [lottieData, setLottieData] = useState(null);
+  const [lottieData2, setLottieData2] = useState(null);
   const [isGlitching, setIsGlitching] = useState(false);
   const lottieRef = useRef<any>();
+  const lottieRef2 = useRef<any>();
 
   useEffect(() => {
+    // Load first Lottie
     fetch("https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/klingonui.json")
       .then(response => response.json())
       .then(data => setLottieData(data))
       .catch(error => console.error("Error loading Lottie:", error));
+
+    // Load second Lottie
+    fetch("https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/a-digital-illustration-with-a-futuristic-and-techn.json")
+      .then(response => response.json())
+      .then(data => setLottieData2(data))
+      .catch(error => console.error("Error loading Lottie 2:", error));
   }, []);
 
   // Add random glitch effect
@@ -37,7 +46,18 @@ const About = () => {
     }
   };
 
+  const handleLottieLoad2 = () => {
+    if (lottieRef2.current) {
+      // Set slow speed (0.25x normal speed)
+      lottieRef2.current.setSpeed(0.25);
+    }
+  };
+
   const handleComplete = () => {
+    // Animation completed - already stopped by loop:false
+  };
+
+  const handleComplete2 = () => {
     // Animation completed - already stopped by loop:false
   };
 
@@ -142,15 +162,52 @@ const About = () => {
                 </Link>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="aspect-video rounded-2xl overflow-hidden border border-border/50 shadow-lg backdrop-blur-sm">
-                  <video 
-                    src="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/grok-video-e05f7a2d-757b-4ac5-85eb-15a6c0f184a4.mp4" 
-                    className="w-full h-full object-cover" 
-                    autoPlay 
-                    loop 
-                    muted 
-                    playsInline
-                  />
+                <div className={`aspect-video rounded-2xl overflow-hidden border border-border/50 shadow-lg backdrop-blur-sm relative ${isGlitching ? 'animate-pulse' : ''}`}>
+                  {/* Glitch overlay effects */}
+                  <div className={`absolute inset-0 z-10 pointer-events-none transition-opacity duration-200 ${isGlitching ? 'opacity-30' : 'opacity-0'}`}>
+                    {/* Horizontal scan lines */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/20 to-transparent animate-pulse"></div>
+                    {/* Static noise overlay */}
+                    <div className="absolute inset-0 opacity-20" style={{
+                      backgroundImage: `radial-gradient(circle, rgba(0,255,255,0.1) 1px, transparent 1px)`,
+                      backgroundSize: '4px 4px',
+                      animation: isGlitching ? 'glitch-static 0.1s infinite linear' : 'none'
+                    }}></div>
+                    {/* Color separation bars */}
+                    <div className="absolute top-1/4 left-0 w-full h-0.5 bg-red-500/50 transform translate-x-2"></div>
+                    <div className="absolute top-3/4 left-0 w-full h-0.5 bg-green-500/50 transform -translate-x-1"></div>
+                  </div>
+                  
+                  {lottieData2 ? (
+                    <Lottie 
+                      lottieRef={lottieRef2}
+                      animationData={lottieData2}
+                      className="w-full h-full object-cover relative z-0"
+                      style={{ 
+                        mixBlendMode: 'screen',
+                        filter: `contrast(1.2) brightness(1.1) ${isGlitching ? 'hue-rotate(30deg) saturate(1.5)' : ''}`,
+                        transform: isGlitching ? 'translateX(2px) scaleX(1.01)' : 'none',
+                        transition: 'filter 0.1s ease, transform 0.1s ease'
+                      }}
+                      loop={false}
+                      autoplay={true}
+                      onDOMLoaded={handleLottieLoad2}
+                      onComplete={handleComplete2}
+                    />
+                  ) : (
+                    <div className="w-full h-full object-contain bg-muted/30 p-8 flex items-center justify-center">
+                      <div className="animate-pulse">Loading...</div>
+                    </div>
+                  )}
+                  
+                  {/* Random glitch bars */}
+                  {isGlitching && (
+                    <>
+                      <div className="absolute top-[20%] left-0 w-full h-px bg-cyan-400/70 z-20"></div>
+                      <div className="absolute top-[60%] left-0 w-full h-px bg-magenta-400/70 z-20"></div>
+                      <div className="absolute top-[80%] left-0 w-3/4 h-px bg-yellow-400/70 z-20"></div>
+                    </>
+                  )}
                 </div>
                 <div className={`aspect-video rounded-2xl overflow-hidden border border-border/50 shadow-lg backdrop-blur-sm relative ${isGlitching ? 'animate-pulse' : ''}`}>
                   {/* Glitch overlay effects */}
