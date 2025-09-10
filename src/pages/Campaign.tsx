@@ -1,6 +1,5 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import Lottie from "lottie-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,13 +15,6 @@ const Campaign = () => {
   const { id } = useParams<{ id: string }>();
   const { data: campaign, isLoading, error } = useCampaign(id || '');
   const [activeTab, setActiveTab] = useState("details");
-  const lottieRef = useRef<any>(null);
-
-  useEffect(() => {
-    if (lottieRef.current) {
-      lottieRef.current.setSpeed(0.5);
-    }
-  }, []);
 
   if (isLoading) {
     return (
@@ -95,15 +87,17 @@ const Campaign = () => {
         <section className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
-              <div className="w-full h-auto rounded-lg overflow-hidden">
-                <Lottie
-                  animationData="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/ares-msd.json"
-                  loop={false}
-                  autoplay={true}
-                  lottieRef={lottieRef}
-                  className="w-full h-auto"
+              {campaign.image_url ? (
+                <img
+                  src={campaign.image_url}
+                  alt={campaign.title}
+                  className="w-full h-auto rounded-lg object-cover"
                 />
-              </div>
+              ) : (
+                <div className="w-full h-64 bg-muted rounded-lg flex items-center justify-center">
+                  <p className="text-muted-foreground">No image available</p>
+                </div>
+              )}
             </div>
             
             <div className="space-y-6">
