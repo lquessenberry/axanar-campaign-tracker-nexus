@@ -22,6 +22,59 @@ const Campaign = () => {
   const [lottieData, setLottieData] = useState<any | null>(null);
   const [lottieError, setLottieError] = useState<string | null>(null);
   const lottieRef = useRef<any>(null);
+  const glitchIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Glitch effects for specific layers
+  const applyGlitchEffects = () => {
+    if (!lottieRef.current) return;
+
+    const animation = lottieRef.current;
+    
+    // Random layer manipulation for glitch effect
+    const glitchLayer = (layerIndex: number) => {
+      try {
+        const layer = animation.renderer?.elements?.[layerIndex];
+        if (layer) {
+          // Random glitch transformations
+          const glitchIntensity = Math.random() * 0.1;
+          const offsetX = (Math.random() - 0.5) * 20;
+          const offsetY = (Math.random() - 0.5) * 10;
+          
+          if (layer.transform) {
+            layer.transform.mProp.px.v = offsetX;
+            layer.transform.mProp.py.v = offsetY;
+          }
+        }
+      } catch (e) {
+        // Fail silently if layer doesn't exist
+      }
+    };
+
+    // Random blink effect
+    const blinkLayer = (layerIndex: number) => {
+      try {
+        const layer = animation.renderer?.elements?.[layerIndex];
+        if (layer && layer.transform) {
+          const shouldBlink = Math.random() < 0.3; // 30% chance to blink
+          layer.transform.mProp.o.v = shouldBlink ? 0 : 100;
+        }
+      } catch (e) {
+        // Fail silently if layer doesn't exist
+      }
+    };
+
+    // Apply effects to random layers (assuming there are multiple layers)
+    const maxLayers = 10; // Adjust based on your Lottie file
+    for (let i = 0; i < maxLayers; i++) {
+      if (Math.random() < 0.2) { // 20% chance per layer
+        if (Math.random() < 0.5) {
+          glitchLayer(i);
+        } else {
+          blinkLayer(i);
+        }
+      }
+    }
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -45,13 +98,25 @@ const Campaign = () => {
   }, []);
 
   useEffect(() => {
-    if (lottieRef.current) {
+    if (lottieRef.current && lottieData) {
       try {
         lottieRef.current.setSpeed(0.5); // Half speed
+        
+        // Start glitch effects after a delay
+        setTimeout(() => {
+          glitchIntervalRef.current = setInterval(applyGlitchEffects, 150); // Glitch every 150ms
+        }, 2000); // Wait 2 seconds before starting glitch effects
+        
       } catch (_) {
         // no-op
       }
     }
+
+    return () => {
+      if (glitchIntervalRef.current) {
+        clearInterval(glitchIntervalRef.current);
+      }
+    };
   }, [lottieData]);
 
   if (isLoading) {
