@@ -423,6 +423,58 @@ export type Database = {
         }
         Relationships: []
       }
+      campaign_display_overrides: {
+        Row: {
+          campaign_id: string
+          created_at: string | null
+          display_amount: number
+          display_backers: number
+          display_goal: number | null
+          source_note: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          campaign_id: string
+          created_at?: string | null
+          display_amount: number
+          display_backers: number
+          display_goal?: number | null
+          source_note?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          campaign_id?: string
+          created_at?: string | null
+          display_amount?: number
+          display_backers?: number
+          display_goal?: number | null
+          source_note?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_display_overrides_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: true
+            referencedRelation: "campaign_analytics"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "campaign_display_overrides_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: true
+            referencedRelation: "campaign_totals"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "campaign_display_overrides_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: true
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campaigns: {
         Row: {
           active: boolean | null
@@ -2920,6 +2972,7 @@ export type Database = {
           campaign_id: string | null
           campaign_name: string | null
           end_date: string | null
+          goal_amount: number | null
           provider: string | null
           start_date: string | null
           total_amount: number | null
