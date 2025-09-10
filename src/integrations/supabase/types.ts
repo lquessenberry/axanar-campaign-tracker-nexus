@@ -1958,6 +1958,42 @@ export type Database = {
           },
         ]
       }
+      pledges_backup_rollback_20250910: {
+        Row: {
+          amount: number | null
+          campaign_id: string | null
+          created_at: string | null
+          donor_id: string | null
+          id: string | null
+          legacy_id: number | null
+          reward_id: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount?: number | null
+          campaign_id?: string | null
+          created_at?: string | null
+          donor_id?: string | null
+          id?: string | null
+          legacy_id?: number | null
+          reward_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number | null
+          campaign_id?: string | null
+          created_at?: string | null
+          donor_id?: string | null
+          id?: string | null
+          legacy_id?: number | null
+          reward_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       problematic_donor_emails: {
         Row: {
           created_at: string | null
