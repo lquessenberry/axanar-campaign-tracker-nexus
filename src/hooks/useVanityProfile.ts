@@ -7,13 +7,33 @@ export const useVanityProfile = (username: string) => {
     queryFn: async () => {
       if (!username) throw new Error('No username provided');
 
+      // First try to get existing user
       const { data, error } = await supabase.rpc('get_user_by_username', {
         lookup_username: username
       });
 
       if (error) throw error;
       
-      return data?.[0] || null;
+      // If user exists, return it
+      if (data?.[0]) {
+        return data[0];
+      }
+
+      // If no user found, create a placeholder profile
+      console.log(`No profile found for @${username}, creating placeholder...`);
+      
+      const { data: newProfileData, error: createError } = await supabase.rpc('create_placeholder_profile', {
+        target_username: username
+      });
+
+      if (createError) {
+        console.error('Failed to create placeholder profile:', createError);
+        // Return null if we can't create a placeholder - this will show the "not found" message
+        return null;
+      }
+
+      console.log(`Created placeholder profile for @${username}`);
+      return newProfileData?.[0] || null;
     },
     enabled: !!username,
   });
