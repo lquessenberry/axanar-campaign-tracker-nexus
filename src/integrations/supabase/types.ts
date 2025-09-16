@@ -1912,6 +1912,7 @@ export type Database = {
           id: string
           legacy_id: number | null
           reward_id: string | null
+          source: string | null
           status: string | null
           updated_at: string | null
         }
@@ -1923,6 +1924,7 @@ export type Database = {
           id?: string
           legacy_id?: number | null
           reward_id?: string | null
+          source?: string | null
           status?: string | null
           updated_at?: string | null
         }
@@ -1934,6 +1936,7 @@ export type Database = {
           id?: string
           legacy_id?: number | null
           reward_id?: string | null
+          source?: string | null
           status?: string | null
           updated_at?: string | null
         }
@@ -2040,6 +2043,54 @@ export type Database = {
           donor_id?: string | null
           id?: string | null
           legacy_id?: number | null
+          reward_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      pledges_reassign_backup2: {
+        Row: {
+          amount: number | null
+          backup_at: string | null
+          backup_id: number
+          backup_reason: string | null
+          campaign_id: string | null
+          created_at: string | null
+          donor_id: string | null
+          id: string | null
+          legacy_id: number | null
+          moved_to_campaign: string | null
+          reward_id: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount?: number | null
+          backup_at?: string | null
+          backup_id?: number
+          backup_reason?: string | null
+          campaign_id?: string | null
+          created_at?: string | null
+          donor_id?: string | null
+          id?: string | null
+          legacy_id?: number | null
+          moved_to_campaign?: string | null
+          reward_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number | null
+          backup_at?: string | null
+          backup_id?: number
+          backup_reason?: string | null
+          campaign_id?: string | null
+          created_at?: string | null
+          donor_id?: string | null
+          id?: string | null
+          legacy_id?: number | null
+          moved_to_campaign?: string | null
           reward_id?: string | null
           status?: string | null
           updated_at?: string | null
@@ -2830,6 +2881,249 @@ export type Database = {
           },
         ]
       }
+      staging_axanar_kickstarter: {
+        Row: {
+          amount: number | null
+          created_at: string | null
+          display_name: string | null
+          email: string | null
+          id: number
+          pledge_date: string | null
+          raw_line: Json | null
+          reward_name: string | null
+          source: string | null
+          status: string | null
+        }
+        Insert: {
+          amount?: number | null
+          created_at?: string | null
+          display_name?: string | null
+          email?: string | null
+          id?: number
+          pledge_date?: string | null
+          raw_line?: Json | null
+          reward_name?: string | null
+          source?: string | null
+          status?: string | null
+        }
+        Update: {
+          amount?: number | null
+          created_at?: string | null
+          display_name?: string | null
+          email?: string | null
+          id?: number
+          pledge_date?: string | null
+          raw_line?: Json | null
+          reward_name?: string | null
+          source?: string | null
+          status?: string | null
+        }
+        Relationships: []
+      }
+      staging_axanar_paypal: {
+        Row: {
+          amount: number | null
+          created_at: string | null
+          email: string | null
+          first_name: string | null
+          id: number
+          idx: number | null
+          last_name: string | null
+          note: string | null
+          raw_line: Json | null
+          source: string | null
+        }
+        Insert: {
+          amount?: number | null
+          created_at?: string | null
+          email?: string | null
+          first_name?: string | null
+          id?: number
+          idx?: number | null
+          last_name?: string | null
+          note?: string | null
+          raw_line?: Json | null
+          source?: string | null
+        }
+        Update: {
+          amount?: number | null
+          created_at?: string | null
+          email?: string | null
+          first_name?: string | null
+          id?: number
+          idx?: number | null
+          last_name?: string | null
+          note?: string | null
+          raw_line?: Json | null
+          source?: string | null
+        }
+        Relationships: []
+      }
+      staging_indiegogo: {
+        Row: {
+          amount: number | null
+          created_at: string | null
+          display_name: string | null
+          email: string | null
+          id: number
+          order_id: string | null
+          order_status: string | null
+          perk_name: string | null
+          pledge_date: string | null
+          raw_line: Json | null
+          source: string | null
+          transaction_id: string | null
+        }
+        Insert: {
+          amount?: number | null
+          created_at?: string | null
+          display_name?: string | null
+          email?: string | null
+          id?: number
+          order_id?: string | null
+          order_status?: string | null
+          perk_name?: string | null
+          pledge_date?: string | null
+          raw_line?: Json | null
+          source?: string | null
+          transaction_id?: string | null
+        }
+        Update: {
+          amount?: number | null
+          created_at?: string | null
+          display_name?: string | null
+          email?: string | null
+          id?: number
+          order_id?: string | null
+          order_status?: string | null
+          perk_name?: string | null
+          pledge_date?: string | null
+          raw_line?: Json | null
+          source?: string | null
+          transaction_id?: string | null
+        }
+        Relationships: []
+      }
+      staging_prelude_kickstarter: {
+        Row: {
+          amount: number | null
+          created_at: string | null
+          display_name: string | null
+          email: string | null
+          id: number
+          pledge_date: string | null
+          raw_line: Json | null
+          reward_name: string | null
+          source: string | null
+          status: string | null
+        }
+        Insert: {
+          amount?: number | null
+          created_at?: string | null
+          display_name?: string | null
+          email?: string | null
+          id?: number
+          pledge_date?: string | null
+          raw_line?: Json | null
+          reward_name?: string | null
+          source?: string | null
+          status?: string | null
+        }
+        Update: {
+          amount?: number | null
+          created_at?: string | null
+          display_name?: string | null
+          email?: string | null
+          id?: number
+          pledge_date?: string | null
+          raw_line?: Json | null
+          reward_name?: string | null
+          source?: string | null
+          status?: string | null
+        }
+        Relationships: []
+      }
+      staging_prelude_paypal: {
+        Row: {
+          amount: number | null
+          created_at: string | null
+          email: string | null
+          first_name: string | null
+          id: number
+          idx: number | null
+          last_name: string | null
+          note: string | null
+          pledge_date: string | null
+          raw_line: Json | null
+          reward_name: string | null
+          source: string | null
+        }
+        Insert: {
+          amount?: number | null
+          created_at?: string | null
+          email?: string | null
+          first_name?: string | null
+          id?: number
+          idx?: number | null
+          last_name?: string | null
+          note?: string | null
+          pledge_date?: string | null
+          raw_line?: Json | null
+          reward_name?: string | null
+          source?: string | null
+        }
+        Update: {
+          amount?: number | null
+          created_at?: string | null
+          email?: string | null
+          first_name?: string | null
+          id?: number
+          idx?: number | null
+          last_name?: string | null
+          note?: string | null
+          pledge_date?: string | null
+          raw_line?: Json | null
+          reward_name?: string | null
+          source?: string | null
+        }
+        Relationships: []
+      }
+      staging_secret_perks: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          first_name: string | null
+          full_name: string | null
+          id: number
+          last_name: string | null
+          perk_label: string | null
+          raw_line: Json | null
+          source: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          first_name?: string | null
+          full_name?: string | null
+          id?: number
+          last_name?: string | null
+          perk_label?: string | null
+          raw_line?: Json | null
+          source?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          first_name?: string | null
+          full_name?: string | null
+          id?: number
+          last_name?: string | null
+          perk_label?: string | null
+          raw_line?: Json | null
+          source?: string | null
+        }
+        Relationships: []
+      }
       temp_user_mappings: {
         Row: {
           email: string | null
@@ -2944,6 +3238,42 @@ export type Database = {
           permissions?: Json | null
           remember_token?: string | null
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      wrappers_fdw_stats: {
+        Row: {
+          bytes_in: number | null
+          bytes_out: number | null
+          create_times: number | null
+          created_at: string
+          fdw_name: string
+          metadata: Json | null
+          rows_in: number | null
+          rows_out: number | null
+          updated_at: string
+        }
+        Insert: {
+          bytes_in?: number | null
+          bytes_out?: number | null
+          create_times?: number | null
+          created_at?: string
+          fdw_name: string
+          metadata?: Json | null
+          rows_in?: number | null
+          rows_out?: number | null
+          updated_at?: string
+        }
+        Update: {
+          bytes_in?: number | null
+          bytes_out?: number | null
+          create_times?: number | null
+          created_at?: string
+          fdw_name?: string
+          metadata?: Json | null
+          rows_in?: number | null
+          rows_out?: number | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -3128,9 +3458,64 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
+      airtable_fdw_handler: {
+        Args: Record<PropertyKey, never>
+        Returns: unknown
+      }
+      airtable_fdw_meta: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          author: string
+          name: string
+          version: string
+          website: string
+        }[]
+      }
+      airtable_fdw_validator: {
+        Args: { catalog: unknown; options: string[] }
+        Returns: undefined
+      }
+      auth0_fdw_handler: {
+        Args: Record<PropertyKey, never>
+        Returns: unknown
+      }
+      auth0_fdw_meta: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          author: string
+          name: string
+          version: string
+          website: string
+        }[]
+      }
+      auth0_fdw_validator: {
+        Args: { catalog: unknown; options: string[] }
+        Returns: undefined
+      }
       ban_user: {
         Args: { target_user_id: string }
         Returns: boolean
+      }
+      big_query_fdw_handler: {
+        Args: Record<PropertyKey, never>
+        Returns: unknown
+      }
+      big_query_fdw_meta: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          author: string
+          name: string
+          version: string
+          website: string
+        }[]
+      }
+      big_query_fdw_validator: {
+        Args: { catalog: unknown; options: string[] }
+        Returns: undefined
+      }
+      bytea_to_text: {
+        Args: { data: string }
+        Returns: string
       }
       calculate_donation_achievements: {
         Args: { user_uuid: string }
@@ -3185,6 +3570,40 @@ export type Database = {
           message: string
         }[]
       }
+      click_house_fdw_handler: {
+        Args: Record<PropertyKey, never>
+        Returns: unknown
+      }
+      click_house_fdw_meta: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          author: string
+          name: string
+          version: string
+          website: string
+        }[]
+      }
+      click_house_fdw_validator: {
+        Args: { catalog: unknown; options: string[] }
+        Returns: undefined
+      }
+      cognito_fdw_handler: {
+        Args: Record<PropertyKey, never>
+        Returns: unknown
+      }
+      cognito_fdw_meta: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          author: string
+          name: string
+          version: string
+          website: string
+        }[]
+      }
+      cognito_fdw_validator: {
+        Args: { catalog: unknown; options: string[] }
+        Returns: undefined
+      }
       create_auth_users_for_all_donors: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -3213,12 +3632,60 @@ export type Database = {
         }
         Returns: undefined
       }
+      create_placeholder_profile: {
+        Args: { target_username: string }
+        Returns: {
+          avatar_url: string
+          display_name: string
+          email: string
+          source_type: string
+          user_id: string
+        }[]
+      }
+      csv_parse_line_plpgsql: {
+        Args: { line: string }
+        Returns: string[]
+      }
+      duckdb_fdw_handler: {
+        Args: Record<PropertyKey, never>
+        Returns: unknown
+      }
+      duckdb_fdw_meta: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          author: string
+          name: string
+          version: string
+          website: string
+        }[]
+      }
+      duckdb_fdw_validator: {
+        Args: { catalog: unknown; options: string[] }
+        Returns: undefined
+      }
       enhanced_admin_security_check: {
         Args: Record<PropertyKey, never>
         Returns: boolean
       }
       ensure_profile_usernames: {
         Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      firebase_fdw_handler: {
+        Args: Record<PropertyKey, never>
+        Returns: unknown
+      }
+      firebase_fdw_meta: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          author: string
+          name: string
+          version: string
+          website: string
+        }[]
+      }
+      firebase_fdw_validator: {
+        Args: { catalog: unknown; options: string[] }
         Returns: undefined
       }
       generate_username_from_email: {
@@ -3355,6 +3822,91 @@ export type Database = {
         Args: { "": unknown }
         Returns: unknown
       }
+      hello_world_fdw_handler: {
+        Args: Record<PropertyKey, never>
+        Returns: unknown
+      }
+      hello_world_fdw_meta: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          author: string
+          name: string
+          version: string
+          website: string
+        }[]
+      }
+      hello_world_fdw_validator: {
+        Args: { catalog: unknown; options: string[] }
+        Returns: undefined
+      }
+      http: {
+        Args: { request: Database["public"]["CompositeTypes"]["http_request"] }
+        Returns: Database["public"]["CompositeTypes"]["http_response"]
+      }
+      http_delete: {
+        Args:
+          | { content: string; content_type: string; uri: string }
+          | { uri: string }
+        Returns: Database["public"]["CompositeTypes"]["http_response"]
+      }
+      http_get: {
+        Args: { data: Json; uri: string } | { uri: string }
+        Returns: Database["public"]["CompositeTypes"]["http_response"]
+      }
+      http_head: {
+        Args: { uri: string }
+        Returns: Database["public"]["CompositeTypes"]["http_response"]
+      }
+      http_header: {
+        Args: { field: string; value: string }
+        Returns: Database["public"]["CompositeTypes"]["http_header"]
+      }
+      http_list_curlopt: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          curlopt: string
+          value: string
+        }[]
+      }
+      http_patch: {
+        Args: { content: string; content_type: string; uri: string }
+        Returns: Database["public"]["CompositeTypes"]["http_response"]
+      }
+      http_post: {
+        Args:
+          | { content: string; content_type: string; uri: string }
+          | { data: Json; uri: string }
+        Returns: Database["public"]["CompositeTypes"]["http_response"]
+      }
+      http_put: {
+        Args: { content: string; content_type: string; uri: string }
+        Returns: Database["public"]["CompositeTypes"]["http_response"]
+      }
+      http_reset_curlopt: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      http_set_curlopt: {
+        Args: { curlopt: string; value: string }
+        Returns: boolean
+      }
+      iceberg_fdw_handler: {
+        Args: Record<PropertyKey, never>
+        Returns: unknown
+      }
+      iceberg_fdw_meta: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          author: string
+          name: string
+          version: string
+          website: string
+        }[]
+      }
+      iceberg_fdw_validator: {
+        Args: { catalog: unknown; options: string[] }
+        Returns: undefined
+      }
       initiate_account_recovery: {
         Args: {
           client_ip?: string
@@ -3388,6 +3940,30 @@ export type Database = {
           result_status: string
         }[]
       }
+      load_staging_axanar_kickstarter_from_url: {
+        Args: { row_limit: number; url: string }
+        Returns: number
+      }
+      load_staging_axanar_paypal_from_url: {
+        Args: { row_limit: number; url: string }
+        Returns: number
+      }
+      load_staging_indiegogo_from_url: {
+        Args: { row_limit: number; url: string }
+        Returns: number
+      }
+      load_staging_prelude_kickstarter_from_url: {
+        Args: { row_limit: number; url: string }
+        Returns: number
+      }
+      load_staging_prelude_paypal_from_url: {
+        Args: { row_limit: number; url: string }
+        Returns: number
+      }
+      load_staging_secret_perks_from_url: {
+        Args: { row_limit: number; url: string }
+        Returns: number
+      }
       log_admin_action: {
         Args: { action_type: string; details?: Json; target_user_id: string }
         Returns: undefined
@@ -3404,6 +3980,23 @@ export type Database = {
         }
         Returns: undefined
       }
+      logflare_fdw_handler: {
+        Args: Record<PropertyKey, never>
+        Returns: unknown
+      }
+      logflare_fdw_meta: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          author: string
+          name: string
+          version: string
+          website: string
+        }[]
+      }
+      logflare_fdw_validator: {
+        Args: { catalog: unknown; options: string[] }
+        Returns: undefined
+      }
       merge_legacy_donor_data: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -3411,8 +4004,59 @@ export type Database = {
           count: number
         }[]
       }
+      mssql_fdw_handler: {
+        Args: Record<PropertyKey, never>
+        Returns: unknown
+      }
+      mssql_fdw_meta: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          author: string
+          name: string
+          version: string
+          website: string
+        }[]
+      }
+      mssql_fdw_validator: {
+        Args: { catalog: unknown; options: string[] }
+        Returns: undefined
+      }
+      redis_fdw_handler: {
+        Args: Record<PropertyKey, never>
+        Returns: unknown
+      }
+      redis_fdw_meta: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          author: string
+          name: string
+          version: string
+          website: string
+        }[]
+      }
+      redis_fdw_validator: {
+        Args: { catalog: unknown; options: string[] }
+        Returns: undefined
+      }
       remove_admin_user: {
         Args: { target_user_id: string }
+        Returns: undefined
+      }
+      s3_fdw_handler: {
+        Args: Record<PropertyKey, never>
+        Returns: unknown
+      }
+      s3_fdw_meta: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          author: string
+          name: string
+          version: string
+          website: string
+        }[]
+      }
+      s3_fdw_validator: {
+        Args: { catalog: unknown; options: string[] }
         Returns: undefined
       }
       sanitize_text_input: {
@@ -3431,6 +4075,27 @@ export type Database = {
         Args: { "": string }
         Returns: string[]
       }
+      stripe_fdw_handler: {
+        Args: Record<PropertyKey, never>
+        Returns: unknown
+      }
+      stripe_fdw_meta: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          author: string
+          name: string
+          version: string
+          website: string
+        }[]
+      }
+      stripe_fdw_validator: {
+        Args: { catalog: unknown; options: string[] }
+        Returns: undefined
+      }
+      text_to_bytea: {
+        Args: { data: string }
+        Returns: string
+      }
       unban_user: {
         Args: { target_user_id: string }
         Returns: boolean
@@ -3442,6 +4107,10 @@ export type Database = {
           target_user_id: string
         }
         Returns: undefined
+      }
+      urlencode: {
+        Args: { data: Json } | { string: string } | { string: string }
+        Returns: string
       }
       validate_email_secure: {
         Args: { email_input: string }
@@ -3463,12 +4132,45 @@ export type Database = {
           message: string
         }[]
       }
+      wasm_fdw_handler: {
+        Args: Record<PropertyKey, never>
+        Returns: unknown
+      }
+      wasm_fdw_meta: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          author: string
+          name: string
+          version: string
+          website: string
+        }[]
+      }
+      wasm_fdw_validator: {
+        Args: { catalog: unknown; options: string[] }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
     }
     CompositeTypes: {
-      [_ in never]: never
+      http_header: {
+        field: string | null
+        value: string | null
+      }
+      http_request: {
+        method: unknown | null
+        uri: string | null
+        headers: Database["public"]["CompositeTypes"]["http_header"][] | null
+        content_type: string | null
+        content: string | null
+      }
+      http_response: {
+        status: number | null
+        content_type: string | null
+        headers: Database["public"]["CompositeTypes"]["http_header"][] | null
+        content: string | null
+      }
     }
   }
 }
