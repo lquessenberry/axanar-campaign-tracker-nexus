@@ -11,7 +11,14 @@
     "preview": "vite preview",
     "migrate:campaigns": "tsx scripts/migrate-campaigns.ts",
     "migrate:rewards": "tsx scripts/migrate-rewards.ts",
-    "migrate:donors": "tsx scripts/migrate-donors.ts"
+    "migrate:donors": "tsx scripts/migrate-donors.ts",
+    "stage:indiegogo": "tsx scripts/stage-indiegogo.ts",
+    "stage:prelude:ks": "tsx scripts/stage-prelude-kickstarter.ts",
+    "stage:prelude:pp": "tsx scripts/stage-prelude-paypal.ts",
+    "reconcile:indiegogo": "tsx scripts/reconcile-indiegogo.ts",
+    "reconcile:indiegogo:apply": "DELETE_EXTRAS=false tsx scripts/reconcile-indiegogo-apply.ts",
+    "reconcile:prelude": "tsx scripts/reconcile-prelude.ts",
+    "reconcile:prelude:apply": "tsx scripts/reconcile-prelude-apply.ts"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.2",

@@ -6,8 +6,8 @@ import Footer from "@/components/Footer";
 import AxanarCTA from "@/components/AxanarCTA";
 import GradientSection from "@/components/ui/GradientSection";
 import { Users, Target, Shield, Heart, Star, Zap } from "lucide-react";
-import Lottie from "lottie-react";
-import { useState, useEffect, useRef } from "react";
+import { lazy, Suspense, useState, useEffect, useRef } from "react";
+const Lottie = lazy(() => import('lottie-react'));
 const About = () => {
   const [lottieData, setLottieData] = useState(null);
   const [lottieData2, setLottieData2] = useState(null);
@@ -230,21 +230,23 @@ const About = () => {
                   </div>
                   
                   {lottieData2 ? (
-                    <Lottie 
-                      lottieRef={lottieRef2}
-                      animationData={lottieData2}
-                      className="w-full h-full object-cover relative z-0"
-                      style={{ 
-                        mixBlendMode: 'screen',
-                        filter: `contrast(1.2) brightness(1.1) ${isGlitching ? 'hue-rotate(30deg) saturate(1.5)' : ''}`,
-                        transform: isGlitching ? 'translateX(2px) scaleX(1.01)' : 'none',
-                        transition: 'filter 0.1s ease, transform 0.1s ease'
-                      }}
-                      loop={false}
-                      autoplay={true}
-                      onDOMLoaded={handleLottieLoad2}
-                      onComplete={handleComplete2}
-                    />
+                    <Suspense fallback={<div className="w-full h-full object-contain bg-muted/30 p-8 flex items-center justify-center"><div className="animate-pulse">Loading...</div></div>}>
+                      <Lottie 
+                        lottieRef={lottieRef2}
+                        animationData={lottieData2}
+                        className="w-full h-full object-cover relative z-0"
+                        style={{ 
+                          mixBlendMode: 'screen',
+                          filter: `contrast(1.2) brightness(1.1) ${isGlitching ? 'hue-rotate(30deg) saturate(1.5)' : ''}`,
+                          transform: isGlitching ? 'translateX(2px) scaleX(1.01)' : 'none',
+                          transition: 'filter 0.1s ease, transform 0.1s ease'
+                        }}
+                        loop={false}
+                        autoplay={true}
+                        onDOMLoaded={handleLottieLoad2}
+                        onComplete={handleComplete2}
+                      />
+                    </Suspense>
                   ) : (
                     <div className="w-full h-full object-contain bg-muted/30 p-8 flex items-center justify-center">
                       <div className="animate-pulse">Loading...</div>
@@ -277,21 +279,23 @@ const About = () => {
                   </div>
                   
                   {lottieData ? (
-                    <Lottie 
-                      lottieRef={lottieRef}
-                      animationData={lottieData}
-                      className="w-full h-full object-cover relative z-0"
-                      style={{ 
-                        mixBlendMode: 'screen',
-                        filter: `contrast(1.2) brightness(1.1) ${isGlitching ? 'hue-rotate(30deg) saturate(1.5)' : ''}`,
-                        transform: isGlitching ? 'translateX(2px) scaleX(1.01)' : 'none',
-                        transition: 'filter 0.1s ease, transform 0.1s ease'
-                      }}
-                      loop={false}
-                      autoplay={true}
-                      onDOMLoaded={handleLottieLoad}
-                      onComplete={handleComplete}
-                    />
+                    <Suspense fallback={<div className="w-full h-full object-contain bg-muted/30 p-8 flex items-center justify-center"><div className="animate-pulse">Loading...</div></div>}>
+                      <Lottie 
+                        lottieRef={lottieRef}
+                        animationData={lottieData}
+                        className="w-full h-full object-cover relative z-0"
+                        style={{ 
+                          mixBlendMode: 'screen',
+                          filter: `contrast(1.2) brightness(1.1) ${isGlitching ? 'hue-rotate(30deg) saturate(1.5)' : ''}`,
+                          transform: isGlitching ? 'translateX(2px) scaleX(1.01)' : 'none',
+                          transition: 'filter 0.1s ease, transform 0.1s ease'
+                        }}
+                        loop={false}
+                        autoplay={true}
+                        onDOMLoaded={handleLottieLoad}
+                        onComplete={handleComplete}
+                      />
+                    </Suspense>
                   ) : (
                     <div className="w-full h-full object-contain bg-muted/30 p-8 flex items-center justify-center">
                       <div className="animate-pulse">Loading...</div>

@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthLayout from "@/components/auth/AuthLayout";
 import AuthFlowRenderer from "@/components/auth/AuthFlowRenderer";
@@ -12,6 +12,7 @@ import TimedPrompt from "@/components/auth/TimedPrompt";
 const Auth = () => {
   const [battleMode, setBattleMode] = useState(true);
   const { user } = useAuth();
+  const location = useLocation();
   const {
     authFlow,
     recoveryEmail,
@@ -41,9 +42,10 @@ const Auth = () => {
     setBattleMode(alertLevel !== 'normal');
   }, [alertLevel]);
 
-  // Redirect if already authenticated
+  // Redirect if already authenticated, honoring return path
   if (user) {
-    return <Navigate to="/" replace />;
+    const from = (location.state as any)?.from || "/";
+    return <Navigate to={from} replace />;
   }
 
   return (
