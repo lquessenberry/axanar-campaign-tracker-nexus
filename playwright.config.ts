@@ -36,12 +36,12 @@ export default defineConfig({
       use: { ...devices['Desktop Safari'] },
     },
   ],
-  /* Use existing server instead of starting one */
-  // webServer: {
-  //   command: 'npm run dev',
-  //   port: 8080,
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  /* Start a preview server for E2E */
+  webServer: {
+    command: 'npm run preview -- --port 8080',
+    port: 8080,
+    reuseExistingServer: !process.env.CI,
+  },
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'http://localhost:8080',

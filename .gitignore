@@ -30,3 +30,22 @@ dist-ssr
 .env.test.local
 .env.production.local
 .env.test
+# Local machine artifacts
+local/
+.env.ipv4
+import_checkpoint*.json
+orphaned-user-ids.json
+# Generated data and reports
+donor_batches/
+legacy-csvs/
+match-results/
+reports/
+scripts/generated/
+temp/
+supabase/.temp/
+# Ad-hoc SQL outputs
+uuid-match-updates-*.sql
+all_donors_import.sql
+legacy_donors_data.sql
+legacy_donors_inserts.sql
+migration-mapping.md

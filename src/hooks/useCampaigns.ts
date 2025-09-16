@@ -64,14 +64,15 @@ export const useCampaigns = () => {
           totals: totals
         });
         
-        // Map provider numbers to readable names
+        // Map provider stored as numeric or text to readable names
         let categoryName = 'General';
+        const providerRaw = (campaign.provider ?? '').toString().toLowerCase();
         
-        if (campaign.provider === '1') {
+        if (providerRaw === '1' || providerRaw === 'kickstarter') {
           categoryName = 'Kickstarter';
-        } else if (campaign.provider === '2') {
+        } else if (providerRaw === '2' || providerRaw === 'indiegogo') {
           categoryName = 'Indiegogo';
-        } else if (campaign.provider === '3') {
+        } else if (providerRaw === '3' || providerRaw === 'paypal') {
           categoryName = 'PayPal';
         }
         
@@ -129,14 +130,15 @@ export const useFeaturedCampaign = () => {
       // Find totals for this campaign
       const totals = campaignTotals.find(t => t.campaign_id === campaign.id) || { total_amount: 0, backers_count: 0, goal_amount: 0 };
 
-      // Map provider numbers to readable names
+      // Map provider stored as numeric or text to readable names
       let categoryName = 'General';
+      const providerRaw = (campaign.provider ?? '').toString().toLowerCase();
       
-      if (campaign.provider === '1') {
+      if (providerRaw === '1' || providerRaw === 'kickstarter') {
         categoryName = 'Kickstarter';
-      } else if (campaign.provider === '2') {
+      } else if (providerRaw === '2' || providerRaw === 'indiegogo') {
         categoryName = 'Indiegogo';
-      } else if (campaign.provider === '3') {
+      } else if (providerRaw === '3' || providerRaw === 'paypal') {
         categoryName = 'PayPal';
       }
       

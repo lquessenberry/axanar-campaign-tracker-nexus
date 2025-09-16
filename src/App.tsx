@@ -32,6 +32,11 @@ import LCARSShowcase from "./pages/LCARSShowcase";
 import VanityProfile from "./pages/VanityProfile";
 import ModelManager from "./pages/ModelManager";
 import Campaign from "./pages/Campaign";
+import RequireAdmin from "@/components/auth/RequireAdmin";
+import ErrorBoundary from "@/components/common/ErrorBoundary";
+import RequireAuth from "@/components/auth/RequireAuth";
+import SignInRequired from "./pages/SignInRequired";
+import Forbidden from "./pages/Forbidden";
 
 const queryClient = new QueryClient();
 
@@ -43,23 +48,75 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <AuthProvider>
+          <ErrorBoundary>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/login" element={<Auth />} />
             <Route path="/auth/reset-password" element={<PasswordReset />} />
             <Route path="/register" element={<Auth />} />
+            <Route path="/401" element={<SignInRequired />} />
+            <Route path="/403" element={<Forbidden />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/:userId" element={<Profile />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route
+              path="/dashboard"
+              element={
+                <RequireAuth>
+                  <Dashboard />
+                </RequireAuth>
+              }
+            />
             <Route path="/messages" element={<Messages />} />
             <Route path="/admin" element={<Admin />} />
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
-            <Route path="/admin/pledges" element={<AdminPledges />} />
-            <Route path="/admin/rewards" element={<AdminRewards />} />
-            <Route path="/admin/donors" element={<AdminDonors />} />
-            <Route path="/admin/admins" element={<AdminManagement />} />
-            <Route path="/admin/messages" element={<AdminMessages />} />
+            <Route
+              path="/admin/dashboard"
+              element={
+                <RequireAdmin>
+                  <AdminDashboard />
+                </RequireAdmin>
+              }
+            />
+            <Route
+              path="/admin/pledges"
+              element={
+                <RequireAdmin>
+                  <AdminPledges />
+                </RequireAdmin>
+              }
+            />
+            <Route
+              path="/admin/rewards"
+              element={
+                <RequireAdmin>
+                  <AdminRewards />
+                </RequireAdmin>
+              }
+            />
+            <Route
+              path="/admin/donors"
+              element={
+                <RequireAdmin>
+                  <AdminDonors />
+                </RequireAdmin>
+              }
+            />
+            <Route
+              path="/admin/admins"
+              element={
+                <RequireAdmin>
+                  <AdminManagement />
+                </RequireAdmin>
+              }
+            />
+            <Route
+              path="/admin/messages"
+              element={
+                <RequireAdmin>
+                  <AdminMessages />
+                </RequireAdmin>
+              }
+            />
             <Route path="/about" element={<About />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/faq" element={<FAQ />} />
@@ -73,6 +130,7 @@ const App = () => (
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          </ErrorBoundary>
           <ThumbMenu />
         </AuthProvider>
       </BrowserRouter>
