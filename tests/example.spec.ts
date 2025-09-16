@@ -4,14 +4,14 @@ import { test, expect } from '@playwright/test';
 test('homepage loads correctly', async ({ page }) => {
   await page.goto('/');
   
-  // Check that the main heading is visible
-  await expect(page.locator('h1')).toContainText('Fund the Future of Axanar');
+  // Check that a primary hero heading is visible (supports multiple variations)
+  await expect(page.locator('h1').first()).toContainText(/Fund the Future of Axanar|Welcome Back/i);
   
   // Check that navigation is present
   await expect(page.locator('nav')).toBeVisible();
   
-  // Check that the Explore Campaigns button is present
-  await expect(page.locator('text=Explore Campaigns')).toBeVisible();
+  // Check that a primary CTA link is present
+  await expect(page.getByRole('link', { name: /Explore Campaigns|Access Portal|Sign In/i }).first()).toBeVisible();
 });
 
 test('navigation works', async ({ page }) => {

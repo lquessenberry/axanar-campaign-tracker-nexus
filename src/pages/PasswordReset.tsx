@@ -21,11 +21,6 @@ const PasswordReset = () => {
   const token = searchParams.get("token");
   const email = searchParams.get("email");
 
-  // Redirect if already authenticated
-  if (user) {
-    return <Navigate to="/" replace />;
-  }
-
   // Validate token on component mount
   useEffect(() => {
     const validateToken = async () => {
@@ -63,6 +58,11 @@ const PasswordReset = () => {
 
     validateToken();
   }, [token, email, toast]);
+
+  // Redirect if already authenticated (after hooks are declared)
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
 
   const handlePasswordReset = async (e: React.FormEvent) => {
     e.preventDefault();

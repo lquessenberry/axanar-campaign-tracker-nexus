@@ -13,7 +13,7 @@ const SignInRequired = () => {
         <div className="text-center max-w-md px-6">
           <h1 className="text-3xl font-bold mb-3">Authentication Required</h1>
           <p className="text-muted-foreground mb-6">
-            Please sign in to continue. After signing in, well bring you right back.
+            Please sign in to continue. After signing in, we'll bring you right back.
           </p>
           <Link to="/auth" state={{ from }}>
             <Button className="bg-primary hover:bg-primary/90">Sign In</Button>
