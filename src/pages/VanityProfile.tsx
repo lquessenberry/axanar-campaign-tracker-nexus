@@ -34,7 +34,7 @@ const VanityProfile = () => {
     );
   }
 
-  if (vanityError || !vanityData || !publicProfile) {
+  if (vanityError && !vanityData) {
     return (
       <div className="min-h-screen flex flex-col">
         <Navigation />
@@ -55,6 +55,72 @@ const VanityProfile = () => {
             </CardContent>
           </Card>
         </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  // If we have vanity data but no public profile yet, show a simple placeholder
+  if (vanityData && !publicProfile) {
+    const displayName = vanityData.display_name || `@${username}`;
+    const initials = displayName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navigation />
+        
+        <main className="flex-grow">
+          {/* Profile Header */}
+          <section className="bg-gradient-to-br from-primary/10 via-primary/5 to-background py-12 px-6">
+            <div className="container mx-auto max-w-4xl">
+              <div className="flex flex-col md:flex-row items-center gap-6">
+                <Avatar className="h-24 w-24">
+                  <AvatarFallback className="text-lg font-bold">{initials}</AvatarFallback>
+                </Avatar>
+                
+                <div className="flex-1 text-center md:text-left">
+                  <div className="flex flex-col md:flex-row md:items-center gap-3 mb-3">
+                    <h1 className="text-3xl font-bold">{displayName}</h1>
+                    <Badge variant="secondary" className="w-fit mx-auto md:mx-0">
+                      @{username}
+                    </Badge>
+                  </div>
+                  
+                  <p className="text-muted-foreground mb-4 max-w-2xl">
+                    This is a placeholder profile. The user hasn't completed their setup yet.
+                  </p>
+                  
+                  <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1">
+                      <Heart className="h-4 w-4 text-primary" />
+                      <span>$0 contributed</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Star className="h-4 w-4 text-primary" />
+                      <span>0 contributions</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Profile Content */}
+          <section className="py-8 px-6">
+            <div className="container mx-auto max-w-4xl space-y-6">
+              <Card>
+                <CardContent className="pt-6 text-center">
+                  <Heart className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
+                  <h3 className="text-lg font-medium mb-2">No Contributions Yet</h3>
+                  <p className="text-muted-foreground">
+                    {displayName} hasn't made any public contributions yet.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+        </main>
+        
         <Footer />
       </div>
     );
