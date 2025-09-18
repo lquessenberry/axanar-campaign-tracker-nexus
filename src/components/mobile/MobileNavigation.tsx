@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { UnifiedBottomNav } from './UnifiedBottomNav';
 import { MobileHamburgerMenu } from './MobileHamburgerMenu';
-import { MobileBottomNav } from './MobileBottomNav';
 import { useAuth } from '@/contexts/AuthContext';
 
 export function MobileNavigation() {
@@ -42,10 +42,10 @@ export function MobileNavigation() {
       />
 
       {/* Bottom Navigation */}
-      <MobileBottomNav onMenuToggle={() => setIsMenuOpen(true)} />
+      <UnifiedBottomNav />
 
       {/* Bottom padding for authenticated users to prevent content overlap */}
-      {user && <div className="h-16 md:hidden" />}
+      {user && <div className="h-20 md:hidden" />}
     </>
   );
 }

@@ -107,7 +107,7 @@ export function MobileProfileContent({
   ];
 
   return (
-    <div className="space-y-6 pb-24">
+    <div className="space-y-6 pb-28">
       {/* XP Progress */}
       <Card className="bg-gradient-to-r from-primary/10 to-secondary/10">
         <CardContent className="p-6">

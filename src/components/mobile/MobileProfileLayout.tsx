@@ -2,7 +2,7 @@ import React from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { MobileProfileHeader } from './MobileProfileHeader';
 import { MobileProfileContent } from './MobileProfileContent';
-import { MobileProfileActions } from './MobileProfileActions';
+import { UnifiedBottomNav } from './UnifiedBottomNav';
 
 interface MobileProfileLayoutProps {
   profile: any;
@@ -61,11 +61,8 @@ export function MobileProfileLayout({
         />
       </div>
 
-      {/* Mobile Actions */}
-      <MobileProfileActions
-        onSignOut={onSignOut}
-        profile={profile}
-      />
+      {/* Unified Bottom Navigation */}
+      <UnifiedBottomNav profile={profile} />
     </div>
   );
 }
