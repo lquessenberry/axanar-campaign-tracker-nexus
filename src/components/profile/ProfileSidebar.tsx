@@ -2,12 +2,13 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { BarChart3, Heart, Settings, Link2, Copy, MapPin } from "lucide-react";
+import { BarChart3, Heart, Settings, Link2, Copy, MapPin, Gift } from "lucide-react";
 import { Link } from "react-router-dom";
 import { User } from "@supabase/supabase-js";
 import { toast } from "sonner";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import AddressDialog from "./AddressDialog";
+import RewardsDialog from "./RewardsDialog";
 
 interface ProfileSidebarProps {
   user: User;
@@ -22,6 +23,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
 }) => {
   const { data: profile } = useUserProfile();
   const [addressDialogOpen, setAddressDialogOpen] = useState(false);
+  const [rewardsDialogOpen, setRewardsDialogOpen] = useState(false);
 
   const handleCopyVanityURL = () => {
     if (profile?.username) {
@@ -99,6 +101,15 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
               Update Shipping Address
             </Button>
             
+            <Button 
+              variant="outline" 
+              className="w-full justify-start"
+              onClick={() => setRewardsDialogOpen(true)}
+            >
+              <Gift className="h-4 w-4 mr-2" />
+              Track Perks & Rewards
+            </Button>
+            
             <Link to="/">
               <Button variant="outline" className="w-full justify-start">
                 <Heart className="h-4 w-4 mr-2" />
@@ -120,6 +131,11 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
       <AddressDialog 
         open={addressDialogOpen} 
         onOpenChange={setAddressDialogOpen} 
+      />
+      
+      <RewardsDialog 
+        open={rewardsDialogOpen} 
+        onOpenChange={setRewardsDialogOpen} 
       />
     </div>
   );
