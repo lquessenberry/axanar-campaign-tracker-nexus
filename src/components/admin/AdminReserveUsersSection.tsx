@@ -13,7 +13,8 @@ import {
   SortDesc,
   Mail,
   Database,
-  Info
+  Info,
+  ArrowUpDown
 } from "lucide-react";
 import {
   Table,
@@ -57,15 +58,44 @@ const AdminReserveUsersSection = () => {
     setCurrentPage(1);
   };
 
-  const handleSortChange = (value: string) => {
-    setSortBy(value);
+  const handleSortChange = (column: string) => {
+    if (sortBy === column) {
+      // Cycle through: asc -> desc -> clear
+      if (sortOrder === 'asc') {
+        setSortOrder('desc');
+      } else if (sortOrder === 'desc') {
+        // Clear sort
+        setSortBy('created_at');
+        setSortOrder('desc');
+      }
+    } else {
+      // New column, start with ascending
+      setSortBy(column);
+      setSortOrder('asc');
+    }
     setCurrentPage(1);
   };
 
-  const toggleSortOrder = () => {
-    setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
-    setCurrentPage(1);
+  const getSortIcon = (column: string) => {
+    if (sortBy !== column) {
+      return <ArrowUpDown className="h-4 w-4 text-muted-foreground" />;
+    }
+    return sortOrder === 'asc' 
+      ? <SortAsc className="h-4 w-4" />
+      : <SortDesc className="h-4 w-4" />;
   };
+
+  const getSortableHeader = (label: string, column: string) => (
+    <TableHead 
+      className="cursor-pointer hover:bg-muted/50 select-none"
+      onClick={() => handleSortChange(column)}
+    >
+      <div className="flex items-center gap-2">
+        {label}
+        {getSortIcon(column)}
+      </div>
+    </TableHead>
+  );
 
   const handleClearFilters = () => {
     setSearchTerm('');
@@ -182,42 +212,21 @@ const AdminReserveUsersSection = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    placeholder="Search by name or email..."
-                    value={searchTerm}
-                    onChange={(e) => handleSearchChange(e.target.value)}
-                    className="pl-10"
-                  />
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="relative flex-1">
+                    <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search by name or email..."
+                      value={searchTerm}
+                      onChange={(e) => handleSearchChange(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+
+                  <Button variant="outline" onClick={handleClearFilters}>
+                    Clear Filters
+                  </Button>
                 </div>
-                
-                <Select value={sortBy} onValueChange={handleSortChange}>
-                  <SelectTrigger className="w-full sm:w-[180px]">
-                    <SelectValue placeholder="Sort by" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="created_at">Date Added</SelectItem>
-                    <SelectItem value="email">Email</SelectItem>
-                    <SelectItem value="display_name">Name</SelectItem>
-                    <SelectItem value="source_platform">Platform</SelectItem>
-                  </SelectContent>
-                </Select>
-
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={toggleSortOrder}
-                  className="w-10 h-10"
-                >
-                  {sortOrder === 'asc' ? <SortAsc className="h-4 w-4" /> : <SortDesc className="h-4 w-4" />}
-                </Button>
-
-                <Button variant="outline" onClick={handleClearFilters}>
-                  Clear Filters
-                </Button>
-              </div>
             </CardContent>
           </Card>
 
@@ -241,13 +250,13 @@ const AdminReserveUsersSection = () => {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Source</TableHead>
-                        <TableHead>Platform</TableHead>
-                        <TableHead>Status</TableHead>
+                        {getSortableHeader("Email", "email")}
+                        {getSortableHeader("Name", "display_name")}
+                        {getSortableHeader("Source", "source_name")}
+                        {getSortableHeader("Platform", "source_platform")}
+                        {getSortableHeader("Status", "email_status")}
                         <TableHead>Type</TableHead>
-                        <TableHead>Added</TableHead>
+                        {getSortableHeader("Added", "created_at")}
                       </TableRow>
                     </TableHeader>
                     <TableBody>
