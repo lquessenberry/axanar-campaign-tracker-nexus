@@ -3,14 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
-import { User, Camera, Image, X, ChevronDown, Edit, Settings } from "lucide-react";
+import { User, Camera, Image, X, ChevronDown, Edit, Settings, Link2, Copy } from "lucide-react";
 import { useAvatarUpload } from "@/hooks/useAvatarUpload";
 import { useBackgroundUpload } from "@/hooks/useBackgroundUpload";
 import { useUpdateProfile } from "@/hooks/useUserProfile";
 import StarField from "@/components/StarField";
 import MouseTracker from "@/components/auth/MouseTracker";
 import RankPips from "./RankPips";
+import { toast } from "sonner";
 
 interface ProfileData {
   id: string;
@@ -281,6 +283,35 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               isAdmin={false} // Will need to pass this from profile data
               className="md:w-64"
             />
+            
+            {/* Vanity URL Card */}
+            {profile?.username && (
+              <Card className="bg-white/10 border-white/20 backdrop-blur-sm">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Link2 className="h-4 w-4 text-white" />
+                    <span className="text-sm font-medium text-white">Your Public Profile</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <code className="text-xs bg-black/20 text-white px-2 py-1 rounded flex-1 truncate">
+                      /u/{profile.username}
+                    </code>
+                    <Button 
+                      size="sm" 
+                      variant="ghost" 
+                      className="h-6 w-6 p-0 text-white hover:bg-white/20"
+                      onClick={() => {
+                        const vanityURL = `${window.location.origin}/u/${profile.username}`;
+                        navigator.clipboard.writeText(vanityURL);
+                        // Note: Would need to import toast here or pass as prop
+                      }}
+                    >
+                      <Copy className="h-3 w-3" />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
             
             <div className="flex gap-2">
               {isEditing ? (

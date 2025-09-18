@@ -67,31 +67,6 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
               </Button>
             </Link>
             
-            {/* Vanity URL Card */}
-            {profile?.username && (
-              <Card className="bg-primary/5 border-primary/20">
-                <CardContent className="p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Link2 className="h-4 w-4 text-primary" />
-                    <span className="text-sm font-medium">Your Public Profile</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <code className="text-xs bg-background/50 px-2 py-1 rounded flex-1 truncate">
-                      /u/{profile.username}
-                    </code>
-                    <Button 
-                      size="sm" 
-                      variant="ghost" 
-                      className="h-6 w-6 p-0"
-                      onClick={handleCopyVanityURL}
-                    >
-                      <Copy className="h-3 w-3" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-            
             <Button 
               variant="outline" 
               className="w-full justify-start"
