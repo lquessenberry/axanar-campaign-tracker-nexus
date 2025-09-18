@@ -2,6 +2,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Link } from "react-router-dom";
 import DonorActions from "./DonorActions";
 
 interface Donor {
@@ -12,6 +13,7 @@ interface Donor {
   donor_name?: string;
   email: string;
   auth_user_id?: string;
+  username?: string;
   created_at?: string;
   totalDonations: number;
   donationCount: number;
@@ -63,10 +65,24 @@ const DonorTable = ({
                 />
               </TableCell>
               <TableCell className="text-card-foreground">
-                {donor.first_name && donor.last_name 
-                  ? `${donor.first_name} ${donor.last_name}`
-                  : donor.full_name || donor.donor_name || 'Unknown'
-                }
+                {donor.auth_user_id && donor.username ? (
+                  <Link 
+                    to={`/u/${donor.username}`}
+                    className="hover:text-primary hover:underline transition-colors cursor-pointer"
+                  >
+                    {donor.first_name && donor.last_name 
+                      ? `${donor.first_name} ${donor.last_name}`
+                      : donor.full_name || donor.donor_name || 'Unknown'
+                    }
+                  </Link>
+                ) : (
+                  <span>
+                    {donor.first_name && donor.last_name 
+                      ? `${donor.first_name} ${donor.last_name}`
+                      : donor.full_name || donor.donor_name || 'Unknown'
+                    }
+                  </span>
+                )}
               </TableCell>
               <TableCell className="text-card-foreground">{donor.email}</TableCell>
               <TableCell className="text-card-foreground">{donor.donationCount}</TableCell>
