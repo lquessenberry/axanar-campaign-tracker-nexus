@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import AddressDialog from "./AddressDialog";
 import RewardsDialog from "./RewardsDialog";
+import { CampaignDataModal } from "./CampaignDataModal";
 
 interface ProfileSidebarProps {
   user: User;
@@ -24,6 +25,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
   const { data: profile } = useUserProfile();
   const [addressDialogOpen, setAddressDialogOpen] = useState(false);
   const [rewardsDialogOpen, setRewardsDialogOpen] = useState(false);
+  const [campaignDataModalOpen, setCampaignDataModalOpen] = useState(false);
 
   const handleCopyVanityURL = () => {
     if (profile?.username) {
@@ -85,12 +87,14 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
               Track Perks & Rewards
             </Button>
             
-            <Link to="/">
-              <Button variant="outline" className="w-full justify-start">
-                <Heart className="h-4 w-4 mr-2" />
-                Explore Campaigns
-              </Button>
-            </Link>
+            <Button 
+              variant="outline" 
+              className="w-full justify-start"
+              onClick={() => setCampaignDataModalOpen(true)}
+            >
+              <Heart className="h-4 w-4 mr-2" />
+              Explore Campaigns
+            </Button>
             <Button 
               variant="outline" 
               className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
@@ -111,6 +115,11 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
       <RewardsDialog 
         open={rewardsDialogOpen} 
         onOpenChange={setRewardsDialogOpen} 
+      />
+      
+      <CampaignDataModal
+        open={campaignDataModalOpen}
+        onOpenChange={setCampaignDataModalOpen}
       />
     </div>
   );
