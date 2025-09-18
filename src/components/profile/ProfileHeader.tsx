@@ -263,62 +263,86 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               </div>
             )}
             
-            <div className="flex space-x-6 mt-4">
-              <div>
-                <p className="text-lg font-bold">{pledgesCount}</p>
-                <p className="text-xs text-axanar-silver/60">Projects Backed</p>
+            {/* Quick Stats Pills */}
+            <div className="flex flex-wrap gap-3 mt-4">
+              <div className="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
+                <span className="text-sm font-medium text-white">
+                  {pledgesCount} Projects Backed
+                </span>
               </div>
-              <div>
-                <p className="text-lg font-bold">{campaignsCount}</p>
-                <p className="text-xs text-axanar-silver/60">Campaigns Created</p>
+              <div className="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
+                <span className="text-sm font-medium text-white">
+                  {campaignsCount} Campaigns Created
+                </span>
               </div>
-              <div>
-                <p className="text-lg font-bold">${totalPledged.toLocaleString()}</p>
-                <p className="text-xs text-axanar-silver/60">Total Pledged</p>
+              <div className="bg-axanar-teal/20 backdrop-blur-sm px-4 py-2 rounded-full border border-axanar-teal/40">
+                <span className="text-sm font-medium text-axanar-teal">
+                  ${totalPledged.toLocaleString()} Total Pledged
+                </span>
               </div>
             </div>
           </div>
           
-          {/* Rank Pip System */}
-          <div className="md:ml-auto flex flex-col md:flex-row gap-4">
-            <RankPips 
-              totalDonated={totalPledged}
-              xp={totalPledged * 10} // Convert donations to XP for now
-              profileCompletion={75} // Placeholder - will need to calculate this
-              isAdmin={false} // Will need to pass this from profile data
-              className="md:w-64"
-            />
+            {/* Role and XP Display */}
+            <div className="md:ml-auto flex flex-col md:flex-row gap-4 items-end">
+              <div className="text-center md:text-right">
+                <div className="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full text-sm font-bold border border-yellow-500/30">
+                  CREWMAN 3RD
+                </div>
+                <div className="flex items-center gap-2 mt-2 text-sm">
+                  <span className="text-axanar-teal font-bold">XP: {(totalPledged * 10).toLocaleString()}</span>
+                  <span className="text-muted-foreground">•</span>
+                  <span className="text-muted-foreground">Level 1</span>
+                </div>
+                <div className="w-32 bg-muted/50 mt-1 rounded-full h-1">
+                  <div 
+                    className="bg-axanar-teal h-1 rounded-full transition-all"
+                    style={{ width: `${Math.min(totalPledged / 1000 * 100, 100)}%` }}
+                  />
+                </div>
+                <div className="text-xs text-muted-foreground mt-1">
+                  Next: 1,000 XP
+                </div>
+              </div>
+
+              <RankPips 
+                totalDonated={totalPledged}
+                xp={totalPledged * 10}
+                profileCompletion={75}
+                isAdmin={false}
+                className="md:w-64"
+              />
+              
+              {/* Vanity URL Card */}
+              {profile?.username && (
+                <Card className="bg-white/10 border-white/20 backdrop-blur-sm">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Link2 className="h-4 w-4 text-white" />
+                      <span className="text-sm font-medium text-white">Your Public Profile</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <code className="text-xs bg-black/20 text-white px-2 py-1 rounded flex-1 truncate">
+                        /u/{profile.username}
+                      </code>
+                      <Button 
+                        size="sm" 
+                        variant="ghost" 
+                        className="h-6 w-6 p-0 text-white hover:bg-white/20"
+                        onClick={() => {
+                          const vanityURL = `${window.location.origin}/u/${profile.username}`;
+                          navigator.clipboard.writeText(vanityURL);
+                          toast.success("Public profile URL copied!");
+                        }}
+                      >
+                        <Copy className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
             
-            {/* Vanity URL Card */}
-            {profile?.username && (
-              <Card className="bg-white/10 border-white/20 backdrop-blur-sm">
-                <CardContent className="p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Link2 className="h-4 w-4 text-white" />
-                    <span className="text-sm font-medium text-white">Your Public Profile</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <code className="text-xs bg-black/20 text-white px-2 py-1 rounded flex-1 truncate">
-                      /u/{profile.username}
-                    </code>
-                    <Button 
-                      size="sm" 
-                      variant="ghost" 
-                      className="h-6 w-6 p-0 text-white hover:bg-white/20"
-                      onClick={() => {
-                        const vanityURL = `${window.location.origin}/u/${profile.username}`;
-                        navigator.clipboard.writeText(vanityURL);
-                        // Note: Would need to import toast here or pass as prop
-                      }}
-                    >
-                      <Copy className="h-3 w-3" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-            
-            <div className="flex gap-2">
+            <div className="flex gap-2 mt-4 md:mt-0">
               {isEditing ? (
                 <>
                   <Button 

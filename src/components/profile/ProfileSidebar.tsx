@@ -37,71 +37,85 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
   return (
     <div className="space-y-6">
       {/* Quick Stats */}
-      <Card>
+      <Card className="bg-card/50 backdrop-blur-sm border-border/50">
         <CardContent className="p-6">
-          <h3 className="font-bold mb-4">Quick Stats</h3>
+          <h3 className="font-bold text-xl mb-4 text-axanar-teal">Quick Stats</h3>
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between p-3 bg-background/40 rounded-lg">
               <span className="text-sm text-muted-foreground">Account Created</span>
-              <span className="text-sm font-medium">{memberSince}</span>
+              <span className="text-sm font-semibold">{memberSince}</span>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between p-3 bg-background/40 rounded-lg">
               <span className="text-sm text-muted-foreground">Email</span>
-              <span className="text-sm font-medium truncate">{user.email || 'No email'}</span>
+              <span className="text-sm font-semibold truncate max-w-32">{user.email || 'No email'}</span>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between p-3 bg-background/40 rounded-lg">
               <span className="text-sm text-muted-foreground">Profile Views</span>
-              <span className="text-sm font-medium">-</span>
+              <span className="text-sm font-semibold text-axanar-teal">0</span>
             </div>
           </div>
         </CardContent>
       </Card>
       
       {/* Quick Actions */}
-      <Card>
+      <Card className="bg-card/50 backdrop-blur-sm border-border/50">
         <CardContent className="p-6">
-          <h3 className="font-bold mb-4">Quick Actions</h3>
+          <h3 className="font-bold text-xl mb-4 text-axanar-teal">Quick Actions</h3>
           <div className="space-y-3">
             <Link to="/dashboard">
-              <Button variant="outline" className="w-full justify-start">
-                <BarChart3 className="h-4 w-4 mr-2" />
-                Dashboard
+              <Button variant="outline" className="w-full justify-start h-12 hover:bg-axanar-teal hover:text-white transition-colors">
+                <BarChart3 className="h-5 w-5 mr-3" />
+                <span className="font-medium">Dashboard</span>
+              </Button>
+            </Link>
+            
+            {profile?.username && (
+              <a href={`/u/${profile.username}`} target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" className="w-full justify-start h-12 hover:bg-axanar-teal hover:text-white transition-colors">
+                  <Link2 className="h-5 w-5 mr-3" />
+                  <div className="text-left">
+                    <div className="font-medium">Your Public Profile</div>
+                    <div className="text-xs opacity-70">/u/{profile.username}</div>
+                  </div>
+                </Button>
+              </a>
+            )}
+            
+            <Button 
+              variant="outline" 
+              className="w-full justify-start h-12 hover:bg-yellow-500 hover:text-black transition-colors"
+              onClick={() => setAddressDialogOpen(true)}
+            >
+              <MapPin className="h-5 w-5 mr-3" />
+              <span className="font-medium">Update Shipping Address</span>
+            </Button>
+            
+            <Button 
+              variant="outline" 
+              className="w-full justify-start h-12 hover:bg-blue-500 hover:text-white transition-colors"
+              onClick={() => setRewardsDialogOpen(true)}
+            >
+              <Gift className="h-5 w-5 mr-3" />
+              <span className="font-medium">Track Perks & Rewards</span>
+            </Button>
+            
+            <Link to="/campaigns">
+              <Button 
+                variant="outline" 
+                className="w-full justify-start h-12 hover:bg-purple-500 hover:text-white transition-colors"
+              >
+                <Heart className="h-5 w-5 mr-3" />
+                <span className="font-medium">Explore Campaigns</span>
               </Button>
             </Link>
             
             <Button 
               variant="outline" 
-              className="w-full justify-start"
-              onClick={() => setAddressDialogOpen(true)}
-            >
-              <MapPin className="h-4 w-4 mr-2" />
-              Update Shipping Address
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              className="w-full justify-start"
-              onClick={() => setRewardsDialogOpen(true)}
-            >
-              <Gift className="h-4 w-4 mr-2" />
-              Track Perks & Rewards
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              className="w-full justify-start"
-              onClick={() => setCampaignDataModalOpen(true)}
-            >
-              <Heart className="h-4 w-4 mr-2" />
-              Explore Campaigns
-            </Button>
-            <Button 
-              variant="outline" 
-              className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+              className="w-full justify-start h-12 text-red-400 border-red-400/30 hover:bg-red-500 hover:text-white hover:border-red-500 transition-colors"
               onClick={onSignOut}
             >
-              <Settings className="h-4 w-4 mr-2" />
-              Sign Out
+              <Settings className="h-5 w-5 mr-3" />
+              <span className="font-medium">Sign Out</span>
             </Button>
           </div>
         </CardContent>
@@ -115,11 +129,6 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
       <RewardsDialog 
         open={rewardsDialogOpen} 
         onOpenChange={setRewardsDialogOpen} 
-      />
-      
-      <CampaignDataModal
-        open={campaignDataModalOpen}
-        onOpenChange={setCampaignDataModalOpen}
       />
     </div>
   );

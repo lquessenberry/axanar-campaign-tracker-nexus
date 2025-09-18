@@ -70,29 +70,31 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
   const totalXP = profileXP + achievementXP + recruitmentXP;
   return (
     <div className="lg:col-span-2 space-y-6">
-      {/* Bio Section */}
-      <Card>
+      {/* About Section */}
+      <Card className="bg-card/50 backdrop-blur-sm border-border/50">
         <CardContent className="p-6">
-          <h3 className="text-lg font-bold mb-4">About</h3>
-          <p className="text-muted-foreground">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-xl font-bold">About</h3>
+          </div>
+          <p className="text-muted-foreground leading-relaxed">
             {profile?.bio || 'No bio added yet. Click "Edit Profile" to add information about yourself.'}
           </p>
         </CardContent>
       </Card>
 
       {/* Participation Status */}
-      <Card>
+      <Card className="bg-card/50 backdrop-blur-sm border-border/50">
         <CardContent className="p-6">
-          <h3 className="text-lg font-bold mb-4">Axanar Participation Status</h3>
+          <h3 className="text-xl font-bold mb-6 text-axanar-teal">Axanar Participation Status</h3>
           <div className="space-y-4">
             
             {/* Profile Completion */}
-            <div className="flex items-center gap-4 p-3 bg-muted/30 rounded-lg">
-              <div className={`h-3 w-3 rounded-full flex-shrink-0 ${
-                profile?.full_name && profile?.bio ? 'bg-green-500' : 'bg-yellow-500'
+            <div className="flex items-center gap-4 p-4 bg-background/60 backdrop-blur-sm rounded-lg border border-border/50 hover:border-axanar-teal/30 transition-colors">
+              <div className={`h-4 w-4 rounded-full flex-shrink-0 ${
+                profile?.full_name && profile?.bio ? 'bg-green-500 animate-pulse' : 'bg-yellow-500'
               }`} />
               <div className="flex-1">
-                <p className="font-medium">Profile Information</p>
+                <p className="font-semibold">Profile Information</p>
                 <p className="text-sm text-muted-foreground">
                   {profile?.full_name && profile?.bio 
                     ? 'Complete - Thank you for updating your profile!'
@@ -100,32 +102,35 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
                   }
                 </p>
               </div>
-              <div className="text-sm font-medium text-axanar-teal">
+              <div className="text-sm font-bold text-axanar-teal">
                 {profile?.full_name && profile?.bio ? '+50 XP' : '0 XP'}
               </div>
             </div>
 
             {/* Address & Shipping */}
-            <div className="flex items-center gap-4 p-3 bg-muted/30 rounded-lg">
-              <div className="h-3 w-3 rounded-full bg-yellow-500 flex-shrink-0" />
+            <div className="flex items-center gap-4 p-4 bg-background/60 backdrop-blur-sm rounded-lg border border-border/50 hover:border-yellow-500/30 transition-colors">
+              <div className="h-4 w-4 rounded-full bg-yellow-500 flex-shrink-0" />
               <div className="flex-1">
-                <p className="font-medium">Shipping Information</p>
+                <p className="font-semibold">Shipping Information</p>
                 <p className="text-sm text-muted-foreground">
                   Update your address for perk delivery eligibility
                 </p>
+                <Button size="sm" variant="outline" className="mt-2 text-xs">
+                  Update Shipping Address
+                </Button>
               </div>
-              <div className="text-sm font-medium text-muted-foreground">
+              <div className="text-sm font-bold text-muted-foreground">
                 0 XP
               </div>
             </div>
 
             {/* Account Recovery Bounty */}
-            <div className="flex items-center gap-4 p-3 bg-muted/30 rounded-lg">
-              <div className={`h-3 w-3 rounded-full flex-shrink-0 ${
-                canRecruit ? 'bg-green-500' : 'bg-yellow-500'
+            <div className="flex items-center gap-4 p-4 bg-background/60 backdrop-blur-sm rounded-lg border border-border/50 hover:border-axanar-teal/30 transition-colors">
+              <div className={`h-4 w-4 rounded-full flex-shrink-0 ${
+                canRecruit ? 'bg-green-500 animate-pulse' : 'bg-yellow-500'
               }`} />
               <div className="flex-1">
-                <p className="font-medium">Recovery Ambassador</p>
+                <p className="font-semibold">Recovery Ambassador</p>
                 <p className="text-sm text-muted-foreground">
                   {canRecruit 
                     ? `Qualified recruiter: ${recruitCount} accounts re-enlisted`
@@ -133,7 +138,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
                   }
                 </p>
                 {canRecruit && (
-                  <Button size="sm" variant="outline" className="mt-2" onClick={() => {
+                  <Button size="sm" variant="outline" className="mt-2 hover:bg-axanar-teal hover:text-white" onClick={() => {
                     navigator.clipboard.writeText(`${window.location.origin}/auth?recruiter=${profile?.id}`);
                     toast.success("Recruitment link copied!");
                   }}>
@@ -142,31 +147,37 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
                   </Button>
                 )}
               </div>
-              <div className="text-sm font-medium text-axanar-teal">
+              <div className="text-sm font-bold text-axanar-teal">
                 +{recruitmentXP} XP
               </div>
             </div>
 
-            {/* Total XP */}
-            <div className="border-t pt-4 mt-4">
-              <div className="flex justify-between items-center">
-                <span className="font-medium">Total Participation XP</span>
-                <span className="text-lg font-bold text-axanar-teal">
+            {/* Total XP Progress */}
+            <div className="border-t border-border/50 pt-6 mt-6">
+              <div className="flex justify-between items-center mb-3">
+                <span className="font-bold text-lg">Total Participation XP</span>
+                <span className="text-2xl font-bold text-axanar-teal">
                   {totalXP} XP
                 </span>
               </div>
-              <div className="w-full bg-muted mt-2 rounded-full h-2">
+              <div className="w-full bg-muted/50 mt-2 rounded-full h-3 overflow-hidden">
                 <div 
-                  className="bg-axanar-teal h-2 rounded-full transition-all"
+                  className="bg-gradient-to-r from-axanar-teal to-blue-400 h-3 rounded-full transition-all duration-500 ease-out"
                   style={{ width: `${Math.min(totalXP / 500 * 100, 100)}%` }}
                 />
               </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                {totalXP >= 500 ? 'Maximum level reached!' : `Next milestone: 500 XP - Legend Status`}
+              <p className="text-sm text-muted-foreground mt-2">
+                {totalXP >= 500 ? '🏆 Maximum level reached!' : `Next milestone: 500 XP - Legend Status`}
               </p>
-              <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
-                <Gift className="h-3 w-3" />
-                <span>Years supporting: {yearsSupporting} • Total donated: ${totalDonated.toLocaleString()}</span>
+              <div className="flex items-center gap-4 mt-3 text-sm text-muted-foreground">
+                <div className="flex items-center gap-1">
+                  <Gift className="h-4 w-4 text-axanar-teal" />
+                  <span>{yearsSupporting} years supporting</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Heart className="h-4 w-4 text-red-400" />
+                  <span>${totalDonated.toLocaleString()} donated</span>
+                </div>
               </div>
             </div>
             
