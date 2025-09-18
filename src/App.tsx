@@ -29,7 +29,7 @@ import AdminManagement from "./pages/admin/Admins";
 import AdminMessages from "./pages/admin/Messages";
 import PasswordReset from "./pages/PasswordReset";
 import LCARSShowcase from "./pages/LCARSShowcase";
-import VanityProfile from "./pages/VanityProfile";
+import PublicProfile from "./pages/PublicProfile";
 import ModelManager from "./pages/ModelManager";
 import Campaign from "./pages/Campaign";
 import RequireAdmin from "@/components/auth/RequireAdmin";
@@ -125,7 +125,7 @@ const App = () => (
             <Route path="/terms" element={<Terms />} />
             <Route path="/lcars" element={<LCARSShowcase />} />
             <Route path="/models" element={<ModelManager />} />
-            <Route path="/u/:username" element={<VanityProfile />} />
+            <Route path="/u/:username" element={<PublicProfile />} />
             <Route path="/campaign/:id" element={<Campaign />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
