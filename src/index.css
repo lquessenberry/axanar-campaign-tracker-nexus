@@ -1,6 +1,7 @@
 /* ============= AXANAR STAR TREK DESIGN SYSTEM ============= */
 /* Typography: Eurostile (content), Bebas Neue (headings), Inter (admin) */
 
+@import './styles/mobile-enhancements.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -7,12 +7,15 @@ import Footer from "@/components/Footer";
 import ProfileHeader from "@/components/profile/ProfileHeader";
 import ProfileContent from "@/components/profile/ProfileContent";
 import ProfileSidebar from "@/components/profile/ProfileSidebar";
+import { MobileProfileLayout } from "@/components/mobile";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUserProfile, useUpdateProfile } from "@/hooks/useUserProfile";
 import { useUserCampaigns } from "@/hooks/useUserCampaigns";
 import { useUserPledges } from "@/hooks/useUserPledges";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
 import { useAdminUserProfile, useAdminUpdateUserProfile } from "@/hooks/useAdminUserProfile";
+import { useUserAchievements, useUserRecruitment } from "@/hooks/useUserAchievements";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 
@@ -20,6 +23,7 @@ const Profile = () => {
   const { userId } = useParams<{ userId?: string }>();
   const { user, signOut } = useAuth();
   const { data: isAdmin } = useAdminCheck();
+  const isMobile = useIsMobile();
   
   // Determine if we're viewing another user's profile (admin only)
   const targetUserId = userId || user?.id;
@@ -29,6 +33,8 @@ const Profile = () => {
   const { data: ownProfile, isLoading: ownProfileLoading } = useUserProfile();
   const { data: ownCampaigns } = useUserCampaigns();
   const { data: ownPledges } = useUserPledges();
+  const { data: achievements } = useUserAchievements();
+  const { data: recruitmentData } = useUserRecruitment();
   const { data: adminUserData, isLoading: adminProfileLoading } = useAdminUserProfile(
     isViewingOtherUser ? userId! : ''
   );
@@ -143,13 +149,73 @@ const Profile = () => {
     month: 'long' 
   }) : 'Recently';
 
+  // Mobile-specific calculations
+  const profileXP = (profile?.full_name && profile?.bio) ? 50 : 0;
+  const achievementXP = achievements?.reduce((sum, achievement) => {
+    const type = achievement.achievement_type;
+    if (type === 'first_supporter') return sum + 25;
+    if (type === 'committed_backer') return sum + 50;
+    if (type === 'major_supporter') return sum + 100;
+    if (type === 'champion_donor') return sum + 200;
+    if (type === 'veteran_supporter') return sum + 150;
+    if (type === 'multi_campaign_supporter') return sum + 75;
+    return sum + 10;
+  }, 0) || 0;
+  const recruitCount = recruitmentData?.filter(r => r.status === 'confirmed').length || 0;
+  const recruitmentXP = recruitCount * 25;
+  const totalXP = profileXP + achievementXP + recruitmentXP;
+  const canRecruit = Boolean(totalPledged >= 100 && (profile?.full_name && profile?.bio));
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col">
         <Navigation />
         <div className="flex-grow flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-axanar-teal"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Mobile Layout
+  if (isMobile) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navigation />
+        
+        {/* Admin viewing indicator */}
+        {isViewingOtherUser && (
+          <div className="bg-amber-50 border-b border-amber-200 px-4 py-3">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-amber-800 font-medium">
+                Admin View: Viewing another user's profile
+              </span>
+            </div>
+          </div>
+        )}
+        
+        <MobileProfileLayout
+          profile={profile}
+          pledges={pledges}
+          campaigns={campaigns}
+          memberSince={memberSince}
+          totalXP={totalXP}
+          canRecruit={canRecruit}
+          recruitCount={recruitCount}
+          onProfileUpdate={async (data) => {
+            if (isViewingOtherUser) {
+              await updateAdminProfile.mutateAsync({
+                userId: userId!,
+                profileData: data,
+              });
+            } else {
+              await updateOwnProfile.mutateAsync(data);
+            }
+          }}
+          onSignOut={handleSignOut}
+        />
+        
         <Footer />
       </div>
     );
