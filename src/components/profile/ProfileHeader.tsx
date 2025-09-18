@@ -249,7 +249,12 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   {profile?.full_name || profile?.username || 'Anonymous User'}
                 </h1>
                 {profile?.username && (
-                  <p className="text-axanar-silver/80 mt-1">@{profile.username}</p>
+                  <a 
+                    href={`/u/${profile.username}`}
+                    className="text-axanar-silver/80 mt-1 hover:text-axanar-teal transition-colors cursor-pointer inline-block"
+                  >
+                    @{profile.username}
+                  </a>
                 )}
                 {profile?.bio && (
                   <p className="text-axanar-silver/80 mt-2">{profile.bio}</p>
