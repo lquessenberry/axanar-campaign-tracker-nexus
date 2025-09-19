@@ -12,6 +12,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { MessageCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
+// DirectMessages component for real-time user-to-user messaging
 const DirectMessages: React.FC = () => {
   const { user } = useAuth();
   const { conversations, loading, sendMessage, markAsRead, getConversationMessages, getUnreadCount } = useRealtimeMessages();
