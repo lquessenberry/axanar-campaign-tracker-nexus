@@ -39,6 +39,7 @@ export function MobileNavigation() {
       <MobileHamburgerMenu
         isOpen={isMenuOpen}
         onClose={() => setIsMenuOpen(false)}
+        profile={user}
       />
 
       {/* Bottom Navigation */}

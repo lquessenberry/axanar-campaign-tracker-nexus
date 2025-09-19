@@ -1,22 +1,27 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { X, ChevronDown, ChevronRight, Shield, LogOut } from 'lucide-react';
+import { NavLink, Link } from 'react-router-dom';
+import { X, ChevronDown, ChevronRight, Shield, LogOut, MapPin, Gift, Heart, User, BarChart3 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { useAdminCheck } from '@/hooks/useAdminCheck';
+import AddressDialog from '@/components/profile/AddressDialog';
+import RewardsDialog from '@/components/profile/RewardsDialog';
 
 interface MobileHamburgerMenuProps {
   isOpen: boolean;
   onClose: () => void;
+  profile?: any;
 }
 
-export function MobileHamburgerMenu({ isOpen, onClose }: MobileHamburgerMenuProps) {
+export function MobileHamburgerMenu({ isOpen, onClose, profile }: MobileHamburgerMenuProps) {
   const { user, signOut } = useAuth();
   const { data: isAdmin } = useAdminCheck();
   const [openSections, setOpenSections] = useState<string[]>([]);
+  const [addressDialogOpen, setAddressDialogOpen] = useState(false);
+  const [rewardsDialogOpen, setRewardsDialogOpen] = useState(false);
 
   const toggleSection = (section: string) => {
     setOpenSections(prev => 
@@ -160,6 +165,63 @@ export function MobileHamburgerMenu({ isOpen, onClose }: MobileHamburgerMenuProp
               </div>
             )}
 
+            {/* Quick Actions */}
+            {user && (
+              <div className="space-y-2">
+                <h3 className="text-sm font-medium text-muted-foreground px-2">Quick Actions</h3>
+                
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setAddressDialogOpen(true);
+                    onClose();
+                  }}
+                  className="w-full justify-start"
+                >
+                  <MapPin className="w-4 h-4 mr-2" />
+                  Update Address
+                </Button>
+                
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setRewardsDialogOpen(true);
+                    onClose();
+                  }}
+                  className="w-full justify-start"
+                >
+                  <Gift className="w-4 h-4 mr-2" />
+                  Track Rewards
+                </Button>
+                
+                <NavLink
+                  to="/campaigns"
+                  onClick={onClose}
+                  className="w-full"
+                >
+                  <Button variant="outline" className="w-full justify-start">
+                    <Heart className="w-4 h-4 mr-2" />
+                    Explore Campaigns
+                  </Button>
+                </NavLink>
+
+                {profile?.username && (
+                  <a 
+                    href={`/u/${profile.username}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    onClick={onClose}
+                    className="block"
+                  >
+                    <Button variant="outline" className="w-full justify-start">
+                      <User className="w-4 h-4 mr-2" />
+                      View Public Profile
+                    </Button>
+                  </a>
+                )}
+              </div>
+            )}
+
             {/* Admin Sections */}
             {user && isAdmin && (
               <div className="space-y-2">
@@ -218,6 +280,17 @@ export function MobileHamburgerMenu({ isOpen, onClose }: MobileHamburgerMenuProp
           )}
         </div>
       </SheetContent>
+
+      {/* Dialogs */}
+      <AddressDialog 
+        open={addressDialogOpen} 
+        onOpenChange={setAddressDialogOpen} 
+      />
+      
+      <RewardsDialog 
+        open={rewardsDialogOpen} 
+        onOpenChange={setRewardsDialogOpen} 
+      />
     </Sheet>
   );
 }
