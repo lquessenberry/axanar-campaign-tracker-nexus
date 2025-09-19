@@ -3202,6 +3202,41 @@ export type Database = {
         }
         Relationships: []
       }
+      user_presence: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_online: boolean | null
+          last_seen: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          is_online?: boolean | null
+          last_seen?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_online?: boolean | null
+          last_seen?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_presence_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_recruits: {
         Row: {
           id: string
@@ -4136,6 +4171,10 @@ export type Database = {
           make_super_admin: boolean
           target_user_id: string
         }
+        Returns: undefined
+      }
+      update_user_presence: {
+        Args: { is_online_status: boolean }
         Returns: undefined
       }
       urlencode: {

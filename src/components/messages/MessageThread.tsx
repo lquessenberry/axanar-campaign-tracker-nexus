@@ -32,6 +32,7 @@ interface MessageThreadProps {
   showComposer?: boolean;
   emptyStateTitle?: string;
   emptyStateDescription?: string;
+  isOnline?: boolean;
 }
 
 const MessageThread: React.FC<MessageThreadProps> = ({
@@ -44,7 +45,8 @@ const MessageThread: React.FC<MessageThreadProps> = ({
   className,
   showComposer = true,
   emptyStateTitle = "No messages yet",
-  emptyStateDescription = "Start the conversation by sending a message."
+  emptyStateDescription = "Start the conversation by sending a message.",
+  isOnline = false
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -80,17 +82,25 @@ const MessageThread: React.FC<MessageThreadProps> = ({
     <Card className={className}>
       <CardHeader className="border-b">
         <div className="flex items-center gap-3">
-          <Avatar>
-            <AvatarFallback>
-              {getInitials(recipient)}
-            </AvatarFallback>
-          </Avatar>
+          <div className="relative">
+            <Avatar>
+              <AvatarFallback>
+                {getInitials(recipient)}
+              </AvatarFallback>
+            </Avatar>
+            {isOnline && (
+              <div className="absolute -bottom-1 -right-1 h-4 w-4 bg-green-500 border-2 border-white rounded-full"></div>
+            )}
+          </div>
           <div>
             <CardTitle className="text-lg">{getDisplayName(recipient)}</CardTitle>
             {recipient.username && (
               <p className="text-sm text-muted-foreground">
                 @{recipient.username}
               </p>
+            )}
+            {isOnline && (
+              <p className="text-xs text-green-600">Online</p>
             )}
           </div>
         </div>

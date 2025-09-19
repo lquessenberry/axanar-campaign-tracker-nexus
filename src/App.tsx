@@ -12,6 +12,7 @@ import Index from "./pages/Index";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import Messages from "./pages/Messages";
+import DirectMessages from "./pages/DirectMessages";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
@@ -68,6 +69,7 @@ const App = () => (
               }
             />
             <Route path="/messages" element={<Messages />} />
+            <Route path="/direct-messages" element={<RequireAuth><DirectMessages /></RequireAuth>} />
             <Route path="/admin" element={<Admin />} />
             <Route
               path="/admin/dashboard"
