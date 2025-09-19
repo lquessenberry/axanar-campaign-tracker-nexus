@@ -24,13 +24,12 @@ export function MobileNavigation() {
             <span className="sr-only">Toggle menu</span>
           </Button>
           
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center">
             <img
               src="/lovable-uploads/4ae57c3d-f1da-43e2-93ec-016f24a0b0c4.png"
               alt="Axanar Logo"
               className="h-8 w-auto"
             />
-            <span className="font-bold text-lg">Axanar</span>
           </div>
         </div>
       </header>
