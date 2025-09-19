@@ -13,7 +13,7 @@ export function MobileNavigation() {
     <>
       {/* Mobile Header */}
       <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:hidden">
-        <div className="flex h-14 items-center px-4">
+        <div className="flex h-20 items-start pt-4 px-4">
           <Button
             variant="ghost"
             size="sm"
