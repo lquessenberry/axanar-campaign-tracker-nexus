@@ -85,7 +85,7 @@ export function MobileHamburgerMenu({ isOpen, onClose }: MobileHamburgerMenuProp
         </SheetHeader>
         
         <div className="flex flex-col h-full">
-          <div className="flex-1 overflow-y-auto p-4 space-y-6">
+          <div className="flex-1 overflow-y-auto p-4 pb-24 space-y-6">
             {/* Public Links */}
             {!user && (
               <div className="space-y-2">
