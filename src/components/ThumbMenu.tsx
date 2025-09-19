@@ -73,7 +73,7 @@ const ThumbMenu = () => {
       )}
 
       {/* Floating Menu Button */}
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-20 right-6 z-50">
         <Button
           onClick={() => setIsOpen(!isOpen)}
           className={`w-14 h-14 rounded-full shadow-lg transition-all duration-300 relative overflow-hidden ${
