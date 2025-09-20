@@ -53,13 +53,26 @@ export const useUserRewards = () => {
 
       if (error) throw error;
       
-      return pledges?.map(pledge => ({
+      // Deduplicate pledges based on amount, date, and campaign
+      const mappedPledges = pledges?.map(pledge => ({
         id: pledge.id,
         amount: pledge.amount,
         created_at: pledge.created_at,
         campaign: pledge.campaigns || { name: 'Unknown Campaign' },
         reward: pledge.rewards
       })) || [];
+      
+      // Remove duplicates based on amount, created_at, and campaign name
+      const uniquePledges = mappedPledges.filter((pledge, index, arr) => {
+        const duplicateIndex = arr.findIndex(p => 
+          p.amount === pledge.amount && 
+          p.created_at === pledge.created_at && 
+          p.campaign.name === pledge.campaign.name
+        );
+        return duplicateIndex === index;
+      });
+      
+      return uniquePledges;
     },
     enabled: !!user,
   });
