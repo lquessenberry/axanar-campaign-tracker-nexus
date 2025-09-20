@@ -5,7 +5,8 @@ import { useAuth } from '@/contexts/AuthContext';
 interface UserPledge {
   id: string;
   amount: number;
-  created_at: string;
+  created_at: string | null;
+  source_contribution_date: string | null;
   campaign: {
     name: string;
   };
@@ -33,7 +34,7 @@ export const useUserRewards = () => {
       if (donorError) throw donorError;
       if (!donor) return [];
 
-      // Get pledges with campaign and reward info
+      // Get pledges with campaign and reward info, including donor's source contribution date
       const { data: pledges, error } = await supabase
         .from('pledges')
         .select(`
@@ -46,6 +47,9 @@ export const useUserRewards = () => {
           rewards:reward_id (
             name,
             description
+          ),
+          donors:donor_id (
+            source_contribution_date
           )
         `)
         .eq('donor_id', donor.id)
@@ -57,6 +61,7 @@ export const useUserRewards = () => {
         id: pledge.id,
         amount: pledge.amount,
         created_at: pledge.created_at,
+        source_contribution_date: pledge.donors?.source_contribution_date || null,
         campaign: pledge.campaigns || { name: 'Unknown Campaign' },
         reward: pledge.rewards
       })) || [];

@@ -83,7 +83,21 @@ const RewardsDialog: React.FC<RewardsDialogProps> = ({ open, onOpenChange }) => 
                           </span>
                           <span className="flex items-center gap-1">
                             <Calendar className="h-3 w-3" />
-                            {new Date(pledge.created_at).toLocaleDateString()}
+                            {(() => {
+                              // Use pledge.created_at if valid, otherwise fallback to source_contribution_date
+                              const pledgeDate = pledge.created_at && pledge.created_at !== null 
+                                ? new Date(pledge.created_at) 
+                                : pledge.source_contribution_date 
+                                  ? new Date(pledge.source_contribution_date)
+                                  : null;
+                              
+                              // Check if date is valid (not epoch date)
+                              if (!pledgeDate || pledgeDate.getFullYear() <= 1970) {
+                                return 'Date not available';
+                              }
+                              
+                              return pledgeDate.toLocaleDateString();
+                            })()}
                           </span>
                         </CardDescription>
                       </div>
