@@ -47,8 +47,17 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
   
   // Calculate donation stats
   const totalDonated = pledges?.reduce((sum, pledge) => sum + Number(pledge.amount), 0) || 0;
-  const yearsSupporting = pledges?.length ? 
-    Math.max(1, new Date().getFullYear() - new Date(pledges[pledges.length - 1].created_at).getFullYear()) : 0;
+  
+  // Calculate years supporting based on earliest contribution date
+  const firstContributionDate = pledges?.length ? 
+    pledges.reduce((earliest, current) => {
+      const currentDate = new Date(current.created_at);
+      const earliestDate = new Date(earliest.created_at);
+      return currentDate < earliestDate ? current : earliest;
+    }) : null;
+  
+  const yearsSupporting = firstContributionDate ? 
+    Math.max(0, Math.floor((new Date().getTime() - new Date(firstContributionDate.created_at).getTime()) / (1000 * 60 * 60 * 24 * 365.25))) : 0;
   
   // Calculate qualification for recruitment
   const canRecruit = totalDonated >= 100 && (profile?.full_name && profile?.bio);
@@ -195,7 +204,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
           total_contributions: pledges?.length || 0,
           campaigns_supported: campaigns?.length || 0,
           years_supporting: yearsSupporting,
-          first_contribution_date: pledges?.[pledges.length - 1]?.created_at,
+          first_contribution_date: firstContributionDate?.created_at,
           source_reward_title: profile?.source_reward_title,
           source_perk_name: profile?.source_perk_name,
           email_lists: profile?.email_lists,
