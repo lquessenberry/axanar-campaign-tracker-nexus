@@ -49,7 +49,7 @@ export const useUserRewards = () => {
           )
         `)
         .eq('donor_id', donor.id)
-        .order('created_at', { ascending: false });
+        .order('pledges.created_at', { ascending: false });
 
       if (error) throw error;
       

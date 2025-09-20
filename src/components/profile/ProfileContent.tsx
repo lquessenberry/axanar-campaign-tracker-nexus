@@ -50,7 +50,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
   
   // Calculate years supporting based on earliest contribution date  
   const yearsSupporting = pledges?.length ? (() => {
-    // Find the earliest date more reliably
+    // Find the earliest valid date
     const dates = pledges.map(p => new Date(p.created_at)).filter(d => !isNaN(d.getTime()));
     if (dates.length === 0) return 0;
     
@@ -59,7 +59,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
     
     // Validate the date is reasonable (between 2010 and now)
     if (earliestDate.getFullYear() < 2010 || earliestDate > currentDate) {
-      console.log('Invalid earliest date:', earliestDate);
       return Math.max(0, currentDate.getFullYear() - 2014); // Fallback
     }
     
@@ -71,17 +70,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
       currentDate.getMonth() > earliestDate.getMonth() || 
       (currentDate.getMonth() === earliestDate.getMonth() && currentDate.getDate() >= earliestDate.getDate());
     
-    const finalYears = hasPassedAnniversary ? yearsGap : yearsGap - 1;
-    
-    console.log('Years supporting calculation:', {
-      earliestDate: earliestDate.toISOString(),
-      currentDate: currentDate.toISOString(),
-      yearsGap,
-      hasPassedAnniversary,
-      finalYears
-    });
-    
-    return Math.max(0, finalYears);
+    return Math.max(0, hasPassedAnniversary ? yearsGap : yearsGap - 1);
   })() : 0;
   
   const firstContributionDate = pledges?.length ? 
