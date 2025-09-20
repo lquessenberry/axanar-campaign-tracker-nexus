@@ -280,7 +280,18 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
                     Backed "{pledge.campaigns?.title}" - ${Number(pledge.amount).toLocaleString()}
                   </span>
                   <span className="text-xs text-muted-foreground">
-                    {new Date(pledge.created_at).toLocaleDateString()}
+                    {(() => {
+                      const date = new Date(pledge.created_at);
+                      // Validate date and provide fallback
+                      if (isNaN(date.getTime()) || date.getFullYear() < 2010) {
+                        return 'Date unavailable';
+                      }
+                      return date.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                      });
+                    })()}
                   </span>
                 </div>
               ))}
