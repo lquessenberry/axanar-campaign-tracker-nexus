@@ -48,16 +48,44 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
   // Calculate donation stats
   const totalDonated = pledges?.reduce((sum, pledge) => sum + Number(pledge.amount), 0) || 0;
   
-  // Calculate years supporting based on earliest contribution date
-  const firstContributionDate = pledges?.length ? 
-    pledges.reduce((earliest, current) => {
-      const currentDate = new Date(current.created_at);
-      const earliestDate = new Date(earliest.created_at);
-      return currentDate < earliestDate ? current : earliest;
-    }) : null;
+  // Calculate years supporting based on earliest contribution date  
+  const yearsSupporting = pledges?.length ? (() => {
+    // Find the earliest date more reliably
+    const dates = pledges.map(p => new Date(p.created_at)).filter(d => !isNaN(d.getTime()));
+    if (dates.length === 0) return 0;
+    
+    const earliestDate = new Date(Math.min(...dates.map(d => d.getTime())));
+    const currentDate = new Date();
+    
+    // Validate the date is reasonable (between 2010 and now)
+    if (earliestDate.getFullYear() < 2010 || earliestDate > currentDate) {
+      console.log('Invalid earliest date:', earliestDate);
+      return Math.max(0, currentDate.getFullYear() - 2014); // Fallback
+    }
+    
+    // Simple year calculation
+    const yearsGap = currentDate.getFullYear() - earliestDate.getFullYear();
+    
+    // Adjust if we haven't reached the anniversary yet this year
+    const hasPassedAnniversary = 
+      currentDate.getMonth() > earliestDate.getMonth() || 
+      (currentDate.getMonth() === earliestDate.getMonth() && currentDate.getDate() >= earliestDate.getDate());
+    
+    const finalYears = hasPassedAnniversary ? yearsGap : yearsGap - 1;
+    
+    console.log('Years supporting calculation:', {
+      earliestDate: earliestDate.toISOString(),
+      currentDate: currentDate.toISOString(),
+      yearsGap,
+      hasPassedAnniversary,
+      finalYears
+    });
+    
+    return Math.max(0, finalYears);
+  })() : 0;
   
-  const yearsSupporting = firstContributionDate ? 
-    Math.max(0, Math.floor((new Date().getTime() - new Date(firstContributionDate.created_at).getTime()) / (1000 * 60 * 60 * 24 * 365.25))) : 0;
+  const firstContributionDate = pledges?.length ? 
+    pledges.find(p => new Date(p.created_at).getTime() === Math.min(...pledges.map(pl => new Date(pl.created_at).getTime()))) : null;
   
   // Calculate qualification for recruitment
   const canRecruit = totalDonated >= 100 && (profile?.full_name && profile?.bio);
