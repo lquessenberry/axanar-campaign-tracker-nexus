@@ -1937,7 +1937,7 @@ export type Database = {
         Row: {
           amount: number
           campaign_id: string | null
-          created_at: string | null
+          created_at: string
           donor_id: string | null
           id: string
           legacy_id: number | null
@@ -1949,7 +1949,7 @@ export type Database = {
         Insert: {
           amount: number
           campaign_id?: string | null
-          created_at?: string | null
+          created_at?: string
           donor_id?: string | null
           id?: string
           legacy_id?: number | null
@@ -1961,7 +1961,7 @@ export type Database = {
         Update: {
           amount?: number
           campaign_id?: string | null
-          created_at?: string | null
+          created_at?: string
           donor_id?: string | null
           id?: string
           legacy_id?: number | null
