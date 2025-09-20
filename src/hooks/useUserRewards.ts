@@ -62,7 +62,7 @@ export const useUserRewards = () => {
       campaigns?.forEach(c => campaignMap[c.id] = c);
       rewards?.forEach(r => rewardMap[r.id] = r);
       
-      // Deduplicate pledges based on amount, date, and campaign
+      // Map pledges with campaign and reward info
       const mappedPledges = pledges.map(pledge => ({
         id: pledge.id,
         amount: pledge.amount,
@@ -71,14 +71,17 @@ export const useUserRewards = () => {
         reward: rewardMap[pledge.reward_id] || null
       }));
       
-      // Remove duplicates based on amount, created_at, and campaign name
+      console.log('🎯 User pledges found:', mappedPledges.length);
+      console.log('🎯 Pledge details:', mappedPledges.map(p => ({
+        id: p.id,
+        amount: p.amount,
+        date: p.created_at,
+        campaign: p.campaign.name
+      })));
+      
+      // Only remove exact duplicates (same ID)
       const uniquePledges = mappedPledges.filter((pledge, index, arr) => {
-        const duplicateIndex = arr.findIndex(p => 
-          p.amount === pledge.amount && 
-          p.created_at === pledge.created_at && 
-          p.campaign?.name === pledge.campaign?.name
-        );
-        return duplicateIndex === index;
+        return arr.findIndex(p => p.id === pledge.id) === index;
       });
       
       return uniquePledges;
