@@ -51,12 +51,12 @@ export const useUserPledges = () => {
 
       if (error) throw error;
       
-      // Transform to match expected structure using donor's created_at as pledge date
+      // Transform to match expected structure using actual pledge creation date
       const transformedPledges = data?.map(pledge => ({
         id: pledge.id,
         amount: Number(pledge.amount),
         status: pledge.status || 'completed',
-        created_at: pledge.donors?.created_at || null,
+        created_at: pledge.created_at,
         campaign_id: pledge.campaign_id,
         campaigns: {
           id: pledge.campaigns?.id || '',
