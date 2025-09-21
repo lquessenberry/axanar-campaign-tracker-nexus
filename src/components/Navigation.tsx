@@ -106,6 +106,11 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
                   {t('how-it-works')}
                 </Button>
               </Link>
+              <Link to="/forum">
+                <Button variant="ghost" size="sm" className="trek-nav-link font-trek-content">
+                  Forum
+                </Button>
+              </Link>
               
               {/* Campaigns Dropdown */}
               {campaigns.length > 0 && (
@@ -217,6 +222,14 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
                 }`}>
                   <User className="h-4 w-4 mr-2" />
                   {t('profile')}
+                </Button>
+              </Link>
+              <Link to="/forum">
+                <Button variant="ghost" size="sm" className={`text-white hover:text-axanar-teal hover:bg-white/10 ${
+                  isActive('/forum') ? 'bg-axanar-teal/20 text-axanar-teal' : ''
+                }`}>
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  Forum
                 </Button>
               </Link>
               <Button 

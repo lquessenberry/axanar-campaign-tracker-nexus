@@ -38,6 +38,7 @@ import ErrorBoundary from "@/components/common/ErrorBoundary";
 import RequireAuth from "@/components/auth/RequireAuth";
 import SignInRequired from "./pages/SignInRequired";
 import Forbidden from "./pages/Forbidden";
+import Forum from "./pages/Forum";
 
 const queryClient = new QueryClient();
 
@@ -129,6 +130,7 @@ const App = () => (
             <Route path="/models" element={<ModelManager />} />
             <Route path="/u/:username" element={<PublicProfile />} />
             <Route path="/campaign/:id" element={<Campaign />} />
+            <Route path="/forum" element={<Forum />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
