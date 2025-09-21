@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, Trophy, Users, ExternalLink, Zap, Target, Award } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useForumRank } from "@/hooks/useForumRank";
 
 interface PublicProfileSidebarProps {
   profile: any;
@@ -19,6 +20,7 @@ const PublicProfileSidebar: React.FC<PublicProfileSidebarProps> = ({
   pledgesCount,
 }) => {
   const displayName = profile?.display_name || profile?.full_name || profile?.username || 'This user';
+  const { data: forumRank } = useForumRank(profile?.id);
   
   // Calculate gamification metrics
   const yearsSupporting = Math.max(0, new Date().getFullYear() - new Date(memberSince).getFullYear());
@@ -36,6 +38,7 @@ const PublicProfileSidebar: React.FC<PublicProfileSidebarProps> = ({
   };
 
   const rankInfo = getRank(totalXP, pledgesCount);
+  const displayRankName = forumRank?.rank?.name || rankInfo.name;
 
   return (
     <div className="space-y-6">
@@ -52,7 +55,7 @@ const PublicProfileSidebar: React.FC<PublicProfileSidebarProps> = ({
             <div className="text-center p-3 bg-muted/30 rounded-lg">
               <Trophy className={`h-6 w-6 mx-auto mb-2 ${rankInfo.color.replace('bg-', 'text-')}`} />
               <Badge variant="secondary" className="mb-1">
-                {rankInfo.name}
+                {displayRankName}
               </Badge>
               <p className="text-xs text-muted-foreground">
                 {rankInfo.tier} tier supporter

@@ -11,7 +11,8 @@ import {
   LogOut, 
   BarChart3, 
   Shield,
-  Home
+  Home,
+  MessageCircle
 } from "lucide-react";
 
 const ThumbMenu = () => {
@@ -34,6 +35,12 @@ const ThumbMenu = () => {
       icon: Home,
       label: "Home",
       path: "/",
+      show: true
+    },
+    {
+      icon: MessageCircle,
+      label: "Forum",
+      path: "/forum",
       show: true
     },
     {

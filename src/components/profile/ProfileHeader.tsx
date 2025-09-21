@@ -13,6 +13,7 @@ import StarField from "@/components/StarField";
 import MouseTracker from "@/components/auth/MouseTracker";
 import RankPips from "./RankPips";
 import { toast } from "sonner";
+import { useForumRank } from "@/hooks/useForumRank";
 
 interface ProfileData {
   id: string;
@@ -65,6 +66,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   const { uploadAvatar, isUploading } = useAvatarUpload();
   const { uploadBackground, removeBackground, isUploading: isUploadingBackground } = useBackgroundUpload();
   const updateProfile = useUpdateProfile();
+  const { data: forumRank } = useForumRank();
 
   const handleAvatarClick = () => {
     fileInputRef.current?.click();
@@ -287,7 +289,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             <div className="md:ml-auto flex flex-col md:flex-row gap-4 items-end">
               <div className="text-center md:text-right">
                 <div className="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full text-sm font-bold border border-yellow-500/30">
-                  CREWMAN 3RD
+                  {(forumRank?.rank?.name || 'Cadet').toUpperCase()}
                 </div>
                 <div className="flex items-center gap-2 mt-2 text-sm">
                   <span className="text-axanar-teal font-bold">XP: {(totalPledged * 10).toLocaleString()}</span>
