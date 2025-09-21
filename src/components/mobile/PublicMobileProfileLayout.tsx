@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { User, CalendarDays, TrendingUp, Users, Star, Heart, Share2, ExternalLink } from 'lucide-react';
+import { User, CalendarDays, Trophy, Users, Star, Target, Share2, ExternalLink, Zap, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import AchievementsShowcase from '@/components/profile/AchievementsShowcase';
@@ -29,15 +29,21 @@ export default function PublicMobileProfileLayout({
   const yearsSupporting = pledges?.length ? 
     Math.max(1, new Date().getFullYear() - new Date(pledges[pledges.length - 1].created_at).getFullYear()) : 0;
 
-  const getSupporterLevel = (amount: number) => {
-    if (amount >= 1000) return { level: "Champion", color: "bg-purple-500", tier: "Legendary" };
-    if (amount >= 500) return { level: "Major Supporter", color: "bg-blue-500", tier: "Elite" };
-    if (amount >= 100) return { level: "Committed Backer", color: "bg-green-500", tier: "Veteran" };
-    if (amount >= 25) return { level: "First Supporter", color: "bg-yellow-500", tier: "Active" };
-    return { level: "Community Member", color: "bg-gray-500", tier: "New" };
+  // Calculate gamification metrics
+  const baseXP = pledgesCount * 100; // 100 XP per contribution
+  const yearlyXP = yearsSupporting * 250; // 250 XP per year
+  const totalXP = baseXP + yearlyXP;
+  
+  // Determine rank based on XP and participation (not dollar amounts)
+  const getRank = (xp: number, contributions: number) => {
+    if (contributions >= 10 && xp >= 1500) return { name: "Legend", color: "bg-purple-500", tier: "Legendary" };
+    if (contributions >= 5 && xp >= 1000) return { name: "Champion", color: "bg-yellow-500", tier: "Elite" };
+    if (contributions >= 3 && xp >= 600) return { name: "Veteran", color: "bg-blue-500", tier: "Veteran" };
+    if (contributions >= 1 && xp >= 100) return { name: "Supporter", color: "bg-green-500", tier: "Active" };
+    return { name: "Newcomer", color: "bg-gray-500", tier: "New" };
   };
 
-  const supporterInfo = getSupporterLevel(totalPledged);
+  const rankInfo = getRank(totalXP, pledgesCount);
 
   const handleShare = async () => {
     const shareData = {
@@ -82,25 +88,25 @@ export default function PublicMobileProfileLayout({
               <p className="text-axanar-silver/80 text-sm">@{profile.username}</p>
             )}
             <div className="flex items-center gap-1 mt-1">
-              <div className={`h-2 w-2 rounded-full ${supporterInfo.color}`} />
-              <span className="text-xs text-axanar-silver/80">{supporterInfo.tier} Supporter</span>
+              <div className={`h-2 w-2 rounded-full ${rankInfo.color}`} />
+              <span className="text-xs text-axanar-silver/80">{rankInfo.tier} • {rankInfo.name}</span>
             </div>
           </div>
         </div>
 
-        {/* Stats Row */}
+        {/* Stats Row - Gamified */}
         <div className="grid grid-cols-3 gap-4 text-center">
           <div>
             <p className="text-lg font-bold">{pledgesCount}</p>
-            <p className="text-xs text-axanar-silver/60">Projects</p>
+            <p className="text-xs text-axanar-silver/60">Contributions</p>
           </div>
           <div>
-            <p className="text-lg font-bold">{campaignsCount}</p>
-            <p className="text-xs text-axanar-silver/60">Campaigns</p>
+            <p className={`text-lg font-bold ${rankInfo.color.replace('bg-', 'text-')}`}>{rankInfo.name}</p>
+            <p className="text-xs text-axanar-silver/60">Rank</p>
           </div>
           <div>
-            <p className="text-lg font-bold">${totalPledged.toLocaleString()}</p>
-            <p className="text-xs text-axanar-silver/60">Pledged</p>
+            <p className="text-lg font-bold text-axanar-teal">{totalXP.toLocaleString()}</p>
+            <p className="text-xs text-axanar-silver/60">Experience XP</p>
           </div>
         </div>
         
@@ -131,33 +137,44 @@ export default function PublicMobileProfileLayout({
           </CardContent>
         </Card>
 
-        {/* Supporter Status */}
+        {/* Supporter Status - Gamified */}
         <Card>
           <CardContent className="p-4">
-            <h3 className="font-semibold mb-3">Supporter Status</h3>
+            <h3 className="font-semibold mb-3 flex items-center gap-2">
+              <Trophy className={`h-4 w-4 ${rankInfo.color.replace('bg-', 'text-')}`} />
+              Supporter Dashboard
+            </h3>
             <div className="space-y-3">
+              {/* Rank & XP Display */}
               <div className="flex items-center gap-3">
-                <div className={`h-3 w-3 rounded-full ${supporterInfo.color}`} />
-                <div>
-                  <Badge variant="secondary" className="text-xs">
-                    {supporterInfo.level}
-                  </Badge>
+                <div className={`h-3 w-3 rounded-full ${rankInfo.color}`} />
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <Badge variant="secondary" className="text-xs">
+                      {rankInfo.name}
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      <Zap className="h-3 w-3 mr-1" />
+                      {totalXP.toLocaleString()} XP
+                    </Badge>
+                  </div>
                   <p className="text-xs text-muted-foreground mt-1">
-                    {supporterInfo.tier} tier supporter
+                    {rankInfo.tier} tier supporter
                   </p>
                 </div>
               </div>
               
-              {totalPledged > 0 && (
+              {/* Participation Stats */}
+              {pledgesCount > 0 && (
                 <div className="flex items-center gap-2 text-sm">
-                  <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                  <span>${totalPledged.toLocaleString()} contributed</span>
+                  <Target className="h-4 w-4 text-green-500" />
+                  <span>{pledgesCount} contributions made</span>
                 </div>
               )}
               
               {yearsSupporting > 0 && (
                 <div className="flex items-center gap-2 text-sm">
-                  <Users className="h-4 w-4 text-muted-foreground" />
+                  <Award className="h-4 w-4 text-blue-500" />
                   <span>Supporting for {yearsSupporting} {yearsSupporting === 1 ? 'year' : 'years'}</span>
                 </div>
               )}
@@ -165,14 +182,14 @@ export default function PublicMobileProfileLayout({
           </CardContent>
         </Card>
 
-        {/* Achievements */}
-        {totalPledged > 0 && (
+        {/* Achievements - Without dollar amounts */}
+        {pledgesCount > 0 && (
           <AchievementsShowcase 
             donorData={{
               donor_tier: profile?.donor_tier,
               source_platform: profile?.source_platform,
               source_campaign: profile?.source_campaign,
-              total_donated: totalPledged,
+              total_donated: 0, // Hide dollar amounts
               total_contributions: pledgesCount,
               campaigns_supported: campaignsCount,
               years_supporting: yearsSupporting,
@@ -182,31 +199,36 @@ export default function PublicMobileProfileLayout({
               email_lists: profile?.email_lists,
               recruits_confirmed: 0,
               profile_completeness_score: (profile?.bio && profile?.display_name) ? 100 : 50,
-              activity_score: totalPledged * 2 + (yearsSupporting * 50),
+              activity_score: totalXP, // Use XP instead of donation amount
               source_amount: profile?.source_amount
             }}
           />
         )}
 
-        {/* Recent Activity */}
+        {/* Recent Activity - Without dollar amounts */}
         {pledges && pledges.length > 0 && (
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
-                <Star className="h-4 w-4 text-axanar-teal" />
-                <h3 className="font-semibold">Recent Contributions</h3>
+                <Star className="h-4 w-4 text-primary" />
+                <h3 className="font-semibold">Participation History</h3>
               </div>
               <div className="space-y-2">
-                {pledges.slice(0, 3).map((pledge) => (
+                {pledges.slice(0, 3).map((pledge, index) => (
                   <div key={pledge.id} className="flex items-center gap-3 text-sm">
-                    <Heart className="h-3 w-3 text-axanar-teal flex-shrink-0" />
+                    <Trophy className="h-3 w-3 text-green-500 flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <p className="truncate">
                         Backed "{pledge.campaigns?.name}"
                       </p>
-                      <p className="text-xs text-muted-foreground">
-                        ${Number(pledge.amount).toLocaleString()} • {new Date(pledge.created_at).toLocaleDateString()}
-                      </p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <Badge variant="outline" className="text-xs text-green-600">
+                          +100 XP
+                        </Badge>
+                        <span className="text-xs text-muted-foreground">
+                          {new Date(pledge.created_at).toLocaleDateString()}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -220,15 +242,24 @@ export default function PublicMobileProfileLayout({
           </Card>
         )}
 
-        {/* No Activity State */}
+        {/* No Activity State - Gamified */}
         {(!pledges || pledges.length === 0) && (
           <Card>
             <CardContent className="p-4 text-center">
-              <Users className="h-8 w-8 text-muted-foreground/50 mx-auto mb-2" />
-              <h3 className="font-medium mb-1">No Contributions Yet</h3>
-              <p className="text-sm text-muted-foreground">
+              <Target className="h-8 w-8 text-muted-foreground/50 mx-auto mb-2" />
+              <h3 className="font-medium mb-1">Ready to Get Started</h3>
+              <p className="text-sm text-muted-foreground mb-3">
                 {displayName} is part of the Axanar community!
               </p>
+              <div className="flex justify-center gap-2">
+                <Badge variant="outline" className="text-xs">
+                  Newcomer Rank
+                </Badge>
+                <Badge variant="outline" className="text-xs text-blue-600">
+                  <Zap className="h-3 w-3 mr-1" />
+                  0 XP
+                </Badge>
+              </div>
             </CardContent>
           </Card>
         )}

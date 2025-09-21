@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { User, Link2, Copy, Share2 } from "lucide-react";
+import { User, Link2, Copy, Share2, Trophy, Zap, Target, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import StarField from "@/components/StarField";
 import MouseTracker from "@/components/auth/MouseTracker";
@@ -34,6 +34,23 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
   totalPledged,
 }) => {
   const displayName = profile?.display_name || profile?.full_name || profile?.username || 'Anonymous User';
+  
+  // Calculate gamification metrics
+  const baseXP = pledgesCount * 100; // 100 XP per contribution
+  const yearsSupporting = new Date().getFullYear() - new Date(memberSince).getFullYear();
+  const yearlyXP = Math.max(0, yearsSupporting) * 250; // 250 XP per year
+  const totalXP = baseXP + yearlyXP;
+  
+  // Determine rank based on XP and participation
+  const getRank = (xp: number, contributions: number) => {
+    if (contributions >= 10 && xp >= 1500) return { name: "Legend", color: "text-purple-400" };
+    if (contributions >= 5 && xp >= 1000) return { name: "Champion", color: "text-yellow-400" };
+    if (contributions >= 3 && xp >= 600) return { name: "Veteran", color: "text-blue-400" };
+    if (contributions >= 1 && xp >= 100) return { name: "Supporter", color: "text-green-400" };
+    return { name: "Newcomer", color: "text-gray-400" };
+  };
+  
+  const rank = getRank(totalXP, pledgesCount);
   
   const handleCopyProfile = () => {
     const currentURL = window.location.href;
@@ -144,15 +161,19 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
             <div className="flex space-x-6 mt-4">
               <div>
                 <p className="text-lg font-bold">{pledgesCount}</p>
-                <p className="text-xs text-axanar-silver/60">Projects Backed</p>
+                <p className="text-xs text-axanar-silver/60">Contributions</p>
               </div>
               <div>
-                <p className="text-lg font-bold">{campaignsCount}</p>
-                <p className="text-xs text-axanar-silver/60">Campaigns Created</p>
+                <p className={`text-lg font-bold ${rank.color}`}>{rank.name}</p>
+                <p className="text-xs text-axanar-silver/60">Rank</p>
               </div>
               <div>
-                <p className="text-lg font-bold">${totalPledged.toLocaleString()}</p>
-                <p className="text-xs text-axanar-silver/60">Total Pledged</p>
+                <p className="text-lg font-bold text-axanar-teal">{totalXP.toLocaleString()}</p>
+                <p className="text-xs text-axanar-silver/60">Experience XP</p>
+              </div>
+              <div>
+                <p className="text-lg font-bold">{Math.max(0, yearsSupporting)}</p>
+                <p className="text-xs text-axanar-silver/60">Years Supporting</p>
               </div>
             </div>
           </div>
@@ -160,8 +181,8 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
           {/* Rank Pip System and Actions */}
           <div className="md:ml-auto flex flex-col md:flex-row gap-4">
             <RankPips 
-              totalDonated={totalPledged}
-              xp={totalPledged * 10}
+              totalDonated={0} // Hide donation amounts
+              xp={totalXP}
               profileCompletion={profile?.bio && profile?.display_name ? 100 : 50}
               isAdmin={false}
               className="md:w-64"

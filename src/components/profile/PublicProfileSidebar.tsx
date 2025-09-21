@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CalendarDays, TrendingUp, Users, ExternalLink } from "lucide-react";
+import { CalendarDays, Trophy, Users, ExternalLink, Zap, Target, Award } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface PublicProfileSidebarProps {
@@ -20,53 +20,69 @@ const PublicProfileSidebar: React.FC<PublicProfileSidebarProps> = ({
 }) => {
   const displayName = profile?.display_name || profile?.full_name || profile?.username || 'This user';
   
-  // Calculate supporter level
-  const getSupporterLevel = (amount: number) => {
-    if (amount >= 1000) return { level: "Champion", color: "bg-purple-500", tier: "Legendary" };
-    if (amount >= 500) return { level: "Major Supporter", color: "bg-blue-500", tier: "Elite" };
-    if (amount >= 100) return { level: "Committed Backer", color: "bg-green-500", tier: "Veteran" };
-    if (amount >= 25) return { level: "First Supporter", color: "bg-yellow-500", tier: "Active" };
-    return { level: "Community Member", color: "bg-gray-500", tier: "New" };
+  // Calculate gamification metrics
+  const yearsSupporting = Math.max(0, new Date().getFullYear() - new Date(memberSince).getFullYear());
+  const baseXP = pledgesCount * 100; // 100 XP per contribution
+  const yearlyXP = yearsSupporting * 250; // 250 XP per year
+  const totalXP = baseXP + yearlyXP;
+  
+  // Determine rank based on XP and participation (not dollar amounts)
+  const getRank = (xp: number, contributions: number) => {
+    if (contributions >= 10 && xp >= 1500) return { name: "Legend", color: "bg-purple-500", tier: "Legendary" };
+    if (contributions >= 5 && xp >= 1000) return { name: "Champion", color: "bg-yellow-500", tier: "Elite" };
+    if (contributions >= 3 && xp >= 600) return { name: "Veteran", color: "bg-blue-500", tier: "Veteran" };
+    if (contributions >= 1 && xp >= 100) return { name: "Supporter", color: "bg-green-500", tier: "Active" };
+    return { name: "Newcomer", color: "bg-gray-500", tier: "New" };
   };
 
-  const supporterInfo = getSupporterLevel(totalPledged);
+  const rankInfo = getRank(totalXP, pledgesCount);
 
   return (
     <div className="space-y-6">
-      {/* Supporter Status */}
+      {/* Supporter Status - Gamified */}
       <Card>
         <CardContent className="p-6">
           <div className="flex items-center gap-2 mb-4">
-            <div className={`h-3 w-3 rounded-full ${supporterInfo.color}`} />
-            <h3 className="font-semibold">Supporter Status</h3>
+            <Trophy className={`h-4 w-4 text-purple-500`} />
+            <h3 className="font-semibold">Supporter Profile</h3>
           </div>
           
-          <div className="space-y-3">
-            <div>
-              <Badge variant="secondary" className="mb-2">
-                {supporterInfo.level}
+          <div className="space-y-4">
+            {/* Rank & Experience */}
+            <div className="text-center p-3 bg-muted/30 rounded-lg">
+              <Trophy className={`h-6 w-6 mx-auto mb-2 ${rankInfo.color.replace('bg-', 'text-')}`} />
+              <Badge variant="secondary" className="mb-1">
+                {rankInfo.name}
               </Badge>
-              <p className="text-sm text-muted-foreground">
-                {supporterInfo.tier} tier supporter
+              <p className="text-xs text-muted-foreground">
+                {rankInfo.tier} tier supporter
               </p>
+              <div className="flex items-center justify-center gap-1 mt-2">
+                <Zap className="h-3 w-3 text-primary" />
+                <span className="text-sm font-medium">{totalXP.toLocaleString()} XP</span>
+              </div>
             </div>
             
+            {/* Member Info */}
             <div className="flex items-center gap-2 text-sm">
               <CalendarDays className="h-4 w-4 text-muted-foreground" />
-              <span>Joined {memberSince}</span>
+              <span>Member since {memberSince}</span>
             </div>
             
-            {totalPledged > 0 && (
-              <div className="flex items-center gap-2 text-sm">
-                <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                <span>${totalPledged.toLocaleString()} contributed</span>
-              </div>
-            )}
-            
+            {/* Participation Stats */}
             {pledgesCount > 0 && (
-              <div className="flex items-center gap-2 text-sm">
-                <Users className="h-4 w-4 text-muted-foreground" />
-                <span>{pledgesCount} {pledgesCount === 1 ? 'project' : 'projects'} backed</span>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm">
+                  <Target className="h-4 w-4 text-green-500" />
+                  <span>{pledgesCount} contributions made</span>
+                </div>
+                
+                {yearsSupporting > 0 && (
+                  <div className="flex items-center gap-2 text-sm">
+                    <Award className="h-4 w-4 text-blue-500" />
+                    <span>{yearsSupporting} years supporting</span>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -131,26 +147,33 @@ const PublicProfileSidebar: React.FC<PublicProfileSidebarProps> = ({
         </CardContent>
       </Card>
 
-      {/* Achievement Summary */}
-      {totalPledged > 0 && (
+      {/* Achievement Summary - Without dollar amounts */}
+      {pledgesCount > 0 && (
         <Card>
           <CardContent className="p-6">
             <h3 className="font-semibold mb-4">Community Impact</h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Contribution Rank</span>
-                <span className="font-medium">{supporterInfo.tier}</span>
+                <span className="text-muted-foreground">Rank</span>
+                <span className="font-medium">{rankInfo.name}</span>
               </div>
               
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Projects Supported</span>
+                <span className="text-muted-foreground">Experience Points</span>
+                <span className="font-medium text-primary">{totalXP.toLocaleString()} XP</span>
+              </div>
+              
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Contributions</span>
                 <span className="font-medium">{pledgesCount}</span>
               </div>
               
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Total Impact</span>
-                <span className="font-medium text-axanar-teal">${totalPledged.toLocaleString()}</span>
-              </div>
+              {yearsSupporting > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Years Supporting</span>
+                  <span className="font-medium text-green-600">{yearsSupporting}</span>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
