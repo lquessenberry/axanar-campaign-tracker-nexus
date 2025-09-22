@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Heart, BarChart3, Users2, Trophy, Star, Gift } from "lucide-react";
 import { useUserAchievements, useCalculateAchievements, useUserRecruitment } from "@/hooks/useUserAchievements";
 import AchievementBadge from "./AchievementBadge";
+import ForumBadgesPanel from "./ForumBadgesPanel";
 import AchievementsShowcase from "./AchievementsShowcase";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -191,6 +192,9 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
                   className="bg-gradient-to-r from-axanar-teal to-blue-400 h-3 rounded-full transition-all duration-500 ease-out"
                   style={{ width: `${Math.min(totalXP / 500 * 100, 100)}%` }}
                 />
+
+      {/* Forum Badges */}
+      <ForumBadgesPanel />
               </div>
               <p className="text-sm text-muted-foreground mt-2">
                 {totalXP >= 500 ? '🏆 Maximum level reached!' : `Next milestone: 500 XP - Legend Status`}

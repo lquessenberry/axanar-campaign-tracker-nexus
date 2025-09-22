@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { CalendarDays, Trophy, Users, ExternalLink, Zap, Target, Award } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useUnifiedRank } from "@/hooks/useUnifiedRank";
+import { useForumBadges } from "@/hooks/useForumBadges";
 
 interface PublicProfileSidebarProps {
   profile: any;
@@ -21,6 +22,7 @@ const PublicProfileSidebar: React.FC<PublicProfileSidebarProps> = ({
 }) => {
   const displayName = profile?.display_name || profile?.full_name || profile?.username || 'This user';
   const { data: unifiedRank } = useUnifiedRank(profile?.id, 0); // Pass 0 to hide dollar amounts
+  const { data: forumBadges = [], isError: badgesError, isLoading: badgesLoading } = useForumBadges(profile?.id);
   
   // Calculate gamification metrics
   const yearsSupporting = Math.max(0, new Date().getFullYear() - new Date(memberSince).getFullYear());
@@ -89,6 +91,39 @@ const PublicProfileSidebar: React.FC<PublicProfileSidebarProps> = ({
               </div>
             )}
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Forum Badges (privacy-aware) */}
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <Award className="h-4 w-4 text-axanar-teal" />
+            <h3 className="font-semibold">Forum Badges</h3>
+          </div>
+          {badgesLoading && (
+            <p className="text-sm text-muted-foreground">Loading badges…</p>
+          )}
+          {!badgesLoading && badgesError && (
+            <p className="text-sm text-muted-foreground">Badges are private or unavailable.</p>
+          )}
+          {!badgesLoading && !badgesError && forumBadges.length === 0 && (
+            <p className="text-sm text-muted-foreground">No public badges to display.</p>
+          )}
+          {!badgesLoading && !badgesError && forumBadges.length > 0 && (
+            <div className="grid grid-cols-2 gap-2">
+              {forumBadges.slice(0, 6).map((b) => (
+                <div key={`${b.user_id}-${b.badge_id}`} className="flex items-center gap-2 p-2 rounded-md bg-background/50 border border-border/50">
+                  <div className="h-6 w-6 rounded-full bg-axanar-teal/15 text-axanar-teal flex items-center justify-center">
+                    <Award className="h-4 w-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-xs font-medium truncate">{b.badge?.label || 'Badge'}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </CardContent>
       </Card>
 

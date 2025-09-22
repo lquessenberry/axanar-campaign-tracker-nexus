@@ -38,6 +38,7 @@ export function UnifiedBottomNav({ profile }: UnifiedBottomNavProps) {
   const primaryNavItems = [
     { label: 'Dashboard', to: '/dashboard', icon: Home },
     { label: 'Messages', to: '/messages', icon: MessageCircle },
+    { label: 'Forum', to: '/forum', icon: MessageCircle },
     { label: 'Profile', to: '/profile', icon: User },
   ];
 

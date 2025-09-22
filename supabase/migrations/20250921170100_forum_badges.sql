@@ -45,26 +45,30 @@ alter table public.forum_badges enable row level security;
 alter table public.forum_user_badges enable row level security;
 
 -- Public read of badge catalog
-create policy if not exists forum_badges_public_select
+drop policy if exists forum_badges_public_select on public.forum_badges;
+create policy forum_badges_public_select
 on public.forum_badges
 for select
 using (true);
 
 -- Service role manages catalog writes
-create policy if not exists forum_badges_service_write
+drop policy if exists forum_badges_service_write on public.forum_badges;
+create policy forum_badges_service_write
 on public.forum_badges
 for all
 using (auth.role() = 'service_role')
 with check (auth.role() = 'service_role');
 
 -- Owners can read their own earned badges
-create policy if not exists forum_user_badges_owner_select
+drop policy if exists forum_user_badges_owner_select on public.forum_user_badges;
+create policy forum_user_badges_owner_select
 on public.forum_user_badges
 for select
 using (auth.uid() = user_id);
 
 -- Service role manages awards
-create policy if not exists forum_user_badges_service_write
+drop policy if exists forum_user_badges_service_write on public.forum_user_badges;
+create policy forum_user_badges_service_write
 on public.forum_user_badges
 for all
 using (auth.role() = 'service_role')
@@ -85,13 +89,15 @@ create table if not exists public.forum_ranks (
 alter table public.forum_ranks enable row level security;
 
 -- Public read of ranks
-create policy if not exists forum_ranks_public_select
+drop policy if exists forum_ranks_public_select on public.forum_ranks;
+create policy forum_ranks_public_select
 on public.forum_ranks
 for select
 using (true);
 
 -- Service role manages rank catalog
-create policy if not exists forum_ranks_service_write
+drop policy if exists forum_ranks_service_write on public.forum_ranks;
+create policy forum_ranks_service_write
 on public.forum_ranks
 for all
 using (auth.role() = 'service_role')
@@ -108,13 +114,15 @@ create table if not exists public.forum_user_ranks (
 alter table public.forum_user_ranks enable row level security;
 
 -- Public can read ranks so profiles can display them
-create policy if not exists forum_user_ranks_public_select
+drop policy if exists forum_user_ranks_public_select on public.forum_user_ranks;
+create policy forum_user_ranks_public_select
 on public.forum_user_ranks
 for select
 using (true);
 
 -- Service role manages writes
-create policy if not exists forum_user_ranks_service_write
+drop policy if exists forum_user_ranks_service_write on public.forum_user_ranks;
+create policy forum_user_ranks_service_write
 on public.forum_user_ranks
 for all
 using (auth.role() = 'service_role')
