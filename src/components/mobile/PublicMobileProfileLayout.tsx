@@ -2,10 +2,11 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { User, CalendarDays, Trophy, Users, Star, Target, Share2, ExternalLink, Zap, Award } from 'lucide-react';
+import { User, CalendarDays, Trophy, Users, Star, Target, Share2, ExternalLink, Zap, Award, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import AchievementsShowcase from '@/components/profile/AchievementsShowcase';
+import { useUnifiedRank } from '@/hooks/useUnifiedRank';
 
 interface PublicMobileProfileLayoutProps {
   profile: any;
@@ -22,28 +23,16 @@ export default function PublicMobileProfileLayout({
   memberSince,
   totalPledged,
 }: PublicMobileProfileLayoutProps) {
-  const displayName = profile?.display_name || profile?.full_name || profile?.username || 'Anonymous User';
+  const displayName = profile?.display_name || profile?.full_name || profile?.username || 'Anonymous Officer';
   const pledgesCount = pledges?.length || 0;
   const campaignsCount = campaigns?.length || 0;
   
-  const yearsSupporting = pledges?.length ? 
-    Math.max(1, new Date().getFullYear() - new Date(pledges[pledges.length - 1].created_at).getFullYear()) : 0;
+  const yearsSupporting = pledges?.length && pledges[pledges.length - 1]?.created_at
+    ? Math.max(1, new Date().getFullYear() - new Date(pledges[pledges.length - 1].created_at).getFullYear())
+    : 0;
 
-  // Calculate gamification metrics
-  const baseXP = pledgesCount * 100; // 100 XP per contribution
-  const yearlyXP = yearsSupporting * 250; // 250 XP per year
-  const totalXP = baseXP + yearlyXP;
-  
-  // Determine rank based on XP and participation (not dollar amounts)
-  const getRank = (xp: number, contributions: number) => {
-    if (contributions >= 10 && xp >= 1500) return { name: "Legend", color: "bg-purple-500", tier: "Legendary" };
-    if (contributions >= 5 && xp >= 1000) return { name: "Champion", color: "bg-yellow-500", tier: "Elite" };
-    if (contributions >= 3 && xp >= 600) return { name: "Veteran", color: "bg-blue-500", tier: "Veteran" };
-    if (contributions >= 1 && xp >= 100) return { name: "Supporter", color: "bg-green-500", tier: "Active" };
-    return { name: "Newcomer", color: "bg-gray-500", tier: "New" };
-  };
-
-  const rankInfo = getRank(totalXP, pledgesCount);
+  // Use unified rank system
+  const { data: unifiedRank } = useUnifiedRank(profile?.id, pledgesCount);
 
   const handleShare = async () => {
     const shareData = {
@@ -88,25 +77,29 @@ export default function PublicMobileProfileLayout({
               <p className="text-axanar-silver/80 text-sm">@{profile.username}</p>
             )}
             <div className="flex items-center gap-1 mt-1">
-              <div className={`h-2 w-2 rounded-full ${rankInfo.color}`} />
-              <span className="text-xs text-axanar-silver/80">{rankInfo.tier} • {rankInfo.name}</span>
+              <div className={`h-2 w-2 rounded-full ${unifiedRank?.isAdmin ? 'bg-yellow-500' : 'bg-primary'}`} />
+              <span className="text-xs text-axanar-silver/80">
+                {unifiedRank?.isAdmin ? 'Fleet Command' : 'Federation'} • {unifiedRank?.name || 'Newcomer'}
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Stats Row - Gamified */}
+        {/* Stats Row - Federation Service Record */}
         <div className="grid grid-cols-3 gap-4 text-center">
           <div>
             <p className="text-lg font-bold">{pledgesCount}</p>
-            <p className="text-xs text-axanar-silver/60">Contributions</p>
+            <p className="text-xs text-axanar-silver/60">Missions</p>
           </div>
           <div>
-            <p className={`text-lg font-bold ${rankInfo.color.replace('bg-', 'text-')}`}>{rankInfo.name}</p>
+            <p className={`text-lg font-bold ${unifiedRank?.isAdmin ? 'text-yellow-400' : 'text-axanar-teal'}`}>
+              {unifiedRank?.name || 'Newcomer'}
+            </p>
             <p className="text-xs text-axanar-silver/60">Rank</p>
           </div>
           <div>
-            <p className="text-lg font-bold text-axanar-teal">{totalXP.toLocaleString()}</p>
-            <p className="text-xs text-axanar-silver/60">Experience XP</p>
+            <p className="text-lg font-bold text-blue-400">{(unifiedRank?.xp || 0).toLocaleString()}</p>
+            <p className="text-xs text-axanar-silver/60">Experience</p>
           </div>
         </div>
         
@@ -126,72 +119,76 @@ export default function PublicMobileProfileLayout({
         {/* About Section */}
         <Card>
           <CardContent className="p-4">
-            <h3 className="font-semibold mb-2">About {displayName}</h3>
+            <h3 className="font-semibold mb-2">Officer Profile</h3>
             <p className="text-sm text-muted-foreground">
-              {profile?.bio || `${displayName} hasn't added a bio yet.`}
+              {profile?.bio || `${displayName} has not yet filed their service record.`}
             </p>
             <div className="flex items-center gap-2 mt-3 text-xs text-muted-foreground">
               <CalendarDays className="h-3 w-3" />
-              <span>Member since {memberSince}</span>
+              <span>Enlisted {memberSince}</span>
             </div>
           </CardContent>
         </Card>
 
-        {/* Supporter Status - Gamified */}
+        {/* Federation Service Record */}
         <Card>
           <CardContent className="p-4">
             <h3 className="font-semibold mb-3 flex items-center gap-2">
-              <Trophy className={`h-4 w-4 ${rankInfo.color.replace('bg-', 'text-')}`} />
-              Supporter Dashboard
+              <Shield className={`h-4 w-4 ${unifiedRank?.isAdmin ? 'text-yellow-500' : 'text-primary'}`} />
+              Service Record
             </h3>
             <div className="space-y-3">
-              {/* Rank & XP Display */}
-              <div className="flex items-center gap-3">
-                <div className={`h-3 w-3 rounded-full ${rankInfo.color}`} />
+              {/* Rank & Pips Display */}
+              <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-primary/5 to-primary/10 rounded-lg border">
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: unifiedRank?.pips || 1 }).map((_, i) => (
+                    <div key={i} className={`w-1.5 h-3 rounded-sm ${unifiedRank?.pipColor || 'bg-gray-400'}`} />
+                  ))}
+                </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
                     <Badge variant="secondary" className="text-xs">
-                      {rankInfo.name}
+                      {unifiedRank?.name || 'Newcomer'}
                     </Badge>
                     <Badge variant="outline" className="text-xs">
                       <Zap className="h-3 w-3 mr-1" />
-                      {totalXP.toLocaleString()} XP
+                      {(unifiedRank?.xp || 0).toLocaleString()} XP
                     </Badge>
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">
-                    {rankInfo.tier} tier supporter
+                    {unifiedRank?.isAdmin ? 'Fleet Command Officer' : 'Federation Officer'}
                   </p>
                 </div>
               </div>
               
-              {/* Participation Stats */}
+              {/* Mission Stats */}
               {pledgesCount > 0 && (
                 <div className="flex items-center gap-2 text-sm">
                   <Target className="h-4 w-4 text-green-500" />
-                  <span>{pledgesCount} contributions made</span>
+                  <span>{pledgesCount} missions completed</span>
                 </div>
               )}
               
               {yearsSupporting > 0 && (
                 <div className="flex items-center gap-2 text-sm">
                   <Award className="h-4 w-4 text-blue-500" />
-                  <span>Supporting for {yearsSupporting} {yearsSupporting === 1 ? 'year' : 'years'}</span>
+                  <span>{yearsSupporting} {yearsSupporting === 1 ? 'year' : 'years'} of service</span>
                 </div>
               )}
             </div>
           </CardContent>
         </Card>
 
-        {/* Achievements - Without dollar amounts */}
+        {/* Mission History - Showcase without dollar amounts */}
         {pledgesCount > 0 && (
           <AchievementsShowcase 
             donorData={{
               donor_tier: profile?.donor_tier,
               source_platform: profile?.source_platform,
               source_campaign: profile?.source_campaign,
-              total_donated: 0, // Hide dollar amounts
+              total_donated: 0, // Hide dollar amounts for privacy
               total_contributions: pledgesCount,
-              campaigns_supported: campaignsCount,
+              campaigns_supported: [...new Set(pledges?.map(p => p.campaigns?.name))].length || 0,
               years_supporting: yearsSupporting,
               first_contribution_date: pledges?.[pledges.length - 1]?.created_at,
               source_reward_title: profile?.source_reward_title,
@@ -199,33 +196,35 @@ export default function PublicMobileProfileLayout({
               email_lists: profile?.email_lists,
               recruits_confirmed: 0,
               profile_completeness_score: (profile?.bio && profile?.display_name) ? 100 : 50,
-              activity_score: totalXP, // Use XP instead of donation amount
+              activity_score: unifiedRank?.xp || 0,
               source_amount: profile?.source_amount
             }}
           />
         )}
 
-        {/* Recent Activity - Without dollar amounts */}
+        {/* Mission Log */}
         {pledges && pledges.length > 0 && (
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
-                <Star className="h-4 w-4 text-primary" />
-                <h3 className="font-semibold">Participation History</h3>
+                <Star className="h-4 w-4 text-blue-600" />
+                <h3 className="font-semibold">Mission Log</h3>
               </div>
               <div className="space-y-2">
                 {pledges.slice(0, 3).map((pledge, index) => (
-                  <div key={pledge.id} className="flex items-center gap-3 text-sm">
-                    <Trophy className="h-3 w-3 text-green-500 flex-shrink-0" />
+                  <div key={pledge.id} className="flex items-center gap-3 p-2 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-100">
+                    <div className="w-4 h-4 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                      <Star className="h-2 w-2 text-blue-600" />
+                    </div>
                     <div className="flex-1 min-w-0">
-                      <p className="truncate">
-                        Backed "{pledge.campaigns?.name}"
+                      <p className="truncate text-sm font-medium text-blue-800">
+                        Mission: {pledge.campaigns?.name || 'Classified'}
                       </p>
                       <div className="flex items-center gap-2 mt-1">
-                        <Badge variant="outline" className="text-xs text-green-600">
+                        <Badge variant="outline" className="text-xs text-green-700 border-green-300 bg-green-50">
                           +100 XP
                         </Badge>
-                        <span className="text-xs text-muted-foreground">
+                        <span className="text-xs text-blue-600">
                           {new Date(pledge.created_at).toLocaleDateString()}
                         </span>
                       </div>
@@ -234,7 +233,7 @@ export default function PublicMobileProfileLayout({
                 ))}
                 {pledges.length > 3 && (
                   <p className="text-xs text-muted-foreground text-center pt-2">
-                    +{pledges.length - 3} more contributions
+                    +{pledges.length - 3} additional mission records
                   </p>
                 )}
               </div>
@@ -242,20 +241,20 @@ export default function PublicMobileProfileLayout({
           </Card>
         )}
 
-        {/* No Activity State - Gamified */}
+        {/* Awaiting Assignment - Federation Style */}
         {(!pledges || pledges.length === 0) && (
           <Card>
             <CardContent className="p-4 text-center">
-              <Target className="h-8 w-8 text-muted-foreground/50 mx-auto mb-2" />
-              <h3 className="font-medium mb-1">Ready to Get Started</h3>
+              <Shield className="h-8 w-8 text-blue-500 opacity-70 mx-auto mb-2" />
+              <h3 className="font-medium mb-1">Awaiting Mission Assignment</h3>
               <p className="text-sm text-muted-foreground mb-3">
-                {displayName} is part of the Axanar community!
+                {displayName} has been inducted into the Federation!
               </p>
               <div className="flex justify-center gap-2">
-                <Badge variant="outline" className="text-xs">
-                  Newcomer Rank
+                <Badge variant="outline" className="text-xs border-blue-300 bg-blue-50 text-blue-700">
+                  Ready for Duty
                 </Badge>
-                <Badge variant="outline" className="text-xs text-blue-600">
+                <Badge variant="outline" className="text-xs border-gray-300 bg-gray-50 text-gray-700">
                   <Zap className="h-3 w-3 mr-1" />
                   0 XP
                 </Badge>

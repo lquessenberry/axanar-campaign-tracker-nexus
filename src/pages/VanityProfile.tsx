@@ -4,11 +4,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Loader2, User, Calendar, Heart, Star, Trophy, Award, Target, ArrowLeft, Zap } from 'lucide-react';
+import { Loader2, User, Calendar, Heart, Star, Trophy, Award, Target, ArrowLeft, Zap, Shield } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import AchievementsShowcase from '@/components/profile/AchievementsShowcase';
 import { useVanityProfile, usePublicProfile } from '@/hooks/useVanityProfile';
+import { useUnifiedRank } from '@/hooks/useUnifiedRank';
 
 const VanityProfile = () => {
   const { username } = useParams<{ username: string }>();
@@ -132,24 +133,19 @@ const VanityProfile = () => {
 
   const { profile, pledges } = publicProfile;
   const contributionCount = pledges?.length || 0;
-  const yearsSupporting = pledges?.length ? 
-    Math.max(1, new Date().getFullYear() - new Date(pledges[pledges.length - 1].created_at).getFullYear()) : 0;
+  const memberSince = pledges?.length && pledges[pledges.length - 1]?.created_at 
+    ? new Date(pledges[pledges.length - 1].created_at).getFullYear().toString()
+    : 'Recently';
   
-  // Calculate gamification metrics
-  const baseXP = contributionCount * 100; // 100 XP per contribution
-  const yearlyXP = yearsSupporting * 250; // 250 XP per year
-  const totalXP = baseXP + yearlyXP;
+  const yearsSupporting = pledges?.length && pledges[pledges.length - 1]?.created_at
+    ? Math.max(1, new Date().getFullYear() - new Date(pledges[pledges.length - 1].created_at).getFullYear())
+    : 0;
   
-  // Determine rank based on XP and participation
-  const getRank = (xp: number, contributions: number) => {
-    if (contributions >= 10 && xp >= 1500) return { name: "Legend", color: "text-purple-500" };
-    if (contributions >= 5 && xp >= 1000) return { name: "Champion", color: "text-gold-500" };
-    if (contributions >= 3 && xp >= 600) return { name: "Veteran", color: "text-blue-500" };
-    if (contributions >= 1 && xp >= 100) return { name: "Supporter", color: "text-green-500" };
-    return { name: "Newcomer", color: "text-gray-500" };
-  };
+  // Calculate total pledged amount from profile data (hidden from display)
+  const totalPledged = pledges?.reduce((sum, pledge) => sum + (pledge.amount || 0), 0) || 0;
   
-  const rank = getRank(totalXP, contributionCount);
+  // Use unified rank system
+  const { data: unifiedRank } = useUnifiedRank(profile?.id, contributionCount);
 
   const displayName = vanityData.display_name || `@${username}`;
   const initials = displayName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
@@ -184,19 +180,21 @@ const VanityProfile = () => {
                 
                 <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-muted-foreground">
                   <div className="flex items-center gap-1">
-                    <Trophy className={`h-4 w-4 ${rank.color}`} />
-                    <span className={rank.color}>Rank: {rank.name}</span>
+                    <Shield className={`h-4 w-4 ${unifiedRank?.isAdmin ? 'text-yellow-500' : 'text-primary'}`} />
+                    <span className={unifiedRank?.isAdmin ? 'text-yellow-500' : 'text-primary'}>
+                      {unifiedRank?.name || 'Newcomer'}
+                    </span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Zap className="h-4 w-4 text-primary" />
-                    <span>{totalXP.toLocaleString()} XP</span>
+                    <Zap className="h-4 w-4 text-blue-500" />
+                    <span>{(unifiedRank?.xp || 0).toLocaleString()} XP</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Calendar className="h-4 w-4 text-primary" />
-                    <span>{yearsSupporting} years supporting</span>
+                    <Calendar className="h-4 w-4 text-green-500" />
+                    <span>Member since {memberSince}</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Star className="h-4 w-4 text-primary" />
+                    <Star className="h-4 w-4 text-purple-500" />
                     <span>{contributionCount} contributions</span>
                   </div>
                 </div>
@@ -209,129 +207,139 @@ const VanityProfile = () => {
         <section className="py-8 px-6">
           <div className="container mx-auto max-w-4xl space-y-6">
             
-            {/* Gamification Dashboard */}
+            {/* Federation Service Record */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Trophy className={`h-5 w-5 ${rank.color}`} />
-                  Supporter Profile
+                  <Shield className={`h-5 w-5 ${unifiedRank?.isAdmin ? 'text-yellow-500' : 'text-primary'}`} />
+                  Federation Service Record
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {/* Rank & Level */}
-                  <div className="text-center p-4 bg-muted/30 rounded-lg">
-                    <Trophy className={`h-8 w-8 mx-auto mb-2 ${rank.color}`} />
-                    <h3 className="font-bold">Rank</h3>
-                    <p className={`text-lg font-bold ${rank.color}`}>{rank.name}</p>
+                  {/* Rank & Pips */}
+                  <div className="text-center p-4 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg border">
+                    <div className="flex justify-center items-center gap-1 mb-2">
+                      {Array.from({ length: unifiedRank?.pips || 1 }).map((_, i) => (
+                        <div key={i} className={`w-2 h-4 rounded-sm ${unifiedRank?.pipColor || 'bg-gray-400'}`} />
+                      ))}
+                    </div>
+                    <h3 className="font-bold text-sm">Rank</h3>
+                    <p className={`text-lg font-bold ${unifiedRank?.isAdmin ? 'text-yellow-500' : 'text-primary'}`}>
+                      {unifiedRank?.name || 'Newcomer'}
+                    </p>
                   </div>
                   
                   {/* Experience Points */}
-                  <div className="text-center p-4 bg-muted/30 rounded-lg">
-                    <Zap className="h-8 w-8 mx-auto mb-2 text-primary" />
-                    <h3 className="font-bold">Experience</h3>
-                    <p className="text-lg font-bold text-primary">{totalXP.toLocaleString()} XP</p>
+                  <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border">
+                    <Zap className="h-8 w-8 mx-auto mb-2 text-blue-600" />
+                    <h3 className="font-bold text-sm">Experience</h3>
+                    <p className="text-lg font-bold text-blue-600">
+                      {(unifiedRank?.xp || 0).toLocaleString()} XP
+                    </p>
                   </div>
                   
-                  {/* Participation Score */}
-                  <div className="text-center p-4 bg-muted/30 rounded-lg">
-                    <Target className="h-8 w-8 mx-auto mb-2 text-green-500" />
-                    <h3 className="font-bold">Participation</h3>
-                    <p className="text-lg font-bold text-green-500">
-                      {contributionCount > 0 ? 'Active' : 'Getting Started'}
+                  {/* Service Status */}
+                  <div className="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg border">
+                    <Target className="h-8 w-8 mx-auto mb-2 text-green-600" />
+                    <h3 className="font-bold text-sm">Status</h3>
+                    <p className="text-lg font-bold text-green-600">
+                      {contributionCount > 0 ? 'Active Duty' : 'Ready for Service'}
                     </p>
                   </div>
                 </div>
                 
-                {/* Achievements & Commendations */}
+                {/* Service Commendations */}
                 <div className="mt-6">
                   <h4 className="font-bold mb-3 flex items-center gap-2">
-                    <Award className="h-4 w-4" />
-                    Achievements & Commendations
+                    <Award className="h-4 w-4 text-yellow-600" />
+                    Service Commendations
                   </h4>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    {unifiedRank?.isAdmin && (
+                      <Badge variant="outline" className="p-2 text-center border-yellow-300 bg-yellow-50">
+                        <Shield className="h-4 w-4 mx-auto mb-1 text-yellow-600" />
+                        <span className="text-xs text-yellow-700">Fleet Command</span>
+                      </Badge>
+                    )}
                     {yearsSupporting >= 3 && (
-                      <Badge variant="outline" className="p-2 text-center">
-                        <Trophy className="h-4 w-4 mx-auto mb-1 text-gold-500" />
-                        <span className="text-xs">Veteran Supporter</span>
+                      <Badge variant="outline" className="p-2 text-center border-purple-300 bg-purple-50">
+                        <Trophy className="h-4 w-4 mx-auto mb-1 text-purple-600" />
+                        <span className="text-xs text-purple-700">Veteran Service</span>
                       </Badge>
                     )}
                     {contributionCount >= 5 && (
-                      <Badge variant="outline" className="p-2 text-center">
-                        <Star className="h-4 w-4 mx-auto mb-1 text-blue-500" />
-                        <span className="text-xs">Multi-Backer</span>
+                      <Badge variant="outline" className="p-2 text-center border-blue-300 bg-blue-50">
+                        <Star className="h-4 w-4 mx-auto mb-1 text-blue-600" />
+                        <span className="text-xs text-blue-700">Distinguished Service</span>
                       </Badge>
                     )}
                     {contributionCount >= 1 && (
-                      <Badge variant="outline" className="p-2 text-center">
-                        <Heart className="h-4 w-4 mx-auto mb-1 text-red-500" />
-                        <span className="text-xs">First Supporter</span>
-                      </Badge>
-                    )}
-                    {profile?.bio && (
-                      <Badge variant="outline" className="p-2 text-center">
-                        <User className="h-4 w-4 mx-auto mb-1 text-purple-500" />
-                        <span className="text-xs">Profile Complete</span>
+                      <Badge variant="outline" className="p-2 text-center border-green-300 bg-green-50">
+                        <Heart className="h-4 w-4 mx-auto mb-1 text-green-600" />
+                        <span className="text-xs text-green-700">Mission Support</span>
                       </Badge>
                     )}
                   </div>
                   
-                  {contributionCount === 0 && (
-                    <p className="text-muted-foreground text-sm mt-2">
-                      Earn achievements by participating in campaigns and completing your profile!
+                  {contributionCount === 0 && !unifiedRank?.isAdmin && (
+                    <p className="text-muted-foreground text-sm mt-3 text-center">
+                      📋 Awaiting first mission assignment. Participate to earn commendations.
                     </p>
                   )}
                 </div>
               </CardContent>
             </Card>
 
-            {/* Achievements Showcase - Without dollar amounts */}
+            {/* Mission History - Showcase without dollar amounts */}
             <AchievementsShowcase 
               donorData={{
                 donor_tier: (profile as any)?.donor_tier,
                 source_platform: (profile as any)?.source_platform,
                 source_campaign: (profile as any)?.source_campaign,
-                total_donated: 0, // Hide dollar amounts
+                total_donated: 0, // Hide dollar amounts for privacy
                 total_contributions: contributionCount,
-                campaigns_supported: 1, // TODO: Calculate unique campaigns
+                campaigns_supported: [...new Set(pledges?.map(p => p.campaigns?.name))].length || 0,
                 years_supporting: yearsSupporting,
                 first_contribution_date: pledges?.[pledges.length - 1]?.created_at,
                 source_reward_title: (profile as any)?.source_reward_title,
                 source_perk_name: (profile as any)?.source_perk_name,
                 email_lists: (profile as any)?.email_lists,
-                recruits_confirmed: 0, // TODO: Get recruitment data
+                recruits_confirmed: 0,
                 profile_completeness_score: (profile?.full_name && profile?.bio) ? 100 : 50,
-                activity_score: totalXP, // Use XP instead of donation amount
+                activity_score: unifiedRank?.xp || 0,
                 source_amount: (profile as any)?.source_amount
               }}
             />
 
-            {/* Participation History */}
+            {/* Mission Log */}
             {pledges && pledges.length > 0 && (
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Star className="h-5 w-5 text-primary" />
-                    Participation History
+                    <Star className="h-5 w-5 text-blue-600" />
+                    Mission Log
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
                     {pledges.slice(0, 5).map((pledge, index) => (
-                      <div key={pledge.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                      <div key={pledge.id} className="flex items-center justify-between p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-100">
                         <div className="flex items-center gap-3">
-                          <Trophy className="h-4 w-4 text-primary flex-shrink-0" />
+                          <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                            <Star className="h-4 w-4 text-blue-600" />
+                          </div>
                           <div>
-                            <p className="font-medium">
-                              Backed "{pledge.campaigns?.name || 'Campaign'}"
+                            <p className="font-medium text-blue-800">
+                              Mission: {pledge.campaigns?.name || 'Classified Operation'}
                             </p>
-                            <p className="text-sm text-muted-foreground">
-                              {new Date(pledge.created_at).toLocaleDateString()}
+                            <p className="text-sm text-blue-600">
+                              Stardate: {new Date(pledge.created_at).toLocaleDateString()}
                             </p>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Badge variant="outline" className="text-green-600">
+                          <Badge variant="outline" className="text-green-700 border-green-300 bg-green-50">
                             +100 XP
                           </Badge>
                         </div>
@@ -339,7 +347,7 @@ const VanityProfile = () => {
                     ))}
                     {pledges.length > 5 && (
                       <p className="text-center text-sm text-muted-foreground pt-2">
-                        +{pledges.length - 5} more contributions
+                        +{pledges.length - 5} additional mission records
                       </p>
                     )}
                   </div>
@@ -347,15 +355,23 @@ const VanityProfile = () => {
               </Card>
             )}
 
-            {/* Empty State */}
+            {/* Awaiting Assignment */}
             {(!pledges || pledges.length === 0) && (
               <Card>
                 <CardContent className="pt-6 text-center">
-                  <Heart className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
-                  <h3 className="text-lg font-medium mb-2">No Contributions Yet</h3>
-                  <p className="text-muted-foreground">
-                    {displayName} hasn't made any public contributions yet.
+                  <Shield className="h-12 w-12 mx-auto mb-4 text-blue-500 opacity-70" />
+                  <h3 className="text-lg font-medium mb-2">Awaiting Mission Assignment</h3>
+                  <p className="text-muted-foreground mb-4">
+                    {displayName} has been inducted into the Federation and is ready for their first mission.
                   </p>
+                  <div className="flex justify-center gap-2">
+                    <Badge variant="outline" className="border-blue-300 bg-blue-50 text-blue-700">
+                      Status: Ready for Duty
+                    </Badge>
+                    <Badge variant="outline" className="border-gray-300 bg-gray-50 text-gray-700">
+                      XP: 0
+                    </Badge>
+                  </div>
                 </CardContent>
               </Card>
             )}
