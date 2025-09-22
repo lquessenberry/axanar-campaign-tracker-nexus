@@ -11,9 +11,8 @@ import { useBackgroundUpload } from "@/hooks/useBackgroundUpload";
 import { useUpdateProfile } from "@/hooks/useUserProfile";
 import StarField from "@/components/StarField";
 import MouseTracker from "@/components/auth/MouseTracker";
-import RankPips from "./RankPips";
 import { toast } from "sonner";
-import { useForumRank } from "@/hooks/useForumRank";
+import { useUnifiedRank } from "@/hooks/useUnifiedRank";
 
 interface ProfileData {
   id: string;
@@ -66,7 +65,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   const { uploadAvatar, isUploading } = useAvatarUpload();
   const { uploadBackground, removeBackground, isUploading: isUploadingBackground } = useBackgroundUpload();
   const updateProfile = useUpdateProfile();
-  const { data: forumRank } = useForumRank();
+  const { data: unifiedRank } = useUnifiedRank(undefined, totalPledged);
 
   const handleAvatarClick = () => {
     fileInputRef.current?.click();
@@ -285,35 +284,50 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             </div>
           </div>
           
-            {/* Role and XP Display */}
+            {/* Unified Rank Display */}
             <div className="md:ml-auto flex flex-col md:flex-row gap-4 items-end">
-              <div className="text-center md:text-right">
-                <div className="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full text-sm font-bold border border-yellow-500/30">
-                  {(forumRank?.rank?.name || 'Cadet').toUpperCase()}
+              {unifiedRank && (
+                <div className={`rounded-lg border border-white/20 p-4 ${unifiedRank.bgColor} backdrop-blur-sm min-w-[280px]`}>
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <h3 className="text-lg font-bold text-white">{unifiedRank.name.toUpperCase()}</h3>
+                      {unifiedRank.isAdmin && (
+                        <div className="text-xs text-yellow-400 font-medium">COMMAND STAFF</div>
+                      )}
+                    </div>
+                    <div className="flex gap-1">
+                      {Array.from({ length: Math.max(unifiedRank.pips, 1) }).map((_, i) => (
+                        <div
+                          key={i}
+                          className={`w-2 h-6 rounded-sm ${
+                            i < unifiedRank.pips ? unifiedRank.pipColor : 'bg-white/20'
+                          } border border-white/30 shadow-sm`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm text-white/90">
+                      <span>XP: {unifiedRank.xp.toLocaleString()}</span>
+                      <span>Level {unifiedRank.level}</span>
+                    </div>
+                    {unifiedRank.maxXP > unifiedRank.minXP && !unifiedRank.isAdmin && (
+                      <>
+                        <div className="w-full bg-white/20 rounded-full h-2">
+                          <div 
+                            className={`h-2 rounded-full ${unifiedRank.pipColor} transition-all`}
+                            style={{ width: `${unifiedRank.progressToNext}%` }}
+                          />
+                        </div>
+                        <div className="text-xs text-white/70 text-center">
+                          Next Rank: {unifiedRank.maxXP.toLocaleString()} XP
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 mt-2 text-sm">
-                  <span className="text-axanar-teal font-bold">XP: {(totalPledged * 10).toLocaleString()}</span>
-                  <span className="text-muted-foreground">•</span>
-                  <span className="text-muted-foreground">Level 1</span>
-                </div>
-                <div className="w-32 bg-muted/50 mt-1 rounded-full h-1">
-                  <div 
-                    className="bg-axanar-teal h-1 rounded-full transition-all"
-                    style={{ width: `${Math.min(totalPledged / 1000 * 100, 100)}%` }}
-                  />
-                </div>
-                <div className="text-xs text-muted-foreground mt-1">
-                  Next: 1,000 XP
-                </div>
-              </div>
-
-              <RankPips 
-                totalDonated={totalPledged}
-                xp={totalPledged * 10}
-                profileCompletion={75}
-                isAdmin={false}
-                className="md:w-64"
-              />
+              )}
               
               {/* Vanity URL Card */}
               {profile?.username && (

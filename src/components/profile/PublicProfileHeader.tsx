@@ -4,8 +4,8 @@ import { User, Link2, Copy, Share2, Trophy, Zap, Target, Award } from "lucide-re
 import { Button } from "@/components/ui/button";
 import StarField from "@/components/StarField";
 import MouseTracker from "@/components/auth/MouseTracker";
-import RankPips from "./RankPips";
 import { toast } from "sonner";
+import { useUnifiedRank } from "@/hooks/useUnifiedRank";
 
 interface PublicProfileData {
   id: string;
@@ -34,6 +34,7 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
   totalPledged,
 }) => {
   const displayName = profile?.display_name || profile?.full_name || profile?.username || 'Anonymous User';
+  const { data: unifiedRank } = useUnifiedRank(profile?.id, 0); // Pass 0 for totalPledged to hide dollar amounts
   
   // Calculate gamification metrics
   const baseXP = pledgesCount * 100; // 100 XP per contribution
@@ -164,11 +165,13 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
                 <p className="text-xs text-axanar-silver/60">Contributions</p>
               </div>
               <div>
-                <p className={`text-lg font-bold ${rank.color}`}>{rank.name}</p>
+                <p className={`text-lg font-bold ${unifiedRank?.isAdmin ? 'text-yellow-400' : rank.color}`}>
+                  {unifiedRank?.name || rank.name}
+                </p>
                 <p className="text-xs text-axanar-silver/60">Rank</p>
               </div>
               <div>
-                <p className="text-lg font-bold text-axanar-teal">{totalXP.toLocaleString()}</p>
+                <p className="text-lg font-bold text-axanar-teal">{unifiedRank?.xp?.toLocaleString() || totalXP.toLocaleString()}</p>
                 <p className="text-xs text-axanar-silver/60">Experience XP</p>
               </div>
               <div>
@@ -178,15 +181,50 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
             </div>
           </div>
           
-          {/* Rank Pip System and Actions */}
+          {/* Unified Rank Display */}
           <div className="md:ml-auto flex flex-col md:flex-row gap-4">
-            <RankPips 
-              totalDonated={0} // Hide donation amounts
-              xp={totalXP}
-              profileCompletion={profile?.bio && profile?.display_name ? 100 : 50}
-              isAdmin={false}
-              className="md:w-64"
-            />
+            {unifiedRank && (
+              <div className={`rounded-lg border border-white/20 p-4 ${unifiedRank.bgColor} backdrop-blur-sm min-w-[280px]`}>
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <h3 className="text-lg font-bold text-white">{unifiedRank.name.toUpperCase()}</h3>
+                    {unifiedRank.isAdmin && (
+                      <div className="text-xs text-yellow-400 font-medium">COMMAND STAFF</div>
+                    )}
+                  </div>
+                  <div className="flex gap-1">
+                    {Array.from({ length: Math.max(unifiedRank.pips, 1) }).map((_, i) => (
+                      <div
+                        key={i}
+                        className={`w-2 h-6 rounded-sm ${
+                          i < unifiedRank.pips ? unifiedRank.pipColor : 'bg-white/20'
+                        } border border-white/30 shadow-sm`}
+                      />
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm text-white/90">
+                    <span>XP: {unifiedRank.xp.toLocaleString()}</span>
+                    <span>Level {unifiedRank.level}</span>
+                  </div>
+                  {unifiedRank.maxXP > unifiedRank.minXP && !unifiedRank.isAdmin && (
+                    <>
+                      <div className="w-full bg-white/20 rounded-full h-2">
+                        <div 
+                          className={`h-2 rounded-full ${unifiedRank.pipColor} transition-all`}
+                          style={{ width: `${unifiedRank.progressToNext}%` }}
+                        />
+                      </div>
+                      <div className="text-xs text-white/70 text-center">
+                        Next Rank: {unifiedRank.maxXP.toLocaleString()} XP
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
             
             {/* Profile URL Card */}
             {profile?.username && (
