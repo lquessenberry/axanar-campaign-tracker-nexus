@@ -920,6 +920,193 @@ export type Database = {
         }
         Relationships: []
       }
+      forum_badges: {
+        Row: {
+          created_at: string
+          description: string | null
+          icon: string | null
+          id: string
+          label: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          label: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          label?: string
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      forum_ranks: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          min_points: number
+          name: string
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          min_points?: number
+          name: string
+          slug: string
+          sort_order: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          min_points?: number
+          name?: string
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      forum_threads: {
+        Row: {
+          author_badges: Json | null
+          author_email: string | null
+          author_joined_date: string | null
+          author_post_count: number | null
+          author_rank_min_points: number | null
+          author_rank_name: string | null
+          author_signature: string | null
+          author_user_id: string | null
+          author_username: string
+          category: string
+          content: string
+          created_at: string
+          id: string
+          is_official: boolean
+          is_pinned: boolean
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_badges?: Json | null
+          author_email?: string | null
+          author_joined_date?: string | null
+          author_post_count?: number | null
+          author_rank_min_points?: number | null
+          author_rank_name?: string | null
+          author_signature?: string | null
+          author_user_id?: string | null
+          author_username: string
+          category?: string
+          content: string
+          created_at?: string
+          id?: string
+          is_official?: boolean
+          is_pinned?: boolean
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_badges?: Json | null
+          author_email?: string | null
+          author_joined_date?: string | null
+          author_post_count?: number | null
+          author_rank_min_points?: number | null
+          author_rank_name?: string | null
+          author_signature?: string | null
+          author_user_id?: string | null
+          author_username?: string
+          category?: string
+          content?: string
+          created_at?: string
+          id?: string
+          is_official?: boolean
+          is_pinned?: boolean
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      forum_user_badges: {
+        Row: {
+          awarded_at: string
+          badge_id: string
+          ref_id: string | null
+          ref_table: string | null
+          source: string | null
+          user_id: string
+        }
+        Insert: {
+          awarded_at?: string
+          badge_id: string
+          ref_id?: string | null
+          ref_table?: string | null
+          source?: string | null
+          user_id: string
+        }
+        Update: {
+          awarded_at?: string
+          badge_id?: string
+          ref_id?: string | null
+          ref_table?: string | null
+          source?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forum_user_badges_badge_id_fkey"
+            columns: ["badge_id"]
+            isOneToOne: false
+            referencedRelation: "forum_badges"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      forum_user_ranks: {
+        Row: {
+          rank_id: string
+          set_by: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          rank_id: string
+          set_by?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          rank_id?: string
+          set_by?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forum_user_ranks_rank_id_fkey"
+            columns: ["rank_id"]
+            isOneToOne: false
+            referencedRelation: "forum_ranks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       legacy_campaigns: {
         Row: {
           created_at: string | null
@@ -3751,6 +3938,18 @@ export type Database = {
       }
       firebase_fdw_validator: {
         Args: { catalog: unknown; options: string[] }
+        Returns: undefined
+      }
+      forum_backfill_badges_from_rewards: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      forum_slugify: {
+        Args: { src: string }
+        Returns: string
+      }
+      forum_sync_admin_ranks: {
+        Args: Record<PropertyKey, never>
         Returns: undefined
       }
       generate_username_from_email: {
