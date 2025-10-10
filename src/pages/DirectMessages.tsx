@@ -114,8 +114,7 @@ const DirectMessages: React.FC = () => {
                     recipient={{
                       id: selectedConversation.partnerId,
                       full_name: selectedConversation.partnerName,
-                      username: selectedConversation.partnerUsername,
-                      is_admin: selectedConversation.isPartnerAdmin
+                      username: selectedConversation.partnerUsername
                     }}
                     onSendMessage={handleSendMessage}
                     isLoading={loading}

@@ -14,7 +14,6 @@ interface User {
   id: string;
   username?: string;
   full_name?: string;
-  is_admin?: boolean;
 }
 
 interface UserSelectorProps {
@@ -39,7 +38,7 @@ const UserSelector: React.FC<UserSelectorProps> = ({
       try {
         const { data, error } = await supabase
           .from('profiles')
-          .select('id, username, full_name, is_admin')
+          .select('id, username, full_name')
           .neq('id', currentUser?.id || '');
 
         if (error) throw error;
@@ -149,16 +148,9 @@ const UserSelector: React.FC<UserSelectorProps> = ({
                       </div>
                       
                       <div className="flex-1 text-left">
-                        <div className="flex items-center gap-2">
-                          <p className="font-medium text-sm">
-                            {user.full_name || user.username || 'Unknown User'}
-                          </p>
-                          {user.is_admin && (
-                            <Badge variant="outline" className="text-xs">
-                              Admin
-                            </Badge>
-                          )}
-                        </div>
+                        <p className="font-medium text-sm">
+                          {user.full_name || user.username || 'Unknown User'}
+                        </p>
                         {user.username && user.full_name && (
                           <p className="text-xs text-muted-foreground">
                             @{user.username}

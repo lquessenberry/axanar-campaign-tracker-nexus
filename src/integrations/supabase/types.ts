@@ -2382,7 +2382,6 @@ export type Database = {
           created_at: string
           full_name: string | null
           id: string
-          is_admin: boolean | null
           updated_at: string
           username: string | null
         }
@@ -2393,7 +2392,6 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id: string
-          is_admin?: boolean | null
           updated_at?: string
           username?: string | null
         }
@@ -2404,7 +2402,6 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id?: string
-          is_admin?: boolean | null
           updated_at?: string
           username?: string | null
         }
@@ -3823,10 +3820,6 @@ export type Database = {
           has_auth_link: boolean
           suggested_providers: string[]
         }[]
-      }
-      check_is_admin: {
-        Args: { user_id: string }
-        Returns: boolean
       }
       check_password_reset_rate_limit: {
         Args: { client_ip?: string; user_email: string }

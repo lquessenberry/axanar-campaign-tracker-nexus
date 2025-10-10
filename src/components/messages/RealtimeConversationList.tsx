@@ -13,7 +13,6 @@ interface Conversation {
   partnerId: string;
   partnerName: string;
   partnerUsername: string;
-  isPartnerAdmin: boolean;
   messages: Array<{
     id: number;
     sender_id: string;
@@ -140,19 +139,12 @@ const RealtimeConversationList: React.FC<RealtimeConversationListProps> = ({
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2 min-w-0">
-                          <h4 className={cn(
-                            "font-medium text-sm truncate",
-                            hasUnread && "font-semibold"
-                          )}>
-                            {conversation.partnerName}
-                          </h4>
-                          {conversation.isPartnerAdmin && (
-                            <Badge variant="outline" className="text-xs shrink-0">
-                              Admin
-                            </Badge>
-                          )}
-                        </div>
+                        <h4 className={cn(
+                          "font-medium text-sm truncate",
+                          hasUnread && "font-semibold"
+                        )}>
+                          {conversation.partnerName}
+                        </h4>
                         {conversation.lastMessageTime && (
                           <span className="text-xs text-muted-foreground shrink-0">
                             {formatMessageDate(conversation.lastMessageTime)}

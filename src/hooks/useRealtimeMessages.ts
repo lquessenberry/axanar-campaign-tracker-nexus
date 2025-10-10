@@ -13,13 +13,11 @@ interface Message {
     id: string;
     username?: string;
     full_name?: string;
-    is_admin?: boolean;
   };
   recipient?: {
     id: string;
     username?: string;
     full_name?: string;
-    is_admin?: boolean;
   };
 }
 
@@ -27,7 +25,6 @@ interface Conversation {
   partnerId: string;
   partnerName: string;
   partnerUsername: string;
-  isPartnerAdmin: boolean;
   messages: Message[];
   unreadCount: number;
   lastMessage?: string;
@@ -64,7 +61,7 @@ export const useRealtimeMessages = () => {
 
           const { data: profiles } = await supabase
             .from('profiles')
-            .select('id, username, full_name, is_admin')
+            .select('id, username, full_name')
             .in('id', userIds);
 
           const profileMap = new Map(profiles?.map(p => [p.id, p]) || []);
@@ -131,7 +128,6 @@ export const useRealtimeMessages = () => {
           partnerId,
           partnerName: partner?.full_name || partner?.username || 'Unknown User',
           partnerUsername: partner?.username || '',
-          isPartnerAdmin: partner?.is_admin || false,
           messages: [],
           unreadCount: 0,
           lastMessage: message.content,

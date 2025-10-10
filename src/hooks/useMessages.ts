@@ -13,13 +13,11 @@ export interface Message {
     id: string;
     username: string;
     full_name: string;
-    is_admin: boolean;
   };
   recipient?: {
     id: string;
     username: string;
     full_name: string;
-    is_admin: boolean;
   };
 }
 
@@ -29,7 +27,7 @@ export interface AdminProfile {
   full_name: string;
 }
 
-// Hook to check if current user is admin
+// Hook to check if current user is admin (uses RPC for security)
 export const useIsAdmin = () => {
   const { user } = useAuth();
   
@@ -38,18 +36,14 @@ export const useIsAdmin = () => {
     queryFn: async () => {
       if (!user) return false;
       
-      const { data: profile, error } = await supabase
-        .from('profiles')
-        .select('is_admin')
-        .eq('id', user.id)
-        .single();
+      const { data, error } = await supabase.rpc('check_current_user_is_admin');
       
       if (error) {
         console.error('Error checking admin status:', error);
         return false;
       }
       
-      return profile?.is_admin || false;
+      return data === true;
     },
     enabled: !!user,
   });
@@ -81,8 +75,8 @@ export const useMessages = () => {
         .from('messages')
         .select(`
           *,
-          sender:profiles!messages_sender_id_fkey(id, username, full_name, is_admin),
-          recipient:profiles!messages_recipient_id_fkey(id, username, full_name, is_admin)
+          sender:profiles!messages_sender_id_fkey(id, username, full_name),
+          recipient:profiles!messages_recipient_id_fkey(id, username, full_name)
         `)
         .or(`sender_id.eq.${user.id},recipient_id.eq.${user.id}`)
         .order('created_at', { ascending: true });
@@ -107,8 +101,8 @@ export const useAdminConversations = () => {
         .from('messages')
         .select(`
           *,
-          sender:profiles!messages_sender_id_fkey(id, username, full_name, is_admin),
-          recipient:profiles!messages_recipient_id_fkey(id, username, full_name, is_admin)
+          sender:profiles!messages_sender_id_fkey(id, username, full_name),
+          recipient:profiles!messages_recipient_id_fkey(id, username, full_name)
         `)
         .order('created_at', { ascending: false });
 

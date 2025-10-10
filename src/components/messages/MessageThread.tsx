@@ -23,7 +23,6 @@ interface MessageThreadProps {
     id: string;
     username?: string;
     full_name?: string;
-    is_admin?: boolean;
   };
   onSendMessage: (recipientId: string, content: string) => Promise<void>;
   isLoading?: boolean;
