@@ -5,7 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { AdminUser } from "@/types/admin";
-import DebugPanel from "@/components/admin/DebugPanel";
+
 import AddAdminForm from "@/components/admin/AddAdminForm";
 import AddNewUserForm from "@/components/admin/AddNewUserForm";
 import AdminList from "@/components/admin/AdminList";
@@ -105,7 +105,6 @@ const AdminAdminsSection = () => {
       </CardHeader>
       <CardContent>
         <div className="grid gap-6">
-          <DebugPanel />
           <div className="grid md:grid-cols-2 gap-6">
             <AddAdminForm onAdminAdded={fetchAdmins} />
             <AddNewUserForm onUserCreated={fetchAdmins} />

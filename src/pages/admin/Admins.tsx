@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { supabase } from "@/integrations/supabase/client";
 import { AdminUser } from "@/types/admin";
-import DebugPanel from "@/components/admin/DebugPanel";
+
 import AddAdminForm from "@/components/admin/AddAdminForm";
 import AdminList from "@/components/admin/AdminList";
 
@@ -86,7 +86,6 @@ const Admins = () => {
       description="Manage admin users and their permissions"
     >
       <div className="grid gap-6">
-        <DebugPanel />
         <AddAdminForm onAdminAdded={fetchAdmins} />
         <AdminList 
           admins={admins}
