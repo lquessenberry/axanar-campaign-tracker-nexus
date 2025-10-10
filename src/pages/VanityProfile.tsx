@@ -20,9 +20,27 @@ const VanityProfile = () => {
     vanityData?.user_id || '',
     (vanityData?.source_type as 'profile' | 'donor') || 'profile'
   );
+  // Prepare safe values and call hooks unconditionally before early returns
+  const profile = publicProfile?.profile;
+  const pledges = publicProfile?.pledges;
+  const contributionCount = pledges?.length || 0;
+  const memberSince = pledges?.length && pledges[pledges.length - 1]?.created_at 
+    ? new Date(pledges[pledges.length - 1].created_at).getFullYear().toString()
+    : 'Recently';
+  
+  const yearsSupporting = pledges?.length && pledges[pledges.length - 1]?.created_at
+    ? Math.max(1, new Date().getFullYear() - new Date(pledges[pledges.length - 1].created_at).getFullYear())
+    : 0;
+  
+  // Calculate total pledged amount from profile data (hidden from display)
+  const totalPledged = pledges?.reduce((sum, pledge) => sum + (pledge.amount || 0), 0) || 0;
+  
+  // Use unified rank system (must be called before any returns)
+  const { data: unifiedRank } = useUnifiedRank(profile?.id, contributionCount);
 
   const isLoading = vanityLoading || profileLoading;
 
+  // Early returns moved AFTER hooks
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -131,21 +149,7 @@ const VanityProfile = () => {
     );
   }
 
-  const { profile, pledges } = publicProfile;
-  const contributionCount = pledges?.length || 0;
-  const memberSince = pledges?.length && pledges[pledges.length - 1]?.created_at 
-    ? new Date(pledges[pledges.length - 1].created_at).getFullYear().toString()
-    : 'Recently';
-  
-  const yearsSupporting = pledges?.length && pledges[pledges.length - 1]?.created_at
-    ? Math.max(1, new Date().getFullYear() - new Date(pledges[pledges.length - 1].created_at).getFullYear())
-    : 0;
-  
-  // Calculate total pledged amount from profile data (hidden from display)
-  const totalPledged = pledges?.reduce((sum, pledge) => sum + (pledge.amount || 0), 0) || 0;
-  
-  // Use unified rank system
-  const { data: unifiedRank } = useUnifiedRank(profile?.id, contributionCount);
+  // profile, pledges, counts, and unifiedRank were computed above to satisfy hook rules
 
   const displayName = vanityData.display_name || `@${username}`;
   const initials = displayName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();

@@ -39,6 +39,8 @@ orphaned-user-ids.json
 donor_batches/
 legacy-csvs/
 match-results/
+playwright-report/
+test-results/
 reports/
 scripts/generated/
 temp/
@@ -48,4 +50,3 @@ uuid-match-updates-*.sql
 all_donors_import.sql
 legacy_donors_data.sql
 legacy_donors_inserts.sql
-migration-mapping.md

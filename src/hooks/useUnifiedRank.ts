@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useAdminCheck } from './useAdminCheck';
+import { isPlatformTeamEmail } from '@/data/platform-team';
 
 export interface UnifiedRank {
   name: string;
@@ -39,20 +40,35 @@ export const useUnifiedRank = (userId?: string, totalPledged: number = 0) => {
       let uid = userId || user?.id;
       if (!uid) throw new Error('No user ID available');
 
-      // Check if this user is admin (either current user or specified user)
+      // Check if this user is admin or platform team member
       let isAdmin = false;
-      if (userId) {
-        // For other users, check admin_users table
-        const { data: adminData } = await supabase
-          .from('admin_users')
-          .select('is_super_admin, is_content_manager')
-          .eq('user_id', userId)
-          .single();
-        isAdmin = !!(adminData?.is_super_admin || adminData?.is_content_manager);
+      let isPlatformTeam = false;
+      
+      // Get user email to check if they're platform team
+      // For current user, get from auth
+      const { data: userData } = await supabase.auth.getUser();
+      const currentUserEmail = userData.user?.email;
+      
+      // If checking current user and they're platform team, mark as such
+      if (!userId && currentUserEmail && isPlatformTeamEmail(currentUserEmail)) {
+        isPlatformTeam = true;
+        isAdmin = true;
       } else {
-        // For current user, use the admin check hook result
-        isAdmin = !!isCurrentUserAdmin;
+        // For other users or non-platform team, check admin_users table
+        if (userId) {
+          const { data: adminData } = await supabase
+            .from('admin_users')
+            .select('is_super_admin, is_content_manager')
+            .eq('user_id', userId)
+            .single();
+          isAdmin = !!(adminData?.is_super_admin || adminData?.is_content_manager);
+        } else {
+          isAdmin = !!isCurrentUserAdmin;
+        }
       }
+      
+      // Note: For other users' profiles, we can't check email directly via client
+      // Platform team status will be determined by admin_users table
 
       // Get forum rank if exists
       let forumRankXP = 0;
@@ -74,12 +90,14 @@ export const useUnifiedRank = (userId?: string, totalPledged: number = 0) => {
       const pledgeXP = totalPledged * 100; // 100 XP per dollar pledged
       const totalXP = Math.max(pledgeXP, forumRankXP);
 
-      // Admins get Fleet Admiral rank automatically
-      if (isAdmin) {
+      // Platform Team and Admins get Fleet Admiral rank automatically
+      // Platform Team (Lee, Alec, James) rank is APPOINTED, not earned
+      // Their XP is still displayed but doesn't affect their rank
+      if (isAdmin || isPlatformTeam) {
         const fleetAdmiral = RANK_THRESHOLDS[0];
         return {
           ...fleetAdmiral,
-          xp: Math.max(totalXP, fleetAdmiral.minXP),
+          xp: totalXP, // Show actual XP even though it doesn't affect rank
           progressToNext: 100,
           isAdmin: true
         };

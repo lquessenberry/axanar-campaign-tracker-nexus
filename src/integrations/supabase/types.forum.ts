@@ -85,6 +85,74 @@ export type ForumUserRankUpdate = Partial<ForumUserRankInsert>;
 export type DatabaseWithForum = Omit<Database, 'public'> & {
   public: {
     Tables: Database['public']['Tables'] & {
+      forum_threads: {
+        Row: {
+          id: string;
+          title: string;
+          content: string;
+          category: string;
+          is_pinned: boolean;
+          is_official: boolean;
+          author_user_id: string | null;
+          author_email: string | null;
+          author_username: string;
+          author_signature: string | null;
+          author_rank_name: string | null;
+          author_rank_min_points: number | null;
+          author_badges: unknown | null; // jsonb
+          author_joined_date: string | null; // date string
+          author_post_count: number | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          title: string;
+          content: string;
+          category?: string;
+          is_pinned?: boolean;
+          is_official?: boolean;
+          author_user_id?: string | null;
+          author_email?: string | null;
+          author_username: string;
+          author_signature?: string | null;
+          author_rank_name?: string | null;
+          author_rank_min_points?: number | null;
+          author_badges?: unknown | null;
+          author_joined_date?: string | null;
+          author_post_count?: number | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<{
+          id: string;
+          title: string;
+          content: string;
+          category: string;
+          is_pinned: boolean;
+          is_official: boolean;
+          author_user_id: string | null;
+          author_email: string | null;
+          author_username: string;
+          author_signature: string | null;
+          author_rank_name: string | null;
+          author_rank_min_points: number | null;
+          author_badges: unknown | null;
+          author_joined_date: string | null;
+          author_post_count: number | null;
+          created_at: string;
+          updated_at: string;
+        }>;
+        Relationships: [
+          {
+            foreignKeyName: 'forum_threads_author_user_id_fkey';
+            columns: ['author_user_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          }
+        ];
+      };
       forum_badges: {
         Row: ForumBadgeRow;
         Insert: ForumBadgeInsert;
