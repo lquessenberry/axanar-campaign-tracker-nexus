@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Loader2 } from 'lucide-react';
+import { sanitizeForEmail, validateAndTruncate } from '@/utils/sanitizeHtml';
 declare global {
   interface Window {
     hcaptcha: any;
@@ -60,8 +61,13 @@ const ContactForm = () => {
     }));
   };
   const handleSubmit = async () => {
-    // Validation
-    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+    // Validation with length limits
+    const sanitizedName = validateAndTruncate(formData.name, 100);
+    const sanitizedEmail = validateAndTruncate(formData.email, 255);
+    const sanitizedSubject = validateAndTruncate(formData.subject, 200);
+    const sanitizedMessage = validateAndTruncate(formData.message, 5000);
+
+    if (!sanitizedName || !sanitizedEmail || !sanitizedSubject || !sanitizedMessage) {
       toast({
         title: "Error",
         description: "Please fill in all fields",
@@ -69,6 +75,18 @@ const ContactForm = () => {
       });
       return;
     }
+
+    // Email validation
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(sanitizedEmail)) {
+      toast({
+        title: "Error",
+        description: "Please enter a valid email address",
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (!captchaToken) {
       toast({
         title: "Error",
@@ -77,8 +95,15 @@ const ContactForm = () => {
       });
       return;
     }
+    
     setIsLoading(true);
     try {
+      // Sanitize all inputs for email HTML
+      const safeName = sanitizeForEmail(sanitizedName);
+      const safeEmail = sanitizeForEmail(sanitizedEmail);
+      const safeSubject = sanitizeForEmail(sanitizedSubject);
+      const safeMessage = sanitizeForEmail(sanitizedMessage);
+
       const {
         data,
         error
@@ -86,19 +111,19 @@ const ContactForm = () => {
         body: {
           to: 'support@axanar.com',
           cc: ['support@axanar.com', 'alec@axanar.com'],
-          replyTo: formData.email,
-          subject: `Contact Form: ${formData.subject}`,
+          replyTo: sanitizedEmail,
+          subject: `Contact Form: ${safeSubject}`,
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
               <h2 style="color: #1e40af;">New Contact Form Submission</h2>
               <div style="background: #f9fafb; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <p><strong>Name:</strong> ${formData.name}</p>
-                <p><strong>Email:</strong> ${formData.email}</p>
-                <p><strong>Subject:</strong> ${formData.subject}</p>
+                <p><strong>Name:</strong> ${safeName}</p>
+                <p><strong>Email:</strong> ${safeEmail}</p>
+                <p><strong>Subject:</strong> ${safeSubject}</p>
               </div>
               <div style="margin: 20px 0;">
                 <h3 style="color: #374151;">Message:</h3>
-                <p style="line-height: 1.6;">${formData.message.replace(/\n/g, '<br>')}</p>
+                <p style="line-height: 1.6;">${safeMessage.replace(/\n/g, '<br>')}</p>
               </div>
               <hr style="border: 1px solid #e5e7eb; margin: 20px 0;" />
               <p style="color: #6b7280; font-size: 14px;">
@@ -111,12 +136,12 @@ const ContactForm = () => {
           text: `
 New Contact Form Submission
 
-Name: ${formData.name}
-Email: ${formData.email}
-Subject: ${formData.subject}
+Name: ${sanitizedName}
+Email: ${sanitizedEmail}
+Subject: ${sanitizedSubject}
 
 Message:
-${formData.message}
+${sanitizedMessage}
 
 Time submitted: ${new Date().toLocaleString()}
           `

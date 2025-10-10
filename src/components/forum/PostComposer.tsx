@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { Bold, Italic, Link as LinkIcon, Quote, Code, Send } from 'lucide-react';
 import EmojiPicker from './EmojiPicker';
 import { parseEmojis } from '@/lib/forum-emojis';
+import { sanitizeHtml } from '@/utils/sanitizeHtml';
 
 interface PostComposerProps {
   onSubmit?: (title: string, content: string) => void;
@@ -172,7 +173,7 @@ export const PostComposer: React.FC<PostComposerProps> = ({
             <div 
               className="prose prose-sm max-w-none dark:prose-invert"
               dangerouslySetInnerHTML={{ 
-                __html: parseEmojis(content).replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br />') 
+                __html: sanitizeHtml(parseEmojis(content).replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br />'))
               }}
             />
             {!content && (

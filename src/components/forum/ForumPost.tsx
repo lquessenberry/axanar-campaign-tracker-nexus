@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import UserSignature from './UserSignature';
 import { parseEmojis } from '@/lib/forum-emojis';
+import { sanitizeHtml } from '@/utils/sanitizeHtml';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 interface ForumPostProps {
@@ -168,7 +169,7 @@ export const ForumPost: React.FC<ForumPostProps> = ({
           <div 
             className="prose prose-sm max-w-none dark:prose-invert"
             dangerouslySetInnerHTML={{ 
-              __html: parseEmojis(content).replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br />') 
+              __html: sanitizeHtml(parseEmojis(content).replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br />'))
             }}
           />
 

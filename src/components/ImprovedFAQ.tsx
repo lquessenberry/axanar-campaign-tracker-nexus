@@ -4,6 +4,7 @@ import {
   EnhancedCard, 
   EnhancedCardContent 
 } from "@/components/ui/enhanced-card";
+import { sanitizeHtml } from '@/utils/sanitizeHtml';
 
 interface FAQItem {
   id: string;
@@ -89,7 +90,7 @@ const ImprovedFAQ: React.FC<ImprovedFAQProps> = ({ sections, sectionVariant = 'p
                         <div className="pt-6 border-t border-border/30 ml-14">
                           <div 
                             className="text-muted-foreground leading-relaxed text-base"
-                            dangerouslySetInnerHTML={{ __html: item.answer }}
+                            dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.answer) }}
                           />
                         </div>
                       </div>

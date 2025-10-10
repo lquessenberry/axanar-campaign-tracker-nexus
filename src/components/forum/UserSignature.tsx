@@ -6,6 +6,7 @@
 import React from 'react';
 import { Award, Star } from 'lucide-react';
 import { parseEmojis } from '@/lib/forum-emojis';
+import { sanitizeHtml } from '@/utils/sanitizeHtml';
 
 interface UserSignatureProps {
   username: string;
@@ -93,7 +94,7 @@ export const UserSignature: React.FC<UserSignatureProps> = ({
           <div 
             className="prose prose-xs max-w-none"
             dangerouslySetInnerHTML={{ 
-              __html: parseEmojis(signatureText).replace(/\n/g, '<br />') 
+              __html: sanitizeHtml(parseEmojis(signatureText).replace(/\n/g, '<br />'))
             }}
           />
         </div>
