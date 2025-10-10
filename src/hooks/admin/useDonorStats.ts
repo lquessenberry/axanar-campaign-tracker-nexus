@@ -3,44 +3,37 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
 export const useDonorStats = () => {
-  // Get total count of donors
-  const { data: totalCount, isLoading: isLoadingTotal } = useQuery({
-    queryKey: ['donors-total-count'],
-    queryFn: async () => {
-      const { count, error } = await supabase
-        .from('donors')
-        .select('*', { count: 'exact', head: true });
-
-      if (error) throw error;
-      return count || 0;
-    },
-  });
-
-  // Fetch active donor count (those with pledges)
-  const { data: activeDonorsCount, isLoading: isLoadingActive } = useQuery({
-    queryKey: ['active-donors-count'],
+  // Get unique donor IDs from pledges (actual donors who have donated)
+  const { data: uniqueDonorIds, isLoading: isLoadingDonorIds } = useQuery({
+    queryKey: ['unique-donor-ids-with-pledges'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('pledges')
-        .select('donor_id', { count: 'exact', head: false })
+        .select('donor_id')
         .not('donor_id', 'is', null);
 
       if (error) throw error;
       
-      const uniqueDonorIds = new Set(data?.map(pledge => pledge.donor_id) || []);
-      console.log('Active donors count:', uniqueDonorIds.size);
-      return uniqueDonorIds.size;
+      const uniqueIds = new Set(data?.map(pledge => pledge.donor_id) || []);
+      return Array.from(uniqueIds);
     },
   });
 
-  // Fetch original vs imported donor counts
+  // Total count of actual donors (those with pledges)
+  const totalCount = uniqueDonorIds?.length || 0;
+
+  // Fetch donor breakdown by source (only for donors with pledges)
   const { data: donorBreakdown, isLoading: isLoadingBreakdown } = useQuery({
-    queryKey: ['donor-breakdown'],
+    queryKey: ['donor-breakdown-with-pledges', uniqueDonorIds],
     queryFn: async () => {
+      if (!uniqueDonorIds || uniqueDonorIds.length === 0) {
+        return { originalCount: 0, importedCount: 0, authenticatedCount: 0 };
+      }
+
       const { data, error } = await supabase
         .from('donors')
-        .select('source, source_platform')
-        .not('id', 'is', null);
+        .select('source, source_platform, auth_user_id')
+        .in('id', uniqueDonorIds);
 
       if (error) throw error;
 
@@ -52,8 +45,13 @@ export const useDonorStats = () => {
         donor.source || donor.source_platform
       ).length || 0;
 
-      return { originalCount, importedCount };
+      const authenticatedCount = data?.filter(donor => 
+        donor.auth_user_id !== null
+      ).length || 0;
+
+      return { originalCount, importedCount, authenticatedCount };
     },
+    enabled: !!uniqueDonorIds && uniqueDonorIds.length > 0,
   });
 
   // Get total amount raised with aggressive caching
@@ -106,12 +104,12 @@ export const useDonorStats = () => {
 
   return {
     totalCount,
-    activeDonorsCount,
+    activeDonorsCount: donorBreakdown?.authenticatedCount || 0,
     totalRaised,
     originalDonorsCount: donorBreakdown?.originalCount || 0,
     importedDonorsCount: donorBreakdown?.importedCount || 0,
-    isLoadingTotal,
-    isLoadingActive,
+    isLoadingTotal: isLoadingDonorIds,
+    isLoadingActive: isLoadingBreakdown,
     isLoadingRaised,
     isLoadingBreakdown
   };
