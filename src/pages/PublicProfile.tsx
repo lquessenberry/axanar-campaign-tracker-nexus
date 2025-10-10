@@ -67,7 +67,17 @@ const PublicProfile = () => {
   const pledgesCount = pledges.length;
   const campaignsCount = campaigns.length;
   
-  const memberSince = 'Recently'; // Placeholder since created_at may not be available
+  // Calculate memberSince from first pledge date
+  const firstPledgeDate = pledges.length > 0 
+    ? pledges.reduce((earliest, pledge) => {
+        const pledgeDate = new Date(pledge.created_at);
+        return pledgeDate < earliest ? pledgeDate : earliest;
+      }, new Date(pledges[0].created_at))
+    : null;
+  
+  const memberSince = firstPledgeDate 
+    ? firstPledgeDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long' })
+    : 'Recently';
 
   // Mobile Layout
   if (isMobile) {
