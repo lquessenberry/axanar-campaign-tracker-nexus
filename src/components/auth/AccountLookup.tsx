@@ -21,6 +21,7 @@ const AccountLookup = ({ onPasswordReset, onSSOLink, onProceedToSignup, onCancel
   const [email, setEmail] = useState('');
   const [hasChecked, setHasChecked] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
   const { toast } = useToast();
   
   const { data: emailCheck, isLoading: isChecking, error: checkError } = useEmailCheck(email);
@@ -34,8 +35,9 @@ const AccountLookup = ({ onPasswordReset, onSSOLink, onProceedToSignup, onCancel
 
   // Automatically send password reset when account with auth is found
   useEffect(() => {
-    if (hasChecked && !isChecking && emailCheck?.exists_in_auth && !isProcessing) {
+    if (hasChecked && !isChecking && emailCheck?.exists_in_auth && !isProcessing && !emailSent) {
       setIsProcessing(true);
+      setEmailSent(true);
       
       supabase.functions.invoke('send-password-reset', {
         body: {
@@ -43,6 +45,7 @@ const AccountLookup = ({ onPasswordReset, onSSOLink, onProceedToSignup, onCancel
           redirectUrl: `${window.location.origin}`
         }
       }).then(({ error }) => {
+        setIsProcessing(false);
         if (error) {
           console.error('Password reset error:', error);
           toast({
@@ -50,7 +53,7 @@ const AccountLookup = ({ onPasswordReset, onSSOLink, onProceedToSignup, onCancel
             description: "Failed to send password reset email. Please try again.",
             variant: "destructive",
           });
-          setIsProcessing(false);
+          setEmailSent(false); // Allow retry on error
         } else {
           toast({
             title: "Password reset email sent",
@@ -60,7 +63,7 @@ const AccountLookup = ({ onPasswordReset, onSSOLink, onProceedToSignup, onCancel
         }
       });
     }
-  }, [hasChecked, isChecking, emailCheck, isProcessing, email, toast, onPasswordReset]);
+  }, [hasChecked, isChecking, emailCheck, isProcessing, emailSent, email, toast, onPasswordReset]);
 
   const handleSSOLink = (provider: string) => {
     // For SSO linking, we still use the database function since it doesn't send emails
@@ -103,13 +106,15 @@ const AccountLookup = ({ onPasswordReset, onSSOLink, onProceedToSignup, onCancel
             <Button 
               type="submit" 
               className="w-full bg-axanar-teal hover:bg-axanar-teal/90"
-              disabled={isChecking || isProcessing || !email.trim()}
+              disabled={isChecking || isProcessing || emailSent || !email.trim()}
             >
               {isChecking || isProcessing ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   {isProcessing ? 'Sending Reset Email...' : 'Checking...'}
                 </>
+              ) : emailSent ? (
+                'Email Sent'
               ) : (
                 'Send Password Reset Email'
               )}
