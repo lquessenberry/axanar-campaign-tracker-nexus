@@ -56,6 +56,7 @@ const AuthFlowRenderer = ({
           email={recoveryEmail}
           onBack={onBackToMain}
           onSuccess={onAuthSuccess}
+          emailAlreadySent={true}
         />
       );
     case 'sso-linking':

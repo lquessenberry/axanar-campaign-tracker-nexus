@@ -7,16 +7,17 @@ interface PasswordResetProps {
   email: string;
   onBack: () => void;
   onSuccess: () => void;
+  emailAlreadySent?: boolean;
 }
 
-const PasswordReset = ({ email, onBack, onSuccess }: PasswordResetProps) => {
+const PasswordReset = ({ email, onBack, onSuccess, emailAlreadySent = false }: PasswordResetProps) => {
   const {
     isLoading,
     isEmailSent,
     handleResetRequest,
   } = usePasswordReset(email, onSuccess);
 
-  if (!isEmailSent) {
+  if (!isEmailSent && !emailAlreadySent) {
     return (
       <PasswordResetRequest
         email={email}
