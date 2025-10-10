@@ -46,8 +46,23 @@ const Forum: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col relative">
       <Navigation />
+
+      {/* Coming Soon Overlay */}
+      <div className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm flex items-center justify-center">
+        <div className="text-center space-y-4 p-8">
+          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-axanar-teal to-blue-500 bg-clip-text text-transparent">
+            Coming Soon! 🚀
+          </h1>
+          <p className="text-xl text-muted-foreground">
+            The Starfleet Forum Academy is under construction
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Check back soon for community discussions and fan interactions!
+          </p>
+        </div>
+      </div>
 
       <main className="flex-grow">
         <section className="py-10 px-6 bg-gradient-to-br from-background via-background to-background/90">
