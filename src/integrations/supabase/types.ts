@@ -3536,48 +3536,6 @@ export type Database = {
         }
         Relationships: []
       }
-      users: {
-        Row: {
-          created_at: string | null
-          email: string | null
-          id: number
-          is_admin: boolean | null
-          is_banned: boolean | null
-          is_verified: boolean | null
-          name: string | null
-          password: string | null
-          permissions: Json | null
-          remember_token: string | null
-          updated_at: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          email?: string | null
-          id: number
-          is_admin?: boolean | null
-          is_banned?: boolean | null
-          is_verified?: boolean | null
-          name?: string | null
-          password?: string | null
-          permissions?: Json | null
-          remember_token?: string | null
-          updated_at?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          email?: string | null
-          id?: number
-          is_admin?: boolean | null
-          is_banned?: boolean | null
-          is_verified?: boolean | null
-          name?: string | null
-          password?: string | null
-          permissions?: Json | null
-          remember_token?: string | null
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
       wrappers_fdw_stats: {
         Row: {
           bytes_in: number | null
