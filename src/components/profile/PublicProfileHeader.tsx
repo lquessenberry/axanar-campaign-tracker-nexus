@@ -38,8 +38,21 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
   
   // Calculate gamification metrics
   const baseXP = pledgesCount * 100; // 100 XP per contribution
-  const yearsSupporting = new Date().getFullYear() - new Date(memberSince).getFullYear();
-  const yearlyXP = Math.max(0, yearsSupporting) * 250; // 250 XP per year
+  
+  // Calculate years supporting with proper date validation
+  const calculateYearsSupporting = () => {
+    const memberDate = new Date(memberSince);
+    if (isNaN(memberDate.getTime())) {
+      // If memberSince is invalid, use profile creation date
+      const profileDate = new Date(profile.created_at);
+      if (isNaN(profileDate.getTime())) return 0;
+      return Math.max(0, new Date().getFullYear() - profileDate.getFullYear());
+    }
+    return Math.max(0, new Date().getFullYear() - memberDate.getFullYear());
+  };
+  
+  const yearsSupporting = calculateYearsSupporting();
+  const yearlyXP = yearsSupporting * 250; // 250 XP per year
   const totalXP = baseXP + yearlyXP;
   
   // Determine rank based on XP and participation
