@@ -22,28 +22,28 @@ const ViewscreenDescrambler = ({ children, descramblerState, isVisible }: Viewsc
     return () => clearInterval(interval);
   }, [descramblerState.isActive]);
 
-  // Random Klingon intrusion effects
-  useEffect(() => {
-    if (!isVisible) return;
+  // Random Klingon intrusion effects - DISABLED (too aggressive)
+  // useEffect(() => {
+  //   if (!isVisible) return;
 
-    const triggerKlingonGlitch = () => {
-      if (Math.random() < 0.3) { // 30% chance
-        setRedAlert(true);
-        setKlingonGlitch(true);
+  //   const triggerKlingonGlitch = () => {
+  //     if (Math.random() < 0.3) { // 30% chance
+  //       setRedAlert(true);
+  //       setKlingonGlitch(true);
         
-        setTimeout(() => {
-          setRedAlert(false);
-          setKlingonGlitch(false);
-        }, 150 + Math.random() * 200); // 150-350ms duration
-      }
+  //       setTimeout(() => {
+  //         setRedAlert(false);
+  //         setKlingonGlitch(false);
+  //       }, 150 + Math.random() * 200); // 150-350ms duration
+  //     }
       
-      // Schedule next potential glitch
-      setTimeout(triggerKlingonGlitch, 800 + Math.random() * 2200); // 0.8-3s interval
-    };
+  //     // Schedule next potential glitch
+  //     setTimeout(triggerKlingonGlitch, 800 + Math.random() * 2200); // 0.8-3s interval
+  //   };
 
-    const timeout = setTimeout(triggerKlingonGlitch, 500 + Math.random() * 1000);
-    return () => clearTimeout(timeout);
-  }, [isVisible]);
+  //   const timeout = setTimeout(triggerKlingonGlitch, 500 + Math.random() * 1000);
+  //   return () => clearTimeout(timeout);
+  // }, [isVisible]);
 
   if (!isVisible) return <>{children}</>;
 

@@ -7,6 +7,7 @@ import AxanarCTA from "@/components/AxanarCTA";
 import GradientSection from "@/components/ui/GradientSection";
 import { Users, Target, Shield, Heart, Star, Zap } from "lucide-react";
 import { lazy, Suspense, useState, useEffect, useRef } from "react";
+import { PLATFORM_TEAM } from "@/data/platform-team";
 const Lottie = lazy(() => import('lottie-react'));
 const About = () => {
   const [lottieData, setLottieData] = useState(null);
@@ -142,19 +143,13 @@ const About = () => {
     number: "10+",
     label: "Years of Community"
   }];
-  const team = [{
-    name: "Lee Quessenberry",
-    role: "Platform Director",
-    bio: "Leading our platform migration efforts to ensure all donor information is properly transitioned."
-  }, {
-    name: "Sarah Martinez",
-    role: "Donor Support Manager",
-    bio: "Dedicated to helping existing donors recover accounts and update their information."
-  }, {
-    name: "David Kim",
-    role: "Technology Lead",
-    bio: "Full-stack developer who migrated our system from Laravel/Artisan to our new modern platform."
-  }];
+  // Get team from centralized data source
+  const team = PLATFORM_TEAM.map(member => ({
+    name: member.name,
+    role: member.role,
+    bio: `${member.bio} ${member.title}`,
+    emoji: member.emoji
+  }));
   return <div className="min-h-screen flex flex-col">
       <Navigation />
       
@@ -441,24 +436,27 @@ const About = () => {
                 Meet the Team
               </h2>
               <p className="text-muted-foreground max-w-3xl mx-auto text-lg leading-relaxed">
-                We're a small but dedicated team of sci-fi enthusiasts, creators, and technologists.
+                The leadership team behind the Axanar Campaign Tracker platform and Axanar Productions.
               </p>
               <div className="w-24 h-1 bg-gradient-to-r from-accent to-primary mx-auto mt-6 rounded-full"></div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              {team.map((member, index) => <Card key={index} className="text-center backdrop-blur-sm border border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              {team.map((member, index) => <Card key={index} className="text-center backdrop-blur-sm border-2 border-axanar-teal/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:border-axanar-teal/50">
                   <CardHeader>
-                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center mx-auto mb-6 shadow-lg">
-                      <Star className="h-12 w-12 text-accent" />
+                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-yellow-500/20 to-yellow-600/20 border-2 border-yellow-500/50 flex items-center justify-center mx-auto mb-6 shadow-lg text-4xl">
+                      {member.emoji}
                     </div>
                     <CardTitle className="text-xl font-bold">{member.name}</CardTitle>
-                    <CardDescription className="text-accent font-semibold text-lg">
+                    <CardDescription className="text-yellow-500 font-bold text-sm flex items-center justify-center gap-1 mt-2">
+                      <span>⭐⭐⭐⭐⭐⭐⭐</span>
+                    </CardDescription>
+                    <CardDescription className="text-accent font-semibold text-base mt-1">
                       {member.role}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground leading-relaxed">{member.bio}</p>
+                    <p className="text-muted-foreground leading-relaxed text-sm">{member.bio}</p>
                   </CardContent>
                 </Card>)}
             </div>
