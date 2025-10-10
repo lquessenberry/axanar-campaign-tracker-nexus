@@ -16,7 +16,6 @@ type ThreadRow = {
   is_pinned: boolean;
   is_official: boolean;
   author_user_id: string | null;
-  author_email: string | null;
   author_username: string;
   author_signature: string | null;
   author_rank_name: string | null;

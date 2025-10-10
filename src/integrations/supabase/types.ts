@@ -986,7 +986,6 @@ export type Database = {
       forum_threads: {
         Row: {
           author_badges: Json | null
-          author_email: string | null
           author_joined_date: string | null
           author_post_count: number | null
           author_rank_min_points: number | null
@@ -1005,7 +1004,6 @@ export type Database = {
         }
         Insert: {
           author_badges?: Json | null
-          author_email?: string | null
           author_joined_date?: string | null
           author_post_count?: number | null
           author_rank_min_points?: number | null
@@ -1024,7 +1022,6 @@ export type Database = {
         }
         Update: {
           author_badges?: Json | null
-          author_email?: string | null
           author_joined_date?: string | null
           author_post_count?: number | null
           author_rank_min_points?: number | null
