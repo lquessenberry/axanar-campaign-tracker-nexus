@@ -3622,11 +3622,9 @@ export type Database = {
           email_status: string | null
           first_name: string | null
           id: string | null
-          imported_at: string | null
           last_name: string | null
           notes: string | null
           source: string | null
-          source_contribution_date: string | null
           source_name: string | null
           source_platform: string | null
           updated_at: string | null
@@ -3637,39 +3635,66 @@ export type Database = {
       vw_donor_details: {
         Row: {
           auth_user_id: string | null
+          avatar_url: string | null
+          bio: string | null
           donor_created_at: string | null
           donor_email: string | null
           donor_id: string | null
           donor_name: string | null
+          donor_tier: string | null
           donor_updated_at: string | null
+          email_permission_status: string | null
+          email_status: string | null
           first_name: string | null
           full_name: string | null
           last_name: string | null
           legacy_id: number | null
+          notes: string | null
+          source_name: string | null
+          source_platform: string | null
+          username: string | null
         }
         Insert: {
           auth_user_id?: string | null
+          avatar_url?: string | null
+          bio?: string | null
           donor_created_at?: string | null
           donor_email?: string | null
           donor_id?: string | null
           donor_name?: string | null
+          donor_tier?: string | null
           donor_updated_at?: string | null
+          email_permission_status?: string | null
+          email_status?: string | null
           first_name?: string | null
           full_name?: string | null
           last_name?: string | null
           legacy_id?: number | null
+          notes?: string | null
+          source_name?: string | null
+          source_platform?: string | null
+          username?: string | null
         }
         Update: {
           auth_user_id?: string | null
+          avatar_url?: string | null
+          bio?: string | null
           donor_created_at?: string | null
           donor_email?: string | null
           donor_id?: string | null
           donor_name?: string | null
+          donor_tier?: string | null
           donor_updated_at?: string | null
+          email_permission_status?: string | null
+          email_status?: string | null
           first_name?: string | null
           full_name?: string | null
           last_name?: string | null
           legacy_id?: number | null
+          notes?: string | null
+          source_name?: string | null
+          source_platform?: string | null
+          username?: string | null
         }
         Relationships: []
       }
@@ -3677,18 +3702,18 @@ export type Database = {
         Row: {
           address_created_at: string | null
           address_id: string | null
-          address_line1: string | null
-          address_line2: string | null
           address_updated_at: string | null
+          address1: string | null
+          address2: string | null
           city: string | null
           country: string | null
           donor_email: string | null
           donor_full_name: string | null
           donor_id: string | null
           is_primary: boolean | null
-          phone_number: string | null
-          postal_zip_code: string | null
-          state_province_region: string | null
+          phone: string | null
+          postal_code: string | null
+          state: string | null
         }
         Relationships: []
       }
