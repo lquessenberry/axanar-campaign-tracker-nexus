@@ -4,23 +4,17 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Edit, Trash, CheckCircle, XCircle } from "lucide-react";
+import { MoreHorizontal, Edit, Trash } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 
 interface Reward {
   id: string;
   name: string;
   description?: string;
-  amount: number;
-  limit?: number;
-  claimed: number;
+  minimum_amount: number;
   campaign_id: string;
-  image_url?: string;
-  is_available: boolean;
   created_at: string;
   updated_at?: string;
-  shipping_required?: boolean;
-  estimated_delivery?: string;
   campaign?: {
     name: string;
   }
@@ -32,7 +26,6 @@ interface RewardTableProps {
   onSelectionChange?: (rewardIds: string[]) => void;
   onEdit: (reward: Reward) => void;
   onDelete: (rewardId: string) => void;
-  onToggleAvailability: (rewardId: string, isAvailable: boolean) => void;
 }
 
 const RewardTable = ({
@@ -40,8 +33,7 @@ const RewardTable = ({
   selectedRewardIds = [],
   onSelectionChange,
   onEdit,
-  onDelete,
-  onToggleAvailability
+  onDelete
 }: RewardTableProps) => {
   const [selected, setSelected] = useState<string[]>(selectedRewardIds);
   
@@ -88,10 +80,8 @@ const RewardTable = ({
               </TableHead>
             )}
             <TableHead className="text-muted-foreground">Reward</TableHead>
-            <TableHead className="text-muted-foreground">Amount</TableHead>
+            <TableHead className="text-muted-foreground">Minimum Amount</TableHead>
             <TableHead className="text-muted-foreground">Campaign</TableHead>
-            <TableHead className="text-muted-foreground">Claims</TableHead>
-            <TableHead className="text-muted-foreground">Status</TableHead>
             <TableHead className="text-muted-foreground w-12">Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -99,7 +89,7 @@ const RewardTable = ({
           {rewards.length === 0 ? (
             <TableRow>
               <TableCell 
-                colSpan={onSelectionChange ? 7 : 6} 
+                colSpan={onSelectionChange ? 5 : 4} 
                 className="h-24 text-center text-muted-foreground"
               >
                 No rewards found.
@@ -117,56 +107,20 @@ const RewardTable = ({
                   </TableCell>
                 )}
                 <TableCell className="text-card-foreground">
-                  <div className="flex items-center space-x-3">
-                    {reward.image_url ? (
-                      <div className="h-10 w-10 rounded-md overflow-hidden">
-                        <img 
-                          src={reward.image_url} 
-                          alt={reward.name} 
-                          className="h-full w-full object-cover"
-                        />
-                      </div>
-                    ) : (
-                      <div className="h-10 w-10 rounded-md bg-muted flex items-center justify-center">
-                        <span className="text-xs text-muted-foreground">No img</span>
+                  <div>
+                    <div className="font-medium">{reward.name}</div>
+                    {reward.description && (
+                      <div className="text-xs text-muted-foreground truncate max-w-xs">
+                        {reward.description}
                       </div>
                     )}
-                    <div>
-                      <div className="font-medium">{reward.name}</div>
-                      {reward.description && (
-                        <div className="text-xs text-muted-foreground truncate max-w-xs">
-                          {reward.description}
-                        </div>
-                      )}
-                    </div>
                   </div>
                 </TableCell>
-                <TableCell>{formatCurrency(reward.amount)}</TableCell>
+                <TableCell>{formatCurrency(reward.minimum_amount)}</TableCell>
                 <TableCell>
                   <span className="text-sm">
                     {reward.campaign?.name || "Unknown Campaign"}
                   </span>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center space-x-2">
-                    <span>{reward.claimed}</span>
-                    {reward.limit && (
-                      <span className="text-xs text-muted-foreground">
-                        / {reward.limit}
-                      </span>
-                    )}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  {reward.is_available ? (
-                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                      Available
-                    </Badge>
-                  ) : (
-                    <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200">
-                      Unavailable
-                    </Badge>
-                  )}
                 </TableCell>
                 <TableCell>
                   <DropdownMenu>
@@ -180,19 +134,6 @@ const RewardTable = ({
                       <DropdownMenuItem onClick={() => onEdit(reward)}>
                         <Edit className="mr-2 h-4 w-4" />
                         Edit Reward
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => onToggleAvailability(reward.id, !reward.is_available)}>
-                        {reward.is_available ? (
-                          <>
-                            <XCircle className="mr-2 h-4 w-4" />
-                            Make Unavailable
-                          </>
-                        ) : (
-                          <>
-                            <CheckCircle className="mr-2 h-4 w-4" />
-                            Make Available
-                          </>
-                        )}
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => onDelete(reward.id)} className="text-red-600">
                         <Trash className="mr-2 h-4 w-4" />

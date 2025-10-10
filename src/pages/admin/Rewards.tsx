@@ -23,8 +23,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-// Types
-interface RewardFromAPI {
+// Types - matching the actual database schema
+interface Reward {
   id: string;
   name: string;
   description?: string;
@@ -36,13 +36,6 @@ interface RewardFromAPI {
   campaign?: {
     name: string;
   };
-}
-
-// Extended type with UI-specific fields
-interface Reward extends RewardFromAPI {
-  is_available: boolean;
-  amount: number;
-  claimed: number;
 }
 
 const AdminRewards = () => {
@@ -59,7 +52,7 @@ const AdminRewards = () => {
 
   // State for reward operations
   const [showRewardDialog, setShowRewardDialog] = useState(false);
-  const [editingReward, setEditingReward] = useState<RewardFromAPI | null>(null);
+  const [editingReward, setEditingReward] = useState<Reward | null>(null);
   const [rewardToDelete, setRewardToDelete] = useState<string | null>(null);
   const [selectedRewards, setSelectedRewards] = useState<string[]>([]);
   const [showBulkDeleteDialog, setShowBulkDeleteDialog] = useState(false);
@@ -87,9 +80,7 @@ const AdminRewards = () => {
     createReward,
     updateReward,
     deleteReward,
-    toggleRewardAvailability,
     bulkDeleteRewards,
-    bulkToggleRewardAvailability,
   } = useAdminRewardMutations();
 
   // Handle search and filters
@@ -180,13 +171,6 @@ const AdminRewards = () => {
     });
   };
 
-  const handleToggleAvailability = (rewardId: string, isAvailable: boolean) => {
-    toggleRewardAvailability.mutate({
-      rewardId,
-      isAvailable,
-    });
-  };
-
   // Handle reward selection and bulk actions
   const handleRewardSelection = (rewardIds: string[]) => {
     setSelectedRewards(rewardIds);
@@ -206,38 +190,6 @@ const AdminRewards = () => {
         setShowBulkDeleteDialog(false);
       },
     });
-  };
-
-  const handleBulkMakeAvailable = () => {
-    if (selectedRewards.length === 0) return;
-
-    bulkToggleRewardAvailability.mutate(
-      {
-        rewardIds: selectedRewards,
-        isAvailable: true,
-      },
-      {
-        onSuccess: () => {
-          setSelectedRewards([]);
-        },
-      }
-    );
-  };
-
-  const handleBulkMakeUnavailable = () => {
-    if (selectedRewards.length === 0) return;
-
-    bulkToggleRewardAvailability.mutate(
-      {
-        rewardIds: selectedRewards,
-        isAvailable: false,
-      },
-      {
-        onSuccess: () => {
-          setSelectedRewards([]);
-        },
-      }
-    );
   };
 
   // Show loading state during initial load
@@ -293,8 +245,6 @@ const AdminRewards = () => {
           <RewardBulkActions
             selectedCount={selectedRewards.length}
             onDelete={handleBulkDelete}
-            onMakeAvailable={handleBulkMakeAvailable}
-            onMakeUnavailable={handleBulkMakeUnavailable}
           />
         )}
 
@@ -317,17 +267,11 @@ const AdminRewards = () => {
 
         {/* Rewards Table */}
         <RewardTable
-          rewards={rewards?.map(reward => ({
-            ...reward,
-            is_available: true, // Default to true or fetch from API if available
-            amount: reward.minimum_amount, // Map minimum_amount to amount
-            claimed: 0 // Default value or fetch from API if available
-          })) as Reward[]}
+          rewards={rewards}
           selectedRewardIds={selectedRewards}
           onSelectionChange={handleRewardSelection}
           onEdit={handleEditReward}
           onDelete={handleDeleteReward}
-          onToggleAvailability={handleToggleAvailability}
         />
 
         {/* Pagination */}

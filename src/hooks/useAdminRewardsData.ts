@@ -108,25 +108,24 @@ export const useAdminRewardsData = (
 
       if (availableError) throw availableError;
 
-      // Get total claims
+      // Calculate total claims from pledges table
       let claimsQuery = supabase
-        .from('rewards')
-        .select('claimed');
+        .from('pledges')
+        .select('reward_id', { count: 'exact', head: true })
+        .not('reward_id', 'is', null);
         
       if (campaignId) {
         claimsQuery = claimsQuery.eq('campaign_id', campaignId);
       }
       
-      const { data: claimsData, error: claimsError } = await claimsQuery;
+      const { count: totalClaims, error: claimsError } = await claimsQuery;
 
       if (claimsError) throw claimsError;
-
-      const totalClaims = 0; // Claims calculation will be based on pledges table
 
       return {
         totalCount,
         availableCount,
-        totalClaims
+        totalClaims: totalClaims || 0
       };
     }
   });
