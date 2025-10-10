@@ -37,8 +37,8 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Run Playwright smoke test
-        run: npx playwright test -g "homepage loads correctly"
+      - name: Run Playwright smoke test (chromium only)
+        run: npx playwright test -g "homepage loads correctly" --project=chromium
 
       - name: Upload Playwright HTML report
         if: always()

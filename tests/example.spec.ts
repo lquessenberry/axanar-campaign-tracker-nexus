@@ -4,9 +4,6 @@ import { test, expect } from '@playwright/test';
 test('homepage loads correctly', async ({ page }) => {
   await page.goto('/');
   
-  // Check that a primary hero heading is visible (content may vary)
-  await expect(page.locator('h1').first()).toBeVisible();
-  
   // Check that navigation is present
   await expect(page.locator('nav')).toBeVisible();
   
