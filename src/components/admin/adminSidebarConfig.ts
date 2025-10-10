@@ -20,7 +20,6 @@ import {
 export const sidebarItems = [
   { id: "overview", label: "Dashboard", icon: Home },
   { id: "donors", label: "Donors", icon: Users },
-  { id: "reserve-users", label: "Reserve Users", icon: UserPlus },
   { id: "pledges", label: "Pledges", icon: DollarSign },
   { id: "rewards", label: "Rewards", icon: Gift },
   { id: "campaigns", label: "Campaigns", icon: BarChart3 },
@@ -32,5 +31,6 @@ export const sidebarItems = [
   { id: "admins", label: "Admin Users", icon: UserCog },
   { id: "notifications", label: "Notifications", icon: Bell },
   { id: "reports", label: "Reports", icon: FileText },
+  { id: "reserve-users", label: "Reserve Users", icon: UserPlus },
   { id: "settings", label: "Settings", icon: Settings },
 ];
