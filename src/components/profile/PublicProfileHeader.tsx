@@ -26,6 +26,17 @@ interface PublicProfileHeaderProps {
   totalPledged: number;
 }
 
+interface PublicProfileData {
+  id: string;
+  username?: string | null;
+  display_name?: string | null;
+  full_name?: string | null;
+  bio?: string | null;
+  avatar_url?: string | null;
+  background_url?: string | null;
+  created_at: string;
+}
+
 const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
   profile,
   memberSince,
@@ -39,19 +50,11 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
   // Calculate gamification metrics
   const baseXP = pledgesCount * 100; // 100 XP per contribution
   
-  // Calculate years supporting with proper date validation
-  const calculateYearsSupporting = () => {
-    const memberDate = new Date(memberSince);
-    if (isNaN(memberDate.getTime())) {
-      // If memberSince is invalid, use profile creation date
-      const profileDate = new Date(profile.created_at);
-      if (isNaN(profileDate.getTime())) return 0;
-      return Math.max(0, new Date().getFullYear() - profileDate.getFullYear());
-    }
-    return Math.max(0, new Date().getFullYear() - memberDate.getFullYear());
-  };
-  
-  const yearsSupporting = calculateYearsSupporting();
+  // Calculate years supporting from profile creation date (which is now set to first pledge date)
+  const profileDate = new Date(profile.created_at);
+  const yearsSupporting = !isNaN(profileDate.getTime())
+    ? Math.max(0, new Date().getFullYear() - profileDate.getFullYear())
+    : 0;
   const yearlyXP = yearsSupporting * 250; // 250 XP per year
   const totalXP = baseXP + yearlyXP;
   

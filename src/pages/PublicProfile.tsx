@@ -76,6 +76,10 @@ const PublicProfile = () => {
     : null;
   
   const memberSince = firstPledgeDate 
+    ? firstPledgeDate.toISOString()
+    : new Date().toISOString();
+    
+  const memberSinceFormatted = firstPledgeDate 
     ? firstPledgeDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long' })
     : 'Recently';
 
@@ -93,11 +97,11 @@ const PublicProfile = () => {
             bio: (vanityData as any).bio || '',
             avatar_url: vanityData.avatar_url,
             background_url: (vanityData as any).background_url || '',
-            created_at: new Date().toISOString(),
+            created_at: memberSince,
           }}
           pledges={pledges}
           campaigns={campaigns}
-          memberSince={memberSince}
+          memberSince={memberSinceFormatted}
           totalPledged={totalPledged}
         />
         <Footer />
@@ -120,9 +124,9 @@ const PublicProfile = () => {
             bio: (vanityData as any).bio || '',
             avatar_url: vanityData.avatar_url,
             background_url: (vanityData as any).background_url || '',
-            created_at: new Date().toISOString(),
+            created_at: memberSince,
           }}
-          memberSince={memberSince}
+          memberSince={memberSinceFormatted}
           pledgesCount={pledgesCount}
           campaignsCount={campaignsCount}
           totalPledged={totalPledged}
@@ -140,7 +144,7 @@ const PublicProfile = () => {
                   bio: (vanityData as any).bio || '',
                   avatar_url: vanityData.avatar_url,
                   background_url: (vanityData as any).background_url || '',
-                  created_at: new Date().toISOString(),
+                  created_at: memberSince,
                 }}
                 pledges={pledges}
                 campaigns={campaigns}
@@ -155,9 +159,9 @@ const PublicProfile = () => {
                   bio: (vanityData as any).bio || '',
                   avatar_url: vanityData.avatar_url,
                   background_url: (vanityData as any).background_url || '',
-                  created_at: new Date().toISOString(),
+                  created_at: memberSince,
                 }}
-                memberSince={memberSince}
+                memberSince={memberSinceFormatted}
                 totalPledged={totalPledged}
                 pledgesCount={pledgesCount}
               />
