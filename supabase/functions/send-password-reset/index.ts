@@ -65,11 +65,11 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const { recovery_token, expires_at } = recoveryData[0];
-    const resetUrl = `${redirectUrl || 'https://vsarkftwkontkfcodbyk.supabase.co'}/auth/reset-password?token=${recovery_token}&email=${encodeURIComponent(email)}`;
+    const resetUrl = `${redirectUrl || 'https://axanardonors.com'}/auth/reset-password?token=${recovery_token}&email=${encodeURIComponent(email)}`;
 
     // Send email using Resend
     const emailResponse = await resend.emails.send({
-      from: "Axanar <noreply@axanar.com>",
+      from: "Axanar <onboarding@resend.dev>",
       to: [email],
       subject: "Reset Your Axanar Account Password",
       html: `
