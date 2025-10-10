@@ -17,7 +17,10 @@ interface Reward {
   updated_at?: string;
   campaign?: {
     name: string;
-  }
+  };
+  legacy_reward?: {
+    amount: number;
+  } | null;
 }
 
 interface RewardTableProps {
@@ -116,7 +119,7 @@ const RewardTable = ({
                     )}
                   </div>
                 </TableCell>
-                <TableCell>{formatCurrency(reward.minimum_amount)}</TableCell>
+                <TableCell>{formatCurrency(reward.legacy_reward?.amount || reward.minimum_amount)}</TableCell>
                 <TableCell>
                   <span className="text-sm">
                     {reward.campaign?.name || "Unknown Campaign"}

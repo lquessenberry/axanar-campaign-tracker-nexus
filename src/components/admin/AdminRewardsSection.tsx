@@ -33,6 +33,9 @@ interface Reward {
   campaign?: {
     name: string;
   };
+  legacy_reward?: {
+    amount: number;
+  } | null;
 }
 
 const AdminRewardsSection = () => {

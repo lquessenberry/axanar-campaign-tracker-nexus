@@ -22,6 +22,12 @@ interface Reward {
   campaign_id: string;
   created_at: string;
   updated_at?: string;
+  legacy_reward?: {
+    amount: number;
+  } | null;
+  campaign?: {
+    name: string;
+  };
 }
 
 interface RewardDialogProps {

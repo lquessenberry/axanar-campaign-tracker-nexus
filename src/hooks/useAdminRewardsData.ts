@@ -11,7 +11,10 @@ interface Reward {
   updated_at?: string;
   campaign?: {
     name: string;
-  }
+  };
+  legacy_reward?: {
+    amount: number;
+  } | null;
 }
 
 interface RewardQueryParams {
@@ -68,8 +71,34 @@ export const useAdminRewardsData = (
 
       if (error) throw error;
 
+      // Fetch legacy rewards amounts separately
+      const legacyIds = data?.map(r => r.legacy_id).filter(id => id && id > 0) || [];
+      let legacyRewardsMap: Record<number, number> = {};
+      
+      if (legacyIds.length > 0) {
+        const { data: legacyRewards } = await supabase
+          .from('legacy_rewards')
+          .select('legacy_id, amount')
+          .in('legacy_id', legacyIds);
+        
+        if (legacyRewards) {
+          legacyRewardsMap = legacyRewards.reduce((acc, lr) => {
+            if (lr.legacy_id) acc[lr.legacy_id] = lr.amount || 0;
+            return acc;
+          }, {} as Record<number, number>);
+        }
+      }
+
+      // Map legacy amounts to rewards
+      const rewardsWithAmounts = data?.map(reward => ({
+        ...reward,
+        legacy_reward: reward.legacy_id && legacyRewardsMap[reward.legacy_id]
+          ? { amount: legacyRewardsMap[reward.legacy_id] }
+          : null
+      })) || [];
+
       return {
-        rewards: data,
+        rewards: rewardsWithAmounts,
         totalCount: count || 0,
         currentPage,
         totalPages: count ? Math.ceil(count / itemsPerPage) : 0
