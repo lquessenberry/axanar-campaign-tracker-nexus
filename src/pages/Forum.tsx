@@ -60,6 +60,11 @@ const Forum: React.FC = () => {
           <p className="text-sm text-muted-foreground">
             Check back soon for community discussions and fan interactions!
           </p>
+          <Link to="/">
+            <Button variant="outline" size="lg" className="mt-4">
+              Return to Home
+            </Button>
+          </Link>
         </div>
       </div>
 
