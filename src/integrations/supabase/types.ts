@@ -3844,6 +3844,14 @@ export type Database = {
           message: string
         }[]
       }
+      check_user_is_admin: {
+        Args: { user_id: string }
+        Returns: boolean
+      }
+      check_user_is_super_admin: {
+        Args: { user_id: string }
+        Returns: boolean
+      }
       click_house_fdw_handler: {
         Args: Record<PropertyKey, never>
         Returns: unknown
