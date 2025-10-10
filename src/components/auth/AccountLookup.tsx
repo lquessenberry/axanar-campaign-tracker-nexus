@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -20,7 +20,7 @@ interface AccountLookupProps {
 const AccountLookup = ({ onPasswordReset, onSSOLink, onProceedToSignup, onCancel }: AccountLookupProps) => {
   const [email, setEmail] = useState('');
   const [hasChecked, setHasChecked] = useState(false);
-  const [isResettingPassword, setIsResettingPassword] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const { toast } = useToast();
   
   const { data: emailCheck, isLoading: isChecking, error: checkError } = useEmailCheck(email);
@@ -32,39 +32,35 @@ const AccountLookup = ({ onPasswordReset, onSSOLink, onProceedToSignup, onCancel
     }
   };
 
-  const handlePasswordReset = async () => {
-    setIsResettingPassword(true);
-    try {
-      // Call the edge function directly - this handles both token generation and email sending
-      const { data, error } = await supabase.functions.invoke('send-password-reset', {
+  // Automatically send password reset when account with auth is found
+  useEffect(() => {
+    if (hasChecked && !isChecking && emailCheck?.exists_in_auth && !isProcessing) {
+      setIsProcessing(true);
+      
+      supabase.functions.invoke('send-password-reset', {
         body: {
           email: email.toLowerCase().trim(),
           redirectUrl: `${window.location.origin}`
         }
+      }).then(({ error }) => {
+        if (error) {
+          console.error('Password reset error:', error);
+          toast({
+            title: "Error",
+            description: "Failed to send password reset email. Please try again.",
+            variant: "destructive",
+          });
+          setIsProcessing(false);
+        } else {
+          toast({
+            title: "Password reset email sent",
+            description: "Please check your email for password reset instructions.",
+          });
+          onPasswordReset(email);
+        }
       });
-
-      if (error) {
-        throw error;
-      }
-
-      toast({
-        title: "Password reset email sent",
-        description: "Please check your email for password reset instructions.",
-      });
-      
-      // Navigate to confirmation screen
-      onPasswordReset(email);
-    } catch (error: any) {
-      console.error('Password reset error:', error);
-      toast({
-        title: "Error",
-        description: "Failed to send password reset email. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsResettingPassword(false);
     }
-  };
+  }, [hasChecked, isChecking, emailCheck, isProcessing, email, toast, onPasswordReset]);
 
   const handleSSOLink = (provider: string) => {
     // For SSO linking, we still use the database function since it doesn't send emails
@@ -84,9 +80,9 @@ const AccountLookup = ({ onPasswordReset, onSSOLink, onProceedToSignup, onCancel
     return (
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">Account Lookup</CardTitle>
+          <CardTitle className="text-2xl font-bold">Reset Your Password</CardTitle>
           <CardDescription>
-            Let's check if you already have an account with us
+            Enter your email to receive password reset instructions
           </CardDescription>
         </CardHeader>
         
@@ -107,15 +103,15 @@ const AccountLookup = ({ onPasswordReset, onSSOLink, onProceedToSignup, onCancel
             <Button 
               type="submit" 
               className="w-full bg-axanar-teal hover:bg-axanar-teal/90"
-              disabled={isChecking || !email.trim()}
+              disabled={isChecking || isProcessing || !email.trim()}
             >
-              {isChecking ? (
+              {isChecking || isProcessing ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Checking...
+                  {isProcessing ? 'Sending Reset Email...' : 'Checking...'}
                 </>
               ) : (
-                'Check Account'
+                'Send Password Reset Email'
               )}
             </Button>
             
@@ -210,22 +206,12 @@ const AccountLookup = ({ onPasswordReset, onSSOLink, onProceedToSignup, onCancel
         {hasExistingAccount && (
           <div className="space-y-3">
             {emailCheck.exists_in_auth && (
-              <Button 
-                onClick={handlePasswordReset}
-                className="w-full"
-                disabled={isResettingPassword}
-              >
-                {isResettingPassword ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  'Reset Password'
-                )}
-              </Button>
+              <Alert>
+                <AlertDescription>
+                  A password reset email has been sent to your inbox. Please check your email to continue.
+                </AlertDescription>
+              </Alert>
             )}
-
 
             {emailCheck.exists_in_donors && !emailCheck.exists_in_auth && (
               <div className="pt-2 border-t">
