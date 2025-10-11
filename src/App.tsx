@@ -23,9 +23,7 @@ import Privacy from "./pages/Privacy";
 import Support from "./pages/Support";
 import Terms from "./pages/Terms";
 import AdminDashboard from "./pages/admin/Dashboard";
-import AdminPledges from "./pages/admin/Pledges";
 import AdminRewards from "./pages/admin/Rewards";
-import AdminDonors from "./pages/admin/Donors";
 import AdminManagement from "./pages/admin/Admins";
 import AdminMessages from "./pages/admin/Messages";
 import PasswordReset from "./pages/PasswordReset";
@@ -81,26 +79,10 @@ const App = () => (
               }
             />
             <Route
-              path="/admin/pledges"
-              element={
-                <RequireAdmin>
-                  <AdminPledges />
-                </RequireAdmin>
-              }
-            />
-            <Route
               path="/admin/rewards"
               element={
                 <RequireAdmin>
                   <AdminRewards />
-                </RequireAdmin>
-              }
-            />
-            <Route
-              path="/admin/donors"
-              element={
-                <RequireAdmin>
-                  <AdminDonors />
                 </RequireAdmin>
               }
             />
