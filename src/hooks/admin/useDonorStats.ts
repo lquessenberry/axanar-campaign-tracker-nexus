@@ -3,21 +3,38 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
 export const useDonorStats = () => {
-  // Get verified donor counts using database function (excludes reserve users)
-  const { data: donorCounts, isLoading: isLoadingCounts } = useQuery({
-    queryKey: ['verified-donor-counts'],
+  // Get active donors count (donors with pledges) - matches dashboard logic
+  const { data: activeDonorsData, isLoading: isLoadingActive } = useQuery({
+    queryKey: ['active-donors-count'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .rpc('get_verified_donor_counts')
-        .single();
-
+        .from('pledges')
+        .select('donor_id')
+        .not('donor_id', 'is', null);
+      
       if (error) throw error;
-      return data;
+      
+      const uniqueDonorIds = new Set(data?.map(p => p.donor_id) || []);
+      return uniqueDonorIds.size;
     },
   });
 
-  const totalCount = donorCounts?.total_active_donors || 0;
-  const authenticatedCount = donorCounts?.authenticated_donors || 0;
+  // Get authenticated donors count
+  const { data: authenticatedCount, isLoading: isLoadingAuth } = useQuery({
+    queryKey: ['authenticated-donors-count'],
+    queryFn: async () => {
+      const { count, error } = await supabase
+        .from('donors')
+        .select('*', { count: 'exact', head: true })
+        .not('auth_user_id', 'is', null);
+      
+      if (error) throw error;
+      return count || 0;
+    },
+  });
+
+  const totalCount = activeDonorsData || 0;
+  const authenticatedDonorCount = authenticatedCount || 0;
 
   // Get total amount raised with aggressive caching
   const { data: totalRaised, isLoading: isLoadingRaised } = useQuery({
@@ -69,10 +86,10 @@ export const useDonorStats = () => {
 
   return {
     totalCount,
-    authenticatedCount,
+    authenticatedCount: authenticatedDonorCount,
     totalRaised,
-    isLoadingTotal: isLoadingCounts,
-    isLoadingAuthenticated: isLoadingCounts,
+    isLoadingTotal: isLoadingActive,
+    isLoadingAuthenticated: isLoadingAuth,
     isLoadingRaised,
   };
 };
