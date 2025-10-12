@@ -205,6 +205,7 @@ const Donors = () => {
             currentPage={currentPage}
             totalPages={totalPages}
             totalCount={totalCount || 0}
+            totalEmailAddresses={totalEmailAddresses || 0}
             itemsPerPage={itemsPerPage}
             onPageChange={handlePageChange}
           />

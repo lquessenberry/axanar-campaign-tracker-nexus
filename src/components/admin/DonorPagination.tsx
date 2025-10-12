@@ -12,6 +12,7 @@ interface DonorPaginationProps {
   currentPage: number;
   totalPages: number;
   totalCount: number;
+  totalEmailAddresses: number;
   itemsPerPage: number;
   onPageChange: (page: number) => void;
 }
@@ -19,7 +20,8 @@ interface DonorPaginationProps {
 const DonorPagination = ({ 
   currentPage, 
   totalPages, 
-  totalCount, 
+  totalCount,
+  totalEmailAddresses, 
   itemsPerPage, 
   onPageChange 
 }: DonorPaginationProps) => {
@@ -61,7 +63,7 @@ const DonorPagination = ({
   return (
     <div className="flex items-center justify-between mt-6">
       <div className="text-sm text-muted-foreground">
-        Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, totalCount || 0)} of {totalCount?.toLocaleString() || 0} donors
+        Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, totalCount || 0)} of {totalCount?.toLocaleString() || 0} active donors ({totalEmailAddresses?.toLocaleString() || 0} total emails)
       </div>
       
       <Pagination>

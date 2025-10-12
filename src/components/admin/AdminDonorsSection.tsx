@@ -157,6 +157,7 @@ const AdminDonorsSection = ({
                 currentPage={currentPage}
                 totalPages={totalPages}
                 totalCount={totalCount || 0}
+                totalEmailAddresses={totalEmailAddresses || 0}
                 itemsPerPage={itemsPerPage}
                 onPageChange={onPageChange}
               />
