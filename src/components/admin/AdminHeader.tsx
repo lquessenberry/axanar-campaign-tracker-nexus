@@ -38,9 +38,9 @@ const AdminHeader = ({ activeSection }: AdminHeaderProps) => {
         )}
       </div>
       <div className="flex-1">
-        <h1 className="text-4xl font-bold tracking-tight mb-2">
-          {currentSection?.label || "Dashboard"}
-        </h1>
+      <h1 className="text-4xl font-bold tracking-tight mb-2">
+        PATRON DATABANK NEXUS
+      </h1>
         <p className="text-muted-foreground text-lg">
           {getSectionDescription(activeSection)}
         </p>
