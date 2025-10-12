@@ -95,28 +95,6 @@ export const useUpdateProfile = () => {
       }
 
       console.log('Profile updated successfully:', data);
-
-      // Also update donor table if a donor record exists (keep in sync)
-      const donorUpdates: any = {};
-      if (updates.username !== undefined) donorUpdates.username = updates.username;
-      if (updates.full_name !== undefined) donorUpdates.full_name = updates.full_name;
-      if (updates.bio !== undefined) donorUpdates.bio = updates.bio;
-      if (updates.avatar_url !== undefined) donorUpdates.avatar_url = updates.avatar_url;
-
-      if (Object.keys(donorUpdates).length > 0) {
-        const { error: donorError } = await supabase
-          .from('donors')
-          .update(donorUpdates)
-          .eq('auth_user_id', user.id);
-
-        if (donorError) {
-          console.warn('Could not sync to donor table:', donorError);
-          // Don't throw - profile update succeeded, donor sync is secondary
-        } else {
-          console.log('Donor record synced successfully');
-        }
-      }
-
       return data;
     },
     onSuccess: () => {
