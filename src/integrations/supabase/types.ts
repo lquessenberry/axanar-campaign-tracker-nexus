@@ -4419,6 +4419,13 @@ export type Database = {
           user_rank: number
         }[]
       }
+      get_verified_donor_counts: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          authenticated_verified_donors: number
+          total_verified_donors: number
+        }[]
+      }
       gtrgm_compress: {
         Args: { "": unknown }
         Returns: unknown
