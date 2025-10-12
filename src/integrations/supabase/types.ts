@@ -2099,6 +2099,27 @@ export type Database = {
         }
         Relationships: []
       }
+      password_reset_attempts: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+          ip_address: unknown
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: string
+          ip_address: unknown
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+          ip_address?: unknown
+        }
+        Relationships: []
+      }
       password_reset_security_log: {
         Row: {
           attempt_count: number | null

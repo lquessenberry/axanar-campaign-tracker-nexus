@@ -23,6 +23,16 @@ export const usePasswordReset = (email: string, onSuccess: () => void) => {
         throw error;
       }
 
+      // Check for rate limit response
+      if (data?.error && data?.retryAfter) {
+        toast({
+          title: "Too many attempts",
+          description: `Please wait ${data.retryAfter} before trying again.`,
+          variant: "destructive",
+        });
+        return;
+      }
+
       setIsEmailSent(true);
       toast({
         title: "Password reset email sent",
@@ -30,6 +40,17 @@ export const usePasswordReset = (email: string, onSuccess: () => void) => {
       });
     } catch (error: any) {
       console.error('Password reset error:', error);
+      
+      // Handle rate limiting error
+      if (error.message?.includes('429') || error.message?.includes('Too many')) {
+        toast({
+          title: "Too many attempts",
+          description: "You've requested too many password resets. Please try again in 1 hour.",
+          variant: "destructive",
+        });
+        return;
+      }
+      
       toast({
         title: "Error",
         description: error.message || "Failed to send password reset email. Please try again.",

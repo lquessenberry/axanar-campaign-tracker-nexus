@@ -30,6 +30,39 @@ const handler = async (req: Request): Promise<Response> => {
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
+    // Rate limiting: Check attempts in last hour
+    const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0] || 
+                     req.headers.get('x-real-ip') || 
+                     'unknown';
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+    
+    const { count } = await supabase
+      .from('password_reset_attempts')
+      .select('*', { count: 'exact', head: true })
+      .eq('email', email.toLowerCase())
+      .eq('ip_address', clientIp)
+      .gte('created_at', oneHourAgo);
+
+    if (count && count >= 5) {
+      console.log(`Rate limit exceeded for ${email} from ${clientIp}`);
+      return new Response(JSON.stringify({ 
+        error: 'Too many password reset attempts. Please try again later.',
+        retryAfter: '1 hour'
+      }), {
+        status: 429,
+        headers: { 
+          "Content-Type": "application/json",
+          "Retry-After": "3600",
+          ...corsHeaders 
+        },
+      });
+    }
+
+    // Log this attempt
+    await supabase
+      .from('password_reset_attempts')
+      .insert({ email: email.toLowerCase(), ip_address: clientIp });
+
     // Check if email exists in the system
     const { data: emailCheck } = await supabase
       .rpc('check_email_in_system', { check_email: email });
