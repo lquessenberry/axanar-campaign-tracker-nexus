@@ -79,9 +79,15 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
       )}
       {/* Enhanced Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 tactical:from-primary/5 tactical:to-primary/10 tactical:border-primary/20 klingon:from-klingon-primary/5 klingon:to-klingon-primary/10 klingon:border-klingon-accent/20 border-blue-200 dark:border-blue-800">
+        <Card 
+          className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 tactical:from-primary/5 tactical:to-primary/10 tactical:border-primary/20 klingon:from-klingon-primary/5 klingon:to-klingon-primary/10 klingon:border-klingon-accent/20 border-blue-200 dark:border-blue-800 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+          onClick={() => onSectionChange("donor-management")}
+        >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium klingon:font-klingon">Imported Email Addresses</CardTitle>
+            <CardTitle className="text-sm font-medium klingon:font-klingon flex items-center gap-2">
+              Imported Email Addresses
+              <ExternalLink className="h-3 w-3 opacity-50" />
+            </CardTitle>
             <Users className="h-4 w-4 text-blue-600 dark:text-blue-400 tactical:text-primary klingon:text-klingon-accent" />
           </CardHeader>
           <CardContent>
@@ -92,9 +98,15 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
           </CardContent>
         </Card>
         
-        <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950 dark:to-green-900 tactical:from-secondary/5 tactical:to-secondary/10 tactical:border-secondary/20 klingon:from-klingon-accent/5 klingon:to-klingon-accent/10 klingon:border-klingon-primary/20 border-green-200 dark:border-green-800">
+        <Card 
+          className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950 dark:to-green-900 tactical:from-secondary/5 tactical:to-secondary/10 tactical:border-secondary/20 klingon:from-klingon-accent/5 klingon:to-klingon-accent/10 klingon:border-klingon-primary/20 border-green-200 dark:border-green-800 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+          onClick={() => onSectionChange("donor-management")}
+        >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium klingon:font-klingon">Active Donors</CardTitle>
+            <CardTitle className="text-sm font-medium klingon:font-klingon flex items-center gap-2">
+              Active Donors
+              <ExternalLink className="h-3 w-3 opacity-50" />
+            </CardTitle>
             <TrendingUp className="h-4 w-4 text-green-600 dark:text-green-400 tactical:text-secondary klingon:text-klingon-primary" />
           </CardHeader>
           <CardContent>
@@ -105,7 +117,10 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
           </CardContent>
         </Card>
         
-        <Card className="relative overflow-hidden border-yellow-200 dark:border-yellow-800">
+        <Card 
+          className="relative overflow-hidden border-yellow-200 dark:border-yellow-800 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+          onClick={() => onSectionChange("campaigns")}
+        >
           <video
             autoPlay
             loop
@@ -117,7 +132,10 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
           </video>
           <div className="absolute inset-0 bg-gradient-to-br from-yellow-50/80 to-yellow-100/80 dark:from-yellow-950/80 dark:to-yellow-900/80 tactical:from-accent/20 tactical:to-accent/30 klingon:from-klingon-alert/20 klingon:to-klingon-alert/30 z-10"></div>
           <CardHeader className="relative z-20 flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium klingon:font-klingon">Total Raised</CardTitle>
+            <CardTitle className="text-sm font-medium klingon:font-klingon flex items-center gap-2">
+              Total Raised
+              <ExternalLink className="h-3 w-3 opacity-50" />
+            </CardTitle>
             <DollarSign className="h-4 w-4 text-yellow-600 dark:text-yellow-400 tactical:text-accent klingon:text-klingon-alert" />
           </CardHeader>
           <CardContent className="relative z-20">
@@ -128,7 +146,7 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
           </CardContent>
         </Card>
         
-        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900 tactical:from-muted/5 tactical:to-muted/10 tactical:border-muted-foreground/20 klingon:from-klingon-primary/5 klingon:to-klingon-primary/10 klingon:border-klingon-primary/20 border-purple-200 dark:border-purple-800">
+        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900 tactical:from-muted/5 tactical:to-muted/10 tactical:border-muted-foreground/20 klingon:from-klingon-primary/5 klingon:to-klingon-primary/10 klingon:border-klingon-primary/20 border-purple-200 dark:border-purple-800 opacity-90">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium klingon:font-klingon">Activation Rate</CardTitle>
             <BarChart3 className="h-4 w-4 text-purple-600 dark:text-purple-400 tactical:text-muted-foreground klingon:text-klingon-primary" />
@@ -142,7 +160,7 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
         </Card>
 
         {/* Additional Enhanced Metrics */}
-        <Card className="bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-950 dark:to-teal-900 tactical:from-primary/5 tactical:to-primary/10 tactical:border-primary/20 klingon:from-klingon-accent/5 klingon:to-klingon-accent/10 klingon:border-klingon-accent/20 border-teal-200 dark:border-teal-800">
+        <Card className="bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-950 dark:to-teal-900 tactical:from-primary/5 tactical:to-primary/10 tactical:border-primary/20 klingon:from-klingon-accent/5 klingon:to-klingon-accent/10 klingon:border-klingon-accent/20 border-teal-200 dark:border-teal-800 opacity-90">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium klingon:font-klingon">Avg Donation</CardTitle>
             <Target className="h-4 w-4 text-teal-600 dark:text-teal-400 tactical:text-primary klingon:text-klingon-accent" />
@@ -155,9 +173,15 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-950 dark:to-indigo-900 tactical:from-secondary/5 tactical:to-secondary/10 tactical:border-secondary/20 klingon:from-klingon-primary/5 klingon:to-klingon-primary/10 klingon:border-klingon-primary/20 border-indigo-200 dark:border-indigo-800">
+        <Card 
+          className="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-950 dark:to-indigo-900 tactical:from-secondary/5 tactical:to-secondary/10 tactical:border-secondary/20 klingon:from-klingon-primary/5 klingon:to-klingon-primary/10 klingon:border-klingon-primary/20 border-indigo-200 dark:border-indigo-800 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+          onClick={() => onSectionChange("campaigns")}
+        >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium klingon:font-klingon">Total Campaigns</CardTitle>
+            <CardTitle className="text-sm font-medium klingon:font-klingon flex items-center gap-2">
+              Total Campaigns
+              <ExternalLink className="h-3 w-3 opacity-50" />
+            </CardTitle>
             <Award className="h-4 w-4 text-indigo-600 dark:text-indigo-400 tactical:text-secondary klingon:text-klingon-primary" />
           </CardHeader>
           <CardContent>
@@ -170,9 +194,15 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-950 dark:to-orange-900 tactical:from-accent/5 tactical:to-accent/10 tactical:border-accent/20 klingon:from-klingon-alert/5 klingon:to-klingon-alert/10 klingon:border-klingon-alert/20 border-orange-200 dark:border-orange-800">
+        <Card 
+          className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-950 dark:to-orange-900 tactical:from-accent/5 tactical:to-accent/10 tactical:border-accent/20 klingon:from-klingon-alert/5 klingon:to-klingon-alert/10 klingon:border-klingon-alert/20 border-orange-200 dark:border-orange-800 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+          onClick={() => onSectionChange("rewards")}
+        >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium klingon:font-klingon">Total Rewards</CardTitle>
+            <CardTitle className="text-sm font-medium klingon:font-klingon flex items-center gap-2">
+              Total Rewards
+              <ExternalLink className="h-3 w-3 opacity-50" />
+            </CardTitle>
             <Gift className="h-4 w-4 text-orange-600 dark:text-orange-400 tactical:text-accent klingon:text-klingon-alert" />
           </CardHeader>
           <CardContent>
@@ -183,9 +213,15 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-rose-50 to-rose-100 dark:from-rose-950 dark:to-rose-900 tactical:from-muted/5 tactical:to-muted/10 tactical:border-muted-foreground/20 klingon:from-klingon-accent/5 klingon:to-klingon-accent/10 klingon:border-klingon-accent/20 border-rose-200 dark:border-rose-800">
+        <Card 
+          className="bg-gradient-to-br from-rose-50 to-rose-100 dark:from-rose-950 dark:to-rose-900 tactical:from-muted/5 tactical:to-muted/10 tactical:border-muted-foreground/20 klingon:from-klingon-accent/5 klingon:to-klingon-accent/10 klingon:border-klingon-accent/20 border-rose-200 dark:border-rose-800 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+          onClick={() => onSectionChange("campaigns")}
+        >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium klingon:font-klingon">Total Pledges</CardTitle>
+            <CardTitle className="text-sm font-medium klingon:font-klingon flex items-center gap-2">
+              Total Pledges
+              <ExternalLink className="h-3 w-3 opacity-50" />
+            </CardTitle>
             <BarChart3 className="h-4 w-4 text-rose-600 dark:text-rose-400 tactical:text-muted-foreground klingon:text-klingon-accent" />
           </CardHeader>
           <CardContent>
