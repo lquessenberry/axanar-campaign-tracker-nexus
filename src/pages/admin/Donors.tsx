@@ -38,6 +38,8 @@ const Donors = () => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   
   const {
+    totalEmailAddresses,
+    activeDonors,
     totalCount,
     authenticatedCount,
     totalRaised,
@@ -45,6 +47,8 @@ const Donors = () => {
     isLoading,
     totalPages,
     itemsPerPage,
+    isLoadingTotalEmails,
+    isLoadingActiveDonors,
     isLoadingTotal,
     isLoadingAuthenticated,
     isLoadingRaised,
@@ -146,9 +150,13 @@ const Donors = () => {
       description="View and manage donor information with comprehensive administration tools"
     >
       <DonorStatsCards 
+        totalEmailAddresses={totalEmailAddresses}
+        activeDonors={activeDonors}
         totalCount={totalCount || 0}
         authenticatedCount={authenticatedCount || 0}
         totalRaised={totalRaised || 0}
+        isLoadingTotalEmails={isLoadingTotalEmails}
+        isLoadingActiveDonors={isLoadingActiveDonors}
         isLoadingTotal={isLoadingTotal}
         isLoadingAuthenticated={isLoadingAuthenticated}
         isLoadingRaised={isLoadingRaised}

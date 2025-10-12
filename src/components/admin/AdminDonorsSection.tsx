@@ -20,9 +20,13 @@ interface Donor {
 }
 
 interface AdminDonorsSectionProps {
+  totalEmailAddresses?: number;
+  activeDonors?: number;
   totalCount: number;
   authenticatedCount: number;
   totalRaised: number;
+  isLoadingTotalEmails?: boolean;
+  isLoadingActiveDonors?: boolean;
   donors: Donor[];
   isLoadingTotal: boolean;
   isLoadingAuthenticated: boolean;
@@ -54,10 +58,14 @@ interface AdminDonorsSectionProps {
 }
 
 const AdminDonorsSection = ({
+  totalEmailAddresses,
+  activeDonors,
   totalCount,
   authenticatedCount,
   totalRaised,
   donors,
+  isLoadingTotalEmails,
+  isLoadingActiveDonors,
   isLoadingTotal,
   isLoadingAuthenticated,
   isLoadingRaised,
@@ -89,9 +97,13 @@ const AdminDonorsSection = ({
   return (
     <div className="space-y-6">
       <DonorStatsCards
+        totalEmailAddresses={totalEmailAddresses}
+        activeDonors={activeDonors}
         totalCount={totalCount}
         authenticatedCount={authenticatedCount}
         totalRaised={totalRaised}
+        isLoadingTotalEmails={isLoadingTotalEmails}
+        isLoadingActiveDonors={isLoadingActiveDonors}
         isLoadingTotal={isLoadingTotal}
         isLoadingAuthenticated={isLoadingAuthenticated}
         isLoadingRaised={isLoadingRaised}

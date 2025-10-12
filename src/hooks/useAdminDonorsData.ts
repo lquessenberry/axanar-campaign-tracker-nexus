@@ -12,9 +12,13 @@ interface DonorFilters {
 
 export const useAdminDonorsData = (currentPage: number, filters: DonorFilters = {}) => {
   const {
+    totalEmailAddresses,
+    activeDonors,
     totalCount,
     authenticatedCount,
     totalRaised,
+    isLoadingTotalEmails,
+    isLoadingActiveDonors,
     isLoadingTotal,
     isLoadingAuthenticated,
     isLoadingRaised,
@@ -31,6 +35,8 @@ export const useAdminDonorsData = (currentPage: number, filters: DonorFilters = 
   const totalPages = Math.ceil((filteredCount || totalCount || 0) / itemsPerPage);
 
   return {
+    totalEmailAddresses,
+    activeDonors,
     totalCount,
     authenticatedCount,
     totalRaised,
@@ -38,6 +44,8 @@ export const useAdminDonorsData = (currentPage: number, filters: DonorFilters = 
     isLoading,
     totalPages,
     itemsPerPage,
+    isLoadingTotalEmails,
+    isLoadingActiveDonors,
     isLoadingTotal,
     isLoadingAuthenticated,
     isLoadingRaised,

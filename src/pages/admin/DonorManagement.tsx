@@ -18,7 +18,10 @@ const DonorManagement = () => {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [selectedUserId, setSelectedUserId] = useState<string>(searchParams.get('userId') || '');
 
+
   const {
+    totalEmailAddresses,
+    activeDonors,
     totalCount,
     authenticatedCount,
     totalRaised,
@@ -26,6 +29,8 @@ const DonorManagement = () => {
     isLoading: donorsLoading,
     totalPages,
     itemsPerPage,
+    isLoadingTotalEmails,
+    isLoadingActiveDonors,
     isLoadingTotal,
     isLoadingAuthenticated,
     isLoadingRaised,
@@ -129,10 +134,14 @@ const DonorManagement = () => {
 
         <TabsContent value="donors" className="space-y-6 mt-6">
           <AdminDonorsSection
+            totalEmailAddresses={totalEmailAddresses}
+            activeDonors={activeDonors}
             totalCount={totalCount || 0}
             authenticatedCount={authenticatedCount || 0}
             totalRaised={totalRaised || 0}
             donors={donors || []}
+            isLoadingTotalEmails={isLoadingTotalEmails}
+            isLoadingActiveDonors={isLoadingActiveDonors}
             isLoadingTotal={isLoadingTotal}
             isLoadingAuthenticated={isLoadingAuthenticated}
             isLoadingRaised={isLoadingRaised}

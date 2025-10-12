@@ -3,16 +3,19 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
 export const useDonorStats = () => {
-  // Get active donors count - matches dashboard (distinct donor_ids with pledges)
-  const { data: activeDonorsData, isLoading: isLoadingActive } = useQuery({
-    queryKey: ['active-donors-count'],
+  // Get both total email addresses and active donors count from analytics
+  const { data: analyticsData, isLoading: isLoadingAnalytics } = useQuery({
+    queryKey: ['donor-analytics'],
     queryFn: async () => {
       const { data, error } = await supabase
         .rpc('get_admin_analytics');
       
       if (error) throw error;
-      const analytics = data as { active_donors?: number };
-      return analytics?.active_donors || 0;
+      const analytics = data as { total_donors?: number; active_donors?: number };
+      return {
+        totalEmailAddresses: analytics?.total_donors || 0,
+        activeDonors: analytics?.active_donors || 0
+      };
     },
   });
 
@@ -30,7 +33,8 @@ export const useDonorStats = () => {
     },
   });
 
-  const totalCount = activeDonorsData || 0;
+  const totalEmailAddresses = analyticsData?.totalEmailAddresses || 0;
+  const activeDonors = analyticsData?.activeDonors || 0;
   const authenticatedDonorCount = authenticatedCount || 0;
 
   // Get total amount raised with aggressive caching
@@ -82,10 +86,14 @@ export const useDonorStats = () => {
   });
 
   return {
-    totalCount,
+    totalEmailAddresses,
+    activeDonors,
+    totalCount: activeDonors, // Keep for backward compatibility
     authenticatedCount: authenticatedDonorCount,
     totalRaised,
-    isLoadingTotal: isLoadingActive,
+    isLoadingTotalEmails: isLoadingAnalytics,
+    isLoadingActiveDonors: isLoadingAnalytics,
+    isLoadingTotal: isLoadingAnalytics, // Keep for backward compatibility
     isLoadingAuthenticated: isLoadingAuth,
     isLoadingRaised,
   };
