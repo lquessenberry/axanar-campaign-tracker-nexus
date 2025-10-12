@@ -130,14 +130,14 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
         
         <Card className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900 tactical:from-muted/5 tactical:to-muted/10 tactical:border-muted-foreground/20 klingon:from-klingon-primary/5 klingon:to-klingon-primary/10 klingon:border-klingon-primary/20 border-purple-200 dark:border-purple-800">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium klingon:font-klingon">Conversion Rate</CardTitle>
+            <CardTitle className="text-sm font-medium klingon:font-klingon">Activation Rate</CardTitle>
             <BarChart3 className="h-4 w-4 text-purple-600 dark:text-purple-400 tactical:text-muted-foreground klingon:text-klingon-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-purple-700 dark:text-purple-300 tactical:text-muted-foreground klingon:text-klingon-alert klingon:font-klingon">
               {overview.conversionRate?.toFixed(1)}%
             </div>
-            <p className="text-xs text-purple-600 dark:text-purple-400 tactical:text-muted-foreground/70 klingon:text-klingon-primary/70 klingon:font-klingon">Active vs total donors</p>
+            <p className="text-xs text-purple-600 dark:text-purple-400 tactical:text-muted-foreground/70 klingon:text-klingon-primary/70 klingon:font-klingon">Email addresses who became active donors with pledges</p>
           </CardContent>
         </Card>
 
