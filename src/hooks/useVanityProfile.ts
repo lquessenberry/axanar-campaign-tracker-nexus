@@ -1,70 +1,39 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { ProfileData, Pledge } from '@/types/profile';
+
+interface VanityProfileResult {
+  profile: ProfileData | null;
+  pledges: Pledge[];
+  sourceType: 'profile' | 'donor';
+}
 
 export const useVanityProfile = (username: string) => {
-  return useQuery({
+  return useQuery<VanityProfileResult>({
     queryKey: ['vanity-profile', username],
     queryFn: async () => {
       if (!username) throw new Error('No username provided');
 
-      // First try to get existing user
-      const { data, error } = await supabase.rpc('get_user_by_username', {
+      // First try to get user by username from profiles
+      const { data: profileData, error: profileError } = await supabase.rpc('get_user_by_username', {
         lookup_username: username
       });
 
-      if (error) throw error;
-      
-      // If user exists, return it
-      if (data?.[0]) {
-        return data[0];
-      }
+      if (profileError) throw profileError;
 
-      // If no user found, create a placeholder profile
-      console.log(`No profile found for @${username}, creating placeholder...`);
-      
-      const { data: newProfileData, error: createError } = await supabase.rpc('create_placeholder_profile', {
-        target_username: username
-      });
-
-      if (createError) {
-        console.error('Failed to create placeholder profile:', createError);
-        // Return null if we can't create a placeholder - this will show the "not found" message
-        return null;
-      }
-
-      console.log(`Created placeholder profile for @${username}`);
-      return newProfileData?.[0] || null;
-    },
-    enabled: !!username,
-  });
-};
-
-export const usePublicProfile = (userId: string, sourceType: 'profile' | 'donor') => {
-  return useQuery({
-    queryKey: ['public-profile', userId, sourceType],
-    queryFn: async () => {
-      if (sourceType === 'profile') {
-        // Get profile data
-        const { data: profile, error: profileError } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', userId)
-          .maybeSingle();
-
-        if (profileError) throw profileError;
-
-        // Get donor IDs for this user first
-        const { data: donorIds, error: donorError } = await supabase
+      // If profile found
+      if (profileData?.[0]) {
+        const profile = profileData[0];
+        const userId = profile.user_id;
+        
+        // Get donor IDs for this user
+        const { data: donorIds } = await supabase
           .from('donors')
           .select('id')
           .eq('auth_user_id', userId);
 
-        if (donorError) {
-          console.warn('Donor fetch error:', donorError);
-        }
-
-        // Get pledge data for this user
-        const { data: pledges, error: pledgesError } = await supabase
+        // Get pledges
+        const { data: pledges } = await supabase
           .from('pledges')
           .select(`
             id,
@@ -76,28 +45,23 @@ export const usePublicProfile = (userId: string, sourceType: 'profile' | 'donor'
           `)
           .in('donor_id', donorIds?.map(d => d.id) || []);
 
-        if (pledgesError) {
-          console.warn('Pledge fetch error:', pledgesError);
-        }
-
         return {
-          type: 'profile' as const,
-          profile,
+          profile: profile as ProfileData,
           pledges: pledges || [],
-          campaigns: []
+          sourceType: (profile.source_type || 'profile') as 'profile' | 'donor',
         };
-      } else {
-        // Get donor data
-        const { data: donor, error: donorError } = await supabase
-          .from('donors')
-          .select('*')
-          .eq('id', userId)
-          .maybeSingle();
+      }
 
-        if (donorError) throw donorError;
+      // If no profile found, try to find by donor with matching username
+      const { data: donorData } = await supabase
+        .from('donors')
+        .select('*')
+        .eq('username', username)
+        .maybeSingle();
 
-        // Get pledge data for this donor
-        const { data: pledges, error: pledgesError } = await supabase
+      if (donorData) {
+        // Get pledges for this donor
+        const { data: pledges } = await supabase
           .from('pledges')
           .select(`
             id,
@@ -107,18 +71,33 @@ export const usePublicProfile = (userId: string, sourceType: 'profile' | 'donor'
               name
             )
           `)
-          .eq('donor_id', userId);
-
-        if (pledgesError) throw pledgesError;
+          .eq('donor_id', donorData.id);
 
         return {
-          type: 'donor' as const,
-          profile: donor,
+          profile: {
+            ...donorData,
+            id: donorData.id,
+            user_id: donorData.auth_user_id || donorData.id,
+            username: donorData.username,
+            display_name: donorData.donor_name || donorData.full_name,
+            full_name: donorData.full_name,
+            bio: donorData.bio,
+            avatar_url: donorData.avatar_url,
+            created_at: donorData.created_at,
+            email: donorData.email,
+          } as ProfileData,
           pledges: pledges || [],
-          campaigns: []
+          sourceType: 'donor' as const,
         };
       }
+
+      // No profile or donor found - return null
+      return {
+        profile: null,
+        pledges: [],
+        sourceType: 'profile' as const,
+      };
     },
-    enabled: !!userId && !!sourceType,
+    enabled: !!username,
   });
 };

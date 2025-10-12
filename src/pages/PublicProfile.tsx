@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { useVanityProfile, usePublicProfile } from "@/hooks/useVanityProfile";
+import { useVanityProfile } from "@/hooks/useVanityProfile";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Loader2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,26 +10,19 @@ import PublicProfileHeader from "@/components/profile/PublicProfileHeader";
 import PublicProfileContent from "@/components/profile/PublicProfileContent";
 import PublicProfileSidebar from "@/components/profile/PublicProfileSidebar";
 import PublicMobileProfileLayout from "@/components/mobile/PublicMobileProfileLayout";
+import { calculateProfileStats, formatDisplayName } from "@/lib/profile-utils";
 
 const PublicProfile = () => {
   const { username } = useParams<{ username: string }>();
   const isMobile = useIsMobile();
   
   const { 
-    data: vanityData, 
-    isLoading: isLoadingVanity, 
-    error: vanityError 
+    data: profileData, 
+    isLoading, 
+    error 
   } = useVanityProfile(username!);
-  
-  const { 
-    data: publicProfile, 
-    isLoading: isLoadingProfile 
-  } = usePublicProfile(
-    vanityData?.user_id || '', 
-    vanityData?.source_type === 'donor' ? 'donor' : 'profile'
-  );
 
-  if (isLoadingVanity || isLoadingProfile) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col">
         <Navigation />
@@ -41,7 +34,7 @@ const PublicProfile = () => {
     );
   }
 
-  if (vanityError || !vanityData) {
+  if (error || !profileData?.profile) {
     return (
       <div className="min-h-screen flex flex-col">
         <Navigation />
@@ -60,28 +53,20 @@ const PublicProfile = () => {
     );
   }
 
-  // Calculate user stats
-  const pledges = publicProfile?.pledges || [];
-  const campaigns = publicProfile?.campaigns || [];
-  const totalPledged = pledges.reduce((sum, pledge) => sum + Number(pledge.amount), 0);
-  const pledgesCount = pledges.length;
-  const campaignsCount = campaigns.length;
-  
-  // Calculate memberSince from first pledge date
-  const firstPledgeDate = pledges.length > 0 
-    ? pledges.reduce((earliest, pledge) => {
-        const pledgeDate = new Date(pledge.created_at);
-        return pledgeDate < earliest ? pledgeDate : earliest;
-      }, new Date(pledges[0].created_at))
-    : null;
-  
-  const memberSince = firstPledgeDate 
-    ? firstPledgeDate.toISOString()
-    : new Date().toISOString();
-    
-  const memberSinceFormatted = firstPledgeDate 
-    ? firstPledgeDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long' })
-    : 'Recently';
+  const { profile, pledges } = profileData;
+  const stats = calculateProfileStats(pledges);
+
+  // Format profile for components
+  const formattedProfile = {
+    id: profile.user_id || profile.id || '',
+    username: profile.username || profile.email?.split('@')[0] || 'user',
+    display_name: formatDisplayName(profile),
+    full_name: profile.full_name,
+    bio: profile.bio || '',
+    avatar_url: profile.avatar_url,
+    background_url: profile.background_url || '',
+    created_at: profile.created_at,
+  };
 
   // Mobile Layout
   if (isMobile) {
@@ -89,20 +74,11 @@ const PublicProfile = () => {
       <div className="min-h-screen flex flex-col">
         <Navigation />
         <PublicMobileProfileLayout
-          profile={{
-            id: vanityData.user_id || '',
-            username: (vanityData as any).username || vanityData.email?.split('@')[0] || 'user',
-            display_name: vanityData.display_name,
-            full_name: vanityData.display_name,
-            bio: (vanityData as any).bio || '',
-            avatar_url: vanityData.avatar_url,
-            background_url: (vanityData as any).background_url || '',
-            created_at: memberSince,
-          }}
+          profile={formattedProfile}
           pledges={pledges}
-          campaigns={campaigns}
-          memberSince={memberSinceFormatted}
-          totalPledged={totalPledged}
+          campaigns={[]}
+          memberSince={stats.memberSince}
+          totalPledged={stats.totalPledged}
         />
         <Footer />
       </div>
@@ -116,54 +92,27 @@ const PublicProfile = () => {
       
       <main className="flex-grow">
         <PublicProfileHeader
-          profile={{
-            id: vanityData.user_id || '',
-            username: (vanityData as any).username || vanityData.email?.split('@')[0] || 'user',
-            display_name: vanityData.display_name,
-            full_name: vanityData.display_name,
-            bio: (vanityData as any).bio || '',
-            avatar_url: vanityData.avatar_url,
-            background_url: (vanityData as any).background_url || '',
-            created_at: memberSince,
-          }}
-          memberSince={memberSinceFormatted}
-          pledgesCount={pledgesCount}
-          campaignsCount={campaignsCount}
-          totalPledged={totalPledged}
+          profile={formattedProfile}
+          memberSince={stats.memberSince}
+          pledgesCount={stats.pledgesCount}
+          campaignsCount={stats.campaignsCount}
+          totalPledged={stats.totalPledged}
         />
         
         <section className="py-8 px-6">
           <div className="container mx-auto max-w-7xl">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <PublicProfileContent
-                profile={{
-                  id: vanityData.user_id || '',
-                  username: (vanityData as any).username || vanityData.email?.split('@')[0] || 'user',
-                  display_name: vanityData.display_name,
-                  full_name: vanityData.display_name,
-                  bio: (vanityData as any).bio || '',
-                  avatar_url: vanityData.avatar_url,
-                  background_url: (vanityData as any).background_url || '',
-                  created_at: memberSince,
-                }}
+                profile={formattedProfile}
                 pledges={pledges}
-                campaigns={campaigns}
+                campaigns={[]}
               />
               
               <PublicProfileSidebar
-                profile={{
-                  id: vanityData.user_id || '',
-                  username: (vanityData as any).username || vanityData.email?.split('@')[0] || 'user',
-                  display_name: vanityData.display_name,
-                  full_name: vanityData.display_name,
-                  bio: (vanityData as any).bio || '',
-                  avatar_url: vanityData.avatar_url,
-                  background_url: (vanityData as any).background_url || '',
-                  created_at: memberSince,
-                }}
-                memberSince={memberSinceFormatted}
-                totalPledged={totalPledged}
-                pledgesCount={pledgesCount}
+                profile={formattedProfile}
+                memberSince={stats.memberSince}
+                totalPledged={stats.totalPledged}
+                pledgesCount={stats.pledgesCount}
               />
             </div>
           </div>
