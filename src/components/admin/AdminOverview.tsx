@@ -81,14 +81,14 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 tactical:from-primary/5 tactical:to-primary/10 tactical:border-primary/20 klingon:from-klingon-primary/5 klingon:to-klingon-primary/10 klingon:border-klingon-accent/20 border-blue-200 dark:border-blue-800">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium klingon:font-klingon">Total Donors</CardTitle>
+            <CardTitle className="text-sm font-medium klingon:font-klingon">Imported Email Addresses</CardTitle>
             <Users className="h-4 w-4 text-blue-600 dark:text-blue-400 tactical:text-primary klingon:text-klingon-accent" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-blue-700 dark:text-blue-300 tactical:text-primary klingon:text-klingon-alert klingon:font-klingon">
               {overview.totalDonors?.toLocaleString() || 0}
             </div>
-            <p className="text-xs text-blue-600 dark:text-blue-400 tactical:text-primary/70 klingon:text-klingon-accent/70 klingon:font-klingon">All registered donors</p>
+            <p className="text-xs text-blue-600 dark:text-blue-400 tactical:text-primary/70 klingon:text-klingon-accent/70 klingon:font-klingon">Total imported email addresses</p>
           </CardContent>
         </Card>
         
