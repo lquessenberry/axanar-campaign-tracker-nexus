@@ -1,6 +1,7 @@
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Users, UserCheck, DollarSign } from "lucide-react";
 
 interface DonorStatsCardsProps {
   totalCount: number;
@@ -20,49 +21,42 @@ const DonorStatsCards = ({
   isLoadingRaised = false,
 }: DonorStatsCardsProps) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-      <Card className="bg-card border-border">
-        <CardHeader>
-          <CardTitle className="text-card-foreground">Active Donors</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {isLoadingTotal ? (
-            <Skeleton className="h-9 w-24" />
-          ) : (
-            <div className="text-3xl font-bold text-primary">{totalCount?.toLocaleString() || 0}</div>
-          )}
-        </CardContent>
-      </Card>
+    <div className="flex flex-wrap items-center gap-4 p-4 bg-muted/50 border border-border rounded-lg mb-8">
+      <Badge variant="secondary" className="px-4 py-2 text-base gap-2">
+        <Users className="h-5 w-5" />
+        <span className="font-semibold">Active Donors:</span>
+        {isLoadingTotal ? (
+          <Skeleton className="h-5 w-16 ml-2" />
+        ) : (
+          <span className="font-bold text-primary ml-1">
+            {totalCount?.toLocaleString() || 0}
+          </span>
+        )}
+      </Badge>
 
-      <Card className="bg-card border-border">
-        <CardHeader>
-          <CardTitle className="text-card-foreground">With Auth Accounts</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {isLoadingAuthenticated ? (
-            <Skeleton className="h-9 w-24" />
-          ) : (
-            <div className="text-3xl font-bold text-green-400">
-              {authenticatedCount?.toLocaleString() || 0}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+      <Badge variant="secondary" className="px-4 py-2 text-base gap-2">
+        <UserCheck className="h-5 w-5" />
+        <span className="font-semibold">With Auth:</span>
+        {isLoadingAuthenticated ? (
+          <Skeleton className="h-5 w-16 ml-2" />
+        ) : (
+          <span className="font-bold text-green-600 dark:text-green-400 ml-1">
+            {authenticatedCount?.toLocaleString() || 0}
+          </span>
+        )}
+      </Badge>
 
-      <Card className="bg-card border-border">
-        <CardHeader>
-          <CardTitle className="text-card-foreground">Total Raised</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {isLoadingRaised ? (
-            <Skeleton className="h-9 w-32" />
-          ) : (
-            <div className="text-3xl font-bold text-primary">
-              ${totalRaised?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+      <Badge variant="secondary" className="px-4 py-2 text-base gap-2">
+        <DollarSign className="h-5 w-5" />
+        <span className="font-semibold">Total Raised:</span>
+        {isLoadingRaised ? (
+          <Skeleton className="h-5 w-20 ml-2" />
+        ) : (
+          <span className="font-bold text-primary ml-1">
+            ${totalRaised?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
+          </span>
+        )}
+      </Badge>
     </div>
   );
 };
