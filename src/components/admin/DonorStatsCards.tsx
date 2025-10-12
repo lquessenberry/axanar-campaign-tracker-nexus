@@ -36,7 +36,7 @@ const DonorStatsCards = ({
 
       <Card className="bg-card border-border">
         <CardHeader>
-          <CardTitle className="text-card-foreground">Donors with Pledges</CardTitle>
+          <CardTitle className="text-card-foreground">With Auth Accounts</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoadingAuthenticated ? (
