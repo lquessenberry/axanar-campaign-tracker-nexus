@@ -3,19 +3,16 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
 export const useDonorStats = () => {
-  // Get active donors count (donors with pledges) - matches dashboard logic
+  // Get active donors count using the pre-aggregated view
   const { data: activeDonorsData, isLoading: isLoadingActive } = useQuery({
     queryKey: ['active-donors-count'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('pledges')
-        .select('donor_id')
-        .not('donor_id', 'is', null);
+      const { count, error } = await supabase
+        .from('donor_pledge_totals')
+        .select('*', { count: 'exact', head: true });
       
       if (error) throw error;
-      
-      const uniqueDonorIds = new Set(data?.map(p => p.donor_id) || []);
-      return uniqueDonorIds.size;
+      return count || 0;
     },
   });
 
