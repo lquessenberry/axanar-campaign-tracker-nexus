@@ -10,8 +10,8 @@ interface Campaign {
   name: string;
   description?: string;
   image_url?: string;
-  goal_amount: number;
-  current_amount: number;
+  goal_amount: number | null;
+  current_amount: number | null;
   active: boolean;
   start_date?: string;
   end_date?: string;
@@ -100,8 +100,10 @@ const CampaignTable = ({
           ) : (
             campaigns.map((campaign) => {
               // Calculate progress percentage
-              const progressPercentage = campaign.goal_amount > 0 
-                ? Math.min(100, (campaign.current_amount / campaign.goal_amount) * 100) 
+              const goalAmount = campaign.goal_amount || 0;
+              const currentAmount = campaign.current_amount || 0;
+              const progressPercentage = goalAmount > 0 
+                ? Math.min(100, (currentAmount / goalAmount) * 100) 
                 : 0;
                 
               return (
@@ -143,8 +145,8 @@ const CampaignTable = ({
                     <div className="space-y-1 w-full max-w-[180px]">
                       <Progress value={progressPercentage} className="h-2" />
                       <div className="flex justify-between text-xs">
-                        <span>${campaign.current_amount.toLocaleString()}</span>
-                        <span>${campaign.goal_amount.toLocaleString()}</span>
+                        <span>${currentAmount.toLocaleString()}</span>
+                        <span>${goalAmount.toLocaleString()}</span>
                       </div>
                       <div className="text-xs text-muted-foreground">
                         {progressPercentage.toFixed(1)}% Complete
