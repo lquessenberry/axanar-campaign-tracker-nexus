@@ -4422,8 +4422,8 @@ export type Database = {
       get_verified_donor_counts: {
         Args: Record<PropertyKey, never>
         Returns: {
-          authenticated_verified_donors: number
-          total_verified_donors: number
+          authenticated_donors: number
+          total_active_donors: number
         }[]
       }
       gtrgm_compress: {

@@ -23,7 +23,7 @@ const DonorStatsCards = ({
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
       <Card className="bg-card border-border">
         <CardHeader>
-          <CardTitle className="text-card-foreground">Total Donors</CardTitle>
+          <CardTitle className="text-card-foreground">Active Donors</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoadingTotal ? (
@@ -36,7 +36,7 @@ const DonorStatsCards = ({
 
       <Card className="bg-card border-border">
         <CardHeader>
-          <CardTitle className="text-card-foreground">With Auth Accounts</CardTitle>
+          <CardTitle className="text-card-foreground">Donors with Pledges</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoadingAuthenticated ? (

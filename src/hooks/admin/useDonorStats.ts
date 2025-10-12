@@ -16,8 +16,8 @@ export const useDonorStats = () => {
     },
   });
 
-  const totalCount = donorCounts?.total_verified_donors || 0;
-  const authenticatedCount = donorCounts?.authenticated_verified_donors || 0;
+  const totalCount = donorCounts?.total_active_donors || 0;
+  const authenticatedCount = donorCounts?.authenticated_donors || 0;
 
   // Get total amount raised with aggressive caching
   const { data: totalRaised, isLoading: isLoadingRaised } = useQuery({
