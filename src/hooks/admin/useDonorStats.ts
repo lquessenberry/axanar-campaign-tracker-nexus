@@ -3,30 +3,62 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
 export const useDonorStats = () => {
-  // Get total count of all donors in the system
+  // Get total count of verified donors (excluding reserve users)
   const { data: totalCount, isLoading: isLoadingTotal } = useQuery({
-    queryKey: ['total-donors-count'],
+    queryKey: ['total-verified-donors-count'],
     queryFn: async () => {
-      const { count, error } = await supabase
-        .from('donors')
-        .select('*', { count: 'exact', head: true });
+      // First get all reserve user emails
+      const { data: reserveUsers, error: reserveError } = await supabase
+        .from('reserve_users')
+        .select('email');
 
-      if (error) throw error;
-      return count || 0;
+      if (reserveError) throw reserveError;
+
+      const reserveEmails = reserveUsers?.map(ru => ru.email.toLowerCase().trim()) || [];
+
+      // Then count donors excluding those in reserve_users
+      const { data: allDonors, error: donorsError } = await supabase
+        .from('donors')
+        .select('email');
+
+      if (donorsError) throw donorsError;
+
+      // Filter out donors whose email matches reserve users
+      const verifiedDonors = allDonors?.filter(
+        donor => !reserveEmails.includes(donor.email.toLowerCase().trim())
+      ) || [];
+
+      return verifiedDonors.length;
     },
   });
 
-  // Get count of donors with linked auth accounts
+  // Get count of verified donors with linked auth accounts (excluding reserve users)
   const { data: authenticatedCount, isLoading: isLoadingAuthenticated } = useQuery({
-    queryKey: ['authenticated-donors-count'],
+    queryKey: ['authenticated-verified-donors-count'],
     queryFn: async () => {
-      const { count, error } = await supabase
+      // First get all reserve user emails
+      const { data: reserveUsers, error: reserveError } = await supabase
+        .from('reserve_users')
+        .select('email');
+
+      if (reserveError) throw reserveError;
+
+      const reserveEmails = reserveUsers?.map(ru => ru.email.toLowerCase().trim()) || [];
+
+      // Then get donors with auth accounts
+      const { data: authDonors, error: donorsError } = await supabase
         .from('donors')
-        .select('*', { count: 'exact', head: true })
+        .select('email, auth_user_id')
         .not('auth_user_id', 'is', null);
 
-      if (error) throw error;
-      return count || 0;
+      if (donorsError) throw donorsError;
+
+      // Filter out donors whose email matches reserve users
+      const verifiedAuthDonors = authDonors?.filter(
+        donor => !reserveEmails.includes(donor.email.toLowerCase().trim())
+      ) || [];
+
+      return verifiedAuthDonors.length;
     },
   });
 
