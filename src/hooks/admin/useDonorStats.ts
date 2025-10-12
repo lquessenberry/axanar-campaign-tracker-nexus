@@ -3,55 +3,31 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
 export const useDonorStats = () => {
-  // Get unique donor IDs from pledges (actual donors who have donated)
-  const { data: uniqueDonorIds, isLoading: isLoadingDonorIds } = useQuery({
-    queryKey: ['unique-donor-ids-with-pledges'],
+  // Get total count of all donors in the system
+  const { data: totalCount, isLoading: isLoadingTotal } = useQuery({
+    queryKey: ['total-donors-count'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('pledges')
-        .select('donor_id')
-        .not('donor_id', 'is', null);
+      const { count, error } = await supabase
+        .from('donors')
+        .select('*', { count: 'exact', head: true });
 
       if (error) throw error;
-      
-      const uniqueIds = new Set(data?.map(pledge => pledge.donor_id) || []);
-      return Array.from(uniqueIds);
+      return count || 0;
     },
   });
 
-  // Total count of actual donors (those with pledges)
-  const totalCount = uniqueDonorIds?.length || 0;
-
-  // Fetch donor breakdown by source (only for donors with pledges)
-  const { data: donorBreakdown, isLoading: isLoadingBreakdown } = useQuery({
-    queryKey: ['donor-breakdown-with-pledges', uniqueDonorIds],
+  // Get count of donors with linked auth accounts
+  const { data: authenticatedCount, isLoading: isLoadingAuthenticated } = useQuery({
+    queryKey: ['authenticated-donors-count'],
     queryFn: async () => {
-      if (!uniqueDonorIds || uniqueDonorIds.length === 0) {
-        return { originalCount: 0, importedCount: 0, authenticatedCount: 0 };
-      }
-
-      const { data, error } = await supabase
+      const { count, error } = await supabase
         .from('donors')
-        .select('source, source_platform, auth_user_id')
-        .in('id', uniqueDonorIds);
+        .select('*', { count: 'exact', head: true })
+        .not('auth_user_id', 'is', null);
 
       if (error) throw error;
-
-      const originalCount = data?.filter(donor => 
-        !donor.source && !donor.source_platform
-      ).length || 0;
-      
-      const importedCount = data?.filter(donor => 
-        donor.source || donor.source_platform
-      ).length || 0;
-
-      const authenticatedCount = data?.filter(donor => 
-        donor.auth_user_id !== null
-      ).length || 0;
-
-      return { originalCount, importedCount, authenticatedCount };
+      return count || 0;
     },
-    enabled: !!uniqueDonorIds && uniqueDonorIds.length > 0,
   });
 
   // Get total amount raised with aggressive caching
@@ -103,14 +79,11 @@ export const useDonorStats = () => {
   });
 
   return {
-    totalCount,
-    activeDonorsCount: donorBreakdown?.authenticatedCount || 0,
+    totalCount: totalCount || 0,
+    authenticatedCount: authenticatedCount || 0,
     totalRaised,
-    originalDonorsCount: donorBreakdown?.originalCount || 0,
-    importedDonorsCount: donorBreakdown?.importedCount || 0,
-    isLoadingTotal: isLoadingDonorIds,
-    isLoadingActive: isLoadingBreakdown,
+    isLoadingTotal,
+    isLoadingAuthenticated,
     isLoadingRaised,
-    isLoadingBreakdown
   };
 };

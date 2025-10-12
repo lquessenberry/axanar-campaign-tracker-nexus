@@ -13,14 +13,11 @@ interface DonorFilters {
 export const useAdminDonorsData = (currentPage: number, filters: DonorFilters = {}) => {
   const {
     totalCount,
-    activeDonorsCount,
+    authenticatedCount,
     totalRaised,
-    originalDonorsCount,
-    importedDonorsCount,
     isLoadingTotal,
-    isLoadingActive,
+    isLoadingAuthenticated,
     isLoadingRaised,
-    isLoadingBreakdown
   } = useDonorStats();
 
   const { filteredCount } = useDonorFilters(filters);
@@ -35,17 +32,14 @@ export const useAdminDonorsData = (currentPage: number, filters: DonorFilters = 
 
   return {
     totalCount,
-    activeDonorsCount,
+    authenticatedCount,
     totalRaised,
-    originalDonorsCount,
-    importedDonorsCount,
     donors,
     isLoading,
     totalPages,
     itemsPerPage,
     isLoadingTotal,
-    isLoadingActive,
+    isLoadingAuthenticated,
     isLoadingRaised,
-    isLoadingBreakdown
   };
 };

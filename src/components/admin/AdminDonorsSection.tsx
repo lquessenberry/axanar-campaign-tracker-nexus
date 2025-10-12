@@ -21,15 +21,12 @@ interface Donor {
 
 interface AdminDonorsSectionProps {
   totalCount: number;
-  activeDonorsCount: number;
+  authenticatedCount: number;
   totalRaised: number;
-  originalDonorsCount: number;
-  importedDonorsCount: number;
   donors: Donor[];
   isLoadingTotal: boolean;
-  isLoadingActive: boolean;
+  isLoadingAuthenticated: boolean;
   isLoadingRaised: boolean;
-  isLoadingBreakdown: boolean;
   donorsLoading: boolean;
   currentPage: number;
   totalPages: number;
@@ -58,15 +55,12 @@ interface AdminDonorsSectionProps {
 
 const AdminDonorsSection = ({
   totalCount,
-  activeDonorsCount,
+  authenticatedCount,
   totalRaised,
-  originalDonorsCount,
-  importedDonorsCount,
   donors,
   isLoadingTotal,
-  isLoadingActive,
+  isLoadingAuthenticated,
   isLoadingRaised,
-  isLoadingBreakdown,
   donorsLoading,
   currentPage,
   totalPages,
@@ -96,14 +90,11 @@ const AdminDonorsSection = ({
     <div className="space-y-6">
       <DonorStatsCards
         totalCount={totalCount}
-        activeDonorsCount={activeDonorsCount}
+        authenticatedCount={authenticatedCount}
         totalRaised={totalRaised}
-        originalDonorsCount={originalDonorsCount}
-        importedDonorsCount={importedDonorsCount}
         isLoadingTotal={isLoadingTotal}
-        isLoadingActive={isLoadingActive}
+        isLoadingAuthenticated={isLoadingAuthenticated}
         isLoadingRaised={isLoadingRaised}
-        isLoadingBreakdown={isLoadingBreakdown}
       />
       
       <Card>

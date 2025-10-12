@@ -4,29 +4,23 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 interface DonorStatsCardsProps {
   totalCount: number;
-  activeDonorsCount: number;
+  authenticatedCount: number;
   totalRaised: number;
-  originalDonorsCount: number;
-  importedDonorsCount: number;
   isLoadingTotal?: boolean;
-  isLoadingActive?: boolean;
+  isLoadingAuthenticated?: boolean;
   isLoadingRaised?: boolean;
-  isLoadingBreakdown?: boolean;
 }
 
 const DonorStatsCards = ({ 
   totalCount, 
-  activeDonorsCount, 
+  authenticatedCount, 
   totalRaised,
-  originalDonorsCount,
-  importedDonorsCount,
   isLoadingTotal = false,
-  isLoadingActive = false,
+  isLoadingAuthenticated = false,
   isLoadingRaised = false,
-  isLoadingBreakdown = false
 }: DonorStatsCardsProps) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
       <Card className="bg-card border-border">
         <CardHeader>
           <CardTitle className="text-card-foreground">Total Donors</CardTitle>
@@ -42,44 +36,14 @@ const DonorStatsCards = ({
 
       <Card className="bg-card border-border">
         <CardHeader>
-          <CardTitle className="text-card-foreground">Original Donors</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {isLoadingBreakdown ? (
-            <Skeleton className="h-9 w-24" />
-          ) : (
-            <div className="text-3xl font-bold text-blue-400">
-              {originalDonorsCount?.toLocaleString() || 0}
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      <Card className="bg-card border-border">
-        <CardHeader>
-          <CardTitle className="text-card-foreground">Imported Donors</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {isLoadingBreakdown ? (
-            <Skeleton className="h-9 w-24" />
-          ) : (
-            <div className="text-3xl font-bold text-orange-400">
-              {importedDonorsCount?.toLocaleString() || 0}
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      <Card className="bg-card border-border">
-        <CardHeader>
           <CardTitle className="text-card-foreground">With Auth Accounts</CardTitle>
         </CardHeader>
         <CardContent>
-          {isLoadingActive ? (
+          {isLoadingAuthenticated ? (
             <Skeleton className="h-9 w-24" />
           ) : (
             <div className="text-3xl font-bold text-green-400">
-              {activeDonorsCount?.toLocaleString() || 0}
+              {authenticatedCount?.toLocaleString() || 0}
             </div>
           )}
         </CardContent>
