@@ -101,14 +101,13 @@ export const useAdminCampaignsData = (
 
       if (activeError) throw activeError;
 
-      // Get total raised across all campaigns
-      const { data: totals, error: totalsError } = await supabase
-        .from('pledges')
-        .select('amount');
+      // Get total raised using a direct aggregate query to avoid fetching all rows
+      const { data: totalData, error: totalsError } = await supabase
+        .rpc('get_total_raised');
 
       if (totalsError) throw totalsError;
 
-      const totalRaised = totals.reduce((sum, pledge) => sum + Number(pledge.amount), 0);
+      const totalRaised = Number(totalData || 0);
 
       return {
         totalCount,
