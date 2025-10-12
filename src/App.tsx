@@ -31,6 +31,7 @@ import LCARSShowcase from "./pages/LCARSShowcase";
 import PublicProfile from "./pages/PublicProfile";
 import ModelManager from "./pages/ModelManager";
 import Campaign from "./pages/Campaign";
+import Campaigns from "./pages/Campaigns";
 import { Navigate } from "react-router-dom";
 import RequireAdmin from "@/components/auth/RequireAdmin";
 import ErrorBoundary from "@/components/common/ErrorBoundary";
@@ -113,6 +114,7 @@ const App = () => (
             <Route path="/models" element={<ModelManager />} />
             <Route path="/u/:username" element={<PublicProfile />} />
             <Route path="/vanity/:username" element={<Navigate to="/u/:username" replace />} />
+            <Route path="/campaigns" element={<Campaigns />} />
             <Route path="/campaign/:id" element={<Campaign />} />
             <Route path="/forum" element={<Forum />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
