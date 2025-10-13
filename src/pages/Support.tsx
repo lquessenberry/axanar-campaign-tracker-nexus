@@ -5,15 +5,19 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CheckCircle, Mail, Phone, Users, HelpCircle } from "lucide-react";
+import { CheckCircle, HelpCircle, Loader2 } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import AxanarCTA from "@/components/AxanarCTA";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const Support = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isValidatingEmail, setIsValidatingEmail] = useState(false);
+  const [emailValid, setEmailValid] = useState<boolean | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const animationData = null; // legacy var removed; ensures no runtime refs
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -32,16 +36,71 @@ const Support = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    
+    // Reset email validation when email changes
+    if (name === 'email') {
+      setEmailValid(null);
+    }
   };
 
   const handleSelectChange = (value: string) => {
     setFormData((prev) => ({ ...prev, category: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateEmail = async () => {
+    if (!formData.email || formData.email.trim() === '') {
+      setEmailValid(null);
+      return;
+    }
+
+    setIsValidatingEmail(true);
+    try {
+      const { data, error } = await supabase.rpc('check_email_in_system', {
+        check_email: formData.email.trim()
+      });
+
+      if (error) throw error;
+
+      const result = data?.[0];
+      const isValid = result && (result.exists_in_auth || result.exists_in_donors);
+      setEmailValid(isValid);
+      
+      if (!isValid) {
+        toast.error('Email address not found in our system. Please use the email associated with your account.');
+      }
+    } catch (error) {
+      console.error('Error validating email:', error);
+      toast.error('Error validating email address');
+      setEmailValid(false);
+    } finally {
+      setIsValidatingEmail(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    setFormSubmitted(true);
+    
+    if (!emailValid) {
+      toast.error('Please enter a valid email address from our system');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const { error } = await supabase.functions.invoke('send-support-email', {
+        body: formData
+      });
+
+      if (error) throw error;
+
+      setFormSubmitted(true);
+      toast.success('Support request submitted successfully!');
+    } catch (error: any) {
+      console.error('Error submitting support request:', error);
+      toast.error(error.message || 'Failed to submit support request. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -142,15 +201,34 @@ const Support = () => {
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="email">Email Address</Label>
-                          <Input 
-                            id="email"
-                            name="email"
-                            type="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            placeholder="Your email"
-                            required
-                          />
+                          <div className="relative">
+                            <Input 
+                              id="email"
+                              name="email"
+                              type="email"
+                              value={formData.email}
+                              onChange={handleChange}
+                              onBlur={validateEmail}
+                              placeholder="Your registered email"
+                              required
+                              className={
+                                emailValid === false ? 'border-red-500' : 
+                                emailValid === true ? 'border-green-500' : ''
+                              }
+                            />
+                            {isValidatingEmail && (
+                              <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin text-muted-foreground" />
+                            )}
+                            {emailValid === true && !isValidatingEmail && (
+                              <CheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-green-500" />
+                            )}
+                          </div>
+                          {emailValid === false && (
+                            <p className="text-sm text-red-500">This email is not registered in our system</p>
+                          )}
+                          <p className="text-xs text-muted-foreground">
+                            Only registered users can submit support requests
+                          </p>
                         </div>
                       </div>
                       
@@ -202,8 +280,16 @@ const Support = () => {
                       <Button 
                         type="submit" 
                         className="w-full md:w-auto"
+                        disabled={isSubmitting || emailValid !== true}
                       >
-                        Send Message
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Sending...
+                          </>
+                        ) : (
+                          'Send Message'
+                        )}
                       </Button>
                     </form>
                   )}
