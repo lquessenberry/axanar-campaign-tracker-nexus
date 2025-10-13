@@ -56,10 +56,8 @@ const handler = async (req: Request): Promise<Response> => {
       });
     }
 
-    // Get the user from auth.users by email
-    const { data: { users }, error: userError } = await supabase.auth.admin.listUsers();
-    
-    const authUser = users?.find(u => u.email?.toLowerCase() === email.toLowerCase());
+    // Find the user in auth.users by email
+    const { data: { user: authUser }, error: userError } = await supabase.auth.admin.getUserByEmail(email);
 
     if (userError || !authUser) {
       console.error('User not found in auth system:', userError);
@@ -70,6 +68,8 @@ const handler = async (req: Request): Promise<Response> => {
         headers: { "Content-Type": "application/json", ...corsHeaders },
       });
     }
+
+    console.log('Found auth user:', authUser.id);
 
     // Update the user's password using admin API
     const { error: updateError } = await supabase.auth.admin.updateUserById(
