@@ -91,52 +91,6 @@ const Support = () => {
                     <source src="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/grok-video-2b554a15-1907-4afb-8a63-adec085e0206(2).mp4" type="video/mp4" />
                   </video>
                 </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-              <Card className="text-center">
-                <CardContent className="pt-6">
-                  <div className="rounded-full bg-primary/10 p-3 inline-flex mb-4">
-                    <Mail className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">Email Support</h3>
-                  <p className="text-muted-foreground mb-4">
-                    For general inquiries and non-urgent issues
-                  </p>
-                  <a href="mailto:support@axanarcampaigns.com" className="text-primary font-medium hover:underline">
-                    support@axanarcampaigns.com
-                  </a>
-                </CardContent>
-              </Card>
-              
-              <Card className="text-center">
-                <CardContent className="pt-6">
-                  <div className="rounded-full bg-primary/10 p-3 inline-flex mb-4">
-                    <Users className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">Community Forum</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Connect with other backers and get community support
-                  </p>
-                  <a href="https://community.axanarcampaigns.com" className="text-primary font-medium hover:underline">
-                    Visit the Forum
-                  </a>
-                </CardContent>
-              </Card>
-              
-              <Card className="text-center">
-                <CardContent className="pt-6">
-                  <div className="rounded-full bg-primary/10 p-3 inline-flex mb-4">
-                    <Phone className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">Phone Support</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Available Monday to Friday, 9am to 5pm PT
-                  </p>
-                  <a href="tel:+18005551234" className="text-primary font-medium hover:underline">
-                    +1 (800) 555-1234
-                  </a>
-                </CardContent>
-              </Card>
-            </div>
             
             {/* FAQ Section */}
             <div className="text-center mb-12">
