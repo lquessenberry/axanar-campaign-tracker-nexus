@@ -56,14 +56,11 @@ const handler = async (req: Request): Promise<Response> => {
       });
     }
 
-    // Query auth.users directly to find the user by email
-    const { data: authUserData, error: userError } = await supabase
-      .from('auth.users')
-      .select('id')
-      .eq('email', email.toLowerCase())
-      .single();
+    // Get the auth user ID using the RPC function
+    const { data: authUserId, error: userError } = await supabase
+      .rpc('get_auth_user_id_by_email', { user_email: email });
 
-    if (userError || !authUserData) {
+    if (userError || !authUserId) {
       console.error('User not found in auth system:', userError);
       return new Response(JSON.stringify({ 
         error: 'User account not found'
@@ -73,11 +70,11 @@ const handler = async (req: Request): Promise<Response> => {
       });
     }
 
-    console.log('Found auth user:', authUserData.id);
+    console.log('Found auth user:', authUserId);
 
     // Update the user's password using admin API
     const { error: updateError } = await supabase.auth.admin.updateUserById(
-      authUserData.id,
+      authUserId,
       { password: password }
     );
 

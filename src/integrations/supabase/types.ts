@@ -4336,6 +4336,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: Json[]
       }
+      get_auth_user_id_by_email: {
+        Args: { user_email: string }
+        Returns: string
+      }
       get_campaign_analytics_paginated: {
         Args: {
           page_offset?: number
