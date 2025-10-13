@@ -4536,14 +4536,7 @@ export type Database = {
         Returns: undefined
       }
       initiate_account_recovery: {
-        Args:
-          | {
-              client_ip?: string
-              client_user_agent?: string
-              recovery_type: string
-              user_email: string
-            }
-          | { recovery_type: string; user_email: string }
+        Args: { recovery_type: string; user_email: string }
         Returns: {
           expires_at: string
           message: string
