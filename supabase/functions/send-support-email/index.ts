@@ -49,7 +49,8 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    if (!emailCheck || (!emailCheck.exists_in_auth && !emailCheck.exists_in_donors)) {
+    const emailResult = emailCheck?.[0];
+    if (!emailResult || (!emailResult.exists_in_auth && !emailResult.exists_in_donors)) {
       console.log('Email not found in system:', email);
       return new Response(
         JSON.stringify({ error: 'Email address not found in our system. Please use the email associated with your account.' }),
