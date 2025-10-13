@@ -56,17 +56,15 @@ const handler = async (req: Request): Promise<Response> => {
       });
     }
 
-    // Get the user ID from donors table
-    const { data: donorData, error: donorError } = await supabase
-      .from('donors')
-      .select('auth_user_id')
-      .eq('email', email)
-      .single();
+    // Get the user from auth.users by email
+    const { data: { users }, error: userError } = await supabase.auth.admin.listUsers();
+    
+    const authUser = users?.find(u => u.email?.toLowerCase() === email.toLowerCase());
 
-    if (donorError || !donorData?.auth_user_id) {
-      console.error('User not found or not linked to auth:', donorError);
+    if (userError || !authUser) {
+      console.error('User not found in auth system:', userError);
       return new Response(JSON.stringify({ 
-        error: 'User not found or not properly linked to authentication system'
+        error: 'User account not found'
       }), {
         status: 400,
         headers: { "Content-Type": "application/json", ...corsHeaders },
@@ -75,7 +73,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Update the user's password using admin API
     const { error: updateError } = await supabase.auth.admin.updateUserById(
-      donorData.auth_user_id,
+      authUser.id,
       { password: password }
     );
 
