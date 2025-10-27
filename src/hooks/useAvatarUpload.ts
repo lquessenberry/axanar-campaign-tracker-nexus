@@ -24,11 +24,14 @@ export const useAvatarUpload = () => {
     }
 
     setIsUploading(true);
+    console.log('🔄 Starting avatar upload for user:', user.id);
 
     try {
       // Generate unique file name
       const fileExt = file.name.split('.').pop();
       const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+
+      console.log('📤 Uploading avatar to path:', fileName);
 
       // Upload to storage
       const { data: uploadData, error: uploadError } = await supabase.storage
@@ -39,22 +42,25 @@ export const useAvatarUpload = () => {
         });
 
       if (uploadError) {
-        console.error('Upload error:', uploadError);
-        toast.error('Failed to upload image');
+        console.error('❌ Avatar upload error:', uploadError);
+        toast.error(`Failed to upload image: ${uploadError.message}`);
         return null;
       }
+
+      console.log('✅ Avatar uploaded successfully:', uploadData.path);
 
       // Get public URL
       const { data: { publicUrl } } = supabase.storage
         .from('avatars')
         .getPublicUrl(uploadData.path);
 
+      console.log('✅ Avatar public URL:', publicUrl);
       toast.success('Profile photo uploaded successfully!');
       return publicUrl;
 
-    } catch (error) {
-      console.error('Error uploading avatar:', error);
-      toast.error('Failed to upload profile photo');
+    } catch (error: any) {
+      console.error('❌ Error uploading avatar:', error);
+      toast.error(`Failed to upload profile photo: ${error?.message || 'Unknown error'}`);
       return null;
     } finally {
       setIsUploading(false);

@@ -110,20 +110,24 @@ const Profile = () => {
   }
 
   const handleSave = async () => {
+    console.log('💾 Profile save initiated with data:', formData);
     try {
       if (isViewingOtherUser) {
+        console.log('👤 Admin updating user profile:', userId);
         await updateAdminProfile.mutateAsync({
           userId: userId!,
           profileData: formData,
         });
       } else {
+        console.log('👤 User updating own profile');
         await updateOwnProfile.mutateAsync(formData);
       }
       setIsEditing(false);
-      toast.success("Profile updated successfully!");
-    } catch (error) {
-      toast.error("Failed to update profile");
-      console.error('Error updating profile:', error);
+      toast.success("Profile updated successfully! All changes have been saved.");
+    } catch (error: any) {
+      const errorMessage = error?.message || "Failed to update profile";
+      toast.error(errorMessage);
+      console.error('❌ Error updating profile:', error);
     }
   };
 

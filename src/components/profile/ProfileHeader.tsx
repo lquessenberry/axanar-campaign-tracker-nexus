@@ -79,10 +79,19 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     const file = event.target.files?.[0];
     if (!file) return;
 
+    console.log('📷 Avatar file selected:', file.name, 'Size:', file.size, 'Type:', file.type);
+
     const avatarUrl = await uploadAvatar(file);
     if (avatarUrl) {
+      console.log('🎨 Updating profile with new avatar URL:', avatarUrl);
       // Update profile with new avatar URL
-      await updateProfile.mutateAsync({ avatar_url: avatarUrl });
+      try {
+        await updateProfile.mutateAsync({ avatar_url: avatarUrl });
+        toast.success('Avatar updated! Your profile photo has been changed.');
+      } catch (error: any) {
+        console.error('❌ Failed to update profile with avatar:', error);
+        toast.error(`Failed to save avatar: ${error?.message || 'Unknown error'}`);
+      }
     }
 
     // Reset file input
@@ -232,16 +241,26 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 </div>
                 <div>
                   <Label htmlFor="bio" className="text-white text-sm font-medium mb-1 block">
-                    Bio
+                    Bio <span className="text-white/60 text-xs">({formData.bio.length}/5000 characters)</span>
                   </Label>
                   <Textarea
                     id="bio"
                     value={formData.bio}
-                    onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
+                    onChange={(e) => {
+                      if (e.target.value.length <= 5000) {
+                        setFormData(prev => ({ ...prev, bio: e.target.value }));
+                      }
+                    }}
                     placeholder="Tell us about yourself..."
                     className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:bg-white/15 focus:border-axanar-teal resize-none"
-                    rows={2}
+                    rows={3}
+                    maxLength={5000}
                   />
+                  {formData.bio.length > 4500 && (
+                    <p className="text-xs text-amber-400 mt-1">
+                      {5000 - formData.bio.length} characters remaining
+                    </p>
+                  )}
                 </div>
               </div>
             ) : (

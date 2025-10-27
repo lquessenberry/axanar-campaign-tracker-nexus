@@ -48,13 +48,16 @@ const AddressDialog: React.FC<AddressDialogProps> = ({ open, onOpenChange }) => 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    console.log('📍 Submitting address form:', formData);
+    
     try {
       await updateAddress.mutateAsync(formData);
-      toast.success("Shipping address updated successfully!");
+      toast.success("Shipping address updated successfully! Changes will be visible on your profile.");
       onOpenChange(false);
-    } catch (error) {
-      toast.error("Failed to update shipping address");
-      console.error('Error updating address:', error);
+    } catch (error: any) {
+      const errorMessage = error?.message || "Failed to update shipping address";
+      toast.error(errorMessage);
+      console.error('❌ Error updating address:', error);
     }
   };
 

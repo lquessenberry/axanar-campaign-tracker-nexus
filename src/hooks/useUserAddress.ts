@@ -55,6 +55,8 @@ export const useUpdateAddress = () => {
     mutationFn: async (addressData: Address) => {
       if (!user) throw new Error('User not authenticated');
       
+      console.log('🔄 Starting address update for user:', user.id);
+      
       // Get donor record
       const { data: donor, error: donorError } = await supabase
         .from('donors')
@@ -62,7 +64,12 @@ export const useUpdateAddress = () => {
         .eq('auth_user_id', user.id)
         .single();
 
-      if (donorError) throw donorError;
+      if (donorError) {
+        console.error('❌ Error fetching donor:', donorError);
+        throw donorError;
+      }
+
+      console.log('✅ Found donor record:', donor.id);
 
       // Check if address exists
       const { data: existingAddress } = await supabase
@@ -79,6 +86,7 @@ export const useUpdateAddress = () => {
       };
 
       if (existingAddress) {
+        console.log('🔄 Updating existing address:', existingAddress.id);
         // Update existing address
         const { data, error } = await supabase
           .from('addresses')
@@ -87,9 +95,14 @@ export const useUpdateAddress = () => {
           .select()
           .single();
 
-        if (error) throw error;
+        if (error) {
+          console.error('❌ Error updating address:', error);
+          throw error;
+        }
+        console.log('✅ Address updated successfully');
         return data;
       } else {
+        console.log('🔄 Creating new address');
         // Create new address
         const { data, error } = await supabase
           .from('addresses')
@@ -97,12 +110,21 @@ export const useUpdateAddress = () => {
           .select()
           .single();
 
-        if (error) throw error;
+        if (error) {
+          console.error('❌ Error creating address:', error);
+          throw error;
+        }
+        console.log('✅ Address created successfully');
         return data;
       }
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log('✅ Address update mutation succeeded, invalidating cache');
       queryClient.invalidateQueries({ queryKey: ['user-address', user?.id] });
+      queryClient.setQueryData(['user-address', user?.id], data);
+    },
+    onError: (error) => {
+      console.error('❌ Address update mutation failed:', error);
     },
   });
 };

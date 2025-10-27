@@ -79,7 +79,12 @@ export const useUpdateProfile = () => {
     mutationFn: async (updates: { username?: string; full_name?: string; bio?: string; avatar_url?: string; background_url?: string | null }) => {
       if (!user) throw new Error('User not authenticated');
       
-      console.log('Updating profile with:', updates);
+      console.log('🔄 Starting profile update with:', updates);
+      
+      // Validate bio length if provided
+      if (updates.bio && updates.bio.length > 5000) {
+        throw new Error('Bio must be less than 5000 characters');
+      }
       
       // Update profile table
       const { data, error } = await supabase
@@ -90,15 +95,20 @@ export const useUpdateProfile = () => {
         .single();
 
       if (error) {
-        console.error('Profile update error:', error);
+        console.error('❌ Profile update error:', error);
         throw error;
       }
 
-      console.log('Profile updated successfully:', data);
+      console.log('✅ Profile updated successfully:', data);
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log('✅ Profile update mutation succeeded, invalidating cache');
       queryClient.invalidateQueries({ queryKey: ['user-profile', user?.id] });
+      queryClient.setQueryData(['user-profile', user?.id], data);
+    },
+    onError: (error) => {
+      console.error('❌ Profile update mutation failed:', error);
     },
   });
 };
