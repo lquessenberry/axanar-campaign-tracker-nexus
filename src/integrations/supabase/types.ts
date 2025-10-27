@@ -162,7 +162,7 @@ export type Database = {
           created_at: string | null
           error_message: string | null
           id: string
-          ip_address: unknown | null
+          ip_address: unknown
           new_values: Json | null
           old_values: Json | null
           success: boolean | null
@@ -176,7 +176,7 @@ export type Database = {
           created_at?: string | null
           error_message?: string | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           new_values?: Json | null
           old_values?: Json | null
           success?: boolean | null
@@ -190,7 +190,7 @@ export type Database = {
           created_at?: string | null
           error_message?: string | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           new_values?: Json | null
           old_values?: Json | null
           success?: boolean | null
@@ -2127,7 +2127,7 @@ export type Database = {
           created_at: string | null
           email: string
           id: string
-          ip_address: unknown | null
+          ip_address: unknown
           last_attempt: string | null
           user_agent: string | null
         }
@@ -2137,7 +2137,7 @@ export type Database = {
           created_at?: string | null
           email: string
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           last_attempt?: string | null
           user_agent?: string | null
         }
@@ -2147,7 +2147,7 @@ export type Database = {
           created_at?: string | null
           email?: string
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           last_attempt?: string | null
           user_agent?: string | null
         }
@@ -4043,10 +4043,7 @@ export type Database = {
       }
     }
     Functions: {
-      add_admin_by_email: {
-        Args: { admin_email: string }
-        Returns: undefined
-      }
+      add_admin_by_email: { Args: { admin_email: string }; Returns: undefined }
       add_admin_user: {
         Args: {
           make_content_manager?: boolean
@@ -4055,16 +4052,10 @@ export type Database = {
         }
         Returns: undefined
       }
-      add_auth_user_id_column: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      airtable_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
+      add_auth_user_id_column: { Args: never; Returns: undefined }
+      airtable_fdw_handler: { Args: never; Returns: unknown }
       airtable_fdw_meta: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           author: string
           name: string
@@ -4076,12 +4067,9 @@ export type Database = {
         Args: { catalog: unknown; options: string[] }
         Returns: undefined
       }
-      auth0_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
+      auth0_fdw_handler: { Args: never; Returns: unknown }
       auth0_fdw_meta: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           author: string
           name: string
@@ -4093,16 +4081,10 @@ export type Database = {
         Args: { catalog: unknown; options: string[] }
         Returns: undefined
       }
-      ban_user: {
-        Args: { target_user_id: string }
-        Returns: boolean
-      }
-      big_query_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
+      ban_user: { Args: { target_user_id: string }; Returns: boolean }
+      big_query_fdw_handler: { Args: never; Returns: unknown }
       big_query_fdw_meta: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           author: string
           name: string
@@ -4114,22 +4096,13 @@ export type Database = {
         Args: { catalog: unknown; options: string[] }
         Returns: undefined
       }
-      bytea_to_text: {
-        Args: { data: string }
-        Returns: string
-      }
+      bytea_to_text: { Args: { data: string }; Returns: string }
       calculate_donation_achievements: {
         Args: { user_uuid: string }
         Returns: undefined
       }
-      check_current_user_is_admin: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
-      check_current_user_is_super_admin: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
+      check_current_user_is_admin: { Args: never; Returns: boolean }
+      check_current_user_is_super_admin: { Args: never; Returns: boolean }
       check_email_exists: {
         Args: { check_email: string }
         Returns: {
@@ -4167,20 +4140,11 @@ export type Database = {
           message: string
         }[]
       }
-      check_user_is_admin: {
-        Args: { user_id: string }
-        Returns: boolean
-      }
-      check_user_is_super_admin: {
-        Args: { user_id: string }
-        Returns: boolean
-      }
-      click_house_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
+      check_user_is_admin: { Args: { user_id: string }; Returns: boolean }
+      check_user_is_super_admin: { Args: { user_id: string }; Returns: boolean }
+      click_house_fdw_handler: { Args: never; Returns: unknown }
       click_house_fdw_meta: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           author: string
           name: string
@@ -4192,12 +4156,9 @@ export type Database = {
         Args: { catalog: unknown; options: string[] }
         Returns: undefined
       }
-      cognito_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
+      cognito_fdw_handler: { Args: never; Returns: unknown }
       cognito_fdw_meta: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           author: string
           name: string
@@ -4210,7 +4171,7 @@ export type Database = {
         Returns: undefined
       }
       create_auth_users_for_all_donors: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           count: number
           details: string
@@ -4218,7 +4179,7 @@ export type Database = {
         }[]
       }
       create_auth_users_for_donors: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           count: number
           result_status: string
@@ -4247,16 +4208,10 @@ export type Database = {
           user_id: string
         }[]
       }
-      csv_parse_line_plpgsql: {
-        Args: { line: string }
-        Returns: string[]
-      }
-      duckdb_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
+      csv_parse_line_plpgsql: { Args: { line: string }; Returns: string[] }
+      duckdb_fdw_handler: { Args: never; Returns: unknown }
       duckdb_fdw_meta: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           author: string
           name: string
@@ -4268,20 +4223,11 @@ export type Database = {
         Args: { catalog: unknown; options: string[] }
         Returns: undefined
       }
-      enhanced_admin_security_check: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
-      ensure_profile_usernames: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      firebase_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
+      enhanced_admin_security_check: { Args: never; Returns: boolean }
+      ensure_profile_usernames: { Args: never; Returns: undefined }
+      firebase_fdw_handler: { Args: never; Returns: unknown }
       firebase_fdw_meta: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           author: string
           name: string
@@ -4293,28 +4239,16 @@ export type Database = {
         Args: { catalog: unknown; options: string[] }
         Returns: undefined
       }
-      forum_backfill_badges_from_rewards: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      forum_slugify: {
-        Args: { src: string }
-        Returns: string
-      }
-      forum_sync_admin_ranks: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
+      forum_backfill_badges_from_rewards: { Args: never; Returns: undefined }
+      forum_slugify: { Args: { src: string }; Returns: string }
+      forum_sync_admin_ranks: { Args: never; Returns: undefined }
       generate_username_from_email: {
         Args: { email_input: string }
         Returns: string
       }
-      get_admin_analytics: {
-        Args: Record<PropertyKey, never>
-        Returns: Json
-      }
+      get_admin_analytics: { Args: never; Returns: Json }
       get_admin_profiles: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           full_name: string
           id: string
@@ -4322,7 +4256,7 @@ export type Database = {
         }[]
       }
       get_admin_users: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           created_at: string
           email: string
@@ -4332,10 +4266,7 @@ export type Database = {
           user_id: string
         }[]
       }
-      get_all_users: {
-        Args: Record<PropertyKey, never>
-        Returns: Json[]
-      }
+      get_all_users: { Args: never; Returns: Json[] }
       get_auth_user_id_by_email: {
         Args: { user_email: string }
         Returns: string
@@ -4350,10 +4281,7 @@ export type Database = {
         }
         Returns: Json
       }
-      get_comprehensive_admin_analytics: {
-        Args: Record<PropertyKey, never>
-        Returns: Json
-      }
+      get_comprehensive_admin_analytics: { Args: never; Returns: Json }
       get_donor_analytics: {
         Args: {
           page_offset?: number
@@ -4365,7 +4293,7 @@ export type Database = {
         Returns: Json
       }
       get_donor_auth_migration_status: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           linked_donors: number
           migration_progress: number
@@ -4400,10 +4328,7 @@ export type Database = {
         }
         Returns: Json
       }
-      get_total_raised: {
-        Args: Record<PropertyKey, never>
-        Returns: number
-      }
+      get_total_raised: { Args: never; Returns: number }
       get_user_by_username: {
         Args: { lookup_username: string }
         Returns: {
@@ -4424,38 +4349,15 @@ export type Database = {
         }[]
       }
       get_verified_donor_counts: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           authenticated_donors: number
           total_active_donors: number
         }[]
       }
-      gtrgm_compress: {
-        Args: { "": unknown }
-        Returns: unknown
-      }
-      gtrgm_decompress: {
-        Args: { "": unknown }
-        Returns: unknown
-      }
-      gtrgm_in: {
-        Args: { "": unknown }
-        Returns: unknown
-      }
-      gtrgm_options: {
-        Args: { "": unknown }
-        Returns: undefined
-      }
-      gtrgm_out: {
-        Args: { "": unknown }
-        Returns: unknown
-      }
-      hello_world_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
+      hello_world_fdw_handler: { Args: never; Returns: unknown }
       hello_world_fdw_meta: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           author: string
           name: string
@@ -4470,27 +4372,77 @@ export type Database = {
       http: {
         Args: { request: Database["public"]["CompositeTypes"]["http_request"] }
         Returns: Database["public"]["CompositeTypes"]["http_response"]
+        SetofOptions: {
+          from: "http_request"
+          to: "http_response"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
-      http_delete: {
-        Args:
-          | { content: string; content_type: string; uri: string }
-          | { uri: string }
-        Returns: Database["public"]["CompositeTypes"]["http_response"]
-      }
-      http_get: {
-        Args: { data: Json; uri: string } | { uri: string }
-        Returns: Database["public"]["CompositeTypes"]["http_response"]
-      }
+      http_delete:
+        | {
+            Args: { uri: string }
+            Returns: Database["public"]["CompositeTypes"]["http_response"]
+            SetofOptions: {
+              from: "*"
+              to: "http_response"
+              isOneToOne: true
+              isSetofReturn: false
+            }
+          }
+        | {
+            Args: { content: string; content_type: string; uri: string }
+            Returns: Database["public"]["CompositeTypes"]["http_response"]
+            SetofOptions: {
+              from: "*"
+              to: "http_response"
+              isOneToOne: true
+              isSetofReturn: false
+            }
+          }
+      http_get:
+        | {
+            Args: { uri: string }
+            Returns: Database["public"]["CompositeTypes"]["http_response"]
+            SetofOptions: {
+              from: "*"
+              to: "http_response"
+              isOneToOne: true
+              isSetofReturn: false
+            }
+          }
+        | {
+            Args: { data: Json; uri: string }
+            Returns: Database["public"]["CompositeTypes"]["http_response"]
+            SetofOptions: {
+              from: "*"
+              to: "http_response"
+              isOneToOne: true
+              isSetofReturn: false
+            }
+          }
       http_head: {
         Args: { uri: string }
         Returns: Database["public"]["CompositeTypes"]["http_response"]
+        SetofOptions: {
+          from: "*"
+          to: "http_response"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       http_header: {
         Args: { field: string; value: string }
         Returns: Database["public"]["CompositeTypes"]["http_header"]
+        SetofOptions: {
+          from: "*"
+          to: "http_header"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       http_list_curlopt: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           curlopt: string
           value: string
@@ -4499,31 +4451,52 @@ export type Database = {
       http_patch: {
         Args: { content: string; content_type: string; uri: string }
         Returns: Database["public"]["CompositeTypes"]["http_response"]
+        SetofOptions: {
+          from: "*"
+          to: "http_response"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
-      http_post: {
-        Args:
-          | { content: string; content_type: string; uri: string }
-          | { data: Json; uri: string }
-        Returns: Database["public"]["CompositeTypes"]["http_response"]
-      }
+      http_post:
+        | {
+            Args: { content: string; content_type: string; uri: string }
+            Returns: Database["public"]["CompositeTypes"]["http_response"]
+            SetofOptions: {
+              from: "*"
+              to: "http_response"
+              isOneToOne: true
+              isSetofReturn: false
+            }
+          }
+        | {
+            Args: { data: Json; uri: string }
+            Returns: Database["public"]["CompositeTypes"]["http_response"]
+            SetofOptions: {
+              from: "*"
+              to: "http_response"
+              isOneToOne: true
+              isSetofReturn: false
+            }
+          }
       http_put: {
         Args: { content: string; content_type: string; uri: string }
         Returns: Database["public"]["CompositeTypes"]["http_response"]
+        SetofOptions: {
+          from: "*"
+          to: "http_response"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
-      http_reset_curlopt: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
+      http_reset_curlopt: { Args: never; Returns: boolean }
       http_set_curlopt: {
         Args: { curlopt: string; value: string }
         Returns: boolean
       }
-      iceberg_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
+      iceberg_fdw_handler: { Args: never; Returns: unknown }
       iceberg_fdw_meta: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           author: string
           name: string
@@ -4544,20 +4517,14 @@ export type Database = {
           success: boolean
         }[]
       }
-      is_admin: {
-        Args: { check_user_id: string }
-        Returns: boolean
-      }
-      is_super_admin: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
+      is_admin: { Args: { check_user_id: string }; Returns: boolean }
+      is_super_admin: { Args: never; Returns: boolean }
       link_donor_to_auth_user: {
         Args: { donor_email: string }
         Returns: string
       }
       link_donors_to_auth_users: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           count: number
           result_status: string
@@ -4603,12 +4570,9 @@ export type Database = {
         }
         Returns: undefined
       }
-      logflare_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
+      logflare_fdw_handler: { Args: never; Returns: unknown }
       logflare_fdw_meta: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           author: string
           name: string
@@ -4621,18 +4585,15 @@ export type Database = {
         Returns: undefined
       }
       merge_legacy_donor_data: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           action: string
           count: number
         }[]
       }
-      mssql_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
+      mssql_fdw_handler: { Args: never; Returns: unknown }
       mssql_fdw_meta: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           author: string
           name: string
@@ -4644,12 +4605,9 @@ export type Database = {
         Args: { catalog: unknown; options: string[] }
         Returns: undefined
       }
-      redis_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
+      redis_fdw_handler: { Args: never; Returns: unknown }
       redis_fdw_meta: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           author: string
           name: string
@@ -4665,12 +4623,9 @@ export type Database = {
         Args: { target_user_id: string }
         Returns: undefined
       }
-      s3_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
+      s3_fdw_handler: { Args: never; Returns: unknown }
       s3_fdw_meta: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           author: string
           name: string
@@ -4682,28 +4637,12 @@ export type Database = {
         Args: { catalog: unknown; options: string[] }
         Returns: undefined
       }
-      sanitize_text_input: {
-        Args: { input_text: string }
-        Returns: string
-      }
-      set_limit: {
-        Args: { "": number }
-        Returns: number
-      }
-      show_limit: {
-        Args: Record<PropertyKey, never>
-        Returns: number
-      }
-      show_trgm: {
-        Args: { "": string }
-        Returns: string[]
-      }
-      stripe_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
+      sanitize_text_input: { Args: { input_text: string }; Returns: string }
+      show_limit: { Args: never; Returns: number }
+      show_trgm: { Args: { "": string }; Returns: string[] }
+      stripe_fdw_handler: { Args: never; Returns: unknown }
       stripe_fdw_meta: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           author: string
           name: string
@@ -4715,14 +4654,8 @@ export type Database = {
         Args: { catalog: unknown; options: string[] }
         Returns: undefined
       }
-      text_to_bytea: {
-        Args: { data: string }
-        Returns: string
-      }
-      unban_user: {
-        Args: { target_user_id: string }
-        Returns: boolean
-      }
+      text_to_bytea: { Args: { data: string }; Returns: string }
+      unban_user: { Args: { target_user_id: string }; Returns: boolean }
       update_admin_user: {
         Args: {
           make_content_manager: boolean
@@ -4735,14 +4668,21 @@ export type Database = {
         Args: { is_online_status: boolean }
         Returns: undefined
       }
-      urlencode: {
-        Args: { data: Json } | { string: string } | { string: string }
-        Returns: string
-      }
-      validate_email_secure: {
-        Args: { email_input: string }
-        Returns: boolean
-      }
+      urlencode:
+        | { Args: { data: Json }; Returns: string }
+        | {
+            Args: { string: string }
+            Returns: {
+              error: true
+            } & "Could not choose the best candidate function between: public.urlencode(string => bytea), public.urlencode(string => varchar). Try renaming the parameters or the function itself in the database so function overloading can be resolved"
+          }
+        | {
+            Args: { string: string }
+            Returns: {
+              error: true
+            } & "Could not choose the best candidate function between: public.urlencode(string => bytea), public.urlencode(string => varchar). Try renaming the parameters or the function itself in the database so function overloading can be resolved"
+          }
+      validate_email_secure: { Args: { email_input: string }; Returns: boolean }
       validate_recovery_token: {
         Args: { token: string; user_email: string }
         Returns: {
@@ -4759,12 +4699,9 @@ export type Database = {
           message: string
         }[]
       }
-      wasm_fdw_handler: {
-        Args: Record<PropertyKey, never>
-        Returns: unknown
-      }
+      wasm_fdw_handler: { Args: never; Returns: unknown }
       wasm_fdw_meta: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           author: string
           name: string
@@ -4786,7 +4723,7 @@ export type Database = {
         value: string | null
       }
       http_request: {
-        method: unknown | null
+        method: unknown
         uri: string | null
         headers: Database["public"]["CompositeTypes"]["http_header"][] | null
         content_type: string | null
