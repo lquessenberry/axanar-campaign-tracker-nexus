@@ -5,6 +5,7 @@ import DonorTable from "./DonorTable";
 import DonorPagination from "./DonorPagination";
 import DonorSearchAndFilters from "./DonorSearchAndFilters";
 import DonorBulkActions from "./DonorBulkActions";
+import { DonorAccountLinkTool } from "./DonorAccountLinkTool";
 
 interface Donor {
   id: string;
@@ -165,6 +166,8 @@ const AdminDonorsSection = ({
           )}
         </CardContent>
       </Card>
+
+      <DonorAccountLinkTool />
     </div>
   );
 };
