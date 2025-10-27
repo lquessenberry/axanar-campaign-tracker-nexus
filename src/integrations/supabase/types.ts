@@ -4053,6 +4053,15 @@ export type Database = {
         Returns: undefined
       }
       add_auth_user_id_column: { Args: never; Returns: undefined }
+      admin_link_donor_account: {
+        Args: { donor_email_to_link: string; target_auth_user_id: string }
+        Returns: {
+          auth_user_id: string
+          donor_id: string
+          email: string
+          message: string
+        }[]
+      }
       airtable_fdw_handler: { Args: never; Returns: unknown }
       airtable_fdw_meta: {
         Args: never

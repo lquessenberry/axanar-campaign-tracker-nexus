@@ -29,20 +29,29 @@ export const DonorAccountLinkTool = () => {
     console.log("🔗 Linking donor account:", donorEmail, "to auth user:", authUserId);
 
     try {
-      // Update the donor record to link it to the auth user
-      const { data, error } = await supabase
-        .from("donors")
-        .update({ auth_user_id: authUserId })
-        .eq("email", donorEmail.toLowerCase())
-        .is("auth_user_id", null)
-        .select();
+      // Use the admin function to link the donor account
+      const { data, error } = await supabase.rpc("admin_link_donor_account", {
+        donor_email_to_link: donorEmail.toLowerCase().trim(),
+        target_auth_user_id: authUserId,
+      });
 
       if (error) throw error;
 
       if (!data || data.length === 0) {
         toast({
-          title: "No Update",
-          description: "No unlinked donor found with that email, or already linked",
+          title: "Error",
+          description: "Failed to link accounts - no result returned",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const result = data[0];
+
+      if (!result.donor_id) {
+        toast({
+          title: "Not Found",
+          description: result.message || "No unlinked donor found with that email",
           variant: "destructive",
         });
         return;
@@ -50,10 +59,14 @@ export const DonorAccountLinkTool = () => {
 
       toast({
         title: "Success",
-        description: `Linked ${data.length} donor record(s) to auth user ${authUserId}`,
+        description: `${result.message} - Donor ID: ${result.donor_id}`,
       });
 
-      console.log("✅ Linked donor records:", data);
+      console.log("✅ Linked donor account:", result);
+
+      // Clear the form
+      setDonorEmail("");
+      setAuthUserId("");
     } catch (error: any) {
       console.error("❌ Error linking accounts:", error);
       toast({
