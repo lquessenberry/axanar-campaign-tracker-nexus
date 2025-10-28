@@ -39,6 +39,7 @@ import RequireAuth from "@/components/auth/RequireAuth";
 import SignInRequired from "./pages/SignInRequired";
 import Forbidden from "./pages/Forbidden";
 import Forum from "./pages/Forum";
+import VisitorAnalytics from "./pages/admin/VisitorAnalytics";
 
 const queryClient = new QueryClient();
 
@@ -101,6 +102,14 @@ const App = () => (
               element={
                 <RequireAdmin>
                   <AdminMessages />
+                </RequireAdmin>
+              }
+            />
+            <Route
+              path="/admin/analytics"
+              element={
+                <RequireAdmin>
+                  <VisitorAnalytics />
                 </RequireAdmin>
               }
             />

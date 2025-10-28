@@ -1,5 +1,5 @@
-
 import { ChevronRight } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -20,6 +20,25 @@ interface AdminSidebarProps {
 const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => {
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleSectionClick = (sectionId: string) => {
+    // Handle navigation for sections with dedicated routes
+    if (sectionId === "analytics") {
+      navigate("/admin/analytics");
+    } else {
+      onSectionChange(sectionId);
+    }
+  };
+
+  // Determine active section from route
+  const getCurrentSection = () => {
+    if (location.pathname === "/admin/analytics") return "analytics";
+    return activeSection;
+  };
+
+  const currentSection = getCurrentSection();
 
   return (
     <Sidebar 
@@ -52,11 +71,11 @@ const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => 
           {sidebarItems.map((item, index) => (
             <SidebarMenuItem key={item.id} className="animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
               <SidebarMenuButton
-                onClick={() => onSectionChange(item.id)}
-                isActive={activeSection === item.id}
+                onClick={() => handleSectionClick(item.id)}
+                isActive={currentSection === item.id}
                 className={`
                   w-full group relative overflow-hidden transition-all duration-300 ease-out
-                  ${activeSection === item.id 
+                  ${currentSection === item.id 
                     ? 'bg-gradient-to-r from-primary to-primary/80 text-primary-foreground shadow-lg shadow-primary/25 border border-primary/50' 
                     : 'text-sidebar-foreground hover:text-sidebar-foreground hover:bg-sidebar-accent hover:shadow-md hover:scale-105'
                   }
@@ -65,12 +84,12 @@ const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => 
               >
                 <div className="flex items-center gap-3 relative z-10">
                   <item.icon className={`h-12 w-12 transition-transform duration-300 ${
-                    activeSection === item.id ? 'scale-110 text-primary-foreground' : 'group-hover:scale-110'
+                    currentSection === item.id ? 'scale-110 text-primary-foreground' : 'group-hover:scale-110'
                   }`} />
                   {!isCollapsed && (
                     <>
                       <span className="flex-1 text-left font-semibold">{item.label}</span>
-                      {activeSection === item.id && (
+                      {currentSection === item.id && (
                         <ChevronRight className="h-10 w-10 animate-pulse text-primary-foreground" />
                       )}
                     </>
@@ -81,7 +100,7 @@ const AdminSidebar = ({ activeSection, onSectionChange }: AdminSidebarProps) => 
                 <div className={`
                   absolute inset-0 bg-gradient-to-r from-transparent via-sidebar-accent/20 to-transparent 
                   transform translate-x-full group-hover:translate-x-0 transition-transform duration-500
-                  ${activeSection === item.id ? 'hidden' : ''}
+                  ${currentSection === item.id ? 'hidden' : ''}
                 `} />
               </SidebarMenuButton>
             </SidebarMenuItem>

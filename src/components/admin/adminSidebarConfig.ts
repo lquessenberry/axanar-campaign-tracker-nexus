@@ -8,6 +8,7 @@ import {
   Home,
   MessageCircle,
   FolderOpen,
+  Activity,
 } from "lucide-react";
 
 export const sidebarItems = [
@@ -15,6 +16,7 @@ export const sidebarItems = [
   { id: "donor-management", label: "Donor Management", icon: Users },
   { id: "campaigns", label: "Campaigns", icon: BarChart3 },
   { id: "rewards", label: "Rewards & Benefits", icon: Gift },
+  { id: "analytics", label: "Visitor Analytics", icon: Activity },
   { id: "messages", label: "Messages", icon: MessageCircle },
   { id: "media-files", label: "Media & Files", icon: FolderOpen },
   { id: "admins", label: "Admin Users", icon: UserCog },
