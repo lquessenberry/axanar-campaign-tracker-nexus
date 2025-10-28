@@ -117,6 +117,55 @@ export const useCreateThread = () => {
   });
 };
 
+export const useUpdateThread = () => {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+
+  return useMutation({
+    mutationFn: async ({ threadId, title, content }: { threadId: string; title: string; content: string }) => {
+      if (!user) throw new Error('Must be logged in');
+
+      const { error } = await supabase
+        .from('forum_threads')
+        .update({ title, content, updated_at: new Date().toISOString() })
+        .eq('id', threadId)
+        .eq('author_user_id', user.id);
+
+      if (error) throw error;
+    },
+    onSuccess: (_, { threadId }) => {
+      queryClient.invalidateQueries({ queryKey: ['forum-thread', threadId] });
+      queryClient.invalidateQueries({ queryKey: ['forum-threads'] });
+      toast({ title: 'Thread updated!' });
+    },
+  });
+};
+
+export const useDeleteThread = () => {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+
+  return useMutation({
+    mutationFn: async (threadId: string) => {
+      if (!user) throw new Error('Must be logged in');
+
+      const { error } = await supabase
+        .from('forum_threads')
+        .delete()
+        .eq('id', threadId)
+        .eq('author_user_id', user.id);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['forum-threads'] });
+      toast({ title: 'Thread deleted' });
+    },
+  });
+};
+
 export const useThreadLike = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();

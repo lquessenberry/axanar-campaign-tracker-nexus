@@ -1020,6 +1020,32 @@ export type Database = {
         }
         Relationships: []
       }
+      forum_bookmarks: {
+        Row: {
+          created_at: string | null
+          thread_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          thread_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          thread_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forum_bookmarks_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "forum_threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       forum_comments: {
         Row: {
           author_user_id: string | null
@@ -1116,6 +1142,60 @@ export type Database = {
           },
         ]
       }
+      forum_notifications: {
+        Row: {
+          actor_user_id: string | null
+          actor_username: string
+          comment_id: string | null
+          content: string | null
+          created_at: string | null
+          id: string
+          is_read: boolean | null
+          thread_id: string | null
+          type: string
+          user_id: string
+        }
+        Insert: {
+          actor_user_id?: string | null
+          actor_username: string
+          comment_id?: string | null
+          content?: string | null
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          thread_id?: string | null
+          type: string
+          user_id: string
+        }
+        Update: {
+          actor_user_id?: string | null
+          actor_username?: string
+          comment_id?: string | null
+          content?: string | null
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          thread_id?: string | null
+          type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forum_notifications_comment_id_fkey"
+            columns: ["comment_id"]
+            isOneToOne: false
+            referencedRelation: "forum_comments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "forum_notifications_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "forum_threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       forum_ranks: {
         Row: {
           created_at: string
@@ -1148,6 +1228,54 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      forum_reports: {
+        Row: {
+          comment_id: string | null
+          created_at: string | null
+          id: string
+          reason: string
+          reporter_user_id: string
+          status: string | null
+          thread_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          comment_id?: string | null
+          created_at?: string | null
+          id?: string
+          reason: string
+          reporter_user_id: string
+          status?: string | null
+          thread_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          comment_id?: string | null
+          created_at?: string | null
+          id?: string
+          reason?: string
+          reporter_user_id?: string
+          status?: string | null
+          thread_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forum_reports_comment_id_fkey"
+            columns: ["comment_id"]
+            isOneToOne: false
+            referencedRelation: "forum_comments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "forum_reports_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "forum_threads"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       forum_threads: {
         Row: {
@@ -1252,6 +1380,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      forum_user_follows: {
+        Row: {
+          created_at: string | null
+          follower_id: string
+          following_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          follower_id: string
+          following_id: string
+        }
+        Update: {
+          created_at?: string | null
+          follower_id?: string
+          following_id?: string
+        }
+        Relationships: []
       }
       forum_user_ranks: {
         Row: {

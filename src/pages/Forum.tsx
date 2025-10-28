@@ -9,6 +9,10 @@ import { useForumThreads, useThreadLike, useThreadLikeStatus } from "@/hooks/use
 import { useAuth } from "@/contexts/AuthContext";
 import ThreadCard from "@/components/forum/ThreadCard";
 import ThreadComposer from "@/components/forum/ThreadComposer";
+import { ForumSearchBar } from "@/components/forum/ForumSearchBar";
+import { NotificationBell } from "@/components/forum/NotificationBell";
+import { useForumSearch } from "@/hooks/useForumSearch";
+import { useForumBookmarks } from "@/hooks/useForumBookmarks";
 import { supabase } from "@/integrations/supabase/client";
 
 type ThreadRow = {
@@ -32,7 +36,22 @@ type ThreadRow = {
 
 const Forum: React.FC = () => {
   const { user } = useAuth();
-  const { data: threads = [], isLoading: loading } = useForumThreads();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [category, setCategory] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState<'new' | 'hot' | 'top'>('new');
+
+  // Use search hook when filtering, otherwise use basic threads query
+  const { data: searchResults, isLoading: searchLoading } = useForumSearch(
+    searchQuery,
+    category,
+    sortBy
+  );
+  const { data: allThreads = [], isLoading: threadsLoading } = useForumThreads();
+
+  const threads = searchQuery || category ? searchResults : allThreads;
+  const loading = searchQuery || category ? searchLoading : threadsLoading;
+
+  const { data: bookmarkedThreadIds = [] } = useForumBookmarks();
 
   // Real-time subscriptions
   useEffect(() => {
@@ -72,7 +91,8 @@ const Forum: React.FC = () => {
                 💖 Connect with fellow Axanar fans and share your passion
               </p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-3 items-center">
+              {user && <NotificationBell />}
               <Link to="/leaderboard">
                 <Button variant="outline">
                   <Award className="h-4 w-4 mr-2" />
@@ -81,6 +101,16 @@ const Forum: React.FC = () => {
               </Link>
             </div>
           </div>
+
+          {/* Search and Filters */}
+          <ForumSearchBar
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            category={category}
+            onCategoryChange={setCategory}
+            sortBy={sortBy}
+            onSortChange={setSortBy}
+          />
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             {/* Main Forum Feed */}
@@ -108,18 +138,24 @@ const Forum: React.FC = () => {
                 </div>
               )}
 
-              {!loading && threads.length === 0 && (
+              {!loading && (!threads || threads.length === 0) && (
                 <Card className="p-12 text-center">
                   <MessageCircle className="h-16 w-16 mx-auto mb-4 text-muted-foreground/50" />
-                  <h3 className="text-xl font-semibold mb-2">No threads yet</h3>
+                  <h3 className="text-xl font-semibold mb-2">No threads found</h3>
                   <p className="text-muted-foreground">
-                    Be the first to start a discussion!
+                    {searchQuery || category
+                      ? 'Try adjusting your search or filters'
+                      : 'Be the first to start a discussion!'}
                   </p>
                 </Card>
               )}
 
-              {!loading && threads.map((thread) => (
-                <ThreadCardWithLike key={thread.id} thread={thread} />
+              {!loading && threads && threads.map((thread) => (
+                <ThreadCardWithLike 
+                  key={thread.id} 
+                  thread={thread}
+                  isBookmarked={bookmarkedThreadIds.includes(thread.id)}
+                />
               ))}
             </div>
 
@@ -136,18 +172,18 @@ const Forum: React.FC = () => {
                 <CardContent className="space-y-3 text-sm p-4">
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground">Total Threads</span>
-                    <span className="font-bold">{threads.length}</span>
+                    <span className="font-bold">{allThreads?.length || 0}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground">Total Comments</span>
                     <span className="font-bold">
-                      {threads.reduce((acc, t) => acc + t.comment_count, 0)}
+                      {allThreads?.reduce((acc, t) => acc + t.comment_count, 0) || 0}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground">Total Likes</span>
                     <span className="font-bold">
-                      {threads.reduce((acc, t) => acc + t.like_count, 0)}
+                      {allThreads?.reduce((acc, t) => acc + t.like_count, 0) || 0}
                     </span>
                   </div>
                 </CardContent>
@@ -186,6 +222,18 @@ const Forum: React.FC = () => {
                     <span>📸</span>
                     <span>Image uploads</span>
                   </div>
+                  <div className="flex items-start gap-2">
+                    <span>🔍</span>
+                    <span>Search & filters</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span>🔔</span>
+                    <span>Notifications</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span>📌</span>
+                    <span>Bookmarks</span>
+                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -198,7 +246,7 @@ const Forum: React.FC = () => {
   );
 };
 
-const ThreadCardWithLike: React.FC<{ thread: any }> = ({ thread }) => {
+const ThreadCardWithLike: React.FC<{ thread: any; isBookmarked: boolean }> = ({ thread, isBookmarked }) => {
   const { data: isLiked } = useThreadLikeStatus(thread.id);
   const threadLikeMutation = useThreadLike();
 
@@ -206,7 +254,7 @@ const ThreadCardWithLike: React.FC<{ thread: any }> = ({ thread }) => {
     threadLikeMutation.mutate({ threadId: thread.id, isLiked: !!isLiked });
   };
 
-  return <ThreadCard thread={thread} onLike={handleLike} isLiked={isLiked} />;
+  return <ThreadCard thread={thread} onLike={handleLike} isLiked={isLiked} isBookmarked={isBookmarked} />;
 };
 
 export default Forum;

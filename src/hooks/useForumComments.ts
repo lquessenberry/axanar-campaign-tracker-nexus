@@ -149,3 +149,53 @@ export const useCommentLikeStatus = (commentId: string) => {
     enabled: !!user && !!commentId,
   });
 };
+
+export const useUpdateComment = () => {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+
+  return useMutation({
+    mutationFn: async ({ commentId, content, threadId }: { commentId: string; content: string; threadId: string }) => {
+      if (!user) throw new Error('Must be logged in');
+
+      const { error } = await supabase
+        .from('forum_comments')
+        .update({ content })
+        .eq('id', commentId)
+        .eq('author_user_id', user.id);
+
+      if (error) throw error;
+      return threadId;
+    },
+    onSuccess: (threadId) => {
+      queryClient.invalidateQueries({ queryKey: ['forum-comments', threadId] });
+      toast({ title: 'Comment updated!' });
+    },
+  });
+};
+
+export const useDeleteComment = () => {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+
+  return useMutation({
+    mutationFn: async ({ commentId, threadId }: { commentId: string; threadId: string }) => {
+      if (!user) throw new Error('Must be logged in');
+
+      const { error } = await supabase
+        .from('forum_comments')
+        .delete()
+        .eq('id', commentId)
+        .eq('author_user_id', user.id);
+
+      if (error) throw error;
+      return threadId;
+    },
+    onSuccess: (threadId) => {
+      queryClient.invalidateQueries({ queryKey: ['forum-comments', threadId] });
+      toast({ title: 'Comment deleted' });
+    },
+  });
+};
