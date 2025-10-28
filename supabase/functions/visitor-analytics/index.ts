@@ -45,22 +45,22 @@ serve(async (req) => {
 
     // Calculate time windows
     const now = new Date();
+    const last30Days = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
     const last24Hours = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-    const last7Days = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
 
     // Get user presence data (online users)
     const { data: presenceData, error: presenceError } = await supabaseClient
       .from("user_presence")
       .select("*")
-      .gte("last_seen", last24Hours.toISOString());
+      .gte("last_seen", last30Days.toISOString());
 
-    console.log(`👥 Found ${presenceData?.length || 0} active users in last 24h`);
+    console.log(`👥 Found ${presenceData?.length || 0} active users in last 30 days`);
 
     // Get recent pledges (user activity indicator)
     const { data: recentPledges, error: pledgesError } = await supabaseClient
       .from("pledges")
       .select("created_at, amount, donor_id")
-      .gte("created_at", last7Days.toISOString())
+      .gte("created_at", last30Days.toISOString())
       .order("created_at", { ascending: false });
 
     console.log(`💰 Found ${recentPledges?.length || 0} recent pledges`);
@@ -69,10 +69,10 @@ serve(async (req) => {
     const { data: recentUsers, error: usersError } = await supabaseClient
       .from("profiles")
       .select("created_at, id")
-      .gte("created_at", last7Days.toISOString())
+      .gte("created_at", last30Days.toISOString())
       .order("created_at", { ascending: false });
 
-    console.log(`👤 Found ${recentUsers?.length || 0} new users in last 7 days`);
+    console.log(`👤 Found ${recentUsers?.length || 0} new users in last 30 days`);
 
     // Count online users now
     const fiveMinutesAgo = new Date(now.getTime() - 5 * 60 * 1000);
@@ -84,11 +84,11 @@ serve(async (req) => {
 
     console.log(`🟢 ${onlineCount || 0} users currently online`);
 
-    // Process hourly activity from user presence
-    const hourlyActivity: Record<string, number> = {};
+    // Process daily activity from user presence
+    const dailyActivity: Record<string, number> = {};
     presenceData?.forEach((presence: any) => {
-      const hour = new Date(presence.last_seen).toISOString().slice(0, 13);
-      hourlyActivity[hour] = (hourlyActivity[hour] || 0) + 1;
+      const day = new Date(presence.last_seen).toISOString().slice(0, 10);
+      dailyActivity[day] = (dailyActivity[day] || 0) + 1;
     });
 
     // Process daily signups
@@ -115,18 +115,18 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({
         summary: {
-          totalRequests24h: presenceData?.length || 0,
-          uniqueVisitors24h: uniqueVisitors,
+          totalRequests30d: presenceData?.length || 0,
+          uniqueVisitors30d: uniqueVisitors,
           currentlyOnline: onlineCount || 0,
-          newUsers7d: recentUsers?.length || 0,
-          recentPledges7d: recentPledges?.length || 0,
+          newUsers30d: recentUsers?.length || 0,
+          recentPledges30d: recentPledges?.length || 0,
         },
-        hourlyActivity: Object.entries(hourlyActivity)
-          .map(([hour, count]) => ({
-            hour,
+        dailyActivity: Object.entries(dailyActivity)
+          .map(([day, count]) => ({
+            date: day,
             activeUsers: count,
           }))
-          .sort((a, b) => a.hour.localeCompare(b.hour)),
+          .sort((a, b) => a.date.localeCompare(b.date)),
         dailySignups: Object.entries(dailySignups)
           .map(([day, count]) => ({
             date: day,
@@ -141,7 +141,7 @@ serve(async (req) => {
           }))
           .sort((a, b) => a.date.localeCompare(b.date)),
         presenceSnapshot: {
-          last24h: presenceData?.length || 0,
+          last30d: presenceData?.length || 0,
           currentlyOnline: onlineCount || 0,
           uniqueUsers: uniqueVisitors,
         },
@@ -154,13 +154,13 @@ serve(async (req) => {
       JSON.stringify({ 
         error: error.message,
         summary: {
-          totalRequests24h: 0,
-          uniqueVisitors24h: 0,
+          totalRequests30d: 0,
+          uniqueVisitors30d: 0,
           currentlyOnline: 0,
-          newUsers7d: 0,
-          recentPledges7d: 0,
+          newUsers30d: 0,
+          recentPledges30d: 0,
         },
-        hourlyActivity: [],
+        dailyActivity: [],
         dailySignups: [],
         pledgeActivity: [],
       }),

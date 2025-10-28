@@ -51,11 +51,11 @@ const VisitorAnalytics = () => {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Users (24h)</CardTitle>
+              <CardTitle className="text-sm font-medium">Active Users (30d)</CardTitle>
               <Activity className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{data?.summary?.totalRequests24h || 0}</div>
+              <div className="text-2xl font-bold">{data?.summary?.totalRequests30d || 0}</div>
               <p className="text-xs text-muted-foreground">User activity events</p>
             </CardContent>
           </Card>
@@ -66,8 +66,8 @@ const VisitorAnalytics = () => {
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{data?.summary?.uniqueVisitors24h || 0}</div>
-              <p className="text-xs text-muted-foreground">Last 24 hours</p>
+              <div className="text-2xl font-bold">{data?.summary?.uniqueVisitors30d || 0}</div>
+              <p className="text-xs text-muted-foreground">Last 30 days</p>
             </CardContent>
           </Card>
 
@@ -84,44 +84,44 @@ const VisitorAnalytics = () => {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">New Users (7d)</CardTitle>
+              <CardTitle className="text-sm font-medium">New Users (30d)</CardTitle>
               <UserPlus className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{data?.summary?.newUsers7d || 0}</div>
+              <div className="text-2xl font-bold">{data?.summary?.newUsers30d || 0}</div>
               <p className="text-xs text-muted-foreground">New signups</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Recent Pledges (7d)</CardTitle>
+              <CardTitle className="text-sm font-medium">Recent Pledges (30d)</CardTitle>
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{data?.summary?.recentPledges7d || 0}</div>
+              <div className="text-2xl font-bold">{data?.summary?.recentPledges30d || 0}</div>
               <p className="text-xs text-muted-foreground">Pledge activity</p>
             </CardContent>
           </Card>
         </div>
 
-        {/* Hourly Activity Chart */}
+        {/* Daily Activity Chart */}
         <Card>
           <CardHeader>
-            <CardTitle>User Activity (Last 24h)</CardTitle>
-            <CardDescription>Active users by hour</CardDescription>
+            <CardTitle>User Activity (Last 30 Days)</CardTitle>
+            <CardDescription>Active users by day</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={data?.hourlyActivity || []}>
+              <LineChart data={data?.dailyActivity || []}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
-                  dataKey="hour" 
-                  tickFormatter={(value) => new Date(value).toLocaleTimeString('en-US', { hour: 'numeric' })}
+                  dataKey="date" 
+                  tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                 />
                 <YAxis />
                 <Tooltip 
-                  labelFormatter={(value) => new Date(value).toLocaleString()}
+                  labelFormatter={(value) => new Date(value).toLocaleDateString()}
                   formatter={(value) => [`${value} users`, 'Active Users']}
                 />
                 <Line type="monotone" dataKey="activeUsers" stroke="hsl(var(--primary))" strokeWidth={2} />
@@ -134,7 +134,7 @@ const VisitorAnalytics = () => {
         {data?.dailySignups && data.dailySignups.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle>New User Signups (Last 7 Days)</CardTitle>
+              <CardTitle>New User Signups (Last 30 Days)</CardTitle>
               <CardDescription>Daily registration activity</CardDescription>
             </CardHeader>
             <CardContent>
@@ -160,7 +160,7 @@ const VisitorAnalytics = () => {
         {data?.pledgeActivity && data.pledgeActivity.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle>Pledge Activity (Last 7 Days)</CardTitle>
+              <CardTitle>Pledge Activity (Last 30 Days)</CardTitle>
               <CardDescription>Pledge count and total amount</CardDescription>
             </CardHeader>
             <CardContent>
@@ -197,8 +197,8 @@ const VisitorAnalytics = () => {
                 <div className="text-xs text-muted-foreground">Currently Online</div>
               </div>
               <div className="flex flex-col items-center p-4 rounded-lg bg-muted/50">
-                <div className="text-3xl font-bold">{data?.presenceSnapshot?.last24h || 0}</div>
-                <div className="text-xs text-muted-foreground">Active (24h)</div>
+                <div className="text-3xl font-bold">{data?.presenceSnapshot?.last30d || 0}</div>
+                <div className="text-xs text-muted-foreground">Active (30d)</div>
               </div>
               <div className="flex flex-col items-center p-4 rounded-lg bg-muted/50">
                 <div className="text-3xl font-bold">{data?.presenceSnapshot?.uniqueUsers || 0}</div>
