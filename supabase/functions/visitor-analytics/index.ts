@@ -109,14 +109,21 @@ serve(async (req) => {
       pledgesByDay[day].total += pledge.amount || 0;
     });
 
-    // Count unique visitors (unique users with presence data)
-    const uniqueVisitors = new Set(presenceData?.map((p: any) => p.user_id) || []).size;
+    // Count total registered users (more accurate than presence-based count)
+    const { count: totalUsers, error: totalUsersError } = await supabaseClient
+      .from("profiles")
+      .select("*", { count: 'exact', head: true });
+
+    console.log(`📊 Total registered users: ${totalUsers || 0}`);
+
+    // Count unique visitors with presence data
+    const uniqueVisitorsWithPresence = new Set(presenceData?.map((p: any) => p.user_id) || []).size;
 
     return new Response(
       JSON.stringify({
         summary: {
           totalRequests30d: presenceData?.length || 0,
-          uniqueVisitors30d: uniqueVisitors,
+          uniqueVisitors30d: totalUsers || 0,
           currentlyOnline: onlineCount || 0,
           newUsers30d: recentUsers?.length || 0,
           recentPledges30d: recentPledges?.length || 0,
@@ -143,7 +150,7 @@ serve(async (req) => {
         presenceSnapshot: {
           last30d: presenceData?.length || 0,
           currentlyOnline: onlineCount || 0,
-          uniqueUsers: uniqueVisitors,
+          uniqueUsers: totalUsers || 0,
         },
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
