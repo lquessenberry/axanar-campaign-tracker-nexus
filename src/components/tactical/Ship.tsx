@@ -19,17 +19,17 @@ export const Ship: React.FC<ShipProps> = ({ ship, hexSize = 50, onClick }) => {
   // Shield color based on shield strength
   const shieldPercent = ship.shields / ship.max_shields;
   const shieldColor = shieldPercent > 0.5 
-    ? 'hsl(var(--success))' 
+    ? '#22c55e'  // green
     : shieldPercent > 0.2 
-    ? 'hsl(var(--warning))' 
-    : 'hsl(var(--destructive))';
+    ? '#eab308'  // yellow
+    : '#ef4444'; // red
 
   // Team color
   const teamColor = ship.team === 'federation' 
-    ? 'hsl(var(--primary))' 
+    ? '#3b82f6'  // blue
     : ship.team === 'klingon' 
-    ? 'hsl(var(--destructive))' 
-    : 'hsl(var(--muted))';
+    ? '#dc2626'  // red
+    : '#9ca3af'; // gray
 
   return (
     <Group x={x} y={y} onClick={onClick}>
@@ -37,7 +37,7 @@ export const Ship: React.FC<ShipProps> = ({ ship, hexSize = 50, onClick }) => {
       <Circle
         radius={20}
         fill={teamColor}
-        stroke="hsl(var(--foreground))"
+        stroke="#ffffff"
         strokeWidth={2}
         opacity={ship.status === 'active' ? 1 : 0.5}
       />
@@ -46,9 +46,9 @@ export const Ship: React.FC<ShipProps> = ({ ship, hexSize = 50, onClick }) => {
       <Arrow
         points={[0, 0, 30, 0]}
         rotation={ship.facing * 60}
-        stroke="hsl(var(--foreground))"
+        stroke="#ffffff"
         strokeWidth={2}
-        fill="hsl(var(--foreground))"
+        fill="#ffffff"
       />
 
       {/* Shield Bubble */}
@@ -67,14 +67,14 @@ export const Ship: React.FC<ShipProps> = ({ ship, hexSize = 50, onClick }) => {
         y={-50}
         width={80}
         height={6}
-        fill="hsl(var(--muted))"
+        fill="#374151"
       />
       <Rect
         x={-40}
         y={-50}
         width={80 * (ship.hull / ship.max_hull)}
         height={6}
-        fill="hsl(var(--success))"
+        fill="#22c55e"
       />
 
       {/* Shield Bar */}
@@ -85,7 +85,7 @@ export const Ship: React.FC<ShipProps> = ({ ship, hexSize = 50, onClick }) => {
             y={-42}
             width={80}
             height={4}
-            fill="hsl(var(--muted))"
+            fill="#374151"
           />
           <Rect
             x={-40}
@@ -104,7 +104,7 @@ export const Ship: React.FC<ShipProps> = ({ ship, hexSize = 50, onClick }) => {
         y={-65}
         width={80}
         align="center"
-        fill="hsl(var(--foreground))"
+        fill="#ffffff"
         fontSize={12}
         fontStyle="bold"
       />

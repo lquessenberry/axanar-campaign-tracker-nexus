@@ -40,7 +40,7 @@ export const HexGrid: React.FC<HexGridProps> = ({
         <Line
           key={`hex-${row}-${col}`}
           points={points}
-          stroke="hsl(var(--muted-foreground))"
+          stroke="#6b7280"
           strokeWidth={0.5}
           opacity={0.2}
           closed
