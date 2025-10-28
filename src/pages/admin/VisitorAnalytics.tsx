@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Activity, Users, MousePointerClick, TrendingUp } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts";
+import { Activity, Users, UserPlus, DollarSign, Eye } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, ComposedChart } from "recharts";
 
 const VisitorAnalytics = () => {
   const { data, isLoading, error } = useQuery({
@@ -48,37 +48,59 @@ const VisitorAnalytics = () => {
     <AdminLayout title="Visitor Analytics" description="Real-time visitor statistics">
       <div className="space-y-6">
         {/* Summary Stats */}
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Requests (24h)</CardTitle>
+              <CardTitle className="text-sm font-medium">Active Users (24h)</CardTitle>
               <Activity className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{data?.summary?.totalRequests24h || 0}</div>
-              <p className="text-xs text-muted-foreground">Edge function requests</p>
+              <p className="text-xs text-muted-foreground">User activity events</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Unique Visitors (24h)</CardTitle>
+              <CardTitle className="text-sm font-medium">Unique Visitors</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{data?.summary?.uniqueVisitors24h || 0}</div>
-              <p className="text-xs text-muted-foreground">Based on IP addresses</p>
+              <p className="text-xs text-muted-foreground">Last 24 hours</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Auth Events (24h)</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium">Currently Online</CardTitle>
+              <Eye className="h-4 w-4 text-green-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{data?.summary?.authEvents24h || 0}</div>
-              <p className="text-xs text-muted-foreground">Login/signup activity</p>
+              <div className="text-2xl font-bold text-green-600">{data?.summary?.currentlyOnline || 0}</div>
+              <p className="text-xs text-muted-foreground">Active right now</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">New Users (7d)</CardTitle>
+              <UserPlus className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{data?.summary?.newUsers7d || 0}</div>
+              <p className="text-xs text-muted-foreground">New signups</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Recent Pledges (7d)</CardTitle>
+              <DollarSign className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{data?.summary?.recentPledges7d || 0}</div>
+              <p className="text-xs text-muted-foreground">Pledge activity</p>
             </CardContent>
           </Card>
         </div>
@@ -86,8 +108,8 @@ const VisitorAnalytics = () => {
         {/* Hourly Activity Chart */}
         <Card>
           <CardHeader>
-            <CardTitle>Hourly Activity (Last 24h)</CardTitle>
-            <CardDescription>Request volume by hour</CardDescription>
+            <CardTitle>User Activity (Last 24h)</CardTitle>
+            <CardDescription>Active users by hour</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -100,51 +122,91 @@ const VisitorAnalytics = () => {
                 <YAxis />
                 <Tooltip 
                   labelFormatter={(value) => new Date(value).toLocaleString()}
+                  formatter={(value) => [`${value} users`, 'Active Users']}
                 />
-                <Line type="monotone" dataKey="requests" stroke="hsl(var(--primary))" strokeWidth={2} />
+                <Line type="monotone" dataKey="activeUsers" stroke="hsl(var(--primary))" strokeWidth={2} />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        {/* Top Paths */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Top Paths</CardTitle>
-            <CardDescription>Most visited endpoints</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={data?.topPaths || []}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="path" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="count" fill="hsl(var(--primary))" />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-
-        {/* Auth Events Breakdown */}
-        {data?.authEventBreakdown && data.authEventBreakdown.length > 0 && (
+        {/* Daily Signups Chart */}
+        {data?.dailySignups && data.dailySignups.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle>Authentication Events</CardTitle>
-              <CardDescription>Login and signup activity breakdown</CardDescription>
+              <CardTitle>New User Signups (Last 7 Days)</CardTitle>
+              <CardDescription>Daily registration activity</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-2">
-                {data.authEventBreakdown.map((item: any) => (
-                  <div key={item.event} className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
-                    <span className="text-sm">{item.event}</span>
-                    <span className="text-sm font-medium">{item.count}</span>
-                  </div>
-                ))}
-              </div>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={data.dailySignups}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis 
+                    dataKey="date" 
+                    tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                  />
+                  <YAxis />
+                  <Tooltip 
+                    labelFormatter={(value) => new Date(value).toLocaleDateString()}
+                  />
+                  <Bar dataKey="signups" fill="hsl(var(--primary))" />
+                </BarChart>
+              </ResponsiveContainer>
             </CardContent>
           </Card>
         )}
+
+        {/* Pledge Activity */}
+        {data?.pledgeActivity && data.pledgeActivity.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Pledge Activity (Last 7 Days)</CardTitle>
+              <CardDescription>Pledge count and total amount</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <ComposedChart data={data.pledgeActivity}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis 
+                    dataKey="date" 
+                    tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                  />
+                  <YAxis yAxisId="left" />
+                  <YAxis yAxisId="right" orientation="right" />
+                  <Tooltip 
+                    labelFormatter={(value) => new Date(value).toLocaleDateString()}
+                  />
+                  <Bar yAxisId="left" dataKey="count" fill="hsl(var(--primary))" name="Pledges" />
+                  <Line yAxisId="right" type="monotone" dataKey="totalAmount" stroke="hsl(var(--chart-2))" strokeWidth={2} name="Amount ($)" />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Presence Snapshot */}
+        <Card>
+          <CardHeader>
+            <CardTitle>User Presence Snapshot</CardTitle>
+            <CardDescription>Current system activity</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4 md:grid-cols-3">
+              <div className="flex flex-col items-center p-4 rounded-lg bg-muted/50">
+                <div className="text-3xl font-bold text-green-600">{data?.presenceSnapshot?.currentlyOnline || 0}</div>
+                <div className="text-xs text-muted-foreground">Currently Online</div>
+              </div>
+              <div className="flex flex-col items-center p-4 rounded-lg bg-muted/50">
+                <div className="text-3xl font-bold">{data?.presenceSnapshot?.last24h || 0}</div>
+                <div className="text-xs text-muted-foreground">Active (24h)</div>
+              </div>
+              <div className="flex flex-col items-center p-4 rounded-lg bg-muted/50">
+                <div className="text-3xl font-bold">{data?.presenceSnapshot?.uniqueUsers || 0}</div>
+                <div className="text-xs text-muted-foreground">Unique Users</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </AdminLayout>
   );

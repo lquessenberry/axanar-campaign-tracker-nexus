@@ -41,79 +41,132 @@ serve(async (req) => {
       throw new Error("Forbidden: Admin access required");
     }
 
-    // Query analytics for visitor stats
+    console.log("📊 Fetching visitor analytics for admin:", user.id);
+
+    // Calculate time windows
     const now = new Date();
     const last24Hours = new Date(now.getTime() - 24 * 60 * 60 * 1000);
     const last7Days = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
 
-    // Get recent edge function requests (proxy for visitor activity)
-    const { data: edgeStats } = await supabaseClient
-      .from("function_edge_logs")
+    // Get user presence data (online users)
+    const { data: presenceData, error: presenceError } = await supabaseClient
+      .from("user_presence")
       .select("*")
-      .gte("timestamp", last24Hours.toISOString())
-      .order("timestamp", { ascending: false })
-      .limit(1000);
+      .gte("last_seen", last24Hours.toISOString());
 
-    // Get auth activity
-    const { data: authStats } = await supabaseClient
-      .from("auth_logs")
-      .select("*")
-      .gte("timestamp", last24Hours.toISOString())
-      .order("timestamp", { ascending: false })
-      .limit(500);
+    console.log(`👥 Found ${presenceData?.length || 0} active users in last 24h`);
 
-    // Process the data
-    const hourlyBuckets: Record<string, number> = {};
-    const uniqueIPs = new Set<string>();
-    const paths: Record<string, number> = {};
+    // Get recent pledges (user activity indicator)
+    const { data: recentPledges, error: pledgesError } = await supabaseClient
+      .from("pledges")
+      .select("created_at, amount, donor_id")
+      .gte("created_at", last7Days.toISOString())
+      .order("created_at", { ascending: false });
 
-    edgeStats?.forEach((log: any) => {
-      const hour = new Date(log.timestamp / 1000).toISOString().slice(0, 13);
-      hourlyBuckets[hour] = (hourlyBuckets[hour] || 0) + 1;
-      
-      if (log.metadata?.[0]?.request?.headers?.['x-forwarded-for']) {
-        uniqueIPs.add(log.metadata[0].request.headers['x-forwarded-for']);
+    console.log(`💰 Found ${recentPledges?.length || 0} recent pledges`);
+
+    // Get auth users created recently
+    const { data: recentUsers, error: usersError } = await supabaseClient
+      .from("profiles")
+      .select("created_at, id")
+      .gte("created_at", last7Days.toISOString())
+      .order("created_at", { ascending: false });
+
+    console.log(`👤 Found ${recentUsers?.length || 0} new users in last 7 days`);
+
+    // Count online users now
+    const fiveMinutesAgo = new Date(now.getTime() - 5 * 60 * 1000);
+    const { count: onlineCount, error: onlineError } = await supabaseClient
+      .from("user_presence")
+      .select("*", { count: 'exact', head: true })
+      .eq("is_online", true)
+      .gte("last_seen", fiveMinutesAgo.toISOString());
+
+    console.log(`🟢 ${onlineCount || 0} users currently online`);
+
+    // Process hourly activity from user presence
+    const hourlyActivity: Record<string, number> = {};
+    presenceData?.forEach((presence: any) => {
+      const hour = new Date(presence.last_seen).toISOString().slice(0, 13);
+      hourlyActivity[hour] = (hourlyActivity[hour] || 0) + 1;
+    });
+
+    // Process daily signups
+    const dailySignups: Record<string, number> = {};
+    recentUsers?.forEach((user: any) => {
+      const day = new Date(user.created_at).toISOString().slice(0, 10);
+      dailySignups[day] = (dailySignups[day] || 0) + 1;
+    });
+
+    // Process pledge activity
+    const pledgesByDay: Record<string, { count: number; total: number }> = {};
+    recentPledges?.forEach((pledge: any) => {
+      const day = new Date(pledge.created_at).toISOString().slice(0, 10);
+      if (!pledgesByDay[day]) {
+        pledgesByDay[day] = { count: 0, total: 0 };
       }
-
-      const path = log.metadata?.[0]?.request?.path || '/';
-      paths[path] = (paths[path] || 0) + 1;
+      pledgesByDay[day].count++;
+      pledgesByDay[day].total += pledge.amount || 0;
     });
 
-    const authEvents: Record<string, number> = {};
-    authStats?.forEach((log: any) => {
-      const eventType = log.metadata?.msg || 'unknown';
-      authEvents[eventType] = (authEvents[eventType] || 0) + 1;
-    });
+    // Count unique visitors (unique users with presence data)
+    const uniqueVisitors = new Set(presenceData?.map((p: any) => p.user_id) || []).size;
 
     return new Response(
       JSON.stringify({
         summary: {
-          totalRequests24h: edgeStats?.length || 0,
-          uniqueVisitors24h: uniqueIPs.size,
-          authEvents24h: authStats?.length || 0,
+          totalRequests24h: presenceData?.length || 0,
+          uniqueVisitors24h: uniqueVisitors,
+          currentlyOnline: onlineCount || 0,
+          newUsers7d: recentUsers?.length || 0,
+          recentPledges7d: recentPledges?.length || 0,
         },
-        hourlyActivity: Object.entries(hourlyBuckets).map(([hour, count]) => ({
-          hour,
-          requests: count,
-        })).sort((a, b) => a.hour.localeCompare(b.hour)),
-        topPaths: Object.entries(paths)
-          .sort(([, a], [, b]) => b - a)
-          .slice(0, 10)
-          .map(([path, count]) => ({ path, count })),
-        authEventBreakdown: Object.entries(authEvents).map(([event, count]) => ({
-          event,
-          count,
-        })),
+        hourlyActivity: Object.entries(hourlyActivity)
+          .map(([hour, count]) => ({
+            hour,
+            activeUsers: count,
+          }))
+          .sort((a, b) => a.hour.localeCompare(b.hour)),
+        dailySignups: Object.entries(dailySignups)
+          .map(([day, count]) => ({
+            date: day,
+            signups: count,
+          }))
+          .sort((a, b) => a.date.localeCompare(b.date)),
+        pledgeActivity: Object.entries(pledgesByDay)
+          .map(([day, data]) => ({
+            date: day,
+            count: data.count,
+            totalAmount: data.total,
+          }))
+          .sort((a, b) => a.date.localeCompare(b.date)),
+        presenceSnapshot: {
+          last24h: presenceData?.length || 0,
+          currentlyOnline: onlineCount || 0,
+          uniqueUsers: uniqueVisitors,
+        },
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Error:", error);
+    console.error("❌ Error fetching analytics:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: error.message,
+        summary: {
+          totalRequests24h: 0,
+          uniqueVisitors24h: 0,
+          currentlyOnline: 0,
+          newUsers7d: 0,
+          recentPledges7d: 0,
+        },
+        hourlyActivity: [],
+        dailySignups: [],
+        pledgeActivity: [],
+      }),
       { 
         status: error.message.includes("Unauthorized") ? 401 : 
-                error.message.includes("Forbidden") ? 403 : 500,
+                error.message.includes("Forbidden") ? 403 : 200,
         headers: { ...corsHeaders, "Content-Type": "application/json" } 
       }
     );
