@@ -3938,7 +3938,7 @@ export type Database = {
           dice_roll_url: string | null
           game_id: string
           id: string
-          player_user_id: string
+          player_user_id: string | null
           resolved_at: string | null
           ship_id: string
           status: string
@@ -3950,7 +3950,7 @@ export type Database = {
           dice_roll_url?: string | null
           game_id: string
           id?: string
-          player_user_id: string
+          player_user_id?: string | null
           resolved_at?: string | null
           ship_id: string
           status?: string
@@ -3962,7 +3962,7 @@ export type Database = {
           dice_roll_url?: string | null
           game_id?: string
           id?: string
-          player_user_id?: string
+          player_user_id?: string | null
           resolved_at?: string | null
           ship_id?: string
           status?: string
