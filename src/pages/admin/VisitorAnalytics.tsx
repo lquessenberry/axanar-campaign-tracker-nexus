@@ -105,52 +105,53 @@ const VisitorAnalytics = () => {
           </Card>
         </div>
 
-        {/* Daily Activity Chart */}
+        {/* Daily Signups Chart - Primary Activity View */}
         <Card>
           <CardHeader>
-            <CardTitle>User Activity (Last 30 Days)</CardTitle>
-            <CardDescription>Active users by day</CardDescription>
+            <CardTitle>New User Registrations (Last 30 Days)</CardTitle>
+            <CardDescription>Daily signup activity</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={data?.dailyActivity || []}>
+              <BarChart data={data?.dailySignups || []}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
                   dataKey="date" 
                   tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                 />
-                <YAxis />
+                <YAxis allowDecimals={false} />
                 <Tooltip 
                   labelFormatter={(value) => new Date(value).toLocaleDateString()}
-                  formatter={(value) => [`${value} users`, 'Active Users']}
+                  formatter={(value) => [`${value} signups`, 'New Users']}
                 />
-                <Line type="monotone" dataKey="activeUsers" stroke="hsl(var(--primary))" strokeWidth={2} />
-              </LineChart>
+                <Bar dataKey="signups" fill="hsl(var(--primary))" />
+              </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        {/* Daily Signups Chart */}
-        {data?.dailySignups && data.dailySignups.length > 0 && (
+        {/* User Presence Activity (if available) */}
+        {data?.dailyActivity && data.dailyActivity.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle>New User Signups (Last 30 Days)</CardTitle>
-              <CardDescription>Daily registration activity</CardDescription>
+              <CardTitle>Active User Sessions (Last 30 Days)</CardTitle>
+              <CardDescription>Users actively using the platform</CardDescription>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={data.dailySignups}>
+                <LineChart data={data.dailyActivity}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis 
                     dataKey="date" 
                     tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                   />
-                  <YAxis />
+                  <YAxis allowDecimals={false} />
                   <Tooltip 
                     labelFormatter={(value) => new Date(value).toLocaleDateString()}
+                    formatter={(value) => [`${value} users`, 'Active Sessions']}
                   />
-                  <Bar dataKey="signups" fill="hsl(var(--primary))" />
-                </BarChart>
+                  <Line type="monotone" dataKey="activeUsers" stroke="hsl(var(--chart-2))" strokeWidth={2} />
+                </LineChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
