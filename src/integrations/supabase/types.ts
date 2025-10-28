@@ -2749,32 +2749,56 @@ export type Database = {
       }
       profiles: {
         Row: {
+          achievement_xp: number | null
           avatar_url: string | null
           background_url: string | null
           bio: string | null
           created_at: string
+          donation_xp: number | null
+          forum_xp: number | null
           full_name: string | null
           id: string
+          profile_completion_xp: number | null
+          recruitment_xp: number | null
+          total_comments: number | null
+          total_posts: number | null
+          unified_xp: number | null
           updated_at: string
           username: string | null
         }
         Insert: {
+          achievement_xp?: number | null
           avatar_url?: string | null
           background_url?: string | null
           bio?: string | null
           created_at?: string
+          donation_xp?: number | null
+          forum_xp?: number | null
           full_name?: string | null
           id: string
+          profile_completion_xp?: number | null
+          recruitment_xp?: number | null
+          total_comments?: number | null
+          total_posts?: number | null
+          unified_xp?: number | null
           updated_at?: string
           username?: string | null
         }
         Update: {
+          achievement_xp?: number | null
           avatar_url?: string | null
           background_url?: string | null
           bio?: string | null
           created_at?: string
+          donation_xp?: number | null
+          forum_xp?: number | null
           full_name?: string | null
           id?: string
+          profile_completion_xp?: number | null
+          recruitment_xp?: number | null
+          total_comments?: number | null
+          total_posts?: number | null
+          unified_xp?: number | null
           updated_at?: string
           username?: string | null
         }
@@ -4364,6 +4388,7 @@ export type Database = {
         Args: { user_uuid: string }
         Returns: undefined
       }
+      calculate_unified_xp: { Args: { user_uuid: string }; Returns: undefined }
       check_current_user_is_admin: { Args: never; Returns: boolean }
       check_current_user_is_super_admin: { Args: never; Returns: boolean }
       check_email_exists: {
