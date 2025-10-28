@@ -37,7 +37,7 @@ export const OFFICIAL_THREADS: OfficialThread[] = [
     isPinned: true,
     isOfficial: true,
     author: {
-      username: 'lquessenberry',
+      username: 'lee',
       rank: { name: 'Fleet Admiral', min_points: 999999 },
       badges: [
         { label: 'Official', icon: '⭐' },
@@ -90,7 +90,7 @@ This isn't just a forum—it's Starfleet Academy for Axanar fans. Let's make it 
     isPinned: true,
     isOfficial: true,
     author: {
-      username: 'lquessenberry',
+      username: 'lee',
       rank: { name: 'Fleet Admiral', min_points: 999999 },
       badges: [
         { label: 'Official', icon: '⭐' },
@@ -143,7 +143,7 @@ Our old system had stability, security, and performance issues. This new platfor
     isPinned: true,
     isOfficial: true,
     author: {
-      username: 'lquessenberry',
+      username: 'lee',
       rank: { name: 'Fleet Admiral', min_points: 999999 },
       badges: [
         { label: 'Administrator', icon: '🛡️' },
@@ -198,7 +198,7 @@ Axanar was created by Alec Peters and a team of dedicated professionals from the
     isPinned: true,
     isOfficial: true,
     author: {
-      username: 'lquessenberry',
+      username: 'lee',
       rank: { name: 'Fleet Admiral', min_points: 999999 },
       badges: [
         { label: 'Administrator', icon: '🛠️' },
@@ -280,7 +280,7 @@ First, make sure you're using the **correct email address** that you used for yo
     isPinned: true,
     isOfficial: true,
     author: {
-      username: 'lquessenberry',
+      username: 'lee',
       rank: { name: 'Fleet Admiral', min_points: 999999 },
       badges: [
         { label: 'Administrator', icon: '💻' },
@@ -364,7 +364,7 @@ Still having trouble? Contact [Support](/support) for direct assistance! 🚀`,
     isPinned: true,
     isOfficial: true,
     author: {
-      username: 'lquessenberry',
+      username: 'lee',
       rank: { name: 'Fleet Admiral', min_points: 999999 },
       badges: [
         { label: 'Administrator', icon: '🎁' },
