@@ -63,7 +63,7 @@ export const GMControls: React.FC<GMControlsProps> = ({ gameId }) => {
           {pendingMoves.map((move: any) => (
             <div key={move.id} className="border rounded p-3 space-y-2">
               <h4 className="font-medium">
-                {move.tactical_ships?.name} ({move.profiles?.username})
+                {move.tactical_ships?.name} ({move.player_username || 'Unknown'})
               </h4>
               <div className="text-sm text-muted-foreground">
                 Actions: {JSON.stringify(move.actions)}

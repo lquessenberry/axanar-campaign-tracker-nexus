@@ -42,17 +42,35 @@ export const useTacticalGame = (gameId: string) => {
   const { data: pendingMoves = [] } = useQuery({
     queryKey: ['tactical-moves', gameId, game?.current_turn],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data: moves, error } = await supabase
         .from('tactical_moves')
-        .select('*, tactical_ships(name), profiles(username)')
+        .select('*, tactical_ships(name)')
         .eq('game_id', gameId)
         .eq('turn', game?.current_turn || 1)
         .eq('status', 'pending');
       
       if (error) throw error;
-      return data as any[];
+
+      // Fetch usernames separately
+      if (moves && moves.length > 0) {
+        const userIds = [...new Set(moves.map((m: any) => m.player_user_id).filter(Boolean))];
+        if (userIds.length > 0) {
+          const { data: profiles } = await supabase
+            .from('profiles')
+            .select('id, username')
+            .in('id', userIds);
+
+          return moves.map((move: any) => ({
+            ...move,
+            player_username: profiles?.find(p => p.id === move.player_user_id)?.username || 'Unknown'
+          }));
+        }
+      }
+
+      return moves || [];
     },
     enabled: !!gameId && !!game,
+    refetchInterval: 3000,
   });
 
   // Subscribe to real-time updates

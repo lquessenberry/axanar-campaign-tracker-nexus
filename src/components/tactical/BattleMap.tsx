@@ -40,7 +40,7 @@ export const BattleMap: React.FC<BattleMapProps> = ({ gameId }) => {
   return (
     <Card className="overflow-hidden">
       <CardContent className="p-0">
-        <div className="relative bg-background">
+        <div className="relative bg-black" style={{ minHeight: '800px' }}>
           {/* Turn Indicator */}
           <div className="absolute top-4 left-4 z-10 bg-background/90 backdrop-blur-sm border rounded-lg p-3">
             <div className="text-sm font-medium">
@@ -51,6 +51,9 @@ export const BattleMap: React.FC<BattleMapProps> = ({ gameId }) => {
                 🔒 Turn Locked
               </div>
             )}
+            <div className="text-xs text-muted-foreground mt-1">
+              Ships: {ships.length}
+            </div>
           </div>
 
           {/* Selected Ship Info */}
@@ -68,7 +71,7 @@ export const BattleMap: React.FC<BattleMapProps> = ({ gameId }) => {
           )}
 
           {/* Konva Canvas */}
-          <Stage width={stageWidth} height={stageHeight}>
+          <Stage width={stageWidth} height={stageHeight} style={{ background: '#000' }}>
             <HexGrid width={stageWidth} height={stageHeight} />
             <Layer>
               {ships.map((ship) => (
