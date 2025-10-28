@@ -1296,6 +1296,7 @@ export type Database = {
           is_official: boolean
           is_pinned: boolean
           like_count: number | null
+          tactical_game_id: string | null
           title: string
           updated_at: string
           view_count: number | null
@@ -1318,6 +1319,7 @@ export type Database = {
           is_official?: boolean
           is_pinned?: boolean
           like_count?: number | null
+          tactical_game_id?: string | null
           title: string
           updated_at?: string
           view_count?: number | null
@@ -1340,11 +1342,20 @@ export type Database = {
           is_official?: boolean
           is_pinned?: boolean
           like_count?: number | null
+          tactical_game_id?: string | null
           title?: string
           updated_at?: string
           view_count?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "forum_threads_tactical_game_id_fkey"
+            columns: ["tactical_game_id"]
+            isOneToOne: false
+            referencedRelation: "tactical_games"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       forum_user_badges: {
         Row: {
@@ -3815,6 +3826,239 @@ export type Database = {
           source?: string | null
         }
         Relationships: []
+      }
+      tactical_events: {
+        Row: {
+          created_at: string
+          data: Json | null
+          event_type: string
+          game_id: string
+          id: string
+          position: Json | null
+          source_ship_id: string | null
+          target_ship_id: string | null
+          turn: number
+        }
+        Insert: {
+          created_at?: string
+          data?: Json | null
+          event_type: string
+          game_id: string
+          id?: string
+          position?: Json | null
+          source_ship_id?: string | null
+          target_ship_id?: string | null
+          turn: number
+        }
+        Update: {
+          created_at?: string
+          data?: Json | null
+          event_type?: string
+          game_id?: string
+          id?: string
+          position?: Json | null
+          source_ship_id?: string | null
+          target_ship_id?: string | null
+          turn?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tactical_events_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "tactical_games"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tactical_events_source_ship_id_fkey"
+            columns: ["source_ship_id"]
+            isOneToOne: false
+            referencedRelation: "tactical_ships"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tactical_events_target_ship_id_fkey"
+            columns: ["target_ship_id"]
+            isOneToOne: false
+            referencedRelation: "tactical_ships"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tactical_games: {
+        Row: {
+          created_at: string
+          current_turn: number
+          forum_thread_id: string | null
+          gm_user_id: string | null
+          id: string
+          is_locked: boolean
+          map_size_x: number
+          map_size_y: number
+          phase: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          current_turn?: number
+          forum_thread_id?: string | null
+          gm_user_id?: string | null
+          id?: string
+          is_locked?: boolean
+          map_size_x?: number
+          map_size_y?: number
+          phase?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          current_turn?: number
+          forum_thread_id?: string | null
+          gm_user_id?: string | null
+          id?: string
+          is_locked?: boolean
+          map_size_x?: number
+          map_size_y?: number
+          phase?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tactical_games_forum_thread_id_fkey"
+            columns: ["forum_thread_id"]
+            isOneToOne: false
+            referencedRelation: "forum_threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tactical_moves: {
+        Row: {
+          actions: Json
+          dice_roll_url: string | null
+          game_id: string
+          id: string
+          player_user_id: string
+          resolved_at: string | null
+          ship_id: string
+          status: string
+          submitted_at: string
+          turn: number
+        }
+        Insert: {
+          actions?: Json
+          dice_roll_url?: string | null
+          game_id: string
+          id?: string
+          player_user_id: string
+          resolved_at?: string | null
+          ship_id: string
+          status?: string
+          submitted_at?: string
+          turn: number
+        }
+        Update: {
+          actions?: Json
+          dice_roll_url?: string | null
+          game_id?: string
+          id?: string
+          player_user_id?: string
+          resolved_at?: string | null
+          ship_id?: string
+          status?: string
+          submitted_at?: string
+          turn?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tactical_moves_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "tactical_games"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tactical_moves_ship_id_fkey"
+            columns: ["ship_id"]
+            isOneToOne: false
+            referencedRelation: "tactical_ships"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tactical_ships: {
+        Row: {
+          captain_user_id: string | null
+          class: string
+          created_at: string
+          facing: number
+          game_id: string
+          hull: number
+          id: string
+          max_hull: number
+          max_shields: number
+          name: string
+          position_x: number
+          position_y: number
+          shields: number
+          speed: number
+          sprite_url: string | null
+          stats: Json | null
+          status: string
+          team: string
+          updated_at: string
+        }
+        Insert: {
+          captain_user_id?: string | null
+          class: string
+          created_at?: string
+          facing?: number
+          game_id: string
+          hull: number
+          id?: string
+          max_hull: number
+          max_shields: number
+          name: string
+          position_x: number
+          position_y: number
+          shields?: number
+          speed?: number
+          sprite_url?: string | null
+          stats?: Json | null
+          status?: string
+          team: string
+          updated_at?: string
+        }
+        Update: {
+          captain_user_id?: string | null
+          class?: string
+          created_at?: string
+          facing?: number
+          game_id?: string
+          hull?: number
+          id?: string
+          max_hull?: number
+          max_shields?: number
+          name?: string
+          position_x?: number
+          position_y?: number
+          shields?: number
+          speed?: number
+          sprite_url?: string | null
+          stats?: Json | null
+          status?: string
+          team?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tactical_ships_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "tactical_games"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       temp_user_mappings: {
         Row: {
