@@ -41,6 +41,7 @@ import Forbidden from "./pages/Forbidden";
 import Forum from "./pages/Forum";
 import ForumThread from "./pages/ForumThread";
 import TacticalBattle from "./pages/TacticalBattle";
+import TacticalDemo from "./pages/TacticalDemo";
 import VisitorAnalytics from "./pages/admin/VisitorAnalytics";
 
 const queryClient = new QueryClient();
@@ -129,6 +130,7 @@ const App = () => (
             <Route path="/campaign/:id" element={<Campaign />} />
           <Route path="/forum" element={<Forum />} />
           <Route path="/forum/thread/:threadId" element={<ForumThread />} />
+          <Route path="/tactical" element={<RequireAuth><TacticalDemo /></RequireAuth>} />
           <Route path="/tactical/:gameId" element={<RequireAuth><TacticalBattle /></RequireAuth>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
