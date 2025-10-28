@@ -22,6 +22,12 @@ Deno.serve(async (req) => {
       }
     );
 
+    // Create service role client for inserts
+    const supabaseAdmin = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    );
+
     // Get authenticated user
     const {
       data: { user },
@@ -155,8 +161,8 @@ Deno.serve(async (req) => {
       }
     ];
 
-    // Insert all ships
-    const { data: ships, error: shipsError } = await supabaseClient
+    // Insert all ships using service role
+    const { data: ships, error: shipsError } = await supabaseAdmin
       .from('tactical_ships')
       .insert([...federationShips, ...klingonShips])
       .select();
@@ -168,7 +174,7 @@ Deno.serve(async (req) => {
 
     console.log('Ships created:', ships.length);
 
-    // Create tactical objectives
+    // Create tactical objectives using service role
     const objectives = [
       {
         game_id: game.id,
@@ -210,7 +216,7 @@ Deno.serve(async (req) => {
       }
     ];
 
-    const { error: objectivesError } = await supabaseClient
+    const { error: objectivesError } = await supabaseAdmin
       .from('tactical_objectives')
       .insert(objectives);
 
@@ -218,8 +224,8 @@ Deno.serve(async (req) => {
       console.error('Error creating objectives:', objectivesError);
     }
 
-    // Create initial combat log event
-    const { error: eventError } = await supabaseClient
+    // Create initial combat log event using service role
+    const { error: eventError } = await supabaseAdmin
       .from('tactical_events')
       .insert({
         game_id: game.id,
