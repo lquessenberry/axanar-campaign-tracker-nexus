@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 
 export type LeaderboardCategory = 
+  | 'unified_xp'
   | 'total_donated' 
   | 'total_contributions'
   | 'campaigns_supported'

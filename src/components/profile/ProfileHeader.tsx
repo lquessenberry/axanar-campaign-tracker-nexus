@@ -12,7 +12,7 @@ import { useUpdateProfile } from "@/hooks/useUserProfile";
 import StarField from "@/components/StarField";
 import MouseTracker from "@/components/auth/MouseTracker";
 import { toast } from "sonner";
-import { useUnifiedRank } from "@/hooks/useUnifiedRank";
+import { useUnifiedXP } from "@/hooks/useUnifiedXP";
 
 interface ProfileData {
   id: string;
@@ -65,7 +65,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   const { uploadAvatar, isUploading } = useAvatarUpload();
   const { uploadBackground, removeBackground, isUploading: isUploadingBackground } = useBackgroundUpload();
   const updateProfile = useUpdateProfile();
-  const { data: unifiedRank } = useUnifiedRank(undefined, totalPledged);
+  const { data: unifiedXP } = useUnifiedXP(undefined);
 
   const handleAvatarClick = () => {
     fileInputRef.current?.click();
@@ -305,22 +305,19 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           
             {/* Unified Rank Display */}
             <div className="md:ml-auto flex flex-col md:flex-row gap-4 items-end">
-              {unifiedRank && (
-                <div className={`rounded-lg border border-white/20 p-4 ${unifiedRank.bgColor} backdrop-blur-sm min-w-[280px]`}>
+              {unifiedXP && (
+                <div className="rounded-lg border border-white/20 p-4 bg-gradient-to-br from-axanar-teal/20 to-blue-500/20 backdrop-blur-sm min-w-[280px]">
                   <div className="flex items-center justify-between mb-3">
                     <div>
-                      <h3 className="text-lg font-bold text-white">{unifiedRank.name.toUpperCase()}</h3>
-                      {unifiedRank.isAdmin && (
-                        <div className="text-xs text-yellow-400 font-medium">COMMAND STAFF</div>
-                      )}
+                      <h3 className="text-lg font-bold text-white">{unifiedXP.currentRank.name.toUpperCase()}</h3>
+                      <div className="text-xs text-axanar-teal font-medium">STARFLEET RANK</div>
                     </div>
                     <div className="flex gap-1">
-                      {Array.from({ length: Math.max(unifiedRank.pips, 1) }).map((_, i) => (
+                      {/* Rank pips based on sort_order */}
+                      {Array.from({ length: Math.min(unifiedXP.currentRank.sort_order, 7) }).map((_, i) => (
                         <div
                           key={i}
-                          className={`w-2 h-6 rounded-sm ${
-                            i < unifiedRank.pips ? unifiedRank.pipColor : 'bg-white/20'
-                          } border border-white/30 shadow-sm`}
+                          className="w-2 h-6 rounded-sm bg-yellow-400 border border-white/30 shadow-sm"
                         />
                       ))}
                     </div>
@@ -328,19 +325,19 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm text-white/90">
-                      <span>XP: {unifiedRank.xp.toLocaleString()}</span>
-                      <span>Level {unifiedRank.level}</span>
+                      <span>XP: {unifiedXP.xp.total.toLocaleString()}</span>
+                      <span>Level {unifiedXP.currentRank.sort_order}</span>
                     </div>
-                    {unifiedRank.maxXP > unifiedRank.minXP && !unifiedRank.isAdmin && (
+                    {unifiedXP.nextRank && (
                       <>
                         <div className="w-full bg-white/20 rounded-full h-2">
                           <div 
-                            className={`h-2 rounded-full ${unifiedRank.pipColor} transition-all`}
-                            style={{ width: `${unifiedRank.progressToNext}%` }}
+                            className="h-2 rounded-full bg-yellow-400 transition-all"
+                            style={{ width: `${unifiedXP.progressToNext}%` }}
                           />
                         </div>
                         <div className="text-xs text-white/70 text-center">
-                          Next Rank: {unifiedRank.maxXP.toLocaleString()} XP
+                          Next: {unifiedXP.nextRank.name} at {unifiedXP.nextRank.min_points.toLocaleString()} XP
                         </div>
                       </>
                     )}

@@ -1,8 +1,9 @@
 
 import React, { useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Heart, BarChart3, Users2, Trophy, Star, Gift } from "lucide-react";
+import { Heart, BarChart3, Users2, Trophy, Star, Gift, Zap } from "lucide-react";
 import { useUserAchievements, useCalculateAchievements, useUserRecruitment } from "@/hooks/useUserAchievements";
+import { useUnifiedXP } from "@/hooks/useUnifiedXP";
 import AchievementBadge from "./AchievementBadge";
 import ForumBadgesPanel from "./ForumBadgesPanel";
 import AchievementsShowcase from "./AchievementsShowcase";
@@ -37,6 +38,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
 }) => {
   const { data: achievements } = useUserAchievements();
   const { data: recruitmentData } = useUserRecruitment();
+  const { data: unifiedXP } = useUnifiedXP(profile?.id);
   const calculateAchievements = useCalculateAchievements();
   
   // Calculate achievements on mount and when pledges change
@@ -81,20 +83,9 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
   const canRecruit = totalDonated >= 100 && (profile?.full_name && profile?.bio);
   const recruitCount = recruitmentData?.filter(r => r.status === 'confirmed').length || 0;
   
-  // Calculate total XP
-  const profileXP = (profile?.full_name && profile?.bio) ? 50 : 0;
-  const achievementXP = achievements?.reduce((sum, achievement) => {
-    const type = achievement.achievement_type;
-    if (type === 'first_supporter') return sum + 25;
-    if (type === 'committed_backer') return sum + 50;
-    if (type === 'major_supporter') return sum + 100;
-    if (type === 'champion_donor') return sum + 200;
-    if (type === 'veteran_supporter') return sum + 150;
-    if (type === 'multi_campaign_supporter') return sum + 75;
-    return sum + 10;
-  }, 0) || 0;
-  const recruitmentXP = recruitCount * 25;
-  const totalXP = profileXP + achievementXP + recruitmentXP;
+  // Use unified XP system
+  const totalXP = unifiedXP?.xp.total || 0;
+  const xpBreakdown = unifiedXP?.xp;
   return (
     <div className="lg:col-span-2 space-y-6">
       {/* About Section */}
@@ -109,28 +100,97 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
         </CardContent>
       </Card>
 
-      {/* Participation Status */}
+      {/* Unified XP & Rank Status */}
       <Card className="bg-card/50 backdrop-blur-sm border-border/50">
         <CardContent className="p-6">
-          <h3 className="text-xl font-bold mb-6 text-axanar-teal">Axanar Participation Status</h3>
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-bold text-axanar-teal">Starfleet Rank & XP</h3>
+            {unifiedXP && (
+              <div className="text-right">
+                <div className="text-2xl font-bold text-axanar-teal">{totalXP} XP</div>
+                <div className="text-sm text-muted-foreground">
+                  Rank: {unifiedXP.currentRank.name}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Rank Progress */}
+          {unifiedXP?.nextRank && (
+            <div className="mb-6">
+              <div className="flex justify-between text-sm mb-2">
+                <span className="font-semibold">{unifiedXP.currentRank.name}</span>
+                <span className="text-muted-foreground">
+                  Next: {unifiedXP.nextRank.name} ({unifiedXP.nextRank.min_points} XP)
+                </span>
+              </div>
+              <div className="w-full bg-muted/50 rounded-full h-3 overflow-hidden">
+                <div 
+                  className="bg-gradient-to-r from-axanar-teal to-blue-400 h-3 rounded-full transition-all duration-500"
+                  style={{ width: `${unifiedXP.progressToNext}%` }}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* XP Breakdown */}
           <div className="space-y-4">
-            
-            {/* Profile Completion */}
-            <div className="flex items-center gap-4 p-4 bg-background/60 backdrop-blur-sm rounded-lg border border-border/50 hover:border-axanar-teal/30 transition-colors">
-              <div className={`h-4 w-4 rounded-full flex-shrink-0 ${
-                profile?.full_name && profile?.bio ? 'bg-green-500 animate-pulse' : 'bg-yellow-500'
-              }`} />
+            {/* Forum Activity */}
+            <div className="flex items-center gap-4 p-4 bg-background/60 backdrop-blur-sm rounded-lg border border-border/50 hover:border-blue-500/30 transition-colors">
+              <Zap className="h-5 w-5 text-blue-400 flex-shrink-0" />
               <div className="flex-1">
-                <p className="font-semibold">Profile Information</p>
+                <p className="font-semibold">Forum Activity</p>
+                <p className="text-sm text-muted-foreground">
+                  {xpBreakdown?.total_posts || 0} threads, {xpBreakdown?.total_comments || 0} comments
+                </p>
+              </div>
+              <div className="text-sm font-bold text-blue-400">
+                +{xpBreakdown?.forum_xp || 0} XP
+              </div>
+            </div>
+
+            {/* Profile Completion */}
+            <div className="flex items-center gap-4 p-4 bg-background/60 backdrop-blur-sm rounded-lg border border-border/50 hover:border-green-500/30 transition-colors">
+              <Users2 className="h-5 w-5 text-green-400 flex-shrink-0" />
+              <div className="flex-1">
+                <p className="font-semibold">Profile Completion</p>
                 <p className="text-sm text-muted-foreground">
                   {profile?.full_name && profile?.bio 
-                    ? 'Complete - Thank you for updating your profile!'
-                    : 'Incomplete - Please update your profile information'
+                    ? 'Complete profile information'
+                    : 'Update your profile to earn XP'
                   }
                 </p>
               </div>
-              <div className="text-sm font-bold text-axanar-teal">
-                {profile?.full_name && profile?.bio ? '+50 XP' : '0 XP'}
+              <div className="text-sm font-bold text-green-400">
+                +{xpBreakdown?.profile_completion_xp || 0} XP
+              </div>
+            </div>
+
+            {/* Donations */}
+            <div className="flex items-center gap-4 p-4 bg-background/60 backdrop-blur-sm rounded-lg border border-border/50 hover:border-yellow-500/30 transition-colors">
+              <Heart className="h-5 w-5 text-yellow-400 flex-shrink-0" />
+              <div className="flex-1">
+                <p className="font-semibold">Campaign Support</p>
+                <p className="text-sm text-muted-foreground">
+                  ${totalDonated.toLocaleString()} contributed
+                </p>
+              </div>
+              <div className="text-sm font-bold text-yellow-400">
+                +{xpBreakdown?.donation_xp || 0} XP
+              </div>
+            </div>
+
+            {/* Achievements */}
+            <div className="flex items-center gap-4 p-4 bg-background/60 backdrop-blur-sm rounded-lg border border-border/50 hover:border-purple-500/30 transition-colors">
+              <Trophy className="h-5 w-5 text-purple-400 flex-shrink-0" />
+              <div className="flex-1">
+                <p className="font-semibold">Achievements Unlocked</p>
+                <p className="text-sm text-muted-foreground">
+                  {achievements?.length || 0} achievements earned
+                </p>
+              </div>
+              <div className="text-sm font-bold text-purple-400">
+                +{xpBreakdown?.achievement_xp || 0} XP
               </div>
             </div>
 
@@ -151,17 +211,15 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
               </div>
             </div>
 
-            {/* Account Recovery Bounty */}
-            <div className="flex items-center gap-4 p-4 bg-background/60 backdrop-blur-sm rounded-lg border border-border/50 hover:border-axanar-teal/30 transition-colors">
-              <div className={`h-4 w-4 rounded-full flex-shrink-0 ${
-                canRecruit ? 'bg-green-500 animate-pulse' : 'bg-yellow-500'
-              }`} />
+            {/* Recruitment Section */}
+            <div className="flex items-center gap-4 p-4 bg-background/60 backdrop-blur-sm rounded-lg border border-border/50 hover:border-pink-500/30 transition-colors">
+              <Star className="h-5 w-5 text-pink-400 flex-shrink-0" />
               <div className="flex-1">
                 <p className="font-semibold">Recovery Ambassador</p>
                 <p className="text-sm text-muted-foreground">
                   {canRecruit 
-                    ? `Qualified recruiter: ${recruitCount} accounts re-enlisted`
-                    : 'Become qualified: $100+ donated + complete profile'
+                    ? `Qualified: ${recruitCount} accounts re-enlisted`
+                    : 'Qualify: $100+ donated + complete profile'
                   }
                 </p>
                 {canRecruit && (
@@ -170,35 +228,49 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
                     toast.success("Recruitment link copied!");
                   }}>
                     <Users2 className="h-4 w-4 mr-1" />
-                    Copy Recruitment Link
+                    Copy Link
                   </Button>
                 )}
               </div>
-              <div className="text-sm font-bold text-axanar-teal">
-                +{recruitmentXP} XP
+              <div className="text-sm font-bold text-pink-400">
+                +{xpBreakdown?.recruitment_xp || 0} XP
               </div>
             </div>
 
-            {/* Total XP Progress */}
+            {/* Total XP Display */}
             <div className="border-t border-border/50 pt-6 mt-6">
               <div className="flex justify-between items-center mb-3">
-                <span className="font-bold text-lg">Total Participation XP</span>
+                <span className="font-bold text-lg">Total Unified XP</span>
                 <span className="text-2xl font-bold text-axanar-teal">
                   {totalXP} XP
                 </span>
               </div>
+              
+              {/* Current Rank Display */}
+              {unifiedXP && (
+                <div className="mb-4 p-3 bg-gradient-to-r from-axanar-teal/10 to-blue-500/10 rounded-lg border border-axanar-teal/30">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-semibold text-axanar-teal">{unifiedXP.currentRank.name}</p>
+                      <p className="text-xs text-muted-foreground">{unifiedXP.currentRank.description}</p>
+                    </div>
+                    {unifiedXP.nextRank && (
+                      <div className="text-right text-sm">
+                        <p className="text-muted-foreground">Next: {unifiedXP.nextRank.name}</p>
+                        <p className="text-xs">{unifiedXP.nextRank.min_points - totalXP} XP to go</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+              
               <div className="w-full bg-muted/50 mt-2 rounded-full h-3 overflow-hidden">
                 <div 
                   className="bg-gradient-to-r from-axanar-teal to-blue-400 h-3 rounded-full transition-all duration-500 ease-out"
-                  style={{ width: `${Math.min(totalXP / 500 * 100, 100)}%` }}
+                  style={{ width: `${unifiedXP?.progressToNext || 0}%` }}
                 />
-
-      {/* Forum Badges */}
-      <ForumBadgesPanel />
               </div>
-              <p className="text-sm text-muted-foreground mt-2">
-                {totalXP >= 500 ? '🏆 Maximum level reached!' : `Next milestone: 500 XP - Legend Status`}
-              </p>
+              
               <div className="flex items-center gap-4 mt-3 text-sm text-muted-foreground">
                 <div className="flex items-center gap-1">
                   <Gift className="h-4 w-4 text-axanar-teal" />
@@ -214,6 +286,9 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
           </div>
         </CardContent>
       </Card>
+
+      {/* Forum Badges */}
+      <ForumBadgesPanel />
 
       {/* Achievements Showcase */}
       <AchievementsShowcase 
