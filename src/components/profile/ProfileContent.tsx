@@ -246,17 +246,19 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
                 </span>
               </div>
               
-              {/* Current Rank Display */}
+              {/* Current Starfleet Rank Display */}
               {unifiedXP && (
                 <div className="mb-4 p-3 bg-gradient-to-r from-axanar-teal/10 to-blue-500/10 rounded-lg border border-axanar-teal/30">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-semibold text-axanar-teal">{unifiedXP.currentRank.name}</p>
-                      <p className="text-xs text-muted-foreground">{unifiedXP.currentRank.description}</p>
+                      <p className="text-xs text-muted-foreground mb-1">Starfleet Rank</p>
+                      <p className="font-semibold text-lg text-axanar-teal">{unifiedXP.currentRank.name}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{unifiedXP.currentRank.description}</p>
                     </div>
                     {unifiedXP.nextRank && (
                       <div className="text-right text-sm">
-                        <p className="text-muted-foreground">Next: {unifiedXP.nextRank.name}</p>
+                        <p className="text-muted-foreground">Next Rank</p>
+                        <p className="font-semibold text-axanar-teal">{unifiedXP.nextRank.name}</p>
                         <p className="text-xs">{unifiedXP.nextRank.min_points - totalXP} XP to go</p>
                       </div>
                     )}
