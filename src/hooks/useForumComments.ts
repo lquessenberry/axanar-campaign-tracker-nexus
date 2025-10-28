@@ -1,0 +1,151 @@
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
+
+export type ForumComment = {
+  id: string;
+  thread_id: string;
+  parent_comment_id: string | null;
+  author_user_id: string | null;
+  author_username: string;
+  content: string;
+  image_url: string | null;
+  like_count: number;
+  is_edited: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export const useForumComments = (threadId: string) => {
+  return useQuery({
+    queryKey: ['forum-comments', threadId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('forum_comments')
+        .select('*')
+        .eq('thread_id', threadId)
+        .order('created_at', { ascending: true });
+
+      if (error) throw error;
+      return data as ForumComment[];
+    },
+    enabled: !!threadId,
+  });
+};
+
+export const useCreateComment = () => {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+
+  return useMutation({
+    mutationFn: async (data: {
+      thread_id: string;
+      content: string;
+      parent_comment_id?: string;
+      image_url?: string;
+    }) => {
+      if (!user) throw new Error('Must be logged in');
+
+      // Get user profile for author info
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('username, full_name')
+        .eq('id', user.id)
+        .single();
+
+      const username = profile?.username || profile?.full_name || 'Anonymous';
+
+      const { data: comment, error } = await supabase
+        .from('forum_comments')
+        .insert({
+          ...data,
+          author_user_id: user.id,
+          author_username: username,
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+      return comment;
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['forum-comments', variables.thread_id] });
+      queryClient.invalidateQueries({ queryKey: ['forum-thread', variables.thread_id] });
+      queryClient.invalidateQueries({ queryKey: ['forum-threads'] });
+      toast({
+        title: '💬 Comment posted!',
+        description: 'Your comment has been added.',
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Error posting comment',
+        description: error.message,
+        variant: 'destructive',
+      });
+    },
+  });
+};
+
+export const useCommentLike = () => {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+
+  return useMutation({
+    mutationFn: async ({ commentId, threadId, isLiked }: { commentId: string; threadId: string; isLiked: boolean }) => {
+      if (!user) throw new Error('Must be logged in');
+
+      if (isLiked) {
+        // Unlike
+        const { error } = await supabase
+          .from('forum_likes')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('comment_id', commentId);
+        if (error) throw error;
+      } else {
+        // Like
+        const { error } = await supabase
+          .from('forum_likes')
+          .insert({ user_id: user.id, comment_id: commentId });
+        if (error) throw error;
+      }
+    },
+    onSuccess: (_, { threadId, commentId }) => {
+      queryClient.invalidateQueries({ queryKey: ['forum-comments', threadId] });
+      queryClient.invalidateQueries({ queryKey: ['comment-like-status', commentId] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive',
+      });
+    },
+  });
+};
+
+export const useCommentLikeStatus = (commentId: string) => {
+  const { user } = useAuth();
+
+  return useQuery({
+    queryKey: ['comment-like-status', commentId, user?.id],
+    queryFn: async () => {
+      if (!user) return false;
+
+      const { data, error } = await supabase
+        .from('forum_likes')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('comment_id', commentId)
+        .maybeSingle();
+
+      if (error) throw error;
+      return !!data;
+    },
+    enabled: !!user && !!commentId,
+  });
+};

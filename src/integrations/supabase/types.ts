@@ -1020,6 +1020,102 @@ export type Database = {
         }
         Relationships: []
       }
+      forum_comments: {
+        Row: {
+          author_user_id: string | null
+          author_username: string
+          content: string
+          created_at: string | null
+          id: string
+          image_url: string | null
+          is_edited: boolean | null
+          like_count: number | null
+          parent_comment_id: string | null
+          thread_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          author_user_id?: string | null
+          author_username: string
+          content: string
+          created_at?: string | null
+          id?: string
+          image_url?: string | null
+          is_edited?: boolean | null
+          like_count?: number | null
+          parent_comment_id?: string | null
+          thread_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          author_user_id?: string | null
+          author_username?: string
+          content?: string
+          created_at?: string | null
+          id?: string
+          image_url?: string | null
+          is_edited?: boolean | null
+          like_count?: number | null
+          parent_comment_id?: string | null
+          thread_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forum_comments_parent_comment_id_fkey"
+            columns: ["parent_comment_id"]
+            isOneToOne: false
+            referencedRelation: "forum_comments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "forum_comments_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "forum_threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      forum_likes: {
+        Row: {
+          comment_id: string | null
+          created_at: string | null
+          id: string
+          thread_id: string | null
+          user_id: string
+        }
+        Insert: {
+          comment_id?: string | null
+          created_at?: string | null
+          id?: string
+          thread_id?: string | null
+          user_id: string
+        }
+        Update: {
+          comment_id?: string | null
+          created_at?: string | null
+          id?: string
+          thread_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forum_likes_comment_id_fkey"
+            columns: ["comment_id"]
+            isOneToOne: false
+            referencedRelation: "forum_comments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "forum_likes_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "forum_threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       forum_ranks: {
         Row: {
           created_at: string
@@ -1064,13 +1160,17 @@ export type Database = {
           author_user_id: string | null
           author_username: string
           category: string
+          comment_count: number | null
           content: string
           created_at: string
           id: string
+          image_url: string | null
           is_official: boolean
           is_pinned: boolean
+          like_count: number | null
           title: string
           updated_at: string
+          view_count: number | null
         }
         Insert: {
           author_badges?: Json | null
@@ -1082,13 +1182,17 @@ export type Database = {
           author_user_id?: string | null
           author_username: string
           category?: string
+          comment_count?: number | null
           content: string
           created_at?: string
           id?: string
+          image_url?: string | null
           is_official?: boolean
           is_pinned?: boolean
+          like_count?: number | null
           title: string
           updated_at?: string
+          view_count?: number | null
         }
         Update: {
           author_badges?: Json | null
@@ -1100,13 +1204,17 @@ export type Database = {
           author_user_id?: string | null
           author_username?: string
           category?: string
+          comment_count?: number | null
           content?: string
           created_at?: string
           id?: string
+          image_url?: string | null
           is_official?: boolean
           is_pinned?: boolean
+          like_count?: number | null
           title?: string
           updated_at?: string
+          view_count?: number | null
         }
         Relationships: []
       }

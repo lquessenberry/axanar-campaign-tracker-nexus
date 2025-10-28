@@ -39,6 +39,7 @@ import RequireAuth from "@/components/auth/RequireAuth";
 import SignInRequired from "./pages/SignInRequired";
 import Forbidden from "./pages/Forbidden";
 import Forum from "./pages/Forum";
+import ForumThread from "./pages/ForumThread";
 import VisitorAnalytics from "./pages/admin/VisitorAnalytics";
 
 const queryClient = new QueryClient();
@@ -125,7 +126,8 @@ const App = () => (
             <Route path="/vanity/:username" element={<Navigate to="/u/:username" replace />} />
             <Route path="/campaigns" element={<Campaigns />} />
             <Route path="/campaign/:id" element={<Campaign />} />
-            <Route path="/forum" element={<Forum />} />
+          <Route path="/forum" element={<Forum />} />
+          <Route path="/forum/thread/:threadId" element={<ForumThread />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
