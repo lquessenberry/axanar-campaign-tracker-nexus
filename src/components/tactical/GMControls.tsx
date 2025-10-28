@@ -1,6 +1,7 @@
 import React from 'react';
 import { useResolveMove, useEndTurn, useTacticalGame } from '@/hooks/useTacticalGame';
 import { useGenerateAIMoves } from '@/hooks/useGenerateAIMoves';
+import { useRebuildTacticalGame } from '@/hooks/useRebuildTacticalGame';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -16,6 +17,7 @@ export const GMControls: React.FC<GMControlsProps> = ({ gameId }) => {
   const resolveMove = useResolveMove();
   const endTurn = useEndTurn();
   const generateAIMove = useGenerateAIMoves();
+  const rebuildGame = useRebuildTacticalGame();
 
   if (!isAdmin || !game) return null;
 
@@ -77,10 +79,31 @@ export const GMControls: React.FC<GMControlsProps> = ({ gameId }) => {
     }
   };
 
+  const handleRebuildGame = async () => {
+    try {
+      await rebuildGame.mutateAsync(gameId);
+      toast.success('Game rebuilt! Reloading...');
+      setTimeout(() => window.location.reload(), 1000);
+    } catch (error) {
+      toast.error('Failed to rebuild game');
+      console.error(error);
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>🎮 GM Controls - Turn {game.current_turn}</CardTitle>
+        <CardTitle className="flex items-center justify-between">
+          <span>🎮 GM Controls - Turn {game.current_turn}</span>
+          <Button
+            size="sm"
+            variant="destructive"
+            onClick={handleRebuildGame}
+            disabled={rebuildGame.isPending}
+          >
+            {rebuildGame.isPending ? 'Rebuilding...' : '🔄 Rebuild Game'}
+          </Button>
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="text-sm text-muted-foreground">
