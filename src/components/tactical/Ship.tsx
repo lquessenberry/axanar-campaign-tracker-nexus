@@ -28,157 +28,160 @@ export const Ship: React.FC<ShipProps> = ({ ship, hexSize = 50, onClick }) => {
   const x = iso.x + 600; // Center offset
   const y = iso.y + 200;
 
-  // Shield color based on shield strength
+  // CGA Hercules colors
+  const CGA_CYAN = '#00ffff';
+  const CGA_MAGENTA = '#ff00ff';
+  const CGA_WHITE = '#ffffff';
+  const CGA_AMBER = '#ffaa00';
+
+  // Shield color based on strength
   const shieldPercent = ship.shields / ship.max_shields;
   const shieldColor = shieldPercent > 0.5 
-    ? '#22c55e'  // green
+    ? CGA_CYAN
     : shieldPercent > 0.2 
-    ? '#eab308'  // yellow
-    : '#ef4444'; // red
+    ? CGA_AMBER
+    : CGA_MAGENTA;
 
-  // Team color
+  // Team color (Vectrex wire-frame style)
   const teamColor = ship.team === 'federation' 
-    ? '#3b82f6'  // blue
+    ? CGA_CYAN
     : ship.team === 'klingon' 
-    ? '#dc2626'  // red
-    : '#9ca3af'; // gray
+    ? CGA_MAGENTA
+    : CGA_AMBER;
 
   return (
     <Group x={x} y={y} onClick={onClick}>
-      {/* Shadow (cast on grid below) */}
+      {/* Wireframe ship body (diamond/square rotated) */}
       <Circle
-        radius={22}
-        y={15}
-        fill="rgba(0, 0, 0, 0.4)"
-        blur={8}
-        opacity={0.6}
-      />
-
-      {/* Base glow */}
-      <Circle
-        radius={30}
-        fill={teamColor}
-        opacity={0.2}
+        radius={18}
+        y={-5}
+        stroke={teamColor}
+        strokeWidth={2}
+        opacity={ship.status === 'active' ? 1 : 0.4}
         shadowColor={teamColor}
-        shadowBlur={20}
+        shadowBlur={12}
         shadowOpacity={0.8}
       />
 
-      {/* Ship Icon - with depth */}
+      {/* Inner detail lines */}
       <Circle
-        radius={20}
+        radius={12}
         y={-5}
-        fill={teamColor}
-        stroke="#ffffff"
-        strokeWidth={2}
-        opacity={ship.status === 'active' ? 1 : 0.5}
-        shadowColor="rgba(0, 0, 0, 0.5)"
-        shadowBlur={10}
-        shadowOffsetY={3}
+        stroke={teamColor}
+        strokeWidth={1}
+        opacity={0.6}
+        shadowColor={teamColor}
+        shadowBlur={6}
       />
 
-      {/* Facing Arrow with glow */}
+      {/* Facing indicator (vector arrow) */}
       <Arrow
-        points={[0, -5, 30, -5]}
+        points={[0, -5, 28, -5]}
         rotation={ship.facing * 60}
-        stroke="#ffffff"
+        stroke={CGA_WHITE}
         strokeWidth={2}
-        fill="#ffffff"
-        shadowColor="#ffffff"
-        shadowBlur={5}
+        pointerLength={8}
+        pointerWidth={8}
+        shadowColor={CGA_WHITE}
+        shadowBlur={8}
       />
 
-      {/* Shield Bubble with animated glow */}
+      {/* Shield bubble (CRT glow effect) */}
       {ship.shields > 0 && (
         <>
           <Circle
-            radius={38}
-            y={-5}
-            stroke={shieldColor}
-            strokeWidth={2}
-            opacity={0.2}
-            shadowColor={shieldColor}
-            shadowBlur={15}
-            shadowOpacity={0.6}
-          />
-          <Circle
-            radius={35}
+            radius={32}
             y={-5}
             stroke={shieldColor}
             strokeWidth={3}
-            opacity={0.5}
+            opacity={0.6}
+            shadowColor={shieldColor}
+            shadowBlur={18}
+            shadowOpacity={0.9}
+          />
+          <Circle
+            radius={28}
+            y={-5}
+            stroke={shieldColor}
+            strokeWidth={1}
+            opacity={0.3}
+            dash={[4, 4]}
+          />
+        </>
+      )}
+
+      {/* Hull Bar (wireframe style) */}
+      <Rect
+        x={-40}
+        y={-55}
+        width={80}
+        height={6}
+        stroke={CGA_CYAN}
+        strokeWidth={1}
+      />
+      <Rect
+        x={-40}
+        y={-55}
+        width={80 * (ship.hull / ship.max_hull)}
+        height={6}
+        fill={CGA_CYAN}
+        opacity={0.5}
+        shadowColor={CGA_CYAN}
+        shadowBlur={6}
+      />
+
+      {/* Shield Bar with CRT glow */}
+      {ship.max_shields > 0 && (
+        <>
+          <Rect
+            x={-40}
+            y={-47}
+            width={80}
+            height={4}
+            stroke={shieldColor}
+            strokeWidth={1}
+          />
+          <Rect
+            x={-40}
+            y={-47}
+            width={80 * (ship.shields / ship.max_shields)}
+            height={4}
+            fill={shieldColor}
+            opacity={0.6}
             shadowColor={shieldColor}
             shadowBlur={8}
           />
         </>
       )}
 
-      {/* Hull Bar with 3D effect */}
-      <Rect
-        x={-40}
-        y={-55}
-        width={80}
-        height={8}
-        fill="#1f2937"
-        cornerRadius={2}
-        shadowColor="rgba(0, 0, 0, 0.5)"
-        shadowBlur={3}
-        shadowOffsetY={2}
-      />
-      <Rect
-        x={-40}
-        y={-55}
-        width={80 * (ship.hull / ship.max_hull)}
-        height={8}
-        fill="#22c55e"
-        cornerRadius={2}
-        shadowColor="#22c55e"
-        shadowBlur={5}
-        shadowOpacity={0.6}
-      />
-
-      {/* Shield Bar with glow */}
-      {ship.max_shields > 0 && (
-        <>
-          <Rect
-            x={-40}
-            y={-45}
-            width={80}
-            height={6}
-            fill="#1f2937"
-            cornerRadius={2}
-            shadowColor="rgba(0, 0, 0, 0.5)"
-            shadowBlur={2}
-            shadowOffsetY={1}
-          />
-          <Rect
-            x={-40}
-            y={-45}
-            width={80 * (ship.shields / ship.max_shields)}
-            height={6}
-            fill={shieldColor}
-            cornerRadius={2}
-            shadowColor={shieldColor}
-            shadowBlur={6}
-            shadowOpacity={0.8}
-          />
-        </>
-      )}
-
-      {/* Name with shadow */}
+      {/* Name with CRT phosphor glow */}
       <Text
         text={ship.name}
-        x={-40}
-        y={-72}
-        width={80}
+        x={-50}
+        y={-70}
+        width={100}
         align="center"
-        fill="#ffffff"
-        fontSize={12}
+        fill={CGA_WHITE}
+        fontSize={11}
         fontStyle="bold"
-        shadowColor="rgba(0, 0, 0, 0.8)"
-        shadowBlur={4}
-        shadowOffsetY={2}
+        shadowColor={teamColor}
+        shadowBlur={6}
       />
+
+      {/* AI indicator */}
+      {!ship.captain_user_id && (
+        <Text
+          text="[AI]"
+          x={-15}
+          y={-85}
+          width={30}
+          align="center"
+          fill={CGA_AMBER}
+          fontSize={8}
+          shadowColor={CGA_AMBER}
+          shadowBlur={4}
+        />
+      )}
 
       {/* Status indicator */}
       {ship.status === 'destroyed' && (

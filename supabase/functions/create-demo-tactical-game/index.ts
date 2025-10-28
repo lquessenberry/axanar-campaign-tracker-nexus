@@ -107,7 +107,7 @@ Deno.serve(async (req) => {
       }
     ];
 
-    // Create Klingon ships
+    // Create Klingon ships with AI
     const klingonShips = [
       {
         game_id: game.id,
@@ -123,6 +123,7 @@ Deno.serve(async (req) => {
         facing: 3,
         speed: 18,
         status: 'active',
+        ai_difficulty: 'hard',
         stats: {
           weapons: {
             disruptors: { damage: 18, range: 3, arcs: ['forward', 'port', 'starboard'] },
@@ -144,6 +145,7 @@ Deno.serve(async (req) => {
         facing: 3,
         speed: 20,
         status: 'active',
+        ai_difficulty: 'medium',
         stats: {
           weapons: {
             disruptors: { damage: 15, range: 3, arcs: ['forward', 'port', 'starboard'] },
@@ -165,6 +167,56 @@ Deno.serve(async (req) => {
     }
 
     console.log('Ships created:', ships.length);
+
+    // Create tactical objectives
+    const objectives = [
+      {
+        game_id: game.id,
+        name: 'Epsilon Station',
+        type: 'capture_point',
+        position_x: 10,
+        position_y: 7,
+        radius: 2,
+        controlled_by: 'neutral',
+        points_per_turn: 5,
+        victory_points: 0,
+        status: 'active',
+        metadata: { description: 'Strategic refueling station' }
+      },
+      {
+        game_id: game.id,
+        name: 'Rally Alpha',
+        type: 'rally_point',
+        position_x: 4,
+        position_y: 12,
+        radius: 1,
+        points_per_turn: 0,
+        victory_points: 10,
+        status: 'active',
+        metadata: { description: 'Federation rally point' }
+      },
+      {
+        game_id: game.id,
+        name: 'Ancient Artifact',
+        type: 'artifact',
+        position_x: 10,
+        position_y: 2,
+        radius: 1,
+        controlled_by: 'neutral',
+        points_per_turn: 0,
+        victory_points: 50,
+        status: 'active',
+        metadata: { description: 'Recover for mission victory' }
+      }
+    ];
+
+    const { error: objectivesError } = await supabaseClient
+      .from('tactical_objectives')
+      .insert(objectives);
+
+    if (objectivesError) {
+      console.error('Error creating objectives:', objectivesError);
+    }
 
     // Create initial combat log event
     const { error: eventError } = await supabaseClient

@@ -2,3 +2,9 @@ project_id = "vsarkftwkontkfcodbyk"
 
 [functions.send-email-update-confirmation]
 verify_jwt = false
+
+[functions.create-demo-tactical-game]
+verify_jwt = false
+
+[functions.generate-ai-move]
+verify_jwt = false

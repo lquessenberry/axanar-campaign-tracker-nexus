@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { TacticalGame, TacticalShip, TacticalMove, TacticalEvent } from '@/types/tactical';
+import { TacticalGame, TacticalShip, TacticalMove, TacticalEvent, TacticalObjective } from '@/types/tactical';
 import { useEffect } from 'react';
 
 export const useTacticalGame = (gameId: string) => {
@@ -34,6 +34,22 @@ export const useTacticalGame = (gameId: string) => {
       
       if (error) throw error;
       return data as TacticalShip[];
+    },
+    enabled: !!gameId,
+  });
+
+  // Fetch objectives
+  const { data: objectives = [] } = useQuery({
+    queryKey: ['tactical-objectives', gameId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('tactical_objectives')
+        .select('*')
+        .eq('game_id', gameId)
+        .order('created_at');
+      
+      if (error) throw error;
+      return data as TacticalObjective[];
     },
     enabled: !!gameId,
   });
@@ -113,6 +129,7 @@ export const useTacticalGame = (gameId: string) => {
   return {
     game,
     ships,
+    objectives,
     pendingMoves,
     isLoading,
   };

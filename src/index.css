@@ -916,6 +916,11 @@
     100% { transform: translateX(100vw); }
   }
 
+  @keyframes scan {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100%); }
+  }
+
   @keyframes hologram-flicker {
     0%, 100% { opacity: 1; }
     97% { opacity: 1; }

@@ -1,11 +1,15 @@
 import React from 'react';
-import { Layer, Line } from 'react-konva';
+import { Layer, Line, Rect } from 'react-konva';
 
 interface HexGridProps {
   width: number;
   height: number;
   hexSize?: number;
 }
+
+// CGA Hercules color palette
+const CGA_CYAN = '#00ffff';
+const CGA_MAGENTA = '#ff00ff';
 
 export const HexGrid: React.FC<HexGridProps> = ({ 
   width, 
@@ -56,29 +60,21 @@ export const HexGrid: React.FC<HexGridProps> = ({
       const depth = (row + col) / (rows + cols);
       const opacity = 0.15 + depth * 0.1;
 
+      // Alternate colors for depth effect
+      const lineColor = (row + col) % 2 === 0 ? CGA_CYAN : CGA_MAGENTA;
+      
       hexagons.push(
-        <React.Fragment key={`hex-${row}-${col}`}>
-          {/* Hex face (lighter) */}
-          <Line
-            points={points}
-            fill={`rgba(100, 100, 150, ${opacity * 0.3})`}
-            stroke="#4a5568"
-            strokeWidth={1}
-            opacity={0.6}
-            closed
-          />
-          {/* Hex border glow */}
-          <Line
-            points={points}
-            stroke="#60a5fa"
-            strokeWidth={0.5}
-            opacity={0.3}
-            closed
-            shadowColor="#60a5fa"
-            shadowBlur={3}
-            shadowOpacity={0.5}
-          />
-        </React.Fragment>
+        <Line
+          key={`hex-${row}-${col}`}
+          points={points}
+          stroke={lineColor}
+          strokeWidth={1}
+          opacity={opacity}
+          closed
+          shadowColor={lineColor}
+          shadowBlur={4}
+          shadowOpacity={0.6}
+        />
       );
     }
   }

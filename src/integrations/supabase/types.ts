@@ -3986,8 +3986,69 @@ export type Database = {
           },
         ]
       }
+      tactical_objectives: {
+        Row: {
+          controlled_by: string | null
+          created_at: string | null
+          game_id: string
+          id: string
+          metadata: Json | null
+          name: string
+          points_per_turn: number | null
+          position_x: number
+          position_y: number
+          radius: number | null
+          status: string | null
+          type: string
+          updated_at: string | null
+          victory_points: number | null
+        }
+        Insert: {
+          controlled_by?: string | null
+          created_at?: string | null
+          game_id: string
+          id?: string
+          metadata?: Json | null
+          name: string
+          points_per_turn?: number | null
+          position_x: number
+          position_y: number
+          radius?: number | null
+          status?: string | null
+          type: string
+          updated_at?: string | null
+          victory_points?: number | null
+        }
+        Update: {
+          controlled_by?: string | null
+          created_at?: string | null
+          game_id?: string
+          id?: string
+          metadata?: Json | null
+          name?: string
+          points_per_turn?: number | null
+          position_x?: number
+          position_y?: number
+          radius?: number | null
+          status?: string | null
+          type?: string
+          updated_at?: string | null
+          victory_points?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tactical_objectives_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "tactical_games"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tactical_ships: {
         Row: {
+          ai_behavior: Json | null
+          ai_difficulty: string | null
           captain_user_id: string | null
           class: string
           created_at: string
@@ -4009,6 +4070,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          ai_behavior?: Json | null
+          ai_difficulty?: string | null
           captain_user_id?: string | null
           class: string
           created_at?: string
@@ -4030,6 +4093,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          ai_behavior?: Json | null
+          ai_difficulty?: string | null
           captain_user_id?: string | null
           class?: string
           created_at?: string

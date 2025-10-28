@@ -68,3 +68,20 @@ export interface HexCoord {
   x: number;
   y: number;
 }
+
+export interface TacticalObjective {
+  id: string;
+  game_id: string;
+  name: string;
+  type: 'capture_point' | 'rally_point' | 'waypoint' | 'zone' | 'artifact';
+  position_x: number;
+  position_y: number;
+  radius: number;
+  controlled_by?: 'federation' | 'klingon' | 'neutral';
+  points_per_turn: number;
+  victory_points: number;
+  status: 'active' | 'captured' | 'destroyed' | 'completed';
+  metadata: Record<string, any>;
+  created_at: string;
+  updated_at: string;
+}

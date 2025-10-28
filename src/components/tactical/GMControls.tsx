@@ -1,5 +1,6 @@
 import React from 'react';
 import { useResolveMove, useEndTurn, useTacticalGame } from '@/hooks/useTacticalGame';
+import { useGenerateAIMoves } from '@/hooks/useGenerateAIMoves';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -11,11 +12,15 @@ interface GMControlsProps {
 
 export const GMControls: React.FC<GMControlsProps> = ({ gameId }) => {
   const { data: isAdmin } = useAdminCheck();
-  const { game, pendingMoves } = useTacticalGame(gameId);
+  const { game, ships, pendingMoves } = useTacticalGame(gameId);
   const resolveMove = useResolveMove();
   const endTurn = useEndTurn();
+  const generateAIMove = useGenerateAIMoves();
 
   if (!isAdmin || !game) return null;
+
+  // Find AI-controlled ships (no captain_user_id)
+  const aiShips = ships.filter(ship => !ship.captain_user_id && ship.status === 'active');
 
   const handleResolveMove = async (moveId: string, outcome: any) => {
     try {
@@ -49,6 +54,29 @@ export const GMControls: React.FC<GMControlsProps> = ({ gameId }) => {
     }
   };
 
+  const handleGenerateAIMoves = async () => {
+    if (aiShips.length === 0) {
+      toast.info('No AI ships to generate moves for');
+      return;
+    }
+
+    try {
+      toast.loading(`Generating moves for ${aiShips.length} AI ships...`);
+      
+      for (const ship of aiShips) {
+        await generateAIMove.mutateAsync({
+          gameId,
+          shipId: ship.id,
+        });
+      }
+      
+      toast.success(`Generated ${aiShips.length} AI moves!`);
+    } catch (error) {
+      toast.error('Failed to generate AI moves');
+      console.error(error);
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -56,8 +84,19 @@ export const GMControls: React.FC<GMControlsProps> = ({ gameId }) => {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="text-sm text-muted-foreground">
-          Pending Moves: {pendingMoves.length}
+          Pending Moves: {pendingMoves.length} | AI Ships: {aiShips.length}
         </div>
+
+        {aiShips.length > 0 && (
+          <Button
+            className="w-full"
+            variant="secondary"
+            onClick={handleGenerateAIMoves}
+            disabled={generateAIMove.isPending}
+          >
+            {generateAIMove.isPending ? 'Generating...' : '🤖 Generate AI Moves'}
+          </Button>
+        )}
 
         <div className="space-y-3">
           {pendingMoves.map((move: any) => (
