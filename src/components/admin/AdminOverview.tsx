@@ -80,45 +80,45 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
       {/* Enhanced Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card 
-          className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 tactical:from-primary/5 tactical:to-primary/10 tactical:border-primary/20 klingon:from-klingon-primary/5 klingon:to-klingon-primary/10 klingon:border-klingon-accent/20 border-blue-200 dark:border-blue-800 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+          className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
           onClick={() => onSectionChange("donor-management")}
         >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium klingon:font-klingon flex items-center gap-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
               Imported Email Addresses
               <ExternalLink className="h-3 w-3 opacity-50" />
             </CardTitle>
-            <Users className="h-4 w-4 text-blue-600 dark:text-blue-400 tactical:text-primary klingon:text-klingon-accent" />
+            <Users className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-700 dark:text-blue-300 tactical:text-primary klingon:text-klingon-alert klingon:font-klingon">
+            <div className="text-2xl font-bold text-primary">
               {overview.totalDonors?.toLocaleString() || 0}
             </div>
-            <p className="text-xs text-blue-600 dark:text-blue-400 tactical:text-primary/70 klingon:text-klingon-accent/70 klingon:font-klingon">Total imported email addresses</p>
+            <p className="text-xs text-primary/70">Total imported email addresses</p>
           </CardContent>
         </Card>
         
         <Card 
-          className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950 dark:to-green-900 tactical:from-secondary/5 tactical:to-secondary/10 tactical:border-secondary/20 klingon:from-klingon-accent/5 klingon:to-klingon-accent/10 klingon:border-klingon-primary/20 border-green-200 dark:border-green-800 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+          className="bg-gradient-to-br from-secondary/5 to-secondary/10 border-secondary/20 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
           onClick={() => onSectionChange("donor-management")}
         >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium klingon:font-klingon flex items-center gap-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
               Active Donors
               <ExternalLink className="h-3 w-3 opacity-50" />
             </CardTitle>
-            <TrendingUp className="h-4 w-4 text-green-600 dark:text-green-400 tactical:text-secondary klingon:text-klingon-primary" />
+            <TrendingUp className="h-4 w-4 text-secondary-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-700 dark:text-green-300 tactical:text-secondary klingon:text-klingon-alert klingon:font-klingon">
+            <div className="text-2xl font-bold text-secondary-foreground">
               {overview.activeDonors?.toLocaleString() || 0}
             </div>
-            <p className="text-xs text-green-600 dark:text-green-400 tactical:text-secondary/70 klingon:text-klingon-primary/70 klingon:font-klingon">Donors with pledges</p>
+            <p className="text-xs text-muted-foreground">Donors with pledges</p>
           </CardContent>
         </Card>
         
         <Card 
-          className="relative overflow-hidden border-yellow-200 dark:border-yellow-800 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+          className="relative overflow-hidden border-accent/20 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
           onClick={() => onSectionChange("campaigns")}
         >
           <video
@@ -130,117 +130,117 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
           >
             <source src="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/grok-video-be4a776d-a380-4dc5-8ad8-145f731c927f(2).mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-br from-yellow-50/80 to-yellow-100/80 dark:from-yellow-950/80 dark:to-yellow-900/80 tactical:from-accent/20 tactical:to-accent/30 klingon:from-klingon-alert/20 klingon:to-klingon-alert/30 z-10"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-accent/30 backdrop-blur-sm z-10"></div>
           <CardHeader className="relative z-20 flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium klingon:font-klingon flex items-center gap-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
               Total Raised
               <ExternalLink className="h-3 w-3 opacity-50" />
             </CardTitle>
-            <DollarSign className="h-4 w-4 text-yellow-600 dark:text-yellow-400 tactical:text-accent klingon:text-klingon-alert" />
+            <DollarSign className="h-4 w-4 text-accent-foreground" />
           </CardHeader>
           <CardContent className="relative z-20">
-            <div className="text-2xl font-bold text-yellow-700 dark:text-yellow-300 tactical:text-accent klingon:text-klingon-alert klingon:font-klingon">
+            <div className="text-2xl font-bold text-accent-foreground">
               ${overview.totalRaised?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
             </div>
-            <p className="text-xs text-yellow-600 dark:text-yellow-400 tactical:text-accent/70 klingon:text-klingon-alert/70 klingon:font-klingon">Across all campaigns</p>
+            <p className="text-xs text-accent-foreground/70">Across all campaigns</p>
           </CardContent>
         </Card>
         
         <Card 
-          className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900 tactical:from-muted/5 tactical:to-muted/10 tactical:border-muted-foreground/20 klingon:from-klingon-primary/5 klingon:to-klingon-primary/10 klingon:border-klingon-primary/20 border-purple-200 dark:border-purple-800 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+          className="bg-gradient-to-br from-muted/5 to-muted/10 border-muted-foreground/20 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
           onClick={() => onSectionChange("donor-management")}
         >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium klingon:font-klingon flex items-center gap-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
               Activation Rate
               <ExternalLink className="h-3 w-3 opacity-50" />
             </CardTitle>
-            <BarChart3 className="h-4 w-4 text-purple-600 dark:text-purple-400 tactical:text-muted-foreground klingon:text-klingon-primary" />
+            <BarChart3 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-purple-700 dark:text-purple-300 tactical:text-muted-foreground klingon:text-klingon-alert klingon:font-klingon">
+            <div className="text-2xl font-bold text-foreground">
               {overview.conversionRate?.toFixed(1)}%
             </div>
-            <p className="text-xs text-purple-600 dark:text-purple-400 tactical:text-muted-foreground/70 klingon:text-klingon-primary/70 klingon:font-klingon">Email addresses who became active donors with pledges</p>
+            <p className="text-xs text-muted-foreground">Email addresses who became active donors with pledges</p>
           </CardContent>
         </Card>
 
         {/* Additional Enhanced Metrics */}
         <Card 
-          className="bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-950 dark:to-teal-900 tactical:from-primary/5 tactical:to-primary/10 tactical:border-primary/20 klingon:from-klingon-accent/5 klingon:to-klingon-accent/10 klingon:border-klingon-accent/20 border-teal-200 dark:border-teal-800 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+          className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/30 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
           onClick={() => onSectionChange("donor-management")}
         >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium klingon:font-klingon flex items-center gap-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
               Avg Donation
               <ExternalLink className="h-3 w-3 opacity-50" />
             </CardTitle>
-            <Target className="h-4 w-4 text-teal-600 dark:text-teal-400 tactical:text-primary klingon:text-klingon-accent" />
+            <Target className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-teal-700 dark:text-teal-300 tactical:text-primary klingon:text-klingon-alert klingon:font-klingon">
+            <div className="text-2xl font-bold text-primary">
               ${overview.averageDonation?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
             </div>
-            <p className="text-xs text-teal-600 dark:text-teal-400 tactical:text-primary/70 klingon:text-klingon-accent/70 klingon:font-klingon">Per active donor</p>
+            <p className="text-xs text-primary/70">Per active donor</p>
           </CardContent>
         </Card>
 
         <Card 
-          className="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-950 dark:to-indigo-900 tactical:from-secondary/5 tactical:to-secondary/10 tactical:border-secondary/20 klingon:from-klingon-primary/5 klingon:to-klingon-primary/10 klingon:border-klingon-primary/20 border-indigo-200 dark:border-indigo-800 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+          className="bg-gradient-to-br from-secondary/10 to-secondary/5 border-secondary/30 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
           onClick={() => onSectionChange("campaigns")}
         >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium klingon:font-klingon flex items-center gap-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
               Total Campaigns
               <ExternalLink className="h-3 w-3 opacity-50" />
             </CardTitle>
-            <Award className="h-4 w-4 text-indigo-600 dark:text-indigo-400 tactical:text-secondary klingon:text-klingon-primary" />
+            <Award className="h-4 w-4 text-secondary-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-indigo-700 dark:text-indigo-300 tactical:text-secondary klingon:text-klingon-alert klingon:font-klingon">
+            <div className="text-2xl font-bold text-secondary-foreground">
               {overview.totalCampaigns?.toLocaleString() || 0}
             </div>
-            <p className="text-xs text-indigo-600 dark:text-indigo-400 tactical:text-secondary/70 klingon:text-klingon-primary/70 klingon:font-klingon">
+            <p className="text-xs text-muted-foreground">
               {overview.activeCampaigns || 0} active
             </p>
           </CardContent>
         </Card>
 
         <Card 
-          className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-950 dark:to-orange-900 tactical:from-accent/5 tactical:to-accent/10 tactical:border-accent/20 klingon:from-klingon-alert/5 klingon:to-klingon-alert/10 klingon:border-klingon-alert/20 border-orange-200 dark:border-orange-800 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+          className="bg-gradient-to-br from-accent/10 to-accent/5 border-accent/30 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
           onClick={() => onSectionChange("rewards")}
         >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium klingon:font-klingon flex items-center gap-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
               Total Rewards
               <ExternalLink className="h-3 w-3 opacity-50" />
             </CardTitle>
-            <Gift className="h-4 w-4 text-orange-600 dark:text-orange-400 tactical:text-accent klingon:text-klingon-alert" />
+            <Gift className="h-4 w-4 text-accent-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-orange-700 dark:text-orange-300 tactical:text-accent klingon:text-klingon-alert klingon:font-klingon">
+            <div className="text-2xl font-bold text-accent-foreground">
               {overview.totalRewards?.toLocaleString() || 0}
             </div>
-            <p className="text-xs text-orange-600 dark:text-orange-400 tactical:text-accent/70 klingon:text-klingon-alert/70 klingon:font-klingon">Available rewards</p>
+            <p className="text-xs text-accent-foreground/70">Available rewards</p>
           </CardContent>
         </Card>
 
         <Card 
-          className="bg-gradient-to-br from-rose-50 to-rose-100 dark:from-rose-950 dark:to-rose-900 tactical:from-muted/5 tactical:to-muted/10 tactical:border-muted-foreground/20 klingon:from-klingon-accent/5 klingon:to-klingon-accent/10 klingon:border-klingon-accent/20 border-rose-200 dark:border-rose-800 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+          className="bg-gradient-to-br from-destructive/10 to-destructive/5 border-destructive/30 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
           onClick={() => onSectionChange("campaigns")}
         >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium klingon:font-klingon flex items-center gap-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
               Total Pledges
               <ExternalLink className="h-3 w-3 opacity-50" />
             </CardTitle>
-            <BarChart3 className="h-4 w-4 text-rose-600 dark:text-rose-400 tactical:text-muted-foreground klingon:text-klingon-accent" />
+            <BarChart3 className="h-4 w-4 text-destructive" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-rose-700 dark:text-rose-300 tactical:text-muted-foreground klingon:text-klingon-alert klingon:font-klingon">
+            <div className="text-2xl font-bold text-destructive">
               {overview.totalPledges?.toLocaleString() || 0}
             </div>
-            <p className="text-xs text-rose-600 dark:text-rose-400 tactical:text-muted-foreground/70 klingon:text-klingon-accent/70 klingon:font-klingon">All time pledges</p>
+            <p className="text-xs text-destructive/70">All time pledges</p>
           </CardContent>
         </Card>
       </div>
@@ -251,7 +251,7 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Award className="h-5 w-5 text-axanar-gold" />
+              <Award className="h-5 w-5 text-accent-foreground" />
               Top Donors
             </CardTitle>
             <CardDescription>Highest contributing donors</CardDescription>
@@ -261,7 +261,7 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
               {topMetrics.topDonors?.slice(0, 5).map((donor, index) => (
                 <div key={donor.id} className="flex items-center justify-between group hover:bg-muted/50 p-2 rounded-lg transition-colors">
                   <div className="flex items-center gap-3 flex-1">
-                    <div className="w-8 h-8 bg-axanar-gold/20 rounded-full flex items-center justify-center text-base font-bold text-axanar-gold">
+                    <div className="w-8 h-8 bg-accent/20 rounded-full flex items-center justify-center text-base font-bold text-accent-foreground">
                       {index + 1}
                     </div>
                     <div className="flex-1">
@@ -286,7 +286,7 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-bold text-axanar-gold">
+                    <p className="font-bold text-accent-foreground">
                       ${donor.totalDonated.toLocaleString()}
                     </p>
                   </div>
@@ -300,7 +300,7 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Target className="h-5 w-5 text-axanar-teal" />
+              <Target className="h-5 w-5 text-primary" />
               Top Campaigns
             </CardTitle>
             <CardDescription>Best performing campaigns</CardDescription>
@@ -310,7 +310,7 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
               {topMetrics.topCampaigns?.slice(0, 5).map((campaign, index) => (
                 <div key={campaign.id} className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-axanar-teal/20 rounded-full flex items-center justify-center text-base font-bold text-axanar-teal">
+                    <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-base font-bold text-primary">
                       {index + 1}
                     </div>
                     <div>
@@ -319,7 +319,7 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-bold text-axanar-teal">
+                    <p className="font-bold text-primary">
                       ${campaign.totalRaised.toLocaleString()}
                     </p>
                     <p className="text-sm text-muted-foreground">
