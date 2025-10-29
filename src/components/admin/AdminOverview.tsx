@@ -146,9 +146,15 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
           </CardContent>
         </Card>
         
-        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900 tactical:from-muted/5 tactical:to-muted/10 tactical:border-muted-foreground/20 klingon:from-klingon-primary/5 klingon:to-klingon-primary/10 klingon:border-klingon-primary/20 border-purple-200 dark:border-purple-800 opacity-90">
+        <Card 
+          className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900 tactical:from-muted/5 tactical:to-muted/10 tactical:border-muted-foreground/20 klingon:from-klingon-primary/5 klingon:to-klingon-primary/10 klingon:border-klingon-primary/20 border-purple-200 dark:border-purple-800 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+          onClick={() => onSectionChange("donor-management")}
+        >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium klingon:font-klingon">Activation Rate</CardTitle>
+            <CardTitle className="text-sm font-medium klingon:font-klingon flex items-center gap-2">
+              Activation Rate
+              <ExternalLink className="h-3 w-3 opacity-50" />
+            </CardTitle>
             <BarChart3 className="h-4 w-4 text-purple-600 dark:text-purple-400 tactical:text-muted-foreground klingon:text-klingon-primary" />
           </CardHeader>
           <CardContent>
@@ -160,9 +166,15 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
         </Card>
 
         {/* Additional Enhanced Metrics */}
-        <Card className="bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-950 dark:to-teal-900 tactical:from-primary/5 tactical:to-primary/10 tactical:border-primary/20 klingon:from-klingon-accent/5 klingon:to-klingon-accent/10 klingon:border-klingon-accent/20 border-teal-200 dark:border-teal-800 opacity-90">
+        <Card 
+          className="bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-950 dark:to-teal-900 tactical:from-primary/5 tactical:to-primary/10 tactical:border-primary/20 klingon:from-klingon-accent/5 klingon:to-klingon-accent/10 klingon:border-klingon-accent/20 border-teal-200 dark:border-teal-800 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+          onClick={() => onSectionChange("donor-management")}
+        >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium klingon:font-klingon">Avg Donation</CardTitle>
+            <CardTitle className="text-sm font-medium klingon:font-klingon flex items-center gap-2">
+              Avg Donation
+              <ExternalLink className="h-3 w-3 opacity-50" />
+            </CardTitle>
             <Target className="h-4 w-4 text-teal-600 dark:text-teal-400 tactical:text-primary klingon:text-klingon-accent" />
           </CardHeader>
           <CardContent>
