@@ -23,9 +23,6 @@ import Privacy from "./pages/Privacy";
 import Support from "./pages/Support";
 import Terms from "./pages/Terms";
 import AdminDashboard from "./pages/admin/Dashboard";
-import AdminRewards from "./pages/admin/Rewards";
-import AdminManagement from "./pages/admin/Admins";
-import AdminMessages from "./pages/admin/Messages";
 import PasswordReset from "./pages/PasswordReset";
 import LCARSShowcase from "./pages/LCARSShowcase";
 import PublicProfile from "./pages/PublicProfile";
@@ -81,30 +78,6 @@ const App = () => (
               element={
                 <RequireAdmin>
                   <AdminDashboard />
-                </RequireAdmin>
-              }
-            />
-            <Route
-              path="/admin/rewards"
-              element={
-                <RequireAdmin>
-                  <AdminRewards />
-                </RequireAdmin>
-              }
-            />
-            <Route
-              path="/admin/admins"
-              element={
-                <RequireAdmin>
-                  <AdminManagement />
-                </RequireAdmin>
-              }
-            />
-            <Route
-              path="/admin/messages"
-              element={
-                <RequireAdmin>
-                  <AdminMessages />
                 </RequireAdmin>
               }
             />

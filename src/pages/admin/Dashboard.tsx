@@ -6,11 +6,12 @@ import AdminHeader from "@/components/admin/AdminHeader";
 import AdminOverview from "@/components/admin/AdminOverview";
 import AdminRewardsSection from "@/components/admin/AdminRewardsSection";
 import AdminAdminsSection from "@/components/admin/AdminAdminsSection";
-import AdminMessages from "./Messages";
+import AdminPlaceholderSection from "@/components/admin/AdminPlaceholderSection";
 import DonorManagement from "./DonorManagement";
 import MediaFiles from "./MediaFiles";
 import CampaignsWithPledges from "./CampaignsWithPledges";
 import Settings from "./Settings";
+import { MessageCircle } from "lucide-react";
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState("overview");
@@ -26,7 +27,7 @@ const Dashboard = () => {
       case "rewards":
         return <AdminRewardsSection />;
       case "messages":
-        return <AdminMessages />;
+        return <AdminPlaceholderSection title="Messages" description="Admin message center" Icon={MessageCircle} />;
       case "media-files":
         return <MediaFiles />;
       case "admins":
