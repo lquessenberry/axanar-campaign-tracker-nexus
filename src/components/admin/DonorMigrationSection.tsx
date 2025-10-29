@@ -114,10 +114,10 @@ const DonorMigrationSection = () => {
   return (
     <div className="space-y-6">
       {/* Legacy Data Overview */}
-      <Card className="border-blue-200 bg-blue-50/50">
+      <Card className="border-primary/20 bg-primary/5">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Database className="h-5 w-5 text-blue-600" />
+            <Database className="h-5 w-5 text-primary" />
             Legacy Donor Data Overview
           </CardTitle>
           <CardDescription>
@@ -126,20 +126,20 @@ const DonorMigrationSection = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-center p-4 bg-white rounded-lg border border-blue-200">
-              <div className="text-3xl font-bold text-blue-600">36,750</div>
-              <div className="text-sm text-muted-foreground mt-1">Legacy Donor Records</div>
-              <div className="text-xs text-muted-foreground mt-1">Total historical data to migrate</div>
+            <div className="text-center p-4 bg-card rounded-lg border border-primary/30">
+              <div className="text-3xl font-bold text-primary">36,750</div>
+              <div className="text-sm text-foreground/70 mt-1">Legacy Donor Records</div>
+              <div className="text-xs text-foreground/60 mt-1">Total historical data to migrate</div>
             </div>
-            <div className="text-center p-4 bg-white rounded-lg border border-green-200">
-              <div className="text-3xl font-bold text-green-600">40,731</div>
-              <div className="text-sm text-muted-foreground mt-1">Current Donor Table</div>
-              <div className="text-xs text-muted-foreground mt-1">Active + Reserve users</div>
+            <div className="text-center p-4 bg-card rounded-lg border border-secondary/30">
+              <div className="text-3xl font-bold text-secondary-foreground">40,731</div>
+              <div className="text-sm text-foreground/70 mt-1">Current Donor Table</div>
+              <div className="text-xs text-foreground/60 mt-1">Active + Reserve users</div>
             </div>
-            <div className="text-center p-4 bg-white rounded-lg border border-purple-200">
-              <div className="text-3xl font-bold text-purple-600">10,413</div>
-              <div className="text-sm text-muted-foreground mt-1">Active Donors</div>
-              <div className="text-xs text-muted-foreground mt-1">Excluding reserve/placeholder users</div>
+            <div className="text-center p-4 bg-card rounded-lg border border-accent/30">
+              <div className="text-3xl font-bold text-accent-foreground">10,413</div>
+              <div className="text-sm text-foreground/70 mt-1">Active Donors</div>
+              <div className="text-xs text-foreground/60 mt-1">Excluding reserve/placeholder users</div>
             </div>
           </div>
         </CardContent>
@@ -162,27 +162,27 @@ const DonorMigrationSection = () => {
           ) : migrationStatus ? (
             <div className="space-y-4">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="text-center p-3 bg-green-50 rounded-lg border border-green-200">
-                  <div className="text-2xl font-bold text-green-600">{migrationStatus.linked_donors.toLocaleString()}</div>
-                  <div className="text-sm text-muted-foreground">Active with Auth</div>
+                <div className="text-center p-3 bg-card rounded-lg border border-primary/30">
+                  <div className="text-2xl font-bold text-primary">{migrationStatus.linked_donors.toLocaleString()}</div>
+                  <div className="text-sm text-foreground/70">Active with Auth</div>
                 </div>
-                <div className="text-center p-3 bg-orange-50 rounded-lg border border-orange-200">
-                  <div className="text-2xl font-bold text-orange-600">{migrationStatus.unlinked_with_email.toLocaleString()}</div>
-                  <div className="text-sm text-muted-foreground">Reserve Users</div>
+                <div className="text-center p-3 bg-card rounded-lg border border-secondary/30">
+                  <div className="text-2xl font-bold text-secondary-foreground">{migrationStatus.unlinked_with_email.toLocaleString()}</div>
+                  <div className="text-sm text-foreground/70">Reserve Users</div>
                 </div>
-                <div className="text-center p-3 bg-gray-50 rounded-lg border border-gray-200">
-                  <div className="text-2xl font-bold text-gray-600">{migrationStatus.unlinked_no_email.toLocaleString()}</div>
-                  <div className="text-sm text-muted-foreground">No Email</div>
+                <div className="text-center p-3 bg-card rounded-lg border border-muted-foreground/30">
+                  <div className="text-2xl font-bold text-muted-foreground">{migrationStatus.unlinked_no_email.toLocaleString()}</div>
+                  <div className="text-sm text-foreground/70">No Email</div>
                 </div>
-                <div className="text-center p-3 bg-blue-50 rounded-lg border border-blue-200">
-                  <div className="text-2xl font-bold text-blue-600">{migrationStatus.migration_progress.toFixed(1)}%</div>
-                  <div className="text-sm text-muted-foreground">Active Complete</div>
+                <div className="text-center p-3 bg-card rounded-lg border border-accent/30">
+                  <div className="text-2xl font-bold text-accent-foreground">{migrationStatus.migration_progress.toFixed(1)}%</div>
+                  <div className="text-sm text-foreground/70">Active Complete</div>
                 </div>
               </div>
               
-              <Alert className="bg-blue-50 border-blue-200">
-                <AlertTriangle className="h-4 w-4 text-blue-600" />
-                <AlertDescription className="text-blue-900">
+              <Alert className="bg-primary/5 border-primary/20">
+                <AlertTriangle className="h-4 w-4 text-primary" />
+                <AlertDescription className="text-foreground">
                   <strong>Note:</strong> Reserve users ({migrationStatus.unlinked_with_email.toLocaleString()}) are placeholder records 
                   set aside for future batch authentication. The {migrationStatus.migration_progress.toFixed(1)}% represents 
                   completion for active donors only.
@@ -207,7 +207,7 @@ const DonorMigrationSection = () => {
         <CardContent className="space-y-4">
           <div className="space-y-3">
             <div className="flex items-start gap-3">
-              <Database className="h-5 w-5 text-blue-500 mt-0.5" />
+              <Database className="h-5 w-5 text-primary mt-0.5" />
               <div>
                 <h4 className="font-medium">Enhanced Donor Profiles</h4>
                 <p className="text-sm text-muted-foreground">
@@ -218,7 +218,7 @@ const DonorMigrationSection = () => {
             </div>
             
             <div className="flex items-start gap-3">
-              <CheckCircle className="h-5 w-5 text-amber-500 mt-0.5" />
+              <CheckCircle className="h-5 w-5 text-secondary-foreground mt-0.5" />
               <div>
                 <h4 className="font-medium">Smart Email Matching</h4>
                 <p className="text-sm text-muted-foreground">
@@ -292,7 +292,7 @@ const DonorMigrationSection = () => {
         <CardContent className="space-y-4">
           <div className="space-y-3">
             <div className="flex items-start gap-3">
-              <Shield className="h-5 w-5 text-green-500 mt-0.5" />
+              <Shield className="h-5 w-5 text-primary mt-0.5" />
               <div>
                 <h4 className="font-medium">Secure Account Creation</h4>
                 <p className="text-sm text-muted-foreground">
@@ -303,7 +303,7 @@ const DonorMigrationSection = () => {
             </div>
             
             <div className="flex items-start gap-3">
-              <Users className="h-5 w-5 text-blue-500 mt-0.5" />
+              <Users className="h-5 w-5 text-secondary-foreground mt-0.5" />
               <div>
                 <h4 className="font-medium">Automatic Linking</h4>
                 <p className="text-sm text-muted-foreground">
@@ -314,10 +314,10 @@ const DonorMigrationSection = () => {
             </div>
 
             {migrationStatus && migrationStatus.unlinked_with_email > 0 && (
-              <div className="p-3 bg-orange-50 border border-orange-200 rounded-lg">
+              <div className="p-3 bg-accent/10 border border-accent/30 rounded-lg">
                 <div className="flex items-center gap-2">
-                  <AlertTriangle className="h-4 w-4 text-orange-600" />
-                  <span className="font-medium text-orange-800">
+                  <AlertTriangle className="h-4 w-4 text-accent-foreground" />
+                  <span className="font-medium text-accent-foreground">
                     {migrationStatus.unlinked_with_email.toLocaleString()} donors need authentication accounts
                   </span>
                 </div>
