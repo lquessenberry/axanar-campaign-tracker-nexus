@@ -16,6 +16,9 @@ interface PublicProfileData {
   avatar_url?: string | null;
   background_url?: string | null;
   created_at: string;
+  show_avatar_publicly?: boolean | null;
+  show_real_name_publicly?: boolean | null;
+  show_background_publicly?: boolean | null;
 }
 
 interface PublicProfileHeaderProps {
@@ -35,6 +38,9 @@ interface PublicProfileData {
   avatar_url?: string | null;
   background_url?: string | null;
   created_at: string;
+  show_avatar_publicly?: boolean | null;
+  show_real_name_publicly?: boolean | null;
+  show_background_publicly?: boolean | null;
 }
 
 const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
@@ -44,7 +50,14 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
   campaignsCount,
   totalPledged,
 }) => {
-  const displayName = profile?.display_name || profile?.full_name || profile?.username || 'Anonymous User';
+  // Respect privacy settings
+  const showAvatar = profile?.show_avatar_publicly ?? true;
+  const showRealName = profile?.show_real_name_publicly ?? true;
+  const showBackground = profile?.show_background_publicly ?? true;
+  
+  const displayName = showRealName 
+    ? (profile?.display_name || profile?.full_name || profile?.username || 'Anonymous User')
+    : (profile?.username || 'Anonymous User');
   const { data: unifiedRank } = useUnifiedRank(profile?.id, 0); // Pass 0 for totalPledged to hide dollar amounts
   
   // Calculate gamification metrics
@@ -105,7 +118,7 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
       style={{
         '--x': 'calc(var(--posX, 0) * 1px)',
         '--y': 'calc(var(--posY, 0) * 1px)',
-        backgroundImage: profile?.background_url 
+        backgroundImage: (showBackground && profile?.background_url)
           ? `
               radial-gradient(90% 100% at calc(50% + var(--x)) calc(0% + var(--y)), rgba(64, 224, 208, 0.25), rgba(255, 255, 255, 0.15)),
               radial-gradient(100% 100% at calc(80% - var(--x)) calc(0% - var(--y)), rgba(255, 255, 255, 0.2), rgba(64, 224, 208, 0.1)),
@@ -120,14 +133,14 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
               radial-gradient(80% 80% at calc(20% + var(--x)) calc(80% + var(--y)), rgba(255, 255, 255, 0.22), rgba(0, 255, 255, 0.12)),
               linear-gradient(60deg, rgb(0, 10, 15), rgb(0, 20, 25))
             `,
-        backgroundSize: profile?.background_url 
+        backgroundSize: (showBackground && profile?.background_url)
           ? '300% 300%, 300% 300%, 300% 300%, 300% 300%, 100% auto'
           : '300% 300%, 300% 300%, 300% 300%, 300% 300%, 100% 100%',
-        backgroundPosition: profile?.background_url 
+        backgroundPosition: (showBackground && profile?.background_url)
           ? 'center, center, center, center, center top'
           : 'center, center, center, center, center',
         backgroundRepeat: 'no-repeat',
-        backgroundBlendMode: profile?.background_url ? 'overlay, screen, multiply, soft-light, normal' : 'overlay, screen, multiply, soft-light, normal'
+        backgroundBlendMode: (showBackground && profile?.background_url) ? 'overlay, screen, multiply, soft-light, normal' : 'overlay, screen, multiply, soft-light, normal'
       } as React.CSSProperties}
     >
       {/* StarField layer - subtle background effect */}
@@ -141,7 +154,7 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
       </div>
       
       {/* Dark overlay for text readability */}
-      {profile?.background_url && (
+      {showBackground && profile?.background_url && (
         <div className="absolute inset-x-0 top-0 h-[33vh] bg-black/50 z-10" />
       )}
       
@@ -149,7 +162,7 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
         <div className="flex flex-col md:flex-row md:items-start gap-6">
           <div className="relative">
             <div className="w-24 h-24 rounded-full bg-axanar-teal/20 ring-4 ring-axanar-teal flex items-center justify-center">
-              {profile?.avatar_url ? (
+              {showAvatar && profile?.avatar_url ? (
                 <img
                   src={profile.avatar_url}
                   alt={displayName}

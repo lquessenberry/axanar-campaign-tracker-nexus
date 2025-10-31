@@ -31,6 +31,9 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
   pledges,
   campaigns,
 }) => {
+  // Respect privacy settings
+  const showRealName = profile?.show_real_name_publicly ?? true;
+  
   // Calculate participation stats (without dollar amounts)
   const contributionCount = pledges?.length || 0;
   const yearsSupporting = pledges?.length && pledges[pledges.length - 1]?.created_at
@@ -40,7 +43,9 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
   // Use unified rank system
   const { data: unifiedRank } = useUnifiedRank(profile?.id, contributionCount);
   
-  const displayName = profile?.display_name || profile?.full_name || profile?.username || 'This officer';
+  const displayName = showRealName 
+    ? (profile?.display_name || profile?.full_name || profile?.username || 'This officer')
+    : (profile?.username || 'This officer');
 
   return (
     <div className="lg:col-span-2 space-y-6">

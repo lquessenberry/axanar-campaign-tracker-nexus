@@ -2771,6 +2771,9 @@ export type Database = {
           id: string
           profile_completion_xp: number | null
           recruitment_xp: number | null
+          show_avatar_publicly: boolean | null
+          show_background_publicly: boolean | null
+          show_real_name_publicly: boolean | null
           total_comments: number | null
           total_posts: number | null
           unified_xp: number | null
@@ -2789,6 +2792,9 @@ export type Database = {
           id: string
           profile_completion_xp?: number | null
           recruitment_xp?: number | null
+          show_avatar_publicly?: boolean | null
+          show_background_publicly?: boolean | null
+          show_real_name_publicly?: boolean | null
           total_comments?: number | null
           total_posts?: number | null
           unified_xp?: number | null
@@ -2807,6 +2813,9 @@ export type Database = {
           id?: string
           profile_completion_xp?: number | null
           recruitment_xp?: number | null
+          show_avatar_publicly?: boolean | null
+          show_background_publicly?: boolean | null
+          show_real_name_publicly?: boolean | null
           total_comments?: number | null
           total_posts?: number | null
           unified_xp?: number | null

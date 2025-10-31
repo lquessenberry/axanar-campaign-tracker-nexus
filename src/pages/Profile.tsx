@@ -18,6 +18,7 @@ import { useUserAchievements, useUserRecruitment } from "@/hooks/useUserAchievem
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
+import { PrivacySettings } from "@/components/profile/PrivacySettings";
 
 const Profile = () => {
   const { userId } = useParams<{ userId?: string }>();
@@ -268,11 +269,16 @@ const Profile = () => {
         <section className="py-12 px-6 bg-gradient-to-br from-background via-background to-background/90">
           <div className="container mx-auto max-w-7xl">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <ProfileContent
-                profile={profile}
-                pledges={pledges}
-                campaigns={campaigns}
-              />
+              <div className="lg:col-span-2 space-y-6">
+                <ProfileContent
+                  profile={profile}
+                  pledges={pledges}
+                  campaigns={campaigns}
+                />
+                
+                {/* Privacy Settings - only show for own profile */}
+                {!isViewingOtherUser && <PrivacySettings profile={profile} />}
+              </div>
               
               <ProfileSidebar
                 user={user}
