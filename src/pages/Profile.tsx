@@ -18,7 +18,6 @@ import { useUserAchievements, useUserRecruitment } from "@/hooks/useUserAchievem
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
-import { PrivacySettings } from "@/components/profile/PrivacySettings";
 
 const Profile = () => {
   const { userId } = useParams<{ userId?: string }>();
@@ -48,6 +47,9 @@ const Profile = () => {
     full_name: '',
     username: '',
     bio: '',
+    show_avatar_publicly: true,
+    show_real_name_publicly: true,
+    show_background_publicly: true,
   });
 
   // Determine which data to use
@@ -64,6 +66,9 @@ const Profile = () => {
         full_name: profile.full_name || '',
         username: profile.username || '',
         bio: profile.bio || '',
+        show_avatar_publicly: profile.show_avatar_publicly ?? true,
+        show_real_name_publicly: profile.show_real_name_publicly ?? true,
+        show_background_publicly: profile.show_background_publicly ?? true,
       });
     }
   }, [profile]);
@@ -138,6 +143,9 @@ const Profile = () => {
         full_name: profile.full_name || '',
         username: profile.username || '',
         bio: profile.bio || '',
+        show_avatar_publicly: profile.show_avatar_publicly ?? true,
+        show_real_name_publicly: profile.show_real_name_publicly ?? true,
+        show_background_publicly: profile.show_background_publicly ?? true,
       });
     }
     setIsEditing(false);
@@ -275,9 +283,6 @@ const Profile = () => {
                   pledges={pledges}
                   campaigns={campaigns}
                 />
-                
-                {/* Privacy Settings - only show for own profile */}
-                {!isViewingOtherUser && <PrivacySettings profile={profile} />}
               </div>
               
               <ProfileSidebar

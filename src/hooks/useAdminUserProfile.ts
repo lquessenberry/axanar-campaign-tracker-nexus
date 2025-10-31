@@ -9,8 +9,12 @@ interface UserProfile {
   username: string | null;
   bio: string | null;
   avatar_url: string | null;
+  background_url?: string | null;
   created_at: string;
   updated_at: string;
+  show_avatar_publicly?: boolean;
+  show_real_name_publicly?: boolean;
+  show_background_publicly?: boolean;
 }
 
 interface DonorData {

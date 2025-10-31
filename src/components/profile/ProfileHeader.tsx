@@ -5,7 +5,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
-import { User, Camera, Image, X, ChevronDown, Edit, Settings, Link2, Copy } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { User, Camera, Image, X, ChevronDown, Edit, Settings, Link2, Copy, Eye } from "lucide-react";
 import { useAvatarUpload } from "@/hooks/useAvatarUpload";
 import { useBackgroundUpload } from "@/hooks/useBackgroundUpload";
 import { useUpdateProfile } from "@/hooks/useUserProfile";
@@ -29,6 +30,9 @@ interface FormData {
   username: string;
   full_name: string;
   bio: string;
+  show_avatar_publicly?: boolean;
+  show_real_name_publicly?: boolean;
+  show_background_publicly?: boolean;
 }
 
 interface ProfileHeaderProps {
@@ -214,7 +218,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           
           <div className="flex-1">
             {isEditing ? (
-              <div className="space-y-2 bg-white/5 p-3 rounded-lg backdrop-blur-sm border border-white/10">
+              <div className="space-y-4 bg-white/5 p-4 rounded-lg backdrop-blur-sm border border-white/10">
                 <div>
                   <Label htmlFor="full_name" className="text-white text-sm font-medium mb-1 block">
                     Full Name
@@ -261,6 +265,55 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                       {5000 - formData.bio.length} characters remaining
                     </p>
                   )}
+                </div>
+                
+                {/* Privacy Settings */}
+                <div className="pt-3 border-t border-white/20">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Eye className="h-4 w-4 text-white" />
+                    <Label className="text-white text-sm font-medium">Public Profile Privacy</Label>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label htmlFor="show-avatar" className="text-white text-sm">
+                          Show Profile Photo
+                        </Label>
+                        <p className="text-xs text-white/60">Display on public profile</p>
+                      </div>
+                      <Switch
+                        id="show-avatar"
+                        checked={formData.show_avatar_publicly ?? true}
+                        onCheckedChange={(checked) => setFormData(prev => ({ ...prev, show_avatar_publicly: checked }))}
+                      />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label htmlFor="show-name" className="text-white text-sm">
+                          Show Real Name
+                        </Label>
+                        <p className="text-xs text-white/60">Display full name publicly</p>
+                      </div>
+                      <Switch
+                        id="show-name"
+                        checked={formData.show_real_name_publicly ?? true}
+                        onCheckedChange={(checked) => setFormData(prev => ({ ...prev, show_real_name_publicly: checked }))}
+                      />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label htmlFor="show-background" className="text-white text-sm">
+                          Show Background Image
+                        </Label>
+                        <p className="text-xs text-white/60">Display custom background</p>
+                      </div>
+                      <Switch
+                        id="show-background"
+                        checked={formData.show_background_publicly ?? true}
+                        onCheckedChange={(checked) => setFormData(prev => ({ ...prev, show_background_publicly: checked }))}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             ) : (
