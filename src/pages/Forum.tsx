@@ -12,6 +12,7 @@ import ThreadComposer from "@/components/forum/ThreadComposer";
 import { ForumSearchBar } from "@/components/forum/ForumSearchBar";
 import { NotificationBell } from "@/components/forum/NotificationBell";
 import { OnlineUsersList } from "@/components/forum/OnlineUsersList";
+import { RecentlyActiveUsers } from "@/components/forum/RecentlyActiveUsers";
 import { useForumSearch } from "@/hooks/useForumSearch";
 import { useForumBookmarks } from "@/hooks/useForumBookmarks";
 import { supabase } from "@/integrations/supabase/client";
@@ -166,6 +167,9 @@ const Forum: React.FC = () => {
             <div className="space-y-6">
               {/* Online Users */}
               <OnlineUsersList />
+              
+              {/* Recently Active Users */}
+              <RecentlyActiveUsers />
               
               {/* Forum Stats */}
               <Card className="border-2 border-axanar-teal/30">

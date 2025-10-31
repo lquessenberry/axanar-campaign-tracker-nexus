@@ -12,6 +12,7 @@ import PostComposer from '@/components/forum/PostComposer';
 import CommentItem from '@/components/forum/CommentItem';
 import { OnlineIndicator } from '@/components/forum/OnlineIndicator';
 import { OnlineUsersList } from '@/components/forum/OnlineUsersList';
+import { RecentlyActiveUsers } from '@/components/forum/RecentlyActiveUsers';
 import { parseEmojis } from '@/lib/forum-emojis';
 import { sanitizeHtml } from '@/utils/sanitizeHtml';
 import { parseMentions } from '@/utils/mentionParser';
@@ -258,6 +259,7 @@ const ForumThread: React.FC = () => {
             {/* Sidebar - Online Users */}
             <div className="hidden lg:block space-y-6">
               <OnlineUsersList />
+              <RecentlyActiveUsers />
             </div>
           </div>
         </div>
