@@ -75,7 +75,7 @@ export const ThreadCard: React.FC<ThreadCardProps> = ({ thread, onLike, isLiked,
     <>
       <Card className="overflow-hidden border-2 border-border/50 hover:border-axanar-teal/30 transition-all group">
         {thread.is_pinned && (
-          <div className="bg-gradient-to-r from-yellow-500/20 to-yellow-600/20 border-b border-yellow-500/30 px-4 py-1.5 text-xs font-semibold flex items-center gap-2">
+          <div className="bg-gradient-to-r from-accent/20 to-accent/30 border-b border-accent/30 px-4 py-1.5 text-xs font-semibold flex items-center gap-2">
             <Pin className="h-3 w-3 fill-current" />
             PINNED POST
           </div>
@@ -165,7 +165,7 @@ export const ThreadCard: React.FC<ThreadCardProps> = ({ thread, onLike, isLiked,
                 e.preventDefault();
                 onLike?.();
               }}
-              className={isLiked ? "bg-red-500 hover:bg-red-600" : ""}
+              className={isLiked ? "bg-destructive hover:bg-destructive/90" : ""}
             >
               <Heart className={`h-4 w-4 mr-1 ${isLiked ? 'fill-current' : ''}`} />
               {thread.like_count}

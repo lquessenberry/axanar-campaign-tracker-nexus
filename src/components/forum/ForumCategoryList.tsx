@@ -145,7 +145,7 @@ export const ForumCategoryList: React.FC = () => {
                         {category.title}
                       </h3>
                       {category.isPinned && (
-                        <Pin className="h-4 w-4 text-yellow-500 fill-current" />
+                        <Pin className="h-4 w-4 text-accent fill-current" />
                       )}
                       {category.isLocked && (
                         <Lock className="h-4 w-4 text-muted-foreground" />

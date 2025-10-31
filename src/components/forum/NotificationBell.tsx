@@ -64,7 +64,7 @@ export const NotificationBell: React.FC = () => {
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="h-5 w-5" />
           {unreadCount > 0 && (
-            <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-500 text-[10px] font-bold flex items-center justify-center text-white">
+            <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-destructive text-[10px] font-bold flex items-center justify-center text-destructive-foreground">
               {unreadCount > 9 ? '9+' : unreadCount}
             </span>
           )}
@@ -116,7 +116,7 @@ export const NotificationBell: React.FC = () => {
                       </p>
                     </div>
                     {!notification.is_read && (
-                      <div className="h-2 w-2 rounded-full bg-blue-500 mt-1" />
+                      <div className="h-2 w-2 rounded-full bg-primary mt-1" />
                     )}
                   </div>
                 </Link>

@@ -66,7 +66,7 @@ export const ForumPost: React.FC<ForumPostProps> = ({
     <Card className="overflow-hidden border-2 border-border/50 hover:border-axanar-teal/30 transition-colors bg-gradient-to-br from-card via-card to-card/80">
       {/* Pinned Indicator */}
       {isPinned && (
-        <div className="bg-gradient-to-r from-yellow-500/20 to-yellow-600/20 border-b border-yellow-500/30 px-4 py-1.5 text-xs font-semibold flex items-center gap-2">
+        <div className="bg-gradient-to-r from-accent/20 to-accent/30 border-b border-accent/30 px-4 py-1.5 text-xs font-semibold flex items-center gap-2">
           📌 PINNED POST
         </div>
       )}
@@ -190,7 +190,7 @@ export const ForumPost: React.FC<ForumPostProps> = ({
               variant={liked ? "default" : "outline"}
               size="sm"
               onClick={handleLike}
-              className={liked ? "bg-red-500 hover:bg-red-600" : ""}
+              className={liked ? "bg-destructive hover:bg-destructive/90" : ""}
             >
               <Heart className={`h-4 w-4 mr-1 ${liked ? 'fill-current' : ''}`} />
               {likeCount}

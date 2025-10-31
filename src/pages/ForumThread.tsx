@@ -178,7 +178,7 @@ const ForumThread: React.FC = () => {
                   size="sm"
                   onClick={handleThreadLike}
                   disabled={!user}
-                  className={isLiked ? "bg-red-500 hover:bg-red-600" : ""}
+                  className={isLiked ? "bg-destructive hover:bg-destructive/90" : ""}
                 >
                   <Heart className={`h-4 w-4 mr-1 ${isLiked ? 'fill-current' : ''}`} />
                   {thread.like_count}

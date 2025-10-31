@@ -68,7 +68,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment, onLike, isLik
             variant={isLiked ? "default" : "ghost"}
             size="sm"
             onClick={onLike}
-            className={isLiked ? "bg-red-500 hover:bg-red-600" : ""}
+            className={isLiked ? "bg-destructive hover:bg-destructive/90" : ""}
           >
             <Heart className={`h-4 w-4 mr-1 ${isLiked ? 'fill-current' : ''}`} />
             {comment.like_count}
