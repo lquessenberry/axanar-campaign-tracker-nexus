@@ -5,53 +5,28 @@ import { useUserPresence } from '@/hooks/useUserPresence';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { Clock } from 'lucide-react';
-import { subDays } from 'date-fns';
 
 export const RecentlyActiveUsers: React.FC = () => {
   const { presenceData } = useUserPresence();
 
-  // Get usernames for users active in last 30 days
+  // Get users who have logged in recently from auth.users
   const { data: recentUsers = [] } = useQuery({
-    queryKey: ['recent-active-users', presenceData],
+    queryKey: ['recent-active-users-auth'],
     queryFn: async () => {
-      const thirtyDaysAgo = subDays(new Date(), 30);
-      
-      const activeUserData = presenceData
-        .filter(p => {
-          if (!p.last_seen) return false;
-          const lastSeenDate = new Date(p.last_seen);
-          return lastSeenDate >= thirtyDaysAgo; // Show users active in last 30 days
-        })
-        .sort((a, b) => new Date(b.last_seen).getTime() - new Date(a.last_seen).getTime())
-        .slice(0, 20) // Show top 20 most recent
-        .map(p => p.user_id);
-      
-      if (activeUserData.length === 0) return [];
-
       const { data, error } = await supabase
-        .from('profiles')
-        .select('id, username, full_name')
-        .in('id', activeUserData);
+        .rpc('get_recently_active_users', { days_limit: 30 });
       
-      if (error) throw error;
-
-      // Sort by last_seen from presenceData
-      return (data || []).map(user => {
-        const presence = presenceData.find(p => p.user_id === user.id);
-        return {
-          ...user,
-          last_seen: presence?.last_seen
-        };
-      }).sort((a, b) => {
-        if (!a.last_seen || !b.last_seen) return 0;
-        return new Date(b.last_seen).getTime() - new Date(a.last_seen).getTime();
-      });
+      if (error) {
+        console.error('Error fetching recent users:', error);
+        return [];
+      }
+      
+      return data || [];
     },
-    enabled: presenceData.length > 0,
   });
 
   const formatLastSeen = (timestamp: string | null | undefined) => {
-    if (!timestamp) return 'Unknown';
+    if (!timestamp) return 'Recently';
     const date = new Date(timestamp);
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
@@ -67,7 +42,16 @@ export const RecentlyActiveUsers: React.FC = () => {
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
 
-  const recentCount = recentUsers.length;
+  // Combine with presence data to show online status
+  const activeUsers = recentUsers.map(user => {
+    const presence = presenceData.find(p => p.user_id === user.id);
+    return {
+      ...user,
+      is_online: presence?.is_online || false,
+    };
+  }).slice(0, 20); // Show top 20
+
+  const recentCount = activeUsers.length;
 
   return (
     <Card className="p-4">
@@ -86,23 +70,20 @@ export const RecentlyActiveUsers: React.FC = () => {
           </p>
         ) : (
           <div className="space-y-2">
-            {recentUsers.map((user) => {
-              const presence = presenceData.find(p => p.user_id === user.id);
-              const isOnline = presence?.is_online || false;
-              
+            {activeUsers.map((user) => {
               return (
                 <div
                   key={user.id}
                   className="flex items-center justify-between gap-2 p-2 rounded-lg hover:bg-accent/50 transition-colors"
                 >
                   <div className="flex items-center gap-2 flex-1 min-w-0">
-                    <div className={`h-2 w-2 rounded-full ${isOnline ? 'bg-green-500' : 'bg-gray-400'}`} />
+                    <div className={`h-2 w-2 rounded-full ${user.is_online ? 'bg-green-500' : 'bg-gray-400'}`} />
                     <span className="text-sm font-medium truncate">
                       {user.username || user.full_name || 'Anonymous'}
                     </span>
                   </div>
                   <span className="text-xs text-muted-foreground whitespace-nowrap">
-                    {formatLastSeen(user.last_seen)}
+                    {formatLastSeen(user.last_sign_in_at)}
                   </span>
                 </div>
               );

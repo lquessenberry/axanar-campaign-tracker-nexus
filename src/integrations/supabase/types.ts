@@ -4916,6 +4916,15 @@ export type Database = {
           years_supporting: number
         }[]
       }
+      get_recently_active_users: {
+        Args: { days_limit?: number }
+        Returns: {
+          full_name: string
+          id: string
+          last_sign_in_at: string
+          username: string
+        }[]
+      }
       get_reserve_users: {
         Args: {
           page_offset?: number
