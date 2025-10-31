@@ -4,9 +4,11 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUserPresence } from '@/hooks/useUserPresence';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
 export const OnlineUsersList: React.FC = () => {
   const { presenceData } = useUserPresence();
+  const navigate = useNavigate();
 
   // Get usernames for online users
   const { data: onlineUsers = [] } = useQuery({
@@ -51,7 +53,8 @@ export const OnlineUsersList: React.FC = () => {
             {onlineUsers.map((user) => (
               <div
                 key={user.id}
-                className="flex items-center gap-2 p-2 rounded-lg hover:bg-accent/50 transition-colors"
+                onClick={() => navigate(`/profile/${user.username}`)}
+                className="flex items-center gap-2 p-2 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer"
               >
                 <div className="h-2 w-2 rounded-full bg-green-500" />
                 <span className="text-sm font-medium truncate">

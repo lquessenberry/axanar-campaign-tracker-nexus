@@ -5,9 +5,11 @@ import { useUserPresence } from '@/hooks/useUserPresence';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { Clock } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const RecentlyActiveUsers: React.FC = () => {
   const { presenceData } = useUserPresence();
+  const navigate = useNavigate();
 
   // Get users who have logged in recently from auth.users
   const { data: recentUsers = [] } = useQuery({
@@ -74,7 +76,8 @@ export const RecentlyActiveUsers: React.FC = () => {
               return (
                 <div
                   key={user.id}
-                  className="flex items-center justify-between gap-2 p-2 rounded-lg hover:bg-accent/50 transition-colors"
+                  onClick={() => navigate(`/profile/${user.username}`)}
+                  className="flex items-center justify-between gap-2 p-2 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer"
                 >
                   <div className="flex items-center gap-2 flex-1 min-w-0">
                     <div className={`h-2 w-2 rounded-full ${user.is_online ? 'bg-green-500' : 'bg-gray-400'}`} />
