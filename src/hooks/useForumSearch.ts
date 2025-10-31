@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { ForumThread } from './useForumThreads';
+import { ForumThread, ForumCategory } from './useForumThreads';
 
 export const useForumSearch = (
   searchQuery: string,
-  category: string | null,
+  category: ForumCategory | null,
   sortBy: 'new' | 'hot' | 'top'
 ) => {
   return useQuery({

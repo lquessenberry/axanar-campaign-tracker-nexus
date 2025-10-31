@@ -1,26 +1,18 @@
 import React from 'react';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search, SortAsc, Filter } from 'lucide-react';
+import type { ForumCategory } from '@/hooks/useForumThreads';
+import { FORUM_CATEGORIES } from '@/lib/forum-categories';
 
 interface ForumSearchBarProps {
   searchQuery: string;
   onSearchChange: (value: string) => void;
-  category: string | null;
-  onCategoryChange: (value: string | null) => void;
+  category: ForumCategory | null;
+  onCategoryChange: (value: ForumCategory | null) => void;
   sortBy: 'new' | 'hot' | 'top';
   onSortChange: (value: 'new' | 'hot' | 'top') => void;
 }
-
-const CATEGORIES = [
-  { value: 'all', label: 'All Categories' },
-  { value: 'announcements', label: '📢 Announcements' },
-  { value: 'general', label: '💬 General Discussion' },
-  { value: 'fan-content', label: '🎨 Fan Content' },
-  { value: 'support', label: '❓ Support' },
-  { value: 'off-topic', label: '☕ Off-Topic' },
-];
 
 export const ForumSearchBar: React.FC<ForumSearchBarProps> = ({
   searchQuery,
@@ -42,15 +34,19 @@ export const ForumSearchBar: React.FC<ForumSearchBarProps> = ({
         />
       </div>
 
-      <Select value={category || 'all'} onValueChange={(v) => onCategoryChange(v === 'all' ? null : v)}>
+      <Select 
+        value={category || 'all'} 
+        onValueChange={(v) => onCategoryChange(v === 'all' ? null : v as ForumCategory)}
+      >
         <SelectTrigger className="w-full sm:w-[200px]">
           <Filter className="h-4 w-4 mr-2" />
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          {CATEGORIES.map((cat) => (
-            <SelectItem key={cat.value} value={cat.value}>
-              {cat.label}
+          <SelectItem value="all">All Categories</SelectItem>
+          {Object.entries(FORUM_CATEGORIES).map(([key, { label, icon }]) => (
+            <SelectItem key={key} value={key}>
+              {icon} {label}
             </SelectItem>
           ))}
         </SelectContent>

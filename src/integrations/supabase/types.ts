@@ -1287,7 +1287,7 @@ export type Database = {
           author_signature: string | null
           author_user_id: string | null
           author_username: string
-          category: string
+          category: Database["public"]["Enums"]["forum_category"]
           comment_count: number | null
           content: string
           created_at: string
@@ -1310,7 +1310,7 @@ export type Database = {
           author_signature?: string | null
           author_user_id?: string | null
           author_username: string
-          category?: string
+          category?: Database["public"]["Enums"]["forum_category"]
           comment_count?: number | null
           content: string
           created_at?: string
@@ -1333,7 +1333,7 @@ export type Database = {
           author_signature?: string | null
           author_user_id?: string | null
           author_username?: string
-          category?: string
+          category?: Database["public"]["Enums"]["forum_category"]
           comment_count?: number | null
           content?: string
           created_at?: string
@@ -5312,7 +5312,13 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      forum_category:
+        | "announcements"
+        | "general"
+        | "production-updates"
+        | "fan-content"
+        | "support"
+        | "off-topic"
     }
     CompositeTypes: {
       http_header: {
@@ -5455,6 +5461,15 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      forum_category: [
+        "announcements",
+        "general",
+        "production-updates",
+        "fan-content",
+        "support",
+        "off-topic",
+      ],
+    },
   },
 } as const

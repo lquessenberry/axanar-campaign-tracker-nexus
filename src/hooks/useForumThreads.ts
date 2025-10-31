@@ -3,11 +3,15 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
 
+import type { Database } from '@/integrations/supabase/types';
+
+export type ForumCategory = Database['public']['Enums']['forum_category'];
+
 export type ForumThread = {
   id: string;
   title: string;
   content: string;
-  category: string;
+  category: ForumCategory;
   is_pinned: boolean;
   is_official: boolean;
   author_user_id: string | null;
@@ -26,7 +30,7 @@ export type ForumThread = {
   updated_at: string;
 };
 
-export const useForumThreads = (category?: string) => {
+export const useForumThreads = (category?: ForumCategory) => {
   return useQuery({
     queryKey: ['forum-threads', category],
     queryFn: async () => {
@@ -73,7 +77,7 @@ export const useCreateThread = () => {
     mutationFn: async (data: {
       title: string;
       content: string;
-      category: string;
+      category: ForumCategory;
       image_url?: string;
     }) => {
       if (!user) throw new Error('Must be logged in');
@@ -90,7 +94,10 @@ export const useCreateThread = () => {
       const { data: thread, error } = await supabase
         .from('forum_threads')
         .insert({
-          ...data,
+          title: data.title,
+          content: data.content,
+          category: data.category,
+          image_url: data.image_url,
           author_user_id: user.id,
           author_username: username,
         })

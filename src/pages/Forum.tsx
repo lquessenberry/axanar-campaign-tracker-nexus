@@ -15,11 +15,13 @@ import { useForumSearch } from "@/hooks/useForumSearch";
 import { useForumBookmarks } from "@/hooks/useForumBookmarks";
 import { supabase } from "@/integrations/supabase/client";
 
+import type { ForumCategory } from '@/hooks/useForumThreads';
+
 type ThreadRow = {
   id: string;
   title: string;
   content: string;
-  category: string;
+  category: ForumCategory;
   is_pinned: boolean;
   is_official: boolean;
   author_user_id: string | null;
@@ -37,7 +39,7 @@ type ThreadRow = {
 const Forum: React.FC = () => {
   const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
-  const [category, setCategory] = useState<string | null>(null);
+  const [category, setCategory] = useState<ForumCategory | null>(null);
   const [sortBy, setSortBy] = useState<'new' | 'hot' | 'top'>('new');
 
   // Use search hook when filtering, otherwise use basic threads query
