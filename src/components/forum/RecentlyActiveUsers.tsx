@@ -5,16 +5,23 @@ import { useUserPresence } from '@/hooks/useUserPresence';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { Clock } from 'lucide-react';
+import { subDays } from 'date-fns';
 
 export const RecentlyActiveUsers: React.FC = () => {
   const { presenceData } = useUserPresence();
 
-  // Get usernames for recently offline users
+  // Get usernames for recently offline users (within last 7 days)
   const { data: recentUsers = [] } = useQuery({
     queryKey: ['recent-offline-users', presenceData],
     queryFn: async () => {
+      const sevenDaysAgo = subDays(new Date(), 7);
+      
       const offlineUserData = presenceData
-        .filter(p => !p.is_online && p.last_seen)
+        .filter(p => {
+          if (p.is_online || !p.last_seen) return false;
+          const lastSeenDate = new Date(p.last_seen);
+          return lastSeenDate >= sevenDaysAgo; // Only show users active in last 7 days
+        })
         .sort((a, b) => new Date(b.last_seen).getTime() - new Date(a.last_seen).getTime())
         .slice(0, 10) // Show top 10 most recent
         .map(p => p.user_id);
