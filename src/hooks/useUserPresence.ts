@@ -67,22 +67,11 @@ export const useUserPresence = () => {
       updatePresence(false);
     };
 
-    // Set user as offline when they leave the tab
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        updatePresence(false);
-      } else {
-        updatePresence(true);
-      }
-    };
-
     window.addEventListener('beforeunload', handleBeforeUnload);
-    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       updatePresence(false);
       window.removeEventListener('beforeunload', handleBeforeUnload);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
       supabase.removeChannel(channel);
     };
   }, [user]);
