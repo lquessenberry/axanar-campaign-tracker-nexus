@@ -4,8 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Heart, MessageCircle, Eye, Pin, Bookmark, MoreVertical, Edit, Trash } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ForumThread } from '@/hooks/useForumThreads';
+import { OnlineIndicator } from './OnlineIndicator';
 import { parseEmojis } from '@/lib/forum-emojis';
 import { sanitizeHtml } from '@/utils/sanitizeHtml';
+import { parseMentions } from '@/utils/mentionParser';
 import { useToggleBookmark } from '@/hooks/useForumBookmarks';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -85,8 +87,15 @@ export const ThreadCard: React.FC<ThreadCardProps> = ({ thread, onLike, isLiked,
           <Link to={`/forum/thread/${thread.id}`}>
             <div className="flex items-start gap-4">
               {/* Author Avatar */}
-              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-axanar-teal/30 to-blue-500/30 flex items-center justify-center font-bold text-lg border-2 border-axanar-teal/50">
-                {thread.author_username.charAt(0).toUpperCase()}
+              <div className="relative flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-axanar-teal/30 to-blue-500/30 flex items-center justify-center font-bold text-lg border-2 border-axanar-teal/50">
+                  {thread.author_username.charAt(0).toUpperCase()}
+                </div>
+                {thread.author_user_id && (
+                  <div className="absolute -bottom-1 -right-1">
+                    <OnlineIndicator userId={thread.author_user_id} />
+                  </div>
+                )}
               </div>
 
               {/* Content */}
@@ -140,7 +149,11 @@ export const ThreadCard: React.FC<ThreadCardProps> = ({ thread, onLike, isLiked,
                 <div 
                   className="prose prose-sm max-w-none dark:prose-invert line-clamp-2 text-muted-foreground"
                   dangerouslySetInnerHTML={{ 
-                    __html: sanitizeHtml(parseEmojis(thread.content).replace(/\n/g, ' '))
+                    __html: sanitizeHtml(
+                      parseMentions(
+                        parseEmojis(thread.content).replace(/\n/g, ' ')
+                      )
+                    )
                   }}
                 />
 

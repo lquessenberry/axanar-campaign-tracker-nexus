@@ -3,8 +3,10 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Heart } from 'lucide-react';
 import { ForumComment } from '@/hooks/useForumComments';
+import { OnlineIndicator } from './OnlineIndicator';
 import { parseEmojis } from '@/lib/forum-emojis';
 import { sanitizeHtml } from '@/utils/sanitizeHtml';
+import { parseMentions } from '@/utils/mentionParser';
 
 interface CommentItemProps {
   comment: ForumComment;
@@ -33,8 +35,15 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment, onLike, isLik
       <div className="p-4">
         {/* Header */}
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-axanar-teal/30 to-blue-500/30 flex items-center justify-center font-bold border-2 border-axanar-teal/50">
-            {comment.author_username.charAt(0).toUpperCase()}
+          <div className="relative">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-axanar-teal/30 to-blue-500/30 flex items-center justify-center font-bold border-2 border-axanar-teal/50">
+              {comment.author_username.charAt(0).toUpperCase()}
+            </div>
+            {comment.author_user_id && (
+              <div className="absolute -bottom-1 -right-1">
+                <OnlineIndicator userId={comment.author_user_id} />
+              </div>
+            )}
           </div>
           <div className="flex-1">
             <div className="font-semibold text-sm">{comment.author_username}</div>
@@ -49,7 +58,11 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment, onLike, isLik
         <div 
           className="prose prose-sm max-w-none dark:prose-invert"
           dangerouslySetInnerHTML={{ 
-            __html: sanitizeHtml(parseEmojis(comment.content).replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br />'))
+            __html: sanitizeHtml(
+              parseMentions(
+                parseEmojis(comment.content).replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br />')
+              )
+            )
           }}
         />
 

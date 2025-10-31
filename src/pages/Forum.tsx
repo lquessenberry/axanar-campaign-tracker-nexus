@@ -11,6 +11,7 @@ import ThreadCard from "@/components/forum/ThreadCard";
 import ThreadComposer from "@/components/forum/ThreadComposer";
 import { ForumSearchBar } from "@/components/forum/ForumSearchBar";
 import { NotificationBell } from "@/components/forum/NotificationBell";
+import { OnlineUsersList } from "@/components/forum/OnlineUsersList";
 import { useForumSearch } from "@/hooks/useForumSearch";
 import { useForumBookmarks } from "@/hooks/useForumBookmarks";
 import { supabase } from "@/integrations/supabase/client";
@@ -163,6 +164,9 @@ const Forum: React.FC = () => {
 
             {/* Sidebar */}
             <div className="space-y-6">
+              {/* Online Users */}
+              <OnlineUsersList />
+              
               {/* Forum Stats */}
               <Card className="border-2 border-axanar-teal/30">
                 <CardHeader className="bg-gradient-to-r from-axanar-teal/10 to-blue-500/10 border-b">

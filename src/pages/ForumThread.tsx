@@ -10,8 +10,11 @@ import { useForumComments, useCreateComment, useCommentLike, useCommentLikeStatu
 import { useAuth } from '@/contexts/AuthContext';
 import PostComposer from '@/components/forum/PostComposer';
 import CommentItem from '@/components/forum/CommentItem';
+import { OnlineIndicator } from '@/components/forum/OnlineIndicator';
+import { OnlineUsersList } from '@/components/forum/OnlineUsersList';
 import { parseEmojis } from '@/lib/forum-emojis';
 import { sanitizeHtml } from '@/utils/sanitizeHtml';
+import { parseMentions } from '@/utils/mentionParser';
 import { supabase } from '@/integrations/supabase/client';
 
 const ForumThread: React.FC = () => {
@@ -119,27 +122,36 @@ const ForumThread: React.FC = () => {
       <Navigation />
 
       <main className="flex-grow py-8 px-6">
-        <div className="container mx-auto max-w-5xl space-y-6">
-          {/* Back Button */}
-          <Link to="/forum">
-            <Button variant="outline" size="sm">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Forum
-            </Button>
-          </Link>
+        <div className="container mx-auto max-w-7xl">
+          <div className="grid lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2 space-y-6">
+              {/* Back Button */}
+              <Link to="/forum">
+                <Button variant="outline" size="sm">
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Back to Forum
+                </Button>
+              </Link>
 
-          {/* Thread Post */}
-          <Card className="overflow-hidden border-2 border-axanar-teal/30">
-            <div className="p-6">
-              {/* Header */}
-              <div className="flex items-start gap-4 mb-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-axanar-teal/30 to-blue-500/30 flex items-center justify-center font-bold text-2xl border-2 border-axanar-teal/50 flex-shrink-0">
-                  {thread.author_username.charAt(0).toUpperCase()}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h1 className="text-2xl font-bold mb-2">{thread.title}</h1>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <span className="font-semibold text-foreground">{thread.author_username}</span>
+              {/* Thread Post */}
+              <Card className="overflow-hidden border-2 border-axanar-teal/30">
+                <div className="p-6">
+                  {/* Header */}
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="relative">
+                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-axanar-teal/30 to-blue-500/30 flex items-center justify-center font-bold text-2xl border-2 border-axanar-teal/50 flex-shrink-0">
+                        {thread.author_username.charAt(0).toUpperCase()}
+                      </div>
+                      {thread.author_user_id && (
+                        <div className="absolute -bottom-1 -right-1">
+                          <OnlineIndicator userId={thread.author_user_id} />
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h1 className="text-2xl font-bold mb-2">{thread.title}</h1>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span className="font-semibold text-foreground">{thread.author_username}</span>
                     {thread.author_rank_name && (
                       <>
                         <span>•</span>
@@ -154,88 +166,99 @@ const ForumThread: React.FC = () => {
                 </div>
               </div>
 
-              {/* Content */}
-              <div 
-                className="prose prose-sm max-w-none dark:prose-invert mb-4"
-                dangerouslySetInnerHTML={{ 
-                  __html: sanitizeHtml(parseEmojis(thread.content).replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br />'))
-                }}
-              />
+                  {/* Content */}
+                  <div 
+                    className="prose prose-sm max-w-none dark:prose-invert mb-4"
+                    dangerouslySetInnerHTML={{ 
+                      __html: sanitizeHtml(
+                        parseMentions(
+                          parseEmojis(thread.content).replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br />')
+                        )
+                      )
+                    }}
+                  />
 
-              {/* Image */}
-              {thread.image_url && (
-                <img 
-                  src={thread.image_url} 
-                  alt="Thread image"
-                  className="rounded-lg max-h-96 object-cover w-full mb-4"
+                  {/* Image */}
+                  {thread.image_url && (
+                    <img 
+                      src={thread.image_url} 
+                      alt="Thread image"
+                      className="rounded-lg max-h-96 object-cover w-full mb-4"
+                    />
+                  )}
+
+                  {/* Stats & Actions */}
+                  <div className="flex items-center gap-3 pt-4 border-t border-border/30">
+                    <Button
+                      variant={isLiked ? "default" : "outline"}
+                      size="sm"
+                      onClick={handleThreadLike}
+                      disabled={!user}
+                      className={isLiked ? "bg-destructive hover:bg-destructive/90" : ""}
+                    >
+                      <Heart className={`h-4 w-4 mr-1 ${isLiked ? 'fill-current' : ''}`} />
+                      {thread.like_count}
+                    </Button>
+
+                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                      <MessageCircle className="h-4 w-4" />
+                      {thread.comment_count} comments
+                    </div>
+
+                    <div className="flex items-center gap-1 text-sm text-muted-foreground ml-auto">
+                      <Eye className="h-4 w-4" />
+                      {thread.view_count} views
+                    </div>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Post Comment */}
+              {user ? (
+                <PostComposer
+                  onSubmit={handleCommentSubmit}
+                  showTitle={false}
+                  placeholder="Share your thoughts... Use @username to mention someone 🖖"
+                  submitLabel="💬 Post Comment"
                 />
+              ) : (
+                <Card className="p-6 text-center">
+                  <p className="text-muted-foreground mb-4">You must be logged in to comment</p>
+                  <Link to="/auth">
+                    <Button variant="outline">Sign In</Button>
+                  </Link>
+                </Card>
               )}
 
-              {/* Stats & Actions */}
-              <div className="flex items-center gap-3 pt-4 border-t border-border/30">
-                <Button
-                  variant={isLiked ? "default" : "outline"}
-                  size="sm"
-                  onClick={handleThreadLike}
-                  disabled={!user}
-                  className={isLiked ? "bg-destructive hover:bg-destructive/90" : ""}
-                >
-                  <Heart className={`h-4 w-4 mr-1 ${isLiked ? 'fill-current' : ''}`} />
-                  {thread.like_count}
-                </Button>
+              {/* Comments */}
+              <div className="space-y-4">
+                <h2 className="text-xl font-bold">
+                  💬 Comments ({comments?.length || 0})
+                </h2>
 
-                <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                  <MessageCircle className="h-4 w-4" />
-                  {thread.comment_count} comments
-                </div>
+                {commentsLoading && (
+                  <div className="text-center py-8">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-axanar-teal mx-auto"></div>
+                  </div>
+                )}
 
-                <div className="flex items-center gap-1 text-sm text-muted-foreground ml-auto">
-                  <Eye className="h-4 w-4" />
-                  {thread.view_count} views
-                </div>
+                {!commentsLoading && comments && comments.length === 0 && (
+                  <Card className="p-8 text-center">
+                    <MessageCircle className="h-12 w-12 mx-auto mb-3 text-muted-foreground/50" />
+                    <p className="text-muted-foreground">No comments yet. Be the first!</p>
+                  </Card>
+                )}
+
+                {comments?.map((comment) => (
+                  <CommentItemWithLike key={comment.id} comment={comment} threadId={threadId!} />
+                ))}
               </div>
             </div>
-          </Card>
 
-          {/* Post Comment */}
-          {user ? (
-            <PostComposer
-              onSubmit={handleCommentSubmit}
-              showTitle={false}
-              placeholder="Share your thoughts... 🖖"
-              submitLabel="💬 Post Comment"
-            />
-          ) : (
-            <Card className="p-6 text-center">
-              <p className="text-muted-foreground mb-4">You must be logged in to comment</p>
-              <Link to="/auth">
-                <Button variant="outline">Sign In</Button>
-              </Link>
-            </Card>
-          )}
-
-          {/* Comments */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-bold">
-              💬 Comments ({comments?.length || 0})
-            </h2>
-
-            {commentsLoading && (
-              <div className="text-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-axanar-teal mx-auto"></div>
-              </div>
-            )}
-
-            {!commentsLoading && comments && comments.length === 0 && (
-              <Card className="p-8 text-center">
-                <MessageCircle className="h-12 w-12 mx-auto mb-3 text-muted-foreground/50" />
-                <p className="text-muted-foreground">No comments yet. Be the first!</p>
-              </Card>
-            )}
-
-            {comments?.map((comment) => (
-              <CommentItemWithLike key={comment.id} comment={comment} threadId={threadId!} />
-            ))}
+            {/* Sidebar - Online Users */}
+            <div className="hidden lg:block space-y-6">
+              <OnlineUsersList />
+            </div>
           </div>
         </div>
       </main>

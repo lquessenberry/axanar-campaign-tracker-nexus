@@ -4822,6 +4822,7 @@ export type Database = {
       }
       enhanced_admin_security_check: { Args: never; Returns: boolean }
       ensure_profile_usernames: { Args: never; Returns: undefined }
+      extract_mentions: { Args: { text_content: string }; Returns: string[] }
       firebase_fdw_handler: { Args: never; Returns: unknown }
       firebase_fdw_meta: {
         Args: never
