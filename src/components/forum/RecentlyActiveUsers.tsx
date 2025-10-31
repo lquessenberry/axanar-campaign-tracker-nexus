@@ -10,28 +10,28 @@ import { subDays } from 'date-fns';
 export const RecentlyActiveUsers: React.FC = () => {
   const { presenceData } = useUserPresence();
 
-  // Get usernames for recently offline users (within last 7 days)
+  // Get usernames for users active in last 30 days
   const { data: recentUsers = [] } = useQuery({
-    queryKey: ['recent-offline-users', presenceData],
+    queryKey: ['recent-active-users', presenceData],
     queryFn: async () => {
-      const sevenDaysAgo = subDays(new Date(), 7);
+      const thirtyDaysAgo = subDays(new Date(), 30);
       
-      const offlineUserData = presenceData
+      const activeUserData = presenceData
         .filter(p => {
-          if (p.is_online || !p.last_seen) return false;
+          if (!p.last_seen) return false;
           const lastSeenDate = new Date(p.last_seen);
-          return lastSeenDate >= sevenDaysAgo; // Only show users active in last 7 days
+          return lastSeenDate >= thirtyDaysAgo; // Show users active in last 30 days
         })
         .sort((a, b) => new Date(b.last_seen).getTime() - new Date(a.last_seen).getTime())
-        .slice(0, 10) // Show top 10 most recent
+        .slice(0, 20) // Show top 20 most recent
         .map(p => p.user_id);
       
-      if (offlineUserData.length === 0) return [];
+      if (activeUserData.length === 0) return [];
 
       const { data, error } = await supabase
         .from('profiles')
         .select('id, username, full_name')
-        .in('id', offlineUserData);
+        .in('id', activeUserData);
       
       if (error) throw error;
 
@@ -72,7 +72,7 @@ export const RecentlyActiveUsers: React.FC = () => {
   return (
     <Card className="p-4">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="font-semibold">Recently Active</h3>
+        <h3 className="font-semibold">Recently Active (30 days)</h3>
         <div className="flex items-center gap-2">
           <Clock className="h-4 w-4 text-muted-foreground" />
           <span className="text-sm text-muted-foreground">{recentCount}</span>
@@ -86,22 +86,27 @@ export const RecentlyActiveUsers: React.FC = () => {
           </p>
         ) : (
           <div className="space-y-2">
-            {recentUsers.map((user) => (
-              <div
-                key={user.id}
-                className="flex items-center justify-between gap-2 p-2 rounded-lg hover:bg-accent/50 transition-colors"
-              >
-                <div className="flex items-center gap-2 flex-1 min-w-0">
-                  <div className="h-2 w-2 rounded-full bg-gray-400" />
-                  <span className="text-sm font-medium truncate">
-                    {user.username || user.full_name || 'Anonymous'}
+            {recentUsers.map((user) => {
+              const presence = presenceData.find(p => p.user_id === user.id);
+              const isOnline = presence?.is_online || false;
+              
+              return (
+                <div
+                  key={user.id}
+                  className="flex items-center justify-between gap-2 p-2 rounded-lg hover:bg-accent/50 transition-colors"
+                >
+                  <div className="flex items-center gap-2 flex-1 min-w-0">
+                    <div className={`h-2 w-2 rounded-full ${isOnline ? 'bg-green-500' : 'bg-gray-400'}`} />
+                    <span className="text-sm font-medium truncate">
+                      {user.username || user.full_name || 'Anonymous'}
+                    </span>
+                  </div>
+                  <span className="text-xs text-muted-foreground whitespace-nowrap">
+                    {formatLastSeen(user.last_seen)}
                   </span>
                 </div>
-                <span className="text-xs text-muted-foreground whitespace-nowrap">
-                  {formatLastSeen(user.last_seen)}
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </ScrollArea>
