@@ -261,7 +261,7 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <Link2 className="h-4 w-4 text-white" />
-                    <span className="text-sm font-medium text-white">Public Profile</span>
+                    <span className="text-sm font-medium text-white">Profile Link</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <code className="text-xs bg-black/20 text-white px-2 py-1 rounded flex-1 truncate">

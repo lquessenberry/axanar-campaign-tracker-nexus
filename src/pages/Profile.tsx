@@ -24,6 +24,20 @@ const Profile = () => {
   const { user, signOut } = useAuth();
   const { data: isAdmin } = useAdminCheck();
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
+  
+  // Check if userId is a valid UUID format
+  const isValidUUID = (str: string) => {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    return uuidRegex.test(str);
+  };
+  
+  // If userId is provided but not a valid UUID, redirect to vanity profile
+  React.useEffect(() => {
+    if (userId && !isValidUUID(userId)) {
+      navigate(`/u/${userId}`, { replace: true });
+    }
+  }, [userId, navigate]);
   
   // Determine if we're viewing another user's profile (admin only)
   const targetUserId = userId || user?.id;
