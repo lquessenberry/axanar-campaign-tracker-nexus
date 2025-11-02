@@ -91,7 +91,8 @@ export const useRealtimeMessages = () => {
 
     fetchMessages();
 
-    // Set up real-time subscription
+    // Set up real-time subscription - subscribe to all messages and filter client-side
+    // since Supabase realtime doesn't support OR filters
     const channel = supabase
       .channel('messages-changes')
       .on(
@@ -99,15 +100,26 @@ export const useRealtimeMessages = () => {
         {
           event: '*',
           schema: 'public',
-          table: 'messages',
-          filter: `or(sender_id.eq.${user.id},recipient_id.eq.${user.id})`
+          table: 'messages'
         },
         (payload) => {
           console.log('Message change:', payload);
-          fetchMessages(); // Refetch to get complete data with relations
+          // Check if the message involves the current user
+          const newRecord = payload.new as any;
+          const oldRecord = payload.old as any;
+          
+          const isRelevant = 
+            (newRecord?.sender_id === user.id || newRecord?.recipient_id === user.id) ||
+            (oldRecord?.sender_id === user.id || oldRecord?.recipient_id === user.id);
+          
+          if (isRelevant) {
+            fetchMessages(); // Refetch to get complete data with relations
+          }
         }
       )
-      .subscribe();
+      .subscribe((status) => {
+        console.log('Realtime subscription status:', status);
+      });
 
     return () => {
       supabase.removeChannel(channel);
