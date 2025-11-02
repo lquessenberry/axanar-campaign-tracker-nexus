@@ -8,6 +8,7 @@ import UserSelector from '@/components/messages/UserSelector';
 import { useRealtimeMessages } from '@/hooks/useRealtimeMessages';
 import { useUserPresence } from '@/hooks/useUserPresence';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { MessageCircle } from 'lucide-react';
 import { toast } from 'sonner';
@@ -18,12 +19,19 @@ const DirectMessages: React.FC = () => {
   const { conversations, loading, sendMessage, markAsRead, getConversationMessages, getUnreadCount } = useRealtimeMessages();
   const { isUserOnline } = useUserPresence();
   const [selectedConversationId, setSelectedConversationId] = useState<string>('');
+  const [selectedUserInfo, setSelectedUserInfo] = useState<{ id: string; name: string; username?: string } | null>(null);
   const [showUserSelector, setShowUserSelector] = useState(false);
 
   // Auto-select first conversation if available and none selected
   useEffect(() => {
     if (conversations.length > 0 && !selectedConversationId) {
-      setSelectedConversationId(conversations[0].partnerId);
+      const firstConversation = conversations[0];
+      setSelectedConversationId(firstConversation.partnerId);
+      setSelectedUserInfo({
+        id: firstConversation.partnerId,
+        name: firstConversation.partnerName,
+        username: firstConversation.partnerUsername
+      });
     }
   }, [conversations, selectedConversationId]);
 
@@ -43,6 +51,14 @@ const DirectMessages: React.FC = () => {
 
   const handleSelectConversation = (partnerId: string) => {
     setSelectedConversationId(partnerId);
+    const conversation = conversations.find(c => c.partnerId === partnerId);
+    if (conversation) {
+      setSelectedUserInfo({
+        id: conversation.partnerId,
+        name: conversation.partnerName,
+        username: conversation.partnerUsername
+      });
+    }
     setShowUserSelector(false);
   };
 
@@ -60,9 +76,34 @@ const DirectMessages: React.FC = () => {
     setShowUserSelector(true);
   };
 
-  const handleSelectUser = (userId: string, userName: string) => {
+  const handleSelectUser = async (userId: string, userName: string) => {
     setSelectedConversationId(userId);
+    setSelectedUserInfo({
+      id: userId,
+      name: userName,
+      username: userName
+    });
     setShowUserSelector(false);
+    
+    // Fetch the username if we only have the name
+    try {
+      const { data } = await supabase
+        .from('profiles')
+        .select('username')
+        .eq('id', userId)
+        .single();
+      
+      if (data?.username) {
+        setSelectedUserInfo({
+          id: userId,
+          name: userName,
+          username: data.username
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching username:', error);
+    }
+    
     toast.success(`Started conversation with ${userName}`);
   };
 
@@ -112,21 +153,21 @@ const DirectMessages: React.FC = () => {
 
                 {/* Message Thread */}
                 <div className="lg:col-span-2">
-                  {selectedConversation ? (
+                  {selectedConversationId && selectedUserInfo ? (
                     <MessageThread
                       messages={selectedMessages}
                       currentUserId={user?.id}
                       recipient={{
-                        id: selectedConversation.partnerId,
-                        full_name: selectedConversation.partnerName,
-                        username: selectedConversation.partnerUsername
+                        id: selectedUserInfo.id,
+                        full_name: selectedUserInfo.name,
+                        username: selectedUserInfo.username
                       }}
                       onSendMessage={handleSendMessage}
                       isLoading={loading}
                       showComposer={true}
                       emptyStateTitle="Start the conversation"
-                      emptyStateDescription={`Send a message to ${selectedConversation.partnerName} to begin your conversation.`}
-                      isOnline={isUserOnline(selectedConversation.partnerId)}
+                      emptyStateDescription={`Send a message to ${selectedUserInfo.name} to begin your conversation.`}
+                      isOnline={isUserOnline(selectedUserInfo.id)}
                     />
                   ) : (
                     <Card className="h-full flex items-center justify-center">
