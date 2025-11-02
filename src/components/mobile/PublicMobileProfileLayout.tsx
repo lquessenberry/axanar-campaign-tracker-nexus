@@ -23,7 +23,14 @@ export default function PublicMobileProfileLayout({
   memberSince,
   totalPledged,
 }: PublicMobileProfileLayoutProps) {
-  const displayName = profile?.display_name || profile?.full_name || profile?.username || 'Anonymous Officer';
+  // Respect privacy settings
+  const showAvatar = profile?.show_avatar_publicly ?? true;
+  const showRealName = profile?.show_real_name_publicly ?? true;
+  const showBackground = profile?.show_background_publicly ?? true;
+  
+  const displayName = showRealName 
+    ? (profile?.display_name || profile?.full_name || profile?.username || 'Anonymous Officer')
+    : (profile?.username || 'Anonymous Officer');
   const pledgesCount = pledges?.length || 0;
   const campaignsCount = campaigns?.length || 0;
   
@@ -60,7 +67,7 @@ export default function PublicMobileProfileLayout({
       <div className="relative bg-axanar-dark text-white p-4">
         <div className="flex items-center gap-4 mb-4">
           <div className="w-16 h-16 rounded-full bg-axanar-teal/20 ring-2 ring-axanar-teal flex items-center justify-center flex-shrink-0">
-            {profile?.avatar_url ? (
+            {showAvatar && profile?.avatar_url ? (
               <img
                 src={profile.avatar_url}
                 alt={displayName}

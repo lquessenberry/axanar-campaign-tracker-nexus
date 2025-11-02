@@ -20,7 +20,11 @@ const PublicProfileSidebar: React.FC<PublicProfileSidebarProps> = ({
   totalPledged,
   pledgesCount,
 }) => {
-  const displayName = profile?.display_name || profile?.full_name || profile?.username || 'This user';
+  // Respect privacy settings
+  const showRealName = profile?.show_real_name_publicly ?? true;
+  const displayName = showRealName 
+    ? (profile?.display_name || profile?.full_name || profile?.username || 'This user')
+    : (profile?.username || 'This user');
   const { data: unifiedRank } = useUnifiedRank(profile?.id, 0); // Pass 0 to hide dollar amounts
   const { data: forumBadges = [], isError: badgesError, isLoading: badgesLoading } = useForumBadges(profile?.id);
   
