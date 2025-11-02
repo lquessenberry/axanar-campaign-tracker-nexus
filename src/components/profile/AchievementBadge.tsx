@@ -111,7 +111,7 @@ const AchievementBadge: React.FC<AchievementBadgeProps> = ({
         <div className="flex items-center gap-2">
           <h4 className="font-medium text-sm truncate">{config.title}</h4>
           <Badge variant="secondary" className="text-xs">
-            +{config.xp} XP
+            +{config.xp} AXC
           </Badge>
         </div>
         <p className="text-xs text-muted-foreground truncate">

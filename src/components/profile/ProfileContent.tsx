@@ -104,10 +104,10 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
       <Card className="bg-card/50 backdrop-blur-sm border-border/50">
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-bold text-axanar-teal">Starfleet Rank & XP</h3>
+            <h3 className="text-xl font-bold text-axanar-teal">Starfleet Rank & AXC</h3>
             {unifiedXP && (
               <div className="text-right">
-                <div className="text-2xl font-bold text-axanar-teal">{totalXP} XP</div>
+                <div className="text-2xl font-bold text-axanar-teal">{totalXP} AXC</div>
                 <div className="text-sm text-muted-foreground">
                   Rank: {unifiedXP.currentRank.name}
                 </div>
@@ -121,7 +121,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
               <div className="flex justify-between text-sm mb-2">
                 <span className="font-semibold">{unifiedXP.currentRank.name}</span>
                 <span className="text-muted-foreground">
-                  Next: {unifiedXP.nextRank.name} ({unifiedXP.nextRank.min_points} XP)
+                  Next: {unifiedXP.nextRank.name} ({unifiedXP.nextRank.min_points} AXC)
                 </span>
               </div>
               <div className="w-full bg-muted/50 rounded-full h-3 overflow-hidden">
@@ -133,7 +133,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
             </div>
           )}
 
-          {/* XP Breakdown */}
+          {/* AXC Breakdown */}
           <div className="space-y-4">
             {/* Forum Activity */}
             <div className="flex items-center gap-4 p-4 bg-background/60 backdrop-blur-sm rounded-lg border border-border/50 hover:border-blue-500/30 transition-colors">
@@ -145,7 +145,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
                 </p>
               </div>
               <div className="text-sm font-bold text-blue-400">
-                +{xpBreakdown?.forum_xp || 0} XP
+                +{xpBreakdown?.forum_xp || 0} AXC
               </div>
             </div>
 
@@ -157,12 +157,12 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
                 <p className="text-sm text-muted-foreground">
                   {profile?.full_name && profile?.bio 
                     ? 'Complete profile information'
-                    : 'Update your profile to earn XP'
+                    : 'Update your profile to earn AXC'
                   }
                 </p>
               </div>
               <div className="text-sm font-bold text-green-400">
-                +{xpBreakdown?.profile_completion_xp || 0} XP
+                +{xpBreakdown?.profile_completion_xp || 0} AXC
               </div>
             </div>
 
@@ -176,7 +176,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
                 </p>
               </div>
               <div className="text-sm font-bold text-yellow-400">
-                +{xpBreakdown?.donation_xp || 0} XP
+                +{xpBreakdown?.donation_xp || 0} AXC
               </div>
             </div>
 
@@ -190,7 +190,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
                 </p>
               </div>
               <div className="text-sm font-bold text-purple-400">
-                +{xpBreakdown?.achievement_xp || 0} XP
+                +{xpBreakdown?.achievement_xp || 0} AXC
               </div>
             </div>
 
@@ -207,7 +207,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
                 </Button>
               </div>
               <div className="text-sm font-bold text-muted-foreground">
-                0 XP
+                0 AXC
               </div>
             </div>
 
@@ -233,16 +233,16 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
                 )}
               </div>
               <div className="text-sm font-bold text-pink-400">
-                +{xpBreakdown?.recruitment_xp || 0} XP
+                +{xpBreakdown?.recruitment_xp || 0} AXC
               </div>
             </div>
 
-            {/* Total XP Display */}
+            {/* Total AXC Display */}
             <div className="border-t border-border/50 pt-6 mt-6">
               <div className="flex justify-between items-center mb-3">
-                <span className="font-bold text-lg">Total Unified XP</span>
+                <span className="font-bold text-lg">Total Axanar Credits</span>
                 <span className="text-2xl font-bold text-axanar-teal">
-                  {totalXP} XP
+                  {totalXP} AXC
                 </span>
               </div>
               
@@ -259,7 +259,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
                       <div className="text-right text-sm">
                         <p className="text-muted-foreground">Next Rank</p>
                         <p className="font-semibold text-axanar-teal">{unifiedXP.nextRank.name}</p>
-                        <p className="text-xs">{unifiedXP.nextRank.min_points - totalXP} XP to go</p>
+                        <p className="text-xs">{unifiedXP.nextRank.min_points - totalXP} AXC to go</p>
                       </div>
                     )}
                   </div>

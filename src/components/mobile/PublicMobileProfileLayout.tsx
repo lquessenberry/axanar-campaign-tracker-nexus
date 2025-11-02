@@ -106,7 +106,7 @@ export default function PublicMobileProfileLayout({
           </div>
           <div>
             <p className="text-lg font-bold text-blue-400">{(unifiedRank?.xp || 0).toLocaleString()}</p>
-            <p className="text-xs text-axanar-silver/60">Experience</p>
+            <p className="text-xs text-axanar-silver/60">Axanar Credits</p>
           </div>
         </div>
         
@@ -159,7 +159,7 @@ export default function PublicMobileProfileLayout({
                     </Badge>
                     <Badge variant="outline" className="text-xs">
                       <Zap className="h-3 w-3 mr-1" />
-                      {(unifiedRank?.xp || 0).toLocaleString()} XP
+                      {(unifiedRank?.xp || 0).toLocaleString()} AXC
                     </Badge>
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">
@@ -229,7 +229,7 @@ export default function PublicMobileProfileLayout({
                       </p>
                       <div className="flex items-center gap-2 mt-1">
                         <Badge variant="outline" className="text-xs text-green-700 border-green-300 bg-green-50">
-                          +100 XP
+                          +100 AXC
                         </Badge>
                         <span className="text-xs text-blue-600">
                           {new Date(pledge.created_at).toLocaleDateString()}
@@ -263,7 +263,7 @@ export default function PublicMobileProfileLayout({
                 </Badge>
                 <Badge variant="outline" className="text-xs border-gray-300 bg-gray-50 text-gray-700">
                   <Zap className="h-3 w-3 mr-1" />
-                  0 XP
+                  0 AXC
                 </Badge>
               </div>
             </CardContent>

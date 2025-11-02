@@ -378,7 +378,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm text-white/90">
-                      <span>XP: {unifiedXP.xp.total.toLocaleString()}</span>
+                      <span>AXC: {unifiedXP.xp.total.toLocaleString()}</span>
                       <span>Level {unifiedXP.currentRank.sort_order}</span>
                     </div>
                     {unifiedXP.nextRank && (
@@ -390,7 +390,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                           />
                         </div>
                         <div className="text-xs text-white/70 text-center">
-                          Next: {unifiedXP.nextRank.name} at {unifiedXP.nextRank.min_points.toLocaleString()} XP
+                          Next: {unifiedXP.nextRank.name} at {unifiedXP.nextRank.min_points.toLocaleString()} AXC
                         </div>
                       </>
                     )}

@@ -81,11 +81,11 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
               </p>
             </div>
             
-            {/* Experience Points */}
+            {/* Axanar Credits */}
             <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border">
               <Zap className="h-8 w-8 mx-auto mb-2 text-blue-600" />
-              <h4 className="font-bold text-sm">Experience</h4>
-              <p className="text-lg font-bold text-blue-600">{(unifiedRank?.xp || 0).toLocaleString()} XP</p>
+              <h4 className="font-bold text-sm">Axanar Credits</h4>
+              <p className="text-lg font-bold text-blue-600">{(unifiedRank?.xp || 0).toLocaleString()} AXC</p>
             </div>
             
             {/* Service Status */}
@@ -182,7 +182,7 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
                   </span>
                   <div className="flex items-center gap-2">
                     <Badge variant="outline" className="text-green-700 border-green-300 bg-green-50 text-xs">
-                      +100 XP
+                      +100 AXC
                     </Badge>
                     <span className="text-xs text-blue-600">
                       {new Date(pledge.created_at).toLocaleDateString()}
@@ -214,7 +214,7 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
                 Status: Ready for Duty
               </Badge>
               <Badge variant="outline" className="border-gray-300 bg-gray-50 text-gray-700">
-                XP: 0
+                AXC: 0
               </Badge>
             </div>
           </CardContent>

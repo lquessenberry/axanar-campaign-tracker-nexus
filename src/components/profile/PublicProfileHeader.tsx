@@ -201,7 +201,7 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
               </div>
               <div>
                 <p className="text-lg font-bold text-axanar-teal">{unifiedRank?.xp?.toLocaleString() || totalXP.toLocaleString()}</p>
-                <p className="text-xs text-axanar-silver/60">Experience XP</p>
+                <p className="text-xs text-axanar-silver/60">Axanar Credits</p>
               </div>
               <div>
                 <p className="text-lg font-bold">{Math.max(0, yearsSupporting)}</p>
@@ -235,7 +235,7 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
                 
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm text-white/90">
-                    <span>XP: {unifiedRank.xp.toLocaleString()}</span>
+                    <span>AXC: {unifiedRank.xp.toLocaleString()}</span>
                     <span>Level {unifiedRank.level}</span>
                   </div>
                   {unifiedRank.maxXP > unifiedRank.minXP && !unifiedRank.isAdmin && (
@@ -247,7 +247,7 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
                         />
                       </div>
                       <div className="text-xs text-white/70 text-center">
-                        Next Rank: {unifiedRank.maxXP.toLocaleString()} XP
+                        Next Rank: {unifiedRank.maxXP.toLocaleString()} AXC
                       </div>
                     </>
                   )}
