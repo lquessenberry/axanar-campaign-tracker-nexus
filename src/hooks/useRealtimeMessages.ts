@@ -38,7 +38,12 @@ export const useRealtimeMessages = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      setLoading(false);
+      setMessages([]);
+      setConversations([]);
+      return;
+    }
 
     const fetchMessages = async () => {
       try {
@@ -111,7 +116,12 @@ export const useRealtimeMessages = () => {
 
   // Process messages into conversations
   useEffect(() => {
-    if (!user || !messages.length) {
+    if (!user) {
+      setConversations([]);
+      return;
+    }
+    
+    if (!messages.length) {
       setConversations([]);
       return;
     }

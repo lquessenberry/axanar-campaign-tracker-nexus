@@ -85,57 +85,63 @@ const DirectMessages: React.FC = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-200px)]">
-              {/* Conversations List */}
-              <div className="lg:col-span-1">
-                {showUserSelector ? (
-                  <UserSelector
-                    onSelectUser={handleSelectUser}
-                    onClose={() => setShowUserSelector(false)}
-                    className="h-full"
-                  />
-                ) : (
-                  <RealtimeConversationList
-                    conversations={conversations}
-                    selectedConversationId={selectedConversationId}
-                    onSelectConversation={handleSelectConversation}
-                    onStartNewConversation={handleStartNewConversation}
-                    loading={loading}
-                  />
-                )}
+            {loading ? (
+              <div className="flex items-center justify-center h-64">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
               </div>
+            ) : (
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-200px)]">
+                {/* Conversations List */}
+                <div className="lg:col-span-1">
+                  {showUserSelector ? (
+                    <UserSelector
+                      onSelectUser={handleSelectUser}
+                      onClose={() => setShowUserSelector(false)}
+                      className="h-full"
+                    />
+                  ) : (
+                    <RealtimeConversationList
+                      conversations={conversations}
+                      selectedConversationId={selectedConversationId}
+                      onSelectConversation={handleSelectConversation}
+                      onStartNewConversation={handleStartNewConversation}
+                      loading={loading}
+                    />
+                  )}
+                </div>
 
-              {/* Message Thread */}
-              <div className="lg:col-span-2">
-                {selectedConversation ? (
-                  <MessageThread
-                    messages={selectedMessages}
-                    currentUserId={user?.id}
-                    recipient={{
-                      id: selectedConversation.partnerId,
-                      full_name: selectedConversation.partnerName,
-                      username: selectedConversation.partnerUsername
-                    }}
-                    onSendMessage={handleSendMessage}
-                    isLoading={loading}
-                    showComposer={true}
-                    emptyStateTitle="Start the conversation"
-                    emptyStateDescription={`Send a message to ${selectedConversation.partnerName} to begin your conversation.`}
-                    isOnline={isUserOnline(selectedConversation.partnerId)}
-                  />
-                ) : (
-                  <Card className="h-full flex items-center justify-center">
-                    <CardContent className="text-center">
-                      <MessageCircle className="h-16 w-16 mx-auto mb-4 text-muted-foreground/50" />
-                      <h3 className="text-lg font-semibold mb-2">Select a conversation</h3>
-                      <p className="text-muted-foreground">
-                        Choose a conversation from the list or start a new one to begin messaging
-                      </p>
-                    </CardContent>
-                  </Card>
-                )}
+                {/* Message Thread */}
+                <div className="lg:col-span-2">
+                  {selectedConversation ? (
+                    <MessageThread
+                      messages={selectedMessages}
+                      currentUserId={user?.id}
+                      recipient={{
+                        id: selectedConversation.partnerId,
+                        full_name: selectedConversation.partnerName,
+                        username: selectedConversation.partnerUsername
+                      }}
+                      onSendMessage={handleSendMessage}
+                      isLoading={loading}
+                      showComposer={true}
+                      emptyStateTitle="Start the conversation"
+                      emptyStateDescription={`Send a message to ${selectedConversation.partnerName} to begin your conversation.`}
+                      isOnline={isUserOnline(selectedConversation.partnerId)}
+                    />
+                  ) : (
+                    <Card className="h-full flex items-center justify-center">
+                      <CardContent className="text-center">
+                        <MessageCircle className="h-16 w-16 mx-auto mb-4 text-muted-foreground/50" />
+                        <h3 className="text-lg font-semibold mb-2">Select a conversation</h3>
+                        <p className="text-muted-foreground">
+                          Choose a conversation from the list or start a new one to begin messaging
+                        </p>
+                      </CardContent>
+                    </Card>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </main>
 

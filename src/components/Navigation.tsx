@@ -33,7 +33,7 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
   const { getUnreadCount } = useRealtimeMessages();
   const location = useLocation();
   const { t } = useTranslation();
-  const unreadCount = getUnreadCount();
+  const unreadCount = user ? getUnreadCount() : 0;
 
   const isActive = (path: string) => {
     return location.pathname === path;
