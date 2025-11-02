@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
 import { useCampaigns } from "@/hooks/useCampaigns";
+import { useRealtimeMessages } from "@/hooks/useRealtimeMessages";
 import { Menu, X, User, LogOut, BarChart3, Shield, AlertTriangle, MessageCircle, ChevronDown } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { AlertLevel } from "@/hooks/useAlertSystem";
@@ -28,8 +30,10 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
   const { user, signOut } = useAuth();
   const { data: isAdmin } = useAdminCheck();
   const { data: campaigns = [] } = useCampaigns();
+  const { getUnreadCount } = useRealtimeMessages();
   const location = useLocation();
   const { t } = useTranslation();
+  const unreadCount = getUnreadCount();
 
   const isActive = (path: string) => {
     return location.pathname === path;
@@ -198,12 +202,28 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
                   {t('dashboard')}
                 </Button>
               </Link>
+              <Link to="/direct-messages">
+                <Button variant="ghost" size="sm" className={`relative text-white hover:text-axanar-teal hover:bg-white/10 ${
+                  isActive('/direct-messages') ? 'bg-axanar-teal/20 text-axanar-teal' : ''
+                }`}>
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  Direct Messages
+                  {unreadCount > 0 && (
+                    <Badge 
+                      variant="destructive" 
+                      className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
+                    >
+                      {unreadCount > 9 ? '9+' : unreadCount}
+                    </Badge>
+                  )}
+                </Button>
+              </Link>
               <Link to="/messages">
                 <Button variant="ghost" size="sm" className={`text-white hover:text-axanar-teal hover:bg-white/10 ${
                   isActive('/messages') ? 'bg-axanar-teal/20 text-axanar-teal' : ''
                 }`}>
                   <MessageCircle className="h-4 w-4 mr-2" />
-                  {t('messages')}
+                  Support
                 </Button>
               </Link>
               {isAdmin && (
