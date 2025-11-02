@@ -88,6 +88,20 @@
   font-display: swap;
 }
 
+/* ============= FORUM MENTION LINKS ============= */
+.mention-link {
+  @apply font-semibold text-axanar-teal no-underline;
+  transition: all 0.2s ease;
+}
+
+.mention-link:hover {
+  @apply underline;
+}
+
+.prose .mention-link {
+  @apply text-axanar-teal;
+}
+
 @layer base {
   :root {
     /* ============= LCARS COLOR PALETTE ============= */

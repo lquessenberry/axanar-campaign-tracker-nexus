@@ -27,6 +27,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useUpdateThread, useDeleteThread } from '@/hooks/useForumThreads';
+import { ProfileHoverCard } from './ProfileHoverCard';
 
 interface ThreadCardProps {
   thread: ForumThread;
@@ -84,30 +85,41 @@ export const ThreadCard: React.FC<ThreadCardProps> = ({ thread, onLike, isLiked,
         )}
 
         <div className="p-4">
-          <Link to={`/forum/thread/${thread.id}`}>
-            <div className="flex items-start gap-4">
-              {/* Author Avatar */}
-              <div className="relative flex-shrink-0">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-axanar-teal/30 to-blue-500/30 flex items-center justify-center font-bold text-lg border-2 border-axanar-teal/50">
+          <div className="flex items-start gap-4">
+            {/* Author Avatar - Clickable */}
+            <Link to={`/u/${thread.author_username}`} className="relative flex-shrink-0">
+              <ProfileHoverCard username={thread.author_username}>
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-axanar-teal/30 to-blue-500/30 flex items-center justify-center font-bold text-lg border-2 border-axanar-teal/50 cursor-pointer hover:border-axanar-teal transition-colors">
                   {thread.author_username.charAt(0).toUpperCase()}
                 </div>
-                {thread.author_user_id && (
-                  <div className="absolute -bottom-1 -right-1">
-                    <OnlineIndicator userId={thread.author_user_id} />
-                  </div>
-                )}
-              </div>
+              </ProfileHoverCard>
+              {thread.author_user_id && (
+                <div className="absolute -bottom-1 -right-1">
+                  <OnlineIndicator userId={thread.author_user_id} />
+                </div>
+              )}
+            </Link>
 
               {/* Content */}
               <div className="flex-1 min-w-0">
                 {/* Header */}
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-lg group-hover:text-axanar-teal transition-colors line-clamp-2">
-                      {thread.title}
-                    </h3>
+                    <Link to={`/forum/thread/${thread.id}`}>
+                      <h3 className="font-bold text-lg group-hover:text-axanar-teal transition-colors line-clamp-2">
+                        {thread.title}
+                      </h3>
+                    </Link>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
-                      <span className="font-semibold text-foreground">{thread.author_username}</span>
+                      <ProfileHoverCard username={thread.author_username}>
+                        <Link 
+                          to={`/u/${thread.author_username}`}
+                          className="font-semibold text-foreground hover:text-axanar-teal transition-colors"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {thread.author_username}
+                        </Link>
+                      </ProfileHoverCard>
                       {thread.author_rank_name && (
                         <>
                           <span>•</span>
@@ -146,28 +158,29 @@ export const ThreadCard: React.FC<ThreadCardProps> = ({ thread, onLike, isLiked,
                 </div>
 
                 {/* Preview */}
-                <div 
-                  className="prose prose-sm max-w-none dark:prose-invert line-clamp-2 text-muted-foreground"
-                  dangerouslySetInnerHTML={{ 
-                    __html: sanitizeHtml(
-                      parseMentions(
-                        parseEmojis(thread.content).replace(/\n/g, ' ')
+                <Link to={`/forum/thread/${thread.id}`}>
+                  <div 
+                    className="prose prose-sm max-w-none dark:prose-invert line-clamp-2 text-muted-foreground"
+                    dangerouslySetInnerHTML={{ 
+                      __html: sanitizeHtml(
+                        parseMentions(
+                          parseEmojis(thread.content).replace(/\n/g, ' ')
+                        )
                       )
-                    )
-                  }}
-                />
-
-                {/* Image Preview */}
-                {thread.image_url && (
-                  <img 
-                    src={thread.image_url} 
-                    alt="Thread preview"
-                    className="mt-3 rounded-lg max-h-48 object-cover w-full"
+                    }}
                   />
-                )}
+
+                  {/* Image Preview */}
+                  {thread.image_url && (
+                    <img 
+                      src={thread.image_url} 
+                      alt="Thread preview"
+                      className="mt-3 rounded-lg max-h-48 object-cover w-full"
+                    />
+                  )}
+                </Link>
               </div>
             </div>
-          </Link>
 
           {/* Stats & Actions */}
           <div className="flex items-center gap-3 mt-4 pt-3 border-t border-border/30">

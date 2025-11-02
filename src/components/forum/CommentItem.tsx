@@ -7,6 +7,8 @@ import { OnlineIndicator } from './OnlineIndicator';
 import { parseEmojis } from '@/lib/forum-emojis';
 import { sanitizeHtml } from '@/utils/sanitizeHtml';
 import { parseMentions } from '@/utils/mentionParser';
+import { ProfileHoverCard } from './ProfileHoverCard';
+import { Link } from 'react-router-dom';
 
 interface CommentItemProps {
   comment: ForumComment;
@@ -35,18 +37,27 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment, onLike, isLik
       <div className="p-4">
         {/* Header */}
         <div className="flex items-center gap-3 mb-3">
-          <div className="relative">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-axanar-teal/30 to-blue-500/30 flex items-center justify-center font-bold border-2 border-axanar-teal/50">
-              {comment.author_username.charAt(0).toUpperCase()}
-            </div>
+          <Link to={`/u/${comment.author_username}`} className="relative">
+            <ProfileHoverCard username={comment.author_username}>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-axanar-teal/30 to-blue-500/30 flex items-center justify-center font-bold border-2 border-axanar-teal/50 cursor-pointer hover:border-axanar-teal transition-colors">
+                {comment.author_username.charAt(0).toUpperCase()}
+              </div>
+            </ProfileHoverCard>
             {comment.author_user_id && (
               <div className="absolute -bottom-1 -right-1">
                 <OnlineIndicator userId={comment.author_user_id} />
               </div>
             )}
-          </div>
+          </Link>
           <div className="flex-1">
-            <div className="font-semibold text-sm">{comment.author_username}</div>
+            <ProfileHoverCard username={comment.author_username}>
+              <Link 
+                to={`/u/${comment.author_username}`}
+                className="font-semibold text-sm hover:text-axanar-teal transition-colors"
+              >
+                {comment.author_username}
+              </Link>
+            </ProfileHoverCard>
             <div className="text-xs text-muted-foreground flex items-center gap-2">
               <span>{formatTimestamp(comment.created_at)}</span>
               {comment.is_edited && <span className="italic">• edited</span>}

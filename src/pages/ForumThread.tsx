@@ -13,6 +13,7 @@ import CommentItem from '@/components/forum/CommentItem';
 import { OnlineIndicator } from '@/components/forum/OnlineIndicator';
 import { OnlineUsersList } from '@/components/forum/OnlineUsersList';
 import { RecentlyActiveUsers } from '@/components/forum/RecentlyActiveUsers';
+import { ProfileHoverCard } from '@/components/forum/ProfileHoverCard';
 import { parseEmojis } from '@/lib/forum-emojis';
 import { sanitizeHtml } from '@/utils/sanitizeHtml';
 import { parseMentions } from '@/utils/mentionParser';
@@ -139,20 +140,29 @@ const ForumThread: React.FC = () => {
                 <div className="p-6">
                   {/* Header */}
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="relative">
-                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-axanar-teal/30 to-blue-500/30 flex items-center justify-center font-bold text-2xl border-2 border-axanar-teal/50 flex-shrink-0">
-                        {thread.author_username.charAt(0).toUpperCase()}
-                      </div>
+                    <Link to={`/u/${thread.author_username}`} className="relative">
+                      <ProfileHoverCard username={thread.author_username}>
+                        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-axanar-teal/30 to-blue-500/30 flex items-center justify-center font-bold text-2xl border-2 border-axanar-teal/50 flex-shrink-0 cursor-pointer hover:border-axanar-teal transition-colors">
+                          {thread.author_username.charAt(0).toUpperCase()}
+                        </div>
+                      </ProfileHoverCard>
                       {thread.author_user_id && (
                         <div className="absolute -bottom-1 -right-1">
                           <OnlineIndicator userId={thread.author_user_id} />
                         </div>
                       )}
-                    </div>
+                    </Link>
                     <div className="flex-1 min-w-0">
                       <h1 className="text-2xl font-bold mb-2">{thread.title}</h1>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <span className="font-semibold text-foreground">{thread.author_username}</span>
+                        <ProfileHoverCard username={thread.author_username}>
+                          <Link 
+                            to={`/u/${thread.author_username}`}
+                            className="font-semibold text-foreground hover:text-axanar-teal transition-colors"
+                          >
+                            {thread.author_username}
+                          </Link>
+                        </ProfileHoverCard>
                     {thread.author_rank_name && (
                       <>
                         <span>•</span>

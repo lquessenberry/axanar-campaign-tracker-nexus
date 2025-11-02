@@ -18,7 +18,10 @@ import {
 import UserSignature from './UserSignature';
 import { parseEmojis } from '@/lib/forum-emojis';
 import { sanitizeHtml } from '@/utils/sanitizeHtml';
+import { parseMentions } from '@/utils/mentionParser';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { ProfileHoverCard } from './ProfileHoverCard';
+import { Link } from 'react-router-dom';
 
 interface ForumPostProps {
   id: string;
@@ -74,24 +77,33 @@ export const ForumPost: React.FC<ForumPostProps> = ({
       <div className="flex flex-col md:flex-row">
         {/* Author Sidebar - Classic phpBB style */}
         <div className="md:w-48 bg-muted/30 border-b md:border-b-0 md:border-r border-border/50 p-4 flex md:flex-col items-center md:items-start gap-3">
-          {/* Avatar */}
-          {author.avatarUrl ? (
-            <img 
-              src={author.avatarUrl} 
-              alt={author.username}
-              className="w-16 h-16 md:w-20 md:h-20 rounded-lg border-3 border-axanar-teal/50 shadow-lg"
-            />
-          ) : (
-            <div className="w-16 h-16 md:w-20 md:h-20 rounded-lg bg-gradient-to-br from-axanar-teal/30 to-blue-500/30 flex items-center justify-center font-bold text-2xl border-3 border-axanar-teal/50">
-              {author.username.charAt(0).toUpperCase()}
-            </div>
-          )}
+          {/* Avatar - Clickable */}
+          <Link to={`/u/${author.username}`}>
+            <ProfileHoverCard username={author.username}>
+              {author.avatarUrl ? (
+                <img 
+                  src={author.avatarUrl} 
+                  alt={author.username}
+                  className="w-16 h-16 md:w-20 md:h-20 rounded-lg border-3 border-axanar-teal/50 shadow-lg cursor-pointer hover:border-axanar-teal transition-colors"
+                />
+              ) : (
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-lg bg-gradient-to-br from-axanar-teal/30 to-blue-500/30 flex items-center justify-center font-bold text-2xl border-3 border-axanar-teal/50 cursor-pointer hover:border-axanar-teal transition-colors">
+                  {author.username.charAt(0).toUpperCase()}
+                </div>
+              )}
+            </ProfileHoverCard>
+          </Link>
 
-          {/* Username */}
+          {/* Username - Clickable */}
           <div className="flex-1 md:text-center md:w-full">
-            <div className="font-bold text-sm hover:text-axanar-teal transition-colors cursor-pointer">
-              {author.username}
-            </div>
+            <ProfileHoverCard username={author.username}>
+              <Link 
+                to={`/u/${author.username}`}
+                className="font-bold text-sm hover:text-axanar-teal transition-colors cursor-pointer inline-block"
+              >
+                {author.username}
+              </Link>
+            </ProfileHoverCard>
             
             {/* Rank */}
             {author.rank && (
@@ -169,7 +181,11 @@ export const ForumPost: React.FC<ForumPostProps> = ({
           <div 
             className="prose prose-sm max-w-none dark:prose-invert"
             dangerouslySetInnerHTML={{ 
-              __html: sanitizeHtml(parseEmojis(content).replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br />'))
+              __html: sanitizeHtml(
+                parseMentions(
+                  parseEmojis(content).replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br />')
+                )
+              )
             }}
           />
 
