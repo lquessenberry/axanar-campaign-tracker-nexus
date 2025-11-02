@@ -465,6 +465,86 @@ export type Database = {
         }
         Relationships: []
       }
+      axanar_credits_reserve: {
+        Row: {
+          created_at: string | null
+          daily_budget: number
+          emergency_mode: boolean | null
+          id: string
+          notes: string | null
+          reserve_date: string
+          total_allocated: number | null
+          total_remaining: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          daily_budget?: number
+          emergency_mode?: boolean | null
+          id?: string
+          notes?: string | null
+          reserve_date: string
+          total_allocated?: number | null
+          total_remaining?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          daily_budget?: number
+          emergency_mode?: boolean | null
+          id?: string
+          notes?: string | null
+          reserve_date?: string
+          total_allocated?: number | null
+          total_remaining?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      axanar_credits_transactions: {
+        Row: {
+          amount: number
+          created_at: string | null
+          id: string
+          metadata: Json | null
+          reference_id: string | null
+          reference_table: string | null
+          source: string
+          transaction_type: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          reference_id?: string | null
+          reference_table?: string | null
+          source: string
+          transaction_type: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          reference_id?: string | null
+          reference_table?: string | null
+          source?: string
+          transaction_type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "axanar_credits_transactions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campaign_display_overrides: {
         Row: {
           campaign_id: string

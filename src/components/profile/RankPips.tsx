@@ -30,8 +30,8 @@ const getRankInfo = (totalDonated: number, xp: number, isAdmin: boolean = false)
     };
   }
 
-  // Convert donations to XP (1 USD = 10 XP)
-  const donationXP = totalDonated * 10;
+  // Convert donations to XP (1 USD = 100 AXC)
+  const donationXP = totalDonated * 100;
   const totalXP = Math.max(donationXP, xp);
 
   if (totalXP >= 250000) return { name: 'Admiral', pips: 6, pipColor: 'bg-yellow-400', bgColor: 'bg-yellow-400/20', minXP: 250000, maxXP: 999999 };
@@ -71,7 +71,7 @@ const RankPips: React.FC<RankPipsProps> = ({
   const rank = getRankInfo(totalDonated, xp, isAdmin);
   const specialTitles = getSpecialTitles(profileCompletion, xp);
   const progressToNext = rank.maxXP > rank.minXP ? 
-    ((Math.max(totalDonated * 10, xp) - rank.minXP) / (rank.maxXP - rank.minXP)) * 100 : 100;
+    ((Math.max(totalDonated * 100, xp) - rank.minXP) / (rank.maxXP - rank.minXP)) * 100 : 100;
 
   return (
     <div className={`flex flex-col gap-2 ${className}`}>
@@ -95,7 +95,7 @@ const RankPips: React.FC<RankPipsProps> = ({
         {/* XP Progress */}
         <div className="space-y-1">
           <div className="flex justify-between text-xs text-white/80">
-            <span>XP: {Math.max(totalDonated * 10, xp).toLocaleString()}</span>
+            <span>AXC: {Math.max(totalDonated * 100, xp).toLocaleString()}</span>
             {rank.maxXP > rank.minXP && (
               <span>Next: {rank.maxXP.toLocaleString()}</span>
             )}
