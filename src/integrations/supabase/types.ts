@@ -5029,8 +5029,15 @@ export type Database = {
         Args: { lookup_username: string }
         Returns: {
           avatar_url: string
+          background_url: string
+          bio: string
+          created_at: string
           display_name: string
           email: string
+          full_name: string
+          show_avatar_publicly: boolean
+          show_background_publicly: boolean
+          show_real_name_publicly: boolean
           source_type: string
           user_id: string
           username: string
