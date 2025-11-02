@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { User, Link2, Copy, Share2, Trophy, Zap, Target, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ChatButton } from "@/components/chat/ChatButton";
 import StarField from "@/components/StarField";
 import MouseTracker from "@/components/auth/MouseTracker";
 import { toast } from "sonner";
@@ -281,6 +282,13 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
             )}
             
             <div className="flex gap-2">
+              <ChatButton
+                userId={profile.id}
+                userName={displayName}
+                username={profile.username || undefined}
+                variant="outline"
+                className="border-white/40 text-white hover:bg-white/20 hover:text-white bg-transparent"
+              />
               <Button 
                 variant="outline"
                 onClick={handleShare}

@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { User, Calendar, Trophy } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useUnifiedRank } from '@/hooks/useUnifiedRank';
+import { ChatButton } from '@/components/chat/ChatButton';
 
 interface ProfileHoverCardProps {
   username: string;
@@ -98,13 +99,23 @@ export const ProfileHoverCard: React.FC<ProfileHoverCardProps> = ({ username, ch
               )}
             </div>
 
-            {/* View Profile Link */}
-            <Link 
-              to={`/u/${username}`}
-              className="block text-xs text-center py-2 px-3 bg-axanar-teal/10 hover:bg-axanar-teal/20 rounded-md transition-colors font-medium text-axanar-teal"
-            >
-              View Full Profile →
-            </Link>
+            {/* Action Buttons */}
+            <div className="flex gap-2">
+              <ChatButton
+                userId={profile.id}
+                userName={profile.full_name || username}
+                username={username}
+                variant="outline"
+                size="sm"
+                className="flex-1"
+              />
+              <Link 
+                to={`/u/${username}`}
+                className="flex-1 text-xs text-center py-2 px-3 bg-axanar-teal/10 hover:bg-axanar-teal/20 rounded-md transition-colors font-medium text-axanar-teal"
+              >
+                View Profile →
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="text-center text-sm text-muted-foreground p-4">

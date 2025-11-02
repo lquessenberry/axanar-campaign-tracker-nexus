@@ -7,8 +7,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { ChatProvider } from "@/contexts/ChatContext";
 import ThumbMenu from "@/components/ThumbMenu";
 import { GlobalPresenceTracker } from "@/components/GlobalPresenceTracker";
+import { ChatWindow } from "@/components/chat/ChatWindow";
 import Index from "./pages/Index";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
@@ -53,9 +55,10 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <AuthProvider>
-          <GlobalPresenceTracker />
-          <ErrorBoundary>
-          <Routes>
+            <ChatProvider>
+              <GlobalPresenceTracker />
+              <ErrorBoundary>
+                <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/login" element={<Auth />} />
@@ -112,8 +115,10 @@ const App = () => (
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <ChatWindow />
           </ErrorBoundary>
           <ThumbMenu />
+            </ChatProvider>
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
