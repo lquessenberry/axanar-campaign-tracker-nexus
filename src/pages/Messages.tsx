@@ -42,7 +42,7 @@ const Messages = () => {
 
 
   return (
-    <AuthGuard user={user} isAdmin={isAdmin} requiredRole="user">
+    <AuthGuard>
       <div className="min-h-screen flex flex-col">
         <Navigation />
         

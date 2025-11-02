@@ -3,20 +3,29 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { useAuth } from '@/contexts/AuthContext';
+import { Loader2 } from 'lucide-react';
 
 interface AuthGuardProps {
-  user?: any;
-  isAdmin?: boolean;
-  requiredRole?: 'user' | 'admin';
   children: React.ReactNode;
 }
 
-const AuthGuard: React.FC<AuthGuardProps> = ({ 
-  user, 
-  isAdmin = false, 
-  requiredRole = 'user', 
-  children 
-}) => {
+const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
+  const { user, loading } = useAuth();
+
+  // Show loading state while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navigation />
+        <div className="flex-grow flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   // Not authenticated
   if (!user) {
     return (
@@ -40,67 +49,7 @@ const AuthGuard: React.FC<AuthGuardProps> = ({
     );
   }
 
-  // Admin role required but user is not admin
-  if (requiredRole === 'admin' && !isAdmin) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Navigation />
-        <div className="flex-grow flex items-center justify-center">
-          <div className="text-center max-w-md mx-auto px-4">
-            <h1 className="text-2xl font-bold mb-4">Access Denied</h1>
-            <p className="text-muted-foreground mb-6">
-              You need administrator privileges to access this page.
-            </p>
-            <div className="flex gap-3 justify-center">
-              <Link to="/messages">
-                <Button variant="outline">
-                  User Messages
-                </Button>
-              </Link>
-              <Link to="/dashboard">
-                <Button>
-                  Go to Dashboard
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
-
-  // User role required but user is admin (redirect to admin interface)
-  if (requiredRole === 'user' && isAdmin) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Navigation />
-        <div className="flex-grow flex items-center justify-center">
-          <div className="text-center max-w-md mx-auto px-4">
-            <h1 className="text-2xl font-bold mb-4">Admin Dashboard Available</h1>
-            <p className="text-muted-foreground mb-6">
-              As an administrator, you can access the enhanced admin message dashboard 
-              to manage all user conversations.
-            </p>
-            <div className="flex gap-3 justify-center">
-              <Link to="/admin/messages">
-                <Button>
-                  Admin Dashboard
-                </Button>
-              </Link>
-              <Link to="/dashboard">
-                <Button variant="outline">
-                  Dashboard
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
-
+  // User is authenticated, render children
   return <>{children}</>;
 };
 
