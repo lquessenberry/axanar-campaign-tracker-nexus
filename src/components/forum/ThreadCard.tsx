@@ -220,6 +220,9 @@ export const ThreadCard: React.FC<ThreadCardProps> = ({ thread, onLike, isLiked,
             <div className="flex items-center gap-1 text-xs text-muted-foreground ml-auto">
               <Eye className="h-3 w-3" />
               {thread.view_count}
+              <span className="ml-3 px-2 py-0.5 bg-axanar-teal/10 text-axanar-teal rounded text-xs font-semibold">
+                +100 AXC
+              </span>
             </div>
           </div>
         </div>

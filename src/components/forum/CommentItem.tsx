@@ -97,6 +97,9 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment, onLike, isLik
             <Heart className={`h-4 w-4 mr-1 ${isLiked ? 'fill-current' : ''}`} />
             {comment.like_count}
           </Button>
+          <span className="ml-auto px-2 py-0.5 bg-blue-500/10 text-blue-400 rounded text-xs font-semibold">
+            +20 AXC
+          </span>
         </div>
       </div>
     </Card>
