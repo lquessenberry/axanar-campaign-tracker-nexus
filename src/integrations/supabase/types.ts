@@ -5033,6 +5033,7 @@ export type Database = {
           email: string
           source_type: string
           user_id: string
+          username: string
         }[]
       }
       get_user_leaderboard_position: {
