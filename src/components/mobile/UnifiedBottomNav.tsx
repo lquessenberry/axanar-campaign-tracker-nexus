@@ -17,7 +17,9 @@ import {
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
 import { useAdminCheck } from '@/hooks/useAdminCheck';
+import { useRealtimeMessages } from '@/hooks/useRealtimeMessages';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import AddressDialog from '@/components/profile/AddressDialog';
 import RewardsDialog from '@/components/profile/RewardsDialog';
@@ -29,15 +31,18 @@ interface UnifiedBottomNavProps {
 export function UnifiedBottomNav({ profile }: UnifiedBottomNavProps) {
   const { user, signOut } = useAuth();
   const { data: isAdmin } = useAdminCheck();
+  const { getUnreadCount } = useRealtimeMessages();
   const [isActionsOpen, setIsActionsOpen] = useState(false);
   const [addressDialogOpen, setAddressDialogOpen] = useState(false);
   const [rewardsDialogOpen, setRewardsDialogOpen] = useState(false);
 
   if (!user) return null;
 
+  const unreadCount = getUnreadCount();
+
   const primaryNavItems = [
     { label: 'Dashboard', to: '/dashboard', icon: Home },
-    { label: 'Messages', to: '/messages', icon: MessageCircle },
+    { label: 'Direct Messages', to: '/direct-messages', icon: MessageCircle, badge: unreadCount },
     { label: 'Forum', to: '/forum', icon: MessageCircle },
     { label: 'Profile', to: '/profile', icon: User },
   ];
@@ -87,7 +92,7 @@ export function UnifiedBottomNav({ profile }: UnifiedBottomNavProps) {
                 to={item.to}
                 className={({ isActive }) =>
                   cn(
-                    'flex flex-col items-center justify-center min-w-0 px-4 py-2 text-xs font-medium transition-all duration-200',
+                    'flex flex-col items-center justify-center min-w-0 px-4 py-2 text-xs font-medium transition-all duration-200 relative',
                     'hover:text-primary focus:text-primary hover:scale-105',
                     isActive
                       ? 'text-primary scale-105'
@@ -95,7 +100,17 @@ export function UnifiedBottomNav({ profile }: UnifiedBottomNavProps) {
                   )
                 }
               >
-                <item.icon className="w-6 h-6 mb-1" />
+                <div className="relative">
+                  <item.icon className="w-6 h-6 mb-1" />
+                  {item.badge && item.badge > 0 && (
+                    <Badge 
+                      variant="destructive" 
+                      className="absolute -top-2 -right-2 h-4 w-4 flex items-center justify-center p-0 text-[10px]"
+                    >
+                      {item.badge > 9 ? '9+' : item.badge}
+                    </Badge>
+                  )}
+                </div>
                 <span className="truncate">{item.label}</span>
               </NavLink>
             ))}
