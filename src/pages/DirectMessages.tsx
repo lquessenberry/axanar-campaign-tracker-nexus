@@ -107,8 +107,12 @@ const DirectMessages: React.FC = () => {
     toast.success(`Started conversation with ${userName}`);
   };
 
+  // Get messages for selected conversation - recalculates whenever conversations update
   const selectedConversation = conversations.find(c => c.partnerId === selectedConversationId);
-  const selectedMessages = selectedConversation ? getConversationMessages(selectedConversationId) : [];
+  const selectedMessages = React.useMemo(() => {
+    if (!selectedConversationId) return [];
+    return getConversationMessages(selectedConversationId);
+  }, [selectedConversationId, conversations, getConversationMessages]);
 
   return (
     <AuthGuard>
