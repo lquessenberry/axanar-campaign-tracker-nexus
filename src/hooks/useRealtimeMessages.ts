@@ -178,6 +178,24 @@ export const useRealtimeMessages = () => {
   const sendMessage = async (recipientId: string, content: string) => {
     if (!user) throw new Error('User not authenticated');
 
+    // Optimistic update - add message immediately to local state
+    const optimisticMessage: Message = {
+      id: Date.now(), // Temporary ID
+      sender_id: user.id,
+      recipient_id: recipientId,
+      content: content.trim(),
+      created_at: new Date().toISOString(),
+      is_read: false,
+      sender: messages.find(m => m.sender?.id === user.id)?.sender || {
+        id: user.id,
+        username: user.email?.split('@')[0],
+        full_name: user.user_metadata?.full_name
+      },
+      recipient: messages.find(m => m.recipient?.id === recipientId)?.recipient
+    };
+
+    setMessages(prev => [...prev, optimisticMessage]);
+
     const { error } = await supabase
       .from('messages')
       .insert({
@@ -187,7 +205,11 @@ export const useRealtimeMessages = () => {
         is_read: false
       });
 
-    if (error) throw error;
+    if (error) {
+      // Remove optimistic message on error
+      setMessages(prev => prev.filter(m => m.id !== optimisticMessage.id));
+      throw error;
+    }
   };
 
   const markAsRead = async (messageIds: number[]) => {
