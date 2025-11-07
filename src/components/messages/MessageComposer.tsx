@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -33,6 +33,13 @@ const MessageComposer: React.FC<MessageComposerProps> = ({
   const [recipientId, setRecipientId] = useState(initialRecipientId || '');
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Sync internal state with prop when it changes
+  useEffect(() => {
+    if (initialRecipientId) {
+      setRecipientId(initialRecipientId);
+    }
+  }, [initialRecipientId]);
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
