@@ -7,6 +7,7 @@ import MessageThread from '@/components/messages/MessageThread';
 import UserSelector from '@/components/messages/UserSelector';
 import { useRealtimeMessages } from '@/hooks/useRealtimeMessages';
 import { useUserPresence } from '@/hooks/useUserPresence';
+import { useMessageNotifications } from '@/hooks/useMessageNotifications';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
@@ -21,6 +22,12 @@ const DirectMessages: React.FC = () => {
   const [selectedConversationId, setSelectedConversationId] = useState<string>('');
   const [selectedUserInfo, setSelectedUserInfo] = useState<{ id: string; name: string; username?: string } | null>(null);
   const [showUserSelector, setShowUserSelector] = useState(false);
+
+  // Enable message notifications for this page
+  useMessageNotifications({
+    enabled: true,
+    activeConversationId: selectedConversationId,
+  });
 
   // Auto-select first conversation if available and none selected
   useEffect(() => {

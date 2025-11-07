@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { ChatProvider } from "@/contexts/ChatContext";
+import { useMessageNotifications } from "@/hooks/useMessageNotifications";
 import ThumbMenu from "@/components/ThumbMenu";
 import { GlobalPresenceTracker } from "@/components/GlobalPresenceTracker";
 import { ChatWindow } from "@/components/chat/ChatWindow";
@@ -47,6 +48,12 @@ import HowToEarnAXC from "./pages/HowToEarnAXC";
 
 const queryClient = new QueryClient();
 
+// Component to handle global message notifications
+const GlobalMessageNotifications = () => {
+  useMessageNotifications({ enabled: true });
+  return null;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider defaultTheme="dark">
@@ -57,6 +64,7 @@ const App = () => (
           <AuthProvider>
             <ChatProvider>
               <GlobalPresenceTracker />
+              <GlobalMessageNotifications />
               <ErrorBoundary>
                 <Routes>
             <Route path="/" element={<Index />} />
