@@ -63,9 +63,9 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log('Email validated successfully, sending support email');
 
-    // Send email to support team
+    // Send email to support team (routes to Gmail but shows axanardonors.com to users)
     const emailResponse = await resend.emails.send({
-      from: "Axanar Support <axanartech@gmail.com>",
+      from: "Axanar Support <support@axanardonors.com>",
       to: ["axanartech@gmail.com"],
       replyTo: email,
       subject: `Support Request: ${subject}`,
@@ -86,7 +86,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send confirmation email to user
     const confirmationResponse = await resend.emails.send({
-      from: "Axanar Support <axanartech@gmail.com>",
+      from: "Axanar Support <support@axanardonors.com>",
       to: [email],
       subject: "We received your support request",
       html: `
