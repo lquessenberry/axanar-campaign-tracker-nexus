@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import AuthGuard from '@/components/messages/AuthGuard';
 import RealtimeConversationList from '@/components/messages/RealtimeConversationList';
 import MessageThread from '@/components/messages/MessageThread';
 import UserSelector from '@/components/messages/UserSelector';
@@ -122,9 +121,8 @@ const DirectMessages: React.FC = () => {
   }, [selectedConversationId, conversations, getConversationMessages]);
 
   return (
-    <AuthGuard>
-      <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-background/90">
-        <Navigation />
+    <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-background/90">
+      <Navigation />
         
         <main className="container mx-auto px-4 py-8">
           <div className="max-w-7xl mx-auto">
@@ -197,9 +195,8 @@ const DirectMessages: React.FC = () => {
           </div>
         </main>
 
-        <Footer />
-      </div>
-    </AuthGuard>
+      <Footer />
+    </div>
   );
 };
 
