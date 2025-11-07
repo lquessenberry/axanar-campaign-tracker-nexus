@@ -102,7 +102,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send email using Resend
     const emailResponse = await resend.emails.send({
-      from: "Axanar <noreply@axanardonors.com>",
+      from: "Axanar <axanartech@gmail.com>",
       to: [email],
       subject: "Reset Your Axanar Account Password",
       html: `

@@ -65,8 +65,8 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send email to support team
     const emailResponse = await resend.emails.send({
-      from: "Axanar Support <support@axanardonors.com>",
-      to: ["alec@axanar.com", "lquessenberry+axanar@gmail.com"],
+      from: "Axanar Support <axanartech@gmail.com>",
+      to: ["axanartech@gmail.com"],
       replyTo: email,
       subject: `Support Request: ${subject}`,
       html: `
@@ -86,7 +86,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send confirmation email to user
     const confirmationResponse = await resend.emails.send({
-      from: "Axanar Support <support@axanardonors.com>",
+      from: "Axanar Support <axanartech@gmail.com>",
       to: [email],
       subject: "We received your support request",
       html: `

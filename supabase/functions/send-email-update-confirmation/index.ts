@@ -26,7 +26,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send confirmation to new email address
     const emailResponse = await resend.emails.send({
-      from: "Axanar Support <support@axanardonors.com>",
+      from: "Axanar Support <axanartech@gmail.com>",
       to: [newEmail],
       subject: "Email Address Updated Successfully",
       html: `
@@ -44,7 +44,7 @@ const handler = async (req: Request): Promise<Response> => {
           
           <p>Your account details, donation history, and all associated records have been merged and updated accordingly.</p>
           
-          <p>If you did not request this change or have any questions, please contact us immediately at <a href="mailto:support@axanardonors.com">support@axanardonors.com</a>.</p>
+          <p>If you did not request this change or have any questions, please contact us immediately at <a href="mailto:axanartech@gmail.com">axanartech@gmail.com</a>.</p>
           
           <p>Thank you for your continued support!</p>
           
