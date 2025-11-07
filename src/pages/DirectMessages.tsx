@@ -19,7 +19,6 @@ const DirectMessages: React.FC = () => {
   const { conversations, loading, sendMessage, markAsRead, getConversationMessages, getUnreadCount } = useRealtimeMessages();
   const { isUserOnline } = useUserPresence();
   const [selectedConversationId, setSelectedConversationId] = useState<string>('');
-  const [selectedUserInfo, setSelectedUserInfo] = useState<{ id: string; name: string; username?: string } | null>(null);
   const [showUserSelector, setShowUserSelector] = useState(false);
 
   // Enable message notifications for this page
@@ -33,11 +32,6 @@ const DirectMessages: React.FC = () => {
     if (conversations.length > 0 && !selectedConversationId) {
       const firstConversation = conversations[0];
       setSelectedConversationId(firstConversation.partnerId);
-      setSelectedUserInfo({
-        id: firstConversation.partnerId,
-        name: firstConversation.partnerName,
-        username: firstConversation.partnerUsername
-      });
     }
   }, [conversations, selectedConversationId]);
 
@@ -57,14 +51,6 @@ const DirectMessages: React.FC = () => {
 
   const handleSelectConversation = (partnerId: string) => {
     setSelectedConversationId(partnerId);
-    const conversation = conversations.find(c => c.partnerId === partnerId);
-    if (conversation) {
-      setSelectedUserInfo({
-        id: conversation.partnerId,
-        name: conversation.partnerName,
-        username: conversation.partnerUsername
-      });
-    }
     setShowUserSelector(false);
   };
 
@@ -84,32 +70,7 @@ const DirectMessages: React.FC = () => {
 
   const handleSelectUser = async (userId: string, userName: string) => {
     setSelectedConversationId(userId);
-    setSelectedUserInfo({
-      id: userId,
-      name: userName,
-      username: userName
-    });
     setShowUserSelector(false);
-    
-    // Fetch the username if we only have the name
-    try {
-      const { data } = await supabase
-        .from('profiles')
-        .select('username')
-        .eq('id', userId)
-        .single();
-      
-      if (data?.username) {
-        setSelectedUserInfo({
-          id: userId,
-          name: userName,
-          username: data.username
-        });
-      }
-    } catch (error) {
-      console.error('Error fetching username:', error);
-    }
-    
     toast.success(`Started conversation with ${userName}`);
   };
 
@@ -119,6 +80,16 @@ const DirectMessages: React.FC = () => {
     if (!selectedConversationId) return [];
     return getConversationMessages(selectedConversationId);
   }, [selectedConversationId, conversations, getConversationMessages]);
+
+  // Derive recipient info from selected conversation
+  const selectedUserInfo = React.useMemo(() => {
+    if (!selectedConversation) return null;
+    return {
+      id: selectedConversation.partnerId,
+      name: selectedConversation.partnerName,
+      username: selectedConversation.partnerUsername
+    };
+  }, [selectedConversation]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-background/90">
