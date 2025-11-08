@@ -307,7 +307,9 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navigation />
+      <div className="border-b">
+        <Navigation />
+      </div>
       
       {/* Admin viewing indicator */}
       {isViewingOtherUser && (
@@ -345,7 +347,7 @@ const Profile = () => {
       />
       
       <SidebarProvider defaultOpen>
-        <div className="flex min-h-screen w-full">
+        <div className="flex w-full">
           <ProfileSidebarNav
             activeSection={activeSection}
             onSectionChange={setActiveSection}
@@ -355,7 +357,7 @@ const Profile = () => {
           />
           
           <main className="flex-1 overflow-x-hidden">
-            <div className="sticky top-0 z-10 bg-background border-b px-4 py-3 flex items-center gap-2">
+            <div className="bg-background border-b px-4 py-3 flex items-center gap-2">
               <SidebarTrigger />
               <h2 className="text-lg font-semibold capitalize">{activeSection}</h2>
             </div>
