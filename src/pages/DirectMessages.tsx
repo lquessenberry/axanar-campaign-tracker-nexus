@@ -118,28 +118,36 @@ const DirectMessages = () => {
     priority: 'low' | 'medium' | 'high' | 'urgent';
   }) => {
     try {
-      // Get subject from first 50 chars of message
+      // Send message with optimistic update
+      await sendMessage(DEFAULT_SUPPORT_ADMIN, data.message, 'support');
+
+      // Update message metadata (priority, subject, status) - this happens in background
       const subject = data.message.length > 50 
         ? data.message.substring(0, 47) + '...'
         : data.message;
 
-      // Insert the support message with metadata
-      const { error } = await supabase
+      // Update the most recent message with support metadata
+      const { data: recentMessage } = await supabase
         .from('messages')
-        .insert({
-          sender_id: user?.id,
-          recipient_id: DEFAULT_SUPPORT_ADMIN,
-          content: data.message,
-          is_read: false,
-          category: 'support',
-          status: 'open',
-          priority: data.priority,
-          subject: subject
-        });
+        .select('id')
+        .eq('sender_id', user?.id)
+        .eq('recipient_id', DEFAULT_SUPPORT_ADMIN)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
 
-      if (error) throw error;
+      if (recentMessage) {
+        await supabase
+          .from('messages')
+          .update({
+            priority: data.priority,
+            subject: subject,
+            status: 'open'
+          })
+          .eq('id', recentMessage.id);
+      }
 
-      // Send email notification to support team
+      // Send email notification (non-blocking)
       const { data: { user: authUser } } = await supabase.auth.getUser();
       const { data: profile } = await supabase
         .from('profiles')
@@ -147,7 +155,7 @@ const DirectMessages = () => {
         .eq('id', user?.id)
         .single();
 
-      await supabase.functions.invoke('send-support-email', {
+      supabase.functions.invoke('send-support-email', {
         body: {
           name: profile?.full_name || authUser?.email?.split('@')[0] || 'User',
           email: authUser?.email || '',
@@ -155,7 +163,7 @@ const DirectMessages = () => {
           category: `${data.priority} priority`,
           message: data.message
         }
-      });
+      }).catch(console.error);
 
       toast.success('Support message sent!');
       setSelectedConversationId(DEFAULT_SUPPORT_ADMIN);
