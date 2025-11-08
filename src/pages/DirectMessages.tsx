@@ -47,26 +47,8 @@ const DirectMessages = () => {
     searchParams.get('tab') === 'support' ? 'support' : 'all'
   );
 
-  // Fetch admin users for support conversations
-  const { data: adminUsers } = useQuery({
-    queryKey: ['admin-users'],
-    queryFn: async () => {
-      const { data: profiles } = await supabase
-        .from('profiles')
-        .select('id, username, full_name')
-        .in('id', await getAdminUserIds());
-      
-      return profiles || [];
-    },
-  });
-
-  // Helper to get admin user IDs
-  const getAdminUserIds = async (): Promise<string[]> => {
-    const { data } = await supabase
-      .from('admin_users')
-      .select('user_id');
-    return data?.map(a => a.user_id) || [];
-  };
+  // Default support admin (Lee)
+  const DEFAULT_SUPPORT_ADMIN = '4862bb86-6f9b-4b7d-aa74-e4bee1d50342';
 
   // Handle tab changes from URL params
   useEffect(() => {
@@ -132,24 +114,27 @@ const DirectMessages = () => {
   };
 
   const handleCreateSupportTicket = async (data: {
-    recipientId: string;
-    subject: string;
     message: string;
     priority: 'low' | 'medium' | 'high' | 'urgent';
   }) => {
     try {
+      // Get subject from first 50 chars of message
+      const subject = data.message.length > 50 
+        ? data.message.substring(0, 47) + '...'
+        : data.message;
+
       // Insert the support message with metadata
       const { error } = await supabase
         .from('messages')
         .insert({
           sender_id: user?.id,
-          recipient_id: data.recipientId,
+          recipient_id: DEFAULT_SUPPORT_ADMIN,
           content: data.message,
           is_read: false,
           category: 'support',
           status: 'open',
           priority: data.priority,
-          subject: data.subject
+          subject: subject
         });
 
       if (error) throw error;
@@ -166,17 +151,18 @@ const DirectMessages = () => {
         body: {
           name: profile?.full_name || authUser?.email?.split('@')[0] || 'User',
           email: authUser?.email || '',
-          subject: data.subject,
+          subject: subject,
           category: `${data.priority} priority`,
           message: data.message
         }
       });
 
-      toast.success('Support ticket created successfully!');
-      setSelectedConversationId(data.recipientId);
+      toast.success('Support message sent!');
+      setSelectedConversationId(DEFAULT_SUPPORT_ADMIN);
+      setShowSupportDialog(false);
     } catch (error) {
       console.error('Error creating support ticket:', error);
-      toast.error('Failed to create support ticket');
+      toast.error('Failed to send support message');
       throw error;
     }
   };
@@ -382,7 +368,6 @@ const DirectMessages = () => {
       <SupportTicketDialog
         open={showSupportDialog}
         onOpenChange={setShowSupportDialog}
-        adminUsers={adminUsers || []}
         onSubmit={handleCreateSupportTicket}
       />
     </div>
