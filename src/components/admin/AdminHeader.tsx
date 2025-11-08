@@ -1,29 +1,74 @@
-
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import { sidebarItems } from "./adminSidebarConfig";
+import { 
+  SidebarTrigger 
+} from "@/components/ui/sidebar";
+import { 
+  Home,
+  Users,
+  BarChart3,
+  Gift,
+  Activity,
+  MessageCircle,
+  FolderOpen,
+  UserCog,
+  Settings,
+  LucideIcon
+} from "lucide-react";
 
 interface AdminHeaderProps {
   activeSection: string;
 }
 
-const AdminHeader = ({ activeSection }: AdminHeaderProps) => {
-  const getSectionDescription = (section: string) => {
-    const descriptions = {
-      overview: "Welcome to your admin dashboard",
-      donors: "Manage and view all donors",
-      pledges: "View and manage campaign pledges",
-      rewards: "Create and manage rewards",
-      campaigns: "Monitor campaign performance",
-      admins: "Manage admin users",
-      notifications: "System notifications",
-      reports: "Analytics and reports",
-      settings: "Platform configuration"
-    };
-    return descriptions[section as keyof typeof descriptions] || "";
-  };
+const sectionConfig: Record<string, { icon: LucideIcon; label: string; description: string }> = {
+  overview: {
+    icon: Home,
+    label: "Dashboard",
+    description: "Welcome to your admin dashboard"
+  },
+  "donor-management": {
+    icon: Users,
+    label: "Donor Management",
+    description: "Manage and view all donors"
+  },
+  campaigns: {
+    icon: BarChart3,
+    label: "Campaigns",
+    description: "Monitor campaign performance"
+  },
+  rewards: {
+    icon: Gift,
+    label: "Rewards & Benefits",
+    description: "Create and manage rewards"
+  },
+  analytics: {
+    icon: Activity,
+    label: "Visitor Analytics",
+    description: "Analytics and reports"
+  },
+  messages: {
+    icon: MessageCircle,
+    label: "Messages",
+    description: "Admin message center"
+  },
+  "media-files": {
+    icon: FolderOpen,
+    label: "Media & Files",
+    description: "Manage media assets"
+  },
+  admins: {
+    icon: UserCog,
+    label: "Admin Users",
+    description: "Manage admin users"
+  },
+  settings: {
+    icon: Settings,
+    label: "Settings",
+    description: "Platform configuration"
+  }
+};
 
-  const currentSection = sidebarItems.find(item => item.id === activeSection);
-  const CurrentIcon = currentSection?.icon;
+const AdminHeader = ({ activeSection }: AdminHeaderProps) => {
+  const currentSection = sectionConfig[activeSection] || sectionConfig.overview;
+  const CurrentIcon = currentSection.icon;
 
   return (
     <div className="mb-8 flex items-start gap-6">
@@ -31,18 +76,16 @@ const AdminHeader = ({ activeSection }: AdminHeaderProps) => {
         <div className="p-3 bg-primary/10 rounded-xl border border-primary/20">
           <SidebarTrigger className="h-8 w-8 text-primary" />
         </div>
-        {CurrentIcon && (
-          <div className="p-3 bg-primary/10 rounded-xl border border-primary/20">
-            <CurrentIcon className="h-8 w-8 text-primary" />
-          </div>
-        )}
+        <div className="p-3 bg-primary/10 rounded-xl border border-primary/20">
+          <CurrentIcon className="h-8 w-8 text-primary" />
+        </div>
       </div>
       <div className="flex-1">
-      <h1 className="text-4xl font-bold tracking-tight mb-2">
-        PATRON DATABANK NEXUS
-      </h1>
+        <h1 className="text-4xl font-bold tracking-tight mb-2">
+          PATRON DATABANK NEXUS
+        </h1>
         <p className="text-muted-foreground text-lg">
-          {getSectionDescription(activeSection)}
+          {currentSection.description}
         </p>
       </div>
     </div>

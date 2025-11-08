@@ -10,9 +10,12 @@ import {
   Trophy,
   Sparkles,
   Home,
-  Users
+  Users,
+  BarChart3,
+  UserCog,
+  FolderOpen
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -43,48 +46,115 @@ const navigationLinks = [
   { title: "Rewards", path: "/how-to-earn-ares", icon: Sparkles },
 ];
 
+const adminSections = [
+  { title: "Dashboard", value: "overview", path: "/admin/dashboard", icon: Home },
+  { title: "Donor Management", value: "donor-management", path: "/admin/dashboard?section=donor-management", icon: Users },
+  { title: "Campaigns", value: "campaigns", path: "/admin/dashboard?section=campaigns", icon: BarChart3 },
+  { title: "Rewards", value: "rewards", path: "/admin/dashboard?section=rewards", icon: Gift },
+  { title: "Analytics", value: "analytics", path: "/admin/analytics", icon: Activity },
+  { title: "Messages", value: "messages", path: "/admin/dashboard?section=messages", icon: MessageCircle },
+  { title: "Media & Files", value: "media-files", path: "/admin/dashboard?section=media-files", icon: FolderOpen },
+  { title: "Admin Users", value: "admins", path: "/admin/dashboard?section=admins", icon: UserCog },
+  { title: "Settings", value: "settings", path: "/admin/dashboard?section=settings", icon: Settings },
+];
+
 interface ProfileSidebarNavProps {
-  activeSection: string;
-  onSectionChange: (section: string) => void;
+  activeSection?: string;
+  onSectionChange?: (section: string) => void;
   onSignOut: () => void;
+  isAdmin?: boolean;
+  isAdminContext?: boolean;
 }
 
 export function ProfileSidebarNav({ 
-  activeSection, 
+  activeSection = '',
   onSectionChange,
-  onSignOut 
+  onSignOut,
+  isAdmin = false,
+  isAdminContext = false
 }: ProfileSidebarNavProps) {
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleAdminSectionClick = (section: { value: string; path: string }) => {
+    if (section.path) {
+      navigate(section.path);
+    }
+  };
+
+  const isAdminSectionActive = (section: { value: string; path: string }) => {
+    if (section.path === location.pathname) return true;
+    if (section.path.includes('?section=')) {
+      const sectionParam = new URLSearchParams(location.search).get('section');
+      return sectionParam === section.value;
+    }
+    return false;
+  };
 
   return (
     <Sidebar className={isCollapsed ? "w-14" : "w-64"}>
       <SidebarContent className="flex flex-col h-full">
-        {/* Profile Sections */}
-        <SidebarGroup>
-          <SidebarGroupLabel className={isCollapsed ? "sr-only" : ""}>
-            Profile
-          </SidebarGroupLabel>
-          
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {profileSections.map((section) => (
-                <SidebarMenuItem key={section.value}>
-                  <SidebarMenuButton
-                    onClick={() => onSectionChange(section.value)}
-                    isActive={activeSection === section.value}
-                    className="hover:bg-muted/50 data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-semibold"
-                  >
-                    <section.icon className="h-4 w-4" />
-                    {!isCollapsed && <span>{section.title}</span>}
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {/* Profile Sections - Only show when not in admin context */}
+        {!isAdminContext && (
+          <>
+            <SidebarGroup>
+              <SidebarGroupLabel className={isCollapsed ? "sr-only" : ""}>
+                Profile
+              </SidebarGroupLabel>
+              
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {profileSections.map((section) => (
+                    <SidebarMenuItem key={section.value}>
+                      <SidebarMenuButton
+                        onClick={() => onSectionChange?.(section.value)}
+                        isActive={activeSection === section.value}
+                        className="hover:bg-muted/50 data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-semibold"
+                      >
+                        <section.icon className="h-4 w-4" />
+                        {!isCollapsed && <span>{section.title}</span>}
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
 
-        <Separator className="my-2" />
+            <Separator className="my-2" />
+          </>
+        )}
+
+        {/* Admin Sections - Only show when user is admin */}
+        {isAdmin && (
+          <>
+            <SidebarGroup>
+              <SidebarGroupLabel className={isCollapsed ? "sr-only" : ""}>
+                Admin
+              </SidebarGroupLabel>
+              
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {adminSections.map((section) => (
+                    <SidebarMenuItem key={section.value}>
+                      <SidebarMenuButton
+                        onClick={() => handleAdminSectionClick(section)}
+                        isActive={isAdminSectionActive(section)}
+                        className="hover:bg-muted/50 data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-semibold"
+                      >
+                        <section.icon className="h-4 w-4" />
+                        {!isCollapsed && <span>{section.title}</span>}
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+
+            <Separator className="my-2" />
+          </>
+        )}
 
         {/* Navigation Links */}
         <SidebarGroup>

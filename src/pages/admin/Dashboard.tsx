@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Navigation from "@/components/Navigation";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import AdminSidebar from "@/components/admin/AdminSidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { ProfileSidebarNav } from "@/components/profile/ProfileSidebarNav";
 import AdminHeader from "@/components/admin/AdminHeader";
 import AdminOverview from "@/components/admin/AdminOverview";
 import AdminRewardsSection from "@/components/admin/AdminRewardsSection";
@@ -12,14 +13,37 @@ import MediaFiles from "./MediaFiles";
 import CampaignsWithPledges from "./CampaignsWithPledges";
 import Settings from "./Settings";
 import { MessageCircle } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Dashboard = () => {
-  const [activeSection, setActiveSection] = useState("overview");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const sectionParam = searchParams.get('section');
+  const [activeSection, setActiveSection] = useState(sectionParam || "overview");
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
+
+  // Update active section when URL parameter changes
+  useEffect(() => {
+    if (sectionParam) {
+      setActiveSection(sectionParam);
+    }
+  }, [sectionParam]);
+
+  // Update URL when section changes
+  const handleSectionChange = (section: string) => {
+    setActiveSection(section);
+    setSearchParams({ section });
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
 
   const renderContent = () => {
     switch (activeSection) {
       case "overview":
-        return <AdminOverview onSectionChange={setActiveSection} />;
+        return <AdminOverview onSectionChange={handleSectionChange} />;
       case "donor-management":
         return <DonorManagement />;
       case "campaigns":
@@ -35,7 +59,7 @@ const Dashboard = () => {
       case "settings":
         return <Settings />;
       default:
-        return <AdminOverview onSectionChange={setActiveSection} />;
+        return <AdminOverview onSectionChange={handleSectionChange} />;
     }
   };
 
@@ -47,34 +71,35 @@ const Dashboard = () => {
       </div>
       
       {/* Full Height Admin Interface */}
-      <div className="flex flex-1 min-h-0">
-        <SidebarProvider>
-          {/* Enhanced Admin Sidebar - Fixed positioning */}
-          <div className="relative">
-            <AdminSidebar
-              activeSection={activeSection}
-              onSectionChange={setActiveSection}
-            />
-          </div>
+      <SidebarProvider defaultOpen>
+        <div className="flex min-h-screen w-full">
+          <ProfileSidebarNav
+            onSignOut={handleSignOut}
+            isAdmin={true}
+            isAdminContext={true}
+          />
           
           {/* Main Content Area */}
-          <div className="flex-1 flex flex-col min-w-0 bg-background">
-            <div className="flex-1 overflow-auto">
-              <div className="p-6">
-                <AdminHeader activeSection={activeSection} />
-                {renderContent()}
-              </div>
+          <main className="flex-1 overflow-x-hidden">
+            <div className="sticky top-0 z-10 bg-background border-b px-4 py-3 flex items-center gap-2">
+              <SidebarTrigger />
+              <h2 className="text-lg font-semibold">Admin Dashboard</h2>
             </div>
             
-            {/* Inline Footer - Stays within content area */}
+            <div className="p-6">
+              <AdminHeader activeSection={activeSection} />
+              {renderContent()}
+            </div>
+            
+            {/* Inline Footer */}
             <div className="border-t bg-muted/30 px-6 py-4">
               <div className="text-sm text-muted-foreground text-center">
                 © 2025 AXANAR Admin Dashboard. All rights reserved.
               </div>
             </div>
-          </div>
-        </SidebarProvider>
-      </div>
+          </main>
+        </div>
+      </SidebarProvider>
     </div>
   );
 };

@@ -350,6 +350,8 @@ const Profile = () => {
             activeSection={activeSection}
             onSectionChange={setActiveSection}
             onSignOut={handleSignOut}
+            isAdmin={isAdmin}
+            isAdminContext={false}
           />
           
           <main className="flex-1 overflow-x-hidden">
