@@ -72,7 +72,7 @@ const Dashboard = () => {
       
       {/* Full Height Admin Interface */}
       <SidebarProvider defaultOpen>
-        <div className="flex min-h-screen w-full">
+        <div className="flex w-full">
           <ProfileSidebarNav
             onSignOut={handleSignOut}
             isAdmin={true}
@@ -81,7 +81,7 @@ const Dashboard = () => {
           
           {/* Main Content Area */}
           <main className="flex-1 overflow-x-hidden">
-            <div className="sticky top-0 z-10 bg-background border-b px-4 py-3 flex items-center gap-2">
+            <div className="bg-background border-b px-4 py-3 flex items-center gap-2">
               <SidebarTrigger />
               <h2 className="text-lg font-semibold">Admin Dashboard</h2>
             </div>
