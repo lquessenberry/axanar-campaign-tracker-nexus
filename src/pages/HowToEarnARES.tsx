@@ -85,6 +85,58 @@ const HowToEarnARES = () => {
             </CardContent>
           </Card>
 
+          {/* Cash-Funded ARES (Future) */}
+          <Card className="border-2 border-green-500/30 hover:border-green-500/50 transition-colors">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Gift className="h-5 w-5 text-green-500" />
+                Direct Purchase (Coming Soon)
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="bg-green-500/10 p-4 rounded-lg border border-green-500/20">
+                <p className="text-sm text-muted-foreground mb-3">
+                  <strong className="text-green-400">Currently:</strong> All ARES conversions are retroactive—
+                  we&apos;ve credited your historical donations from 2014 onwards. There is no active payment 
+                  processor yet for new ARES purchases.
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  <strong className="text-green-400">Coming Soon:</strong> You&apos;ll be able to purchase ARES 
+                  directly with USD through a secure payment processor, instantly boosting your rank and unlocking perks.
+                </p>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="p-3 bg-background/60 rounded-lg">
+                  <p className="font-semibold text-sm mb-1">Instant Conversion</p>
+                  <p className="text-xs text-muted-foreground">
+                    Pay with credit card, PayPal, or crypto—ARES appears in your account immediately at 
+                    the standard $1 = 100 ARES rate
+                  </p>
+                </div>
+                <div className="p-3 bg-background/60 rounded-lg">
+                  <p className="font-semibold text-sm mb-1">Flexible Amounts</p>
+                  <p className="text-xs text-muted-foreground">
+                    Buy any amount from $10 minimum upward—no need to wait for campaign launches 
+                    to support the project and earn rank
+                  </p>
+                </div>
+                <div className="p-3 bg-background/60 rounded-lg">
+                  <p className="font-semibold text-sm mb-1">Same Recognition</p>
+                  <p className="text-xs text-muted-foreground">
+                    Purchased ARES counts exactly the same as campaign pledges—no second-class status, 
+                    just pure support converted to rank
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-xs text-muted-foreground italic">
+                * Payment processing will be announced when available. Your historical pledges are already 
+                fully credited at 100 ARES per dollar.
+              </p>
+            </CardContent>
+          </Card>
+
           {/* Participation Path */}
           <Card className="border-2 border-blue-500/30 hover:border-blue-500/50 transition-colors">
             <CardHeader>
@@ -487,6 +539,58 @@ const HowToEarnARES = () => {
                     All moderation actions—warnings, stake slashing, bans—are recorded on-chain with clear 
                     reasoning. This transparency prevents abuse of power while allowing swift action against 
                     genuine toxicity.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-lg mb-3">The Economics of Down-Voting: Everyone Pays</h4>
+              <div className="bg-gradient-to-br from-orange-500/10 to-red-500/10 p-5 rounded-lg border border-orange-500/20 mb-4">
+                <p className="text-sm text-muted-foreground mb-4">
+                  Down-voting isn&apos;t free—it creates economic friction that discourages both trolling and 
+                  abuse of the down-vote system itself. When you down-vote someone, <strong>both parties pay a cost</strong>.
+                </p>
+                
+                <div className="space-y-3">
+                  <div className="bg-background/60 p-4 rounded-lg border-l-4 border-red-500">
+                    <p className="font-bold text-red-400 mb-2">Cost to the Person Being Down-Voted</p>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      <li>• Loses potential ARES from that post/comment</li>
+                      <li>• Multiple down-votes reduce visibility of future posts</li>
+                      <li>• Pattern of down-votes may trigger review for stake slashing</li>
+                      <li>• Reputation score decreases, reducing governance weight</li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-background/60 p-4 rounded-lg border-l-4 border-orange-500">
+                    <p className="font-bold text-orange-400 mb-2">Cost to the Person Down-Voting</p>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      <li>• Costs a small amount of your own ARES to cast (prevents spam down-voting)</li>
+                      <li>• If community consensus disagrees, you may lose more ARES</li>
+                      <li>• Pattern of contrarian down-votes reduces your moderation weight</li>
+                      <li>• Wrongful down-voting can trigger counter-penalties</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="p-4 bg-background/60 rounded-lg">
+                  <h5 className="font-semibold mb-2 text-green-400">Why This Works Against Trolls</h5>
+                  <p className="text-sm text-muted-foreground">
+                    Trolls post inflammatory content hoping for reactions. But when down-voting costs ARES, 
+                    the community doesn&apos;t engage cheaply with obvious bait. Trolls lose potential earnings 
+                    from their posts while the community conserves resources for legitimate moderation.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-background/60 rounded-lg">
+                  <h5 className="font-semibold mb-2 text-blue-400">Why This Prevents Down-Vote Abuse</h5>
+                  <p className="text-sm text-muted-foreground">
+                    Because down-voting costs you ARES too, people think twice before clicking. You won&apos;t 
+                    down-vote just because you disagree—only for genuine rule violations or toxic behavior. 
+                    This prevents down-vote brigading and mob mentality.
                   </p>
                 </div>
               </div>
