@@ -154,6 +154,24 @@ const DirectMessages = () => {
 
       if (error) throw error;
 
+      // Send email notification to support team
+      const { data: { user: authUser } } = await supabase.auth.getUser();
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('full_name')
+        .eq('id', user?.id)
+        .single();
+
+      await supabase.functions.invoke('send-support-email', {
+        body: {
+          name: profile?.full_name || authUser?.email?.split('@')[0] || 'User',
+          email: authUser?.email || '',
+          subject: data.subject,
+          category: `${data.priority} priority`,
+          message: data.message
+        }
+      });
+
       toast.success('Support ticket created successfully!');
       setSelectedConversationId(data.recipientId);
     } catch (error) {
