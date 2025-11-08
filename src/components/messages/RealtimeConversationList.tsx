@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { MessageCircle, Plus } from 'lucide-react';
+import { MessageCircle, Plus, Shield, AlertCircle, Clock, CheckCircle } from 'lucide-react';
 import { useUserPresence } from '@/hooks/useUserPresence';
 import { formatMessageDate, getInitials } from '@/utils/messageUtils';
 import { cn } from '@/lib/utils';
@@ -24,6 +24,11 @@ interface Conversation {
   unreadCount: number;
   lastMessage?: string;
   lastMessageTime?: string;
+  category?: 'direct' | 'support';
+  isWithAdmin?: boolean;
+  status?: 'open' | 'in_progress' | 'resolved';
+  priority?: 'low' | 'medium' | 'high' | 'urgent';
+  subject?: string;
 }
 
 interface RealtimeConversationListProps {
@@ -138,19 +143,33 @@ const RealtimeConversationList: React.FC<RealtimeConversationListProps> = ({
                     </div>
 
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between">
-                        <h4 className={cn(
-                          "font-medium text-sm truncate",
-                          hasUnread && "font-semibold"
-                        )}>
-                          {conversation.partnerName}
-                        </h4>
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <h4 className={cn(
+                            "font-medium text-sm truncate",
+                            hasUnread && "font-semibold"
+                          )}>
+                            {conversation.partnerName}
+                          </h4>
+                          {conversation.isWithAdmin && (
+                            <Badge variant="secondary" className="h-5 px-1.5 shrink-0">
+                              <Shield className="h-3 w-3" />
+                            </Badge>
+                          )}
+                        </div>
                         {conversation.lastMessageTime && (
                           <span className="text-xs text-muted-foreground shrink-0">
                             {formatMessageDate(conversation.lastMessageTime)}
                           </span>
                         )}
                       </div>
+
+                      {/* Subject line for support tickets */}
+                      {conversation.category === 'support' && conversation.subject && (
+                        <p className="text-xs font-medium text-foreground truncate mt-1">
+                          {conversation.subject}
+                        </p>
+                      )}
 
                       <div className="flex items-center justify-between mt-1">
                         <p className={cn(
@@ -166,9 +185,49 @@ const RealtimeConversationList: React.FC<RealtimeConversationListProps> = ({
                         )}
                       </div>
                       
-                      {isOnline && (
-                        <p className="text-xs text-green-600 mt-1">Online</p>
-                      )}
+                      {/* Status and Priority badges for support tickets */}
+                      <div className="flex items-center gap-2 mt-2">
+                        {isOnline && (
+                          <Badge variant="outline" className="text-xs h-5 px-1.5 border-green-500 text-green-600">
+                            Online
+                          </Badge>
+                        )}
+                        
+                        {conversation.category === 'support' && (
+                          <>
+                            <Badge 
+                              variant="outline" 
+                              className={cn(
+                                "text-xs h-5 px-1.5 gap-1",
+                                conversation.status === 'open' && "border-blue-500 text-blue-600",
+                                conversation.status === 'in_progress' && "border-amber-500 text-amber-600",
+                                conversation.status === 'resolved' && "border-green-500 text-green-600"
+                              )}
+                            >
+                              {conversation.status === 'open' && <AlertCircle className="h-3 w-3" />}
+                              {conversation.status === 'in_progress' && <Clock className="h-3 w-3" />}
+                              {conversation.status === 'resolved' && <CheckCircle className="h-3 w-3" />}
+                              {conversation.status === 'open' ? 'Open' : 
+                               conversation.status === 'in_progress' ? 'In Progress' : 'Resolved'}
+                            </Badge>
+                            
+                            {conversation.priority && conversation.priority !== 'medium' && (
+                              <Badge 
+                                variant="outline"
+                                className={cn(
+                                  "text-xs h-5 px-1.5",
+                                  conversation.priority === 'urgent' && "border-red-500 text-red-600 font-semibold",
+                                  conversation.priority === 'high' && "border-orange-500 text-orange-600",
+                                  conversation.priority === 'low' && "border-gray-500 text-gray-600"
+                                )}
+                              >
+                                {conversation.priority === 'urgent' ? 'URGENT' :
+                                 conversation.priority === 'high' ? 'High' : 'Low'}
+                              </Badge>
+                            )}
+                          </>
+                        )}
+                      </div>
                     </div>
                   </div>
                 );

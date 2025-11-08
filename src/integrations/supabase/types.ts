@@ -2172,8 +2172,11 @@ export type Database = {
           created_at: string | null
           id: number
           is_read: boolean | null
+          priority: string | null
           recipient_id: string
           sender_id: string
+          status: string | null
+          subject: string | null
         }
         Insert: {
           category?: string | null
@@ -2181,8 +2184,11 @@ export type Database = {
           created_at?: string | null
           id?: number
           is_read?: boolean | null
+          priority?: string | null
           recipient_id: string
           sender_id: string
+          status?: string | null
+          subject?: string | null
         }
         Update: {
           category?: string | null
@@ -2190,8 +2196,11 @@ export type Database = {
           created_at?: string | null
           id?: number
           is_read?: boolean | null
+          priority?: string | null
           recipient_id?: string
           sender_id?: string
+          status?: string | null
+          subject?: string | null
         }
         Relationships: []
       }

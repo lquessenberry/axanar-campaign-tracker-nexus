@@ -10,6 +10,9 @@ interface Message {
   created_at: string;
   is_read: boolean;
   category?: 'direct' | 'support';
+  status?: 'open' | 'in_progress' | 'resolved';
+  priority?: 'low' | 'medium' | 'high' | 'urgent';
+  subject?: string;
   sender?: {
     id: string;
     username?: string;
@@ -34,6 +37,9 @@ interface Conversation {
   lastMessageTime?: string;
   category: 'direct' | 'support';
   isWithAdmin: boolean;
+  status?: 'open' | 'in_progress' | 'resolved';
+  priority?: 'low' | 'medium' | 'high' | 'urgent';
+  subject?: string;
 }
 
 export const useRealtimeMessages = () => {
@@ -89,6 +95,8 @@ export const useRealtimeMessages = () => {
           const messagesWithProfiles = data.map(msg => ({
             ...msg,
             category: msg.category as 'direct' | 'support' | undefined,
+            status: msg.status as 'open' | 'in_progress' | 'resolved' | undefined,
+            priority: msg.priority as 'low' | 'medium' | 'high' | 'urgent' | undefined,
             sender: profileMap.get(msg.sender_id),
             recipient: profileMap.get(msg.recipient_id)
           }));
@@ -173,7 +181,10 @@ export const useRealtimeMessages = () => {
           lastMessage: message.content,
           lastMessageTime: message.created_at,
           category: messageCategory,
-          isWithAdmin
+          isWithAdmin,
+          status: message.status || 'open',
+          priority: message.priority || 'medium',
+          subject: message.subject
         });
       }
 
@@ -181,6 +192,10 @@ export const useRealtimeMessages = () => {
       conversation.messages.push(message);
       conversation.lastMessage = message.content;
       conversation.lastMessageTime = message.created_at;
+      // Update status and priority to the latest message values
+      if (message.status) conversation.status = message.status;
+      if (message.priority) conversation.priority = message.priority;
+      if (message.subject) conversation.subject = message.subject;
 
       // Count unread messages from partner
       if (!isFromCurrentUser && !message.is_read) {

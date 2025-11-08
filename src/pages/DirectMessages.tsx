@@ -16,7 +16,8 @@ import UserSelector from '@/components/messages/UserSelector';
 import { OnlineUsersList } from '@/components/forum/OnlineUsersList';
 import { RecentlyActiveUsers } from '@/components/forum/RecentlyActiveUsers';
 import { toast } from 'sonner';
-import { MessageCircle, HelpCircle } from 'lucide-react';
+import { MessageCircle, HelpCircle, Plus } from 'lucide-react';
+import SupportTicketDialog from '@/components/messages/SupportTicketDialog';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -41,6 +42,7 @@ const DirectMessages = () => {
   
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
   const [showUserSelector, setShowUserSelector] = useState(false);
+  const [showSupportDialog, setShowSupportDialog] = useState(false);
   const [activeTab, setActiveTab] = useState<'all' | 'support'>(
     searchParams.get('tab') === 'support' ? 'support' : 'all'
   );
@@ -126,7 +128,39 @@ const DirectMessages = () => {
 
   const handleStartSupportConversation = () => {
     setActiveTab('support');
-    setShowUserSelector(true);
+    setShowSupportDialog(true);
+  };
+
+  const handleCreateSupportTicket = async (data: {
+    recipientId: string;
+    subject: string;
+    message: string;
+    priority: 'low' | 'medium' | 'high' | 'urgent';
+  }) => {
+    try {
+      // Insert the support message with metadata
+      const { error } = await supabase
+        .from('messages')
+        .insert({
+          sender_id: user?.id,
+          recipient_id: data.recipientId,
+          content: data.message,
+          is_read: false,
+          category: 'support',
+          status: 'open',
+          priority: data.priority,
+          subject: data.subject
+        });
+
+      if (error) throw error;
+
+      toast.success('Support ticket created successfully!');
+      setSelectedConversationId(data.recipientId);
+    } catch (error) {
+      console.error('Error creating support ticket:', error);
+      toast.error('Failed to create support ticket');
+      throw error;
+    }
   };
 
   const handleSelectUser = (userId: string, userName: string) => {
@@ -169,22 +203,43 @@ const DirectMessages = () => {
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <MessageCircle className="h-8 w-8 text-primary" />
+                {activeTab === 'support' ? (
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <HelpCircle className="h-6 w-6 text-primary" />
+                  </div>
+                ) : (
+                  <MessageCircle className="h-8 w-8 text-primary" />
+                )}
                 <div>
-                  <h1 className="text-3xl font-bold">Messages</h1>
+                  <h1 className="text-3xl font-bold">
+                    {activeTab === 'support' ? 'Support Center' : 'Messages'}
+                  </h1>
                   <p className="text-muted-foreground mt-1">
-                    Connect with users and get support from our team
+                    {activeTab === 'support' 
+                      ? 'Get help from our admin team - we typically respond within 24 hours'
+                      : 'Connect with other users in the community'}
                   </p>
                 </div>
               </div>
-              <Button 
-                onClick={handleStartSupportConversation}
-                variant="outline"
-                className="gap-2"
-              >
-                <HelpCircle className="h-4 w-4" />
-                Contact Support
-              </Button>
+              {activeTab === 'all' && (
+                <Button 
+                  onClick={handleStartSupportConversation}
+                  variant="outline"
+                  className="gap-2"
+                >
+                  <HelpCircle className="h-4 w-4" />
+                  Contact Support
+                </Button>
+              )}
+              {activeTab === 'support' && (
+                <Button 
+                  onClick={handleStartSupportConversation}
+                  className="gap-2"
+                >
+                  <Plus className="h-4 w-4" />
+                  New Support Ticket
+                </Button>
+              )}
             </div>
           </div>
         </section>
@@ -304,6 +359,14 @@ const DirectMessages = () => {
       </main>
 
       <Footer />
+      
+      {/* Support Ticket Dialog */}
+      <SupportTicketDialog
+        open={showSupportDialog}
+        onOpenChange={setShowSupportDialog}
+        adminUsers={adminUsers || []}
+        onSubmit={handleCreateSupportTicket}
+      />
     </div>
   );
 };
