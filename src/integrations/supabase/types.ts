@@ -2167,6 +2167,7 @@ export type Database = {
       }
       messages: {
         Row: {
+          category: string | null
           content: string
           created_at: string | null
           id: number
@@ -2175,6 +2176,7 @@ export type Database = {
           sender_id: string
         }
         Insert: {
+          category?: string | null
           content: string
           created_at?: string | null
           id?: number
@@ -2183,6 +2185,7 @@ export type Database = {
           sender_id: string
         }
         Update: {
+          category?: string | null
           content?: string
           created_at?: string | null
           id?: number
@@ -5222,6 +5225,10 @@ export type Database = {
         }[]
       }
       is_admin: { Args: { check_user_id: string }; Returns: boolean }
+      is_message_to_admin: {
+        Args: { recipient_user_id: string }
+        Returns: boolean
+      }
       is_super_admin: { Args: never; Returns: boolean }
       link_donor_to_auth_user: {
         Args: { donor_email: string }

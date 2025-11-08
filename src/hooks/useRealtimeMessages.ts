@@ -9,15 +9,18 @@ interface Message {
   content: string;
   created_at: string;
   is_read: boolean;
+  category?: 'direct' | 'support';
   sender?: {
     id: string;
     username?: string;
     full_name?: string;
+    is_admin?: boolean;
   };
   recipient?: {
     id: string;
     username?: string;
     full_name?: string;
+    is_admin?: boolean;
   };
 }
 
@@ -29,6 +32,8 @@ interface Conversation {
   unreadCount: number;
   lastMessage?: string;
   lastMessageTime?: string;
+  category: 'direct' | 'support';
+  isWithAdmin: boolean;
 }
 
 export const useRealtimeMessages = () => {
@@ -69,10 +74,21 @@ export const useRealtimeMessages = () => {
             .select('id, username, full_name')
             .in('id', userIds);
 
-          const profileMap = new Map(profiles?.map(p => [p.id, p]) || []);
+          // Fetch admin status
+          const { data: adminUsers } = await supabase
+            .from('admin_users')
+            .select('user_id')
+            .in('user_id', userIds);
+          
+          const adminSet = new Set(adminUsers?.map(a => a.user_id) || []);
+          
+          const profileMap = new Map(
+            profiles?.map(p => [p.id, { ...p, is_admin: adminSet.has(p.id) }]) || []
+          );
 
           const messagesWithProfiles = data.map(msg => ({
             ...msg,
+            category: msg.category as 'direct' | 'support' | undefined,
             sender: profileMap.get(msg.sender_id),
             recipient: profileMap.get(msg.recipient_id)
           }));
@@ -144,6 +160,8 @@ export const useRealtimeMessages = () => {
       const isFromCurrentUser = message.sender_id === user.id;
       const partnerId = isFromCurrentUser ? message.recipient_id : message.sender_id;
       const partner = isFromCurrentUser ? message.recipient : message.sender;
+      const isWithAdmin = partner?.is_admin || false;
+      const messageCategory = message.category || (isWithAdmin ? 'support' : 'direct');
 
       if (!conversationMap.has(partnerId)) {
         conversationMap.set(partnerId, {
@@ -153,7 +171,9 @@ export const useRealtimeMessages = () => {
           messages: [],
           unreadCount: 0,
           lastMessage: message.content,
-          lastMessageTime: message.created_at
+          lastMessageTime: message.created_at,
+          category: messageCategory,
+          isWithAdmin
         });
       }
 
@@ -175,8 +195,16 @@ export const useRealtimeMessages = () => {
     setConversations(conversationsArray);
   }, [messages, user]);
 
-  const sendMessage = async (recipientId: string, content: string) => {
+  const sendMessage = async (recipientId: string, content: string, category?: 'direct' | 'support') => {
     if (!user) throw new Error('User not authenticated');
+
+    // Determine category if not provided
+    let messageCategory = category;
+    if (!messageCategory) {
+      const recipient = messages.find(m => m.recipient?.id === recipientId)?.recipient ||
+                       messages.find(m => m.sender?.id === recipientId)?.sender;
+      messageCategory = recipient?.is_admin ? 'support' : 'direct';
+    }
 
     // Optimistic update - add message immediately to local state
     const optimisticMessage: Message = {
@@ -186,6 +214,7 @@ export const useRealtimeMessages = () => {
       content: content.trim(),
       created_at: new Date().toISOString(),
       is_read: false,
+      category: messageCategory,
       sender: messages.find(m => m.sender?.id === user.id)?.sender || {
         id: user.id,
         username: user.email?.split('@')[0],
@@ -202,7 +231,8 @@ export const useRealtimeMessages = () => {
         sender_id: user.id,
         recipient_id: recipientId,
         content: content.trim(),
-        is_read: false
+        is_read: false,
+        category: messageCategory
       });
 
     if (error) {
