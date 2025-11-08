@@ -4,6 +4,8 @@ import Footer from '@/components/Footer';
 import RealtimeConversationList from '@/components/messages/RealtimeConversationList';
 import MessageThread from '@/components/messages/MessageThread';
 import UserSelector from '@/components/messages/UserSelector';
+import { OnlineUsersList } from '@/components/forum/OnlineUsersList';
+import { RecentlyActiveUsers } from '@/components/forum/RecentlyActiveUsers';
 import { useRealtimeMessages } from '@/hooks/useRealtimeMessages';
 import { useUserPresence } from '@/hooks/useUserPresence';
 import { useMessageNotifications } from '@/hooks/useMessageNotifications';
@@ -111,7 +113,7 @@ const DirectMessages: React.FC = () => {
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-200px)]">
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-200px)]">
                 {/* Conversations List */}
                 <div className="lg:col-span-1">
                   {showUserSelector ? (
@@ -129,6 +131,12 @@ const DirectMessages: React.FC = () => {
                       loading={loading}
                     />
                   )}
+                </div>
+
+                {/* Online Users Sidebar */}
+                <div className="lg:col-span-1 space-y-4 overflow-y-auto">
+                  <OnlineUsersList />
+                  <RecentlyActiveUsers />
                 </div>
 
                 {/* Message Thread */}
