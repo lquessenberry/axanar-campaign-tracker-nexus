@@ -185,21 +185,9 @@ const Profile = () => {
     month: 'long' 
   }) : 'Recently';
 
-  // Dashboard calculations
-  const profileXP = (profile?.full_name && profile?.bio) ? 50 : 0;
-  const achievementXP = achievements?.reduce((sum, achievement) => {
-    const type = achievement.achievement_type;
-    if (type === 'first_supporter') return sum + 25;
-    if (type === 'committed_backer') return sum + 50;
-    if (type === 'major_supporter') return sum + 100;
-    if (type === 'champion_donor') return sum + 200;
-    if (type === 'veteran_supporter') return sum + 150;
-    if (type === 'multi_campaign_supporter') return sum + 75;
-    return sum + 10;
-  }, 0) || 0;
+  // Dashboard calculations - use unified XP from profile
+  const totalXP = (profile as any)?.unified_xp || 0;
   const recruitCount = recruitmentData?.filter(r => r.status === 'confirmed').length || 0;
-  const recruitmentXP = recruitCount * 25;
-  const totalXP = profileXP + achievementXP + recruitmentXP;
   const canRecruit = Boolean(totalPledged >= 100 && (profile?.full_name && profile?.bio));
   const achievementsCount = achievements?.length || 0;
 
