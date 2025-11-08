@@ -332,39 +332,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
         </Card>
       )}
 
-      {/* Legacy Activity */}
-      {(pledges && pledges.length > 0) && (
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <Star className="h-5 w-5 text-axanar-teal" />
-              <h3 className="text-lg font-bold">Contribution History</h3>
-            </div>
-            <div className="space-y-2">
-              {pledges.slice(0, 3).map((pledge) => (
-                <div key={pledge.id} className="flex items-center gap-3 text-sm">
-                  <Heart className="h-4 w-4 text-axanar-teal flex-shrink-0" />
-                  <span className="flex-1">
-                    Backed "{pledge.campaigns?.title}" - ${Number(pledge.amount).toLocaleString()}
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    {new Date(pledge.created_at).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'short',
-                      day: 'numeric'
-                    })}
-                  </span>
-                </div>
-              ))}
-              {pledges.length > 3 && (
-                <p className="text-xs text-muted-foreground text-center pt-2">
-                  +{pledges.length - 3} more contributions
-                </p>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      {/* Contribution History moved to separate component in Profile.tsx */}
     </div>
   );
 };

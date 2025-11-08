@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import ProfileHeader from "@/components/profile/ProfileHeader";
 import ProfileContent from "@/components/profile/ProfileContent";
 import ProfileSidebar from "@/components/profile/ProfileSidebar";
+import DashboardStats from "@/components/profile/DashboardStats";
+import ContributionHistory from "@/components/profile/ContributionHistory";
 import { MobileProfileLayout } from "@/components/mobile";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUserProfile, useUpdateProfile } from "@/hooks/useUserProfile";
@@ -176,7 +178,7 @@ const Profile = () => {
     month: 'long' 
   }) : 'Recently';
 
-  // Mobile-specific calculations
+  // Dashboard calculations
   const profileXP = (profile?.full_name && profile?.bio) ? 50 : 0;
   const achievementXP = achievements?.reduce((sum, achievement) => {
     const type = achievement.achievement_type;
@@ -192,6 +194,7 @@ const Profile = () => {
   const recruitmentXP = recruitCount * 25;
   const totalXP = profileXP + achievementXP + recruitmentXP;
   const canRecruit = Boolean(totalPledged >= 100 && (profile?.full_name && profile?.bio));
+  const achievementsCount = achievements?.length || 0;
 
   if (isLoading) {
     return (
@@ -288,6 +291,14 @@ const Profile = () => {
           totalPledged={totalPledged}
         />
         
+        {/* Dashboard Stats - Prominent placement */}
+        <DashboardStats
+          totalPledged={totalPledged}
+          totalXP={totalXP}
+          achievementsCount={achievementsCount}
+          recruitCount={recruitCount}
+        />
+        
         <section className="py-12 px-6 bg-gradient-to-br from-background via-background to-background/90">
           <div className="container mx-auto max-w-7xl">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -296,6 +307,12 @@ const Profile = () => {
                   profile={profile}
                   pledges={pledges}
                   campaigns={campaigns}
+                />
+                
+                {/* Detailed Contribution History */}
+                <ContributionHistory
+                  pledges={pledges}
+                  isLoading={isLoading}
                 />
               </div>
               
