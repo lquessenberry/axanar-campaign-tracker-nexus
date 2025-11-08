@@ -6,7 +6,7 @@ import { User, CalendarDays, Trophy, Users, Star, Target, Share2, ExternalLink, 
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import AchievementsShowcase from '@/components/profile/AchievementsShowcase';
-import { useUnifiedRank } from '@/hooks/useUnifiedRank';
+import { useRankSystem } from '@/hooks/useRankSystem';
 
 interface PublicMobileProfileLayoutProps {
   profile: any;
@@ -39,7 +39,8 @@ export default function PublicMobileProfileLayout({
     : 0;
 
   // Use unified rank system
-  const { data: unifiedRank } = useUnifiedRank(profile?.id, pledgesCount);
+  const { data: rankSystem } = useRankSystem(profile?.id, pledgesCount);
+  const militaryRank = rankSystem?.militaryRank;
 
   const handleShare = async () => {
     const shareData = {
@@ -84,9 +85,9 @@ export default function PublicMobileProfileLayout({
               <p className="text-axanar-silver/80 text-sm">@{profile.username}</p>
             )}
             <div className="flex items-center gap-1 mt-1">
-              <div className={`h-2 w-2 rounded-full ${unifiedRank?.isAdmin ? 'bg-yellow-500' : 'bg-primary'}`} />
+              <div className={`h-2 w-2 rounded-full ${rankSystem?.isAdmin ? 'bg-yellow-500' : 'bg-primary'}`} />
               <span className="text-xs text-axanar-silver/80">
-                {unifiedRank?.isAdmin ? 'Fleet Command' : 'Federation'} • {unifiedRank?.name || 'Newcomer'}
+                {rankSystem?.isAdmin ? 'Fleet Command' : 'Federation'} • {militaryRank?.name || 'Newcomer'}
               </span>
             </div>
           </div>
@@ -99,13 +100,13 @@ export default function PublicMobileProfileLayout({
             <p className="text-xs text-axanar-silver/60">Missions</p>
           </div>
           <div>
-            <p className={`text-lg font-bold ${unifiedRank?.isAdmin ? 'text-yellow-400' : 'text-axanar-teal'}`}>
-              {unifiedRank?.name || 'Newcomer'}
+            <p className={`text-lg font-bold ${rankSystem?.isAdmin ? 'text-yellow-400' : 'text-axanar-teal'}`}>
+              {militaryRank?.name || 'Newcomer'}
             </p>
             <p className="text-xs text-axanar-silver/60">Rank</p>
           </div>
           <div>
-            <p className="text-lg font-bold text-blue-400">{(unifiedRank?.xp || 0).toLocaleString()}</p>
+            <p className="text-lg font-bold text-blue-400">{(rankSystem?.xp.total || 0).toLocaleString()}</p>
             <p className="text-xs text-axanar-silver/60">Axanar Credits</p>
           </div>
         </div>
@@ -141,29 +142,29 @@ export default function PublicMobileProfileLayout({
         <Card>
           <CardContent className="p-4">
             <h3 className="font-semibold mb-3 flex items-center gap-2">
-              <Shield className={`h-4 w-4 ${unifiedRank?.isAdmin ? 'text-yellow-500' : 'text-primary'}`} />
+              <Shield className={`h-4 w-4 ${rankSystem?.isAdmin ? 'text-yellow-500' : 'text-primary'}`} />
               Service Record
             </h3>
             <div className="space-y-3">
               {/* Rank & Pips Display */}
               <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-primary/5 to-primary/10 rounded-lg border">
                 <div className="flex items-center gap-1">
-                  {Array.from({ length: unifiedRank?.pips || 1 }).map((_, i) => (
-                    <div key={i} className={`w-1.5 h-3 rounded-sm ${unifiedRank?.pipColor || 'bg-gray-400'}`} />
+                  {Array.from({ length: militaryRank?.pips || 1 }).map((_, i) => (
+                    <div key={i} className={`w-1.5 h-3 rounded-sm ${militaryRank?.pipColor || 'bg-gray-400'}`} />
                   ))}
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
                     <Badge variant="secondary" className="text-xs">
-                      {unifiedRank?.name || 'Newcomer'}
+                      {militaryRank?.name || 'Newcomer'}
                     </Badge>
                     <Badge variant="outline" className="text-xs">
                       <Zap className="h-3 w-3 mr-1" />
-                      {(unifiedRank?.xp || 0).toLocaleString()} AXC
+                      {(rankSystem?.xp.total || 0).toLocaleString()} AXC
                     </Badge>
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">
-                    {unifiedRank?.isAdmin ? 'Fleet Command Officer' : 'Federation Officer'}
+                    {rankSystem?.isAdmin ? 'Fleet Command Officer' : 'Federation Officer'}
                   </p>
                 </div>
               </div>
@@ -203,7 +204,7 @@ export default function PublicMobileProfileLayout({
               email_lists: profile?.email_lists,
               recruits_confirmed: 0,
               profile_completeness_score: (profile?.bio && profile?.display_name) ? 100 : 50,
-              activity_score: unifiedRank?.xp || 0,
+              activity_score: rankSystem?.xp.total || 0,
               source_amount: profile?.source_amount
             }}
           />

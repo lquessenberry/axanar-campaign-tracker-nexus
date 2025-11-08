@@ -13,7 +13,7 @@ import { useUpdateProfile } from "@/hooks/useUserProfile";
 import StarField from "@/components/StarField";
 import MouseTracker from "@/components/auth/MouseTracker";
 import { toast } from "sonner";
-import { useUnifiedXP } from "@/hooks/useUnifiedXP";
+import { useRankSystem } from "@/hooks/useRankSystem";
 
 interface ProfileData {
   id: string;
@@ -69,7 +69,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   const { uploadAvatar, isUploading } = useAvatarUpload();
   const { uploadBackground, removeBackground, isUploading: isUploadingBackground } = useBackgroundUpload();
   const updateProfile = useUpdateProfile();
-  const { data: unifiedXP } = useUnifiedXP(undefined);
+  const { data: rankSystem } = useRankSystem(undefined);
 
   const handleAvatarClick = () => {
     fileInputRef.current?.click();
@@ -358,16 +358,16 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           
             {/* Unified Rank Display */}
             <div className="md:ml-auto flex flex-col md:flex-row gap-4 items-end">
-              {unifiedXP && (
+              {rankSystem && (
                 <div className="rounded-lg border border-white/20 p-4 bg-gradient-to-br from-axanar-teal/20 to-blue-500/20 backdrop-blur-sm min-w-[280px]">
                   <div className="flex items-center justify-between mb-3">
                     <div>
-                      <h3 className="text-lg font-bold text-white">{unifiedXP.currentRank.name.toUpperCase()}</h3>
+                      <h3 className="text-lg font-bold text-white">{(rankSystem.forumRank?.name || 'CADET').toUpperCase()}</h3>
                       <div className="text-xs text-axanar-teal font-medium">STARFLEET RANK</div>
                     </div>
                     <div className="flex gap-1">
-                      {/* Rank pips based on sort_order */}
-                      {Array.from({ length: Math.min(unifiedXP.currentRank.sort_order, 7) }).map((_, i) => (
+                      {/* Rank pips based on level */}
+                      {Array.from({ length: Math.min(rankSystem.militaryRank?.level || 1, 7) }).map((_, i) => (
                         <div
                           key={i}
                           className="w-2 h-6 rounded-sm bg-yellow-400 border border-white/30 shadow-sm"
@@ -378,22 +378,18 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm text-white/90">
-                      <span>AXC: {unifiedXP.xp.total.toLocaleString()}</span>
-                      <span>Level {unifiedXP.currentRank.sort_order}</span>
+                      <span>AXC: {rankSystem.xp.total.toLocaleString()}</span>
+                      <span>Level {rankSystem.militaryRank?.level}</span>
                     </div>
-                    {unifiedXP.nextRank && (
-                      <>
-                        <div className="w-full bg-white/20 rounded-full h-2">
-                          <div 
-                            className="h-2 rounded-full bg-yellow-400 transition-all"
-                            style={{ width: `${unifiedXP.progressToNext}%` }}
-                          />
-                        </div>
-                        <div className="text-xs text-white/70 text-center">
-                          Next: {unifiedXP.nextRank.name} at {unifiedXP.nextRank.min_points.toLocaleString()} AXC
-                        </div>
-                      </>
-                    )}
+                    <div className="w-full bg-white/20 rounded-full h-2">
+                      <div 
+                        className="h-2 rounded-full bg-yellow-400 transition-all"
+                        style={{ width: `${rankSystem.progressToNext}%` }}
+                      />
+                    </div>
+                    <div className="text-xs text-white/70 text-center">
+                      Progress: {Math.round(rankSystem.progressToNext)}%
+                    </div>
                   </div>
                 </div>
               )}

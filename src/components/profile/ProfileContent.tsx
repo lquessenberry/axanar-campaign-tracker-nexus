@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heart, BarChart3, Users2, Trophy, Star, Gift, Zap } from "lucide-react";
 import { useUserAchievements, useCalculateAchievements, useUserRecruitment } from "@/hooks/useUserAchievements";
-import { useUnifiedXP } from "@/hooks/useUnifiedXP";
+import { useRankSystem } from "@/hooks/useRankSystem";
 import AchievementBadge from "./AchievementBadge";
 import ForumBadgesPanel from "./ForumBadgesPanel";
 import AchievementsShowcase from "./AchievementsShowcase";
@@ -38,7 +38,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
 }) => {
   const { data: achievements } = useUserAchievements();
   const { data: recruitmentData } = useUserRecruitment();
-  const { data: unifiedXP } = useUnifiedXP(profile?.id);
+  const { data: rankSystem } = useRankSystem(profile?.id);
   const calculateAchievements = useCalculateAchievements();
   
   // Calculate achievements on mount and when pledges change
@@ -84,8 +84,8 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
   const recruitCount = recruitmentData?.filter(r => r.status === 'confirmed').length || 0;
   
   // Use unified XP system
-  const totalXP = unifiedXP?.xp.total || 0;
-  const xpBreakdown = unifiedXP?.xp;
+  const totalXP = rankSystem?.xp.total || 0;
+  const xpBreakdown = rankSystem?.xp;
   return (
     <div className="lg:col-span-2 space-y-6">
       {/* About Section */}
@@ -105,29 +105,29 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-bold text-axanar-teal">Starfleet Rank & AXC</h3>
-            {unifiedXP && (
+            {rankSystem && (
               <div className="text-right">
                 <div className="text-2xl font-bold text-axanar-teal">{totalXP} AXC</div>
                 <div className="text-sm text-muted-foreground">
-                  Rank: {unifiedXP.currentRank.name}
+                  Rank: {rankSystem.forumRank?.name || 'Cadet'}
                 </div>
               </div>
             )}
           </div>
 
           {/* Rank Progress */}
-          {unifiedXP?.nextRank && (
+          {rankSystem?.forumRank && (
             <div className="mb-6">
               <div className="flex justify-between text-sm mb-2">
-                <span className="font-semibold">{unifiedXP.currentRank.name}</span>
+                <span className="font-semibold">{rankSystem.forumRank.name}</span>
                 <span className="text-muted-foreground">
-                  Next: {unifiedXP.nextRank.name} ({unifiedXP.nextRank.min_points} AXC)
+                  Progress Tracking
                 </span>
               </div>
               <div className="w-full bg-muted/50 rounded-full h-3 overflow-hidden">
                 <div 
                   className="bg-gradient-to-r from-axanar-teal to-blue-400 h-3 rounded-full transition-all duration-500"
-                  style={{ width: `${unifiedXP.progressToNext}%` }}
+                  style={{ width: `${rankSystem.progressToNext}%` }}
                 />
               </div>
             </div>
@@ -247,21 +247,19 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
               </div>
               
               {/* Current Starfleet Rank Display */}
-              {unifiedXP && (
+              {rankSystem && (
                 <div className="mb-4 p-3 bg-gradient-to-r from-axanar-teal/10 to-blue-500/10 rounded-lg border border-axanar-teal/30">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-xs text-muted-foreground mb-1">Starfleet Rank</p>
-                      <p className="font-semibold text-lg text-axanar-teal">{unifiedXP.currentRank.name}</p>
-                      <p className="text-xs text-muted-foreground mt-1">{unifiedXP.currentRank.description}</p>
+                      <p className="font-semibold text-lg text-axanar-teal">{rankSystem.forumRank?.name || 'Cadet'}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{rankSystem.forumRank?.description || 'New recruit'}</p>
                     </div>
-                    {unifiedXP.nextRank && (
-                      <div className="text-right text-sm">
-                        <p className="text-muted-foreground">Next Rank</p>
-                        <p className="font-semibold text-axanar-teal">{unifiedXP.nextRank.name}</p>
-                        <p className="text-xs">{unifiedXP.nextRank.min_points - totalXP} AXC to go</p>
-                      </div>
-                    )}
+                    <div className="text-right text-sm">
+                      <p className="text-muted-foreground">Progress</p>
+                      <p className="font-semibold text-axanar-teal">{Math.round(rankSystem.progressToNext)}%</p>
+                      <p className="text-xs">Keep earning AXC!</p>
+                    </div>
                   </div>
                 </div>
               )}
@@ -269,7 +267,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
               <div className="w-full bg-muted/50 mt-2 rounded-full h-3 overflow-hidden">
                 <div 
                   className="bg-gradient-to-r from-axanar-teal to-blue-400 h-3 rounded-full transition-all duration-500 ease-out"
-                  style={{ width: `${unifiedXP?.progressToNext || 0}%` }}
+                  style={{ width: `${rankSystem?.progressToNext || 0}%` }}
                 />
               </div>
               

@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Heart, Star, Trophy, Gift, Award, Target, Zap, Shield } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import AchievementsShowcase from "./AchievementsShowcase";
-import { useUnifiedRank } from "@/hooks/useUnifiedRank";
+import { useRankSystem } from "@/hooks/useRankSystem";
 
 interface Pledge {
   id: string;
@@ -41,7 +41,8 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
     : 0;
   
   // Use unified rank system
-  const { data: unifiedRank } = useUnifiedRank(profile?.id, contributionCount);
+  const { data: rankSystem } = useRankSystem(profile?.id, contributionCount);
+  const militaryRank = rankSystem?.militaryRank;
   
   const displayName = showRealName 
     ? (profile?.display_name || profile?.full_name || profile?.username || 'This officer')
@@ -63,7 +64,7 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
       <Card>
         <CardContent className="p-6">
           <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-            <Shield className={`h-5 w-5 ${unifiedRank?.isAdmin ? 'text-yellow-500' : 'text-primary'}`} />
+            <Shield className={`h-5 w-5 ${rankSystem?.isAdmin ? 'text-yellow-500' : 'text-primary'}`} />
             Federation Service Record
           </h3>
           
@@ -71,13 +72,13 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
             {/* Rank & Pips */}
             <div className="text-center p-4 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg border">
               <div className="flex justify-center items-center gap-1 mb-2">
-                {Array.from({ length: unifiedRank?.pips || 1 }).map((_, i) => (
-                  <div key={i} className={`w-2 h-4 rounded-sm ${unifiedRank?.pipColor || 'bg-gray-400'}`} />
+                {Array.from({ length: militaryRank?.pips || 1 }).map((_, i) => (
+                  <div key={i} className={`w-2 h-4 rounded-sm ${militaryRank?.pipColor || 'bg-gray-400'}`} />
                 ))}
               </div>
               <h4 className="font-bold text-sm">Rank</h4>
-              <p className={`text-lg font-bold ${unifiedRank?.isAdmin ? 'text-yellow-500' : 'text-primary'}`}>
-                {unifiedRank?.name || 'Newcomer'}
+              <p className={`text-lg font-bold ${rankSystem?.isAdmin ? 'text-yellow-500' : 'text-primary'}`}>
+                {militaryRank?.name || 'Newcomer'}
               </p>
             </div>
             
@@ -85,7 +86,7 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
             <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border">
               <Zap className="h-8 w-8 mx-auto mb-2 text-blue-600" />
               <h4 className="font-bold text-sm">Axanar Credits</h4>
-              <p className="text-lg font-bold text-blue-600">{(unifiedRank?.xp || 0).toLocaleString()} AXC</p>
+              <p className="text-lg font-bold text-blue-600">{(rankSystem?.xp.total || 0).toLocaleString()} AXC</p>
             </div>
             
             {/* Service Status */}
@@ -105,7 +106,7 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
               Service Commendations
             </h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-              {unifiedRank?.isAdmin && (
+              {rankSystem?.isAdmin && (
                 <Badge variant="outline" className="p-2 text-center border-yellow-300 bg-yellow-50">
                   <Shield className="h-4 w-4 mb-1 text-yellow-600 mx-auto" />
                   <span className="text-xs text-yellow-700">Fleet Command</span>
@@ -131,7 +132,7 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
               )}
             </div>
             
-            {contributionCount === 0 && !unifiedRank?.isAdmin && (
+            {contributionCount === 0 && !rankSystem?.isAdmin && (
               <p className="text-muted-foreground text-sm mt-3 text-center">
                 📋 Awaiting first mission assignment. Report for duty to earn commendations.
               </p>
@@ -157,7 +158,7 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
             email_lists: profile?.email_lists,
             recruits_confirmed: 0,
             profile_completeness_score: (profile?.bio && profile?.display_name) ? 100 : 50,
-            activity_score: unifiedRank?.xp || 0,
+            activity_score: rankSystem?.xp.total || 0,
             source_amount: profile?.source_amount
           }}
         />

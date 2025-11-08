@@ -5,7 +5,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/h
 import { Badge } from '@/components/ui/badge';
 import { User, Calendar, Trophy } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useUnifiedRank } from '@/hooks/useUnifiedRank';
+import { useRankSystem } from '@/hooks/useRankSystem';
 import { ChatButton } from '@/components/chat/ChatButton';
 
 interface ProfileHoverCardProps {
@@ -29,7 +29,8 @@ export const ProfileHoverCard: React.FC<ProfileHoverCardProps> = ({ username, ch
     staleTime: 60000, // Cache for 1 minute
   });
 
-  const { data: unifiedRank } = useUnifiedRank(profile?.id || '', 0);
+  const { data: rankSystem } = useRankSystem(profile?.id || '', 0);
+  const militaryRank = rankSystem?.militaryRank;
 
   return (
     <HoverCard openDelay={200}>
@@ -78,11 +79,11 @@ export const ProfileHoverCard: React.FC<ProfileHoverCardProps> = ({ username, ch
 
             {/* Stats */}
             <div className="flex items-center gap-4 text-xs">
-              {unifiedRank && (
+              {militaryRank && (
                 <div className="flex items-center gap-1">
-                  <Trophy className={`h-3 w-3 ${unifiedRank.isAdmin ? 'text-yellow-500' : 'text-primary'}`} />
-                  <span className={unifiedRank.isAdmin ? 'text-yellow-500' : 'text-primary'}>
-                    {unifiedRank.name}
+                  <Trophy className={`h-3 w-3 ${rankSystem?.isAdmin ? 'text-yellow-500' : 'text-primary'}`} />
+                  <span className={rankSystem?.isAdmin ? 'text-yellow-500' : 'text-primary'}>
+                    {militaryRank.name}
                   </span>
                 </div>
               )}

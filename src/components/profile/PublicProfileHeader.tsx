@@ -6,7 +6,7 @@ import { ChatButton } from "@/components/chat/ChatButton";
 import StarField from "@/components/StarField";
 import MouseTracker from "@/components/auth/MouseTracker";
 import { toast } from "sonner";
-import { useUnifiedRank } from "@/hooks/useUnifiedRank";
+import { useRankSystem } from "@/hooks/useRankSystem";
 
 interface PublicProfileData {
   id: string;
@@ -59,7 +59,8 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
   const displayName = showRealName 
     ? (profile?.display_name || profile?.full_name || profile?.username || 'Anonymous User')
     : (profile?.username || 'Anonymous User');
-  const { data: unifiedRank } = useUnifiedRank(profile?.id, 0); // Pass 0 for totalPledged to hide dollar amounts
+  const { data: rankSystem } = useRankSystem(profile?.id, 0); // Pass 0 for totalPledged to hide dollar amounts
+  const militaryRank = rankSystem?.militaryRank;
   
   // Calculate gamification metrics
   const baseXP = pledgesCount * 100; // 100 XP per contribution
@@ -195,13 +196,13 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
                 <p className="text-xs text-axanar-silver/60">Contributions</p>
               </div>
               <div>
-                <p className={`text-lg font-bold ${unifiedRank?.isAdmin ? 'text-yellow-400' : rank.color}`}>
-                  {unifiedRank?.name || rank.name}
+                <p className={`text-lg font-bold ${rankSystem?.isAdmin ? 'text-yellow-400' : rank.color}`}>
+                  {militaryRank?.name || rank.name}
                 </p>
                 <p className="text-xs text-axanar-silver/60">Rank</p>
               </div>
               <div>
-                <p className="text-lg font-bold text-axanar-teal">{unifiedRank?.xp?.toLocaleString() || totalXP.toLocaleString()}</p>
+                <p className="text-lg font-bold text-axanar-teal">{rankSystem?.xp.total.toLocaleString() || totalXP.toLocaleString()}</p>
                 <p className="text-xs text-axanar-silver/60">Axanar Credits</p>
               </div>
               <div>
@@ -213,21 +214,21 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
           
           {/* Unified Rank Display */}
           <div className="md:ml-auto flex flex-col md:flex-row gap-4">
-            {unifiedRank && (
-              <div className={`rounded-lg border border-white/20 p-4 ${unifiedRank.bgColor} backdrop-blur-sm min-w-[280px]`}>
+            {militaryRank && (
+              <div className={`rounded-lg border border-white/20 p-4 ${militaryRank.bgColor} backdrop-blur-sm min-w-[280px]`}>
                 <div className="flex items-center justify-between mb-3">
                   <div>
-                    <h3 className="text-lg font-bold text-white">{unifiedRank.name.toUpperCase()}</h3>
-                    {unifiedRank.isAdmin && (
+                    <h3 className="text-lg font-bold text-white">{militaryRank.name.toUpperCase()}</h3>
+                    {rankSystem?.isAdmin && (
                       <div className="text-xs text-yellow-400 font-medium">COMMAND STAFF</div>
                     )}
                   </div>
                   <div className="flex gap-1">
-                    {Array.from({ length: Math.max(unifiedRank.pips, 1) }).map((_, i) => (
+                    {Array.from({ length: Math.max(militaryRank.pips, 1) }).map((_, i) => (
                       <div
                         key={i}
                         className={`w-2 h-6 rounded-sm ${
-                          i < unifiedRank.pips ? unifiedRank.pipColor : 'bg-white/20'
+                          i < militaryRank.pips ? militaryRank.pipColor : 'bg-white/20'
                         } border border-white/30 shadow-sm`}
                       />
                     ))}
@@ -236,19 +237,19 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
                 
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm text-white/90">
-                    <span>AXC: {unifiedRank.xp.toLocaleString()}</span>
-                    <span>Level {unifiedRank.level}</span>
+                    <span>AXC: {(rankSystem?.xp.total || 0).toLocaleString()}</span>
+                    <span>Level {militaryRank.level}</span>
                   </div>
-                  {unifiedRank.maxXP > unifiedRank.minXP && !unifiedRank.isAdmin && (
+                  {militaryRank.maxXP > militaryRank.minXP && !rankSystem?.isAdmin && (
                     <>
                       <div className="w-full bg-white/20 rounded-full h-2">
                         <div 
-                          className={`h-2 rounded-full ${unifiedRank.pipColor} transition-all`}
-                          style={{ width: `${unifiedRank.progressToNext}%` }}
+                          className={`h-2 rounded-full ${militaryRank.pipColor} transition-all`}
+                          style={{ width: `${rankSystem?.progressToNext}%` }}
                         />
                       </div>
                       <div className="text-xs text-white/70 text-center">
-                        Next Rank: {unifiedRank.maxXP.toLocaleString()} AXC
+                        Next Rank: {militaryRank.maxXP.toLocaleString()} AXC
                       </div>
                     </>
                   )}

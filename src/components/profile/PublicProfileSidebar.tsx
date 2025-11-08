@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, Trophy, Users, ExternalLink, Zap, Target, Award } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useUnifiedRank } from "@/hooks/useUnifiedRank";
+import { useRankSystem } from "@/hooks/useRankSystem";
 import { useForumBadges } from "@/hooks/useForumBadges";
 
 interface PublicProfileSidebarProps {
@@ -25,7 +25,8 @@ const PublicProfileSidebar: React.FC<PublicProfileSidebarProps> = ({
   const displayName = showRealName 
     ? (profile?.display_name || profile?.full_name || profile?.username || 'This user')
     : (profile?.username || 'This user');
-  const { data: unifiedRank } = useUnifiedRank(profile?.id, 0); // Pass 0 to hide dollar amounts
+  const { data: rankSystem } = useRankSystem(profile?.id, 0); // Pass 0 to hide dollar amounts
+  const militaryRank = rankSystem?.militaryRank;
   const { data: forumBadges = [], isError: badgesError, isLoading: badgesLoading } = useForumBadges(profile?.id);
   
   // Calculate gamification metrics
@@ -44,7 +45,7 @@ const PublicProfileSidebar: React.FC<PublicProfileSidebarProps> = ({
   };
 
   const rankInfo = getRank(totalXP, pledgesCount);
-  const displayRankName = unifiedRank?.name || rankInfo.name;
+  const displayRankName = militaryRank?.name || rankInfo.name;
 
   return (
     <div className="space-y-6">
