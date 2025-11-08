@@ -11,6 +11,7 @@ export interface XPBreakdown {
   achievement_xp: number;
   recruitment_xp: number;
   donation_xp: number;
+  participation_xp: number;
   total_posts: number;
   total_comments: number;
 }
@@ -115,6 +116,7 @@ export const useRankSystem = (userId?: string, totalPledged: number = 0) => {
           achievement_xp,
           recruitment_xp,
           donation_xp,
+          participation_xp,
           total_posts,
           total_comments
         `)
@@ -130,6 +132,7 @@ export const useRankSystem = (userId?: string, totalPledged: number = 0) => {
         achievement_xp: profile.achievement_xp || 0,
         recruitment_xp: profile.recruitment_xp || 0,
         donation_xp: profile.donation_xp || 0,
+        participation_xp: profile.participation_xp || 0,
         total_posts: profile.total_posts || 0,
         total_comments: profile.total_comments || 0,
       };

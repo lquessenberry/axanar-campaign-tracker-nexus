@@ -87,7 +87,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({
       {/* ARES Breakdown */}
       <ARESBreakdown
         donationAres={xpBreakdown?.donation_xp || 0}
-        participationAres={(xpBreakdown as any)?.participation_xp || 0}
+        participationAres={xpBreakdown?.participation_xp || 0}
         forumXP={xpBreakdown?.forum_xp || 0}
         profileXP={xpBreakdown?.profile_completion_xp || 0}
         achievementXP={xpBreakdown?.achievement_xp || 0}
