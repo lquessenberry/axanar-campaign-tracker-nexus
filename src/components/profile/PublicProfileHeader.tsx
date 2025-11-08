@@ -237,7 +237,7 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
                 
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm text-white/90">
-                    <span>AXC: {(rankSystem?.xp.total || 0).toLocaleString()}</span>
+                    <span>ARES: {(rankSystem?.xp.total || 0).toLocaleString()}</span>
                     <span>Level {militaryRank.level}</span>
                   </div>
                   {militaryRank.maxXP > militaryRank.minXP && !rankSystem?.isAdmin && (
@@ -249,7 +249,7 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({
                         />
                       </div>
                       <div className="text-xs text-white/70 text-center">
-                        Next Rank: {militaryRank.maxXP.toLocaleString()} AXC
+                        Next Rank: {militaryRank.maxXP.toLocaleString()} ARES
                       </div>
                     </>
                   )}

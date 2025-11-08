@@ -115,7 +115,7 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
               {totalXP > 0 && (
                 <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
                   <p className="font-medium text-blue-700 dark:text-blue-400">
-                    {totalXP} AXC Earned
+                    {totalXP} ARES Earned
                   </p>
                 </div>
               )}

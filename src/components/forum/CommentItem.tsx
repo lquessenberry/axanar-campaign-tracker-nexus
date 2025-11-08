@@ -98,7 +98,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment, onLike, isLik
             {comment.like_count}
           </Button>
           <span className="ml-auto px-2 py-0.5 bg-blue-500/10 text-blue-400 rounded text-xs font-semibold">
-            +20 AXC
+            +20 ARES
           </span>
         </div>
       </div>

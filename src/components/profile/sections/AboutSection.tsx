@@ -39,11 +39,11 @@ const AboutSection: React.FC<AboutSectionProps> = ({
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-bold text-primary flex items-center gap-2">
               <Zap className="h-5 w-5" />
-              Starfleet Rank & AXC
+              Starfleet Rank & ARES
             </h3>
             {rankSystem && (
               <div className="text-right">
-                <div className="text-2xl font-bold text-primary">{totalXP} AXC</div>
+                <div className="text-2xl font-bold text-primary">{totalXP} ARES</div>
                 <div className="text-sm text-muted-foreground">
                   Rank: {rankSystem.forumRank?.name || 'Cadet'}
                 </div>
@@ -69,7 +69,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({
             </div>
           )}
 
-          {/* AXC Breakdown */}
+          {/* ARES Breakdown */}
           <div className="space-y-3">
             <div className="flex items-center gap-4 p-4 bg-background/60 backdrop-blur-sm rounded-lg border border-border/50">
               <Zap className="h-5 w-5 text-blue-400 flex-shrink-0" />
@@ -80,7 +80,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({
                 </p>
               </div>
               <div className="text-sm font-bold text-blue-400">
-                +{xpBreakdown?.forum_xp || 0} AXC
+                +{xpBreakdown?.forum_xp || 0} ARES
               </div>
             </div>
 
@@ -93,7 +93,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({
                 </p>
               </div>
               <div className="text-sm font-bold text-yellow-400">
-                +{xpBreakdown?.donation_xp || 0} AXC
+                +{xpBreakdown?.donation_xp || 0} ARES
               </div>
             </div>
           </div>

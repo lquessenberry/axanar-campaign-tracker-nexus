@@ -6,7 +6,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { Heart, MessageCircle, Trophy, Users, Star, Gift, Zap, TrendingUp } from 'lucide-react';
 
-const HowToEarnAXC = () => {
+const HowToEarnARES = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -15,10 +15,10 @@ const HowToEarnAXC = () => {
         {/* Hero Section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-axanar-teal to-blue-400 bg-clip-text text-transparent">
-            How to Earn Axanar Credits (AXC)
+            How to Earn ARES Tokens
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Axanar Credits are the universal currency of recognition in the Axanar community. 
+            ARES is the universal currency of recognition in the Axanar community. 
             Earn them through support, participation, and engagement.
           </p>
         </div>
@@ -34,11 +34,11 @@ const HowToEarnAXC = () => {
           <CardContent>
             <div className="bg-background/60 p-6 rounded-lg border border-border/50">
               <p className="text-lg font-mono text-center mb-4">
-                Your AXC = MAX(Donation AXC, Participation AXC)
+                Your ARES = MAX(Donation ARES, Participation ARES)
               </p>
               <p className="text-sm text-muted-foreground text-center">
                 You advance via your <strong>best</strong> path. Support the project with donations, 
-                or earn through active community participation—whichever is higher becomes your total AXC.
+                or earn through active community participation—whichever is higher becomes your total ARES.
               </p>
             </div>
           </CardContent>
@@ -57,30 +57,30 @@ const HowToEarnAXC = () => {
             <CardContent className="space-y-4">
               <div className="bg-yellow-500/10 p-4 rounded-lg border border-yellow-500/20">
                 <p className="text-2xl font-bold text-yellow-500 text-center mb-2">
-                  $1 USD = 100 AXC
+                  $1 USD = 100 ARES
                 </p>
                 <p className="text-sm text-muted-foreground text-center">
-                  Every dollar you pledge to Axanar campaigns converts to 100 AXC
+                  Every dollar you pledge to Axanar campaigns converts to 100 ARES
                 </p>
               </div>
               
               <div className="space-y-2">
                 <div className="flex justify-between items-center p-3 bg-background/60 rounded-lg">
                   <span>$10 pledge</span>
-                  <span className="font-bold text-yellow-500">1,000 AXC</span>
+                  <span className="font-bold text-yellow-500">1,000 ARES</span>
                 </div>
                 <div className="flex justify-between items-center p-3 bg-background/60 rounded-lg">
                   <span>$100 pledge</span>
-                  <span className="font-bold text-yellow-500">10,000 AXC</span>
+                  <span className="font-bold text-yellow-500">10,000 ARES</span>
                 </div>
                 <div className="flex justify-between items-center p-3 bg-background/60 rounded-lg">
                   <span>$1,000 pledge</span>
-                  <span className="font-bold text-yellow-500">100,000 AXC</span>
+                  <span className="font-bold text-yellow-500">100,000 ARES</span>
                 </div>
               </div>
 
               <p className="text-xs text-muted-foreground italic">
-                * All historical pledges since 2014 have been retroactively credited with AXC
+                * All historical pledges since 2014 have been retroactively credited with ARES
               </p>
             </CardContent>
           </Card>
@@ -95,7 +95,7 @@ const HowToEarnAXC = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-sm text-muted-foreground">
-                Earn AXC through active community engagement—no donation required!
+                Earn ARES through active community engagement—no donation required!
               </p>
               
               <div className="space-y-3">
@@ -162,7 +162,7 @@ const HowToEarnAXC = () => {
                 <div key={rank.rank} className="flex items-center justify-between p-3 bg-background/40 rounded-lg hover:bg-background/60 transition-colors">
                   <span className={`font-semibold ${rank.color}`}>{rank.rank}</span>
                   <span className="text-sm text-muted-foreground">
-                    {rank.min.toLocaleString()} {rank.max ? `- ${rank.max.toLocaleString()}` : '+'} AXC
+                    {rank.min.toLocaleString()} {rank.max ? `- ${rank.max.toLocaleString()}` : '+'} ARES
                   </span>
                 </div>
               ))}
@@ -182,7 +182,7 @@ const HowToEarnAXC = () => {
                 You pledged $500 to Axanar campaigns over the years
               </p>
               <div className="bg-background/60 p-3 rounded">
-                <p className="font-mono">$500 × 100 = <strong className="text-yellow-500">50,000 AXC</strong></p>
+                <p className="font-mono">$500 × 100 = <strong className="text-yellow-500">50,000 ARES</strong></p>
                 <p className="text-sm text-muted-foreground mt-1">Rank: Senior Chief</p>
               </div>
             </div>
@@ -195,15 +195,15 @@ const HowToEarnAXC = () => {
               <div className="space-y-2">
                 <div className="bg-background/60 p-3 rounded">
                   <p className="text-sm">Forum Activity (threads, comments, likes)</p>
-                  <p className="font-mono text-blue-400">~40,000 AXC</p>
+                  <p className="font-mono text-blue-400">~40,000 ARES</p>
                 </div>
                 <div className="bg-background/60 p-3 rounded">
                   <p className="text-sm">Profile Completion + Achievements</p>
-                  <p className="font-mono text-blue-400">~10,000 AXC</p>
+                  <p className="font-mono text-blue-400">~10,000 ARES</p>
                 </div>
                 <div className="bg-background/60 p-3 rounded font-bold">
-                  <p className="text-sm">Total Participation AXC</p>
-                  <p className="font-mono text-blue-500">~50,000 AXC</p>
+                  <p className="text-sm">Total Participation ARES</p>
+                  <p className="font-mono text-blue-500">~50,000 ARES</p>
                   <p className="text-sm text-muted-foreground mt-1">Rank: Senior Chief (same as $500 donor!)</p>
                 </div>
               </div>
@@ -216,16 +216,16 @@ const HowToEarnAXC = () => {
               </p>
               <div className="space-y-2">
                 <div className="bg-background/60 p-3 rounded">
-                  <p className="text-sm">Donation AXC</p>
-                  <p className="font-mono">$100 × 100 = 10,000 AXC</p>
+                  <p className="text-sm">Donation ARES</p>
+                  <p className="font-mono">$100 × 100 = 10,000 ARES</p>
                 </div>
                 <div className="bg-background/60 p-3 rounded">
-                  <p className="text-sm">Participation AXC</p>
-                  <p className="font-mono">15,000 AXC</p>
+                  <p className="text-sm">Participation ARES</p>
+                  <p className="font-mono">15,000 ARES</p>
                 </div>
                 <div className="bg-background/60 p-3 rounded font-bold border-2 border-purple-500/30">
                   <p className="text-sm">Your Total (MAX of both paths)</p>
-                  <p className="font-mono text-purple-500">15,000 AXC</p>
+                  <p className="font-mono text-purple-500">15,000 ARES</p>
                   <p className="text-sm text-muted-foreground mt-1">Uses higher participation value, not sum</p>
                 </div>
               </div>
@@ -264,4 +264,4 @@ const HowToEarnAXC = () => {
   );
 };
 
-export default HowToEarnAXC;
+export default HowToEarnARES;

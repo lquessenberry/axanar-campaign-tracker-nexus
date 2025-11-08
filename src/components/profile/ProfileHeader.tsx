@@ -378,7 +378,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm text-white/90">
-                      <span>AXC: {rankSystem.xp.total.toLocaleString()}</span>
+                      <span>ARES: {rankSystem.xp.total.toLocaleString()}</span>
                       <span>Level {rankSystem.militaryRank?.level}</span>
                     </div>
                     <div className="w-full bg-white/20 rounded-full h-2">

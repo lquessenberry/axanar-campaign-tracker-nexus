@@ -30,7 +30,7 @@ const getRankInfo = (totalDonated: number, xp: number, isAdmin: boolean = false)
     };
   }
 
-  // Convert donations to XP (1 USD = 100 AXC)
+  // Convert donations to XP (1 USD = 100 ARES)
   const donationXP = totalDonated * 100;
   const totalXP = Math.max(donationXP, xp);
 
@@ -95,7 +95,7 @@ const RankPips: React.FC<RankPipsProps> = ({
         {/* XP Progress */}
         <div className="space-y-1">
           <div className="flex justify-between text-xs text-white/80">
-            <span>AXC: {Math.max(totalDonated * 100, xp).toLocaleString()}</span>
+            <span>ARES: {Math.max(totalDonated * 100, xp).toLocaleString()}</span>
             {rank.maxXP > rank.minXP && (
               <span>Next: {rank.maxXP.toLocaleString()}</span>
             )}

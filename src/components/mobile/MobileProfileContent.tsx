@@ -108,7 +108,7 @@ export function MobileProfileContent({
 
   return (
     <div className="space-y-6 pb-28">
-      {/* AXC Progress */}
+      {/* ARES Progress */}
       <Card className="bg-gradient-to-r from-primary/10 to-secondary/10">
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
@@ -117,7 +117,7 @@ export function MobileProfileContent({
               <h3 className="font-bold">Participation Level</h3>
             </div>
             <Badge variant="secondary" className="font-bold">
-              {totalXP} AXC
+              {totalXP} ARES
             </Badge>
           </div>
           
@@ -130,7 +130,7 @@ export function MobileProfileContent({
             </div>
             <div className="flex justify-between text-xs text-muted-foreground">
               <span>Progress</span>
-              <span>{totalXP >= 500 ? 'Max Level!' : `${500 - totalXP} AXC to Legend`}</span>
+              <span>{totalXP >= 500 ? 'Max Level!' : `${500 - totalXP} ARES to Legend`}</span>
             </div>
           </div>
 
@@ -197,7 +197,7 @@ export function MobileProfileContent({
                     variant={item.xp > 0 ? "default" : "secondary"}
                     className="text-xs"
                   >
-                    +{item.xp} AXC
+                    +{item.xp} ARES
                   </Badge>
                 </div>
               </div>

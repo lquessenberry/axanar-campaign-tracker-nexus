@@ -160,7 +160,7 @@ export default function PublicMobileProfileLayout({
                     </Badge>
                     <Badge variant="outline" className="text-xs">
                       <Zap className="h-3 w-3 mr-1" />
-                      {(rankSystem?.xp.total || 0).toLocaleString()} AXC
+                      {(rankSystem?.xp.total || 0).toLocaleString()} ARES
                     </Badge>
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">
@@ -230,7 +230,7 @@ export default function PublicMobileProfileLayout({
                       </p>
                       <div className="flex items-center gap-2 mt-1">
                         <Badge variant="outline" className="text-xs text-green-700 border-green-300 bg-green-50">
-                          +100 AXC
+                          +100 ARES
                         </Badge>
                         <span className="text-xs text-blue-600">
                           {new Date(pledge.created_at).toLocaleDateString()}
@@ -264,7 +264,7 @@ export default function PublicMobileProfileLayout({
                 </Badge>
                 <Badge variant="outline" className="text-xs border-gray-300 bg-gray-50 text-gray-700">
                   <Zap className="h-3 w-3 mr-1" />
-                  0 AXC
+                  0 ARES
                 </Badge>
               </div>
             </CardContent>

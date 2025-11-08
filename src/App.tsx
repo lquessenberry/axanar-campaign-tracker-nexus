@@ -44,7 +44,7 @@ import ForumThread from "./pages/ForumThread";
 import TacticalBattle from "./pages/TacticalBattle";
 import TacticalDemo from "./pages/TacticalDemo";
 import VisitorAnalytics from "./pages/admin/VisitorAnalytics";
-import HowToEarnAXC from "./pages/HowToEarnAXC";
+import HowToEarnARES from "./pages/HowToEarnARES";
 
 const queryClient = new QueryClient();
 
@@ -105,7 +105,7 @@ const App = () => (
             />
             <Route path="/about" element={<About />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
-            <Route path="/how-to-earn-axc" element={<HowToEarnAXC />} />
+            <Route path="/how-to-earn-ares" element={<HowToEarnARES />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/support" element={<Support />} />

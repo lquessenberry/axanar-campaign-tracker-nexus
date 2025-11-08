@@ -41,7 +41,7 @@ const DashboardStats: React.FC<DashboardStatsProps> = ({
 
           <Card className="bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-colors">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Axanar Credits (AXC)</CardTitle>
+              <CardTitle className="text-sm font-medium">ARES Tokens</CardTitle>
               <Zap className="h-4 w-4 text-axanar-teal" />
             </CardHeader>
             <CardContent>
