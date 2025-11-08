@@ -66,7 +66,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Navigation Header */}
-      <div className="border-b">
+      <div className="sticky top-0 z-50 border-b">
         <Navigation />
       </div>
       

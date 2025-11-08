@@ -307,7 +307,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="border-b">
+      <div className="sticky top-0 z-50 border-b">
         <Navigation />
       </div>
       
