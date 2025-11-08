@@ -2,13 +2,15 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import ProfileHeader from "@/components/profile/ProfileHeader";
-import ProfileContent from "@/components/profile/ProfileContent";
-import ProfileSidebar from "@/components/profile/ProfileSidebar";
-import DashboardStats from "@/components/profile/DashboardStats";
-import ContributionHistory from "@/components/profile/ContributionHistory";
+import { ProfileSidebarNav } from "@/components/profile/ProfileSidebarNav";
+import OverviewSection from "@/components/profile/sections/OverviewSection";
+import AboutSection from "@/components/profile/sections/AboutSection";
+import ActivitySection from "@/components/profile/sections/ActivitySection";
+import SettingsSection from "@/components/profile/sections/SettingsSection";
 import { MobileProfileLayout } from "@/components/mobile";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUserProfile, useUpdateProfile } from "@/hooks/useUserProfile";
@@ -17,6 +19,7 @@ import { useUserPledges } from "@/hooks/useUserPledges";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
 import { useAdminUserProfile, useAdminUpdateUserProfile } from "@/hooks/useAdminUserProfile";
 import { useUserAchievements, useUserRecruitment } from "@/hooks/useUserAchievements";
+import { useRankSystem } from "@/hooks/useRankSystem";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
@@ -51,6 +54,7 @@ const Profile = () => {
   const { data: ownPledges } = useUserPledges();
   const { data: achievements } = useUserAchievements();
   const { data: recruitmentData } = useUserRecruitment();
+  const { data: rankSystem } = useRankSystem(user?.id);
   const { data: adminUserData, isLoading: adminProfileLoading } = useAdminUserProfile(
     isViewingOtherUser ? userId! : ''
   );
@@ -58,6 +62,7 @@ const Profile = () => {
   const updateOwnProfile = useUpdateProfile();
   const updateAdminProfile = useAdminUpdateUserProfile();
   
+  const [activeSection, setActiveSection] = useState<string>('overview');
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     full_name: '',
@@ -196,6 +201,61 @@ const Profile = () => {
   const canRecruit = Boolean(totalPledged >= 100 && (profile?.full_name && profile?.bio));
   const achievementsCount = achievements?.length || 0;
 
+  // XP breakdown
+  const xpBreakdown = rankSystem?.xp;
+
+  const renderSection = () => {
+    switch (activeSection) {
+      case 'overview':
+        return (
+          <OverviewSection
+            profile={profile}
+            user={user!}
+            totalPledged={totalPledged}
+            totalXP={totalXP}
+            achievementsCount={achievementsCount}
+            recruitCount={recruitCount}
+            memberSince={memberSince}
+          />
+        );
+      case 'about':
+        return (
+          <AboutSection
+            profile={profile}
+            totalXP={totalXP}
+            totalDonated={totalPledged}
+            xpBreakdown={xpBreakdown}
+            rankSystem={rankSystem}
+          />
+        );
+      case 'activity':
+        return (
+          <ActivitySection
+            profile={profile}
+            pledges={pledges || []}
+            campaigns={campaigns || []}
+            achievements={achievements || []}
+            recruitmentData={recruitmentData || []}
+          />
+        );
+      case 'settings':
+        return (
+          <SettingsSection
+            profile={profile}
+            isEditing={isEditing}
+            formData={formData}
+            setFormData={setFormData}
+            onEdit={() => setIsEditing(true)}
+            onSave={handleSave}
+            onCancel={handleCancel}
+            isLoading={updateProfile.isPending}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -275,56 +335,41 @@ const Profile = () => {
         </div>
       )}
       
-      <main className="flex-grow">
-        <ProfileHeader
-          profile={profile}
-          isEditing={isEditing}
-          formData={formData}
-          setFormData={setFormData}
-          onEdit={() => setIsEditing(true)}
-          onSave={handleSave}
-          onCancel={handleCancel}
-          isLoading={updateProfile.isPending}
-          memberSince={memberSince}
-          pledgesCount={pledges?.length || 0}
-          campaignsCount={totalCampaigns}
-          totalPledged={totalPledged}
-        />
-        
-        {/* Dashboard Stats - Prominent placement */}
-        <DashboardStats
-          totalPledged={totalPledged}
-          totalXP={totalXP}
-          achievementsCount={achievementsCount}
-          recruitCount={recruitCount}
-        />
-        
-        <section className="py-12 px-6 bg-gradient-to-br from-background via-background to-background/90">
-          <div className="container mx-auto max-w-7xl">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2 space-y-6">
-                <ProfileContent
-                  profile={profile}
-                  pledges={pledges}
-                  campaigns={campaigns}
-                />
-                
-                {/* Detailed Contribution History */}
-                <ContributionHistory
-                  pledges={pledges}
-                  isLoading={isLoading}
-                />
-              </div>
-              
-              <ProfileSidebar
-                user={user}
-                memberSince={memberSince}
-                onSignOut={handleSignOut}
-              />
+      <ProfileHeader
+        profile={profile}
+        isEditing={false}
+        formData={formData}
+        setFormData={setFormData}
+        onEdit={() => {}}
+        onSave={handleSave}
+        onCancel={handleCancel}
+        isLoading={updateProfile.isPending}
+        memberSince={memberSince}
+        pledgesCount={pledges?.length || 0}
+        campaignsCount={totalCampaigns}
+        totalPledged={totalPledged}
+      />
+      
+      <SidebarProvider defaultOpen>
+        <div className="flex min-h-screen w-full">
+          <ProfileSidebarNav
+            activeSection={activeSection}
+            onSectionChange={setActiveSection}
+            onSignOut={handleSignOut}
+          />
+          
+          <main className="flex-1 overflow-x-hidden">
+            <div className="sticky top-0 z-10 bg-background border-b px-4 py-3 flex items-center gap-2">
+              <SidebarTrigger />
+              <h2 className="text-lg font-semibold capitalize">{activeSection}</h2>
             </div>
-          </div>
-        </section>
-      </main>
+            
+            <div className="container mx-auto px-4 py-8 max-w-6xl">
+              {renderSection()}
+            </div>
+          </main>
+        </div>
+      </SidebarProvider>
       
       <Footer />
     </div>
