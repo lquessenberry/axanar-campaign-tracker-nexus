@@ -233,6 +233,241 @@ const HowToEarnARES = () => {
           </CardContent>
         </Card>
 
+        {/* ARES Utility */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle className="text-2xl flex items-center gap-2">
+              <Zap className="h-6 w-6 text-yellow-500" />
+              What Can You Do With ARES?
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-muted-foreground">
+              ARES tokens are the foundation of the Axanar community ecosystem, providing both recognition and utility:
+            </p>
+            
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="p-4 bg-gradient-to-br from-purple-500/10 to-purple-500/5 rounded-lg border border-purple-500/20">
+                <h4 className="font-bold mb-2 flex items-center gap-2">
+                  <Trophy className="h-5 w-5 text-purple-400" />
+                  Status & Recognition
+                </h4>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>• Display your Starfleet rank on your profile</li>
+                  <li>• Earn exclusive badges and achievements</li>
+                  <li>• Climb the community leaderboards</li>
+                  <li>• Unlock special profile customization options</li>
+                </ul>
+              </div>
+
+              <div className="p-4 bg-gradient-to-br from-green-500/10 to-green-500/5 rounded-lg border border-green-500/20">
+                <h4 className="font-bold mb-2 flex items-center gap-2">
+                  <Gift className="h-5 w-5 text-green-400" />
+                  Exclusive Perks (Coming Soon)
+                </h4>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>• Priority access to new content and features</li>
+                  <li>• Exclusive Discord roles and channels</li>
+                  <li>• Special voting rights on community decisions</li>
+                  <li>• Early bird access to future campaigns</li>
+                </ul>
+              </div>
+
+              <div className="p-4 bg-gradient-to-br from-blue-500/10 to-blue-500/5 rounded-lg border border-blue-500/20">
+                <h4 className="font-bold mb-2 flex items-center gap-2">
+                  <Star className="h-5 w-5 text-blue-400" />
+                  Governance (Future)
+                </h4>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>• Vote on community initiatives</li>
+                  <li>• Influence project priorities</li>
+                  <li>• Participate in creative decisions</li>
+                  <li>• Shape the future of Axanar productions</li>
+                </ul>
+              </div>
+
+              <div className="p-4 bg-gradient-to-br from-orange-500/10 to-orange-500/5 rounded-lg border border-orange-500/20">
+                <h4 className="font-bold mb-2 flex items-center gap-2">
+                  <Zap className="h-5 w-5 text-orange-400" />
+                  Staking Rewards (Future)
+                </h4>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>• Stake ARES to earn additional rewards</li>
+                  <li>• Boost your earning potential</li>
+                  <li>• Support long-term community growth</li>
+                  <li>• Access exclusive staker benefits</li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Token Minting & Economy */}
+        <Card className="mb-8 border-2 border-yellow-500/30">
+          <CardHeader>
+            <CardTitle className="text-2xl flex items-center gap-2">
+              <TrendingUp className="h-6 w-6 text-yellow-500" />
+              ARES Token Economy
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div>
+              <h4 className="font-bold text-lg mb-3">How ARES is Minted</h4>
+              <div className="space-y-3">
+                <div className="p-4 bg-background/60 rounded-lg border border-border/50">
+                  <p className="font-semibold mb-2">Phase 1: Historical Recognition (Current)</p>
+                  <p className="text-sm text-muted-foreground">
+                    All donations since 2014 have been retroactively converted to ARES at the rate of $1 = 100 ARES. 
+                    Forum activity and community participation are rewarded with participation ARES based on engagement metrics.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-background/60 rounded-lg border border-border/50">
+                  <p className="font-semibold mb-2">Phase 2: Ongoing Minting (Active)</p>
+                  <p className="text-sm text-muted-foreground">
+                    ARES continues to be minted through both paths: new donations instantly convert to ARES, 
+                    while community participation dynamically generates ARES through a transparent algorithm 
+                    that rewards quality contributions over quantity.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 rounded-lg border border-yellow-500/30">
+                  <p className="font-semibold mb-2">Phase 3: Blockchain Deployment (Future)</p>
+                  <p className="text-sm text-muted-foreground">
+                    ARES will transition to a blockchain-based token, allowing for decentralized ownership, 
+                    trading on decentralized exchanges, and integration with Web3 ecosystems. Current ARES 
+                    balances will be honored 1:1 in the transition.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-lg mb-3">Staking Mechanism (Coming Soon)</h4>
+              <div className="p-4 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-lg border border-blue-500/20">
+                <p className="text-sm text-muted-foreground mb-3">
+                  In the future, ARES holders will be able to stake their tokens to:
+                </p>
+                <ul className="text-sm text-muted-foreground space-y-2">
+                  <li className="flex items-start gap-2">
+                    <span className="text-blue-400 font-bold">•</span>
+                    <span><strong>Earn Passive Rewards:</strong> Staked ARES generates additional ARES over time based on staking duration and amount</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-blue-400 font-bold">•</span>
+                    <span><strong>Unlock Premium Features:</strong> Staking tiers provide access to exclusive content and community features</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-blue-400 font-bold">•</span>
+                    <span><strong>Governance Power:</strong> Staked ARES increases your voting weight on community decisions</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-blue-400 font-bold">•</span>
+                    <span><strong>Support the Ecosystem:</strong> Staking helps stabilize the token economy and rewards long-term supporters</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-lg mb-3">Economic Sustainability</h4>
+              <p className="text-sm text-muted-foreground mb-3">
+                The ARES economy is designed with long-term sustainability in mind:
+              </p>
+              <div className="grid md:grid-cols-3 gap-3">
+                <div className="p-3 bg-background/60 rounded-lg text-center">
+                  <p className="font-bold text-yellow-500 text-2xl mb-1">$1 = 100</p>
+                  <p className="text-xs text-muted-foreground">Fixed conversion rate provides stability and predictability</p>
+                </div>
+                <div className="p-3 bg-background/60 rounded-lg text-center">
+                  <p className="font-bold text-blue-500 text-2xl mb-1">MAX</p>
+                  <p className="text-xs text-muted-foreground">Dual-path economy prevents inflation while rewarding both paths</p>
+                </div>
+                <div className="p-3 bg-background/60 rounded-lg text-center">
+                  <p className="font-bold text-green-500 text-2xl mb-1">∞</p>
+                  <p className="text-xs text-muted-foreground">No cap on earning potential—grow with the community</p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* The ARES Ecosystem */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle className="text-2xl flex items-center gap-2">
+              <Users className="h-6 w-6 text-axanar-teal" />
+              The ARES Ecosystem
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-muted-foreground">
+              ARES creates a self-sustaining ecosystem that aligns incentives between supporters, 
+              contributors, and the Axanar project itself:
+            </p>
+
+            <div className="bg-gradient-to-br from-axanar-teal/10 to-blue-500/10 p-6 rounded-lg border border-axanar-teal/20">
+              <h4 className="font-bold text-lg mb-4 text-center">The Virtuous Cycle</h4>
+              <div className="grid md:grid-cols-4 gap-4">
+                <div className="text-center">
+                  <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-yellow-500/20 flex items-center justify-center">
+                    <Heart className="h-6 w-6 text-yellow-500" />
+                  </div>
+                  <p className="font-semibold text-sm">Donations</p>
+                  <p className="text-xs text-muted-foreground mt-1">Support production & earn ARES</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <MessageCircle className="h-6 w-6 text-blue-500" />
+                  </div>
+                  <p className="font-semibold text-sm">Engagement</p>
+                  <p className="text-xs text-muted-foreground mt-1">Build community & earn ARES</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-purple-500/20 flex items-center justify-center">
+                    <Trophy className="h-6 w-6 text-purple-500" />
+                  </div>
+                  <p className="font-semibold text-sm">Recognition</p>
+                  <p className="text-xs text-muted-foreground mt-1">Rank up & unlock perks</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-green-500/20 flex items-center justify-center">
+                    <Star className="h-6 w-6 text-green-500" />
+                  </div>
+                  <p className="font-semibold text-sm">Rewards</p>
+                  <p className="text-xs text-muted-foreground mt-1">Exclusive benefits & influence</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-3 mt-6">
+              <div className="p-4 bg-background/60 rounded-lg">
+                <h4 className="font-semibold mb-2">For Supporters</h4>
+                <p className="text-sm text-muted-foreground">
+                  Your financial contributions are recognized permanently through ARES, with status and perks that grow over time. 
+                  You're not just donating—you're investing in a community where your support is valued and rewarded.
+                </p>
+              </div>
+
+              <div className="p-4 bg-background/60 rounded-lg">
+                <h4 className="font-semibold mb-2">For Active Participants</h4>
+                <p className="text-sm text-muted-foreground">
+                  You can reach the same ranks as financial supporters purely through engagement. Quality contributions, 
+                  helpful posts, and community building are valued equally, ensuring everyone has a path to advancement.
+                </p>
+              </div>
+
+              <div className="p-4 bg-background/60 rounded-lg">
+                <h4 className="font-semibold mb-2">For the Project</h4>
+                <p className="text-sm text-muted-foreground">
+                  ARES creates a sustainable economy that rewards the people who matter most—our community. 
+                  By aligning incentives, we build a stronger, more engaged fanbase that grows with every production.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Call to Action */}
         <div className="text-center space-y-4">
           <h3 className="text-2xl font-bold">Ready to Start Earning?</h3>
