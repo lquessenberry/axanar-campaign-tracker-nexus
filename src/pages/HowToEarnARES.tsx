@@ -298,6 +298,55 @@ const HowToEarnARES = () => {
                   <li>• Access exclusive staker benefits</li>
                 </ul>
               </div>
+
+              <div className="p-4 bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 rounded-lg border border-cyan-500/20">
+                <h4 className="font-bold mb-2 flex items-center gap-2">
+                  <Gift className="h-5 w-5 text-cyan-400" />
+                  Digital Asset Marketplace (Future)
+                </h4>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>• Trade ARES for 3D models and assets</li>
+                  <li>• Acquire blueprints and technical schematics</li>
+                  <li>• Purchase printable files (PDFs, STLs)</li>
+                  <li>• Collect exclusive digital recognition items</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-6 p-4 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-lg border border-cyan-500/20">
+              <h4 className="font-bold text-lg mb-3 flex items-center gap-2">
+                <Gift className="h-5 w-5 text-cyan-400" />
+                The Future ARES Marketplace
+              </h4>
+              <p className="text-sm text-muted-foreground mb-4">
+                In development: A marketplace where you can spend ARES on tangible digital goods that bring the Axanar universe to life:
+              </p>
+              <div className="grid md:grid-cols-2 gap-3">
+                <div className="bg-background/60 p-3 rounded-lg">
+                  <p className="font-semibold text-sm mb-1">3D Printable Models</p>
+                  <p className="text-xs text-muted-foreground">
+                    STL files of ships, props, and equipment ready for 3D printing
+                  </p>
+                </div>
+                <div className="bg-background/60 p-3 rounded-lg">
+                  <p className="font-semibold text-sm mb-1">Technical Blueprints</p>
+                  <p className="text-xs text-muted-foreground">
+                    Detailed schematics and engineering diagrams from the Axanar production
+                  </p>
+                </div>
+                <div className="bg-background/60 p-3 rounded-lg">
+                  <p className="font-semibold text-sm mb-1">Digital Assets</p>
+                  <p className="text-xs text-muted-foreground">
+                    High-resolution textures, 3D models, and production assets
+                  </p>
+                </div>
+                <div className="bg-background/60 p-3 rounded-lg">
+                  <p className="font-semibold text-sm mb-1">Recognition Items</p>
+                  <p className="text-xs text-muted-foreground">
+                    Certificates, credits in productions, exclusive digital collectibles
+                  </p>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
