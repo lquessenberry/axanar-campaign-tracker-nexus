@@ -33,11 +33,22 @@ const SupportTicketDialog: React.FC<SupportTicketDialogProps> = ({
   adminUsers,
   onSubmit
 }) => {
+  const LEE_USER_ID = '4862bb86-6f9b-4b7d-aa74-e4bee1d50342';
   const [selectedAdmin, setSelectedAdmin] = useState<string>('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [priority, setPriority] = useState<'low' | 'medium' | 'high' | 'urgent'>('medium');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Default to @lee when dialog opens or admin users are loaded
+  React.useEffect(() => {
+    if (adminUsers.length > 0 && !selectedAdmin) {
+      const leeAdmin = adminUsers.find(admin => admin.id === LEE_USER_ID);
+      if (leeAdmin) {
+        setSelectedAdmin(LEE_USER_ID);
+      }
+    }
+  }, [adminUsers, selectedAdmin]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,8 +66,8 @@ const SupportTicketDialog: React.FC<SupportTicketDialogProps> = ({
         priority
       });
       
-      // Reset form
-      setSelectedAdmin('');
+      // Reset form (but keep Lee as default)
+      setSelectedAdmin(LEE_USER_ID);
       setSubject('');
       setMessage('');
       setPriority('medium');
