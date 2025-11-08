@@ -21,6 +21,7 @@ import { useAdminUserProfile, useAdminUpdateUserProfile } from "@/hooks/useAdmin
 import { useUserAchievements, useUserRecruitment } from "@/hooks/useUserAchievements";
 import { useRankSystem } from "@/hooks/useRankSystem";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useUserForumActivity } from "@/hooks/useUserForumActivity";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 
@@ -55,6 +56,7 @@ const Profile = () => {
   const { data: achievements } = useUserAchievements();
   const { data: recruitmentData } = useUserRecruitment();
   const { data: rankSystem } = useRankSystem(user?.id);
+  const { threads: forumThreads, comments: forumComments } = useUserForumActivity();
   const { data: adminUserData, isLoading: adminProfileLoading } = useAdminUserProfile(
     isViewingOtherUser ? userId! : ''
   );
@@ -216,6 +218,10 @@ const Profile = () => {
             achievementsCount={achievementsCount}
             recruitCount={recruitCount}
             memberSince={memberSince}
+            pledges={pledges}
+            achievements={achievements}
+            forumThreads={forumThreads}
+            forumComments={forumComments}
           />
         );
       case 'about':

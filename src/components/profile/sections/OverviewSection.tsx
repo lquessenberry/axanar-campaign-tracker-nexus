@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { DollarSign, Users, Trophy, Zap, Shield, Calendar } from "lucide-react";
 import DashboardStats from "../DashboardStats";
+import RecentActivityFeed from "../RecentActivityFeed";
 import { User } from "@supabase/supabase-js";
 
 interface OverviewSectionProps {
@@ -12,6 +13,10 @@ interface OverviewSectionProps {
   achievementsCount: number;
   recruitCount: number;
   memberSince: string;
+  pledges?: any[];
+  achievements?: any[];
+  forumThreads?: any[];
+  forumComments?: any[];
 }
 
 const OverviewSection: React.FC<OverviewSectionProps> = ({
@@ -21,7 +26,11 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
   totalXP,
   achievementsCount,
   recruitCount,
-  memberSince
+  memberSince,
+  pledges = [],
+  achievements = [],
+  forumThreads = [],
+  forumComments = []
 }) => {
   return (
     <div className="space-y-6">
@@ -119,6 +128,15 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
           </CardContent>
         </Card>
       </div>
+
+      {/* Recent Activity Feed */}
+      <RecentActivityFeed
+        pledges={pledges}
+        achievements={achievements}
+        forumThreads={forumThreads}
+        forumComments={forumComments}
+        limit={10}
+      />
     </div>
   );
 };
