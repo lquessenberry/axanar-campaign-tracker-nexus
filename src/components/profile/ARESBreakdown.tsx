@@ -27,6 +27,11 @@ export const ARESBreakdown: React.FC<ARESBreakdownProps> = ({
   const isUsingDonationPath = donationAres >= participationAres;
   const donationPercentage = maxPath > 0 ? (donationAres / maxPath) * 100 : 0;
   const participationPercentage = maxPath > 0 ? (participationAres / maxPath) * 100 : 0;
+  
+  // Calculate dual-path bonus
+  const hasDualPathBonus = donationAres > 0 && participationAres > 0;
+  const dualPathBonus = hasDualPathBonus ? Math.round(Math.min(donationAres, participationAres) * 0.10) : 0;
+  const baseAres = maxPath;
 
   return (
     <Card className="border-2 border-axanar-teal/30">
@@ -36,23 +41,10 @@ export const ARESBreakdown: React.FC<ARESBreakdownProps> = ({
           ARES Token Breakdown
         </CardTitle>
         <p className="text-sm text-muted-foreground">
-          Your ARES = MAX(Donation Path, Participation Path)
+          Your ARES = MAX(Donation, Participation){hasDualPathBonus && ' + 10% Dual-Path Bonus'}
         </p>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Total ARES Display */}
-        <div className="text-center p-4 bg-gradient-to-br from-axanar-teal/20 to-blue-500/20 rounded-lg border border-axanar-teal/30">
-          <p className="text-sm text-muted-foreground mb-1">Your Total ARES</p>
-          <p className="text-4xl font-bold text-axanar-teal">
-            {totalAres.toLocaleString()}
-          </p>
-          <p className="text-xs text-muted-foreground mt-2">
-            Using: <strong>{isUsingDonationPath ? 'Donation Path' : 'Participation Path'}</strong>
-          </p>
-        </div>
-
-        <Separator />
-
         {/* Donation Path */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
@@ -99,7 +91,7 @@ export const ARESBreakdown: React.FC<ARESBreakdownProps> = ({
             </div>
           )}
 
-          {/* Participation Breakdown */}
+        {/* Participation Breakdown */}
           <div className="mt-4 space-y-2 bg-background/60 p-3 rounded-lg">
             <p className="text-xs font-semibold text-muted-foreground uppercase">Participation Sources:</p>
             
@@ -151,14 +143,65 @@ export const ARESBreakdown: React.FC<ARESBreakdownProps> = ({
           </div>
         </div>
 
+        <Separator />
+
+        {/* Dual-Path Bonus */}
+        {hasDualPathBonus && (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="h-5 w-5 text-purple-500" />
+                <span className="font-semibold text-purple-500">
+                  Dual-Path Bonus ✨
+                </span>
+              </div>
+              <span className="font-bold text-purple-500">
+                +{dualPathBonus.toLocaleString()} ARES
+              </span>
+            </div>
+            <div className="bg-purple-500/10 p-3 rounded text-xs">
+              <p className="text-purple-500 font-semibold mb-1">
+                🎉 Multi-Path Engagement Reward!
+              </p>
+              <p className="text-muted-foreground">
+                You're earning a <strong>10% bonus</strong> of your weaker path ({Math.min(donationAres, participationAres).toLocaleString()} ARES) 
+                for being active in both donation and participation. Keep it up!
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Final Calculation */}
+        <div className="bg-gradient-to-br from-primary/5 to-secondary/5 p-4 rounded-lg border border-primary/20">
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Base (Best Path)</span>
+              <span className="font-mono font-semibold">{baseAres.toLocaleString()} ARES</span>
+            </div>
+            {hasDualPathBonus && (
+              <div className="flex justify-between text-purple-500">
+                <span>Dual-Path Bonus</span>
+                <span className="font-mono font-semibold">+{dualPathBonus.toLocaleString()} ARES</span>
+              </div>
+            )}
+            <Separator />
+            <div className="flex justify-between text-lg font-bold">
+              <span>Your Total ARES</span>
+              <span className="font-mono text-primary">{totalAres.toLocaleString()}</span>
+            </div>
+          </div>
+        </div>
+
         {/* Explanation */}
         <div className="bg-muted/50 p-3 rounded-lg">
           <p className="text-xs text-muted-foreground">
-            <strong>How it works:</strong> You advance via your <strong>best</strong> path. 
-            {isUsingDonationPath 
-              ? " Your donations currently give you more ARES than participation. Keep engaging to potentially surpass your donation path!"
-              : " Your participation currently gives you more ARES than donations. Keep contributing to the community!"
-            }
+            <strong>How it works:</strong> You advance via your <strong>best</strong> path.
+            {hasDualPathBonus && <span> Plus, you're earning a <strong className="text-purple-500">10% dual-path bonus</strong> for engaging in both ways!</span>}
+            {!hasDualPathBonus && (
+              isUsingDonationPath 
+                ? " Start participating in the community to unlock the dual-path bonus!"
+                : " Make a donation to unlock the dual-path bonus and maximize your ARES!"
+            )}
           </p>
         </div>
       </CardContent>
