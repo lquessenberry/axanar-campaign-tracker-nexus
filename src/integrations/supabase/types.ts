@@ -2861,6 +2861,7 @@ export type Database = {
           forum_xp: number | null
           full_name: string | null
           id: string
+          participation_xp: number | null
           profile_completion_xp: number | null
           recruitment_xp: number | null
           show_avatar_publicly: boolean | null
@@ -2882,6 +2883,7 @@ export type Database = {
           forum_xp?: number | null
           full_name?: string | null
           id: string
+          participation_xp?: number | null
           profile_completion_xp?: number | null
           recruitment_xp?: number | null
           show_avatar_publicly?: boolean | null
@@ -2903,6 +2905,7 @@ export type Database = {
           forum_xp?: number | null
           full_name?: string | null
           id?: string
+          participation_xp?: number | null
           profile_completion_xp?: number | null
           recruitment_xp?: number | null
           show_avatar_publicly?: boolean | null

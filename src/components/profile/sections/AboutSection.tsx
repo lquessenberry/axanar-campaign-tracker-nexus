@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { User, Zap, Heart } from "lucide-react";
 import ForumBadgesPanel from "../ForumBadgesPanel";
+import { ARESBreakdown } from "../ARESBreakdown";
 
 interface AboutSectionProps {
   profile: any;
@@ -69,36 +70,30 @@ const AboutSection: React.FC<AboutSectionProps> = ({
             </div>
           )}
 
-          {/* ARES Breakdown */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-4 p-4 bg-background/60 backdrop-blur-sm rounded-lg border border-border/50">
-              <Zap className="h-5 w-5 text-blue-400 flex-shrink-0" />
-              <div className="flex-1">
-                <p className="font-semibold">Forum Activity</p>
-                <p className="text-sm text-muted-foreground">
-                  {xpBreakdown?.total_posts || 0} threads, {xpBreakdown?.total_comments || 0} comments
-                </p>
-              </div>
-              <div className="text-sm font-bold text-blue-400">
-                +{xpBreakdown?.forum_xp || 0} ARES
-              </div>
+          {/* Quick Stats */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="p-3 bg-background/60 backdrop-blur-sm rounded-lg border border-border/50 text-center">
+              <p className="text-xs text-muted-foreground mb-1">Forum Posts</p>
+              <p className="text-xl font-bold text-blue-400">{xpBreakdown?.total_posts || 0}</p>
             </div>
-
-            <div className="flex items-center gap-4 p-4 bg-background/60 backdrop-blur-sm rounded-lg border border-border/50">
-              <Heart className="h-5 w-5 text-yellow-400 flex-shrink-0" />
-              <div className="flex-1">
-                <p className="font-semibold">Campaign Support</p>
-                <p className="text-sm text-muted-foreground">
-                  ${totalDonated.toLocaleString()} contributed
-                </p>
-              </div>
-              <div className="text-sm font-bold text-yellow-400">
-                +{xpBreakdown?.donation_xp || 0} ARES
-              </div>
+            <div className="p-3 bg-background/60 backdrop-blur-sm rounded-lg border border-border/50 text-center">
+              <p className="text-xs text-muted-foreground mb-1">Donated</p>
+              <p className="text-xl font-bold text-yellow-400">${totalDonated.toLocaleString()}</p>
             </div>
           </div>
         </CardContent>
       </Card>
+
+      {/* ARES Breakdown */}
+      <ARESBreakdown
+        donationAres={xpBreakdown?.donation_xp || 0}
+        participationAres={(xpBreakdown as any)?.participation_xp || 0}
+        forumXP={xpBreakdown?.forum_xp || 0}
+        profileXP={xpBreakdown?.profile_completion_xp || 0}
+        achievementXP={xpBreakdown?.achievement_xp || 0}
+        recruitmentXP={xpBreakdown?.recruitment_xp || 0}
+        totalAres={totalXP}
+      />
 
       {/* Forum Badges */}
       <ForumBadgesPanel />
