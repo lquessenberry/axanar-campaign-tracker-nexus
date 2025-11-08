@@ -113,9 +113,9 @@ const DirectMessages: React.FC = () => {
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-200px)]">
-                {/* Conversations List */}
-                <div className="lg:col-span-1">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-200px)]">
+                {/* Conversations List with Online Users */}
+                <div className="lg:col-span-1 flex flex-col gap-4 overflow-y-auto">
                   {showUserSelector ? (
                     <UserSelector
                       onSelectUser={handleSelectUser}
@@ -123,20 +123,22 @@ const DirectMessages: React.FC = () => {
                       className="h-full"
                     />
                   ) : (
-                    <RealtimeConversationList
-                      conversations={conversations}
-                      selectedConversationId={selectedConversationId}
-                      onSelectConversation={handleSelectConversation}
-                      onStartNewConversation={handleStartNewConversation}
-                      loading={loading}
-                    />
+                    <>
+                      <RealtimeConversationList
+                        conversations={conversations}
+                        selectedConversationId={selectedConversationId}
+                        onSelectConversation={handleSelectConversation}
+                        onStartNewConversation={handleStartNewConversation}
+                        loading={loading}
+                      />
+                      
+                      {/* Online Users Section */}
+                      <div className="space-y-4">
+                        <OnlineUsersList />
+                        <RecentlyActiveUsers />
+                      </div>
+                    </>
                   )}
-                </div>
-
-                {/* Online Users Sidebar */}
-                <div className="lg:col-span-1 space-y-4 overflow-y-auto">
-                  <OnlineUsersList />
-                  <RecentlyActiveUsers />
                 </div>
 
                 {/* Message Thread */}
