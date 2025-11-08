@@ -351,6 +351,189 @@ const HowToEarnARES = () => {
           </CardContent>
         </Card>
 
+        {/* Anti-Toxicity Through Economics */}
+        <Card className="mb-8 border-2 border-red-500/30">
+          <CardHeader>
+            <CardTitle className="text-2xl flex items-center gap-2">
+              <Users className="h-6 w-6 text-red-500" />
+              Combating Toxic Fandom: Stake Your Reputation
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div>
+              <p className="text-muted-foreground mb-4">
+                ARES tokens aren&apos;t just rewards—they&apos;re accountability. By requiring users to stake ARES 
+                for certain privileges and tying reputation to verifiable participation, the system creates powerful 
+                economic incentives against toxic behavior.
+              </p>
+
+              <div className="bg-gradient-to-br from-red-500/10 to-orange-500/10 p-6 rounded-lg border border-red-500/20 mb-6">
+                <h4 className="font-bold text-lg mb-3">The Problem with Traditional Fandom Platforms</h4>
+                <p className="text-sm text-muted-foreground mb-4">
+                  On typical social platforms, toxic behavior has no real cost. Create a new account, troll the 
+                  community, get banned, repeat. There&apos;s no skin in the game, no consequences that actually matter.
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  ARES flips this model: your tokens represent your reputation capital. Lose your tokens, lose your 
+                  standing. This creates real consequences for bad behavior.
+                </p>
+              </div>
+
+              <h4 className="font-bold text-lg mb-3">How Staking Creates Accountability</h4>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3 p-4 bg-background/60 rounded-lg border border-border/50">
+                  <div className="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center flex-shrink-0">
+                    <Heart className="h-4 w-4 text-yellow-400" />
+                  </div>
+                  <div>
+                    <p className="font-semibold mb-1">Staking Requirements for Privileges</p>
+                    <p className="text-sm text-muted-foreground">
+                      Want to post in premium forums? Organize community events? Vote on important decisions? 
+                      You&apos;ll need to stake ARES tokens first. This stake can be slashed if you violate community 
+                      standards—giving you real economic incentive to behave constructively.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-4 bg-background/60 rounded-lg border border-border/50">
+                  <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center flex-shrink-0">
+                    <Trophy className="h-4 w-4 text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="font-semibold mb-1">Slashing for Violations</p>
+                    <p className="text-sm text-muted-foreground">
+                      Community moderators (themselves staked with significant ARES) can propose slashing penalties 
+                      for harassment, trolling, or destructive behavior. Severe violations result in losing staked 
+                      tokens, making toxicity financially costly.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-4 bg-background/60 rounded-lg border border-border/50">
+                  <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
+                    <Zap className="h-4 w-4 text-red-400" />
+                  </div>
+                  <div>
+                    <p className="font-semibold mb-1">Cost of New Accounts</p>
+                    <p className="text-sm text-muted-foreground">
+                      Unlike free platforms where banned users simply create new accounts, building ARES reputation 
+                      takes time and contribution. Trolls can&apos;t easily circumvent bans when each new identity 
+                      requires earning or purchasing significant tokens.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-4 bg-background/60 rounded-lg border border-border/50">
+                  <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                    <Star className="h-4 w-4 text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="font-semibold mb-1">Reputation as Collateral</p>
+                    <p className="text-sm text-muted-foreground">
+                      Your accumulated ARES and proof of participation credentials represent years of positive 
+                      contributions. Risk them with toxic behavior? Most community members won&apos;t—they have too 
+                      much to lose.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-lg mb-3">Proof of Participation vs. Bad Actors</h4>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="p-4 bg-gradient-to-br from-green-500/10 to-green-500/5 rounded-lg border border-green-500/20">
+                  <h5 className="font-semibold mb-2 flex items-center gap-2">
+                    <MessageCircle className="h-4 w-4 text-green-400" />
+                    Quality Over Quantity
+                  </h5>
+                  <p className="text-sm text-muted-foreground">
+                    The participation algorithm rewards thoughtful, constructive engagement—not spam. 
+                    Posting 100 low-effort comments earns less than one insightful contribution that helps 
+                    other members.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-gradient-to-br from-blue-500/10 to-blue-500/5 rounded-lg border border-blue-500/20">
+                  <h5 className="font-semibold mb-2 flex items-center gap-2">
+                    <Users className="h-4 w-4 text-blue-400" />
+                    Community Verification
+                  </h5>
+                  <p className="text-sm text-muted-foreground">
+                    Participation rewards are amplified by community reactions—upvotes, helpful flags, 
+                    recognition from other members. Toxic posts get downvoted and flagged, reducing or 
+                    eliminating ARES gains.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-gradient-to-br from-purple-500/10 to-purple-500/5 rounded-lg border border-purple-500/20">
+                  <h5 className="font-semibold mb-2 flex items-center gap-2">
+                    <Trophy className="h-4 w-4 text-purple-400" />
+                    Time-Based Trust
+                  </h5>
+                  <p className="text-sm text-muted-foreground">
+                    Long-term, consistent participation earns trust multipliers. Brand new accounts have 
+                    limited influence until they prove themselves through months of positive engagement—
+                    making coordinated harassment campaigns impractical.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 rounded-lg border border-cyan-500/20">
+                  <h5 className="font-semibold mb-2 flex items-center gap-2">
+                    <Gift className="h-4 w-4 text-cyan-400" />
+                    Transparent Moderation
+                  </h5>
+                  <p className="text-sm text-muted-foreground">
+                    All moderation actions—warnings, stake slashing, bans—are recorded on-chain with clear 
+                    reasoning. This transparency prevents abuse of power while allowing swift action against 
+                    genuine toxicity.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-5 bg-gradient-to-r from-green-500/10 via-blue-500/10 to-purple-500/10 rounded-lg border-2 border-green-500/30">
+              <h4 className="font-bold text-lg mb-3 flex items-center gap-2">
+                <Star className="h-5 w-5 text-green-400" />
+                Building a Healthier Fandom
+              </h4>
+              <p className="text-sm text-muted-foreground mb-3">
+                By aligning economic incentives with positive behavior, ARES creates a self-regulating community:
+              </p>
+              <div className="grid md:grid-cols-2 gap-3">
+                <div className="bg-background/60 p-3 rounded-lg">
+                  <p className="font-semibold text-sm mb-1 text-green-400">✓ Constructive Contributors Thrive</p>
+                  <p className="text-xs text-muted-foreground">
+                    Helpful members earn ARES, gain influence, and enjoy exclusive perks
+                  </p>
+                </div>
+                <div className="bg-background/60 p-3 rounded-lg">
+                  <p className="font-semibold text-sm mb-1 text-blue-400">✓ Toxic Behavior Becomes Expensive</p>
+                  <p className="text-xs text-muted-foreground">
+                    Trolling costs you tokens, reputation, and access—making it financially irrational
+                  </p>
+                </div>
+                <div className="bg-background/60 p-3 rounded-lg">
+                  <p className="font-semibold text-sm mb-1 text-purple-400">✓ Long-Term Members Protected</p>
+                  <p className="text-xs text-muted-foreground">
+                    Established community members have higher stakes and voting power to shape culture
+                  </p>
+                </div>
+                <div className="bg-background/60 p-3 rounded-lg">
+                  <p className="font-semibold text-sm mb-1 text-cyan-400">✓ Bad Actors Self-Select Out</p>
+                  <p className="text-xs text-muted-foreground">
+                    Trolls move to easier targets where harassment is free and consequence-free
+                  </p>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground mt-4 italic">
+                The result: a fandom where passion is celebrated, criticism is constructive, and everyone has 
+                a genuine stake in maintaining a positive community culture.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Proof of Participation */}
         <Card className="mb-8 border-2 border-purple-500/30">
           <CardHeader>
