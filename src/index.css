@@ -107,7 +107,7 @@
     /* ============= LCARS COLOR PALETTE ============= */
     /* Primary LCARS Colors */
     --lcars-yellow: 48 100% 67%;      /* #FFC107 - LCARS Orange/Yellow */
-    --lcars-blue: 207 100% 50%;       /* #2196F3 - LCARS Blue */
+    --lcars-blue: 207 90% 45%;        /* Darker blue for better contrast */
     --lcars-light-blue: 195 100% 61%; /* #0288D1 - Light Blue */
     --lcars-dark-blue: 211 100% 44%;  /* #1565C0 - Dark Blue */
     --lcars-red: 4 90% 58%;           /* #D32F2F - Alert Red */
