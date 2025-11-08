@@ -351,6 +351,193 @@ const HowToEarnARES = () => {
           </CardContent>
         </Card>
 
+        {/* Proof of Participation */}
+        <Card className="mb-8 border-2 border-purple-500/30">
+          <CardHeader>
+            <CardTitle className="text-2xl flex items-center gap-2">
+              <Trophy className="h-6 w-6 text-purple-500" />
+              Proof of Participation: The Future of Verifiable Engagement
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div>
+              <p className="text-muted-foreground mb-4">
+                The next evolution of ARES will leverage blockchain technology to create verifiable, 
+                immutable records of your contributions to the Axanar community—transforming participation 
+                into portable, provable credentials.
+              </p>
+
+              <div className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 p-6 rounded-lg border border-purple-500/20 mb-6">
+                <h4 className="font-bold text-lg mb-3">What is Proof of Participation?</h4>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Proof of Participation (PoP) creates blockchain-verified records of your authentic engagement—
+                  forum posts, event attendance, creative contributions, moderation work, and more. These aren't 
+                  just numbers in a database; they're permanent, verifiable credentials you truly own.
+                </p>
+                <div className="grid md:grid-cols-2 gap-3">
+                  <div className="bg-background/60 p-3 rounded-lg">
+                    <p className="font-semibold text-sm mb-1 text-purple-400">Immutable Records</p>
+                    <p className="text-xs text-muted-foreground">
+                      Your contributions are recorded on-chain, creating a permanent, tamper-proof history
+                    </p>
+                  </div>
+                  <div className="bg-background/60 p-3 rounded-lg">
+                    <p className="font-semibold text-sm mb-1 text-blue-400">Portable Credentials</p>
+                    <p className="text-xs text-muted-foreground">
+                      Take your reputation anywhere—your proof of participation travels with you
+                    </p>
+                  </div>
+                  <div className="bg-background/60 p-3 rounded-lg">
+                    <p className="font-semibold text-sm mb-1 text-green-400">Verifiable Achievements</p>
+                    <p className="text-xs text-muted-foreground">
+                      Anyone can verify your contributions without trusting a central authority
+                    </p>
+                  </div>
+                  <div className="bg-background/60 p-3 rounded-lg">
+                    <p className="font-semibold text-sm mb-1 text-orange-400">True Ownership</p>
+                    <p className="text-xs text-muted-foreground">
+                      You own your participation records—they can't be taken away or altered
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <h4 className="font-bold text-lg mb-3">How It Works</h4>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3 p-4 bg-background/60 rounded-lg">
+                  <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                    <span className="text-purple-400 font-bold">1</span>
+                  </div>
+                  <div>
+                    <p className="font-semibold mb-1">Participate & Engage</p>
+                    <p className="text-sm text-muted-foreground">
+                      Post in forums, attend virtual events, contribute content, help other members—
+                      every meaningful interaction is tracked by the system.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-4 bg-background/60 rounded-lg">
+                  <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                    <span className="text-blue-400 font-bold">2</span>
+                  </div>
+                  <div>
+                    <p className="font-semibold mb-1">Automatic PoP Generation</p>
+                    <p className="text-sm text-muted-foreground">
+                      Your participation automatically generates cryptographic proofs—digitally signed 
+                      records that verify what you did, when you did it, and the impact it had.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-4 bg-background/60 rounded-lg">
+                  <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                    <span className="text-green-400 font-bold">3</span>
+                  </div>
+                  <div>
+                    <p className="font-semibold mb-1">Blockchain Recording</p>
+                    <p className="text-sm text-muted-foreground">
+                      Participation proofs are periodically batched and recorded on the blockchain, 
+                      creating permanent, verifiable credentials linked to your wallet.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-4 bg-background/60 rounded-lg">
+                  <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center flex-shrink-0">
+                    <span className="text-orange-400 font-bold">4</span>
+                  </div>
+                  <div>
+                    <p className="font-semibold mb-1">Earn ARES & Credentials</p>
+                    <p className="text-sm text-muted-foreground">
+                      Verified participation earns you ARES tokens and unlocks verifiable achievement NFTs 
+                      that prove your contributions to the Axanar community.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-lg mb-3">Future Applications</h4>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="p-4 bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 rounded-lg border border-cyan-500/20">
+                  <h5 className="font-semibold mb-2 flex items-center gap-2">
+                    <Star className="h-4 w-4 text-cyan-400" />
+                    Verifiable Credentials NFTs
+                  </h5>
+                  <p className="text-sm text-muted-foreground">
+                    Milestone achievements become tradeable NFTs—"Founding Member," "Forum Moderator," 
+                    "Event Organizer"—that prove your role in building the community.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-gradient-to-br from-pink-500/10 to-pink-500/5 rounded-lg border border-pink-500/20">
+                  <h5 className="font-semibold mb-2 flex items-center gap-2">
+                    <Users className="h-4 w-4 text-pink-400" />
+                    Cross-Community Reputation
+                  </h5>
+                  <p className="text-sm text-muted-foreground">
+                    Your Axanar participation credentials become portable proof of engagement that 
+                    other communities and projects can recognize and reward.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-gradient-to-br from-yellow-500/10 to-yellow-500/5 rounded-lg border border-yellow-500/20">
+                  <h5 className="font-semibold mb-2 flex items-center gap-2">
+                    <Trophy className="h-4 w-4 text-yellow-400" />
+                    Weighted Governance
+                  </h5>
+                  <p className="text-sm text-muted-foreground">
+                    Long-term, consistent participation earns more governance weight than just token holdings—
+                    rewarding those who actively build the community.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-gradient-to-br from-green-500/10 to-green-500/5 rounded-lg border border-green-500/20">
+                  <h5 className="font-semibold mb-2 flex items-center gap-2">
+                    <Gift className="h-4 w-4 text-green-400" />
+                    Exclusive Access
+                  </h5>
+                  <p className="text-sm text-muted-foreground">
+                    Verified participation unlocks access to private events, behind-the-scenes content, 
+                    and exclusive opportunities based on your proven commitment.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-5 bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-cyan-500/10 rounded-lg border-2 border-purple-500/30">
+              <h4 className="font-bold text-lg mb-2 flex items-center gap-2">
+                <Zap className="h-5 w-5 text-purple-400" />
+                Why This Matters
+              </h4>
+              <p className="text-sm text-muted-foreground mb-3">
+                Traditional reward systems rely on centralized databases controlled by platforms. 
+                Proof of Participation puts you in control:
+              </p>
+              <ul className="text-sm text-muted-foreground space-y-2">
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-400">✓</span>
+                  <span><strong>Platform-Independent:</strong> Your reputation isn't locked to one website—it's yours to use anywhere</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-blue-400">✓</span>
+                  <span><strong>Transparent & Fair:</strong> Clear rules enforced by code, not arbitrary human decisions</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-cyan-400">✓</span>
+                  <span><strong>Privacy-Preserving:</strong> Prove participation without revealing personal information</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-400">✓</span>
+                  <span><strong>Future-Proof:</strong> Your contributions remain valuable even if platforms change or evolve</span>
+                </li>
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Token Minting & Economy */}
         <Card className="mb-8 border-2 border-yellow-500/30">
           <CardHeader>
