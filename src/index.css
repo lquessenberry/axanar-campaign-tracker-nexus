@@ -193,7 +193,7 @@
     --popover: 220 13% 8%;
     --popover-foreground: var(--lcars-yellow);
     --primary: var(--lcars-blue);
-    --primary-foreground: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
     --secondary: 220 13% 15%;
     --secondary-foreground: var(--lcars-yellow);
     --muted: 220 13% 15%;
@@ -231,7 +231,7 @@
     --popover: 4 25% 8%;
     --popover-foreground: var(--lcars-orange);
     --primary: var(--lcars-red);
-    --primary-foreground: var(--lcars-orange);
+    --primary-foreground: 0 0% 100%;
     --secondary: 4 25% 15%;
     --secondary-foreground: var(--lcars-orange);
     --muted: 4 25% 15%;
