@@ -35,6 +35,7 @@ export function MobileHamburgerMenu({ isOpen, onClose, profile }: MobileHamburge
     { label: 'Home', path: '/' },
     { label: 'About', path: '/about' },
     { label: 'How It Works', path: '/how-it-works' },
+    { label: 'How AXC Works', path: '/how-to-earn-axc' },
     { label: 'FAQ', path: '/faq' },
     { label: 'Support', path: '/support' }
   ];

@@ -110,6 +110,11 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
                   {t('how-it-works')}
                 </Button>
               </Link>
+              <Link to="/how-to-earn-axc">
+                <Button variant="ghost" size="sm" className="trek-nav-link font-trek-content">
+                  How AXC Works
+                </Button>
+              </Link>
               <Link to="/forum">
                 <Button variant="ghost" size="sm" className="trek-nav-link font-trek-content">
                   Forum
