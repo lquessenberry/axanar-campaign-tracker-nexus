@@ -336,7 +336,11 @@ const Profile = () => {
         isEditing={false}
         formData={formData}
         setFormData={setFormData}
-        onEdit={() => {}}
+        onEdit={() => {
+          console.log('📝 ProfileHeader: Edit Profile Info clicked, switching to settings section');
+          setActiveSection('settings');
+          setIsEditing(true);
+        }}
         onSave={handleSave}
         onCancel={handleCancel}
         isLoading={updateProfile.isPending}
