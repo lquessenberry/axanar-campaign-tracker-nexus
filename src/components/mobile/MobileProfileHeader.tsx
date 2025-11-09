@@ -44,10 +44,20 @@ export function MobileProfileHeader({
   };
 
   const saveField = async () => {
-    if (!editingField) return;
+    if (!editingField) {
+      console.log('⚠️ No editing field set');
+      return;
+    }
+    
+    console.log('💾 Mobile: Saving field', editingField, 'with value:', tempValue);
     
     try {
-      await onProfileUpdate({ [editingField]: tempValue });
+      const updateData = { [editingField]: tempValue };
+      console.log('📡 Mobile: Calling onProfileUpdate with:', updateData);
+      
+      await onProfileUpdate(updateData);
+      
+      console.log('✅ Mobile: Profile field updated successfully');
       setEditingField(null);
       setTempValue('');
       toast.success('Profile updated!');
@@ -57,6 +67,7 @@ export function MobileProfileHeader({
         navigator.vibrate([50, 50, 50]);
       }
     } catch (error) {
+      console.error('❌ Mobile: Failed to update profile field:', error);
       toast.error('Failed to update profile');
     }
   };

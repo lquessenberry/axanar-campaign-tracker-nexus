@@ -86,16 +86,22 @@ export const useUpdateProfile = () => {
       show_real_name_publicly?: boolean;
       show_background_publicly?: boolean;
     }) => {
-      if (!user) throw new Error('User not authenticated');
+      if (!user) {
+        console.error('❌ No authenticated user');
+        throw new Error('User not authenticated');
+      }
       
       console.log('🔄 Starting profile update with:', updates);
+      console.log('👤 Current user ID:', user.id);
       
       // Validate bio length if provided
       if (updates.bio && updates.bio.length > 5000) {
+        console.error('❌ Bio too long:', updates.bio.length);
         throw new Error('Bio must be less than 5000 characters');
       }
       
       // Update profile table
+      console.log('📡 Sending update to Supabase...');
       const { data, error } = await supabase
         .from('profiles')
         .update(updates)
@@ -105,6 +111,7 @@ export const useUpdateProfile = () => {
 
       if (error) {
         console.error('❌ Profile update error:', error);
+        console.error('Error details:', JSON.stringify(error, null, 2));
         throw error;
       }
 

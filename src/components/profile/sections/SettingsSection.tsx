@@ -44,11 +44,27 @@ const SettingsSection: React.FC<SettingsSectionProps> = ({
   const { data: currentProfile } = useUserProfile();
 
   const handleCopyVanityURL = () => {
+    console.log('📋 Copy vanity URL clicked');
     if (currentProfile?.username) {
       const vanityURL = `${window.location.origin}/u/${currentProfile.username}`;
       navigator.clipboard.writeText(vanityURL);
       toast.success("Vanity URL copied to clipboard!");
     }
+  };
+
+  const handleEditClick = () => {
+    console.log('✏️ Edit Profile button clicked');
+    onEdit();
+  };
+
+  const handleSaveClick = () => {
+    console.log('💾 Save Changes button clicked', formData);
+    onSave();
+  };
+
+  const handleCancelClick = () => {
+    console.log('❌ Cancel button clicked');
+    onCancel();
   };
 
   return (
@@ -62,15 +78,15 @@ const SettingsSection: React.FC<SettingsSectionProps> = ({
               Profile Settings
             </CardTitle>
             {!isEditing ? (
-              <Button onClick={onEdit} variant="outline">
+              <Button onClick={handleEditClick} variant="outline">
                 Edit Profile
               </Button>
             ) : (
               <div className="flex gap-2">
-                <Button onClick={onCancel} variant="outline" disabled={isLoading}>
+                <Button onClick={handleCancelClick} variant="outline" disabled={isLoading}>
                   Cancel
                 </Button>
-                <Button onClick={onSave} disabled={isLoading}>
+                <Button onClick={handleSaveClick} disabled={isLoading}>
                   {isLoading ? "Saving..." : "Save Changes"}
                 </Button>
               </div>
