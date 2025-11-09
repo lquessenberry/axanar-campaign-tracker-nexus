@@ -456,7 +456,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   </DropdownMenuTrigger>
                   <DropdownMenuContent 
                     align="end" 
-                    className="w-56 bg-white border border-gray-200 shadow-lg z-50"
+                    className="w-56"
                   >
                     <DropdownMenuItem onClick={onEdit} className="cursor-pointer">
                       <Edit className="h-4 w-4 mr-2" />
@@ -477,7 +477,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                     {profile?.background_url && (
                       <DropdownMenuItem 
                         onClick={handleRemoveBackground} 
-                        className="cursor-pointer text-red-600 focus:text-red-600"
+                        className="cursor-pointer text-destructive focus:text-destructive"
                       >
                         <X className="h-4 w-4 mr-2" />
                         Remove Background
