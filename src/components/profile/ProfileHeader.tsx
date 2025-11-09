@@ -357,7 +357,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           </div>
           
             {/* Unified Rank Display */}
-            <div className="md:ml-auto flex flex-col md:flex-row gap-3 lg:gap-4 items-start md:items-end w-full md:w-auto">
+            <div className="md:ml-auto flex flex-col gap-3 items-stretch w-full md:w-auto">
               {rankSystem && (
                 <div className="rounded-lg border border-white/20 p-3 lg:p-4 bg-gradient-to-br from-axanar-teal/20 to-blue-500/20 backdrop-blur-sm w-full md:min-w-[240px] lg:min-w-[280px]">
                   <div className="flex items-center justify-between mb-3">
