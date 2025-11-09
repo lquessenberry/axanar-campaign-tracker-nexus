@@ -311,49 +311,8 @@ const Profile = () => {
         <Navigation />
       </div>
       
-      {/* Admin viewing indicator */}
-      {isViewingOtherUser && (
-        <div className="bg-amber-50 border-b border-amber-200 px-6 py-3">
-          <div className="container mx-auto max-w-7xl">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-amber-800 font-medium">
-                  Admin View: You are viewing another user's profile
-                </span>
-              </div>
-              <Link to="/admin/dashboard?section=user-profiles">
-                <Button variant="outline" size="sm">
-                  Back to User Management
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
-      
-      <div className="relative z-10">
-        <ProfileHeader
-          profile={profile}
-          isEditing={false}
-          formData={formData}
-          setFormData={setFormData}
-          onEdit={() => {
-            console.log('📝 ProfileHeader: Edit Profile Info clicked, switching to settings section');
-            setActiveSection('settings');
-            setIsEditing(true);
-          }}
-          onSave={handleSave}
-          onCancel={handleCancel}
-          isLoading={updateProfile.isPending}
-          memberSince={memberSince}
-          pledgesCount={pledges?.length || 0}
-          campaignsCount={totalCampaigns}
-          totalPledged={totalPledged}
-        />
-      </div>
-      
       <SidebarProvider defaultOpen={false}>
-        <div className="flex w-full relative">
+        <div className="flex w-full">
           <ProfileSidebarNav
             activeSection={activeSection}
             onSectionChange={setActiveSection}
@@ -362,16 +321,59 @@ const Profile = () => {
             isAdminContext={false}
           />
           
-          <main className="flex-1 overflow-x-hidden transition-all duration-300">
+          <div className="flex-1 flex flex-col">
+            {/* Admin viewing indicator */}
+            {isViewingOtherUser && (
+              <div className="bg-amber-50 border-b border-amber-200 px-6 py-3">
+                <div className="max-w-7xl mx-auto">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-amber-800 font-medium">
+                        Admin View: You are viewing another user's profile
+                      </span>
+                    </div>
+                    <Link to="/admin/dashboard?section=user-profiles">
+                      <Button variant="outline" size="sm">
+                        Back to User Management
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            <div className="relative">
+              <ProfileHeader
+                profile={profile}
+                isEditing={false}
+                formData={formData}
+                setFormData={setFormData}
+                onEdit={() => {
+                  console.log('📝 ProfileHeader: Edit Profile Info clicked, switching to settings section');
+                  setActiveSection('settings');
+                  setIsEditing(true);
+                }}
+                onSave={handleSave}
+                onCancel={handleCancel}
+                isLoading={updateProfile.isPending}
+                memberSince={memberSince}
+                pledgesCount={pledges?.length || 0}
+                campaignsCount={totalCampaigns}
+                totalPledged={totalPledged}
+              />
+            </div>
+            
+            <main className="flex-1 overflow-x-hidden">
             <div className="bg-background border-b px-4 py-3 flex items-center gap-2">
               <SidebarTrigger />
               <h2 className="text-lg font-semibold capitalize">{activeSection}</h2>
             </div>
             
-            <div className="container mx-auto px-4 py-8 max-w-6xl">
-              {renderSection()}
-            </div>
-          </main>
+              <div className="container mx-auto px-4 py-8 max-w-6xl">
+                {renderSection()}
+              </div>
+            </main>
+          </div>
         </div>
       </SidebarProvider>
       
