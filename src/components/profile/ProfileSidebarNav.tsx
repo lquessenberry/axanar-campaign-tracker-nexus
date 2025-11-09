@@ -94,7 +94,7 @@ export function ProfileSidebarNav({
   };
 
   return (
-    <Sidebar className={`${isCollapsed ? "w-14" : "w-56 lg:w-64"} pt-16 lg:pt-20 ml-2 lg:ml-4 mr-1 lg:mr-2 mb-4 border-0`}>
+    <Sidebar className={`${isCollapsed ? "w-14" : "w-56 lg:w-64"} pt-24 lg:pt-28 ml-2 lg:ml-4 mr-1 lg:mr-2 mb-4 border-0`}>
       <SidebarContent className="flex flex-col h-full">
         {/* Profile Sections - Only show when not in admin context */}
         {!isAdminContext && (
