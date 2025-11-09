@@ -350,7 +350,7 @@ const Profile = () => {
         totalPledged={totalPledged}
       />
       
-      <SidebarProvider defaultOpen>
+      <SidebarProvider defaultOpen={false}>
         <div className="flex w-full">
           <ProfileSidebarNav
             activeSection={activeSection}

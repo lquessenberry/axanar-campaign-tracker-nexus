@@ -180,9 +180,9 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         <div className="absolute inset-x-0 top-0 h-[33vh] bg-black/50 z-10" />
       )}
       
-      <div className="container mx-auto px-4 py-10 relative z-20">
-        <div className="flex flex-col md:flex-row md:items-start gap-6">
-          <div className="relative">
+      <div className="container mx-auto px-4 py-6 lg:py-10 relative z-20">
+        <div className="flex flex-col md:flex-row md:items-start gap-4 lg:gap-6">
+          <div className="relative flex-shrink-0">
             <div className="w-24 h-24 rounded-full bg-axanar-teal/20 ring-4 ring-axanar-teal flex items-center justify-center">
               {profile?.avatar_url ? (
                 <img
@@ -337,19 +337,19 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             )}
             
             {/* Quick Stats Pills */}
-            <div className="flex flex-wrap gap-3 mt-4">
-              <div className="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
-                <span className="text-sm font-medium text-white">
+            <div className="flex flex-wrap gap-2 lg:gap-3 mt-3 lg:mt-4">
+              <div className="bg-white/10 backdrop-blur-sm px-3 lg:px-4 py-1.5 lg:py-2 rounded-full border border-white/20">
+                <span className="text-xs lg:text-sm font-medium text-white">
                   {pledgesCount} Projects Backed
                 </span>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
-                <span className="text-sm font-medium text-white">
+              <div className="bg-white/10 backdrop-blur-sm px-3 lg:px-4 py-1.5 lg:py-2 rounded-full border border-white/20">
+                <span className="text-xs lg:text-sm font-medium text-white">
                   {campaignsCount} Campaigns Created
                 </span>
               </div>
-              <div className="bg-axanar-teal/20 backdrop-blur-sm px-4 py-2 rounded-full border border-axanar-teal/40">
-                <span className="text-sm font-medium text-axanar-teal">
+              <div className="bg-axanar-teal/20 backdrop-blur-sm px-3 lg:px-4 py-1.5 lg:py-2 rounded-full border border-axanar-teal/40">
+                <span className="text-xs lg:text-sm font-medium text-axanar-teal">
                   ${totalPledged.toLocaleString()} Total Pledged
                 </span>
               </div>
@@ -357,9 +357,9 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           </div>
           
             {/* Unified Rank Display */}
-            <div className="md:ml-auto flex flex-col md:flex-row gap-4 items-end">
+            <div className="md:ml-auto flex flex-col md:flex-row gap-3 lg:gap-4 items-start md:items-end w-full md:w-auto">
               {rankSystem && (
-                <div className="rounded-lg border border-white/20 p-4 bg-gradient-to-br from-axanar-teal/20 to-blue-500/20 backdrop-blur-sm min-w-[280px]">
+                <div className="rounded-lg border border-white/20 p-3 lg:p-4 bg-gradient-to-br from-axanar-teal/20 to-blue-500/20 backdrop-blur-sm w-full md:min-w-[240px] lg:min-w-[280px]">
                   <div className="flex items-center justify-between mb-3">
                     <div>
                       <h3 className="text-lg font-bold text-white">{(rankSystem.forumRank?.name || 'CADET').toUpperCase()}</h3>
@@ -396,8 +396,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               
               {/* Vanity URL Card */}
               {profile?.username && (
-                <Card className="bg-white/10 border-white/20 backdrop-blur-sm">
-                  <CardContent className="p-4">
+                <Card className="bg-white/10 border-white/20 backdrop-blur-sm w-full md:w-auto">
+                  <CardContent className="p-3 lg:p-4">
                     <div className="flex items-center gap-2 mb-2">
                       <Link2 className="h-4 w-4 text-white" />
                       <span className="text-sm font-medium text-white">Your Public Profile</span>
