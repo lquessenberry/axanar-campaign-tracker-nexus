@@ -1,9 +1,11 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Heart, Star, Trophy, Gift, Award, Target, Zap, Shield } from "lucide-react";
+import { Heart, Star, Trophy, Gift, Award, Target, Zap, Shield, Package } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import AchievementsShowcase from "./AchievementsShowcase";
 import { useRankSystem } from "@/hooks/useRankSystem";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Pledge {
   id: string;
@@ -43,6 +45,34 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
   // Use unified rank system
   const { data: rankSystem } = useRankSystem(profile?.id, contributionCount);
   const militaryRank = rankSystem?.militaryRank;
+  
+  // Fetch public rewards (only titles, no amounts)
+  const { data: publicRewards } = useQuery({
+    queryKey: ['public-rewards', profile?.id],
+    queryFn: async () => {
+      if (!profile?.id) return [];
+      
+      const { data, error } = await supabase
+        .from('pledges')
+        .select(`
+          id,
+          created_at,
+          campaigns:campaign_id (
+            name
+          ),
+          rewards:reward_id (
+            title
+          )
+        `)
+        .eq('donor_id', profile.id)
+        .not('reward_id', 'is', null)
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!profile?.id,
+  });
   
   const displayName = showRealName 
     ? (profile?.display_name || profile?.full_name || profile?.username || 'This officer')
@@ -140,6 +170,46 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
           </div>
         </CardContent>
       </Card>
+
+      {/* Perks & Rewards Section */}
+      {publicRewards && publicRewards.length > 0 && (
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Package className="h-5 w-5 text-primary" />
+              <h3 className="text-lg font-bold">Earned Perks & Rewards</h3>
+              <Badge variant="secondary" className="ml-auto">{publicRewards.length}</Badge>
+            </div>
+            <div className="space-y-2">
+              {publicRewards.slice(0, 5).map((reward: any) => (
+                <div
+                  key={reward.id}
+                  className="p-3 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-lg border border-border/50"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex-1">
+                      <p className="font-semibold text-sm">
+                        {reward.rewards?.title || 'Special Perk'}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {reward.campaigns?.name || 'Campaign'}
+                      </p>
+                    </div>
+                    <Badge variant="outline" className="text-xs">
+                      {new Date(reward.created_at).toLocaleDateString()}
+                    </Badge>
+                  </div>
+                </div>
+              ))}
+              {publicRewards.length > 5 && (
+                <p className="text-xs text-muted-foreground text-center pt-2">
+                  +{publicRewards.length - 5} more rewards earned
+                </p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Mission History - Showcase without dollar amounts */}
       {contributionCount > 0 && (

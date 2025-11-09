@@ -1,13 +1,15 @@
 
 import React, { useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Heart, BarChart3, Users2, Trophy, Star, Gift, Zap } from "lucide-react";
+import { Heart, BarChart3, Users2, Trophy, Star, Gift, Zap, Package } from "lucide-react";
 import { useUserAchievements, useCalculateAchievements, useUserRecruitment } from "@/hooks/useUserAchievements";
 import { useRankSystem } from "@/hooks/useRankSystem";
+import { useUserRewards } from "@/hooks/useUserRewards";
 import AchievementBadge from "./AchievementBadge";
 import ForumBadgesPanel from "./ForumBadgesPanel";
 import AchievementsShowcase from "./AchievementsShowcase";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 
 interface Pledge {
@@ -39,6 +41,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
   const { data: achievements } = useUserAchievements();
   const { data: recruitmentData } = useUserRecruitment();
   const { data: rankSystem } = useRankSystem(profile?.id);
+  const { data: userRewards } = useUserRewards();
   const calculateAchievements = useCalculateAchievements();
   
   // Calculate achievements on mount and when pledges change
@@ -99,6 +102,66 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
           </p>
         </CardContent>
       </Card>
+
+      {/* Perks & Rewards Section */}
+      {userRewards && userRewards.length > 0 && (
+        <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <Package className="h-5 w-5 text-primary" />
+                <h3 className="text-xl font-bold">Your Perks & Rewards</h3>
+              </div>
+              <Badge variant="secondary">{userRewards.length} items</Badge>
+            </div>
+            <div className="space-y-3">
+              {userRewards.slice(0, 5).map((pledge) => (
+                <div
+                  key={pledge.id}
+                  className="p-4 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-lg border border-border/50 hover:border-primary/30 transition-colors"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1">
+                      <p className="font-semibold text-sm mb-1">
+                        {pledge.campaign?.name || 'Campaign'}
+                      </p>
+                      {pledge.reward ? (
+                        <>
+                          <p className="text-primary font-medium">
+                            {pledge.reward.title}
+                          </p>
+                          {pledge.reward.description && (
+                            <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                              {pledge.reward.description}
+                            </p>
+                          )}
+                        </>
+                      ) : (
+                        <p className="text-muted-foreground text-sm">
+                          Standard campaign support - no specific perk selected
+                        </p>
+                      )}
+                    </div>
+                    <div className="text-right flex-shrink-0">
+                      <Badge variant="outline" className="text-xs">
+                        ${Number(pledge.amount).toFixed(0)}
+                      </Badge>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {new Date(pledge.created_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {userRewards.length > 5 && (
+                <p className="text-xs text-muted-foreground text-center pt-2">
+                  +{userRewards.length - 5} more perks and rewards
+                </p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Unified XP & Rank Status */}
       <Card className="bg-card/50 backdrop-blur-sm border-border/50">
