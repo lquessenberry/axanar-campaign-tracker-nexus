@@ -307,7 +307,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="sticky top-0 z-50 border-b">
+      <div className="sticky top-0 z-40 border-b">
         <Navigation />
       </div>
       
@@ -331,27 +331,29 @@ const Profile = () => {
         </div>
       )}
       
-      <ProfileHeader
-        profile={profile}
-        isEditing={false}
-        formData={formData}
-        setFormData={setFormData}
-        onEdit={() => {
-          console.log('📝 ProfileHeader: Edit Profile Info clicked, switching to settings section');
-          setActiveSection('settings');
-          setIsEditing(true);
-        }}
-        onSave={handleSave}
-        onCancel={handleCancel}
-        isLoading={updateProfile.isPending}
-        memberSince={memberSince}
-        pledgesCount={pledges?.length || 0}
-        campaignsCount={totalCampaigns}
-        totalPledged={totalPledged}
-      />
+      <div className="relative z-10">
+        <ProfileHeader
+          profile={profile}
+          isEditing={false}
+          formData={formData}
+          setFormData={setFormData}
+          onEdit={() => {
+            console.log('📝 ProfileHeader: Edit Profile Info clicked, switching to settings section');
+            setActiveSection('settings');
+            setIsEditing(true);
+          }}
+          onSave={handleSave}
+          onCancel={handleCancel}
+          isLoading={updateProfile.isPending}
+          memberSince={memberSince}
+          pledgesCount={pledges?.length || 0}
+          campaignsCount={totalCampaigns}
+          totalPledged={totalPledged}
+        />
+      </div>
       
       <SidebarProvider defaultOpen={false}>
-        <div className="flex w-full">
+        <div className="flex w-full relative">
           <ProfileSidebarNav
             activeSection={activeSection}
             onSectionChange={setActiveSection}
@@ -360,7 +362,7 @@ const Profile = () => {
             isAdminContext={false}
           />
           
-          <main className="flex-1 overflow-x-hidden">
+          <main className="flex-1 overflow-x-hidden transition-all duration-300">
             <div className="bg-background border-b px-4 py-3 flex items-center gap-2">
               <SidebarTrigger />
               <h2 className="text-lg font-semibold capitalize">{activeSection}</h2>
