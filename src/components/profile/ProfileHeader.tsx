@@ -180,7 +180,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         <div className="absolute inset-x-0 top-0 h-[33vh] bg-black/50 z-10" />
       )}
       
-      <div className="container mx-auto px-4 py-6 lg:py-10 relative z-20">
+      <div className="w-full mx-auto px-4 py-6 lg:py-10 relative z-20">
         <div className="flex flex-col md:flex-row md:items-start gap-4 lg:gap-6">
           <div className="relative flex-shrink-0">
             <div className="w-24 h-24 rounded-full bg-axanar-teal/20 ring-4 ring-axanar-teal flex items-center justify-center">
