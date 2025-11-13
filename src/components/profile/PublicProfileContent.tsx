@@ -61,7 +61,8 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
             name
           ),
           rewards:reward_id (
-            title
+            name,
+            description
           )
         `)
         .eq('donor_id', profile.id)
@@ -160,6 +161,21 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
                   <span className="text-xs text-green-700">Mission Support</span>
                 </Badge>
               )}
+              {/* Perk Commendations */}
+              {publicRewards?.slice(0, 3).map((reward: any) => (
+                <Badge 
+                  key={reward.id} 
+                  variant="outline" 
+                  className="p-2 text-center border-orange-300 bg-orange-50"
+                  title={`${reward.rewards?.name || 'Special Perk'} - ${reward.campaigns?.name || 'Campaign'}`}
+                >
+                  <Gift className="h-4 w-4 mb-1 text-orange-600 mx-auto" />
+                  <span className="text-xs text-orange-700 truncate block">
+                    {reward.rewards?.name?.slice(0, 20) || 'Special Perk'}
+                    {(reward.rewards?.name?.length || 0) > 20 && '...'}
+                  </span>
+                </Badge>
+              ))}
             </div>
             
             {contributionCount === 0 && !rankSystem?.isAdmin && (
@@ -189,7 +205,7 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex-1">
                       <p className="font-semibold text-sm">
-                        {reward.rewards?.title || 'Special Perk'}
+                        {reward.rewards?.name || 'Special Perk'}
                       </p>
                       <p className="text-xs text-muted-foreground">
                         {reward.campaigns?.name || 'Campaign'}
@@ -242,25 +258,42 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
               <Star className="h-5 w-5 text-blue-600" />
               <h3 className="text-lg font-bold">Mission Log</h3>
             </div>
-            <div className="space-y-2">
-              {pledges.slice(0, 3).map((pledge, index) => (
-                <div key={pledge.id} className="flex items-center gap-3 p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-100">
-                  <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                    <Star className="h-3 w-3 text-blue-600" />
+            <div className="space-y-3">
+              {pledges.slice(0, 3).map((pledge) => {
+                // Find matching reward for this pledge
+                const matchingReward = publicRewards?.find((r: any) => r.id === pledge.id);
+                
+                return (
+                  <div key={pledge.id} className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-100">
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Star className="h-3 w-3 text-blue-600" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-blue-900 mb-1">
+                          {pledge.campaigns?.name || 'Classified Operation'}
+                        </p>
+                        {matchingReward?.rewards?.name && (
+                          <div className="flex items-center gap-2 mb-2">
+                            <Gift className="h-3.5 w-3.5 text-purple-600 flex-shrink-0" />
+                            <p className="text-sm text-purple-700 font-medium">
+                              {matchingReward.rewards.name}
+                            </p>
+                          </div>
+                        )}
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <Badge variant="outline" className="text-green-700 border-green-300 bg-green-50 text-xs">
+                            +100 ARES
+                          </Badge>
+                          <span className="text-xs text-blue-600">
+                            {new Date(pledge.created_at).toLocaleDateString()}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <span className="flex-1 font-medium text-blue-800">
-                    Mission: {pledge.campaigns?.name || 'Classified Operation'}
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <Badge variant="outline" className="text-green-700 border-green-300 bg-green-50 text-xs">
-                      +100 ARES
-                    </Badge>
-                    <span className="text-xs text-blue-600">
-                      {new Date(pledge.created_at).toLocaleDateString()}
-                    </span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
               {pledges.length > 3 && (
                 <p className="text-xs text-muted-foreground text-center pt-2">
                   +{pledges.length - 3} additional mission records
