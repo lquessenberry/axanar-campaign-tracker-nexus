@@ -32,15 +32,20 @@ export const useVanityProfile = (username: string) => {
           .select('id')
           .eq('auth_user_id', userId);
 
-        // Get pledges
+        // Get pledges with rewards
         const { data: pledges } = await supabase
           .from('pledges')
           .select(`
             id,
             amount,
             created_at,
+            reward_id,
             campaigns:campaign_id (
               name
+            ),
+            rewards:reward_id (
+              name,
+              description
             )
           `)
           .in('donor_id', donorIds?.map(d => d.id) || []);
@@ -60,15 +65,20 @@ export const useVanityProfile = (username: string) => {
         .maybeSingle();
 
       if (donorData) {
-        // Get pledges for this donor
+        // Get pledges for this donor with rewards
         const { data: pledges } = await supabase
           .from('pledges')
           .select(`
             id,
             amount,
             created_at,
+            reward_id,
             campaigns:campaign_id (
               name
+            ),
+            rewards:reward_id (
+              name,
+              description
             )
           `)
           .eq('donor_id', donorData.id);

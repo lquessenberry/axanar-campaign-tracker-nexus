@@ -11,9 +11,14 @@ interface Pledge {
   id: string;
   amount: number;
   created_at: string;
+  reward_id?: string | null;
   campaigns?: {
     name: string;
   };
+  rewards?: {
+    name: string;
+    description?: string;
+  } | null;
 }
 
 interface Campaign {
@@ -46,34 +51,8 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
   const { data: rankSystem } = useRankSystem(profile?.id, contributionCount);
   const militaryRank = rankSystem?.militaryRank;
   
-  // Fetch public rewards (only titles, no amounts)
-  const { data: publicRewards } = useQuery({
-    queryKey: ['public-rewards', profile?.id],
-    queryFn: async () => {
-      if (!profile?.id) return [];
-      
-      const { data, error } = await supabase
-        .from('pledges')
-        .select(`
-          id,
-          created_at,
-          campaigns:campaign_id (
-            name
-          ),
-          rewards:reward_id (
-            name,
-            description
-          )
-        `)
-        .eq('donor_id', profile.id)
-        .not('reward_id', 'is', null)
-        .order('created_at', { ascending: false });
-      
-      if (error) throw error;
-      return data || [];
-    },
-    enabled: !!profile?.id,
-  });
+  // Extract rewards from pledges prop
+  const publicRewards = pledges?.filter(p => p.reward_id && p.rewards) || [];
   
   const displayName = showRealName 
     ? (profile?.display_name || profile?.full_name || profile?.username || 'This officer')
@@ -162,7 +141,7 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
                 </Badge>
               )}
               {/* Perk Commendations */}
-              {publicRewards?.slice(0, 3).map((reward: any) => (
+              {publicRewards.slice(0, 3).map((reward) => (
                 <Badge 
                   key={reward.id} 
                   variant="outline" 
@@ -197,7 +176,7 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
               <Badge variant="secondary" className="ml-auto">{publicRewards.length}</Badge>
             </div>
             <div className="space-y-2">
-              {publicRewards.slice(0, 5).map((reward: any) => (
+              {publicRewards.slice(0, 5).map((reward) => (
                 <div
                   key={reward.id}
                   className="p-3 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-lg border border-border/50"
@@ -260,8 +239,8 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
             </div>
             <div className="space-y-3">
               {pledges.slice(0, 3).map((pledge) => {
-                // Find matching reward for this pledge
-                const matchingReward = publicRewards?.find((r: any) => r.id === pledge.id);
+                // Check if this pledge has rewards
+                const hasReward = pledge.reward_id && pledge.rewards;
                 
                 return (
                   <div key={pledge.id} className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-100">
@@ -273,11 +252,11 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
                         <p className="font-semibold text-blue-900 mb-1">
                           {pledge.campaigns?.name || 'Classified Operation'}
                         </p>
-                        {matchingReward?.rewards?.name && (
+                        {hasReward && (
                           <div className="flex items-center gap-2 mb-2">
                             <Gift className="h-3.5 w-3.5 text-purple-600 flex-shrink-0" />
                             <p className="text-sm text-purple-700 font-medium">
-                              {matchingReward.rewards.name}
+                              {pledge.rewards?.name}
                             </p>
                           </div>
                         )}

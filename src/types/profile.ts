@@ -24,7 +24,12 @@ export interface Pledge {
   id: string;
   amount: number;
   created_at: string;
+  reward_id?: string | null;
   campaigns?: {
     name: string;
   };
+  rewards?: {
+    name: string;
+    description?: string;
+  } | null;
 }
