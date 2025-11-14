@@ -33,25 +33,39 @@ export const useUserCampaigns = () => {
 
       if (error) throw error;
       
-      // Transform to match expected campaign structure
-      const userCampaigns = data?.map(pledge => ({
-        id: pledge.campaigns?.id || '',
-        title: pledge.campaigns?.name || '',
-        description: null,
-        image_url: pledge.campaigns?.image_url,
-        category: pledge.campaigns?.provider || 'General',
-        goal_amount: 0,
-        current_amount: Number(pledge.amount) || 0,
-        backers_count: 1,
-        status: pledge.campaigns?.active ? 'active' : 'inactive',
-        end_date: pledge.campaigns?.end_date || '',
-        start_date: pledge.campaigns?.start_date || '',
-        created_at: pledge.created_at,
-        updated_at: pledge.updated_at,
-        web_url: pledge.campaigns?.web_url
-      })) || [];
+      // Transform to match expected campaign structure and group by campaign
+      const campaignMap = new Map();
+      
+      data?.forEach(pledge => {
+        const campaignId = pledge.campaigns?.id;
+        if (!campaignId) return;
+        
+        if (!campaignMap.has(campaignId)) {
+          campaignMap.set(campaignId, {
+            id: campaignId,
+            title: pledge.campaigns?.name || '',
+            description: null,
+            image_url: pledge.campaigns?.image_url,
+            category: pledge.campaigns?.provider || 'General',
+            goal_amount: 0,
+            current_amount: Number(pledge.amount) || 0,
+            backers_count: 1,
+            status: pledge.campaigns?.active ? 'active' : 'inactive',
+            end_date: pledge.campaigns?.end_date || '',
+            start_date: pledge.campaigns?.start_date || '',
+            created_at: pledge.created_at,
+            updated_at: pledge.updated_at,
+            web_url: pledge.campaigns?.web_url,
+            provider: pledge.campaigns?.provider
+          });
+        } else {
+          // Add to existing campaign total
+          const existing = campaignMap.get(campaignId);
+          existing.current_amount += Number(pledge.amount) || 0;
+        }
+      });
 
-      return userCampaigns;
+      return Array.from(campaignMap.values());
     },
     enabled: !!user,
   });

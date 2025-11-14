@@ -14,6 +14,8 @@ interface Pledge {
   reward_id?: string | null;
   campaigns?: {
     name: string;
+    provider?: string;
+    start_date?: string;
   };
   rewards?: {
     name: string;
@@ -186,9 +188,21 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
                       <p className="font-semibold text-sm">
                         {reward.rewards?.name || 'Special Perk'}
                       </p>
-                      <p className="text-xs text-muted-foreground">
-                        {reward.campaigns?.name || 'Campaign'}
-                      </p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <p className="text-xs text-muted-foreground">
+                          {reward.campaigns?.name || 'Campaign'}
+                        </p>
+                        {reward.campaigns?.provider && (
+                          <Badge variant="secondary" className="text-xs py-0 px-1.5 h-5">
+                            {reward.campaigns.provider}
+                          </Badge>
+                        )}
+                        {reward.campaigns?.start_date && (
+                          <Badge variant="outline" className="text-xs py-0 px-1.5 h-5">
+                            {new Date(reward.campaigns.start_date).getFullYear()}
+                          </Badge>
+                        )}
+                      </div>
                     </div>
                     <Badge variant="outline" className="text-xs">
                       {new Date(reward.created_at).toLocaleDateString()}
@@ -249,9 +263,21 @@ const PublicProfileContent: React.FC<PublicProfileContentProps> = ({
                         <Star className="h-3 w-3 text-blue-600" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-blue-900 mb-1">
-                          {pledge.campaigns?.name || 'Classified Operation'}
-                        </p>
+                        <div className="flex items-center gap-2 mb-1 flex-wrap">
+                          <p className="font-semibold text-blue-900">
+                            {pledge.campaigns?.name || 'Classified Operation'}
+                          </p>
+                          {pledge.campaigns?.provider && (
+                            <Badge variant="secondary" className="text-xs py-0 px-1.5 h-5">
+                              {pledge.campaigns.provider}
+                            </Badge>
+                          )}
+                          {pledge.campaigns?.start_date && (
+                            <Badge variant="outline" className="text-xs py-0 px-1.5 h-5">
+                              {new Date(pledge.campaigns.start_date).getFullYear()}
+                            </Badge>
+                          )}
+                        </div>
                         {hasReward && (
                           <div className="flex items-center gap-2 mb-2">
                             <Gift className="h-3.5 w-3.5 text-purple-600 flex-shrink-0" />

@@ -46,7 +46,9 @@ export const useVanityProfile = (username: string) => {
             tracking_number,
             shipping_notes,
             campaigns:campaign_id (
-              name
+              name,
+              provider,
+              start_date
             ),
             rewards:reward_id (
               name,
@@ -86,7 +88,9 @@ export const useVanityProfile = (username: string) => {
             tracking_number,
             shipping_notes,
             campaigns:campaign_id (
-              name
+              name,
+              provider,
+              start_date
             ),
             rewards:reward_id (
               name,
