@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Package, Heart } from "lucide-react";
+import { Package, Heart, ExternalLink } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 interface Pledge {
   id: string;
@@ -10,6 +11,9 @@ interface Pledge {
   campaigns?: {
     title: string;
     image_url?: string;
+    provider?: string;
+    start_date?: string;
+    web_url?: string;
   };
 }
 
@@ -65,7 +69,21 @@ const ContributionHistory: React.FC<ContributionHistoryProps> = ({
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-bold">{pledge.campaigns?.title || 'Campaign'}</h3>
+                    <div className="flex flex-col gap-1">
+                      <h3 className="font-bold">{pledge.campaigns?.title || 'Campaign'}</h3>
+                      <div className="flex items-center gap-2">
+                        {pledge.campaigns?.provider && (
+                          <Badge variant="secondary" className="text-xs">
+                            {pledge.campaigns.provider}
+                          </Badge>
+                        )}
+                        {pledge.campaigns?.start_date && (
+                          <Badge variant="outline" className="text-xs">
+                            {new Date(pledge.campaigns.start_date).getFullYear()}
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
                     <span className="text-lg font-bold text-primary">
                       ${Number(pledge.amount).toLocaleString()}
                     </span>
@@ -77,6 +95,17 @@ const ContributionHistory: React.FC<ContributionHistoryProps> = ({
                     <span className="text-xs px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded">
                       {pledge.status || 'Completed'}
                     </span>
+                    {pledge.campaigns?.web_url && (
+                      <a 
+                        href={pledge.campaigns.web_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs px-2 py-1 bg-primary/10 hover:bg-primary/20 text-primary rounded flex items-center gap-1 transition-colors"
+                      >
+                        View Campaign
+                        <ExternalLink className="h-3 w-3" />
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>

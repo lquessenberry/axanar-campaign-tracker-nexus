@@ -43,7 +43,9 @@ export const useUserPledges = () => {
             name,
             image_url,
             active,
-            provider
+            provider,
+            start_date,
+            web_url
           )
         `)
         .in('donor_id', donorIds)
@@ -64,7 +66,10 @@ export const useUserPledges = () => {
           image_url: pledge.campaigns?.image_url,
           status: pledge.campaigns?.active ? 'active' : 'inactive',
           goal_amount: 0,
-          current_amount: Number(pledge.amount) || 0
+          current_amount: Number(pledge.amount) || 0,
+          provider: pledge.campaigns?.provider,
+          start_date: pledge.campaigns?.start_date,
+          web_url: pledge.campaigns?.web_url
         }
       })) || [];
 
