@@ -6,12 +6,19 @@ interface UserPledge {
   id: string;
   amount: number;
   created_at: string;
+  shipping_status?: string | null;
+  shipped_at?: string | null;
+  delivered_at?: string | null;
+  tracking_number?: string | null;
+  shipping_notes?: string | null;
   campaign: {
     name: string;
   };
   reward: {
     name: string;
     description: string;
+    is_physical?: boolean;
+    requires_shipping?: boolean;
   } | null;
 }
 
@@ -36,7 +43,7 @@ export const useUserRewards = () => {
       // Get pledges first
       const { data: pledges, error } = await supabase
         .from('pledges')
-        .select('id, amount, created_at, campaign_id, reward_id')
+        .select('id, amount, created_at, campaign_id, reward_id, shipping_status, shipped_at, delivered_at, tracking_number, shipping_notes')
         .eq('donor_id', donor.id)
         .order('created_at', { ascending: false });
 
@@ -52,7 +59,7 @@ export const useUserRewards = () => {
       // Get reward names
       const rewardIds = [...new Set(pledges.map(p => p.reward_id).filter(Boolean))];
       const { data: rewards } = rewardIds.length > 0
-        ? await supabase.from('rewards').select('id, name, description').in('id', rewardIds)
+        ? await supabase.from('rewards').select('id, name, description, is_physical, requires_shipping').in('id', rewardIds)
         : { data: [] };
 
       // Map the data together
@@ -67,6 +74,11 @@ export const useUserRewards = () => {
         id: pledge.id,
         amount: pledge.amount,
         created_at: pledge.created_at,
+        shipping_status: pledge.shipping_status,
+        shipped_at: pledge.shipped_at,
+        delivered_at: pledge.delivered_at,
+        tracking_number: pledge.tracking_number,
+        shipping_notes: pledge.shipping_notes,
         campaign: campaignMap[pledge.campaign_id] || { name: 'Unknown Campaign' },
         reward: rewardMap[pledge.reward_id] || null
       }));

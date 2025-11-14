@@ -40,12 +40,19 @@ export const useVanityProfile = (username: string) => {
             amount,
             created_at,
             reward_id,
+            shipping_status,
+            shipped_at,
+            delivered_at,
+            tracking_number,
+            shipping_notes,
             campaigns:campaign_id (
               name
             ),
             rewards:reward_id (
               name,
-              description
+              description,
+              is_physical,
+              requires_shipping
             )
           `)
           .in('donor_id', donorIds?.map(d => d.id) || []);
@@ -73,12 +80,19 @@ export const useVanityProfile = (username: string) => {
             amount,
             created_at,
             reward_id,
+            shipping_status,
+            shipped_at,
+            delivered_at,
+            tracking_number,
+            shipping_notes,
             campaigns:campaign_id (
               name
             ),
             rewards:reward_id (
               name,
-              description
+              description,
+              is_physical,
+              requires_shipping
             )
           `)
           .eq('donor_id', donorData.id);

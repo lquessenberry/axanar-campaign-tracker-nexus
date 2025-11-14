@@ -25,11 +25,18 @@ export interface Pledge {
   amount: number;
   created_at: string;
   reward_id?: string | null;
+  shipping_status?: string | null;
+  shipped_at?: string | null;
+  delivered_at?: string | null;
+  tracking_number?: string | null;
+  shipping_notes?: string | null;
   campaigns?: {
     name: string;
   };
   rewards?: {
     name: string;
     description?: string;
+    is_physical?: boolean;
+    requires_shipping?: boolean;
   } | null;
 }
