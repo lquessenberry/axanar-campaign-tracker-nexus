@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DonorMigrationSection from "@/components/admin/DonorMigrationSection";
 import AdminReserveUsersSection from "@/components/admin/AdminReserveUsersSection";
+import { UpdateRewardsData } from "./UpdateRewardsData";
 
 const Settings = () => {
   return (
@@ -21,6 +22,7 @@ const Settings = () => {
 
         <TabsContent value="migration" className="space-y-6 mt-6">
           <DonorMigrationSection />
+          <UpdateRewardsData />
         </TabsContent>
 
         <TabsContent value="reserve-users" className="space-y-6 mt-6">
