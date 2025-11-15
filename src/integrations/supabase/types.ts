@@ -2584,36 +2584,51 @@ export type Database = {
           amount: number
           campaign_id: string | null
           created_at: string
+          delivered_at: string | null
           donor_id: string | null
           id: string
           legacy_id: number | null
           reward_id: string | null
+          shipped_at: string | null
+          shipping_notes: string | null
+          shipping_status: string | null
           source: string | null
           status: string | null
+          tracking_number: string | null
           updated_at: string | null
         }
         Insert: {
           amount: number
           campaign_id?: string | null
           created_at?: string
+          delivered_at?: string | null
           donor_id?: string | null
           id?: string
           legacy_id?: number | null
           reward_id?: string | null
+          shipped_at?: string | null
+          shipping_notes?: string | null
+          shipping_status?: string | null
           source?: string | null
           status?: string | null
+          tracking_number?: string | null
           updated_at?: string | null
         }
         Update: {
           amount?: number
           campaign_id?: string | null
           created_at?: string
+          delivered_at?: string | null
           donor_id?: string | null
           id?: string
           legacy_id?: number | null
           reward_id?: string | null
+          shipped_at?: string | null
+          shipping_notes?: string | null
+          shipping_status?: string | null
           source?: string | null
           status?: string | null
+          tracking_number?: string | null
           updated_at?: string | null
         }
         Relationships: [
@@ -2924,30 +2939,39 @@ export type Database = {
           campaign_id: string | null
           created_at: string | null
           description: string | null
+          estimated_ship_date: string | null
           id: string
+          is_physical: boolean | null
           legacy_id: number | null
           minimum_amount: number | null
           name: string | null
+          requires_shipping: boolean | null
           updated_at: string | null
         }
         Insert: {
           campaign_id?: string | null
           created_at?: string | null
           description?: string | null
+          estimated_ship_date?: string | null
           id?: string
+          is_physical?: boolean | null
           legacy_id?: number | null
           minimum_amount?: number | null
           name?: string | null
+          requires_shipping?: boolean | null
           updated_at?: string | null
         }
         Update: {
           campaign_id?: string | null
           created_at?: string | null
           description?: string | null
+          estimated_ship_date?: string | null
           id?: string
+          is_physical?: boolean | null
           legacy_id?: number | null
           minimum_amount?: number | null
           name?: string | null
+          requires_shipping?: boolean | null
           updated_at?: string | null
         }
         Relationships: [
