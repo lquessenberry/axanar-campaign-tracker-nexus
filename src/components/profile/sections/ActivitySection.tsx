@@ -1,6 +1,7 @@
 import React from "react";
 import AchievementsShowcase from "../AchievementsShowcase";
 import ContributionHistory from "../ContributionHistory";
+import { SupportContact } from "@/components/SupportContact";
 
 interface ActivitySectionProps {
   profile: any;
@@ -68,6 +69,8 @@ const ActivitySection: React.FC<ActivitySectionProps> = ({
 
       {/* Detailed Contribution History */}
       <ContributionHistory pledges={pledges} />
+      
+      <SupportContact />
     </div>
   );
 };

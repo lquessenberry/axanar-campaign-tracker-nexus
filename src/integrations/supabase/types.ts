@@ -4951,6 +4951,17 @@ export type Database = {
       enhanced_admin_security_check: { Args: never; Returns: boolean }
       ensure_profile_usernames: { Args: never; Returns: undefined }
       extract_mentions: { Args: { text_content: string }; Returns: string[] }
+      find_pledge_data_issues: {
+        Args: { search_email: string }
+        Returns: {
+          campaign_name: string
+          current_amount: number
+          donor_email: string
+          donor_id: string
+          pledge_id: string
+          source_amount: string
+        }[]
+      }
       firebase_fdw_handler: { Args: never; Returns: unknown }
       firebase_fdw_meta: {
         Args: never
