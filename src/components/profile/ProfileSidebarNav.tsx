@@ -94,8 +94,14 @@ export function ProfileSidebarNav({
   };
 
   return (
-    <Sidebar className={`${isCollapsed ? "w-14" : "w-56 lg:w-64"} pt-24 lg:pt-28 ml-2 lg:ml-4 mr-1 lg:mr-2 mb-4 border-l-4 border-primary bg-muted/30 backdrop-blur-sm shadow-lg`}>
-      <SidebarContent className="flex flex-col h-full bg-gradient-to-b from-primary/5 to-transparent">
+    <div className="relative">
+      {/* Leaf Toggle Button */}
+      <div className="absolute -right-10 top-32 z-50">
+        <SidebarTrigger className="bg-primary text-primary-foreground hover:bg-primary/90 p-3 rounded-r-lg shadow-lg border-r-4 border-t-4 border-b-4 border-primary/50 transition-all duration-200 hover:shadow-xl" />
+      </div>
+      
+      <Sidebar className={`${isCollapsed ? "w-14" : "w-56 lg:w-64"} pt-24 lg:pt-28 ml-2 lg:ml-4 mr-1 lg:mr-2 mb-4 border-l-4 border-primary bg-muted/30 backdrop-blur-sm shadow-lg`}>
+        <SidebarContent className="flex flex-col h-full bg-gradient-to-b from-primary/5 to-transparent">
         {/* Profile Sections - Only show when not in admin context */}
         {!isAdminContext && (
           <>
@@ -202,5 +208,6 @@ export function ProfileSidebarNav({
         </div>
       </SidebarContent>
     </Sidebar>
+    </div>
   );
 }
