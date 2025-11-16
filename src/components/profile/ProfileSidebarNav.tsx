@@ -94,13 +94,13 @@ export function ProfileSidebarNav({
   };
 
   return (
-    <Sidebar className={`${isCollapsed ? "w-14" : "w-56 lg:w-64"} pt-24 lg:pt-28 ml-2 lg:ml-4 mr-1 lg:mr-2 mb-4 border-0`}>
-      <SidebarContent className="flex flex-col h-full">
+    <Sidebar className={`${isCollapsed ? "w-14" : "w-56 lg:w-64"} pt-24 lg:pt-28 ml-2 lg:ml-4 mr-1 lg:mr-2 mb-4 border-l-4 border-primary bg-muted/30 backdrop-blur-sm shadow-lg`}>
+      <SidebarContent className="flex flex-col h-full bg-gradient-to-b from-primary/5 to-transparent">
         {/* Profile Sections - Only show when not in admin context */}
         {!isAdminContext && (
           <>
             <SidebarGroup>
-              <SidebarGroupLabel className={isCollapsed ? "sr-only" : ""}>
+              <SidebarGroupLabel className={isCollapsed ? "sr-only" : "text-primary font-bold uppercase text-xs tracking-wider border-b border-primary/30 pb-2 mb-2"}>
                 Profile
               </SidebarGroupLabel>
               
@@ -111,7 +111,11 @@ export function ProfileSidebarNav({
                       <SidebarMenuButton
                         onClick={() => onSectionChange?.(section.value)}
                         isActive={activeSection === section.value}
-                        className="hover:bg-muted/50 data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-semibold"
+                        className={`transition-all duration-200 ${
+                          activeSection === section.value 
+                            ? "bg-primary text-primary-foreground font-semibold shadow-md border-l-4 border-primary-foreground" 
+                            : "hover:bg-primary/20 hover:border-l-4 hover:border-primary/50"
+                        }`}
                       >
                         <section.icon className="h-4 w-4" />
                         {!isCollapsed && <span>{section.title}</span>}
@@ -130,7 +134,7 @@ export function ProfileSidebarNav({
         {isAdmin && (
           <>
             <SidebarGroup>
-              <SidebarGroupLabel className={isCollapsed ? "sr-only" : ""}>
+              <SidebarGroupLabel className={isCollapsed ? "sr-only" : "text-primary font-bold uppercase text-xs tracking-wider border-b border-primary/30 pb-2 mb-2"}>
                 Admin
               </SidebarGroupLabel>
               
@@ -141,7 +145,11 @@ export function ProfileSidebarNav({
                       <SidebarMenuButton
                         onClick={() => handleAdminSectionClick(section)}
                         isActive={isAdminSectionActive(section)}
-                        className="hover:bg-muted/50 data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-semibold"
+                        className={`transition-all duration-200 ${
+                          isAdminSectionActive(section)
+                            ? "bg-primary text-primary-foreground font-semibold shadow-md border-l-4 border-primary-foreground" 
+                            : "hover:bg-primary/20 hover:border-l-4 hover:border-primary/50"
+                        }`}
                       >
                         <section.icon className="h-4 w-4" />
                         {!isCollapsed && <span>{section.title}</span>}
@@ -158,7 +166,7 @@ export function ProfileSidebarNav({
 
         {/* Navigation Links */}
         <SidebarGroup>
-          <SidebarGroupLabel className={isCollapsed ? "sr-only" : ""}>
+          <SidebarGroupLabel className={isCollapsed ? "sr-only" : "text-primary font-bold uppercase text-xs tracking-wider border-b border-primary/30 pb-2 mb-2"}>
             Navigate
           </SidebarGroupLabel>
           
@@ -169,7 +177,7 @@ export function ProfileSidebarNav({
                   <SidebarMenuButton asChild>
                     <Link 
                       to={link.path}
-                      className="hover:bg-muted/50"
+                      className="hover:bg-primary/20 hover:border-l-4 hover:border-primary/50 transition-all duration-200"
                     >
                       <link.icon className="h-4 w-4" />
                       {!isCollapsed && <span>{link.title}</span>}
@@ -182,11 +190,11 @@ export function ProfileSidebarNav({
         </SidebarGroup>
 
         {/* Sign Out at Bottom */}
-        <div className="mt-auto p-4 border-t">
+        <div className="mt-auto p-4 border-t border-primary/30 bg-muted/20">
           <Button
             variant="ghost"
             onClick={onSignOut}
-            className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10"
+            className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/20 font-semibold transition-all duration-200 border-l-4 border-transparent hover:border-l-4 hover:border-destructive"
           >
             <LogOut className="h-4 w-4" />
             {!isCollapsed && <span className="ml-2">Sign Out</span>}
