@@ -96,7 +96,7 @@ export function ProfileSidebarNav({
   return (
     <div className="relative">
       {/* Leaf Toggle Button */}
-      <div className="absolute -right-12 top-32 z-50">
+      <div className="absolute -right-12 top-28 z-50">
         <SidebarTrigger className="bg-primary text-primary-foreground hover:bg-primary/90 p-2 rounded-r-lg shadow-lg border-r-4 border-t-4 border-b-4 border-primary/50 transition-all duration-200 hover:shadow-xl" />
       </div>
       
