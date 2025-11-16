@@ -122,14 +122,31 @@
     --font-body: 'Arial', 'Helvetica', sans-serif;
     --font-mono: 'Orbitron', 'Monaco', monospace;
     
-    /* Spacing */
+    /* Spacing - Command Rail System */
+    --space-unit: 8px;
+    --command-rail-min-width: 280px;
+    --command-rail-module-height: 64px;
+    --command-rail-gap: 8px;
     --spacing-unit: 0.75rem;
     --lcars-gap: var(--spacing-unit);
+    
+    /* TOS-Inspired Colors */
+    --tos-primary-black: 10 10% 4%;      /* #0a0a0a */
+    --tos-optimism-blue: 225 73% 57%;    /* #4169E1 */
+    --tos-util-gray: 0 0% 41%;           /* #696969 */
+    --tos-etched-border: 0 0% 20%;       /* #333 */
+    --tos-exploration-glow: 195 100% 50%; /* #00BFFF */
     
     /* Effects */
     --lcars-glow: 0 0 10px currentColor;
     --lcars-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     --lcars-shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.3);
+    
+    /* Command Rail Tactile Effects */
+    --command-rail-inset-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+    --command-rail-depth: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --command-rail-glow: 0 0 20px hsl(var(--tos-exploration-glow));
+    --command-rail-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     
     /* ============= STANDARD LCARS MODE (Light) ============= */
     --background: 0 0% 100%;
