@@ -414,6 +414,16 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                         size="sm" 
                         variant="ghost" 
                         className="h-6 w-6 p-0 text-white hover:bg-white/20"
+                        asChild
+                      >
+                        <a href={`/u/${profile.username}`} target="_blank" rel="noopener noreferrer">
+                          <Eye className="h-3 w-3" />
+                        </a>
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        variant="ghost" 
+                        className="h-6 w-6 p-0 text-white hover:bg-white/20"
                         onClick={() => {
                           const vanityURL = `${window.location.origin}/u/${profile.username}`;
                           navigator.clipboard.writeText(vanityURL);
