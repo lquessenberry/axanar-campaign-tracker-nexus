@@ -113,14 +113,14 @@ export function ProfileSidebarNav({
                 Profile
               </SidebarGroupLabel>
               
-              <SidebarGroupContent>
-                <SidebarMenu>
+              <SidebarGroupContent className="!p-0 !m-0">
+                <SidebarMenu className="!gap-0 !p-0">
                   {profileSections.map((section) => (
-                    <SidebarMenuItem key={section.value}>
+                    <SidebarMenuItem key={section.value} className="!p-0 !m-0">
                       <SidebarMenuButton
                         onClick={() => onSectionChange?.(section.value)}
                         isActive={activeSection === section.value}
-                        className={`transition-all duration-200 ${isCollapsed ? 'justify-center !px-2' : ''} ${
+                        className={`transition-all duration-200 !m-0 ${isCollapsed ? 'justify-center !px-2' : ''} ${
                           activeSection === section.value 
                             ? "bg-primary text-primary-foreground font-semibold shadow-md border-l-4 border-primary-foreground" 
                             : "hover:bg-primary/20 hover:border-l-4 hover:border-primary/50"
@@ -179,14 +179,14 @@ export function ProfileSidebarNav({
             Navigate
           </SidebarGroupLabel>
           
-          <SidebarGroupContent>
-            <SidebarMenu>
+          <SidebarGroupContent className="!p-0 !m-0">
+            <SidebarMenu className="!gap-0 !p-0">
               {navigationLinks.map((link) => (
-                <SidebarMenuItem key={link.path}>
+                <SidebarMenuItem key={link.path} className="!p-0 !m-0">
                   <SidebarMenuButton asChild>
                     <Link 
                       to={link.path}
-                      className={`hover:bg-primary/20 hover:border-l-4 hover:border-primary/50 transition-all duration-200 ${isCollapsed ? 'justify-center !px-2' : ''}`}
+                      className={`hover:bg-primary/20 hover:border-l-4 hover:border-primary/50 transition-all duration-200 !m-0 ${isCollapsed ? 'justify-center !px-2' : ''}`}
                     >
                       <link.icon className={isCollapsed ? "h-5 w-5" : "h-4 w-4"} />
                       {!isCollapsed && <span>{link.title}</span>}
