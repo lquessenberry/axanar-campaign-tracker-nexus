@@ -366,7 +366,7 @@ const Profile = () => {
             <main className="flex-1 overflow-x-hidden">
               {/* LCARS Function Tabs - Hero to Body Transition */}
               <div className="bg-gradient-to-b from-background/95 to-background border-b border-primary/30 px-4 py-3 flex items-center gap-3 lcars-tab-strip">
-                <SidebarTrigger className="flex-shrink-0" />
+                <SidebarTrigger className="flex-shrink-0 text-primary hover:text-primary-foreground hover:bg-primary p-2 rounded-md transition-all duration-200 shadow-sm hover:shadow-md" />
                 <h2 className="text-lg font-semibold capitalize text-primary leading-none m-0">{activeSection}</h2>
               </div>
             
