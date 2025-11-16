@@ -115,9 +115,24 @@ export const useCreateThread = () => {
       });
     },
     onError: (error: any) => {
+      console.error('❌ Thread creation error:', error);
+      
+      let errorMessage = error.message;
+      
+      // Provide specific error messages
+      if (error.message?.includes('not authenticated')) {
+        errorMessage = 'You must be logged in to post threads.';
+      } else if (error.message?.includes('permission denied') || error.message?.includes('policy')) {
+        errorMessage = '🔒 Permission denied. Please ensure you have forum posting privileges.';
+      } else if (error.message?.includes('violates')) {
+        errorMessage = 'Invalid post data. Please check your title and content.';
+      } else if (error.code === 'PGRST301' || error.code === '23505') {
+        errorMessage = 'Duplicate post detected. Please wait before posting again.';
+      }
+      
       toast({
-        title: 'Error posting thread',
-        description: error.message,
+        title: '⚠️ Transmission Error',
+        description: errorMessage,
         variant: 'destructive',
       });
     },
