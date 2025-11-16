@@ -120,13 +120,13 @@ export function ProfileSidebarNav({
                       <SidebarMenuButton
                         onClick={() => onSectionChange?.(section.value)}
                         isActive={activeSection === section.value}
-                        className={`transition-all duration-200 ${
+                        className={`transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : ''} ${
                           activeSection === section.value 
                             ? "bg-primary text-primary-foreground font-semibold shadow-md border-l-4 border-primary-foreground" 
                             : "hover:bg-primary/20 hover:border-l-4 hover:border-primary/50"
                         }`}
                       >
-                        <section.icon className={isCollapsed ? "h-5 w-5 mx-auto" : "h-4 w-4"} />
+                        <section.icon className={isCollapsed ? "h-5 w-5" : "h-4 w-4"} />
                         {!isCollapsed && <span>{section.title}</span>}
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -154,13 +154,13 @@ export function ProfileSidebarNav({
                       <SidebarMenuButton
                         onClick={() => handleAdminSectionClick(section)}
                         isActive={isAdminSectionActive(section)}
-                        className={`transition-all duration-200 ${
+                        className={`transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : ''} ${
                           isAdminSectionActive(section)
                             ? "bg-primary text-primary-foreground font-semibold shadow-md border-l-4 border-primary-foreground" 
                             : "hover:bg-primary/20 hover:border-l-4 hover:border-primary/50"
                         }`}
                       >
-                        <section.icon className={isCollapsed ? "h-5 w-5 mx-auto" : "h-4 w-4"} />
+                        <section.icon className={isCollapsed ? "h-5 w-5" : "h-4 w-4"} />
                         {!isCollapsed && <span>{section.title}</span>}
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -186,9 +186,9 @@ export function ProfileSidebarNav({
                   <SidebarMenuButton asChild>
                     <Link 
                       to={link.path}
-                      className="hover:bg-primary/20 hover:border-l-4 hover:border-primary/50 transition-all duration-200"
+                      className={`hover:bg-primary/20 hover:border-l-4 hover:border-primary/50 transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : ''}`}
                     >
-                      <link.icon className={isCollapsed ? "h-5 w-5 mx-auto" : "h-4 w-4"} />
+                      <link.icon className={isCollapsed ? "h-5 w-5" : "h-4 w-4"} />
                       {!isCollapsed && <span>{link.title}</span>}
                     </Link>
                   </SidebarMenuButton>
