@@ -100,7 +100,10 @@ export function ProfileSidebarNav({
         <SidebarTrigger className="bg-primary text-primary-foreground hover:bg-primary/90 p-2 rounded-r-lg shadow-lg border-r-4 border-t-4 border-b-4 border-primary/50 transition-all duration-200 hover:shadow-xl" />
       </div>
       
-      <Sidebar className={`${isCollapsed ? "w-14" : "w-56 lg:w-64"} pt-24 lg:pt-28 ml-2 lg:ml-4 mr-1 lg:mr-2 mb-4 border-l-4 border-primary bg-muted/30 backdrop-blur-sm shadow-lg`}>
+      <Sidebar 
+        collapsible="icon"
+        className={`${isCollapsed ? "w-14" : "w-56 lg:w-64"} pt-24 lg:pt-28 ml-2 lg:ml-4 mr-1 lg:mr-2 mb-4 border-l-4 border-primary bg-muted/30 backdrop-blur-sm shadow-lg`}
+      >
         <SidebarContent className="flex flex-col h-full bg-gradient-to-b from-primary/5 to-transparent">
         {/* Profile Sections - Only show when not in admin context */}
         {!isAdminContext && (
@@ -123,7 +126,7 @@ export function ProfileSidebarNav({
                             : "hover:bg-primary/20 hover:border-l-4 hover:border-primary/50"
                         }`}
                       >
-                        <section.icon className="h-4 w-4" />
+                        <section.icon className={isCollapsed ? "h-5 w-5 mx-auto" : "h-4 w-4"} />
                         {!isCollapsed && <span>{section.title}</span>}
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -157,7 +160,7 @@ export function ProfileSidebarNav({
                             : "hover:bg-primary/20 hover:border-l-4 hover:border-primary/50"
                         }`}
                       >
-                        <section.icon className="h-4 w-4" />
+                        <section.icon className={isCollapsed ? "h-5 w-5 mx-auto" : "h-4 w-4"} />
                         {!isCollapsed && <span>{section.title}</span>}
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -185,7 +188,7 @@ export function ProfileSidebarNav({
                       to={link.path}
                       className="hover:bg-primary/20 hover:border-l-4 hover:border-primary/50 transition-all duration-200"
                     >
-                      <link.icon className="h-4 w-4" />
+                      <link.icon className={isCollapsed ? "h-5 w-5 mx-auto" : "h-4 w-4"} />
                       {!isCollapsed && <span>{link.title}</span>}
                     </Link>
                   </SidebarMenuButton>
@@ -200,9 +203,9 @@ export function ProfileSidebarNav({
           <Button
             variant="ghost"
             onClick={onSignOut}
-            className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/20 font-semibold transition-all duration-200 border-l-4 border-transparent hover:border-l-4 hover:border-destructive"
+            className={`w-full ${isCollapsed ? 'justify-center px-0' : 'justify-start'} text-destructive hover:text-destructive hover:bg-destructive/20 font-semibold transition-all duration-200 border-l-4 border-transparent hover:border-l-4 hover:border-destructive`}
           >
-            <LogOut className="h-4 w-4" />
+            <LogOut className={isCollapsed ? "h-5 w-5" : "h-4 w-4"} />
             {!isCollapsed && <span className="ml-2">Sign Out</span>}
           </Button>
         </div>
