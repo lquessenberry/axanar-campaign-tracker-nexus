@@ -147,14 +147,14 @@ export function ProfileSidebarNav({
                 Admin
               </SidebarGroupLabel>
               
-              <SidebarGroupContent>
-                <SidebarMenu>
+              <SidebarGroupContent className="!p-0 !m-0">
+                <SidebarMenu className="!gap-0 !p-0"  >
                   {adminSections.map((section) => (
-                    <SidebarMenuItem key={section.value}>
+                    <SidebarMenuItem key={section.value} className="!p-0 !m-0">
                       <SidebarMenuButton
                         onClick={() => handleAdminSectionClick(section)}
                         isActive={isAdminSectionActive(section)}
-                        className={`transition-all duration-200 ${isCollapsed ? 'justify-center !px-2' : ''} ${
+                        className={`transition-all duration-200 !m-0 ${isCollapsed ? 'justify-center !px-2' : ''} ${
                           isAdminSectionActive(section)
                             ? "bg-primary text-primary-foreground font-semibold shadow-md border-l-4 border-primary-foreground" 
                             : "hover:bg-primary/20 hover:border-l-4 hover:border-primary/50"
