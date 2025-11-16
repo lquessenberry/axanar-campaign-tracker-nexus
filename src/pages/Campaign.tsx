@@ -17,6 +17,33 @@ const Campaign = () => {
   const { data: campaign, isLoading, error } = useCampaign(id || '');
   const [activeTab, setActiveTab] = useState("details");
 
+  if (error) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navigation />
+        <div className="flex-1 container mx-auto px-4 py-12">
+          <Card className="max-w-2xl mx-auto border-destructive">
+            <CardHeader>
+              <CardTitle className="text-2xl">Campaign Not Found</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground mb-4">
+                This campaign could not be loaded. It may have been removed or the ID is incorrect.
+              </p>
+              <Button asChild>
+                <Link to="/campaigns">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  View All Campaigns
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   // Lottie setup
   const LOTTIE_URL = "https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/ares-msd.json";
   const [lottieData, setLottieData] = useState<any | null>(null);
