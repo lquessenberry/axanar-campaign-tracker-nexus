@@ -180,9 +180,12 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         <div className="absolute inset-x-0 top-0 h-[33vh] bg-black/50 z-10" />
       )}
       
-      <div className="w-full mx-auto px-4 py-6 lg:py-10 relative z-20">
-        <div className="flex flex-col md:flex-row md:items-start gap-4 lg:gap-6">
-          <div className="relative flex-shrink-0">
+      {/* Hero Console Container - LCARS-inspired layout with max-width constraint */}
+      <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10 relative z-20">
+        {/* Grid System: Avatar | Info | Rank Card */}
+        <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_auto] gap-4 lg:gap-6 items-start">
+          {/* Avatar Section - Fixed size */}
+          <div className="relative flex-shrink-0 justify-self-start md:justify-self-auto">
             <div className="w-24 h-24 rounded-full bg-axanar-teal/20 ring-4 ring-axanar-teal flex items-center justify-center">
               {profile?.avatar_url ? (
                 <img
@@ -216,7 +219,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             )}
           </div>
           
-          <div className="flex-1">
+          {/* Profile Info Section - Flexible width */}
+          <div className="flex-1 min-w-0">
             {isEditing ? (
               <div className="space-y-4 bg-white/5 p-4 rounded-lg backdrop-blur-sm border border-white/10">
                 <div>
@@ -336,19 +340,19 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               </div>
             )}
             
-            {/* Quick Stats Pills */}
+            {/* Quick Stats Pills - LCARS Module Style */}
             <div className="flex flex-wrap gap-2 lg:gap-3 mt-3 lg:mt-4">
-              <div className="bg-white/10 backdrop-blur-sm px-3 lg:px-4 py-1.5 lg:py-2 rounded-full border border-white/20">
+              <div className="lcars-stat-pill bg-white/10 backdrop-blur-sm px-3 lg:px-4 py-1.5 lg:py-2 rounded-full border border-white/20 hover:border-lcars-blue hover:bg-white/15 transition-all">
                 <span className="text-xs lg:text-sm font-medium text-white">
                   {pledgesCount} Projects Backed
                 </span>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm px-3 lg:px-4 py-1.5 lg:py-2 rounded-full border border-white/20">
+              <div className="lcars-stat-pill bg-white/10 backdrop-blur-sm px-3 lg:px-4 py-1.5 lg:py-2 rounded-full border border-white/20 hover:border-lcars-blue hover:bg-white/15 transition-all">
                 <span className="text-xs lg:text-sm font-medium text-white">
                   {campaignsCount} Campaigns Created
                 </span>
               </div>
-              <div className="bg-axanar-teal/20 backdrop-blur-sm px-3 lg:px-4 py-1.5 lg:py-2 rounded-full border border-axanar-teal/40">
+              <div className="lcars-stat-pill bg-axanar-teal/20 backdrop-blur-sm px-3 lg:px-4 py-1.5 lg:py-2 rounded-full border border-axanar-teal/40 hover:border-axanar-teal hover:bg-axanar-teal/30 transition-all">
                 <span className="text-xs lg:text-sm font-medium text-axanar-teal">
                   ${totalPledged.toLocaleString()} Total Pledged
                 </span>
@@ -356,10 +360,10 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             </div>
           </div>
           
-            {/* Unified Rank Display */}
-            <div className="md:ml-auto flex flex-col gap-3 items-stretch w-full md:w-auto">
-              {rankSystem && (
-                <div className="rounded-lg border border-white/20 p-3 lg:p-4 bg-gradient-to-br from-axanar-teal/20 to-blue-500/20 backdrop-blur-sm w-full md:min-w-[240px] lg:min-w-[280px]">
+          {/* Unified Rank Display - Fixed width on desktop */}
+          <div className="flex flex-col gap-3 items-stretch w-full lg:w-[280px] lg:col-start-3 lg:row-start-1">
+            {rankSystem && (
+              <div className="lcars-rank-card rounded-lg border border-white/20 p-3 lg:p-4 bg-gradient-to-br from-axanar-teal/20 to-blue-500/20 backdrop-blur-sm w-full hover:border-axanar-teal/60 transition-all">
                   <div className="flex items-center justify-between mb-3">
                     <div>
                       <h3 className="text-lg font-bold text-white">{(rankSystem.forumRank?.name || 'CADET').toUpperCase()}</h3>
@@ -392,11 +396,11 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                     </div>
                   </div>
                 </div>
-              )}
-              
-              {/* Vanity URL Card */}
-              {profile?.username && (
-                <Card className="bg-white/10 border-white/20 backdrop-blur-sm w-full md:w-auto">
+            )}
+            
+            {/* Vanity URL Card - LCARS Module */}
+            {profile?.username && (
+                <Card className="w-full bg-white/10 backdrop-blur-sm border-white/20 hover:border-axanar-teal/60 transition-all lcars-vanity-card">
                   <CardContent className="p-3 lg:p-4">
                     <div className="flex items-center gap-2 mb-2">
                       <Link2 className="h-4 w-4 text-white" />
@@ -423,7 +427,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 </Card>
               )}
             
-            <div className="flex gap-2 mt-4 md:mt-0">
+            {/* Action Buttons - LCARS Command Strip */}
+            <div className="flex flex-wrap gap-2 lcars-action-strip">
               {isEditing ? (
                 <>
                   <Button 

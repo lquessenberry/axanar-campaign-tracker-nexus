@@ -88,6 +88,109 @@
   font-display: swap;
 }
 
+/* ============= RESPONSIVE PROFILE LAYOUT ============= */
+/* Laptop viewport optimization (1200px - 1920px) */
+@media (min-width: 1200px) {
+  .profile-header-hero {
+    max-width: 1400px;
+  }
+  
+  /* Ensure stat pills don't wrap awkwardly */
+  .lcars-stat-pill {
+    flex: 0 1 auto;
+    white-space: nowrap;
+  }
+  
+  /* Rank card stays fixed width on large screens */
+  .lcars-rank-card {
+    min-width: 280px;
+    max-width: 280px;
+  }
+}
+
+/* Tablet/Smaller Laptop (768px - 1199px) */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .profile-header-hero {
+    padding-left: clamp(16px, 3vw, 32px);
+    padding-right: clamp(16px, 3vw, 32px);
+  }
+}
+
+/* Mobile (below 768px) */
+@media (max-width: 767px) {
+  .lcars-rank-card {
+    width: 100%;
+  }
+}
+
+/* LCARS Tab Strip - Hero to Body Transition */
+.lcars-tab-strip {
+  animation: lcars-slide-down 0.3s ease-out;
+  position: relative;
+}
+
+.lcars-tab-strip::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    hsl(var(--primary)) 0%, 
+    hsl(var(--primary)) 30%, 
+    transparent 100%);
+}
+
+@keyframes lcars-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============= PROFILE HEADER LCARS STYLING ============= */
+/* LCARS-inspired hero console with optimistic reveals */
+
+.lcars-stat-pill {
+  animation: lcars-fade-in 0.4s ease-out;
+}
+
+.lcars-rank-card {
+  animation: lcars-fade-in 0.5s ease-out;
+  transform-origin: top right;
+}
+
+.lcars-vanity-card {
+  animation: lcars-fade-in 0.6s ease-out;
+}
+
+.lcars-action-strip {
+  animation: lcars-fade-in 0.7s ease-out;
+}
+
+@keyframes lcars-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* LCARS Tactile Button Effect */
+.lcars-stat-pill:active,
+.lcars-rank-card:active,
+.lcars-vanity-card:active {
+  transform: translateY(2px);
+}
+
 /* ============= CURSOR FIXES ============= */
 /* Fix crosshair cursor appearing in profile/form contexts */
 input:focus,

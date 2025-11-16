@@ -364,12 +364,13 @@ const Profile = () => {
             </div>
             
             <main className="flex-1 overflow-x-hidden">
-            <div className="bg-background border-b px-4 py-3 flex items-center gap-2">
-              <SidebarTrigger />
-              <h2 className="text-lg font-semibold capitalize">{activeSection}</h2>
-            </div>
+              {/* LCARS Function Tabs - Hero to Body Transition */}
+              <div className="bg-gradient-to-b from-background/95 to-background border-b border-primary/30 px-4 py-3 flex items-center gap-2 lcars-tab-strip">
+                <SidebarTrigger />
+                <h2 className="text-lg font-semibold capitalize text-primary">{activeSection}</h2>
+              </div>
             
-              <div className="container mx-auto px-4 py-8 max-w-6xl">
+              <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl">
                 {renderSection()}
               </div>
             </main>
