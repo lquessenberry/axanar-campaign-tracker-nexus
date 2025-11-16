@@ -312,14 +312,16 @@ const Profile = () => {
       </div>
       
       <SidebarProvider defaultOpen={false}>
-        <div className="flex w-full">
-          <ProfileSidebarNav
-            activeSection={activeSection}
-            onSectionChange={setActiveSection}
-            onSignOut={handleSignOut}
-            isAdmin={isAdmin}
-            isAdminContext={false}
-          />
+        <div className="flex w-full relative">
+          <div className="relative z-50">
+            <ProfileSidebarNav
+              activeSection={activeSection}
+              onSectionChange={setActiveSection}
+              onSignOut={handleSignOut}
+              isAdmin={isAdmin}
+              isAdminContext={false}
+            />
+          </div>
           
           <div className="flex-1 flex flex-col">
             {/* Admin viewing indicator */}

@@ -177,7 +177,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       
       {/* Dark overlay for text readability */}
       {profile?.background_url && (
-        <div className="absolute inset-x-0 top-0 h-[33vh] bg-black/50 z-10" />
+        <div className="absolute inset-x-0 top-0 h-[33vh] bg-black/50 z-0 pointer-events-none" />
       )}
       
       {/* Hero Console Container - LCARS-inspired layout with max-width constraint */}
