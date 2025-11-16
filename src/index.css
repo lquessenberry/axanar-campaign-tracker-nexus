@@ -88,6 +88,31 @@
   font-display: swap;
 }
 
+/* ============= CURSOR FIXES ============= */
+/* Fix crosshair cursor appearing in profile/form contexts */
+input:focus,
+textarea:focus,
+[contenteditable="true"]:focus,
+.profile-edit-field {
+  cursor: text !important;
+}
+
+/* Ensure default cursor for non-interactive elements */
+body:not(.game-active) * {
+  cursor: default;
+}
+
+body:not(.game-active) a,
+body:not(.game-active) button,
+body:not(.game-active) [role="button"] {
+  cursor: pointer !important;
+}
+
+/* Battle/game mode gets crosshair */
+.game-active .cursor-crosshair {
+  cursor: crosshair;
+}
+
 /* ============= FORUM MENTION LINKS ============= */
 .mention-link {
   @apply font-semibold text-axanar-teal no-underline;

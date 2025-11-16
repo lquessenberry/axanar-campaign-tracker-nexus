@@ -72,6 +72,26 @@ export default {
 					'accent': '#8B5CF6',
 					'dark': '#111827',
 					'light': '#F8FAFC'
+				},
+				// LCARS-PADD Color System (TOS-Inspired)
+				lcars: {
+					'yellow': 'hsl(48, 100%, 67%)',      // #FFC107 - Command/Alert
+					'blue': 'hsl(207, 90%, 45%)',        // Science/Info  
+					'light-blue': 'hsl(195, 100%, 61%)', // #0288D1 - Light Blue
+					'dark-blue': 'hsl(211, 100%, 44%)',  // #1565C0 - Dark Blue
+					'red': 'hsl(4, 90%, 58%)',           // #D32F2F - Alert/Error
+					'orange': 'hsl(36, 100%, 50%)',      // #FF9900 - Tactical/Warning
+					'gray': 'hsl(210, 11%, 71%)',        // #B0BEC5 - Neutral
+					'light-gray': 'hsl(210, 15%, 87%)',  // #CFD8DC - Light Panel
+					'dark-gray': 'hsl(200, 18%, 54%)',   // #78909C - Dark Panel
+					'tan': 'hsl(30, 100%, 80%)',         // #FFCC99 - Ops/Neutral
+				},
+				// Status color system
+				status: {
+					'pending': 'hsl(36, 100%, 50%)',     // Amber
+					'processing': 'hsl(207, 90%, 70%)',  // Blue
+					'shipped': 'hsl(195, 100%, 61%)',    // Cyan  
+					'delivered': 'hsl(120, 60%, 60%)',   // Green
 				}
 			},
 			borderRadius: {

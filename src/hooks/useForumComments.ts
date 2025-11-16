@@ -80,9 +80,24 @@ export const useCreateComment = () => {
       });
     },
     onError: (error: any) => {
+      console.error('❌ Comment creation error:', error);
+      
+      let errorMessage = error.message;
+      
+      // Provide specific error messages
+      if (error.message?.includes('not authenticated')) {
+        errorMessage = 'You must be logged in to post comments.';
+      } else if (error.message?.includes('permission denied') || error.message?.includes('policy')) {
+        errorMessage = '🔒 Permission denied. Please ensure you have forum posting privileges.';
+      } else if (error.message?.includes('violates')) {
+        errorMessage = 'Invalid comment data. Please check your message.';
+      } else if (error.code === 'PGRST301' || error.code === '23505') {
+        errorMessage = 'Duplicate comment detected. Please wait before posting again.';
+      }
+      
       toast({
-        title: 'Error posting comment',
-        description: error.message,
+        title: '⚠️ Transmission Error',
+        description: errorMessage,
         variant: 'destructive',
       });
     },
