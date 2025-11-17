@@ -64,10 +64,10 @@ const getCategoryConfig = (category: LeaderboardCategory) => {
       description: 'Longest-standing community members'
     },
     activity_score: {
-      title: 'Overall Activity Leaders',
+      title: 'Potential ARES XP Leaders',
       icon: Trophy,
-      formatValue: (value: number) => `${Math.round(value).toLocaleString()} points`,
-      description: 'Combined score: Donation amount (in cents) ÷ 100 = base points. Norman\'s $25,759 = 257.59 base points + additional activity = ~391 total'
+      formatValue: (value: number) => `${Math.round(value).toLocaleString()} potential ARES`,
+      description: 'Hedged potential ARES (1000x multiplier). Gap between this and verified ARES XP creates anticipation metric for account linking'
     },
     profile_completeness_score: {
       title: 'Complete Profiles',
