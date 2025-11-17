@@ -24,6 +24,8 @@ export interface LeaderboardEntry {
   achievements: number;
   recruits: number;
   profile_score: number;
+  proposed_ares: number;
+  is_account_linked: boolean;
 }
 
 export interface UserPosition {
