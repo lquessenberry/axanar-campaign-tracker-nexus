@@ -1,17 +1,79 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { Heart, MessageCircle, Trophy, Users, Star, Gift, Zap, TrendingUp, Package, Sparkles } from 'lucide-react';
+import { Heart, MessageCircle, Trophy, Users, Star, Gift, Zap, TrendingUp, Package, Sparkles, Menu, X } from 'lucide-react';
 
 const HowToEarnARES = () => {
+  const [tocOpen, setTocOpen] = useState(false);
+
+  const sections = [
+    { id: 'physical-perks', label: 'Campaign Perks & Rewards', icon: Package },
+    { id: 'ares-system', label: 'ARES Recognition System', icon: Sparkles },
+    { id: 'earning-methods', label: 'How to Earn ARES', icon: Heart },
+    { id: 'rank-progression', label: 'Starfleet Ranks', icon: Trophy },
+    { id: 'examples', label: 'Example Scenarios', icon: Users },
+    { id: 'ares-utility', label: 'What ARES Can Do', icon: Zap },
+  ];
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+      setTocOpen(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      <div className="container mx-auto px-4 py-16 max-w-5xl">
+      <div className="container mx-auto px-4 py-16 max-w-7xl">
+        <div className="flex gap-8 relative">
+          {/* Mobile TOC Toggle */}
+          <button
+            onClick={() => setTocOpen(!tocOpen)}
+            className="lg:hidden fixed bottom-4 right-4 z-50 bg-primary text-primary-foreground p-3 rounded-full shadow-lg"
+          >
+            {tocOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+
+          {/* Table of Contents - Sidebar */}
+          <aside className={`${tocOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 fixed lg:sticky top-20 left-0 h-[calc(100vh-5rem)] w-64 transition-transform duration-300 z-40 lg:z-auto`}>
+            <div className="bg-card border rounded-lg p-4 shadow-lg lg:shadow-none sticky top-20">
+              <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+                <Menu className="h-5 w-5" />
+                Contents
+              </h3>
+              <nav className="space-y-2">
+                {sections.map((section) => {
+                  const Icon = section.icon;
+                  return (
+                    <button
+                      key={section.id}
+                      onClick={() => scrollToSection(section.id)}
+                      className="w-full text-left px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2 text-sm"
+                    >
+                      <Icon className="h-4 w-4 text-primary" />
+                      {section.label}
+                    </button>
+                  );
+                })}
+              </nav>
+            </div>
+          </aside>
+
+          {/* Main Content */}
+          <main className="flex-1 max-w-4xl">
+
         {/* Hero Section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-axanar-teal to-blue-400 bg-clip-text text-transparent">
@@ -22,6 +84,7 @@ const HowToEarnARES = () => {
           </p>
         </div>
         {/* Campaign Perks & Physical Rewards - PRIMARY FOCUS */}
+        <section id="physical-perks">
         <Card className="mb-12 border-2 border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
           <CardHeader>
             <CardTitle className="text-3xl flex items-center gap-2 justify-center">
@@ -222,8 +285,10 @@ const HowToEarnARES = () => {
             </div>
           </CardContent>
         </Card>
+        </section>
 
         {/* ARES Recognition System - SECONDARY */}
+        <section id="ares-system">
         <div className="mb-8">
           <div className="text-center mb-6">
             <h2 className="text-3xl font-bold mb-2 flex items-center justify-center gap-2">
@@ -235,7 +300,6 @@ const HowToEarnARES = () => {
             </p>
           </div>
         </div>
-
 
         <Card className="mb-8 border-2 border-axanar-teal/30 bg-gradient-to-br from-axanar-teal/5 to-blue-500/5">
           <CardHeader>
@@ -256,8 +320,10 @@ const HowToEarnARES = () => {
             </div>
           </CardContent>
         </Card>
+        </section>
 
         {/* Earning Methods */}
+        <section id="earning-methods">
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           {/* Donation Path */}
           <Card className="border-2 border-yellow-500/30 hover:border-yellow-500/50 transition-colors">
@@ -399,8 +465,10 @@ const HowToEarnARES = () => {
             </CardContent>
           </Card>
         </div>
+        </section>
 
         {/* Rank Progression */}
+        <section id="rank-progression">
         <Card className="mb-8">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
@@ -434,8 +502,10 @@ const HowToEarnARES = () => {
             </div>
           </CardContent>
         </Card>
+        </section>
 
         {/* Example Scenarios */}
+        <section id="examples">
         <Card className="mb-8">
           <CardHeader>
             <CardTitle className="text-2xl">Example Earning Scenarios</CardTitle>
@@ -497,8 +567,10 @@ const HowToEarnARES = () => {
             </div>
           </CardContent>
         </Card>
+        </section>
 
         {/* ARES Utility */}
+        <section id="ares-utility">
         <Card className="mb-8">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
@@ -1203,6 +1275,7 @@ const HowToEarnARES = () => {
             </div>
           </CardContent>
         </Card>
+        </section>
 
         {/* Call to Action */}
         <div className="text-center space-y-4">
@@ -1227,6 +1300,8 @@ const HowToEarnARES = () => {
               </Button>
             </Link>
           </div>
+        </div>
+          </main>
         </div>
       </div>
 
