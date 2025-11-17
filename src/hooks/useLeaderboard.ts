@@ -10,7 +10,9 @@ export type LeaderboardCategory =
   | 'years_supporting'
   | 'activity_score'
   | 'profile_completeness_score'
-  | 'recruits_confirmed';
+  | 'recruits_confirmed'
+  | 'forum_activity'
+  | 'online_activity';
 
 export interface LeaderboardEntry {
   rank: number;
@@ -30,6 +32,8 @@ export interface LeaderboardEntry {
   is_online: boolean;
   last_seen: string | null;
   profile_id: string | null;
+  thread_count?: number;
+  comment_count?: number;
 }
 
 export interface UserPosition {

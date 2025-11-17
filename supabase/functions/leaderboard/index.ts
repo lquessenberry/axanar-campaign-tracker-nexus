@@ -36,13 +36,30 @@ Deno.serve(async (req) => {
 
     console.log(`Fetching leaderboard for category: ${category}, limit: ${limit}`);
 
-    // Get leaderboard data with correct parameter names
-    const { data: leaderboardData, error: leaderboardError } = await supabaseClient
-      .rpc('get_leaderboard', {
+    // Choose the appropriate RPC function based on category
+    let leaderboardData, leaderboardError;
+    
+    if (category === 'forum_activity') {
+      const result = await supabaseClient.rpc('get_forum_activity_leaderboard', {
+        p_limit: limit.toString()
+      });
+      leaderboardData = result.data;
+      leaderboardError = result.error;
+    } else if (category === 'online_activity') {
+      const result = await supabaseClient.rpc('get_online_activity_leaderboard', {
+        p_limit: limit.toString()
+      });
+      leaderboardData = result.data;
+      leaderboardError = result.error;
+    } else {
+      const result = await supabaseClient.rpc('get_leaderboard', {
         p_category: category,
         p_limit: limit.toString(),
         p_user_id: userId
       });
+      leaderboardData = result.data;
+      leaderboardError = result.error;
+    }
 
     if (leaderboardError) {
       console.error('Error fetching leaderboard:', leaderboardError);
