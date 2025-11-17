@@ -34,6 +34,10 @@ export interface LeaderboardEntry {
   profile_id: string | null;
   thread_count?: number;
   comment_count?: number;
+  pulse_score?: number;
+  tier?: 'live_now' | 'hot' | 'daily' | 'pillar';
+  streak_days?: number;
+  activity_7d?: number;
 }
 
 export interface UserPosition {
