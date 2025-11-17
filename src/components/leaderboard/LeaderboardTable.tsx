@@ -242,11 +242,23 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
 
               {/* Metric Value */}
               <div className="text-right">
-                <div className="text-lg font-bold text-axanar-teal">
-                  {config.formatValue(entry.metric_value)}
+                <div className="flex items-center justify-end gap-2">
+                  <div className="text-lg font-bold text-axanar-teal">
+                    {config.formatValue(entry.metric_value)}
+                  </div>
+                  {!entry.is_account_linked && category === 'unified_xp' && entry.proposed_ares > 0 && (
+                    <Badge variant="outline" className="text-xs text-yellow-500 border-yellow-500/50">
+                      Proposed
+                    </Badge>
+                  )}
                 </div>
                 <div className="text-xs text-muted-foreground">
                   ${Number(entry.total_donated || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} donated
+                  {!entry.is_account_linked && entry.proposed_ares > 0 && (
+                    <div className="text-xs text-yellow-500 mt-0.5">
+                      Would earn {Math.round(entry.proposed_ares).toLocaleString()} ARES
+                    </div>
+                  )}
                 </div>
               </div>
 
