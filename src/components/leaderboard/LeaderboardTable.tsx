@@ -37,50 +37,69 @@ const getCategoryConfig = (category: LeaderboardCategory) => {
     unified_xp: {
       title: 'Top ARES Rankings',
       icon: Trophy,
-      formatValue: (value: number) => `${Math.round(value).toLocaleString()} ARES`,
+      formatValue: (value: number, entry?: LeaderboardEntry) => `${Math.round(value).toLocaleString()} ARES`,
       description: 'Total experience points from donations, forum, and activities'
     },
     total_donated: {
       title: 'Top Donors',
       icon: DollarSign,
-      formatValue: (value: number) => `$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+      formatValue: (value: number, entry?: LeaderboardEntry) => `$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
       description: 'Users ranked by total donation amount'
     },
     total_contributions: {
       title: 'Most Active Contributors',
       icon: TrendingUp,
-      formatValue: (value: number) => `${Math.round(value).toLocaleString()} contributions`,
+      formatValue: (value: number, entry?: LeaderboardEntry) => `${Math.round(value).toLocaleString()} contributions`,
       description: 'Users with the most contributions across campaigns'
     },
     campaigns_supported: {
       title: 'Multi-Campaign Supporters',
       icon: Star,
-      formatValue: (value: number) => `${Math.round(value)} campaigns`,
+      formatValue: (value: number, entry?: LeaderboardEntry) => `${Math.round(value)} campaigns`,
       description: 'Users supporting the most campaigns'
     },
     years_supporting: {
       title: 'Veteran Supporters',
       icon: Medal,
-      formatValue: (value: number) => `${value.toFixed(1)} years`,
+      formatValue: (value: number, entry?: LeaderboardEntry) => `${value.toFixed(1)} years`,
       description: 'Longest-standing community members'
     },
     activity_score: {
       title: 'Potential ARES XP Leaders',
       icon: Trophy,
-      formatValue: (value: number) => `${Math.round(value).toLocaleString()} potential ARES`,
+      formatValue: (value: number, entry?: LeaderboardEntry) => `${Math.round(value).toLocaleString()} potential ARES`,
       description: 'Hedged potential ARES (1000x multiplier). Gap between this and verified ARES XP creates anticipation metric for account linking'
     },
     profile_completeness_score: {
       title: 'Complete Profiles',
       icon: Award,
-      formatValue: (value: number) => `${Math.round(value)}%`,
+      formatValue: (value: number, entry?: LeaderboardEntry) => `${Math.round(value)}%`,
       description: 'Users with the most complete profiles'
     },
     recruits_confirmed: {
       title: 'Top Recruiters',
       icon: Users,
-      formatValue: (value: number) => `${Math.round(value)} recruits`,
+      formatValue: (value: number, entry?: LeaderboardEntry) => `${Math.round(value)} recruits`,
       description: 'Users who brought the most new members'
+    },
+    forum_activity: {
+      title: 'Forum Activity Leaders',
+      icon: Users,
+      formatValue: (value: number, entry?: LeaderboardEntry) => 
+        entry ? `${entry.thread_count || 0} threads, ${entry.comment_count || 0} comments` : `${value} posts`,
+      description: 'Most active forum participants'
+    },
+    online_activity: {
+      title: 'Recently Online',
+      icon: TrendingUp,
+      formatValue: (value: number, entry?: LeaderboardEntry) => {
+        if (value === 0 || !value) return 'Online now';
+        const hours = Math.floor(value / 3600);
+        if (hours < 1) return 'Recently';
+        if (hours < 24) return `${hours}h ago`;
+        return `${Math.floor(hours / 24)}d ago`;
+      },
+      description: 'Users most recently active'
     }
   };
   return configs[category];
@@ -125,11 +144,13 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
     { key: 'total_contributions', label: 'ACTIVITY' },
     { key: 'years_supporting', label: 'VETERAN' },
     { key: 'recruits_confirmed', label: 'RECRUITMENT' },
-    { key: 'activity_score', label: 'OVERALL' }
+    { key: 'activity_score', label: 'OVERALL' },
+    { key: 'forum_activity', label: 'FORUM' },
+    { key: 'online_activity', label: 'ONLINE' }
   ];
 
   const handleShare = (entry: LeaderboardEntry) => {
-    const shareText = `🌟 Check out ${entry.full_name}'s incredible support for @AxanarProductions over ${entry.years_supporting} years! ${config.formatValue(entry.metric_value)} and counting! #AxanarSupporter #StarTrekAxanar`;
+    const shareText = `🌟 Check out ${entry.full_name}'s incredible support for @AxanarProductions over ${entry.years_supporting} years! ${config.formatValue(entry.metric_value, entry)} and counting! #AxanarSupporter #StarTrekAxanar`;
     
     if (navigator.share) {
       navigator.share({
@@ -293,7 +314,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
               <div className="text-right">
                 <div className="flex items-center justify-end gap-2">
                   <div className="text-lg font-bold text-axanar-teal">
-                    {config.formatValue(entry.metric_value)}
+                    {config.formatValue(entry.metric_value, entry)}
                   </div>
                   {!entry.is_account_linked && category === 'unified_xp' && entry.proposed_ares > 0 && (
                     <Badge variant="outline" className="text-xs text-yellow-500 border-yellow-500/50">
