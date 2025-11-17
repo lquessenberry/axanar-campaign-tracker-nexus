@@ -195,7 +195,11 @@ const EntryCard: React.FC<EntryCardProps> = ({
               <Flame className="h-3 w-3" />{entry.streak_days}d streak
             </Badge>
           )}
-          <span>{Number(entry.years_supporting).toFixed(1)} years</span>
+          <span>
+            {Number(entry.years_supporting) < 1 
+              ? 'New Member' 
+              : `${Number(entry.years_supporting).toFixed(1)} years`}
+          </span>
         </div>
       </div>
     </div>
