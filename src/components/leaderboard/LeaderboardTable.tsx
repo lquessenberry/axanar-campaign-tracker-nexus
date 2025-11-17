@@ -207,7 +207,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
             >
               {/* Blur overlay for unlinked accounts */}
               {!entry.is_account_linked && (
-                <div className="absolute inset-0 backdrop-blur-sm bg-background/30 rounded-lg z-10 flex items-center justify-center">
+                <div className="absolute inset-0 backdrop-blur-md bg-background/40 rounded-lg z-10 flex items-center justify-center">
                   <Link to="/auth?flow=lookup">
                     <Button 
                       variant="default" 
