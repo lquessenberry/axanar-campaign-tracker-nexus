@@ -93,6 +93,13 @@ const getRankIcon = (rank: number) => {
   return <span className="text-lg font-bold text-muted-foreground">#{rank}</span>;
 };
 
+const isRecentlyOnline = (lastSeen: string | null): boolean => {
+  if (!lastSeen) return false;
+  const lastSeenDate = new Date(lastSeen);
+  const hoursSinceLastSeen = (Date.now() - lastSeenDate.getTime()) / (1000 * 60 * 60);
+  return hoursSinceLastSeen <= 24; // Within last 24 hours
+};
+
 const getMilitaryRank = (xp: number) => {
   for (let i = 0; i < MILITARY_RANK_THRESHOLDS.length; i++) {
     const rank = MILITARY_RANK_THRESHOLDS[i];
@@ -238,14 +245,28 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
 
               {/* Avatar & Name */}
               <div className="flex items-center gap-3 flex-1 min-w-0">
-                <Avatar className="h-10 w-10">
-                  <AvatarImage src={entry.avatar_url} />
-                  <AvatarFallback>
-                    {entry.full_name ? entry.full_name.split(' ').map(n => n[0]).join('').toUpperCase() : '?'}
-                  </AvatarFallback>
-                </Avatar>
+                <div className="relative">
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={entry.avatar_url} />
+                    <AvatarFallback>
+                      {entry.full_name ? entry.full_name.split(' ').map(n => n[0]).join('').toUpperCase() : '?'}
+                    </AvatarFallback>
+                  </Avatar>
+                  {entry.is_online && (
+                    <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-green-500 border-2 border-background" />
+                  )}
+                </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="font-medium truncate">{entry.full_name}</h4>
+                  {entry.profile_id && (entry.is_online || isRecentlyOnline(entry.last_seen)) ? (
+                    <Link 
+                      to={`/profile/${entry.profile_id}`}
+                      className="font-medium truncate hover:text-axanar-teal transition-colors inline-block"
+                    >
+                      {entry.full_name}
+                    </Link>
+                  ) : (
+                    <h4 className="font-medium truncate">{entry.full_name}</h4>
+                  )}
                   <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
                     {category === 'unified_xp' && (() => {
                       const militaryRank = getMilitaryRank(entry.metric_value);

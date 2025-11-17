@@ -5116,7 +5116,10 @@ export type Database = {
               donor_name: string
               full_name: string
               is_account_linked: boolean
+              is_online: boolean
+              last_seen: string
               metric_value: number
+              profile_id: string
               profile_score: number
               proposed_ares: number
               rank: number
