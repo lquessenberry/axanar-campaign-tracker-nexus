@@ -36,11 +36,12 @@ Deno.serve(async (req) => {
 
     console.log(`Fetching leaderboard for category: ${category}, limit: ${limit}`);
 
-    // Get leaderboard data
+    // Get leaderboard data with correct parameter names
     const { data: leaderboardData, error: leaderboardError } = await supabaseClient
       .rpc('get_leaderboard', {
-        category_type: category,
-        limit_count: limit
+        p_category: category,
+        p_limit: limit.toString(),
+        p_user_id: userId
       });
 
     if (leaderboardError) {

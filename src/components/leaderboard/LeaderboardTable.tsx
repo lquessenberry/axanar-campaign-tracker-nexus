@@ -240,7 +240,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
                 <Avatar className="h-10 w-10">
                   <AvatarImage src={entry.avatar_url} />
                   <AvatarFallback>
-                    {entry.full_name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                    {entry.full_name ? entry.full_name.split(' ').map(n => n[0]).join('').toUpperCase() : '?'}
                   </AvatarFallback>
                 </Avatar>
                 <div className="min-w-0 flex-1">
