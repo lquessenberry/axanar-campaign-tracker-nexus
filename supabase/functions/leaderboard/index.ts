@@ -47,7 +47,7 @@ Deno.serve(async (req) => {
       leaderboardError = result.error;
     } else if (category === 'online_activity') {
       const result = await supabaseClient.rpc('get_online_activity_leaderboard', {
-        p_limit: limit.toString()
+        limit_count: limit
       });
       leaderboardData = result.data;
       leaderboardError = result.error;
