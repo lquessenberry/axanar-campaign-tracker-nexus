@@ -5237,34 +5237,61 @@ export type Database = {
               years_supporting: number
             }[]
           }
-      get_online_activity_leaderboard: {
-        Args: { p_limit: string }
-        Returns: {
-          achievements: number
-          activity_7d: number
-          avatar_url: string
-          comment_count: number
-          donor_id: string
-          donor_name: string
-          full_name: string
-          is_account_linked: boolean
-          is_online: boolean
-          last_seen: string
-          metric_value: number
-          profile_id: string
-          profile_score: number
-          proposed_ares: number
-          pulse_score: number
-          rank: number
-          recruits: number
-          streak_days: number
-          thread_count: number
-          tier: string
-          total_donated: number
-          unified_xp: number
-          years_supporting: number
-        }[]
-      }
+      get_online_activity_leaderboard:
+        | {
+            Args: { limit_count?: number }
+            Returns: {
+              achievements: number
+              activity_7d: number
+              avatar_url: string
+              donor_id: string
+              donor_name: string
+              full_name: string
+              is_account_linked: boolean
+              is_online: boolean
+              last_seen: string
+              metric_value: number
+              profile_id: string
+              profile_score: number
+              proposed_ares: number
+              pulse_score: number
+              rank: number
+              recruits: number
+              streak_days: number
+              tier: string
+              total_donated: number
+              unified_xp: number
+              years_supporting: number
+            }[]
+          }
+        | {
+            Args: { p_limit: string }
+            Returns: {
+              achievements: number
+              activity_7d: number
+              avatar_url: string
+              comment_count: number
+              donor_id: string
+              donor_name: string
+              full_name: string
+              is_account_linked: boolean
+              is_online: boolean
+              last_seen: string
+              metric_value: number
+              profile_id: string
+              profile_score: number
+              proposed_ares: number
+              pulse_score: number
+              rank: number
+              recruits: number
+              streak_days: number
+              thread_count: number
+              tier: string
+              total_donated: number
+              unified_xp: number
+              years_supporting: number
+            }[]
+          }
       get_recently_active_users: {
         Args: { days_limit?: number }
         Returns: {
