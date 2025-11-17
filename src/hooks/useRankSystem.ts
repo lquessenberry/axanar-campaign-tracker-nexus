@@ -55,7 +55,7 @@ export interface RankSystemData {
 }
 
 // Military rank thresholds
-const MILITARY_RANK_THRESHOLDS: MilitaryRank[] = [
+export const MILITARY_RANK_THRESHOLDS: MilitaryRank[] = [
   { name: 'Fleet Admiral', pips: 7, pipColor: 'bg-yellow-500', bgColor: 'bg-yellow-500/20', minXP: 500000, maxXP: 999999, level: 10 },
   { name: 'Admiral', pips: 6, pipColor: 'bg-yellow-400', bgColor: 'bg-yellow-400/20', minXP: 250000, maxXP: 499999, level: 9 },
   { name: 'Captain', pips: 5, pipColor: 'bg-yellow-300', bgColor: 'bg-yellow-300/20', minXP: 100000, maxXP: 249999, level: 8 },

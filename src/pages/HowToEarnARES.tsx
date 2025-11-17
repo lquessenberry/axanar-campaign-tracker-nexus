@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { Heart, MessageCircle, Trophy, Users, Star, Gift, Zap, TrendingUp, Package, Sparkles, Menu, X } from 'lucide-react';
+import { MILITARY_RANK_THRESHOLDS } from '@/hooks/useRankSystem';
 
 const HowToEarnARES = () => {
   const [tocOpen, setTocOpen] = useState(false);
@@ -478,22 +479,11 @@ const HowToEarnARES = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              {[
-                { rank: 'Crewman', min: 0, max: 999, color: 'text-green-400' },
-                { rank: 'Chief Petty Officer', min: 1000, max: 2499, color: 'text-cyan-300' },
-                { rank: 'Ensign', min: 2500, max: 4999, color: 'text-cyan-400' },
-                { rank: 'Lieutenant JG', min: 5000, max: 9999, color: 'text-blue-300' },
-                { rank: 'Lieutenant', min: 10000, max: 24999, color: 'text-blue-400' },
-                { rank: 'Lieutenant Commander', min: 25000, max: 49999, color: 'text-orange-300' },
-                { rank: 'Commander', min: 50000, max: 99999, color: 'text-orange-400' },
-                { rank: 'Captain', min: 100000, max: 249999, color: 'text-yellow-300' },
-                { rank: 'Admiral', min: 250000, max: 499999, color: 'text-yellow-400' },
-                { rank: 'Fleet Admiral', min: 500000, max: null, color: 'text-yellow-500' },
-              ].map((rank) => (
-                <div key={rank.rank} className="flex items-center justify-between p-3 bg-background/40 rounded-lg hover:bg-background/60 transition-colors">
-                  <span className={`font-semibold ${rank.color}`}>{rank.rank}</span>
+              {MILITARY_RANK_THRESHOLDS.slice().reverse().map((rank) => (
+                <div key={rank.name} className="flex items-center justify-between p-3 bg-background/40 rounded-lg hover:bg-background/60 transition-colors">
+                  <span className={`font-semibold ${rank.pipColor.replace('bg-', 'text-')}`}>{rank.name}</span>
                   <span className="text-sm text-muted-foreground">
-                    {rank.min.toLocaleString()} {rank.max ? `- ${rank.max.toLocaleString()}` : '+'} ARES
+                    {rank.minXP.toLocaleString()} - {rank.maxXP.toLocaleString()} ARES
                   </span>
                 </div>
               ))}
