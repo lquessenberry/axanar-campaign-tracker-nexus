@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { Heart, MessageCircle, Trophy, Users, Star, Gift, Zap, TrendingUp } from 'lucide-react';
+import { Heart, MessageCircle, Trophy, Users, Star, Gift, Zap, TrendingUp, Package, Sparkles } from 'lucide-react';
 
 const HowToEarnARES = () => {
   return (
@@ -15,15 +15,228 @@ const HowToEarnARES = () => {
         {/* Hero Section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-axanar-teal to-blue-400 bg-clip-text text-transparent">
-            How to Earn ARES Tokens
+            Rewards & Recognition
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            ARES is the universal currency of recognition in the Axanar community. 
-            Earn them through support, participation, and engagement.
+            Support Axanar productions and earn exclusive perks, physical rewards, and community recognition.
           </p>
         </div>
+        {/* Campaign Perks & Physical Rewards - PRIMARY FOCUS */}
+        <Card className="mb-12 border-2 border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
+          <CardHeader>
+            <CardTitle className="text-3xl flex items-center gap-2 justify-center">
+              <Package className="h-8 w-8 text-yellow-500" />
+              Campaign Perks & Physical Rewards
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="text-center p-6 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-lg border-2 border-yellow-500/40">
+              <h3 className="text-2xl font-bold mb-3">Real Rewards. Real Perks. Delivered to Your Door.</h3>
+              <p className="text-lg text-muted-foreground">
+                When you back Axanar campaigns, you receive exclusive physical merchandise, collectibles, and production recognition based on your pledge level.
+              </p>
+            </div>
 
-        {/* Core Formula */}
+            {/* Actual Physical Perks Examples */}
+            <div className="space-y-4">
+              <h4 className="text-xl font-bold text-center mb-4">What You Can Earn:</h4>
+              
+              <div className="grid md:grid-cols-3 gap-4">
+                <div className="p-4 bg-background/80 rounded-lg border-2 border-yellow-500/30 hover:border-yellow-500/50 transition-colors">
+                  <div className="text-center mb-3">
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-yellow-500/20 rounded-full mb-2">
+                      <Package className="h-6 w-6 text-yellow-500" />
+                    </div>
+                    <h5 className="font-bold text-yellow-500">Media & Content</h5>
+                  </div>
+                  <ul className="text-sm space-y-2">
+                    <li className="flex items-start gap-2">
+                      <span className="text-yellow-500 mt-0.5">•</span>
+                      <span><strong>Blu-ray Discs:</strong> High-definition copies of Axanar productions</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-yellow-500 mt-0.5">•</span>
+                      <span><strong>DVD Sets:</strong> Complete collections with bonus features</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-yellow-500 mt-0.5">•</span>
+                      <span><strong>Digital Downloads:</strong> Instant access to completed productions</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-yellow-500 mt-0.5">•</span>
+                      <span><strong>Behind-the-Scenes:</strong> Exclusive production footage and interviews</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="p-4 bg-background/80 rounded-lg border-2 border-orange-500/30 hover:border-orange-500/50 transition-colors">
+                  <div className="text-center mb-3">
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-orange-500/20 rounded-full mb-2">
+                      <Gift className="h-6 w-6 text-orange-500" />
+                    </div>
+                    <h5 className="font-bold text-orange-500">Apparel & Wearables</h5>
+                  </div>
+                  <ul className="text-sm space-y-2">
+                    <li className="flex items-start gap-2">
+                      <span className="text-orange-500 mt-0.5">•</span>
+                      <span><strong>Uniform Patches:</strong> Official Axanar mission patches</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-orange-500 mt-0.5">•</span>
+                      <span><strong>T-Shirts:</strong> Custom-designed Axanar branded apparel</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-orange-500 mt-0.5">•</span>
+                      <span><strong>Hoodies & Jackets:</strong> Premium quality production crew gear</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-orange-500 mt-0.5">•</span>
+                      <span><strong>Pins & Badges:</strong> Collectible crew insignia</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="p-4 bg-background/80 rounded-lg border-2 border-red-500/30 hover:border-red-500/50 transition-colors">
+                  <div className="text-center mb-3">
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-red-500/20 rounded-full mb-2">
+                      <Star className="h-6 w-6 text-red-500" />
+                    </div>
+                    <h5 className="font-bold text-red-500">Premium Collectibles</h5>
+                  </div>
+                  <ul className="text-sm space-y-2">
+                    <li className="flex items-start gap-2">
+                      <span className="text-red-500 mt-0.5">•</span>
+                      <span><strong>Screen-Used Props:</strong> Actual props from the production</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-red-500 mt-0.5">•</span>
+                      <span><strong>Replica Props:</strong> High-quality recreations of hero props</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-red-500 mt-0.5">•</span>
+                      <span><strong>Signed Posters:</strong> Limited edition artwork with cast signatures</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-red-500 mt-0.5">•</span>
+                      <span><strong>Concept Art:</strong> Original production design pieces</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4 mt-4">
+                <div className="p-4 bg-background/80 rounded-lg border-2 border-blue-500/30 hover:border-blue-500/50 transition-colors">
+                  <div className="text-center mb-3">
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-500/20 rounded-full mb-2">
+                      <Trophy className="h-6 w-6 text-blue-500" />
+                    </div>
+                    <h5 className="font-bold text-blue-500">Production Recognition</h5>
+                  </div>
+                  <ul className="text-sm space-y-2">
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-500 mt-0.5">•</span>
+                      <span><strong>Credits Listing:</strong> Your name in the end credits</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-500 mt-0.5">•</span>
+                      <span><strong>Producer Titles:</strong> Associate, Executive, or Co-Producer credits</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-500 mt-0.5">•</span>
+                      <span><strong>Special Thanks:</strong> Acknowledgment in production materials</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-500 mt-0.5">•</span>
+                      <span><strong>IMDb Credit:</strong> Official production credit listing</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="p-4 bg-background/80 rounded-lg border-2 border-purple-500/30 hover:border-purple-500/50 transition-colors">
+                  <div className="text-center mb-3">
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-purple-500/20 rounded-full mb-2">
+                      <Sparkles className="h-6 w-6 text-purple-500" />
+                    </div>
+                    <h5 className="font-bold text-purple-500">Exclusive Experiences</h5>
+                  </div>
+                  <ul className="text-sm space-y-2">
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-500 mt-0.5">•</span>
+                      <span><strong>Set Visits:</strong> VIP access to production sets</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-500 mt-0.5">•</span>
+                      <span><strong>Premiere Invitations:</strong> Attend exclusive screening events</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-500 mt-0.5">•</span>
+                      <span><strong>Meet & Greets:</strong> Private sessions with cast and crew</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-500 mt-0.5">•</span>
+                      <span><strong>Production Updates:</strong> Regular insider access and news</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* How It Works */}
+            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 p-6 rounded-lg border border-blue-500/20 mt-6">
+              <h4 className="font-bold mb-4 text-xl text-center">How to Claim Your Perks</h4>
+              <div className="grid md:grid-cols-4 gap-4">
+                <div className="text-center">
+                  <div className="inline-flex items-center justify-center w-10 h-10 bg-blue-500/20 rounded-full mb-2 text-lg font-bold text-blue-500">1</div>
+                  <p className="text-sm font-semibold mb-1">Browse Campaigns</p>
+                  <p className="text-xs text-muted-foreground">Choose a pledge level with perks you want</p>
+                </div>
+                <div className="text-center">
+                  <div className="inline-flex items-center justify-center w-10 h-10 bg-blue-500/20 rounded-full mb-2 text-lg font-bold text-blue-500">2</div>
+                  <p className="text-sm font-semibold mb-1">Complete Pledge</p>
+                  <p className="text-xs text-muted-foreground">Back the campaign through the platform</p>
+                </div>
+                <div className="text-center">
+                  <div className="inline-flex items-center justify-center w-10 h-10 bg-blue-500/20 rounded-full mb-2 text-lg font-bold text-blue-500">3</div>
+                  <p className="text-sm font-semibold mb-1">Track Status</p>
+                  <p className="text-xs text-muted-foreground">Monitor perks in your profile dashboard</p>
+                </div>
+                <div className="text-center">
+                  <div className="inline-flex items-center justify-center w-10 h-10 bg-blue-500/20 rounded-full mb-2 text-lg font-bold text-blue-500">4</div>
+                  <p className="text-sm font-semibold mb-1">Receive Rewards</p>
+                  <p className="text-xs text-muted-foreground">Get your items delivered as they're ready</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-yellow-500/10 p-4 rounded-lg border border-yellow-500/20">
+              <p className="text-sm text-center">
+                <strong className="text-yellow-500">Important:</strong> All campaign perks from 2014 onwards are tracked in your account. 
+                Keep your shipping address updated in your profile settings to ensure delivery eligibility for physical items.
+              </p>
+            </div>
+
+            <div className="text-center mt-6">
+              <Button asChild size="lg" className="text-lg px-8">
+                <Link to="/campaigns">View Active Campaigns & Perks</Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* ARES Recognition System - SECONDARY */}
+        <div className="mb-8">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold mb-2 flex items-center justify-center gap-2">
+              <Sparkles className="h-7 w-7 text-axanar-teal" />
+              Plus: The ARES Recognition System
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Beyond physical rewards, earn ARES tokens that recognize your support and participation in the Axanar community.
+            </p>
+          </div>
+        </div>
+
+
         <Card className="mb-8 border-2 border-axanar-teal/30 bg-gradient-to-br from-axanar-teal/5 to-blue-500/5">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
