@@ -8,8 +8,10 @@ import { Switch } from "@/components/ui/switch";
 import { MapPin, Gift, User, Eye, Link2, Copy } from "lucide-react";
 import AddressDialog from "../AddressDialog";
 import RewardsDialog from "../RewardsDialog";
+import { TitleManagementPanel } from "../TitleManagementPanel";
 import { toast } from "sonner";
 import { useUserProfile } from "@/hooks/useUserProfile";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface SettingsSectionProps {
   profile: any;
@@ -42,6 +44,7 @@ const SettingsSection: React.FC<SettingsSectionProps> = ({
   const [addressDialogOpen, setAddressDialogOpen] = useState(false);
   const [rewardsDialogOpen, setRewardsDialogOpen] = useState(false);
   const { data: currentProfile } = useUserProfile();
+  const { user } = useAuth();
 
   const handleCopyVanityURL = () => {
     console.log('📋 Copy vanity URL clicked');
@@ -232,6 +235,9 @@ const SettingsSection: React.FC<SettingsSectionProps> = ({
           </Button>
         </CardContent>
       </Card>
+
+      {/* Title Management */}
+      {user?.id && <TitleManagementPanel userId={user.id} />}
 
       <AddressDialog open={addressDialogOpen} onOpenChange={setAddressDialogOpen} />
       <RewardsDialog open={rewardsDialogOpen} onOpenChange={setRewardsDialogOpen} />

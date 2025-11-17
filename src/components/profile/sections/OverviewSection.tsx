@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { DollarSign, Users, Trophy, Zap, Shield, Calendar } from "lucide-react";
 import DashboardStats from "../DashboardStats";
 import RecentActivityFeed from "../RecentActivityFeed";
+import { AmbassadorialTitleDisplay } from "../AmbassadorialTitleDisplay";
 import { User } from "@supabase/supabase-js";
 
 interface OverviewSectionProps {
@@ -61,6 +62,9 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
         achievementsCount={achievementsCount}
         recruitCount={recruitCount}
       />
+
+      {/* Ambassadorial Title Display */}
+      <AmbassadorialTitleDisplay userId={user.id} />
 
       {/* Quick Info Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
