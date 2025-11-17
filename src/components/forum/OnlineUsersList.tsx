@@ -13,12 +13,20 @@ export const OnlineUsersList: React.FC = () => {
   const { presenceData } = useUserPresence();
   const navigate = useNavigate();
 
-  // Get usernames for online users
+  // Get usernames for truly online users (active in last 10 minutes)
   const { data: onlineUsers = [] } = useQuery({
     queryKey: ['online-users', presenceData],
     queryFn: async () => {
+      // Filter for users actually active in last 10 minutes, not just is_online flag
+      const now = new Date();
+      const tenMinutesAgo = new Date(now.getTime() - 10 * 60 * 1000);
+      
       const onlineUserIds = presenceData
-        .filter(p => p.is_online)
+        .filter(p => {
+          if (!p.last_seen) return false;
+          const lastSeenDate = new Date(p.last_seen);
+          return lastSeenDate >= tenMinutesAgo;
+        })
         .map(p => p.user_id);
       
       if (onlineUserIds.length === 0) return [];
