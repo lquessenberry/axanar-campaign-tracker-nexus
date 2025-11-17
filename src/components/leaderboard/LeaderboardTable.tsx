@@ -11,8 +11,10 @@ import {
   Share2,
   Users,
   DollarSign,
-  Star
+  Star,
+  AlertTriangle
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { LeaderboardEntry, LeaderboardCategory } from '@/hooks/useLeaderboard';
 import { MILITARY_RANK_THRESHOLDS } from '@/hooks/useRankSystem';
 import { toast } from 'sonner';
@@ -201,8 +203,22 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
           {data.map((entry) => (
             <div 
               key={entry.donor_id}
-              className="flex items-center gap-4 p-4 rounded-lg border bg-card hover:bg-muted/50 transition-colors"
+              className="relative flex items-center gap-4 p-4 rounded-lg border bg-card hover:bg-muted/50 transition-colors"
             >
+              {/* Blur overlay for unlinked accounts */}
+              {!entry.is_account_linked && (
+                <div className="absolute inset-0 backdrop-blur-sm bg-background/30 rounded-lg z-10 flex items-center justify-center">
+                  <Link to="/auth?flow=lookup">
+                    <Button 
+                      variant="default" 
+                      className="gap-2 bg-yellow-600 hover:bg-yellow-700 text-white"
+                    >
+                      <AlertTriangle className="h-4 w-4" />
+                      MIA: Call for Re-Enlistment
+                    </Button>
+                  </Link>
+                </div>
+              )}
               {/* Rank */}
               <div className="flex items-center justify-center w-12">
                 {getRankIcon(entry.rank)}
