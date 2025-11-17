@@ -27,6 +27,7 @@ interface LeaderboardTableProps {
     total_contributors: number;
     metric_value: number;
     percentile: number;
+    unified_xp: number;
   } | null;
   onCategoryChange: (category: LeaderboardCategory) => void;
 }
@@ -281,11 +282,9 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
                 </div>
                 <div className="text-xs text-muted-foreground">
                   ${Number(entry.total_donated || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} donated
-                  {!entry.is_account_linked && entry.proposed_ares > 0 && (
-                    <div className="text-xs text-yellow-500 mt-0.5">
-                      Would earn {Math.round(entry.proposed_ares).toLocaleString()} ARES
-                    </div>
-                  )}
+                  <div className="text-xs mt-0.5">
+                    {entry.unified_xp.toLocaleString()} ARES
+                  </div>
                 </div>
               </div>
 

@@ -5122,6 +5122,7 @@ export type Database = {
               rank: number
               recruits: number
               total_donated: number
+              unified_xp: number
               years_supporting: number
             }[]
           }
@@ -5182,11 +5183,12 @@ export type Database = {
         }[]
       }
       get_user_leaderboard_position: {
-        Args: { category_type: string; user_uuid: string }
+        Args: { p_category?: string; p_user_id: string }
         Returns: {
           metric_value: number
           percentile: number
           total_contributors: number
+          unified_xp: number
           user_rank: number
         }[]
       }
