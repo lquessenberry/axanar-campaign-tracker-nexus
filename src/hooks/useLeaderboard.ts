@@ -26,6 +26,7 @@ export interface LeaderboardEntry {
   profile_score: number;
   proposed_ares: number;
   is_account_linked: boolean;
+  unified_xp: number;
 }
 
 export interface UserPosition {
@@ -33,6 +34,7 @@ export interface UserPosition {
   total_contributors: number;
   metric_value: number;
   percentile: number;
+  unified_xp: number;
 }
 
 export interface LeaderboardResponse {
