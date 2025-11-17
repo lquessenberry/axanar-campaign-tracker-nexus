@@ -5217,7 +5217,7 @@ export type Database = {
         }[]
       }
       get_leaderboard: {
-        Args: { category_type?: string; limit_count?: number }
+        Args: { category_type: string; limit_count?: number }
         Returns: {
           achievements: number
           avatar_url: string
@@ -5271,7 +5271,7 @@ export type Database = {
         }[]
       }
       get_user_leaderboard_position: {
-        Args: { category_type?: string; user_uuid: string }
+        Args: { category_type: string; user_uuid: string }
         Returns: {
           metric_value: number
           percentile: number
