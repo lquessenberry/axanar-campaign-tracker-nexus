@@ -5176,7 +5176,6 @@ export type Database = {
         Returns: {
           achievements: number
           avatar_url: string
-          comment_count: number
           donor_id: string
           donor_name: string
           full_name: string
@@ -5189,7 +5188,6 @@ export type Database = {
           proposed_ares: number
           rank: number
           recruits: number
-          thread_count: number
           total_donated: number
           unified_xp: number
           years_supporting: number
