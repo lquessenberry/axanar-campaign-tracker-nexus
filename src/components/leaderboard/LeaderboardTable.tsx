@@ -40,44 +40,44 @@ const getCategoryConfig = (category: LeaderboardCategory) => {
     total_donated: {
       title: 'Top Donors',
       icon: DollarSign,
-      formatValue: (value: number) => `$${value.toLocaleString()}`,
-      description: 'Total lifetime contributions'
+      formatValue: (value: number) => `$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+      description: 'Users ranked by total donation amount'
     },
     total_contributions: {
       title: 'Most Active Contributors',
       icon: TrendingUp,
-      formatValue: (value: number) => `${value} contributions`,
-      description: 'Number of separate contributions made'
+      formatValue: (value: number) => `${Math.round(value).toLocaleString()} contributions`,
+      description: 'Users with the most contributions across campaigns'
     },
     campaigns_supported: {
-      title: 'Campaign Supporters',
+      title: 'Multi-Campaign Supporters',
       icon: Star,
-      formatValue: (value: number) => `${value} campaigns`,
-      description: 'Unique campaigns supported'
+      formatValue: (value: number) => `${Math.round(value)} campaigns`,
+      description: 'Users supporting the most campaigns'
     },
     years_supporting: {
       title: 'Veteran Supporters',
       icon: Medal,
-      formatValue: (value: number) => `${value} years`,
-      description: 'Years supporting Axanar'
+      formatValue: (value: number) => `${value.toFixed(1)} years`,
+      description: 'Longest-standing community members'
     },
     activity_score: {
-      title: 'Most Active Members',
+      title: 'Overall Activity Leaders',
       icon: Trophy,
-      formatValue: (value: number) => `${Math.round(value)} points`,
-      description: 'Overall community engagement score'
+      formatValue: (value: number) => `${Math.round(value).toLocaleString()} points`,
+      description: 'Combined activity and engagement score'
     },
     profile_completeness_score: {
       title: 'Complete Profiles',
       icon: Award,
-      formatValue: (value: number) => `${value}%`,
-      description: 'Profile completion percentage'
+      formatValue: (value: number) => `${Math.round(value)}%`,
+      description: 'Users with the most complete profiles'
     },
     recruits_confirmed: {
-      title: 'Recruitment Leaders',
+      title: 'Top Recruiters',
       icon: Users,
-      formatValue: (value: number) => `${value} recruits`,
-      description: 'Successful account re-enlistments'
+      formatValue: (value: number) => `${Math.round(value)} recruits`,
+      description: 'Users who brought the most new members'
     }
   };
   return configs[category];
@@ -111,11 +111,11 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
 
   const categories: { key: LeaderboardCategory; label: string }[] = [
     { key: 'unified_xp', label: 'ARES XP' },
-    { key: 'total_donated', label: 'Donations' },
-    { key: 'total_contributions', label: 'Activity' },
-    { key: 'years_supporting', label: 'Veteran' },
-    { key: 'recruits_confirmed', label: 'Recruitment' },
-    { key: 'activity_score', label: 'Overall' }
+    { key: 'total_donated', label: 'DONATIONS' },
+    { key: 'total_contributions', label: 'ACTIVITY' },
+    { key: 'years_supporting', label: 'VETERAN' },
+    { key: 'recruits_confirmed', label: 'RECRUITMENT' },
+    { key: 'activity_score', label: 'OVERALL' }
   ];
 
   const handleShare = (entry: LeaderboardEntry) => {
