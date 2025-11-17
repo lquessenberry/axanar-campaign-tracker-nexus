@@ -11,6 +11,7 @@ interface UserPresence {
 export const useUserPresence = () => {
   const { user } = useAuth();
   const [presenceData, setPresenceData] = useState<UserPresence[]>([]);
+  const [sessionStart] = useState<Date>(new Date());
 
   useEffect(() => {
     if (!user) return;
@@ -26,8 +27,21 @@ export const useUserPresence = () => {
       }
     };
 
+    // Update activity metrics
+    const updateActivityMetrics = async () => {
+      try {
+        const sessionDuration = Math.floor((Date.now() - sessionStart.getTime()) / 1000);
+        await supabase.functions.invoke('update-activity-metrics', {
+          body: { session_duration: sessionDuration }
+        });
+      } catch (error) {
+        console.error('Error updating activity metrics:', error);
+      }
+    };
+
     // Set user as online when component mounts
     updatePresence(true);
+    updateActivityMetrics();
 
     // Set up real-time subscription for presence updates
     const channel = supabase
@@ -62,6 +76,11 @@ export const useUserPresence = () => {
 
     fetchPresenceData();
 
+    // Set up 5-minute heartbeat for activity tracking
+    const heartbeatInterval = setInterval(() => {
+      updateActivityMetrics();
+    }, 5 * 60 * 1000); // 5 minutes
+
     // Set user as offline when page unloads
     const handleBeforeUnload = () => {
       updatePresence(false);
@@ -71,10 +90,12 @@ export const useUserPresence = () => {
 
     return () => {
       updatePresence(false);
+      updateActivityMetrics(); // Final update on unmount
+      clearInterval(heartbeatInterval);
       window.removeEventListener('beforeunload', handleBeforeUnload);
       supabase.removeChannel(channel);
     };
-  }, [user]);
+  }, [user, sessionStart]);
 
   const isUserOnline = (userId: string): boolean => {
     const userPresence = presenceData.find(p => p.user_id === userId);

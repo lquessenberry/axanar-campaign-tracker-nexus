@@ -4330,6 +4330,54 @@ export type Database = {
         }
         Relationships: []
       }
+      user_activity_metrics: {
+        Row: {
+          created_at: string | null
+          current_streak_days: number | null
+          days_active_current_week: number | null
+          last_calculated_at: string | null
+          last_login_date: string | null
+          login_count_30d: number | null
+          login_count_7d: number | null
+          longest_streak_days: number | null
+          pulse_score: number | null
+          recent_comments_7d: number | null
+          recent_threads_7d: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          current_streak_days?: number | null
+          days_active_current_week?: number | null
+          last_calculated_at?: string | null
+          last_login_date?: string | null
+          login_count_30d?: number | null
+          login_count_7d?: number | null
+          longest_streak_days?: number | null
+          pulse_score?: number | null
+          recent_comments_7d?: number | null
+          recent_threads_7d?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          current_streak_days?: number | null
+          days_active_current_week?: number | null
+          last_calculated_at?: string | null
+          last_login_date?: string | null
+          login_count_30d?: number | null
+          login_count_7d?: number | null
+          longest_streak_days?: number | null
+          pulse_score?: number | null
+          recent_comments_7d?: number | null
+          recent_threads_7d?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_ambassadorial_titles: {
         Row: {
           awarded_at: string | null
@@ -4891,6 +4939,20 @@ export type Database = {
         Args: { user_uuid: string }
         Returns: undefined
       }
+      calculate_pulse_score_v1: {
+        Args: {
+          p_comment_count: number
+          p_is_online: boolean
+          p_last_seen: string
+          p_thread_count: number
+          p_unified_xp: number
+          p_user_id: string
+        }
+        Returns: {
+          pulse_score: number
+          tier: string
+        }[]
+      }
       calculate_unified_xp: { Args: { user_uuid: string }; Returns: undefined }
       check_current_user_is_admin: { Args: never; Returns: boolean }
       check_current_user_is_super_admin: { Args: never; Returns: boolean }
@@ -5175,6 +5237,7 @@ export type Database = {
         Args: { p_limit: string }
         Returns: {
           achievements: number
+          activity_7d: number
           avatar_url: string
           comment_count: number
           donor_id: string
@@ -5187,9 +5250,12 @@ export type Database = {
           profile_id: string
           profile_score: number
           proposed_ares: number
+          pulse_score: number
           rank: number
           recruits: number
+          streak_days: number
           thread_count: number
+          tier: string
           total_donated: number
           unified_xp: number
           years_supporting: number
