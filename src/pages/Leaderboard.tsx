@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Skeleton } from '@/components/ui/skeleton';
 
 const Leaderboard = () => {
-  const [category, setCategory] = useState<LeaderboardCategory>('total_donated');
+  const [category, setCategory] = useState<LeaderboardCategory>('unified_xp');
   const { data, isLoading, error } = useLeaderboard(category, 50);
 
   return (
