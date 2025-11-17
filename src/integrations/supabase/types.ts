@@ -5106,24 +5106,43 @@ export type Database = {
           unlinked_with_email: number
         }[]
       }
-      get_leaderboard: {
-        Args: { category_type: string; limit_count?: number }
-        Returns: {
-          achievements: number
-          avatar_url: string
-          donor_id: string
-          donor_name: string
-          full_name: string
-          is_account_linked: boolean
-          metric_value: number
-          profile_score: number
-          proposed_ares: number
-          rank: number
-          recruits: number
-          total_donated: number
-          years_supporting: number
-        }[]
-      }
+      get_leaderboard:
+        | {
+            Args: { p_category?: string; p_limit?: string; p_user_id?: string }
+            Returns: {
+              achievements: number
+              avatar_url: string
+              donor_id: string
+              donor_name: string
+              full_name: string
+              is_account_linked: boolean
+              metric_value: number
+              profile_score: number
+              proposed_ares: number
+              rank: number
+              recruits: number
+              total_donated: number
+              years_supporting: number
+            }[]
+          }
+        | {
+            Args: { category_type: string; limit_count?: number }
+            Returns: {
+              achievements: number
+              avatar_url: string
+              donor_id: string
+              donor_name: string
+              full_name: string
+              is_account_linked: boolean
+              metric_value: number
+              profile_score: number
+              proposed_ares: number
+              rank: number
+              recruits: number
+              total_donated: number
+              years_supporting: number
+            }[]
+          }
       get_recently_active_users: {
         Args: { days_limit?: number }
         Returns: {
