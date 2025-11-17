@@ -207,7 +207,18 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
             >
               {/* Blur overlay for unlinked accounts */}
               {!entry.is_account_linked && (
-                <div className="absolute inset-0 backdrop-blur-md bg-background/40 rounded-lg z-10 flex items-center justify-center">
+                <div className="absolute inset-0 backdrop-blur-md bg-background/40 rounded-lg z-10 flex flex-col items-center justify-center gap-3 p-4">
+                  <div className="text-center max-w-md">
+                    <h4 className="font-semibold text-lg mb-2 flex items-center justify-center gap-2">
+                      <AlertTriangle className="h-5 w-5 text-yellow-500" />
+                      Account Not Linked
+                    </h4>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      This contributor has <span className="font-semibold text-foreground">{Math.round(entry.proposed_ares).toLocaleString()} proposed ARES</span> from donations, 
+                      but hasn't claimed their verified ARES XP yet. Overall participation points count donations only—verified ARES XP includes 
+                      forum activity, achievements, and more.
+                    </p>
+                  </div>
                   <Link to="/auth?flow=lookup">
                     <Button 
                       variant="default" 
