@@ -55,8 +55,8 @@ Deno.serve(async (req) => {
     if (userId) {
       const { data: positionData, error: positionError } = await supabaseClient
         .rpc('get_user_leaderboard_position', {
-          user_uuid: userId,
-          category_type: category
+          p_user_id: userId,
+          p_category: category
         });
 
       if (positionError) {
