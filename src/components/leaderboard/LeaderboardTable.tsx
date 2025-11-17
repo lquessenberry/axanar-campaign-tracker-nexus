@@ -230,7 +230,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
                         </Badge>
                       );
                     })()}
-                    <span>{entry.years_supporting} years</span>
+                    <span>{Number(entry.years_supporting).toFixed(1)} years</span>
                     {entry.achievements > 0 && (
                       <Badge variant="secondary" className="text-xs">
                         {entry.achievements} achievements
@@ -246,7 +246,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
                   {config.formatValue(entry.metric_value)}
                 </div>
                 <div className="text-xs text-muted-foreground">
-                  ${entry.total_donated.toLocaleString()} total
+                  ${Number(entry.total_donated || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} donated
                 </div>
               </div>
 
