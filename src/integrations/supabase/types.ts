@@ -339,6 +339,85 @@ export type Database = {
           },
         ]
       }
+      ambassadorial_titles: {
+        Row: {
+          badge_style: string | null
+          campaign_id: string | null
+          color: string | null
+          created_at: string | null
+          description: string | null
+          display_name: string
+          forum_xp_bonus: number | null
+          icon: string | null
+          id: string
+          minimum_pledge_amount: number
+          original_rank_name: string | null
+          participation_xp_bonus: number | null
+          slug: string
+          special_permissions: Json | null
+          updated_at: string | null
+          xp_multiplier: number | null
+        }
+        Insert: {
+          badge_style?: string | null
+          campaign_id?: string | null
+          color?: string | null
+          created_at?: string | null
+          description?: string | null
+          display_name: string
+          forum_xp_bonus?: number | null
+          icon?: string | null
+          id?: string
+          minimum_pledge_amount: number
+          original_rank_name?: string | null
+          participation_xp_bonus?: number | null
+          slug: string
+          special_permissions?: Json | null
+          updated_at?: string | null
+          xp_multiplier?: number | null
+        }
+        Update: {
+          badge_style?: string | null
+          campaign_id?: string | null
+          color?: string | null
+          created_at?: string | null
+          description?: string | null
+          display_name?: string
+          forum_xp_bonus?: number | null
+          icon?: string | null
+          id?: string
+          minimum_pledge_amount?: number
+          original_rank_name?: string | null
+          participation_xp_bonus?: number | null
+          slug?: string
+          special_permissions?: Json | null
+          updated_at?: string | null
+          xp_multiplier?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ambassadorial_titles_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaign_analytics"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "ambassadorial_titles_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaign_totals"
+            referencedColumns: ["campaign_id"]
+          },
+          {
+            foreignKeyName: "ambassadorial_titles_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_trail: {
         Row: {
           action: string
@@ -2868,6 +2947,7 @@ export type Database = {
       profiles: {
         Row: {
           achievement_xp: number | null
+          active_title_multiplier: number | null
           avatar_url: string | null
           background_url: string | null
           bio: string | null
@@ -2882,6 +2962,7 @@ export type Database = {
           show_avatar_publicly: boolean | null
           show_background_publicly: boolean | null
           show_real_name_publicly: boolean | null
+          title_bonus_xp: number | null
           total_comments: number | null
           total_posts: number | null
           unified_xp: number | null
@@ -2890,6 +2971,7 @@ export type Database = {
         }
         Insert: {
           achievement_xp?: number | null
+          active_title_multiplier?: number | null
           avatar_url?: string | null
           background_url?: string | null
           bio?: string | null
@@ -2904,6 +2986,7 @@ export type Database = {
           show_avatar_publicly?: boolean | null
           show_background_publicly?: boolean | null
           show_real_name_publicly?: boolean | null
+          title_bonus_xp?: number | null
           total_comments?: number | null
           total_posts?: number | null
           unified_xp?: number | null
@@ -2912,6 +2995,7 @@ export type Database = {
         }
         Update: {
           achievement_xp?: number | null
+          active_title_multiplier?: number | null
           avatar_url?: string | null
           background_url?: string | null
           bio?: string | null
@@ -2926,6 +3010,7 @@ export type Database = {
           show_avatar_publicly?: boolean | null
           show_background_publicly?: boolean | null
           show_real_name_publicly?: boolean | null
+          title_bonus_xp?: number | null
           total_comments?: number | null
           total_posts?: number | null
           unified_xp?: number | null
@@ -4274,6 +4359,41 @@ export type Database = {
         }
         Relationships: []
       }
+      title_benefits: {
+        Row: {
+          benefit_type: string
+          benefit_value: Json
+          created_at: string | null
+          description: string | null
+          id: string
+          title_id: string | null
+        }
+        Insert: {
+          benefit_type: string
+          benefit_value: Json
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          title_id?: string | null
+        }
+        Update: {
+          benefit_type?: string
+          benefit_value?: Json
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          title_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "title_benefits_title_id_fkey"
+            columns: ["title_id"]
+            isOneToOne: false
+            referencedRelation: "ambassadorial_titles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_achievements: {
         Row: {
           achievement_data: Json | null
@@ -4300,6 +4420,58 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      user_ambassadorial_titles: {
+        Row: {
+          awarded_at: string | null
+          is_displayed: boolean | null
+          is_primary: boolean | null
+          source: string | null
+          source_pledge_id: string | null
+          title_id: string
+          user_id: string
+        }
+        Insert: {
+          awarded_at?: string | null
+          is_displayed?: boolean | null
+          is_primary?: boolean | null
+          source?: string | null
+          source_pledge_id?: string | null
+          title_id: string
+          user_id: string
+        }
+        Update: {
+          awarded_at?: string | null
+          is_displayed?: boolean | null
+          is_primary?: boolean | null
+          source?: string | null
+          source_pledge_id?: string | null
+          title_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_ambassadorial_titles_source_pledge_id_fkey"
+            columns: ["source_pledge_id"]
+            isOneToOne: false
+            referencedRelation: "my_pledge_history"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_ambassadorial_titles_source_pledge_id_fkey"
+            columns: ["source_pledge_id"]
+            isOneToOne: false
+            referencedRelation: "pledges"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_ambassadorial_titles_title_id_fkey"
+            columns: ["title_id"]
+            isOneToOne: false
+            referencedRelation: "ambassadorial_titles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_presence: {
         Row: {
@@ -4821,6 +4993,10 @@ export type Database = {
         Returns: undefined
       }
       bytea_to_text: { Args: { data: string }; Returns: string }
+      calculate_ambassadorial_titles: {
+        Args: { p_user_id: string }
+        Returns: undefined
+      }
       calculate_donation_achievements: {
         Args: { user_uuid: string }
         Returns: undefined
@@ -4983,6 +5159,7 @@ export type Database = {
         Args: { email_input: string }
         Returns: string
       }
+      get_active_title_buffs: { Args: { p_user_id: string }; Returns: Json }
       get_admin_analytics: { Args: never; Returns: Json }
       get_admin_profiles: {
         Args: never

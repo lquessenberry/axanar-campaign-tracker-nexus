@@ -1,10 +1,12 @@
 import React from 'react';
+import { AmbassadorialTitleDisplay } from './AmbassadorialTitleDisplay';
 
 interface RankPipsProps {
   totalDonated: number;
   xp: number;
   profileCompletion: number;
   isAdmin?: boolean;
+  userId?: string;
   className?: string;
 }
 
@@ -65,7 +67,8 @@ const RankPips: React.FC<RankPipsProps> = ({
   totalDonated, 
   xp, 
   profileCompletion, 
-  isAdmin = false, 
+  isAdmin = false,
+  userId,
   className = "" 
 }) => {
   const rank = getRankInfo(totalDonated, xp, isAdmin);
@@ -136,6 +139,11 @@ const RankPips: React.FC<RankPipsProps> = ({
           <div className="text-white font-medium">{profileCompletion}%</div>
         </div>
       </div>
+
+      {/* Ambassadorial Title */}
+      {userId && (
+        <AmbassadorialTitleDisplay userId={userId} compact />
+      )}
     </div>
   );
 };
