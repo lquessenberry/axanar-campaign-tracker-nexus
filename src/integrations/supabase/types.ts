@@ -5169,10 +5169,9 @@ export type Database = {
         }[]
       }
       get_forum_activity_leaderboard: {
-        Args: { p_limit: string }
+        Args: { p_limit?: string }
         Returns: {
           achievements: number
-          activity_7d: number
           avatar_url: string
           comment_count: number
           donor_id: string
@@ -5188,9 +5187,7 @@ export type Database = {
           pulse_score: number
           rank: number
           recruits: number
-          streak_days: number
           thread_count: number
-          tier: string
           total_donated: number
           unified_xp: number
           years_supporting: number
