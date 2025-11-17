@@ -37,7 +37,7 @@ Deno.serve(async (req) => {
       .from('user_activity_metrics')
       .select('*')
       .eq('user_id', user.id)
-      .single();
+      .maybeSingle();
 
     // Get thread and comment counts from last 7 days
     const sevenDaysAgo = new Date();
@@ -86,13 +86,13 @@ Deno.serve(async (req) => {
       .from('profiles')
       .select('unified_xp')
       .eq('id', user.id)
-      .single();
+      .maybeSingle();
 
     const { data: presence } = await supabaseClient
       .from('user_presence')
       .select('is_online, last_seen')
       .eq('user_id', user.id)
-      .single();
+      .maybeSingle();
 
     // Calculate pulse score
     const unifiedXp = profile?.unified_xp || 0;
