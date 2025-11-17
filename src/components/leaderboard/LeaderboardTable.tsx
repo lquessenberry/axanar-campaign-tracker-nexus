@@ -207,22 +207,22 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
             >
               {/* Blur overlay for unlinked accounts */}
               {!entry.is_account_linked && (
-                <div className="absolute inset-0 backdrop-blur-md bg-background/40 rounded-lg z-10 flex flex-col items-center justify-center gap-3 p-4">
-                  <div className="text-center max-w-md">
-                    <h4 className="font-semibold text-lg mb-2 flex items-center justify-center gap-2">
-                      <AlertTriangle className="h-5 w-5 text-yellow-500" />
-                      Account Not Linked
-                    </h4>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      This contributor has <span className="font-semibold text-foreground">{Math.round(entry.proposed_ares).toLocaleString()} proposed ARES</span> from donations, 
-                      but hasn't claimed their verified ARES XP yet. Overall participation points count donations only—verified ARES XP includes 
-                      forum activity, achievements, and more.
-                    </p>
+                <div className="absolute inset-0 backdrop-blur-md bg-background/40 rounded-lg z-10 flex items-center justify-between gap-4 px-6">
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <AlertTriangle className="h-8 w-8 text-yellow-500 flex-shrink-0" />
+                    <div className="min-w-0">
+                      <h4 className="font-semibold text-base mb-1">Account Not Linked</h4>
+                      <p className="text-xs text-muted-foreground leading-tight">
+                        <span className="font-semibold text-foreground">{Math.round(entry.proposed_ares).toLocaleString()} proposed ARES</span> from donations. 
+                        Overall points count donations only—verified ARES XP includes forum activity and achievements.
+                      </p>
+                    </div>
                   </div>
-                  <Link to="/auth?flow=lookup">
+                  <Link to="/auth?flow=lookup" className="flex-shrink-0">
                     <Button 
                       variant="default" 
-                      className="gap-2 bg-yellow-600 hover:bg-yellow-700 text-white"
+                      size="sm"
+                      className="gap-2 bg-yellow-600 hover:bg-yellow-700 text-white whitespace-nowrap"
                     >
                       <AlertTriangle className="h-4 w-4" />
                       MIA: Call for Re-Enlistment
