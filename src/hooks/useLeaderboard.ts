@@ -41,7 +41,7 @@ export interface LeaderboardResponse {
 }
 
 export const useLeaderboard = (
-  category: LeaderboardCategory = 'total_donated',
+  category: LeaderboardCategory = 'unified_xp',
   limit: number = 10
 ) => {
   const { user } = useAuth();

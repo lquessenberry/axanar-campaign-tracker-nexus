@@ -14,6 +14,7 @@ import {
   Star
 } from 'lucide-react';
 import { LeaderboardEntry, LeaderboardCategory } from '@/hooks/useLeaderboard';
+import { MILITARY_RANK_THRESHOLDS } from '@/hooks/useRankSystem';
 import { toast } from 'sonner';
 
 interface LeaderboardTableProps {
@@ -30,6 +31,12 @@ interface LeaderboardTableProps {
 
 const getCategoryConfig = (category: LeaderboardCategory) => {
   const configs = {
+    unified_xp: {
+      title: 'Top ARES Rankings',
+      icon: Trophy,
+      formatValue: (value: number) => `${Math.round(value).toLocaleString()} ARES`,
+      description: 'Total experience points from donations, forum, and activities'
+    },
     total_donated: {
       title: 'Top Donors',
       icon: DollarSign,
@@ -83,6 +90,16 @@ const getRankIcon = (rank: number) => {
   return <span className="text-lg font-bold text-muted-foreground">#{rank}</span>;
 };
 
+const getMilitaryRank = (xp: number) => {
+  for (let i = 0; i < MILITARY_RANK_THRESHOLDS.length; i++) {
+    const rank = MILITARY_RANK_THRESHOLDS[i];
+    if (xp >= rank.minXP && xp <= rank.maxXP) {
+      return rank;
+    }
+  }
+  return MILITARY_RANK_THRESHOLDS[0]; // Return Crewman as default
+};
+
 const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
   data,
   category,
@@ -93,6 +110,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
   const Icon = config.icon;
 
   const categories: { key: LeaderboardCategory; label: string }[] = [
+    { key: 'unified_xp', label: 'ARES XP' },
     { key: 'total_donated', label: 'Donations' },
     { key: 'total_contributions', label: 'Activity' },
     { key: 'years_supporting', label: 'Veteran' },
@@ -200,7 +218,18 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
                 </Avatar>
                 <div className="min-w-0 flex-1">
                   <h4 className="font-medium truncate">{entry.full_name}</h4>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
+                    {category === 'unified_xp' && (() => {
+                      const militaryRank = getMilitaryRank(entry.metric_value);
+                      return (
+                        <Badge 
+                          variant="secondary" 
+                          className={`text-xs ${militaryRank.pipColor.replace('bg-', 'text-')}`}
+                        >
+                          {militaryRank.name}
+                        </Badge>
+                      );
+                    })()}
                     <span>{entry.years_supporting} years</span>
                     {entry.achievements > 0 && (
                       <Badge variant="secondary" className="text-xs">
