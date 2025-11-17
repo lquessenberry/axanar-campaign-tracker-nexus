@@ -67,7 +67,7 @@ const getCategoryConfig = (category: LeaderboardCategory) => {
       title: 'Overall Activity Leaders',
       icon: Trophy,
       formatValue: (value: number) => `${Math.round(value).toLocaleString()} points`,
-      description: 'Combined activity and engagement score'
+      description: 'Combined score: Donation amount (in cents) ÷ 100 = base points. Norman\'s $25,759 = 257.59 base points + additional activity = ~391 total'
     },
     profile_completeness_score: {
       title: 'Complete Profiles',
