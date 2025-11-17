@@ -27,6 +27,9 @@ export interface LeaderboardEntry {
   proposed_ares: number;
   is_account_linked: boolean;
   unified_xp: number;
+  is_online: boolean;
+  last_seen: string | null;
+  profile_id: string | null;
 }
 
 export interface UserPosition {
