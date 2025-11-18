@@ -5315,14 +5315,22 @@ export type Database = {
       get_leaderboard: {
         Args: { p_category?: string; p_limit?: string; p_user_id?: string }
         Returns: {
+          achievements: number
           avatar_url: string
+          comment_count: number
           donor_id: string
           donor_name: string
           full_name: string
           is_account_linked: boolean
+          is_online: boolean
+          last_seen: string
           metric_value: number
           profile_id: string
+          profile_score: number
+          proposed_ares: number
           rank: number
+          recruits: number
+          thread_count: number
           total_donated: number
           unified_xp: number
           years_supporting: number
