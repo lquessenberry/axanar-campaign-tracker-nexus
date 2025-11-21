@@ -1,7 +1,4 @@
-import { 
-  SidebarTrigger 
-} from "@/components/ui/sidebar";
-import { 
+import {
   Home,
   Users,
   BarChart3,
@@ -72,13 +69,8 @@ const AdminHeader = ({ activeSection }: AdminHeaderProps) => {
 
   return (
     <div className="mb-8 flex items-start gap-6">
-      <div className="flex items-center gap-3">
-        <div className="p-3 bg-primary/10 rounded-xl border border-primary/20">
-          <SidebarTrigger className="h-8 w-8 text-primary" />
-        </div>
-        <div className="p-3 bg-primary/10 rounded-xl border border-primary/20">
-          <CurrentIcon className="h-8 w-8 text-primary" />
-        </div>
+      <div className="p-3 bg-primary/10 rounded-daystrom-button border border-primary/20">
+        <CurrentIcon className="h-8 w-8 text-primary" />
       </div>
       <div className="flex-1">
         <h1 className="text-4xl font-bold tracking-tight mb-2">
