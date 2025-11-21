@@ -295,31 +295,31 @@ const DirectMessages = () => {
               animate={{ x: 0 }}
               exit={{ x: -400 }}
               transition={{ type: "spring", damping: 34, stiffness: 400 }}
-              className="w-96 h-full bg-card/40 backdrop-blur-3xl border-r border-border flex flex-col relative z-10"
+              className="w-80 h-full bg-card/40 backdrop-blur-3xl border-r border-border flex flex-col relative z-10"
             >
-              <div className="p-6 border-b border-border">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
-                    <MessageCircle className="w-6 h-6 text-primary-foreground" />
+              <div className="p-4 border-b border-border">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
+                    <MessageCircle className="w-5 h-5 text-primary-foreground" />
                   </div>
-                  <h2 className="text-xl font-semibold">Messages</h2>
+                  <h2 className="text-lg font-semibold">Messages</h2>
                 </div>
 
                 <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'all' | 'support')} className="w-full">
-                  <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="all" className="gap-2 rounded-xl relative">
+                  <TabsList className="grid w-full grid-cols-2 h-9">
+                    <TabsTrigger value="all" className="gap-1.5 rounded-xl relative text-sm">
                       All
                       {getUnreadCount() > 0 && (
-                        <Badge variant="destructive" className="ml-1 px-1.5 py-0 text-xs h-5">
+                        <Badge variant="destructive" className="ml-1 px-1.5 py-0 text-xs h-4">
                           {getUnreadCount()}
                         </Badge>
                       )}
                     </TabsTrigger>
-                    <TabsTrigger value="support" className="gap-2 rounded-xl relative">
-                      <HelpCircle className="w-3.5 h-3.5" />
+                    <TabsTrigger value="support" className="gap-1.5 rounded-xl relative text-sm">
+                      <HelpCircle className="w-3 h-3" />
                       Support
                       {supportUnreadCount > 0 && (
-                        <Badge variant="destructive" className="ml-1 px-1.5 py-0 text-xs h-5">
+                        <Badge variant="destructive" className="ml-1 px-1.5 py-0 text-xs h-4">
                           {supportUnreadCount}
                         </Badge>
                       )}
@@ -328,71 +328,68 @@ const DirectMessages = () => {
                 </Tabs>
               </div>
 
-              <div className="px-4 pb-4">
+              <div className="px-3 pb-3">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
                   <input
                     type="text"
-                    placeholder="Search conversations..."
+                    placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full h-10 pl-10 pr-4 rounded-2xl bg-background/50 border border-border text-sm outline-none focus:ring-2 ring-primary/20 transition-all"
+                    className="w-full h-9 pl-9 pr-3 rounded-xl bg-background/50 border border-border text-sm outline-none focus:ring-2 ring-primary/20 transition-all"
                   />
                 </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto px-4">
-                <div className="flex items-center justify-between mb-3 px-1">
-                  <span className="text-sm font-medium text-muted-foreground">
-                    {activeTab === 'support' ? 'Support Tickets' : 'Direct Messages'}
+              <div className="flex-1 overflow-y-auto px-3">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                    {activeTab === 'support' ? 'Tickets' : 'Conversations'}
                   </span>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={activeTab === 'support' ? handleStartSupportConversation : handleStartNewConversation}
-                    className="p-2 rounded-xl hover:bg-accent transition-colors"
+                    className="p-1.5 rounded-lg hover:bg-accent transition-colors"
                   >
-                    <Plus className="w-4 h-4" />
+                    <Plus className="w-3.5 h-3.5" />
                   </motion.button>
                 </div>
 
                 {loading ? (
-                  <div className="flex items-center justify-center py-8">
-                    <div className="animate-spin rounded-full h-6 w-6 border-2 border-primary border-t-transparent" />
+                  <div className="flex items-center justify-center py-6">
+                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-primary border-t-transparent" />
                   </div>
                 ) : filteredConversations.length === 0 ? (
-                  <div className="text-center py-8 text-muted-foreground text-sm">
+                  <div className="text-center py-6 text-muted-foreground text-sm">
                     No conversations yet
                   </div>
                 ) : (
-                  <div className="space-y-1">
+                  <div className="space-y-0.5">
                     {filteredConversations.map((conv) => (
                       <motion.button
                         key={conv.partner_id}
                         layoutId={`conv-${conv.partner_id}`}
                         whileHover={{ backgroundColor: 'hsl(var(--accent))' }}
                         onClick={() => handleSelectConversation(conv.partner_id)}
-                        className={`w-full text-left p-4 rounded-2xl transition-all ${
+                        className={`w-full text-left p-2.5 rounded-xl transition-all ${
                           selectedConversationId === conv.partner_id 
                             ? 'bg-accent font-medium' 
                             : ''
                         }`}
                       >
-                        <div className="flex items-center justify-between mb-1">
-                          <p className="font-medium truncate">
+                        <div className="flex items-center justify-between mb-0.5">
+                          <p className="font-medium truncate text-sm">
                             {conv.partner_full_name || conv.partner_username}
                           </p>
                           {conv.unread_count > 0 && (
-                            <Badge variant="default" className="ml-2 px-2 py-0 text-xs h-5">
+                            <Badge variant="default" className="ml-2 px-1.5 py-0 text-xs h-4">
                               {conv.unread_count}
                             </Badge>
                           )}
                         </div>
                         <p className="text-xs text-muted-foreground truncate">
                           {conv.last_message || 'No messages yet'}
-                        </p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          Recent
                         </p>
                       </motion.button>
                     ))}
@@ -401,7 +398,7 @@ const DirectMessages = () => {
 
                 {/* Online Users - only in "all" tab */}
                 {activeTab === 'all' && !showUserSelector && (
-                  <div className="mt-6 space-y-4">
+                  <div className="mt-4 space-y-3">
                     <OnlineUsersList />
                     <RecentlyActiveUsers />
                   </div>
