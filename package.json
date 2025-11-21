@@ -70,6 +70,7 @@
     "dompurify": "^3.2.6",
     "dotenv": "^17.2.1",
     "embla-carousel-react": "^8.3.0",
+    "framer-motion": "^12.23.24",
     "i18next": "^25.3.2",
     "input-otp": "^1.2.4",
     "konva": "^10.0.8",

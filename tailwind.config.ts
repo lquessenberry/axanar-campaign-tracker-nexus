@@ -75,23 +75,31 @@ export default {
 				},
 				// LCARS-PADD Color System (TOS-Inspired)
 				lcars: {
-					'yellow': 'hsl(48, 100%, 67%)',      // #FFC107 - Command/Alert
-					'blue': 'hsl(207, 90%, 45%)',        // Science/Info  
-					'light-blue': 'hsl(195, 100%, 61%)', // #0288D1 - Light Blue
-					'dark-blue': 'hsl(211, 100%, 44%)',  // #1565C0 - Dark Blue
-					'red': 'hsl(4, 90%, 58%)',           // #D32F2F - Alert/Error
-					'orange': 'hsl(36, 100%, 50%)',      // #FF9900 - Tactical/Warning
-					'gray': 'hsl(210, 11%, 71%)',        // #B0BEC5 - Neutral
-					'light-gray': 'hsl(210, 15%, 87%)',  // #CFD8DC - Light Panel
-					'dark-gray': 'hsl(200, 18%, 54%)',   // #78909C - Dark Panel
-					'tan': 'hsl(30, 100%, 80%)',         // #FFCC99 - Ops/Neutral
+					'yellow': 'hsl(48, 100%, 67%)',
+					'blue': 'hsl(207, 90%, 45%)',
+					'light-blue': 'hsl(195, 100%, 61%)',
+					'dark-blue': 'hsl(211, 100%, 44%)',
+					'red': 'hsl(4, 90%, 58%)',
+					'orange': 'hsl(36, 100%, 50%)',
+					'gray': 'hsl(210, 11%, 71%)',
+					'light-gray': 'hsl(210, 15%, 87%)',
+					'dark-gray': 'hsl(200, 18%, 54%)',
+					'tan': 'hsl(30, 100%, 80%)',
+				},
+				// Nebula theme colors
+				nebula: {
+					'purple': 'hsl(280, 100%, 70%)',
+					'cyan': 'hsl(190, 100%, 60%)',
+					'pink': 'hsl(330, 100%, 70%)',
+					'blue': 'hsl(220, 100%, 60%)',
+					'dark': 'hsl(260, 50%, 10%)',
 				},
 				// Status color system
 				status: {
-					'pending': 'hsl(36, 100%, 50%)',     // Amber
-					'processing': 'hsl(207, 90%, 70%)',  // Blue
-					'shipped': 'hsl(195, 100%, 61%)',    // Cyan  
-					'delivered': 'hsl(120, 60%, 60%)',   // Green
+					'pending': 'hsl(36, 100%, 50%)',
+					'processing': 'hsl(207, 90%, 70%)',
+					'shipped': 'hsl(195, 100%, 61%)',
+					'delivered': 'hsl(120, 60%, 60%)',
 				}
 			},
 			borderRadius: {
@@ -140,6 +148,46 @@ export default {
 						opacity: '0.7'
 					}
 				},
+				'slide-in-up': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateY(20px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				},
+				'slide-in-left': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateX(-20px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateX(0)'
+					}
+				},
+				'scale-in': {
+					'0%': {
+						opacity: '0',
+						transform: 'scale(0.95)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'scale(1)'
+					}
+				},
+				'sparkle': {
+					'0%, 100%': {
+						opacity: '0',
+						transform: 'scale(0) rotate(0deg)'
+					},
+					'50%': {
+						opacity: '1',
+						transform: 'scale(1) rotate(180deg)'
+					}
+				},
 				'scroll': {
 					'0%': {
 						transform: 'translateX(100%)'
@@ -153,7 +201,11 @@ export default {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.5s ease-out',
-				'pulse-glow': 'pulse-glow 2s ease-in-out infinite'
+				'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+				'slide-in-up': 'slide-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+				'slide-in-left': 'slide-in-left 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+				'scale-in': 'scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+				'sparkle': 'sparkle 1s ease-in-out infinite',
 			},
 			fontFamily: {
 				// ============= AXANAR STAR TREK TYPOGRAPHY =============
@@ -234,7 +286,12 @@ export default {
 			backgroundImage: {
 				'space': "url('/lovable-uploads/284dc990-6904-4420-a006-2aafd617b57f.png')",
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-			}
+				'gradient-cosmic': 'radial-gradient(ellipse at 50% 50%, var(--tw-gradient-stops))',
+				'gradient-nebula': 'linear-gradient(135deg, var(--tw-gradient-stops))',
+			},
+			backdropBlur: {
+				xs: '2px',
+			},
 		}
 	},
 	plugins: [tailwindcssAnimate],

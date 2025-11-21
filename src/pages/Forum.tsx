@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { MessageCircle, Users, Award } from "lucide-react";
+import { MessageCircle, Users, Award, Sparkles } from "lucide-react";
 import { useForumThreads, useThreadLike, useThreadLikeStatus } from "@/hooks/useForumThreads";
 import { useAuth } from "@/contexts/AuthContext";
 import ThreadCard from "@/components/forum/ThreadCard";
@@ -16,6 +16,8 @@ import { RecentlyActiveUsers } from "@/components/forum/RecentlyActiveUsers";
 import { useForumSearch } from "@/hooks/useForumSearch";
 import { useForumBookmarks } from "@/hooks/useForumBookmarks";
 import { supabase } from "@/integrations/supabase/client";
+import { CosmicBackground } from "@/components/forum/CosmicBackground";
+import { motion } from "framer-motion";
 
 import type { ForumCategory } from '@/hooks/useForumThreads';
 
@@ -81,30 +83,47 @@ const Forum: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col relative">
+      <CosmicBackground />
       <Navigation />
 
-      <main className="flex-grow py-10 px-6">
+      <main className="flex-grow py-10 px-6 relative z-10">
         <div className="container mx-auto max-w-7xl space-y-6">
           {/* Header */}
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+          >
             <div>
-              <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-                🖖 Starfleet Forum Academy
-              </h1>
-              <p className="text-sm text-muted-foreground mt-1">
-                💖 Connect with fellow Axanar fans and share your passion
+              <motion.h1
+                className="text-5xl font-bold tracking-tight flex items-center gap-3 bg-gradient-to-r from-nebula-purple via-nebula-cyan to-nebula-pink bg-clip-text text-transparent"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                >
+                  <Sparkles className="h-10 w-10 text-nebula-purple" />
+                </motion.div>
+                Starfleet Forum Academy
+              </motion.h1>
+              <p className="text-sm text-muted-foreground mt-2">
+                💖 Connect with fellow Axanar fans in this cosmic space
               </p>
             </div>
             <div className="flex gap-3 items-center">
               {user && <NotificationBell />}
               <Link to="/leaderboard">
-                <Button variant="outline">
+                <Button variant="outline" className="rounded-3xl backdrop-blur-md border-nebula-purple/30 hover:border-nebula-purple transition-all hover:scale-105">
                   <Award className="h-4 w-4 mr-2" />
                   🏆 Ranks
                 </Button>
               </Link>
             </div>
-          </div>
+          </motion.div>
 
           {/* Search and Filters */}
           <ForumSearchBar
@@ -121,17 +140,40 @@ const Forum: React.FC = () => {
             <div className="lg:col-span-3 space-y-6">
               {/* Create Thread */}
               {user ? (
-                <ThreadComposer />
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                  <ThreadComposer />
+                </motion.div>
               ) : (
-                <Card className="p-6 text-center border-2 border-axanar-teal/30">
-                  <h3 className="text-lg font-bold mb-2">Join the Conversation</h3>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Sign in to create threads and participate in discussions
-                  </p>
-                  <Link to="/auth">
-                    <Button variant="outline">Sign In</Button>
-                  </Link>
-                </Card>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                  <Card className="p-8 text-center border-2 border-nebula-purple/30 backdrop-blur-md bg-card/50 rounded-3xl shadow-2xl hover:shadow-nebula-purple/20 transition-all">
+                    <motion.div
+                      animate={{ rotate: [0, 360] }}
+                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                      className="inline-block mb-4"
+                    >
+                      <Sparkles className="h-12 w-12 text-nebula-purple" />
+                    </motion.div>
+                    <h3 className="text-2xl font-bold mb-2 bg-gradient-to-r from-nebula-purple to-nebula-cyan bg-clip-text text-transparent">
+                      Join the Cosmic Conversation
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-6">
+                      Sign in to create threads and participate in discussions
+                    </p>
+                    <Link to="/auth">
+                      <Button className="rounded-3xl bg-gradient-to-r from-nebula-purple to-nebula-cyan hover:scale-105 transition-transform">
+                        Sign In
+                      </Button>
+                    </Link>
+                  </Card>
+                </motion.div>
               )}
 
               {/* Thread List */}
@@ -154,25 +196,43 @@ const Forum: React.FC = () => {
                 </Card>
               )}
 
-              {!loading && threads && threads.map((thread) => (
-                <ThreadCardWithLike 
-                  key={thread.id} 
-                  thread={thread}
-                  isBookmarked={bookmarkedThreadIds.includes(thread.id)}
-                />
+              {!loading && threads && threads.map((thread, index) => (
+                <motion.div
+                  key={thread.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 * index }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <ThreadCardWithLike 
+                    thread={thread}
+                    isBookmarked={bookmarkedThreadIds.includes(thread.id)}
+                  />
+                </motion.div>
               ))}
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6">
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="space-y-6"
+            >
               {/* Online Users */}
-              <OnlineUsersList />
+              <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "spring", stiffness: 300 }}>
+                <OnlineUsersList />
+              </motion.div>
               
               {/* Recently Active Users */}
-              <RecentlyActiveUsers />
+              <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "spring", stiffness: 300 }}>
+                <RecentlyActiveUsers />
+              </motion.div>
               
               {/* Forum Stats */}
-              <Card className="border-2 border-axanar-teal/30">
+              <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "spring", stiffness: 300 }}>
+                <Card className="border-2 border-nebula-purple/30 backdrop-blur-md bg-card/50 rounded-3xl shadow-2xl hover:shadow-nebula-purple/20 transition-all">
                 <CardHeader className="bg-gradient-to-r from-axanar-teal/10 to-blue-500/10 border-b">
                   <CardTitle className="flex items-center gap-2 text-base">
                     <Users className="h-5 w-5" />
@@ -198,9 +258,11 @@ const Forum: React.FC = () => {
                   </div>
                 </CardContent>
               </Card>
+              </motion.div>
 
               {/* Forum Features */}
-              <Card className="border-2 border-axanar-teal/30">
+              <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "spring", stiffness: 300 }}>
+                <Card className="border-2 border-nebula-cyan/30 backdrop-blur-md bg-card/50 rounded-3xl shadow-2xl hover:shadow-nebula-cyan/20 transition-all">
                 <CardHeader className="bg-gradient-to-r from-axanar-teal/10 to-blue-500/10 border-b">
                   <CardTitle className="flex items-center gap-2 text-base">
                     <Users className="h-5 w-5" />
@@ -246,7 +308,8 @@ const Forum: React.FC = () => {
                   </div>
                 </CardContent>
               </Card>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </main>
