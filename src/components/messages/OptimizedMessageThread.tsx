@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { MessageCircle, User } from 'lucide-react';
 import MessageComposer from './MessageComposer';
-import VirtualizedMessageList from './VirtualizedMessageList';
+import OptimizedMessageList from './OptimizedMessageList';
 import { getDisplayName, getInitials } from '@/utils/messageUtils';
 
 interface Message {
@@ -104,7 +104,7 @@ const OptimizedMessageThread: React.FC<OptimizedMessageThreadProps> = ({
         {/* Messages Area with Virtualization */}
         <div className="flex-1">
           {messages.length > 0 ? (
-            <VirtualizedMessageList
+            <OptimizedMessageList
               messages={messages}
               currentUserId={currentUserId}
               recipient={recipient}
