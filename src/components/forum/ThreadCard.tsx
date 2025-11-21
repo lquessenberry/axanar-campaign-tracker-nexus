@@ -10,6 +10,7 @@ import { sanitizeHtml } from '@/utils/sanitizeHtml';
 import { parseMentions } from '@/utils/mentionParser';
 import { useToggleBookmark } from '@/hooks/useForumBookmarks';
 import { useAuth } from '@/contexts/AuthContext';
+import { motion } from 'framer-motion';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -76,12 +77,16 @@ export const ThreadCard: React.FC<ThreadCardProps> = ({ thread, onLike, isLiked,
 
   return (
     <>
-      <Card className="overflow-hidden border-2 border-border/50 hover:border-axanar-teal/30 transition-all group">
+      <Card className="overflow-hidden border-2 border-nebula-purple/30 backdrop-blur-md bg-card/50 rounded-3xl shadow-2xl hover:shadow-nebula-purple/20 transition-all group">
         {thread.is_pinned && (
-          <div className="bg-gradient-to-r from-accent/20 to-accent/30 border-b border-accent/30 px-4 py-1.5 text-xs font-semibold flex items-center gap-2">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="bg-gradient-to-r from-nebula-purple/20 to-nebula-cyan/20 border-b border-nebula-purple/30 px-4 py-1.5 text-xs font-semibold flex items-center gap-2"
+          >
             <Pin className="h-3 w-3 fill-current" />
             PINNED POST
-          </div>
+          </motion.div>
         )}
 
         <div className="p-4">
@@ -106,7 +111,7 @@ export const ThreadCard: React.FC<ThreadCardProps> = ({ thread, onLike, isLiked,
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div className="flex-1 min-w-0">
                     <Link to={`/forum/thread/${thread.id}`}>
-                      <h3 className="font-bold text-lg group-hover:text-axanar-teal transition-colors line-clamp-2">
+                      <h3 className="font-bold text-lg group-hover:bg-gradient-to-r group-hover:from-nebula-purple group-hover:to-nebula-cyan group-hover:bg-clip-text group-hover:text-transparent transition-all line-clamp-2">
                         {thread.title}
                       </h3>
                     </Link>
@@ -183,44 +188,51 @@ export const ThreadCard: React.FC<ThreadCardProps> = ({ thread, onLike, isLiked,
             </div>
 
           {/* Stats & Actions */}
-          <div className="flex items-center gap-3 mt-4 pt-3 border-t border-border/30">
-            <Button
-              variant={isLiked ? "default" : "ghost"}
-              size="sm"
-              onClick={(e) => {
-                e.preventDefault();
-                onLike?.();
-              }}
-              className={isLiked ? "bg-destructive hover:bg-destructive/90" : ""}
-            >
-              <Heart className={`h-4 w-4 mr-1 ${isLiked ? 'fill-current' : ''}`} />
-              {thread.like_count}
-            </Button>
-
-            <Link to={`/forum/thread/${thread.id}`}>
-              <Button variant="ghost" size="sm">
-                <MessageCircle className="h-4 w-4 mr-1" />
-                {thread.comment_count}
-              </Button>
-            </Link>
-
-            {user && (
+          <div className="flex items-center gap-3 mt-4 pt-3 border-t border-nebula-purple/20">
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
               <Button
-                variant="ghost"
+                variant={isLiked ? "default" : "ghost"}
                 size="sm"
                 onClick={(e) => {
                   e.preventDefault();
-                  toggleBookmark.mutate({ threadId: thread.id, isBookmarked });
+                  onLike?.();
                 }}
+                className={isLiked ? "bg-gradient-to-r from-nebula-pink to-nebula-purple hover:from-nebula-purple hover:to-nebula-pink rounded-full" : "rounded-full"}
               >
-                <Bookmark className={`h-4 w-4 ${isBookmarked ? 'fill-current' : ''}`} />
+                <Heart className={`h-4 w-4 mr-1 ${isLiked ? 'fill-current' : ''}`} />
+                {thread.like_count}
               </Button>
+            </motion.div>
+
+            <Link to={`/forum/thread/${thread.id}`}>
+              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                <Button variant="ghost" size="sm" className="rounded-full">
+                  <MessageCircle className="h-4 w-4 mr-1" />
+                  {thread.comment_count}
+                </Button>
+              </motion.div>
+            </Link>
+
+            {user && (
+              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleBookmark.mutate({ threadId: thread.id, isBookmarked });
+                  }}
+                  className="rounded-full"
+                >
+                  <Bookmark className={`h-4 w-4 ${isBookmarked ? 'fill-current text-nebula-cyan' : ''}`} />
+                </Button>
+              </motion.div>
             )}
 
             <div className="flex items-center gap-1 text-xs text-muted-foreground ml-auto">
               <Eye className="h-3 w-3" />
               {thread.view_count}
-              <span className="ml-3 px-2 py-0.5 bg-axanar-teal/10 text-axanar-teal rounded text-xs font-semibold">
+              <span className="ml-3 px-3 py-1 bg-gradient-to-r from-nebula-purple/20 to-nebula-cyan/20 text-nebula-cyan rounded-full text-xs font-semibold">
                 +100 ARES
               </span>
             </div>

@@ -5,8 +5,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { ChevronDown, ChevronUp, PenSquare } from 'lucide-react';
+import { ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
 import { FORUM_CATEGORIES } from '@/lib/forum-categories';
+import { motion } from 'framer-motion';
 
 const ThreadComposer: React.FC = () => {
   const createThreadMutation = useCreateThread();
@@ -25,16 +26,23 @@ const ThreadComposer: React.FC = () => {
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen} className="space-y-4">
       <CollapsibleTrigger asChild>
-        <Button 
-          variant="outline" 
-          className="w-full justify-between border-2 border-axanar-teal/30 hover:border-axanar-teal/50 h-12"
-        >
-          <span className="flex items-center gap-2">
-            <PenSquare className="h-4 w-4" />
-            ✨ Create New Thread
-          </span>
-          {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-        </Button>
+        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+          <Button 
+            variant="outline" 
+            className="w-full justify-between border-2 border-nebula-purple/30 hover:border-nebula-purple hover:bg-gradient-to-r hover:from-nebula-purple/10 hover:to-nebula-cyan/10 h-14 rounded-3xl backdrop-blur-md transition-all shadow-lg hover:shadow-nebula-purple/20"
+          >
+            <span className="flex items-center gap-3">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              >
+                <Sparkles className="h-5 w-5 text-nebula-purple" />
+              </motion.div>
+              <span className="text-lg font-semibold">Create New Cosmic Thread</span>
+            </span>
+            {isOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+          </Button>
+        </motion.div>
       </CollapsibleTrigger>
       
       <CollapsibleContent className="space-y-4">

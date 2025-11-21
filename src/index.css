@@ -323,10 +323,18 @@ body:not(.game-active) [role="button"] {
     --lcars-text-primary: var(--lcars-yellow);
     --lcars-text-secondary: var(--lcars-blue);
     
+    /* Nebula theme colors */
+    --nebula-purple: 280 100% 70%;
+    --nebula-cyan: 190 100% 60%;
+    --nebula-pink: 330 100% 70%;
+    --nebula-blue: 220 100% 60%;
+    --nebula-dark: 260 50% 10%;
+    
     /* Sci-Fi Animations */
     --glow-primary: 0 0 20px hsl(var(--lcars-blue)), 0 0 40px hsl(var(--lcars-blue)), 0 0 60px hsl(var(--lcars-blue));
     --glow-secondary: 0 0 20px hsl(var(--lcars-yellow)), 0 0 40px hsl(var(--lcars-yellow)), 0 0 60px hsl(var(--lcars-yellow));
     --glow-alert: 0 0 20px hsl(var(--lcars-red)), 0 0 40px hsl(var(--lcars-red)), 0 0 60px hsl(var(--lcars-red));
+    --glow-nebula: 0 0 30px hsl(var(--nebula-purple)), 0 0 60px hsl(var(--nebula-cyan)), 0 0 90px hsl(var(--nebula-pink));
   }
 
   /* ============= NIGHT MODE (Enhanced Dark) ============= */
