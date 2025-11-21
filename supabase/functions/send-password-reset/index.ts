@@ -2,6 +2,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.8";
 import { Resend } from "npm:resend@2.0.0";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -9,6 +10,28 @@ const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
+
+// Validation schema with strict input constraints
+const passwordResetSchema = z.object({
+  email: z.string().email("Invalid email format").max(255, "Email too long"),
+  redirectUrl: z.string().url("Invalid URL format").max(500, "URL too long").optional(),
+});
+
+// Whitelist of allowed redirect domains
+const ALLOWED_DOMAINS = ["axanardonors.com", "localhost"];
+
+function isAllowedRedirectUrl(url: string | undefined): boolean {
+  if (!url) return true; // No redirect URL is allowed
+  
+  try {
+    const parsedUrl = new URL(url);
+    return ALLOWED_DOMAINS.some(domain => 
+      parsedUrl.hostname === domain || parsedUrl.hostname.endsWith(`.${domain}`)
+    );
+  } catch {
+    return false;
+  }
+}
 
 interface PasswordResetRequest {
   email: string;
@@ -21,7 +44,42 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { email, redirectUrl }: PasswordResetRequest = await req.json();
+    const requestBody = await req.json();
+    
+    // Validate input with zod
+    const validationResult = passwordResetSchema.safeParse(requestBody);
+    if (!validationResult.success) {
+      console.error("Validation error:", validationResult.error.errors);
+      return new Response(
+        JSON.stringify({ 
+          error: "Invalid input",
+          details: validationResult.error.errors.map(e => ({
+            field: e.path.join("."),
+            message: e.message
+          }))
+        }),
+        { 
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        }
+      );
+    }
+
+    const { email, redirectUrl } = validationResult.data;
+
+    // Validate redirect URL is from allowed domain
+    if (redirectUrl && !isAllowedRedirectUrl(redirectUrl)) {
+      console.error("Blocked redirect to unauthorized domain:", redirectUrl);
+      return new Response(
+        JSON.stringify({ 
+          error: "Invalid redirect URL. Only axanardonors.com URLs are allowed."
+        }),
+        { 
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        }
+      );
+    }
     
     console.log(`Processing password reset request for: ${email}`);
 
