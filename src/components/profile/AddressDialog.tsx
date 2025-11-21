@@ -50,14 +50,24 @@ const AddressDialog: React.FC<AddressDialogProps> = ({ open, onOpenChange }) => 
     
     console.log('📍 Submitting address form:', formData);
     
+    // Client-side validation
+    if (!formData.address1.trim() || !formData.city.trim() || !formData.state.trim() || 
+        !formData.postal_code.trim() || !formData.country.trim()) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+    
     try {
-      await updateAddress.mutateAsync(formData);
-      toast.success("Shipping address updated successfully! Changes will be visible on your profile.");
+      const result = await updateAddress.mutateAsync(formData);
+      console.log('✅ Address saved successfully:', result);
+      toast.success("Shipping address saved successfully!");
       onOpenChange(false);
     } catch (error: any) {
-      const errorMessage = error?.message || "Failed to update shipping address";
-      toast.error(errorMessage);
-      console.error('❌ Error updating address:', error);
+      console.error('❌ Error in address submission:', error);
+      const errorMessage = error?.message || "Failed to update shipping address. Please try again or contact support.";
+      toast.error(errorMessage, {
+        duration: 5000,
+      });
     }
   };
 
