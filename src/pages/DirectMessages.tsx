@@ -275,7 +275,7 @@ const DirectMessages = () => {
       
       <PullToRefresh onRefresh={handleRefresh}>
         <div 
-          className="fixed inset-0 md:relative md:inset-auto md:min-h-[calc(100vh-115px)] bg-background flex overflow-hidden"
+          className="fixed inset-0 md:h-[calc(100vh-115px)] bg-background flex overflow-hidden"
           onMouseMove={(e) => { 
             mouseX.set(e.clientX); 
             mouseY.set(e.clientY); 
