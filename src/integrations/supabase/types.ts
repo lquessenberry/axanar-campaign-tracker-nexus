@@ -343,54 +343,66 @@ export type Database = {
         Row: {
           badge_style: string | null
           campaign_id: string | null
+          campaign_platform: string | null
           color: string | null
           created_at: string | null
           description: string | null
           display_name: string
+          exact_perk_name: string | null
           forum_xp_bonus: number | null
           icon: string | null
           id: string
+          is_universal: boolean | null
           minimum_pledge_amount: number
           original_rank_name: string | null
           participation_xp_bonus: number | null
           slug: string
           special_permissions: Json | null
+          tier_level: number | null
           updated_at: string | null
           xp_multiplier: number | null
         }
         Insert: {
           badge_style?: string | null
           campaign_id?: string | null
+          campaign_platform?: string | null
           color?: string | null
           created_at?: string | null
           description?: string | null
           display_name: string
+          exact_perk_name?: string | null
           forum_xp_bonus?: number | null
           icon?: string | null
           id?: string
+          is_universal?: boolean | null
           minimum_pledge_amount: number
           original_rank_name?: string | null
           participation_xp_bonus?: number | null
           slug: string
           special_permissions?: Json | null
+          tier_level?: number | null
           updated_at?: string | null
           xp_multiplier?: number | null
         }
         Update: {
           badge_style?: string | null
           campaign_id?: string | null
+          campaign_platform?: string | null
           color?: string | null
           created_at?: string | null
           description?: string | null
           display_name?: string
+          exact_perk_name?: string | null
           forum_xp_bonus?: number | null
           icon?: string | null
           id?: string
+          is_universal?: boolean | null
           minimum_pledge_amount?: number
           original_rank_name?: string | null
           participation_xp_bonus?: number | null
           slug?: string
           special_permissions?: Json | null
+          tier_level?: number | null
           updated_at?: string | null
           xp_multiplier?: number | null
         }
@@ -5033,6 +5045,15 @@ export type Database = {
       auth0_fdw_validator: {
         Args: { catalog: unknown; options: string[] }
         Returns: undefined
+      }
+      backfill_all_ambassadorial_titles: {
+        Args: never
+        Returns: {
+          processed_users: number
+          total_badges_awarded: number
+          total_titles_awarded: number
+          users_with_titles: number
+        }[]
       }
       ban_user: { Args: { target_user_id: string }; Returns: boolean }
       big_query_fdw_handler: { Args: never; Returns: unknown }

@@ -27,6 +27,7 @@ export interface UserTitle extends AmbassadorialTitle {
   is_displayed: boolean;
   is_primary: boolean;
   campaign_name?: string;
+  tier_level: number;
 }
 
 export const useAmbassadorialTitles = (userId?: string) => {
@@ -76,7 +77,8 @@ export const useAmbassadorialTitles = (userId?: string) => {
         source_pledge_id: item.source_pledge_id,
         is_displayed: item.is_displayed,
         is_primary: item.is_primary,
-        campaign_name: item.ambassadorial_titles?.campaigns?.name
+        campaign_name: item.ambassadorial_titles?.campaigns?.name,
+        tier_level: item.ambassadorial_titles?.tier_level || 0
       }));
 
       const primaryTitle = titles.find(t => t.is_primary) || titles[0] || null;
