@@ -4,6 +4,7 @@ import { DollarSign, Users, Trophy, Zap, Shield, Calendar } from "lucide-react";
 import DashboardStats from "../DashboardStats";
 import RecentActivityFeed from "../RecentActivityFeed";
 import RewardsShowcase from "../RewardsShowcase";
+import { ShippingAddressBlock } from "../ShippingAddressBlock";
 import { AmbassadorialTitleDisplay } from "../AmbassadorialTitleDisplay";
 import { User } from "@supabase/supabase-js";
 
@@ -58,6 +59,9 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
 
       {/* REWARDS SHOWCASE - MOST IMPORTANT */}
       <RewardsShowcase />
+
+      {/* SHIPPING ADDRESS - CRITICAL FOR PHYSICAL REWARDS */}
+      <ShippingAddressBlock />
 
       {/* Dashboard Stats */}
       <DashboardStats
