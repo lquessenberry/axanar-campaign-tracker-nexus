@@ -9,23 +9,23 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "btn-lcars",
-        destructive: "btn-lcars-alert",
-        outline: "border-2 border-input bg-background hover:bg-accent hover:text-accent-foreground font-trek-content rounded-md",
-        secondary: "btn-lcars-secondary",
-        ghost: "hover:bg-accent hover:text-accent-foreground font-trek-content rounded-md",
+        default: "btn-lcars rounded-daystrom-button",
+        destructive: "btn-lcars-alert rounded-daystrom-button",
+        outline: "border-2 border-input bg-background hover:bg-accent hover:text-accent-foreground font-trek-content rounded-daystrom-button shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_1px_0_rgba(0,0,0,0.2)]",
+        secondary: "btn-lcars-secondary rounded-daystrom-button",
+        ghost: "hover:bg-accent hover:text-accent-foreground font-trek-content rounded-daystrom-button",
         link: "text-primary underline-offset-4 hover:underline font-trek-content",
         // LCARS Enterprise variants
-        lcars: "btn-lcars",
-        "lcars-secondary": "btn-lcars-secondary",
-        "lcars-alert": "btn-lcars-alert",
-        tactical: "bg-gradient-to-r from-red-600 to-orange-600 text-white border-2 border-red-500 rounded-lg shadow-lg hover:shadow-red-500/50 transition-all duration-300 font-trek-heading uppercase tracking-wider",
+        lcars: "btn-lcars rounded-daystrom-button",
+        "lcars-secondary": "btn-lcars-secondary rounded-daystrom-button",
+        "lcars-alert": "btn-lcars-alert rounded-daystrom-button",
+        tactical: "bg-gradient-to-r from-red-600 to-orange-600 text-white border-2 border-red-500 rounded-daystrom-button shadow-lg hover:shadow-red-500/50 transition-all duration-300 font-trek-heading uppercase tracking-wider shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_1px_0_rgba(0,0,0,0.2)]",
       },
       size: {
-        default: "h-11 px-5 py-2.5 rounded-lg",
-        sm: "h-10 px-4 py-2 rounded-md text-sm",
-        lg: "h-12 px-9 py-3 rounded-lg text-lg",
-        icon: "h-11 w-11 rounded-lg",
+        default: "h-11 px-5 py-2.5",
+        sm: "h-10 px-4 py-2 text-sm",
+        lg: "h-12 px-9 py-3 text-lg",
+        icon: "h-11 w-11",
       },
     },
     defaultVariants: {

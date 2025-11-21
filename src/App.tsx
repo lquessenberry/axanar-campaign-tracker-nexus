@@ -12,6 +12,8 @@ import { useMessageNotifications } from "@/hooks/useMessageNotifications";
 import ThumbMenu from "@/components/ThumbMenu";
 import { GlobalPresenceTracker } from "@/components/GlobalPresenceTracker";
 import { ChatWindow } from "@/components/chat/ChatWindow";
+import { DaystromCursorGlow } from "@/components/DaystromCursorGlow";
+import { LCARSEdgeBars } from "@/components/LCARSEdgeBars";
 import { Loader2 } from "lucide-react";
 
 // Eager load critical pages
@@ -90,6 +92,8 @@ const App = () => (
         <BrowserRouter>
           <AuthProvider>
             <ChatProvider>
+              <DaystromCursorGlow />
+              <LCARSEdgeBars />
               <GlobalPresenceTracker />
               <GlobalMessageNotifications />
               <ErrorBoundary>
