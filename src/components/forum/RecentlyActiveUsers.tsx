@@ -56,32 +56,32 @@ export const RecentlyActiveUsers: React.FC = () => {
   const recentCount = activeUsers.length;
 
   return (
-    <Card className="p-4">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="font-semibold">Recently Active (30 days)</h3>
-        <div className="flex items-center gap-2">
-          <Clock className="h-4 w-4 text-muted-foreground" />
-          <span className="text-sm text-muted-foreground">{recentCount}</span>
+    <Card className="p-3 border-border/50">
+      <div className="flex items-center justify-between mb-2">
+        <h3 className="font-semibold text-sm">Recently Active (30d)</h3>
+        <div className="flex items-center gap-1.5">
+          <Clock className="h-3 w-3 text-muted-foreground" />
+          <span className="text-xs text-muted-foreground">{recentCount}</span>
         </div>
       </div>
       
-      <ScrollArea className="h-[200px]">
+      <ScrollArea className="h-[120px]">
         {recentCount === 0 ? (
-          <p className="text-sm text-muted-foreground text-center py-4">
+          <p className="text-xs text-muted-foreground text-center py-3">
             No recent activity
           </p>
         ) : (
-          <div className="space-y-2">
+          <div className="space-y-0.5">
             {activeUsers.map((user) => {
               return (
                 <div
                   key={user.id}
                   onClick={() => navigate(`/profile/${user.username}`)}
-                  className="flex items-center justify-between gap-2 p-2 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer"
+                  className="flex items-center justify-between gap-2 p-1.5 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer"
                 >
                   <div className="flex items-center gap-2 flex-1 min-w-0">
-                    <div className={`h-2 w-2 rounded-full ${user.is_online ? 'bg-green-500' : 'bg-gray-400'}`} />
-                    <span className="text-sm font-medium truncate">
+                    <div className={`h-1.5 w-1.5 rounded-full ${user.is_online ? 'bg-green-500' : 'bg-gray-400'}`} />
+                    <span className="text-xs font-medium truncate">
                       {user.username || user.full_name || 'Anonymous'}
                     </span>
                   </div>

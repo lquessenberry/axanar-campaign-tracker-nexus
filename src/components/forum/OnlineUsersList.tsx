@@ -45,41 +45,41 @@ export const OnlineUsersList: React.FC = () => {
   const onlineCount = onlineUsers.length;
 
   return (
-    <Card>
-      <CardHeader className="pb-3">
-        <CardTitle className="text-base flex items-center justify-between">
+    <Card className="border-border/50">
+      <CardHeader className="pb-2 px-3 pt-3">
+        <CardTitle className="text-sm flex items-center justify-between">
           <span>Online Now</span>
-          <div className="flex items-center gap-2">
-            <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-sm font-normal text-muted-foreground">{onlineCount}</span>
+          <div className="flex items-center gap-1.5">
+            <div className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
+            <span className="text-xs font-normal text-muted-foreground">{onlineCount}</span>
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <ScrollArea className="h-[200px] pr-4">
+      <CardContent className="px-3 pb-3">
+        <ScrollArea className="h-[120px] pr-2">
           {onlineCount === 0 ? (
-            <p className="text-sm text-muted-foreground text-center py-4">
+            <p className="text-xs text-muted-foreground text-center py-3">
               No users online
             </p>
           ) : (
-            <div className="space-y-1">
+            <div className="space-y-0.5">
               {onlineUsers.map((user) => (
                 <div
                   key={user.id}
-                  className="flex items-center gap-2 p-2 rounded-lg hover:bg-accent/50 transition-colors group"
+                  className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-accent/50 transition-colors group"
                 >
-                  <div className="h-2 w-2 rounded-full bg-green-500 flex-shrink-0" />
-                  <span className="text-sm font-medium flex-1 truncate">
+                  <div className="h-1.5 w-1.5 rounded-full bg-green-500 flex-shrink-0" />
+                  <span className="text-xs font-medium flex-1 truncate">
                     {user.username || user.full_name || 'Anonymous User'}
                   </span>
-                  <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                     <Button
                       size="icon"
                       variant="ghost"
-                      className="h-7 w-7"
+                      className="h-6 w-6"
                       onClick={() => navigate(`/profile/${user.id}`)}
                     >
-                      <User className="h-3.5 w-3.5" />
+                      <User className="h-3 w-3" />
                     </Button>
                     <ChatButton
                       userId={user.id}
@@ -87,7 +87,7 @@ export const OnlineUsersList: React.FC = () => {
                       username={user.username}
                       variant="ghost"
                       size="icon"
-                      className="h-7 w-7"
+                      className="h-6 w-6"
                       showIcon={true}
                     >
                       <span className="sr-only">Message</span>
