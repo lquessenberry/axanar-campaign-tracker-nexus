@@ -18,11 +18,13 @@ import { RecentlyActiveUsers } from '@/components/forum/RecentlyActiveUsers';
 import { toast } from 'sonner';
 import { MessageCircle, HelpCircle, Plus } from 'lucide-react';
 import SupportTicketDialog from '@/components/messages/SupportTicketDialog';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { PullToRefresh } from '@/components/mobile/PullToRefresh';
 
 const DirectMessages = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
   const { user } = useAuth();
   const { 
@@ -50,6 +52,12 @@ const DirectMessages = () => {
 
   // Default support admin (Lee)
   const DEFAULT_SUPPORT_ADMIN = '4862bb86-6f9b-4b7d-aa74-e4bee1d50342';
+
+  // Pull to refresh handler
+  const handleRefresh = async () => {
+    await queryClient.invalidateQueries({ queryKey: ['messages'] });
+    await queryClient.invalidateQueries({ queryKey: ['conversations'] });
+  };
 
   // Handle tab changes from URL params
   useEffect(() => {
@@ -209,8 +217,9 @@ const DirectMessages = () => {
   );
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navigation />
+    <PullToRefresh onRefresh={handleRefresh}>
+      <div className="min-h-screen flex flex-col">
+        <Navigation />
       
       <main className="flex-grow bg-background">
         {/* Header Section */}
@@ -381,7 +390,8 @@ const DirectMessages = () => {
         onOpenChange={setShowSupportDialog}
         onSubmit={handleCreateSupportTicket}
       />
-    </div>
+      </div>
+    </PullToRefresh>
   );
 };
 

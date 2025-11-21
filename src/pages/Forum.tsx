@@ -18,6 +18,8 @@ import { useForumBookmarks } from "@/hooks/useForumBookmarks";
 import { supabase } from "@/integrations/supabase/client";
 import { CosmicBackground } from "@/components/forum/CosmicBackground";
 import { motion } from "framer-motion";
+import { PullToRefresh } from "@/components/mobile/PullToRefresh";
+import { useQueryClient } from "@tanstack/react-query";
 
 import type { ForumCategory } from '@/hooks/useForumThreads';
 
@@ -42,6 +44,7 @@ type ThreadRow = {
 
 const Forum: React.FC = () => {
   const { user } = useAuth();
+  const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState('');
   const [category, setCategory] = useState<ForumCategory | null>(null);
   const [sortBy, setSortBy] = useState<'new' | 'hot' | 'top'>('new');
@@ -58,6 +61,15 @@ const Forum: React.FC = () => {
   const loading = searchQuery || category ? searchLoading : threadsLoading;
 
   const { data: bookmarkedThreadIds = [] } = useForumBookmarks();
+
+  // Pull to refresh handler
+  const handleRefresh = async () => {
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: ['forum-threads'] }),
+      queryClient.invalidateQueries({ queryKey: ['forum-search'] }),
+      queryClient.invalidateQueries({ queryKey: ['forum-bookmarks'] }),
+    ]);
+  };
 
   // Real-time subscriptions
   useEffect(() => {
@@ -82,9 +94,10 @@ const Forum: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col relative">
-      <CosmicBackground />
-      <Navigation />
+    <PullToRefresh onRefresh={handleRefresh}>
+      <div className="min-h-screen flex flex-col relative">
+        <CosmicBackground />
+        <Navigation />
 
       <main className="flex-grow py-10 px-6 relative z-10">
         <div className="container mx-auto max-w-7xl space-y-6">
@@ -315,7 +328,8 @@ const Forum: React.FC = () => {
       </main>
 
       <Footer />
-    </div>
+      </div>
+    </PullToRefresh>
   );
 };
 

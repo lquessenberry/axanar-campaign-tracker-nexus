@@ -1,21 +1,25 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { ForumThread, ForumCategory } from './useForumThreads';
+import { useDebouncedValue } from './useDebouncedValue';
 
 export const useForumSearch = (
   searchQuery: string,
   category: ForumCategory | null,
   sortBy: 'new' | 'hot' | 'top'
 ) => {
+  // Debounce search query to reduce unnecessary API calls
+  const debouncedSearchQuery = useDebouncedValue(searchQuery, 300);
+
   return useQuery({
-    queryKey: ['forum-search', searchQuery, category, sortBy],
+    queryKey: ['forum-search', debouncedSearchQuery, category, sortBy],
     queryFn: async () => {
       let query = supabase.from('forum_threads').select('*');
 
       // Search filter
-      if (searchQuery) {
+      if (debouncedSearchQuery) {
         query = query.or(
-          `title.ilike.%${searchQuery}%,content.ilike.%${searchQuery}%`
+          `title.ilike.%${debouncedSearchQuery}%,content.ilike.%${debouncedSearchQuery}%`
         );
       }
 
@@ -44,5 +48,6 @@ export const useForumSearch = (
       if (error) throw error;
       return data as ForumThread[];
     },
+    staleTime: 30 * 1000, // Cache for 30 seconds
   });
 };
