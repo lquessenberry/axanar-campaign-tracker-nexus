@@ -269,11 +269,13 @@ const DirectMessages = () => {
   return (
     <>
       {/* Desktop Navigation */}
-      <Navigation />
+      <div className="hidden md:block">
+        <Navigation />
+      </div>
       
       <PullToRefresh onRefresh={handleRefresh}>
         <div 
-          className="fixed inset-0 md:top-[57px] bg-background flex overflow-hidden"
+          className="fixed inset-0 md:relative md:inset-auto md:min-h-[calc(100vh-115px)] bg-background flex overflow-hidden"
           onMouseMove={(e) => { 
             mouseX.set(e.clientX); 
             mouseY.set(e.clientY); 
