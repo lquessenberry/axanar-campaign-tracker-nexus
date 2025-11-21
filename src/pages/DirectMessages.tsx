@@ -24,6 +24,7 @@ import { PullToRefresh } from '@/components/mobile/PullToRefresh';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { format } from 'date-fns';
+import Navigation from '@/components/Navigation';
 
 const DirectMessages = () => {
   const navigate = useNavigate();
@@ -266,14 +267,18 @@ const DirectMessages = () => {
   );
 
   return (
-    <PullToRefresh onRefresh={handleRefresh}>
-      <div 
-        className="fixed inset-0 bg-background flex overflow-hidden"
-        onMouseMove={(e) => { 
-          mouseX.set(e.clientX); 
-          mouseY.set(e.clientY); 
-        }}
-      >
+    <>
+      {/* Desktop Navigation */}
+      <Navigation />
+      
+      <PullToRefresh onRefresh={handleRefresh}>
+        <div 
+          className="fixed inset-0 md:top-[57px] bg-background flex overflow-hidden"
+          onMouseMove={(e) => { 
+            mouseX.set(e.clientX); 
+            mouseY.set(e.clientY); 
+          }}
+        >
         {/* Cursor glow effect */}
         <motion.div
           className="pointer-events-none fixed inset-0 opacity-20 z-0"
@@ -585,6 +590,7 @@ const DirectMessages = () => {
         />
       </div>
     </PullToRefresh>
+    </>
   );
 };
 
