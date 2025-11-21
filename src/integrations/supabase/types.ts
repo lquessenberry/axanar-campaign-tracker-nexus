@@ -5728,6 +5728,18 @@ export type Database = {
         Args: { is_online_status: boolean }
         Returns: undefined
       }
+      upsert_user_address: {
+        Args: {
+          p_address1: string
+          p_address2?: string
+          p_city: string
+          p_country: string
+          p_phone?: string
+          p_postal_code: string
+          p_state: string
+        }
+        Returns: Json
+      }
       urlencode:
         | { Args: { data: Json }; Returns: string }
         | {
