@@ -53,41 +53,71 @@ export const useUpdateAddress = () => {
   
   return useMutation({
     mutationFn: async (addressData: Address) => {
-      if (!user) throw new Error('User not authenticated');
+      if (!user) {
+        console.error('❌ No authenticated user');
+        throw new Error('You must be logged in to update your address');
+      }
       
       console.log('🔄 Starting address update for user:', user.id);
+      console.log('📦 Address data:', addressData);
+      
+      // Validate required fields
+      if (!addressData.address1 || !addressData.city || !addressData.state || 
+          !addressData.postal_code || !addressData.country) {
+        console.error('❌ Missing required address fields');
+        throw new Error('Please fill in all required fields (Address, City, State, Postal Code, Country)');
+      }
       
       // Get donor record
+      console.log('🔍 Fetching donor record for auth_user_id:', user.id);
       const { data: donor, error: donorError } = await supabase
         .from('donors')
-        .select('id')
+        .select('id, email')
         .eq('auth_user_id', user.id)
-        .single();
+        .maybeSingle();
 
       if (donorError) {
         console.error('❌ Error fetching donor:', donorError);
-        throw donorError;
+        throw new Error(`Failed to find your donor account: ${donorError.message}`);
       }
 
-      console.log('✅ Found donor record:', donor.id);
+      if (!donor) {
+        console.error('❌ No donor record found for user:', user.id);
+        throw new Error('Your donor account could not be found. Please contact support.');
+      }
+
+      console.log('✅ Found donor record:', donor.id, donor.email);
 
       // Check if address exists
-      const { data: existingAddress } = await supabase
+      console.log('🔍 Checking for existing address...');
+      const { data: existingAddress, error: checkError } = await supabase
         .from('addresses')
-        .select('id')
+        .select('id, address1, city, state')
         .eq('donor_id', donor.id)
         .eq('is_primary', true)
         .maybeSingle();
 
+      if (checkError) {
+        console.error('❌ Error checking for existing address:', checkError);
+        throw new Error(`Failed to check existing address: ${checkError.message}`);
+      }
+
       const addressPayload = {
-        ...addressData,
+        address1: addressData.address1.trim(),
+        address2: addressData.address2?.trim() || null,
+        city: addressData.city.trim(),
+        state: addressData.state.trim(),
+        postal_code: addressData.postal_code.trim(),
+        country: addressData.country.trim(),
+        phone: addressData.phone?.trim() || null,
         donor_id: donor.id,
         is_primary: true,
       };
 
       if (existingAddress) {
         console.log('🔄 Updating existing address:', existingAddress.id);
-        // Update existing address
+        console.log('📦 Update payload:', addressPayload);
+        
         const { data, error } = await supabase
           .from('addresses')
           .update(addressPayload)
@@ -97,13 +127,16 @@ export const useUpdateAddress = () => {
 
         if (error) {
           console.error('❌ Error updating address:', error);
-          throw error;
+          console.error('Full error details:', JSON.stringify(error, null, 2));
+          throw new Error(`Failed to update address: ${error.message}`);
         }
-        console.log('✅ Address updated successfully');
+        
+        console.log('✅ Address updated successfully:', data);
         return data;
       } else {
-        console.log('🔄 Creating new address');
-        // Create new address
+        console.log('➕ Creating new address for donor:', donor.id);
+        console.log('📦 Insert payload:', addressPayload);
+        
         const { data, error } = await supabase
           .from('addresses')
           .insert(addressPayload)
@@ -112,9 +145,19 @@ export const useUpdateAddress = () => {
 
         if (error) {
           console.error('❌ Error creating address:', error);
-          throw error;
+          console.error('Full error details:', JSON.stringify(error, null, 2));
+          
+          // Provide more specific error messages
+          if (error.code === 'PGRST301') {
+            throw new Error('Permission denied. Please contact support if this persists.');
+          } else if (error.code === '23505') {
+            throw new Error('An address already exists for this account.');
+          } else {
+            throw new Error(`Failed to save address: ${error.message}`);
+          }
         }
-        console.log('✅ Address created successfully');
+        
+        console.log('✅ Address created successfully:', data);
         return data;
       }
     },
