@@ -5267,6 +5267,47 @@ export type Database = {
         Returns: Json
       }
       get_comprehensive_admin_analytics: { Args: never; Returns: Json }
+      get_conversation_list: {
+        Args: { user_id_param: string }
+        Returns: {
+          category: string
+          last_message: string
+          last_message_time: string
+          partner_full_name: string
+          partner_id: string
+          partner_is_admin: boolean
+          partner_username: string
+          priority: string
+          status: string
+          subject: string
+          unread_count: number
+        }[]
+      }
+      get_conversation_messages: {
+        Args: {
+          current_user_id: string
+          limit_param?: number
+          partner_id: string
+        }
+        Returns: {
+          category: string
+          content: string
+          created_at: string
+          id: number
+          is_read: boolean
+          priority: string
+          recipient_full_name: string
+          recipient_id: string
+          recipient_is_admin: boolean
+          recipient_username: string
+          sender_full_name: string
+          sender_id: string
+          sender_is_admin: boolean
+          sender_username: string
+          status: string
+          subject: string
+        }[]
+      }
       get_donor_analytics: {
         Args: {
           page_offset?: number
@@ -5401,6 +5442,31 @@ export type Database = {
           total_contributors: number
           unified_xp: number
           user_rank: number
+        }[]
+      }
+      get_user_messages_with_profiles: {
+        Args: {
+          limit_param?: number
+          offset_param?: number
+          user_id_param: string
+        }
+        Returns: {
+          category: string
+          content: string
+          created_at: string
+          id: number
+          is_read: boolean
+          priority: string
+          recipient_full_name: string
+          recipient_id: string
+          recipient_is_admin: boolean
+          recipient_username: string
+          sender_full_name: string
+          sender_id: string
+          sender_is_admin: boolean
+          sender_username: string
+          status: string
+          subject: string
         }[]
       }
       get_verified_donor_counts: {

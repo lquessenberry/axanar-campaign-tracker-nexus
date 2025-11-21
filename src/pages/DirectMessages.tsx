@@ -7,11 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
-import { useRealtimeMessages } from '@/hooks/useRealtimeMessages';
+import { useOptimizedMessages } from '@/hooks/useOptimizedMessages';
 import { useUserPresence } from '@/hooks/useUserPresence';
 import { useMessageNotifications } from '@/hooks/useMessageNotifications';
-import MessageThread from '@/components/messages/MessageThread';
-import RealtimeConversationList from '@/components/messages/RealtimeConversationList';
+import OptimizedMessageThread from '@/components/messages/OptimizedMessageThread';
+import OptimizedConversationList from '@/components/messages/OptimizedConversationList';
 import UserSelector from '@/components/messages/UserSelector';
 import { OnlineUsersList } from '@/components/forum/OnlineUsersList';
 import { RecentlyActiveUsers } from '@/components/forum/RecentlyActiveUsers';
@@ -30,9 +30,10 @@ const DirectMessages = () => {
     loading, 
     sendMessage, 
     markAsRead, 
+    fetchConversationMessages,
     getConversationMessages,
     getUnreadCount 
-  } = useRealtimeMessages();
+  } = useOptimizedMessages();
   
   useUserPresence();
   useMessageNotifications({
@@ -71,7 +72,7 @@ const DirectMessages = () => {
       : conversations;
       
     if (filteredConversations.length > 0 && !selectedConversationId) {
-      setSelectedConversationId(filteredConversations[0].partnerId);
+      setSelectedConversationId(filteredConversations[0].partner_id);
     }
   }, [conversations, selectedConversationId, activeTab]);
 
@@ -89,9 +90,11 @@ const DirectMessages = () => {
     }
   }, [selectedConversationId, markAsRead, getConversationMessages, user]);
 
-  const handleSelectConversation = (partnerId: string) => {
+  const handleSelectConversation = async (partnerId: string) => {
     setSelectedConversationId(partnerId);
     setShowUserSelector(false);
+    // Fetch messages for this conversation on-demand
+    await fetchConversationMessages(partnerId);
   };
 
   const handleSendMessage = async (recipientId: string, content: string) => {
@@ -190,7 +193,7 @@ const DirectMessages = () => {
   }, [conversations, activeTab]);
 
   const selectedConversation = useMemo(() => 
-    filteredConversations.find(c => c.partnerId === selectedConversationId),
+    filteredConversations.find(c => c.partner_id === selectedConversationId),
     [filteredConversations, selectedConversationId]
   );
 
@@ -201,7 +204,7 @@ const DirectMessages = () => {
 
   // Count unread messages for badges
   const supportUnreadCount = useMemo(() => 
-    conversations.filter(c => c.category === 'support').reduce((sum, c) => sum + c.unreadCount, 0),
+    conversations.filter(c => c.category === 'support').reduce((sum, c) => sum + c.unread_count, 0),
     [conversations]
   );
 
@@ -295,7 +298,7 @@ const DirectMessages = () => {
                       />
                     ) : (
                       <>
-                        <RealtimeConversationList
+                        <OptimizedConversationList
                           conversations={filteredConversations}
                           selectedConversationId={selectedConversationId}
                           onSelectConversation={handleSelectConversation}
@@ -321,13 +324,13 @@ const DirectMessages = () => {
                   {/* Message Thread */}
                   <div className="lg:col-span-2">
                     {selectedConversation ? (
-                      <MessageThread
+                      <OptimizedMessageThread
                         messages={selectedMessages}
                         currentUserId={user?.id}
                         recipient={{
-                          id: selectedConversation.partnerId,
-                          username: selectedConversation.partnerUsername,
-                          full_name: selectedConversation.partnerName
+                          id: selectedConversation.partner_id,
+                          username: selectedConversation.partner_username,
+                          full_name: selectedConversation.partner_full_name
                         }}
                         onSendMessage={handleSendMessage}
                         isLoading={loading}
