@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { DollarSign, Users, Trophy, Zap, Shield, Calendar } from "lucide-react";
 import DashboardStats from "../DashboardStats";
 import RecentActivityFeed from "../RecentActivityFeed";
+import RewardsShowcase from "../RewardsShowcase";
 import { AmbassadorialTitleDisplay } from "../AmbassadorialTitleDisplay";
 import { User } from "@supabase/supabase-js";
 
@@ -34,7 +35,7 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
   forumComments = []
 }) => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Welcome Banner */}
       <Card className="bg-gradient-to-r from-primary/10 via-primary/5 to-background border-primary/20">
         <CardContent className="p-6">
@@ -54,6 +55,9 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
           </div>
         </CardContent>
       </Card>
+
+      {/* REWARDS SHOWCASE - MOST IMPORTANT */}
+      <RewardsShowcase />
 
       {/* Dashboard Stats */}
       <DashboardStats
