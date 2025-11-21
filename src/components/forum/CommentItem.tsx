@@ -4,9 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Heart } from 'lucide-react';
 import { ForumComment } from '@/hooks/useForumComments';
 import { OnlineIndicator } from './OnlineIndicator';
-import { parseEmojis } from '@/lib/forum-emojis';
-import { sanitizeHtml } from '@/utils/sanitizeHtml';
-import { parseMentions } from '@/utils/mentionParser';
+import { MarkdownContent } from '@/utils/markdownParser';
 import { ProfileHoverCard } from './ProfileHoverCard';
 import { Link } from 'react-router-dom';
 
@@ -66,16 +64,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment, onLike, isLik
         </div>
 
         {/* Content */}
-        <div 
-          className="prose prose-sm max-w-none dark:prose-invert"
-          dangerouslySetInnerHTML={{ 
-            __html: sanitizeHtml(
-              parseMentions(
-                parseEmojis(comment.content).replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br />')
-              )
-            )
-          }}
-        />
+        <MarkdownContent content={comment.content} />
 
         {/* Image */}
         {comment.image_url && (

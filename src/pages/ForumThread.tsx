@@ -14,9 +14,7 @@ import { OnlineIndicator } from '@/components/forum/OnlineIndicator';
 import { OnlineUsersList } from '@/components/forum/OnlineUsersList';
 import { RecentlyActiveUsers } from '@/components/forum/RecentlyActiveUsers';
 import { ProfileHoverCard } from '@/components/forum/ProfileHoverCard';
-import { parseEmojis } from '@/lib/forum-emojis';
-import { sanitizeHtml } from '@/utils/sanitizeHtml';
-import { parseMentions } from '@/utils/mentionParser';
+import { MarkdownContent } from '@/utils/markdownParser';
 import { supabase } from '@/integrations/supabase/client';
 
 const ForumThread: React.FC = () => {
@@ -178,16 +176,9 @@ const ForumThread: React.FC = () => {
               </div>
 
                   {/* Content */}
-                  <div 
-                    className="prose prose-sm max-w-none dark:prose-invert mb-4"
-                    dangerouslySetInnerHTML={{ 
-                      __html: sanitizeHtml(
-                        parseMentions(
-                          parseEmojis(thread.content).replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br />')
-                        )
-                      )
-                    }}
-                  />
+                  <div className="mb-4">
+                    <MarkdownContent content={thread.content} />
+                  </div>
 
                   {/* Image */}
                   {thread.image_url && (

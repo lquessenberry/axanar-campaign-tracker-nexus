@@ -11,8 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Bold, Italic, Link as LinkIcon, Quote, Code, Send } from 'lucide-react';
 import EmojiPicker from './EmojiPicker';
-import { parseEmojis } from '@/lib/forum-emojis';
-import { sanitizeHtml } from '@/utils/sanitizeHtml';
+import { MarkdownContent } from '@/utils/markdownParser';
 
 interface PostComposerProps {
   onSubmit?: (title: string, content: string) => void;
@@ -170,13 +169,9 @@ export const PostComposer: React.FC<PostComposerProps> = ({
         {/* Content Editor / Preview */}
         {showPreview ? (
           <div className="min-h-[200px] p-4 bg-background/50 rounded-lg border-2 border-border/50">
-            <div 
-              className="prose prose-sm max-w-none dark:prose-invert"
-              dangerouslySetInnerHTML={{ 
-                __html: sanitizeHtml(parseEmojis(content).replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br />'))
-              }}
-            />
-            {!content && (
+            {content ? (
+              <MarkdownContent content={content} />
+            ) : (
               <p className="text-muted-foreground italic">Nothing to preview yet...</p>
             )}
           </div>

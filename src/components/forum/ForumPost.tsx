@@ -16,9 +16,7 @@ import {
   ThumbsUp
 } from 'lucide-react';
 import UserSignature from './UserSignature';
-import { parseEmojis } from '@/lib/forum-emojis';
-import { sanitizeHtml } from '@/utils/sanitizeHtml';
-import { parseMentions } from '@/utils/mentionParser';
+import { MarkdownContent } from '@/utils/markdownParser';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { ProfileHoverCard } from './ProfileHoverCard';
 import { Link } from 'react-router-dom';
@@ -178,16 +176,7 @@ export const ForumPost: React.FC<ForumPostProps> = ({
           </div>
 
           {/* Post Body */}
-          <div 
-            className="prose prose-sm max-w-none dark:prose-invert"
-            dangerouslySetInnerHTML={{ 
-              __html: sanitizeHtml(
-                parseMentions(
-                  parseEmojis(content).replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br />')
-                )
-              )
-            }}
-          />
+          <MarkdownContent content={content} />
 
           {/* User Signature */}
           <UserSignature
