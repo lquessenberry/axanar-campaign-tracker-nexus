@@ -4,15 +4,26 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DaystromCard } from "@/components/ui/daystrom-card";
 import { useUserRewards } from "@/hooks/useUserRewards";
+import { useAmbassadorialTitles } from "@/hooks/useAmbassadorialTitles";
+import { useAuth } from "@/contexts/AuthContext";
+import { TitleBadgeDisplay } from "./TitleBadgeDisplay";
 import { DAYSTROM_SPRINGS } from "@/lib/daystrom-springs";
-import { Gift, Package, Truck, CheckCircle2, Clock, AlertCircle, DollarSign, Calendar } from "lucide-react";
+import { Gift, Package, Truck, CheckCircle2, Clock, AlertCircle, DollarSign, Calendar, Crown, Award } from "lucide-react";
 
 const RewardsShowcase: React.FC = () => {
-  const { data: pledges, isLoading } = useUserRewards();
+  const { user } = useAuth();
+  const { data: pledges, isLoading: rewardsLoading } = useUserRewards();
+  const { data: titleData, isLoading: titlesLoading } = useAmbassadorialTitles(user?.id);
+  
+  const isLoading = rewardsLoading || titlesLoading;
 
   const rewardsWithPerks = pledges?.filter(pledge => pledge.reward) || [];
   const physicalRewards = rewardsWithPerks.filter(p => p.reward?.requires_shipping);
   const digitalRewards = rewardsWithPerks.filter(p => !p.reward?.requires_shipping);
+  
+  const primaryTitle = titleData?.primaryTitle;
+  const displayedTitles = titleData?.titles.filter(t => t.is_displayed) || [];
+  const totalItems = rewardsWithPerks.length + (displayedTitles.length > 0 ? 1 : 0);
   
   const getShippingStatusConfig = (status?: string | null) => {
     switch (status) {
@@ -37,7 +48,7 @@ const RewardsShowcase: React.FC = () => {
     );
   }
 
-  if (!rewardsWithPerks.length) {
+  if (!rewardsWithPerks.length && !displayedTitles.length) {
     return (
       <DaystromCard className="p-8">
         <div className="text-center">
@@ -58,7 +69,7 @@ const RewardsShowcase: React.FC = () => {
         <div>
           <h2 className="text-3xl font-light tracking-wide mb-2">Your Perks & Rewards</h2>
           <p className="text-muted-foreground">
-            {rewardsWithPerks.length} perk{rewardsWithPerks.length !== 1 ? 's' : ''} earned across all campaigns
+            {totalItems} total item{totalItems !== 1 ? 's' : ''} earned across all campaigns
           </p>
         </div>
         <motion.div
@@ -67,10 +78,100 @@ const RewardsShowcase: React.FC = () => {
         >
           <Badge variant="outline" className="text-lg px-4 py-2 bg-primary/10 border-primary/20">
             <Gift className="h-4 w-4 mr-2" />
-            {rewardsWithPerks.length}
+            {totalItems}
           </Badge>
         </motion.div>
       </div>
+
+      {/* Ambassadorial Titles Collection */}
+      {displayedTitles.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={DAYSTROM_SPRINGS.gentle}
+          className="space-y-4"
+        >
+          <div className="flex items-center gap-2">
+            <Crown className="h-5 w-5 text-primary" />
+            <h3 className="text-xl font-light tracking-wide">Diplomatic Titles</h3>
+            <Badge variant="secondary">{displayedTitles.length}</Badge>
+          </div>
+
+          <DaystromCard className="p-6 bg-gradient-to-br from-primary/5 via-transparent to-primary/5">
+            {/* Primary Title Showcase */}
+            {primaryTitle && (
+              <div className="mb-6 pb-6 border-b border-border/50">
+                <div className="flex items-start justify-between gap-4 mb-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Award className="h-5 w-5 text-primary" />
+                      <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                        Primary Title
+                      </span>
+                    </div>
+                    <TitleBadgeDisplay title={primaryTitle} size="lg" />
+                  </div>
+                  <div className="flex flex-col gap-2 text-right">
+                    {primaryTitle.xp_multiplier > 1 && (
+                      <div className="text-sm">
+                        <span className="text-primary font-bold text-lg">{primaryTitle.xp_multiplier}x</span>
+                        <span className="text-muted-foreground ml-1 text-xs">XP</span>
+                      </div>
+                    )}
+                    {primaryTitle.forum_xp_bonus > 0 && (
+                      <div className="text-xs text-muted-foreground">
+                        +{primaryTitle.forum_xp_bonus} Forum XP
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {primaryTitle.description && (
+                  <p className="text-sm text-muted-foreground mb-2 italic">
+                    {primaryTitle.description}
+                  </p>
+                )}
+
+                {primaryTitle.campaign_name && (
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Calendar className="h-3 w-3" />
+                    <span>Earned from: <span className="text-foreground font-medium">{primaryTitle.campaign_name}</span></span>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Additional Titles */}
+            {displayedTitles.length > 1 && (
+              <div>
+                <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
+                  Additional Titles ({displayedTitles.length - 1})
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {displayedTitles
+                    .filter(t => !t.is_primary)
+                    .map((title, index) => (
+                      <motion.div
+                        key={title.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ ...DAYSTROM_SPRINGS.snappy, delay: index * 0.05 }}
+                        className="p-3 rounded-daystrom-small bg-background/50 border border-border/50 hover:border-primary/30 transition-colors"
+                      >
+                        <TitleBadgeDisplay title={title} size="sm" />
+                        {title.campaign_name && (
+                          <p className="text-xs text-muted-foreground mt-2">
+                            {title.campaign_name}
+                          </p>
+                        )}
+                      </motion.div>
+                    ))}
+                </div>
+              </div>
+            )}
+          </DaystromCard>
+        </motion.div>
+      )}
 
       {/* Physical Rewards */}
       {physicalRewards.length > 0 && (
