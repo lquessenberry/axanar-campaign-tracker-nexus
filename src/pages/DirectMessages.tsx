@@ -341,7 +341,8 @@ const DirectMessages = () => {
                 </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto px-3">
+              {/* Conversations List - Scrollable */}
+              <div className="px-3">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     {activeTab === 'support' ? 'Tickets' : 'Conversations'}
@@ -356,54 +357,56 @@ const DirectMessages = () => {
                   </motion.button>
                 </div>
 
-                {loading ? (
-                  <div className="flex items-center justify-center py-6">
-                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-primary border-t-transparent" />
-                  </div>
-                ) : filteredConversations.length === 0 ? (
-                  <div className="text-center py-6 text-muted-foreground text-sm">
-                    No conversations yet
-                  </div>
-                ) : (
-                  <div className="space-y-0.5">
-                    {filteredConversations.map((conv) => (
-                      <motion.button
-                        key={conv.partner_id}
-                        layoutId={`conv-${conv.partner_id}`}
-                        whileHover={{ backgroundColor: 'hsl(var(--accent))' }}
-                        onClick={() => handleSelectConversation(conv.partner_id)}
-                        className={`w-full text-left p-2.5 rounded-xl transition-all ${
-                          selectedConversationId === conv.partner_id 
-                            ? 'bg-accent font-medium' 
-                            : ''
-                        }`}
-                      >
-                        <div className="flex items-center justify-between mb-0.5">
-                          <p className="font-medium truncate text-sm">
-                            {conv.partner_full_name || conv.partner_username}
+                <div className="max-h-[35vh] overflow-y-auto pr-1">
+                  {loading ? (
+                    <div className="flex items-center justify-center py-6">
+                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-primary border-t-transparent" />
+                    </div>
+                  ) : filteredConversations.length === 0 ? (
+                    <div className="text-center py-6 text-muted-foreground text-sm">
+                      No conversations yet
+                    </div>
+                  ) : (
+                    <div className="space-y-0.5">
+                      {filteredConversations.map((conv) => (
+                        <motion.button
+                          key={conv.partner_id}
+                          layoutId={`conv-${conv.partner_id}`}
+                          whileHover={{ backgroundColor: 'hsl(var(--accent))' }}
+                          onClick={() => handleSelectConversation(conv.partner_id)}
+                          className={`w-full text-left p-2.5 rounded-xl transition-all ${
+                            selectedConversationId === conv.partner_id 
+                              ? 'bg-accent font-medium' 
+                              : ''
+                          }`}
+                        >
+                          <div className="flex items-center justify-between mb-0.5">
+                            <p className="font-medium truncate text-sm">
+                              {conv.partner_full_name || conv.partner_username}
+                            </p>
+                            {conv.unread_count > 0 && (
+                              <Badge variant="default" className="ml-2 px-1.5 py-0 text-xs h-4">
+                                {conv.unread_count}
+                              </Badge>
+                            )}
+                          </div>
+                          <p className="text-xs text-muted-foreground truncate">
+                            {conv.last_message || 'No messages yet'}
                           </p>
-                          {conv.unread_count > 0 && (
-                            <Badge variant="default" className="ml-2 px-1.5 py-0 text-xs h-4">
-                              {conv.unread_count}
-                            </Badge>
-                          )}
-                        </div>
-                        <p className="text-xs text-muted-foreground truncate">
-                          {conv.last_message || 'No messages yet'}
-                        </p>
-                      </motion.button>
-                    ))}
-                  </div>
-                )}
-
-                {/* Online Users - only in "all" tab */}
-                {activeTab === 'all' && !showUserSelector && (
-                  <div className="mt-4 space-y-3">
-                    <OnlineUsersList />
-                    <RecentlyActiveUsers />
-                  </div>
-                )}
+                        </motion.button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
+
+              {/* Online Users - only in "all" tab - Always visible below conversations */}
+              {activeTab === 'all' && !showUserSelector && (
+                <div className="flex-1 overflow-y-auto px-3 mt-4 space-y-3">
+                  <OnlineUsersList />
+                  <RecentlyActiveUsers />
+                </div>
+              )}
             </motion.aside>
           )}
         </AnimatePresence>
