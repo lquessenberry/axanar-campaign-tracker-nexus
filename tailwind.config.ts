@@ -105,7 +105,19 @@ export default {
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				sm: 'calc(var(--radius) - 4px)',
+				// Daystrom Precision Geometry
+				'daystrom-card': '24px',
+				'daystrom-button': '18px',
+				'daystrom-small': '12px',
+			},
+			zIndex: {
+				// Daystrom Depth System
+				'background': '0',
+				'glass-panel': '10',
+				'content': '20',
+				'modal': '30',
+				'cursor-glow': '40',
 			},
 			gridTemplateColumns: {
 				'20': 'repeat(20, minmax(0, 1fr))',
@@ -208,13 +220,13 @@ export default {
 				'sparkle': 'sparkle 1s ease-in-out infinite',
 			},
 			fontFamily: {
-				// ============= AXANAR STAR TREK TYPOGRAPHY =============
-				'sans': ['Eurostile', 'system-ui', 'sans-serif'], // Content font
-				'heading': ['Bebas Neue', 'Orbitron', 'system-ui', 'sans-serif'], // Bold headings
-				'display': ['Bebas Neue', 'Orbitron', 'system-ui', 'sans-serif'], // Display text
-				'admin': ['Inter', 'system-ui', 'sans-serif'], // Admin interface
-				'mono': ['Orbitron', 'Monaco', 'monospace'], // Code/tech text
-				'klingon': ['pIqaD', 'Orbitron', 'monospace'], // Klingon theme
+				// ============= DAYSTROM TYPOGRAPHY =============
+				'sans': ['Inter', 'system-ui', 'sans-serif'],
+				'display': ['Inter', 'system-ui', 'sans-serif'],
+				'heading': ['Inter', 'Bebas Neue', 'Orbitron', 'system-ui', 'sans-serif'],
+				'admin': ['Inter', 'system-ui', 'sans-serif'],
+				'mono': ['Orbitron', 'Monaco', 'monospace'],
+				'klingon': ['pIqaD', 'Orbitron', 'monospace'],
 				
 				// Trek-specific utilities
 				'trek-heading': ['Bebas Neue', 'Orbitron', 'system-ui', 'sans-serif'],

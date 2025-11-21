@@ -21,7 +21,7 @@ import SupportTicketDialog from '@/components/messages/SupportTicketDialog';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { PullToRefresh } from '@/components/mobile/PullToRefresh';
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useSpring } from 'framer-motion';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { format } from 'date-fns';
 import Navigation from '@/components/Navigation';
@@ -61,17 +61,6 @@ const DirectMessages = () => {
   
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
-
-  // Cursor glow effect
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const smoothX = useSpring(mouseX, { stiffness: 300, damping: 30 });
-  const smoothY = useSpring(mouseY, { stiffness: 300, damping: 30 });
-
-  const glowBackground = useTransform(
-    [smoothX, smoothY],
-    ([x, y]) => `radial-gradient(800px at ${x}px ${y}px, hsl(var(--primary) / 0.12) 0%, transparent 80%)`
-  );
 
   // Default support admin (Lee)
   const DEFAULT_SUPPORT_ADMIN = '4862bb86-6f9b-4b7d-aa74-e4bee1d50342';
@@ -276,16 +265,7 @@ const DirectMessages = () => {
       <PullToRefresh onRefresh={handleRefresh}>
         <div 
           className="h-screen md:h-[calc(100vh-113px)] bg-background flex overflow-hidden"
-          onMouseMove={(e) => { 
-            mouseX.set(e.clientX); 
-            mouseY.set(e.clientY); 
-          }}
         >
-        {/* Cursor glow effect */}
-        <motion.div
-          className="pointer-events-none fixed inset-0 opacity-20 z-0"
-          style={{ background: glowBackground }}
-        />
 
         {/* Sidebar */}
         <AnimatePresence>
@@ -371,7 +351,9 @@ const DirectMessages = () => {
                       {filteredConversations.map((conv) => (
                         <motion.button
                           key={conv.partner_id}
-                          layoutId={`conv-${conv.partner_id}`}
+                          layoutId={`conversation-${conv.partner_id}`}
+                          layout
+                          transition={{ type: "spring", stiffness: 350, damping: 30 }}
                           whileHover={{ backgroundColor: 'hsl(var(--accent))' }}
                           onClick={() => handleSelectConversation(conv.partner_id)}
                           className={`w-full text-left p-2.5 rounded-xl transition-all ${
