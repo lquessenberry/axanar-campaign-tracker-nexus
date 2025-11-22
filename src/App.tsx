@@ -34,6 +34,7 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const Support = lazy(() => import("./pages/Support"));
 const Terms = lazy(() => import("./pages/Terms"));
 const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
+const BackfillTitles = lazy(() => import("./pages/admin/BackfillTitles"));
 const PasswordReset = lazy(() => import("./pages/PasswordReset"));
 const LCARSShowcase = lazy(() => import("./pages/LCARSShowcase"));
 const PublicProfile = lazy(() => import("./pages/PublicProfile"));
@@ -132,6 +133,14 @@ const App = () => (
                       element={
                         <RequireAdmin>
                           <VisitorAnalytics />
+                        </RequireAdmin>
+                      }
+                    />
+                    <Route
+                      path="/admin/backfill-titles"
+                      element={
+                        <RequireAdmin>
+                          <BackfillTitles />
                         </RequireAdmin>
                       }
                     />
