@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { MessageCircle, Plus, Shield, AlertCircle, Clock, CheckCircle } from 'lucide-react';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { MessageCircle, Plus, Shield, AlertCircle, Clock, CheckCircle, Trash2 } from 'lucide-react';
 import { useUserPresence } from '@/hooks/useUserPresence';
 import { formatMessageDate, getInitials } from '@/utils/messageUtils';
 import { cn } from '@/lib/utils';
@@ -28,6 +29,7 @@ interface OptimizedConversationListProps {
   selectedConversationId?: string;
   onSelectConversation: (partnerId: string) => void;
   onStartNewConversation: () => void;
+  onDeleteConversation?: (partnerId: string) => void;
   loading?: boolean;
 }
 
@@ -36,11 +38,29 @@ const OptimizedConversationList: React.FC<OptimizedConversationListProps> = ({
   selectedConversationId,
   onSelectConversation,
   onStartNewConversation,
+  onDeleteConversation,
   loading = false
 }) => {
   const { isUserOnline } = useUserPresence();
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [conversationToDelete, setConversationToDelete] = useState<string | null>(null);
+  const [hoveredConversation, setHoveredConversation] = useState<string | null>(null);
 
   const totalUnread = conversations.reduce((sum, conv) => sum + conv.unread_count, 0);
+
+  const handleDeleteClick = (e: React.MouseEvent, partnerId: string) => {
+    e.stopPropagation();
+    setConversationToDelete(partnerId);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (conversationToDelete && onDeleteConversation) {
+      onDeleteConversation(conversationToDelete);
+      setDeleteDialogOpen(false);
+      setConversationToDelete(null);
+    }
+  };
 
   const truncateText = (text: string, maxLength: number = 50): string => {
     if (text.length <= maxLength) return text;
@@ -114,12 +134,24 @@ const OptimizedConversationList: React.FC<OptimizedConversationListProps> = ({
                   <div
                     key={conversation.partner_id}
                     className={cn(
-                      "flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors hover:bg-muted/50",
+                      "flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors hover:bg-muted/50 relative group",
                       isSelected && "bg-primary/10 border border-primary/20",
                       hasUnread && !isSelected && "bg-muted/30"
                     )}
                     onClick={() => onSelectConversation(conversation.partner_id)}
+                    onMouseEnter={() => setHoveredConversation(conversation.partner_id)}
+                    onMouseLeave={() => setHoveredConversation(null)}
                   >
+                    {onDeleteConversation && hoveredConversation === conversation.partner_id && (
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="absolute right-2 top-2 h-7 w-7 p-0 opacity-0 group-hover:opacity-100 transition-opacity z-10 hover:bg-destructive hover:text-destructive-foreground"
+                        onClick={(e) => handleDeleteClick(e, conversation.partner_id)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    )}
                     <div className="relative flex-shrink-0">
                       <Avatar className="h-12 w-12">
                         <AvatarFallback className="text-sm font-medium">
@@ -229,6 +261,23 @@ const OptimizedConversationList: React.FC<OptimizedConversationListProps> = ({
           )}
         </ScrollArea>
       </CardContent>
+
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Conversation</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this entire conversation? This will permanently remove all messages and cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Card>
   );
 };
