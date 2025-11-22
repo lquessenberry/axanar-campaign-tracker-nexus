@@ -57,7 +57,17 @@ export const TitleBadgeDisplay = ({
           hover:shadow-xl hover:shadow-primary/20
         `}
       >
-        {title.icon && <span className={`${iconSize[size]} mr-1.5`}>{title.icon}</span>}
+        {title.icon && (
+          title.icon.startsWith('/') || title.icon.startsWith('http') ? (
+            <img 
+              src={title.icon} 
+              alt={title.display_name}
+              className={`${size === 'sm' ? 'w-4 h-4' : size === 'lg' ? 'w-6 h-6' : 'w-5 h-5'} object-contain mr-1.5`}
+            />
+          ) : (
+            <span className={`${iconSize[size]} mr-1.5`}>{title.icon}</span>
+          )
+        )}
         {title.display_name}
       </Badge>
       {showDescription && title.description && (
