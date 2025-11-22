@@ -12,6 +12,7 @@ import { useUserPresence } from '@/hooks/useUserPresence';
 import { useMessageNotifications } from '@/hooks/useMessageNotifications';
 import OptimizedMessageThread from '@/components/messages/OptimizedMessageThread';
 import OptimizedConversationList from '@/components/messages/OptimizedConversationList';
+import MessageBubble from '@/components/messages/MessageBubble';
 import UserSelector from '@/components/messages/UserSelector';
 import { OnlineUsersList } from '@/components/forum/OnlineUsersList';
 import { RecentlyActiveUsers } from '@/components/forum/RecentlyActiveUsers';
@@ -36,7 +37,8 @@ const DirectMessages = () => {
     conversations, 
     loading, 
     sendMessage, 
-    markAsRead, 
+    markAsRead,
+    deleteMessage,
     fetchConversationMessages,
     getConversationMessages,
     getUnreadCount 
@@ -224,6 +226,18 @@ const DirectMessages = () => {
     setSelectedConversationId(userId);
     setShowUserSelector(false);
     toast.success(`Started conversation with ${userName}`);
+  };
+
+  const handleDeleteMessage = async (messageId: number) => {
+    if (!selectedConversationId) return;
+    
+    try {
+      await deleteMessage(messageId, selectedConversationId);
+      toast.success('Message deleted');
+    } catch (error) {
+      console.error('Error deleting message:', error);
+      toast.error('Failed to delete message');
+    }
   };
 
   // Filter conversations
@@ -460,27 +474,42 @@ const DirectMessages = () => {
                 </div>
               </div>
             ) : (
-              <div className="max-w-4xl mx-auto py-8 px-6">
-                {selectedMessages.map((msg) => (
-                  <motion.div
-                    key={msg.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className={`flex ${msg.sender_id === user?.id ? 'justify-end' : 'justify-start'} mb-6`}
-                  >
-                    <div className={`max-w-xl px-6 py-4 rounded-3xl shadow-sm ${
-                      msg.sender_id === user?.id 
-                        ? 'bg-primary text-primary-foreground' 
-                        : 'bg-muted'
-                    }`}>
-                      <p className="text-base leading-relaxed whitespace-pre-wrap">{msg.content}</p>
-                      <p className="text-xs mt-2 opacity-60">
-                        {format(new Date(msg.created_at), 'h:mm a')}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
+              <div className="max-w-4xl mx-auto py-8 px-6 space-y-6">
+                {selectedMessages.map((msg) => {
+                  const isFromCurrentUser = msg.sender_id === user?.id;
+                  const sender = {
+                    id: msg.sender_id,
+                    username: msg.sender_username,
+                    full_name: msg.sender_full_name,
+                    is_admin: msg.sender_is_admin
+                  };
+                  const recipient = {
+                    id: msg.recipient_id,
+                    username: msg.recipient_username,
+                    full_name: msg.recipient_full_name,
+                    is_admin: msg.recipient_is_admin
+                  };
+                  
+                  return (
+                    <motion.div
+                      key={msg.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <MessageBubble
+                        message={msg}
+                        sender={sender}
+                        recipient={recipient}
+                        currentUserId={user?.id}
+                        isFromCurrentUser={isFromCurrentUser}
+                        showReadStatus={true}
+                        showTimestamp={true}
+                        onDelete={handleDeleteMessage}
+                      />
+                    </motion.div>
+                  );
+                })}
 
                 {isTyping && (
                   <motion.div

@@ -366,6 +366,32 @@ export const useOptimizedMessages = () => {
     return conversationMessages.get(partnerId) || [];
   }, [conversationMessages]);
 
+  const deleteMessage = useCallback(async (messageId: number, partnerId: string) => {
+    if (!user) throw new Error('User not authenticated');
+
+    // Optimistic update
+    setConversationMessages(prev => {
+      const current = prev.get(partnerId) || [];
+      const updated = new Map(prev);
+      updated.set(partnerId, current.filter(m => m.id !== messageId));
+      return updated;
+    });
+
+    try {
+      const { error } = await supabase
+        .from('messages')
+        .delete()
+        .eq('id', messageId)
+        .eq('sender_id', user.id);
+
+      if (error) throw error;
+    } catch (error) {
+      // Revert optimistic update on error
+      await fetchConversationMessages(partnerId);
+      throw error;
+    }
+  }, [user, fetchConversationMessages]);
+
   const getUnreadCount = useCallback((partnerId?: string): number => {
     if (partnerId) {
       const conversation = conversations.find(c => c.partner_id === partnerId);
@@ -379,6 +405,7 @@ export const useOptimizedMessages = () => {
     loading,
     sendMessage,
     markAsRead,
+    deleteMessage,
     fetchConversationMessages,
     getConversationMessages,
     getUnreadCount
