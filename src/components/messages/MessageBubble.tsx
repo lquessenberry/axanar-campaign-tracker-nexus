@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Clock, CheckCheck } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Clock, CheckCheck, Trash2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { formatMessageDate, getInitials, UserProfile } from '@/utils/messageUtils';
 
@@ -20,6 +21,7 @@ interface MessageBubbleProps {
   showReadStatus?: boolean;
   showTimestamp?: boolean;
   className?: string;
+  onDelete?: (messageId: number) => void;
 }
 
 const MessageBubble: React.FC<MessageBubbleProps> = ({
@@ -30,8 +32,10 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
   isFromCurrentUser,
   showReadStatus = false,
   showTimestamp = true,
-  className
+  className,
+  onDelete
 }) => {
+  const [showDelete, setShowDelete] = useState(false);
   const displayProfile = isFromCurrentUser ? recipient : sender;
   const avatarText = isFromCurrentUser ? 'ME' : getInitials(displayProfile);
 
@@ -53,18 +57,33 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
       </Avatar>
       
       <div className={cn(
-        "flex-1 max-w-[85%]",
+        "flex-1 max-w-[85%] group",
         isFromCurrentUser ? 'text-right' : 'text-left'
       )}>
-        <div className={cn(
-          "inline-block rounded-lg p-3 break-words",
-          isFromCurrentUser 
-            ? 'bg-primary text-primary-foreground' 
-            : 'bg-muted'
-        )}>
+        <div 
+          className={cn(
+            "inline-block rounded-lg p-3 break-words relative",
+            isFromCurrentUser 
+              ? 'bg-primary text-primary-foreground' 
+              : 'bg-muted'
+          )}
+          onMouseEnter={() => setShowDelete(true)}
+          onMouseLeave={() => setShowDelete(false)}
+        >
           <p className="text-sm whitespace-pre-wrap leading-relaxed">
             {message.content}
           </p>
+          
+          {isFromCurrentUser && onDelete && showDelete && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute -right-2 -top-2 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity bg-destructive hover:bg-destructive/90 text-destructive-foreground"
+              onClick={() => onDelete(message.id)}
+            >
+              <Trash2 className="h-3 w-3" />
+            </Button>
+          )}
         </div>
         
         {showTimestamp && (
