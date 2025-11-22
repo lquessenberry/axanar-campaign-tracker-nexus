@@ -17,7 +17,7 @@ import UserSelector from '@/components/messages/UserSelector';
 import { OnlineUsersList } from '@/components/forum/OnlineUsersList';
 import { RecentlyActiveUsers } from '@/components/forum/RecentlyActiveUsers';
 import { toast } from 'sonner';
-import { MessageCircle, HelpCircle, Plus, ChevronLeft, Send, Paperclip, Search } from 'lucide-react';
+import { MessageCircle, HelpCircle, Plus, ChevronLeft, Send, Paperclip, Search, Trash2 } from 'lucide-react';
 import SupportTicketDialog from '@/components/messages/SupportTicketDialog';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -39,6 +39,7 @@ const DirectMessages = () => {
     sendMessage, 
     markAsRead,
     deleteMessage,
+    deleteConversation,
     fetchConversationMessages,
     getConversationMessages,
     getUnreadCount 
@@ -240,6 +241,19 @@ const DirectMessages = () => {
     }
   };
 
+  const handleDeleteConversation = async (partnerId: string) => {
+    try {
+      await deleteConversation(partnerId);
+      toast.success('Conversation deleted');
+      if (selectedConversationId === partnerId) {
+        setSelectedConversationId(null);
+      }
+    } catch (error) {
+      console.error('Error deleting conversation:', error);
+      toast.error('Failed to delete conversation');
+    }
+  };
+
   // Filter conversations
   const filteredConversations = useMemo(() => {
     const filtered = activeTab === 'support' 
@@ -363,33 +377,45 @@ const DirectMessages = () => {
                   ) : (
                     <div className="space-y-0.5">
                       {filteredConversations.map((conv) => (
-                        <motion.button
+                        <motion.div
                           key={conv.partner_id}
                           layoutId={`conversation-${conv.partner_id}`}
                           layout
                           transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                          whileHover={{ backgroundColor: 'hsl(var(--accent))' }}
-                          onClick={() => handleSelectConversation(conv.partner_id)}
-                          className={`w-full text-left p-2.5 rounded-xl transition-all ${
+                          className={`relative group w-full text-left p-2.5 rounded-xl transition-all cursor-pointer ${
                             selectedConversationId === conv.partner_id 
                               ? 'bg-accent font-medium' 
-                              : ''
+                              : 'hover:bg-accent/50'
                           }`}
+                          onClick={() => handleSelectConversation(conv.partner_id)}
                         >
                           <div className="flex items-center justify-between mb-0.5">
-                            <p className="font-medium truncate text-sm">
+                            <p className="font-medium truncate text-sm pr-8">
                               {conv.partner_full_name || conv.partner_username}
                             </p>
-                            {conv.unread_count > 0 && (
-                              <Badge variant="default" className="ml-2 px-1.5 py-0 text-xs h-4">
-                                {conv.unread_count}
-                              </Badge>
-                            )}
+                            <div className="flex items-center gap-1">
+                              {conv.unread_count > 0 && (
+                                <Badge variant="default" className="px-1.5 py-0 text-xs h-4">
+                                  {conv.unread_count}
+                                </Badge>
+                              )}
+                              <motion.button
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDeleteConversation(conv.partner_id);
+                                }}
+                                className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-destructive hover:text-destructive-foreground"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </motion.button>
+                            </div>
                           </div>
                           <p className="text-xs text-muted-foreground truncate">
                             {conv.last_message || 'No messages yet'}
                           </p>
-                        </motion.button>
+                        </motion.div>
                       ))}
                     </div>
                   )}
