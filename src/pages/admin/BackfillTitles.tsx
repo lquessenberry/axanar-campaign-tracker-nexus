@@ -265,7 +265,15 @@ export default function BackfillTitles() {
                   {allTitles?.map((title) => (
                     <TableRow key={title.id}>
                       <TableCell>
-                        <span className="text-2xl">{title.icon}</span>
+                        {title.icon?.startsWith('/') || title.icon?.startsWith('http') ? (
+                          <img 
+                            src={title.icon} 
+                            alt={title.display_name}
+                            className="w-12 h-12 object-contain"
+                          />
+                        ) : (
+                          <span className="text-2xl">{title.icon}</span>
+                        )}
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col gap-1">
