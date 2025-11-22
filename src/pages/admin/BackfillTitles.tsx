@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Loader2, PlayCircle, CheckCircle, AlertCircle, Crown, Users, BookOpen, Sparkles } from 'lucide-react';
+import { Loader2, PlayCircle, CheckCircle, AlertCircle, Crown, Users, BookOpen, Sparkles, Shield, Zap, Database } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAdminCheck } from '@/hooks/useAdminCheck';
 import {
@@ -30,7 +30,7 @@ export default function BackfillTitles() {
   const queryClient = useQueryClient();
   const [backfillResults, setBackfillResults] = useState<BackfillResults | null>(null);
 
-  // Fetch current title statistics
+  // Fetch current title statistics and system readiness
   const { data: stats, isLoading: statsLoading } = useQuery({
     queryKey: ['title-stats'],
     queryFn: async () => {
@@ -40,10 +40,15 @@ export default function BackfillTitles() {
         supabase.from('user_ambassadorial_titles').select('user_id', { count: 'exact' })
       ]);
 
+      const totalTitles = titlesResult.count || 0;
+      const linkedUsers = usersResult.count || 0;
+      const usersWithTitles = holdersResult.count || 0;
+
       return {
-        totalTitles: titlesResult.count || 0,
-        linkedUsers: usersResult.count || 0,
-        usersWithTitles: holdersResult.count || 0
+        totalTitles,
+        linkedUsers,
+        usersWithTitles,
+        systemReady: totalTitles >= 62 && linkedUsers > 0
       };
     }
   });
@@ -101,11 +106,11 @@ export default function BackfillTitles() {
           </p>
         </div>
 
-        {/* Current Statistics */}
+        {/* System Readiness Check */}
         <DaystromCard className="p-6">
           <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            <Users className="h-5 w-5 text-primary" />
-            Current Statistics
+            <Shield className="h-5 w-5 text-primary" />
+            System Readiness Status
           </h2>
           
           {statsLoading ? (
@@ -113,18 +118,56 @@ export default function BackfillTitles() {
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
-                <p className="text-sm text-muted-foreground">Total Titles Available</p>
-                <p className="text-3xl font-bold text-foreground mt-1">{stats?.totalTitles}</p>
-              </div>
-              <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
-                <p className="text-sm text-muted-foreground">Linked User Accounts</p>
-                <p className="text-3xl font-bold text-foreground mt-1">{stats?.linkedUsers}</p>
-              </div>
-              <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
-                <p className="text-sm text-muted-foreground">Users with Titles</p>
-                <p className="text-3xl font-bold text-foreground mt-1">{stats?.usersWithTitles}</p>
+            <div className="space-y-4">
+              <Alert className={stats?.systemReady ? "border-green-500/50 bg-green-500/10" : "border-amber-500/50 bg-amber-500/10"}>
+                <div className="flex items-center gap-2">
+                  {stats?.systemReady ? (
+                    <CheckCircle className="h-5 w-5 text-green-500" />
+                  ) : (
+                    <AlertCircle className="h-5 w-5 text-amber-500" />
+                  )}
+                  <AlertDescription className="text-foreground font-semibold">
+                    {stats?.systemReady ? "All systems operational - Ready to engage!" : "System check in progress..."}
+                  </AlertDescription>
+                </div>
+              </Alert>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-background/50 border border-border">
+                  <Database className="h-5 w-5 text-primary" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-foreground">Titles Database</p>
+                    <p className="text-xs text-muted-foreground">{stats?.totalTitles || 0} canonical titles loaded</p>
+                  </div>
+                  {(stats?.totalTitles || 0) >= 62 && <CheckCircle className="h-4 w-4 text-green-500" />}
+                </div>
+                
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-background/50 border border-border">
+                  <Users className="h-5 w-5 text-primary" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-foreground">Linked Accounts</p>
+                    <p className="text-xs text-muted-foreground">{stats?.linkedUsers?.toLocaleString() || 0} users ready</p>
+                  </div>
+                  {(stats?.linkedUsers || 0) > 0 && <CheckCircle className="h-4 w-4 text-green-500" />}
+                </div>
+
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-background/50 border border-border">
+                  <Zap className="h-5 w-5 text-primary" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-foreground">Backfill Function</p>
+                    <p className="text-xs text-muted-foreground">RPC endpoint active</p>
+                  </div>
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                </div>
+
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-background/50 border border-border">
+                  <Crown className="h-5 w-5 text-primary" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-foreground">Current Holders</p>
+                    <p className="text-xs text-muted-foreground">{stats?.usersWithTitles || 0} users with titles</p>
+                  </div>
+                  {(stats?.usersWithTitles || 0) > 0 && <CheckCircle className="h-4 w-4 text-green-500" />}
+                </div>
               </div>
             </div>
           )}
@@ -134,33 +177,42 @@ export default function BackfillTitles() {
         <DaystromCard className="p-6">
           <h2 className="text-xl font-semibold mb-4">Execute Backfill</h2>
           
-          <Alert className="mb-4 border-amber-500/50 bg-amber-500/10">
-            <AlertCircle className="h-4 w-4 text-amber-500" />
+          <Alert className="mb-4 border-cyan-500/50 bg-cyan-500/10">
+            <Zap className="h-4 w-4 text-cyan-500" />
             <AlertDescription className="text-foreground">
-              This will process all users with pledge data and assign appropriate ambassadorial titles 
-              based on the canonical 37-tier system. This operation is idempotent and safe to run multiple times.
+              <p className="font-semibold mb-2">Engaging warp drive systems...</p>
+              <p className="text-sm">
+                This will process all {stats?.linkedUsers?.toLocaleString() || 0} linked users with pledge data and assign appropriate ambassadorial titles 
+                based on the canonical 62-tier system. This operation is idempotent and safe to run multiple times.
+              </p>
             </AlertDescription>
           </Alert>
 
           <div className="space-y-4">
             <Button
               onClick={() => backfillMutation.mutate()}
-              disabled={backfillMutation.isPending}
+              disabled={backfillMutation.isPending || !stats?.systemReady}
               size="lg"
               className="w-full md:w-auto"
             >
               {backfillMutation.isPending ? (
                 <>
                   <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Processing...
+                  Processing at Warp Speed...
                 </>
               ) : (
                 <>
-                  <PlayCircle className="mr-2 h-5 w-5" />
-                  Run Backfill
+                  <Zap className="mr-2 h-5 w-5" />
+                  Engage! Run Backfill
                 </>
               )}
             </Button>
+            {!stats?.systemReady && (
+              <p className="text-sm text-muted-foreground mt-2">
+                <AlertCircle className="h-4 w-4 inline mr-1" />
+                System checks must complete before engaging
+              </p>
+            )}
 
             {backfillResults && (
               <Alert className="border-green-500/50 bg-green-500/10">
