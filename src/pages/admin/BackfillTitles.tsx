@@ -203,9 +203,8 @@ export default function BackfillTitles() {
                     <TableHead className="w-[50px]">Icon</TableHead>
                     <TableHead>Title</TableHead>
                     <TableHead>Campaign</TableHead>
-                    <TableHead>Exact Perk Name</TableHead>
+                    <TableHead>Description</TableHead>
                     <TableHead className="text-right">Min. Pledge</TableHead>
-                    <TableHead className="text-right">Tier</TableHead>
                     <TableHead className="text-right">XP Mult</TableHead>
                     <TableHead className="text-right">Forum XP</TableHead>
                   </TableRow>
@@ -232,19 +231,21 @@ export default function BackfillTitles() {
                       <TableCell>
                         <Badge variant="secondary">{title.campaign_platform}</Badge>
                       </TableCell>
-                      <TableCell className="text-sm text-muted-foreground">
-                        {title.exact_perk_name || <em>Amount-based</em>}
+                      <TableCell className="text-sm text-muted-foreground max-w-md">
+                        <div className="space-y-1">
+                          <p className="text-foreground font-medium">{title.description || <em>No description</em>}</p>
+                          {title.exact_perk_name && (
+                            <p className="text-xs italic">Perk: {title.exact_perk_name}</p>
+                          )}
+                        </div>
                       </TableCell>
-                      <TableCell className="text-right font-mono">
+                      <TableCell className="text-right font-mono whitespace-nowrap">
                         ${Number(title.minimum_pledge_amount).toLocaleString()}
                       </TableCell>
-                      <TableCell className="text-right">
-                        {title.tier_level || '-'}
-                      </TableCell>
-                      <TableCell className="text-right font-medium text-primary">
+                      <TableCell className="text-right font-medium text-primary whitespace-nowrap">
                         {title.xp_multiplier}x
                       </TableCell>
-                      <TableCell className="text-right text-accent">
+                      <TableCell className="text-right text-accent whitespace-nowrap">
                         +{title.forum_xp_bonus}
                       </TableCell>
                     </TableRow>
