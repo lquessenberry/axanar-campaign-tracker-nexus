@@ -6,9 +6,17 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Loader2, PlayCircle, CheckCircle, AlertCircle, Crown, Users } from 'lucide-react';
+import { Loader2, PlayCircle, CheckCircle, AlertCircle, Crown, Users, BookOpen, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAdminCheck } from '@/hooks/useAdminCheck';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 interface BackfillResults {
   processed_users: number;
@@ -37,6 +45,23 @@ export default function BackfillTitles() {
         linkedUsers: usersResult.count || 0,
         usersWithTitles: holdersResult.count || 0
       };
+    }
+  });
+
+  // Fetch all titles for reference
+  const { data: allTitles, isLoading: titlesLoading } = useQuery({
+    queryKey: ['all-titles'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('ambassadorial_titles')
+        .select('*')
+        .order('is_universal', { ascending: false })
+        .order('campaign_platform')
+        .order('tier_level', { ascending: false })
+        .order('minimum_pledge_amount', { ascending: false });
+      
+      if (error) throw error;
+      return data;
     }
   });
 
@@ -156,36 +181,99 @@ export default function BackfillTitles() {
           </div>
         </DaystromCard>
 
-        {/* Title System Information */}
+        {/* All Titles Reference */}
         <DaystromCard className="p-6">
-          <h2 className="text-xl font-semibold mb-4">The Canonical 37</h2>
-          <div className="space-y-3 text-sm text-muted-foreground">
-            <p>
-              The Daystrom Ambassadorial Titles system recognizes every historical perk tier across 
-              all three campaigns with diplomatic precision:
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+            <BookOpen className="h-5 w-5 text-primary" />
+            All Available Titles ({stats?.totalTitles || 38})
+          </h2>
+          <p className="text-sm text-muted-foreground mb-4">
+            Complete reference of all ambassadorial titles, their requirements, and rewards
+          </p>
+
+          {titlesLoading ? (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[50px]">Icon</TableHead>
+                    <TableHead>Title</TableHead>
+                    <TableHead>Campaign</TableHead>
+                    <TableHead>Exact Perk Name</TableHead>
+                    <TableHead className="text-right">Min. Pledge</TableHead>
+                    <TableHead className="text-right">Tier</TableHead>
+                    <TableHead className="text-right">XP Mult</TableHead>
+                    <TableHead className="text-right">Forum XP</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {allTitles?.map((title) => (
+                    <TableRow key={title.id}>
+                      <TableCell>
+                        <span className="text-2xl">{title.icon}</span>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex flex-col gap-1">
+                          <span className={`font-medium ${title.color || 'text-foreground'}`}>
+                            {title.display_name}
+                          </span>
+                          {title.is_universal && (
+                            <Badge variant="outline" className="w-fit">
+                              <Sparkles className="h-3 w-3 mr-1" />
+                              Universal
+                            </Badge>
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="secondary">{title.campaign_platform}</Badge>
+                      </TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {title.exact_perk_name || <em>Amount-based</em>}
+                      </TableCell>
+                      <TableCell className="text-right font-mono">
+                        ${Number(title.minimum_pledge_amount).toLocaleString()}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {title.tier_level || '-'}
+                      </TableCell>
+                      <TableCell className="text-right font-medium text-primary">
+                        {title.xp_multiplier}x
+                      </TableCell>
+                      <TableCell className="text-right text-accent">
+                        +{title.forum_xp_bonus}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          )}
+          
+          <div className="mt-6 pt-4 border-t border-border">
+            <h3 className="font-semibold mb-2 text-sm">System Overview</h3>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs text-muted-foreground">
               <div>
-                <Badge variant="outline" className="mb-2">Universal</Badge>
-                <p className="text-xs">Foundation Contributor ($1+)</p>
+                <Badge variant="outline" className="mb-1">Universal</Badge>
+                <p>1 title ($1+)</p>
               </div>
               <div>
-                <Badge variant="outline" className="mb-2">Prelude to Axanar</Badge>
-                <p className="text-xs">12 titles ($1 - $1,000)</p>
+                <Badge variant="outline" className="mb-1">Prelude</Badge>
+                <p>12 titles ($1 - $1,000)</p>
               </div>
               <div>
-                <Badge variant="outline" className="mb-2">Axanar Kickstarter</Badge>
-                <p className="text-xs">16 titles ($35 - $50,000)</p>
+                <Badge variant="outline" className="mb-1">Kickstarter</Badge>
+                <p>16 titles ($35 - $50,000)</p>
               </div>
               <div>
-                <Badge variant="outline" className="mb-2">Indiegogo Recovery</Badge>
-                <p className="text-xs">9 titles ($25 - $1,000)</p>
+                <Badge variant="outline" className="mb-1">Indiegogo</Badge>
+                <p>9 titles ($25 - $1,000)</p>
               </div>
             </div>
-            <p className="pt-2">
-              Titles are assigned based on exact perk matching and pledge amounts, with automatic 
-              XP multipliers, forum bonuses, and corresponding badges.
-            </p>
           </div>
         </DaystromCard>
       </div>
