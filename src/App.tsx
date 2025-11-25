@@ -37,6 +37,7 @@ const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
 const BackfillTitles = lazy(() => import("./pages/admin/BackfillTitles"));
 const PasswordReset = lazy(() => import("./pages/PasswordReset"));
 const LCARSShowcase = lazy(() => import("./pages/LCARSShowcase"));
+const LCARSEvolution = lazy(() => import("./pages/LCARSEvolution"));
 const PublicProfile = lazy(() => import("./pages/PublicProfile"));
 const ModelManager = lazy(() => import("./pages/ModelManager"));
 const Campaign = lazy(() => import("./pages/Campaign"));
@@ -152,6 +153,7 @@ const App = () => (
                     <Route path="/support" element={<Support />} />
                     <Route path="/terms" element={<Terms />} />
                     <Route path="/lcars" element={<LCARSShowcase />} />
+                    <Route path="/lcars-evolution" element={<LCARSEvolution />} />
                     <Route path="/models" element={<ModelManager />} />
                     <Route path="/u/:username" element={<PublicProfile />} />
                     <Route path="/vanity/:username" element={<Navigate to="/u/:username" replace />} />
