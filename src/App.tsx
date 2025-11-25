@@ -49,6 +49,7 @@ const TacticalDemo = lazy(() => import("./pages/TacticalDemo"));
 const VisitorAnalytics = lazy(() => import("./pages/admin/VisitorAnalytics"));
 const HowToEarnARES = lazy(() => import("./pages/HowToEarnARES"));
 const Leaderboard = lazy(() => import("./pages/Leaderboard"));
+const KnownIssues = lazy(() => import("./pages/KnownIssues"));
 
 import { Navigate } from "react-router-dom";
 import RequireAdmin from "@/components/auth/RequireAdmin";
@@ -162,6 +163,8 @@ const App = () => (
                     <Route path="/forum" element={<Forum />} />
                     <Route path="/forum/thread/:threadId" element={<ForumThread />} />
                     <Route path="/leaderboard" element={<Leaderboard />} />
+                    <Route path="/known-issues" element={<KnownIssues />} />
+                    <Route path="/status" element={<KnownIssues />} />
                     <Route path="/tactical" element={<RequireAuth><TacticalDemo /></RequireAuth>} />
                     <Route path="/tactical/:gameId" element={<RequireAuth><TacticalBattle /></RequireAuth>} />
                     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

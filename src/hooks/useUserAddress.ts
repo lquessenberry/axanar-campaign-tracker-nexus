@@ -71,6 +71,27 @@ export const useUpdateAddress = () => {
       
       // Call the secure database function that bypasses RLS
       console.log('📞 Calling upsert_user_address function...');
+      
+      // First verify donor record exists
+      const { data: donorCheck, error: donorError } = await supabase
+        .from('donors')
+        .select('id, email, full_name')
+        .eq('auth_user_id', user.id)
+        .maybeSingle();
+      
+      if (donorError) {
+        console.error('❌ Error checking donor record:', donorError);
+        throw new Error('Failed to verify your donor account. Please contact support.');
+      }
+      
+      if (!donorCheck) {
+        console.error('❌ No donor record found for auth user:', user.id);
+        console.error('User email:', user.email);
+        throw new Error('No donor account linked to your login. Please contact support with your email address.');
+      }
+      
+      console.log('✅ Donor record verified:', donorCheck.id, donorCheck.email);
+      
       const { data, error } = await supabase.rpc('upsert_user_address', {
         p_address1: addressData.address1,
         p_city: addressData.city,
