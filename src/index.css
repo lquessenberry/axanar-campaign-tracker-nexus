@@ -1,6 +1,13 @@
 /* ============= AXANAR STAR TREK DESIGN SYSTEM ============= */
 /* Typography: Eurostile (content), Bebas Neue (headings), Inter (admin) */
 
+/* ================================================================== */
+/*  STARFLEET ERA TYPOGRAPHY – PRACTICAL 18PX BASE (2025)            */
+/*  Moderate headings • No huge display fonts • Thumby-ready         */
+/* ================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Staatliches&family=Orbitron:wght@700;900&family=Antonio:wght@400;700&family=Cinzel+Decorative:wght@900&family=Exo+2:wght@600;800&family=Russo+One&family=Overpass:wght@700;800&family=Share+Tech+Mono&family=Kanit:wght@700;800&family=Bungee&family=Electrolize&display=swap');
+
 @import './styles/mobile-enhancements.css';
 @tailwind base;
 @tailwind components;
@@ -122,6 +129,57 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
+}
+
+/* ================================================================== */
+/*  STARFLEET ERA TYPOGRAPHY SYSTEM                                   */
+/* ================================================================== */
+
+/* 1. Base body font size for all themes */
+html { font-size: 16px; }        /* makes 1rem = 16px */
+body { font-size: 1.125rem; }    /* ≈18px – comfortable on handhelds */
+
+/* 2. Era-specific font families */
+.theme-nx01      { font-family: 'Rajdhani', sans-serif; }
+.theme-tos       { font-family: 'Orbitron', sans-serif; }
+.theme-tmp-refit { font-family: 'Antonio', sans-serif; }
+.theme-excelsior { font-family: 'Exo 2', sans-serif; }
+.theme-tng       { font-family: 'Overpass', sans-serif; }
+.theme-defiant   { font-family: 'Share Tech Mono', monospace; }
+.theme-voyager   { font-family: 'Kanit', sans-serif; }
+.theme-sovereign { font-family: 'Electrolize', sans-serif; }
+
+/* 3. Moderate heading scale – same for all eras (feels consistent) */
+h1, .h1 { font-size: 2.25rem;   line-height: 1.2;   margin: 1.5em 0 0.75em; }   /* 36px */
+h2, .h2 { font-size: 1.875rem;  line-height: 1.25;  margin: 1.4em 0 0.7em; }    /* 30px */
+h3, .h3 { font-size: 1.5rem;    line-height: 1.3;   margin: 1.3em 0 0.65em; }   /* 24px */
+h4, .h4 { font-size: 1.25rem;   line-height: 1.35;  margin: 1.2em 0 0.6em; }    /* 20px */
+h5, .h5 { font-size: 1.125rem;  line-height: 1.4; }                           /* 18px (same as body) */
+h6, .h6 { font-size: 1rem;      line-height: 1.45;  font-weight: bold; }
+
+/* 4. Era-specific heading flair (still moderate size) */
+.theme-nx01 h1       { font-family: 'Staatliches', sans-serif; letter-spacing: 0.08em; }
+.theme-tos h1        { font-weight: 900; letter-spacing: 0.06em; }
+.theme-tmp-refit h1  { font-family: 'Cinzel Decorative', serif; font-weight: 900; }
+.theme-excelsior h1  { font-family: 'Russo One', sans-serif; letter-spacing: 0.08em; }
+.theme-tng h1        { font-weight: 800; letter-spacing: 0.03em; }
+.theme-defiant h1    { font-family: 'Bungee', sans-serif; }
+.theme-voyager h1    { font-family: 'Exo 2', sans-serif; font-weight: 800; font-style: italic; }
+.theme-sovereign h1  { letter-spacing: 0.06em; }
+
+/* 5. Small text */
+small, .small { font-size: 0.875rem; }   /* 14px */
+.caption      { font-size: 0.8125rem; line-height: 1.5; opacity: 0.9; }  /* 13px */
+
+/* 6. Optional subtle glow on headings only (works with any color) */
+h1, h2, h3 { text-shadow: 0 0 6px currentColor; }
+
+/* 7. Handheld fine-tuning – slightly larger on very small screens */
+@media (max-width: 900px) {
+  body { font-size: 1.1875rem; }   /* ≈19px on small handhelds */
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.625rem; }
 }
 
 /* ============= RESPONSIVE PROFILE LAYOUT ============= */
