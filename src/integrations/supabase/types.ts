@@ -2256,6 +2256,164 @@ export type Database = {
         }
         Relationships: []
       }
+      merged_accounts: {
+        Row: {
+          addresses_transferred: number | null
+          created_at: string | null
+          id: string
+          merged_at: string
+          merged_by_admin_id: string | null
+          metadata: Json | null
+          notes: string | null
+          pledges_transferred: number | null
+          source_donor_id: string
+          source_email: string
+          target_donor_id: string
+          target_email: string
+        }
+        Insert: {
+          addresses_transferred?: number | null
+          created_at?: string | null
+          id?: string
+          merged_at?: string
+          merged_by_admin_id?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          pledges_transferred?: number | null
+          source_donor_id: string
+          source_email: string
+          target_donor_id: string
+          target_email: string
+        }
+        Update: {
+          addresses_transferred?: number | null
+          created_at?: string | null
+          id?: string
+          merged_at?: string
+          merged_by_admin_id?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          pledges_transferred?: number | null
+          source_donor_id?: string
+          source_email?: string
+          target_donor_id?: string
+          target_email?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "merged_accounts_source_donor_id_fkey"
+            columns: ["source_donor_id"]
+            isOneToOne: false
+            referencedRelation: "contributor_leaderboard"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "merged_accounts_source_donor_id_fkey"
+            columns: ["source_donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "merged_accounts_source_donor_id_fkey"
+            columns: ["source_donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "merged_accounts_source_donor_id_fkey"
+            columns: ["source_donor_id"]
+            isOneToOne: false
+            referencedRelation: "leaderboard_cache"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "merged_accounts_source_donor_id_fkey"
+            columns: ["source_donor_id"]
+            isOneToOne: false
+            referencedRelation: "my_donor_profile"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "merged_accounts_source_donor_id_fkey"
+            columns: ["source_donor_id"]
+            isOneToOne: false
+            referencedRelation: "reserve_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "merged_accounts_source_donor_id_fkey"
+            columns: ["source_donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "merged_accounts_source_donor_id_fkey"
+            columns: ["source_donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "merged_accounts_target_donor_id_fkey"
+            columns: ["target_donor_id"]
+            isOneToOne: false
+            referencedRelation: "contributor_leaderboard"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "merged_accounts_target_donor_id_fkey"
+            columns: ["target_donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "merged_accounts_target_donor_id_fkey"
+            columns: ["target_donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "merged_accounts_target_donor_id_fkey"
+            columns: ["target_donor_id"]
+            isOneToOne: false
+            referencedRelation: "leaderboard_cache"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "merged_accounts_target_donor_id_fkey"
+            columns: ["target_donor_id"]
+            isOneToOne: false
+            referencedRelation: "my_donor_profile"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "merged_accounts_target_donor_id_fkey"
+            columns: ["target_donor_id"]
+            isOneToOne: false
+            referencedRelation: "reserve_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "merged_accounts_target_donor_id_fkey"
+            columns: ["target_donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "merged_accounts_target_donor_id_fkey"
+            columns: ["target_donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+        ]
+      }
       messages: {
         Row: {
           category: string | null
