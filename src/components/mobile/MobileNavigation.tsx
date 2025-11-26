@@ -13,14 +13,13 @@ export function MobileNavigation() {
     <>
       {/* Mobile Header */}
       <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:hidden">
-        <div className="flex h-20 items-start pt-4 px-4">
+        <div className="flex h-24 items-center px-4 gap-4">
           <Button
             variant="ghost"
-            size="sm"
             onClick={() => setIsMenuOpen(true)}
-            className="mr-2"
+            className="min-w-[72px] min-h-[72px] p-4"
           >
-            <Menu className="h-5 w-5" />
+            <Menu className="h-8 w-8" />
             <span className="sr-only">Toggle menu</span>
           </Button>
           
@@ -28,7 +27,7 @@ export function MobileNavigation() {
             <img
               src="/lovable-uploads/4ae57c3d-f1da-43e2-93ec-016f24a0b0c4.png"
               alt="Axanar Logo"
-              className="h-8 w-auto"
+              className="h-12 w-auto"
             />
           </div>
         </div>
@@ -45,7 +44,7 @@ export function MobileNavigation() {
       <UnifiedBottomNav />
 
       {/* Bottom padding for authenticated users to prevent content overlap */}
-      {user && <div className="h-20 md:hidden" />}
+      {user && <div className="h-24 md:hidden" />}
     </>
   );
 }
