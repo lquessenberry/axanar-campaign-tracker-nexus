@@ -13,7 +13,8 @@ import {
   Award,
   Target,
   ExternalLink,
-  Eye
+  Eye,
+  ChevronDown
 } from "lucide-react";
 
 interface AdminOverviewProps {
@@ -332,53 +333,93 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
           </CardContent>
         </Card>
         
-        {/* Quick Actions */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-            <CardDescription>Common administrative tasks</CardDescription>
+        {/* Quick Actions - LCARS Style */}
+        <Card className="border-2 border-lcars-light-blue/40 bg-gradient-to-br from-background/95 to-lcars-dark-blue/5">
+          <CardHeader className="border-b border-lcars-light-blue/20 pb-4">
+            <CardTitle className="text-2xl font-bold tracking-wider uppercase text-foreground">
+              Quick Actions
+            </CardTitle>
+            <CardDescription className="text-muted-foreground/80">
+              Common administrative tasks
+            </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-3">
-            <Button 
-              variant="outline" 
-              className="w-full justify-start bg-gradient-to-r from-axanar-teal/10 to-transparent hover:from-axanar-teal/20 border-axanar-teal/30"
-              onClick={() => onSectionChange("donors")}
-            >
-              <Users className="h-4 w-4 mr-2 text-axanar-teal" />
-              Manage Donors
-            </Button>
-            <Button 
-              variant="outline" 
-              className="w-full justify-start bg-gradient-to-r from-axanar-gold/10 to-transparent hover:from-axanar-gold/20 border-axanar-gold/30"
-              onClick={() => onSectionChange("pledges")}
-            >
-              <DollarSign className="h-4 w-4 mr-2 text-axanar-gold" />
-              View Pledges
-            </Button>
-            <Button 
-              variant="outline" 
-              className="w-full justify-start bg-gradient-to-r from-axanar-silver/10 to-transparent hover:from-axanar-silver/20 border-axanar-silver/30"
-              onClick={() => onSectionChange("rewards")}
-            >
-              <Gift className="h-4 w-4 mr-2 text-axanar-silver" />
-              Manage Rewards
-            </Button>
-            <Button 
-              variant="outline" 
-              className="w-full justify-start bg-gradient-to-r from-axanar-red/10 to-transparent hover:from-axanar-red/20 border-axanar-red/30"
-              onClick={() => onSectionChange("campaigns")}
-            >
-              <BarChart3 className="h-4 w-4 mr-2 text-axanar-red" />
-              Manage Campaigns
-            </Button>
-            <Button 
-              variant="outline" 
-              className="w-full justify-start bg-gradient-to-r from-blue-500/10 to-transparent hover:from-blue-500/20 border-blue-500/30"
-              onClick={() => onSectionChange("user-profiles")}
-            >
-              <Eye className="h-4 w-4 mr-2 text-blue-500" />
-              View User Profiles
-            </Button>
+          <CardContent className="p-0">
+            <div className="divide-y divide-lcars-light-blue/20">
+              <button
+                onClick={() => onSectionChange("donors")}
+                className="w-full flex items-center justify-between px-6 py-5 hover:bg-lcars-light-blue/5 transition-all duration-200 group"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-lcars-blue to-lcars-light-blue flex items-center justify-center ring-2 ring-lcars-light-blue/30 group-hover:ring-lcars-light-blue/60 transition-all">
+                    <Users className="h-5 w-5 text-white" />
+                  </div>
+                  <span className="text-lg font-medium text-lcars-light-blue group-hover:text-lcars-blue transition-colors">
+                    Manage Donors
+                  </span>
+                </div>
+                <ChevronDown className="h-5 w-5 text-lcars-light-blue/60 group-hover:text-lcars-light-blue transition-colors" />
+              </button>
+              
+              <button
+                onClick={() => onSectionChange("pledges")}
+                className="w-full flex items-center justify-between px-6 py-5 hover:bg-lcars-light-blue/5 transition-all duration-200 group"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-lcars-yellow to-lcars-orange flex items-center justify-center ring-2 ring-lcars-yellow/30 group-hover:ring-lcars-yellow/60 transition-all">
+                    <DollarSign className="h-5 w-5 text-white" />
+                  </div>
+                  <span className="text-lg font-medium text-lcars-light-blue group-hover:text-lcars-blue transition-colors">
+                    View Pledges
+                  </span>
+                </div>
+                <ChevronDown className="h-5 w-5 text-lcars-light-blue/60 group-hover:text-lcars-light-blue transition-colors" />
+              </button>
+              
+              <button
+                onClick={() => onSectionChange("rewards")}
+                className="w-full flex items-center justify-between px-6 py-5 hover:bg-lcars-light-blue/5 transition-all duration-200 group"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center ring-2 ring-purple-500/30 group-hover:ring-purple-500/60 transition-all">
+                    <Gift className="h-5 w-5 text-white" />
+                  </div>
+                  <span className="text-lg font-medium text-lcars-light-blue group-hover:text-lcars-blue transition-colors">
+                    Manage Rewards
+                  </span>
+                </div>
+                <ChevronDown className="h-5 w-5 text-lcars-light-blue/60 group-hover:text-lcars-light-blue transition-colors" />
+              </button>
+              
+              <button
+                onClick={() => onSectionChange("campaigns")}
+                className="w-full flex items-center justify-between px-6 py-5 hover:bg-lcars-light-blue/5 transition-all duration-200 group"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-lcars-red to-red-600 flex items-center justify-center ring-2 ring-lcars-red/30 group-hover:ring-lcars-red/60 transition-all">
+                    <BarChart3 className="h-5 w-5 text-white" />
+                  </div>
+                  <span className="text-lg font-medium text-lcars-light-blue group-hover:text-lcars-blue transition-colors">
+                    Manage Campaigns
+                  </span>
+                </div>
+                <ChevronDown className="h-5 w-5 text-lcars-light-blue/60 group-hover:text-lcars-light-blue transition-colors" />
+              </button>
+              
+              <button
+                onClick={() => onSectionChange("user-profiles")}
+                className="w-full flex items-center justify-between px-6 py-5 hover:bg-lcars-light-blue/5 transition-all duration-200 group"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center ring-2 ring-teal-500/30 group-hover:ring-teal-500/60 transition-all">
+                    <Eye className="h-5 w-5 text-white" />
+                  </div>
+                  <span className="text-lg font-medium text-lcars-light-blue group-hover:text-lcars-blue transition-colors">
+                    View User Profiles
+                  </span>
+                </div>
+                <ChevronDown className="h-5 w-5 text-lcars-light-blue/60 group-hover:text-lcars-light-blue transition-colors" />
+              </button>
+            </div>
           </CardContent>
         </Card>
       </div>
