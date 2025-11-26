@@ -5032,6 +5032,17 @@ export type Database = {
         Args: { catalog: unknown; options: string[] }
         Returns: undefined
       }
+      assign_manual_ambassadorial_title: {
+        Args: {
+          p_campaign_id?: string
+          p_pledge_amount: number
+          p_user_id: string
+        }
+        Returns: {
+          message: string
+          titles_assigned: number
+        }[]
+      }
       auth0_fdw_handler: { Args: never; Returns: unknown }
       auth0_fdw_meta: {
         Args: never
