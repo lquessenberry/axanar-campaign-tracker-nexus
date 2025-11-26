@@ -82,21 +82,20 @@ const RealtimeConversationList: React.FC<RealtimeConversationListProps> = ({
 
   return (
     <Card className="h-full flex flex-col">
-      <CardHeader className="flex-shrink-0">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg">
+      <CardHeader className="flex-shrink-0 p-8">
+        <div className="flex items-center justify-between gap-4">
+          <CardTitle className="text-xl">
             Direct Messages {totalUnread > 0 && (
-              <Badge variant="secondary" className="ml-2">
+              <Badge variant="secondary" className="ml-3 px-3 py-1 text-base h-8">
                 {totalUnread}
               </Badge>
             )}
           </CardTitle>
           <Button 
-            size="sm" 
             onClick={onStartNewConversation}
             className="shrink-0"
           >
-            <Plus className="h-4 w-4 mr-1" />
+            <Plus className="h-5 w-5 mr-2" />
             New
           </Button>
         </div>
@@ -105,13 +104,13 @@ const RealtimeConversationList: React.FC<RealtimeConversationListProps> = ({
       <CardContent className="flex-1 overflow-hidden p-0">
         <ScrollArea className="h-full">
           {conversations.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-64 text-muted-foreground p-6">
-              <MessageCircle className="h-12 w-12 mb-3 opacity-50" />
-              <p className="text-center">No conversations yet</p>
-              <p className="text-sm text-center mt-1">Start a new conversation to connect with other users</p>
+            <div className="flex flex-col items-center justify-center h-64 text-muted-foreground p-8">
+              <MessageCircle className="h-16 w-16 mb-6 opacity-50" />
+              <p className="text-center text-base">No conversations yet</p>
+              <p className="text-sm text-center mt-2">Start a new conversation to connect with other users</p>
             </div>
           ) : (
-            <div className="space-y-1 p-2">
+            <div className="space-y-2 p-4">
               {conversations.map((conversation) => {
                 const isSelected = selectedConversationId === conversation.partnerId;
                 const isOnline = isUserOnline(conversation.partnerId);
@@ -121,15 +120,15 @@ const RealtimeConversationList: React.FC<RealtimeConversationListProps> = ({
                   <div
                     key={conversation.partnerId}
                     className={cn(
-                      "flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors hover:bg-muted/50",
+                      "flex items-center space-x-4 p-4 rounded-lg cursor-pointer transition-colors hover:bg-muted/50 min-h-[72px]",
                       isSelected && "bg-primary/10 border border-primary/20",
                       hasUnread && !isSelected && "bg-muted/30"
                     )}
                     onClick={() => onSelectConversation(conversation.partnerId)}
                   >
                     <div className="relative flex-shrink-0">
-                      <Avatar className="h-12 w-12">
-                        <AvatarFallback className="text-sm font-medium">
+                      <Avatar className="h-16 w-16">
+                        <AvatarFallback className="text-base font-medium">
                           {getInitials({ 
                             id: conversation.partnerId,
                             full_name: conversation.partnerName, 
@@ -138,7 +137,7 @@ const RealtimeConversationList: React.FC<RealtimeConversationListProps> = ({
                         </AvatarFallback>
                       </Avatar>
                       {isOnline && (
-                        <div className="absolute -bottom-1 -right-1 h-4 w-4 bg-green-500 border-2 border-white rounded-full"></div>
+                        <div className="absolute -bottom-1 -right-1 h-6 w-6 bg-green-500 border-2 border-white rounded-full"></div>
                       )}
                     </div>
 
