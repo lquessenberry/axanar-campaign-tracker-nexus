@@ -1569,11 +1569,11 @@ body:not(.game-active) [role="button"] {
 .theme-nx-2151 {
   /* Core Colors */
   --background: 26 20% 18%;
-  --foreground: 30 60% 70%;
+  --foreground: 30 70% 88%;
   --card: 26 20% 20%;
-  --card-foreground: 30 60% 70%;
+  --card-foreground: 30 70% 88%;
   --popover: 26 20% 20%;
-  --popover-foreground: 30 60% 70%;
+  --popover-foreground: 30 70% 88%;
   
   /* Primary */
   --primary: 45 40% 60%;
@@ -1590,7 +1590,7 @@ body:not(.game-active) [role="button"] {
   
   /* Muted */
   --muted: 26 20% 25%;
-  --muted-foreground: 30 50% 60%;
+  --muted-foreground: 30 60% 75%;
   
   /* Destructive */
   --destructive: 0 70% 50%;
@@ -1603,7 +1603,7 @@ body:not(.game-active) [role="button"] {
   
   /* Sidebar */
   --sidebar: 26 20% 20%;
-  --sidebar-foreground: 30 60% 70%;
+  --sidebar-foreground: 30 70% 88%;
   --sidebar-primary: 45 40% 60%;
   --sidebar-primary-foreground: 26 20% 18%;
   --sidebar-accent: 195 40% 50%;
@@ -1614,7 +1614,7 @@ body:not(.game-active) [role="button"] {
   /* Axanar Colors */
   --axanar-blue: 26 20% 18%;
   --axanar-teal: 195 40% 50%;
-  --axanar-silver: 30 60% 70%;
+  --axanar-silver: 30 70% 88%;
   --axanar-accent: 45 40% 60%;
   --axanar-dark: 26 20% 15%;
   --axanar-light: 26 20% 25%;
@@ -1819,11 +1819,11 @@ body:not(.game-active) [role="button"] {
 .theme-mark-v-wartime {
   /* Core Colors */
   --background: 0 40% 8%;
-  --foreground: 0 100% 90%;
+  --foreground: 45 100% 88%;
   --card: 0 40% 10%;
-  --card-foreground: 0 100% 90%;
+  --card-foreground: 45 100% 88%;
   --popover: 0 40% 10%;
-  --popover-foreground: 0 100% 90%;
+  --popover-foreground: 45 100% 88%;
   
   /* Primary */
   --primary: 30 100% 50%;
@@ -1832,39 +1832,39 @@ body:not(.game-active) [role="button"] {
   
   /* Secondary */
   --secondary: 0 80% 40%;
-  --secondary-foreground: 0 100% 90%;
+  --secondary-foreground: 45 100% 88%;
   
   /* Accent */
-  --accent: 195 80% 60%;
+  --accent: 60 100% 90%;
   --accent-foreground: 0 0% 0%;
   
   /* Muted */
   --muted: 0 40% 15%;
-  --muted-foreground: 0 60% 70%;
+  --muted-foreground: 45 80% 75%;
   
   /* Destructive */
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
   
   /* Border/Input/Ring */
-  --border: 0 50% 30%;
+  --border: 45 90% 50%;
   --input: 0 40% 12%;
   --ring: 30 100% 50%;
   
   /* Sidebar */
   --sidebar: 0 40% 10%;
-  --sidebar-foreground: 0 100% 90%;
+  --sidebar-foreground: 45 100% 88%;
   --sidebar-primary: 30 100% 50%;
   --sidebar-primary-foreground: 0 0% 0%;
-  --sidebar-accent: 195 80% 60%;
+  --sidebar-accent: 60 100% 90%;
   --sidebar-accent-foreground: 0 0% 0%;
-  --sidebar-border: 0 50% 30%;
+  --sidebar-border: 45 90% 50%;
   --sidebar-ring: 30 100% 50%;
   
   /* Axanar Colors */
   --axanar-blue: 0 60% 25%;
   --axanar-teal: 195 80% 60%;
-  --axanar-silver: 0 100% 90%;
+  --axanar-silver: 45 100% 88%;
   --axanar-accent: 30 100% 50%;
   --axanar-dark: 0 40% 5%;
   --axanar-light: 0 40% 15%;
@@ -2040,11 +2040,11 @@ body:not(.game-active) [role="button"] {
 .theme-constitution-2265 {
   /* Core Colors */
   --background: 220 15% 15%;
-  --foreground: 195 80% 80%;
+  --foreground: 190 85% 85%;
   --card: 220 15% 18%;
-  --card-foreground: 195 80% 80%;
+  --card-foreground: 190 85% 85%;
   --popover: 220 15% 18%;
-  --popover-foreground: 195 80% 80%;
+  --popover-foreground: 190 85% 85%;
   
   /* Primary */
   --primary: 207 90% 54%;
@@ -2074,7 +2074,7 @@ body:not(.game-active) [role="button"] {
   
   /* Sidebar */
   --sidebar: 220 15% 18%;
-  --sidebar-foreground: 195 80% 80%;
+  --sidebar-foreground: 190 85% 85%;
   --sidebar-primary: 207 90% 54%;
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 30 100% 50%;
@@ -2085,7 +2085,7 @@ body:not(.game-active) [role="button"] {
   /* Axanar Colors */
   --axanar-blue: 207 90% 54%;
   --axanar-teal: 195 80% 60%;
-  --axanar-silver: 195 80% 80%;
+  --axanar-silver: 190 85% 85%;
   --axanar-accent: 30 100% 50%;
   --axanar-dark: 220 15% 12%;
   --axanar-light: 220 15% 22%;
@@ -2118,11 +2118,11 @@ body:not(.game-active) [role="button"] {
 .theme-tmp-refit-2273 {
   /* Core Colors */
   --background: 0 0% 0%;
-  --foreground: 12 100% 80%;
+  --foreground: 25 100% 88%;
   --card: 0 0% 5%;
-  --card-foreground: 12 100% 80%;
+  --card-foreground: 25 100% 88%;
   --popover: 0 0% 5%;
-  --popover-foreground: 12 100% 80%;
+  --popover-foreground: 25 100% 88%;
   
   /* Primary */
   --primary: 12 100% 60%;
@@ -2134,7 +2134,7 @@ body:not(.game-active) [role="button"] {
   --secondary-foreground: 0 0% 0%;
   
   /* Accent */
-  --accent: 12 100% 60%;
+  --accent: 35 100% 90%;
   --accent-foreground: 0 0% 0%;
   
   /* Muted */
@@ -2152,7 +2152,7 @@ body:not(.game-active) [role="button"] {
   
   /* Sidebar */
   --sidebar: 0 0% 5%;
-  --sidebar-foreground: 12 100% 80%;
+  --sidebar-foreground: 25 100% 88%;
   --sidebar-primary: 12 100% 60%;
   --sidebar-primary-foreground: 0 0% 0%;
   --sidebar-accent: 25 100% 50%;
@@ -2163,7 +2163,7 @@ body:not(.game-active) [role="button"] {
   /* Axanar Colors */
   --axanar-blue: 0 0% 5%;
   --axanar-teal: 195 80% 55%;
-  --axanar-silver: 12 100% 80%;
+  --axanar-silver: 25 100% 88%;
   --axanar-accent: 12 100% 60%;
   --axanar-dark: 0 0% 0%;
   --axanar-light: 0 0% 12%;
@@ -2210,11 +2210,11 @@ body:not(.game-active) [role="button"] {
 .theme-excelsior-2285 {
   /* Core Colors */
   --background: 0 0% 0%;
-  --foreground: 24 100% 80%;
+  --foreground: 25 100% 88%;
   --card: 0 0% 5%;
-  --card-foreground: 24 100% 80%;
+  --card-foreground: 25 100% 88%;
   --popover: 0 0% 5%;
-  --popover-foreground: 24 100% 80%;
+  --popover-foreground: 25 100% 88%;
   
   /* Primary */
   --primary: 24 100% 60%;
@@ -2226,7 +2226,7 @@ body:not(.game-active) [role="button"] {
   --secondary-foreground: 0 0% 100%;
   
   /* Accent */
-  --accent: 24 100% 60%;
+  --accent: 35 100% 90%;
   --accent-foreground: 0 0% 0%;
   
   /* Muted */
@@ -2244,7 +2244,7 @@ body:not(.game-active) [role="button"] {
   
   /* Sidebar */
   --sidebar: 0 0% 5%;
-  --sidebar-foreground: 24 100% 80%;
+  --sidebar-foreground: 25 100% 88%;
   --sidebar-primary: 24 100% 60%;
   --sidebar-primary-foreground: 0 0% 0%;
   --sidebar-accent: 270 60% 55%;
@@ -2255,7 +2255,7 @@ body:not(.game-active) [role="button"] {
   /* Axanar Colors */
   --axanar-blue: 0 0% 5%;
   --axanar-teal: 195 80% 55%;
-  --axanar-silver: 24 100% 80%;
+  --axanar-silver: 25 100% 88%;
   --axanar-accent: 24 100% 60%;
   --axanar-dark: 0 0% 0%;
   --axanar-light: 0 0% 12%;
@@ -2307,11 +2307,11 @@ body:not(.game-active) [role="button"] {
 .theme-ambassador-2350 {
   /* Core Colors */
   --background: 260 25% 12%;
-  --foreground: 260 60% 85%;
+  --foreground: 260 70% 88%;
   --card: 260 25% 14%;
-  --card-foreground: 260 60% 85%;
+  --card-foreground: 260 70% 88%;
   --popover: 260 25% 14%;
-  --popover-foreground: 260 60% 85%;
+  --popover-foreground: 260 70% 88%;
   
   /* Primary */
   --primary: 260 70% 60%;
@@ -2328,7 +2328,7 @@ body:not(.game-active) [role="button"] {
   
   /* Muted */
   --muted: 260 20% 20%;
-  --muted-foreground: 260 50% 70%;
+  --muted-foreground: 280 60% 78%;
   
   /* Destructive */
   --destructive: 0 70% 55%;
@@ -2341,7 +2341,7 @@ body:not(.game-active) [role="button"] {
   
   /* Sidebar */
   --sidebar: 260 25% 14%;
-  --sidebar-foreground: 260 60% 85%;
+  --sidebar-foreground: 260 70% 88%;
   --sidebar-primary: 260 70% 60%;
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 195 70% 60%;
@@ -2352,7 +2352,7 @@ body:not(.game-active) [role="button"] {
   /* Axanar Colors */
   --axanar-blue: 260 70% 40%;
   --axanar-teal: 195 70% 60%;
-  --axanar-silver: 260 60% 85%;
+  --axanar-silver: 260 70% 88%;
   --axanar-accent: 260 70% 60%;
   --axanar-dark: 260 25% 8%;
   --axanar-light: 260 20% 20%;
@@ -2380,11 +2380,11 @@ body:not(.game-active) [role="button"] {
 .theme-galaxy-2363 {
   /* Core Colors */
   --background: 220 15% 15%;
-  --foreground: 30 80% 80%;
+  --foreground: 30 85% 88%;
   --card: 220 15% 17%;
-  --card-foreground: 30 80% 80%;
+  --card-foreground: 30 85% 88%;
   --popover: 220 15% 17%;
-  --popover-foreground: 30 80% 80%;
+  --popover-foreground: 30 85% 88%;
   
   /* Primary */
   --primary: 30 100% 70%;
@@ -2401,7 +2401,7 @@ body:not(.game-active) [role="button"] {
   
   /* Muted */
   --muted: 220 15% 22%;
-  --muted-foreground: 30 60% 70%;
+  --muted-foreground: 30 70% 78%;
   
   /* Destructive */
   --destructive: 0 75% 60%;
@@ -2414,7 +2414,7 @@ body:not(.game-active) [role="button"] {
   
   /* Sidebar */
   --sidebar: 220 15% 17%;
-  --sidebar-foreground: 30 80% 80%;
+  --sidebar-foreground: 30 85% 88%;
   --sidebar-primary: 30 100% 70%;
   --sidebar-primary-foreground: 0 0% 0%;
   --sidebar-accent: 195 70% 65%;
@@ -2425,7 +2425,7 @@ body:not(.game-active) [role="button"] {
   /* Axanar Colors */
   --axanar-blue: 195 70% 50%;
   --axanar-teal: 195 70% 65%;
-  --axanar-silver: 30 80% 80%;
+  --axanar-silver: 30 85% 88%;
   --axanar-accent: 30 100% 70%;
   --axanar-dark: 220 15% 12%;
   --axanar-light: 220 15% 22%;
@@ -2455,11 +2455,11 @@ body:not(.game-active) [role="button"] {
 .theme-defiant-2371 {
   /* Core Colors */
   --background: 260 20% 10%;
-  --foreground: 260 50% 80%;
+  --foreground: 260 60% 88%;
   --card: 260 20% 12%;
-  --card-foreground: 260 50% 80%;
+  --card-foreground: 260 60% 88%;
   --popover: 260 20% 12%;
-  --popover-foreground: 260 50% 80%;
+  --popover-foreground: 260 60% 88%;
   
   /* Primary */
   --primary: 260 80% 65%;
@@ -2476,7 +2476,7 @@ body:not(.game-active) [role="button"] {
   
   /* Muted */
   --muted: 260 20% 18%;
-  --muted-foreground: 260 40% 70%;
+  --muted-foreground: 280 60% 78%;
   
   /* Destructive */
   --destructive: 0 70% 55%;
@@ -2489,7 +2489,7 @@ body:not(.game-active) [role="button"] {
   
   /* Sidebar */
   --sidebar: 260 20% 12%;
-  --sidebar-foreground: 260 50% 80%;
+  --sidebar-foreground: 260 60% 88%;
   --sidebar-primary: 260 80% 65%;
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 195 70% 60%;
@@ -2500,7 +2500,7 @@ body:not(.game-active) [role="button"] {
   /* Axanar Colors */
   --axanar-blue: 260 70% 45%;
   --axanar-teal: 195 70% 60%;
-  --axanar-silver: 260 50% 80%;
+  --axanar-silver: 260 60% 88%;
   --axanar-accent: 260 80% 65%;
   --axanar-dark: 260 20% 8%;
   --axanar-light: 260 20% 18%;
@@ -2522,11 +2522,11 @@ body:not(.game-active) [role="button"] {
 .theme-sovereign-2378 {
   /* Core Colors */
   --background: 220 20% 5%;
-  --foreground: 195 100% 90%;
+  --foreground: 190 85% 85%;
   --card: 220 20% 7%;
-  --card-foreground: 195 100% 90%;
+  --card-foreground: 190 85% 85%;
   --popover: 220 20% 7%;
-  --popover-foreground: 195 100% 90%;
+  --popover-foreground: 190 85% 85%;
   
   /* Primary */
   --primary: 195 100% 60%;
@@ -2556,7 +2556,7 @@ body:not(.game-active) [role="button"] {
   
   /* Sidebar */
   --sidebar: 220 20% 7%;
-  --sidebar-foreground: 195 100% 90%;
+  --sidebar-foreground: 190 85% 85%;
   --sidebar-primary: 195 100% 60%;
   --sidebar-primary-foreground: 0 0% 0%;
   --sidebar-accent: 30 100% 55%;
@@ -2567,7 +2567,7 @@ body:not(.game-active) [role="button"] {
   /* Axanar Colors */
   --axanar-blue: 195 100% 40%;
   --axanar-teal: 195 100% 60%;
-  --axanar-silver: 195 100% 90%;
+  --axanar-silver: 190 85% 85%;
   --axanar-accent: 195 90% 65%;
   --axanar-dark: 220 20% 3%;
   --axanar-light: 220 20% 12%;
@@ -2596,4 +2596,80 @@ body:not(.game-active) [role="button"] {
 .theme-sovereign-2378 button:hover {
   background: hsl(195 100% 60% / 0.15);
   box-shadow: 0 0 20px hsl(195 100% 60% / 0.5);
+}
+
+/* ============================================================================
+   THUMBY-FRIENDLY WCAG CONTRAST ENHANCEMENTS
+   Global accessibility fixes for all dark themes
+   ============================================================================ */
+
+/* Global muted text safety - ensure minimum 68% lightness on dark backgrounds */
+.theme-nx-2151 [class*="muted"],
+.theme-hercules-mk4-dark [class*="muted"],
+.theme-mark-v-wartime [class*="muted"],
+.theme-klingon-d7 [class*="muted"],
+.theme-constitution-2265 [class*="muted"],
+.theme-tmp-refit-2273 [class*="muted"],
+.theme-excelsior-2285 [class*="muted"],
+.theme-ambassador-2350 [class*="muted"],
+.theme-galaxy-2363 [class*="muted"],
+.theme-defiant-2371 [class*="muted"],
+.theme-sovereign-2378 [class*="muted"] {
+  color: hsl(var(--muted-foreground));
+  opacity: 1;
+}
+
+/* Enhanced input/border visibility for all dark themes */
+.theme-nx-2151 input,
+.theme-nx-2151 textarea,
+.theme-nx-2151 select,
+.theme-hercules-mk4-dark input,
+.theme-hercules-mk4-dark textarea,
+.theme-hercules-mk4-dark select,
+.theme-mark-v-wartime input,
+.theme-mark-v-wartime textarea,
+.theme-mark-v-wartime select,
+.theme-klingon-d7 input,
+.theme-klingon-d7 textarea,
+.theme-klingon-d7 select,
+.theme-constitution-2265 input,
+.theme-constitution-2265 textarea,
+.theme-constitution-2265 select,
+.theme-tmp-refit-2273 input,
+.theme-tmp-refit-2273 textarea,
+.theme-tmp-refit-2273 select,
+.theme-excelsior-2285 input,
+.theme-excelsior-2285 textarea,
+.theme-excelsior-2285 select,
+.theme-ambassador-2350 input,
+.theme-ambassador-2350 textarea,
+.theme-ambassador-2350 select,
+.theme-galaxy-2363 input,
+.theme-galaxy-2363 textarea,
+.theme-galaxy-2363 select,
+.theme-defiant-2371 input,
+.theme-defiant-2371 textarea,
+.theme-defiant-2371 select,
+.theme-sovereign-2378 input,
+.theme-sovereign-2378 textarea,
+.theme-sovereign-2378 select {
+  border: 2px solid hsl(var(--foreground) / 0.4);
+  background: hsl(var(--background) / 0.6);
+  color: hsl(var(--foreground));
+}
+
+/* Enhanced focus indicators for controller/thumbstick navigation */
+:focus-visible {
+  outline: 4px solid hsl(var(--accent, var(--primary))) !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 6px hsl(var(--accent, var(--primary)) / 0.2) !important;
+}
+
+/* Ensure buttons have visible focus states */
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 5px solid hsl(var(--accent, var(--primary))) !important;
+  outline-offset: 4px !important;
+  box-shadow: 0 0 0 8px hsl(var(--accent, var(--primary)) / 0.25) !important;
 }
