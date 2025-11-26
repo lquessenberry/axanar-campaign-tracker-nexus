@@ -88,7 +88,7 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
         {/* General Navigation Bar - Public Pages */}
         <div className="general-nav border-b border-border/30">
           <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between h-14">
+            <div className="flex items-center justify-between h-20">
               {/* Logo */}
               <Link to="/" className="flex items-center space-x-2">
                 <img 
@@ -99,24 +99,24 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
               </Link>
             
             {/* Main Navigation Links - Desktop */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
               <Link to="/about">
-                <Button variant="ghost" size="sm" className="trek-nav-link font-trek-content">
+                <Button variant="ghost" className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base">
                   {t('about')}
                 </Button>
               </Link>
               <Link to="/how-it-works">
-                <Button variant="ghost" size="sm" className="trek-nav-link font-trek-content">
+                <Button variant="ghost" className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base">
                   {t('how-it-works')}
                 </Button>
               </Link>
               <Link to="/how-to-earn-ares">
-                <Button variant="ghost" size="sm" className="trek-nav-link font-trek-content">
+                <Button variant="ghost" className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base">
                   How ARES Works
                 </Button>
               </Link>
               <Link to="/forum">
-                <Button variant="ghost" size="sm" className="trek-nav-link font-trek-content">
+                <Button variant="ghost" className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base">
                   Forum
                 </Button>
               </Link>
@@ -125,9 +125,9 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
               {campaigns.length > 0 && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="trek-nav-link font-trek-content">
+                    <Button variant="ghost" className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base">
                       Campaigns
-                      <ChevronDown className="ml-1 h-3 w-3" />
+                      <ChevronDown className="ml-2 h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start" className="w-64 bg-background/95 backdrop-blur-md border z-[60] shadow-lg">
@@ -154,12 +154,12 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
               )}
               
               <Link to="/faq">
-                <Button variant="ghost" size="sm" className="trek-nav-link font-trek-content">
+                <Button variant="ghost" className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base">
                   {t('faq')}
                 </Button>
               </Link>
               <Link to="/support">
-                <Button variant="ghost" size="sm" className="trek-nav-link font-trek-content">
+                <Button variant="ghost" className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base">
                   {t('support')}
                 </Button>
               </Link>
@@ -173,16 +173,15 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
                   {location.pathname === '/auth' && (
                     <Button 
                       variant={getAlertButtonProps().variant}
-                      size="sm"
                       onClick={handleAlertClick}
-                      className={getAlertButtonProps().className}
+                      className={`${getAlertButtonProps().className} min-h-[72px] px-6 py-4 text-base`}
                     >
-                      <AlertTriangle className="h-4 w-4 mr-2" />
+                      <AlertTriangle className="h-5 w-5 mr-2" />
                       {getAlertButtonProps().text}
                     </Button>
                   )}
                   <Link to="/auth">
-                    <Button className="bg-axanar-teal hover:bg-axanar-teal/90">
+                    <Button className="bg-axanar-teal hover:bg-axanar-teal/90 min-h-[72px] px-8 py-4 text-base font-medium">
                       {t('access-portal')}
                     </Button>
                   </Link>
@@ -198,25 +197,25 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
         {user && (
           <div className="auth-nav bg-secondary/10 border-b border-border/20">
             <div className="container mx-auto px-4">
-              <div className="flex items-center justify-center space-x-6 h-12">
+              <div className="flex items-center justify-center space-x-3 h-20">
               <Link to="/dashboard">
-                <Button variant="ghost" size="sm" className={`text-white hover:text-axanar-teal hover:bg-white/10 ${
+                <Button variant="ghost" className={`text-white hover:text-axanar-teal hover:bg-white/10 min-h-[72px] px-6 py-4 text-base ${
                   isActive('/dashboard') ? 'bg-axanar-teal/20 text-axanar-teal' : ''
                 }`}>
-                  <User className="h-4 w-4 mr-2" />
+                  <User className="h-5 w-5 mr-2" />
                   {t('dashboard')}
                 </Button>
               </Link>
               <Link to="/direct-messages">
-                <Button variant="ghost" size="sm" className={`relative text-white hover:text-axanar-teal hover:bg-white/10 ${
+                <Button variant="ghost" className={`relative text-white hover:text-axanar-teal hover:bg-white/10 min-h-[72px] px-6 py-4 text-base ${
                   isActive('/direct-messages') ? 'bg-axanar-teal/20 text-axanar-teal' : ''
                 }`}>
-                  <MessageCircle className="h-4 w-4 mr-2" />
+                  <MessageCircle className="h-5 w-5 mr-2" />
                   Direct Messages
                   {unreadCount > 0 && (
                     <Badge 
                       variant="destructive" 
-                      className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
+                      className="absolute -top-1 -right-1 h-6 w-6 flex items-center justify-center p-0 text-xs"
                     >
                       {unreadCount > 9 ? '9+' : unreadCount}
                     </Badge>
@@ -224,46 +223,45 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
                 </Button>
               </Link>
               <Link to="/messages">
-                <Button variant="ghost" size="sm" className={`text-white hover:text-axanar-teal hover:bg-white/10 ${
+                <Button variant="ghost" className={`text-white hover:text-axanar-teal hover:bg-white/10 min-h-[72px] px-6 py-4 text-base ${
                   isActive('/messages') ? 'bg-axanar-teal/20 text-axanar-teal' : ''
                 }`}>
-                  <MessageCircle className="h-4 w-4 mr-2" />
+                  <MessageCircle className="h-5 w-5 mr-2" />
                   Support
                 </Button>
               </Link>
               {isAdmin && (
                 <Link to="/admin">
-                  <Button variant="ghost" size="sm" className={`text-white hover:text-axanar-teal hover:bg-white/10 ${
+                  <Button variant="ghost" className={`text-white hover:text-axanar-teal hover:bg-white/10 min-h-[72px] px-6 py-4 text-base ${
                     isActive('/admin') ? 'bg-axanar-teal/20 text-axanar-teal' : ''
                   }`}>
-                    <Shield className="h-4 w-4 mr-2" />
+                    <Shield className="h-5 w-5 mr-2" />
                     {t('admin')}
                   </Button>
                 </Link>
               )}
               <Link to="/profile">
-                <Button variant="ghost" size="sm" className={`text-white hover:text-axanar-teal hover:bg-white/10 ${
+                <Button variant="ghost" className={`text-white hover:text-axanar-teal hover:bg-white/10 min-h-[72px] px-6 py-4 text-base ${
                   isActive('/profile') ? 'bg-axanar-teal/20 text-axanar-teal' : ''
                 }`}>
-                  <User className="h-4 w-4 mr-2" />
+                  <User className="h-5 w-5 mr-2" />
                   {t('profile')}
                 </Button>
               </Link>
               <Link to="/forum">
-                <Button variant="ghost" size="sm" className={`text-white hover:text-axanar-teal hover:bg-white/10 ${
+                <Button variant="ghost" className={`text-white hover:text-axanar-teal hover:bg-white/10 min-h-[72px] px-6 py-4 text-base ${
                   isActive('/forum') ? 'bg-axanar-teal/20 text-axanar-teal' : ''
                 }`}>
-                  <MessageCircle className="h-4 w-4 mr-2" />
+                  <MessageCircle className="h-5 w-5 mr-2" />
                   Forum
                 </Button>
               </Link>
               <Button 
                 variant="ghost" 
-                size="sm" 
                 onClick={handleSignOut}
-                className="text-white hover:text-red-400 hover:bg-white/10"
+                className="text-white hover:text-red-400 hover:bg-white/10 min-h-[72px] px-6 py-4 text-base"
               >
-                <LogOut className="h-4 w-4 mr-2" />
+                <LogOut className="h-5 w-5 mr-2" />
                 {t('sign-out')}
               </Button>
               </div>
