@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAdminDonorsData } from "@/hooks/useAdminDonorsData";
 import AdminDonorsSection from "@/components/admin/AdminDonorsSection";
 import AdminUserProfileManager from "@/components/admin/AdminUserProfileManager";
+import { AccountMergeTool } from "@/components/admin/AccountMergeTool";
 import { useSearchParams } from "react-router-dom";
 
 const DonorManagement = () => {
@@ -130,6 +131,7 @@ const DonorManagement = () => {
         <TabsList>
           <TabsTrigger value="donors">Donor Records</TabsTrigger>
           <TabsTrigger value="profiles">User Profiles</TabsTrigger>
+          <TabsTrigger value="merge">Account Merge</TabsTrigger>
         </TabsList>
 
         <TabsContent value="donors" className="space-y-6 mt-6">
@@ -177,6 +179,10 @@ const DonorManagement = () => {
             selectedUserId={selectedUserId}
             onUserSelect={handleUserSelect}
           />
+        </TabsContent>
+
+        <TabsContent value="merge" className="space-y-6 mt-6">
+          <AccountMergeTool />
         </TabsContent>
       </Tabs>
     </div>
