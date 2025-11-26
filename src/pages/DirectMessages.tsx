@@ -303,31 +303,31 @@ const DirectMessages = () => {
               animate={{ x: 0 }}
               exit={{ x: -400 }}
               transition={{ type: "spring", damping: 34, stiffness: 400 }}
-              className="w-80 h-full bg-card/40 backdrop-blur-3xl border-r border-border flex flex-col relative z-10"
+              className="w-96 h-full bg-card/40 backdrop-blur-3xl border-r border-border flex flex-col relative z-10"
             >
-              <div className="p-4 border-b border-border">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
-                    <MessageCircle className="w-5 h-5 text-primary-foreground" />
+              <div className="p-8 border-b border-border">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
+                    <MessageCircle className="w-8 h-8 text-primary-foreground" />
                   </div>
-                  <h2 className="text-lg font-semibold">Messages</h2>
+                  <h2 className="text-xl font-semibold">Messages</h2>
                 </div>
 
                 <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'all' | 'support')} className="w-full">
-                  <TabsList className="grid w-full grid-cols-2 h-9">
-                    <TabsTrigger value="all" className="gap-1.5 rounded-xl relative text-sm">
+                  <TabsList className="grid w-full grid-cols-2 min-h-[56px]">
+                    <TabsTrigger value="all" className="gap-2 rounded-xl relative text-base min-h-[48px]">
                       All
                       {getUnreadCount() > 0 && (
-                        <Badge variant="destructive" className="ml-1 px-1.5 py-0 text-xs h-4">
+                        <Badge variant="destructive" className="ml-2 px-2 py-0.5 text-sm h-6">
                           {getUnreadCount()}
                         </Badge>
                       )}
                     </TabsTrigger>
-                    <TabsTrigger value="support" className="gap-1.5 rounded-xl relative text-sm">
-                      <HelpCircle className="w-3 h-3" />
+                    <TabsTrigger value="support" className="gap-2 rounded-xl relative text-base min-h-[48px]">
+                      <HelpCircle className="w-5 h-5" />
                       Support
                       {supportUnreadCount > 0 && (
-                        <Badge variant="destructive" className="ml-1 px-1.5 py-0 text-xs h-4">
+                        <Badge variant="destructive" className="ml-2 px-2 py-0.5 text-sm h-6">
                           {supportUnreadCount}
                         </Badge>
                       )}
@@ -336,66 +336,66 @@ const DirectMessages = () => {
                 </Tabs>
               </div>
 
-              <div className="px-3 pb-3">
+              <div className="px-8 pb-8">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                   <input
                     type="text"
                     placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full h-9 pl-9 pr-3 rounded-xl bg-background/50 border border-border text-sm outline-none focus:ring-2 ring-primary/20 transition-all"
+                    className="w-full min-h-[56px] pl-12 pr-4 rounded-xl bg-background/50 border border-border text-base outline-none focus:ring-4 ring-primary/20 transition-all"
                   />
                 </div>
               </div>
 
               {/* Conversations List - Scrollable */}
-              <div className="px-3">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              <div className="px-8">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
                     {activeTab === 'support' ? 'Tickets' : 'Conversations'}
                   </span>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={activeTab === 'support' ? handleStartSupportConversation : handleStartNewConversation}
-                    className="p-1.5 rounded-lg hover:bg-accent transition-colors"
+                    className="min-w-[48px] min-h-[48px] p-3 rounded-lg hover:bg-accent transition-colors flex items-center justify-center"
                   >
-                    <Plus className="w-3.5 h-3.5" />
+                    <Plus className="w-6 h-6" />
                   </motion.button>
                 </div>
 
-                <div className="max-h-[35vh] overflow-y-auto pr-1">
+                <div className="max-h-[35vh] overflow-y-auto pr-2">
                   {loading ? (
-                    <div className="flex items-center justify-center py-6">
-                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-primary border-t-transparent" />
+                    <div className="flex items-center justify-center py-12">
+                      <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent" />
                     </div>
                   ) : filteredConversations.length === 0 ? (
-                    <div className="text-center py-6 text-muted-foreground text-sm">
+                    <div className="text-center py-12 text-muted-foreground text-base">
                       No conversations yet
                     </div>
                   ) : (
-                    <div className="space-y-0.5">
+                    <div className="space-y-2">
                       {filteredConversations.map((conv) => (
                         <motion.div
                           key={conv.partner_id}
                           layoutId={`conversation-${conv.partner_id}`}
                           layout
                           transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                          className={`relative group w-full text-left p-2.5 rounded-xl transition-all cursor-pointer ${
+                          className={`relative group w-full text-left p-4 rounded-xl transition-all cursor-pointer min-h-[72px] ${
                             selectedConversationId === conv.partner_id 
                               ? 'bg-accent font-medium' 
                               : 'hover:bg-accent/50'
                           }`}
                           onClick={() => handleSelectConversation(conv.partner_id)}
                         >
-                          <div className="flex items-center justify-between mb-0.5">
-                            <p className="font-medium truncate text-sm pr-8">
+                          <div className="flex items-center justify-between mb-2">
+                            <p className="font-medium truncate text-base pr-16">
                               {conv.partner_full_name || conv.partner_username}
                             </p>
-                            <div className="flex items-center gap-1">
+                            <div className="flex items-center gap-2">
                               {conv.unread_count > 0 && (
-                                <Badge variant="default" className="px-1.5 py-0 text-xs h-4">
+                                <Badge variant="default" className="px-2 py-0.5 text-sm h-6">
                                   {conv.unread_count}
                                 </Badge>
                               )}
@@ -406,13 +406,13 @@ const DirectMessages = () => {
                                   e.stopPropagation();
                                   handleDeleteConversation(conv.partner_id);
                                 }}
-                                className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-destructive hover:text-destructive-foreground"
+                                className="opacity-0 group-hover:opacity-100 transition-opacity min-w-[40px] min-h-[40px] p-2 rounded hover:bg-destructive hover:text-destructive-foreground flex items-center justify-center"
                               >
-                                <Trash2 className="w-3.5 h-3.5" />
+                                <Trash2 className="w-5 h-5" />
                               </motion.button>
                             </div>
                           </div>
-                          <p className="text-xs text-muted-foreground truncate">
+                          <p className="text-sm text-muted-foreground truncate">
                             {conv.last_message || 'No messages yet'}
                           </p>
                         </motion.div>
@@ -424,7 +424,7 @@ const DirectMessages = () => {
 
               {/* Online Users - only in "all" tab - Always visible below conversations */}
               {activeTab === 'all' && !showUserSelector && (
-                <div className="flex-1 overflow-y-auto px-3 mt-4 space-y-3">
+                <div className="flex-1 overflow-y-auto px-8 mt-8 space-y-4">
                   <OnlineUsersList />
                   <RecentlyActiveUsers />
                 </div>
@@ -436,8 +436,8 @@ const DirectMessages = () => {
         {/* Main Content */}
         <div className="flex-1 flex flex-col relative z-10">
           {/* Header */}
-          <header className="h-16 border-b border-border bg-card/40 backdrop-blur-3xl flex items-center justify-between px-6">
-            <div className="flex items-center gap-4">
+          <header className="min-h-[80px] border-b border-border bg-card/40 backdrop-blur-3xl flex items-center justify-between px-8">
+            <div className="flex items-center gap-6">
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}

@@ -76,10 +76,10 @@ const MessageComposer: React.FC<MessageComposerProps> = ({
   const canSend = recipientId && content.trim() && !disabled && !isLoading && !isSubmitting;
 
   return (
-    <form onSubmit={handleSubmit} className={cn("space-y-4", className)}>
+    <form onSubmit={handleSubmit} className={cn("space-y-6", className)}>
       {showRecipientSelect && recipients.length > 0 && (
         <div>
-          <label className="text-sm font-medium mb-2 block">
+          <label className="text-base font-medium mb-3 block">
             Send to:
           </label>
           <Select 
@@ -87,18 +87,18 @@ const MessageComposer: React.FC<MessageComposerProps> = ({
             onValueChange={setRecipientId}
             disabled={disabled || isLoading}
           >
-            <SelectTrigger>
+            <SelectTrigger className="min-h-[56px]">
               <SelectValue placeholder="Select a recipient" />
             </SelectTrigger>
             <SelectContent>
               {recipients.map((recipient) => (
-                <SelectItem key={recipient.id} value={recipient.id}>
-                  <div className="flex items-center gap-2">
-                    <span>
+                <SelectItem key={recipient.id} value={recipient.id} className="min-h-[56px]">
+                  <div className="flex items-center gap-3">
+                    <span className="text-base">
                       {recipient.full_name || recipient.username || 'Unknown User'}
                     </span>
                     {recipient.username && (
-                      <span className="text-muted-foreground">
+                      <span className="text-muted-foreground text-sm">
                         @{recipient.username}
                       </span>
                     )}
@@ -111,24 +111,24 @@ const MessageComposer: React.FC<MessageComposerProps> = ({
       )}
       
       <div>
-        <label className="text-sm font-medium mb-2 block">
+        <label className="text-base font-medium mb-3 block">
           Message:
         </label>
         <Textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder={placeholder}
-          rows={4}
+          rows={5}
           maxLength={maxLength}
           disabled={disabled || isLoading}
           className="resize-none"
         />
-        <div className="flex justify-between items-center mt-1">
-          <div className="text-xs text-muted-foreground">
+        <div className="flex justify-between items-center mt-3">
+          <div className="text-sm text-muted-foreground">
             {content.length}/{maxLength} characters
           </div>
           {content.length > maxLength * 0.9 && (
-            <div className="text-xs text-orange-500">
+            <div className="text-sm text-orange-500">
               Approaching character limit
             </div>
           )}
@@ -141,9 +141,9 @@ const MessageComposer: React.FC<MessageComposerProps> = ({
         disabled={!canSend}
       >
         {isSubmitting ? (
-          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+          <Loader2 className="h-5 w-5 mr-3 animate-spin" />
         ) : (
-          <Send className="h-4 w-4 mr-2" />
+          <Send className="h-5 w-5 mr-3" />
         )}
         {isSubmitting ? 'Sending...' : 'Send Message'}
       </Button>

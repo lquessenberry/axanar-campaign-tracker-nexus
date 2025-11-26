@@ -74,27 +74,27 @@ const OptimizedMessageThread: React.FC<OptimizedMessageThreadProps> = ({
 
   return (
     <Card className={className}>
-      <CardHeader className="border-b">
-        <div className="flex items-center gap-3">
+      <CardHeader className="border-b p-8">
+        <div className="flex items-center gap-4">
           <div className="relative">
-            <Avatar>
-              <AvatarFallback>
+            <Avatar className="h-16 w-16">
+              <AvatarFallback className="text-lg">
                 {getInitials(recipient)}
               </AvatarFallback>
             </Avatar>
             {isOnline && (
-              <div className="absolute -bottom-1 -right-1 h-4 w-4 bg-green-500 border-2 border-white rounded-full"></div>
+              <div className="absolute -bottom-1 -right-1 h-6 w-6 bg-green-500 border-2 border-white rounded-full"></div>
             )}
           </div>
           <div>
-            <CardTitle className="text-lg">{getDisplayName(recipient)}</CardTitle>
+            <CardTitle className="text-xl">{getDisplayName(recipient)}</CardTitle>
             {recipient.username && (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-base text-muted-foreground mt-1">
                 @{recipient.username}
               </p>
             )}
             {isOnline && (
-              <p className="text-xs text-green-600">Online</p>
+              <p className="text-sm text-green-600 mt-1">Online</p>
             )}
           </div>
         </div>
@@ -112,10 +112,10 @@ const OptimizedMessageThread: React.FC<OptimizedMessageThreadProps> = ({
             />
           ) : (
             <div className="flex items-center justify-center h-[400px]">
-              <div className="text-center">
-                <MessageCircle className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                <h3 className="font-medium mb-2">{emptyStateTitle}</h3>
-                <p className="text-sm text-muted-foreground max-w-sm">
+              <div className="text-center px-8">
+                <MessageCircle className="h-16 w-16 mx-auto text-muted-foreground mb-6" />
+                <h3 className="font-medium mb-3 text-lg">{emptyStateTitle}</h3>
+                <p className="text-base text-muted-foreground max-w-sm">
                   {emptyStateDescription}
                 </p>
               </div>
@@ -125,13 +125,13 @@ const OptimizedMessageThread: React.FC<OptimizedMessageThreadProps> = ({
         
         {/* Message Composer */}
         {showComposer && recipient && (
-          <div className="border-t p-4">
+          <div className="border-t p-8">
             <MessageComposer
               recipientId={recipient.id}
               onSendMessage={handleSend}
               isLoading={isSending}
               placeholder={`Message ${getDisplayName(recipient)}...`}
-              className="space-y-3"
+              className="space-y-4"
             />
           </div>
         )}
