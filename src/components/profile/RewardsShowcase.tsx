@@ -9,6 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { TitleBadgeDisplay } from "./TitleBadgeDisplay";
 import { DAYSTROM_SPRINGS } from "@/lib/daystrom-springs";
 import { Gift, Package, Truck, CheckCircle2, Clock, AlertCircle, DollarSign, Calendar, Crown, Award } from "lucide-react";
+import { MissingPledgeDataAlert } from "./MissingPledgeDataAlert";
 
 const RewardsShowcase: React.FC = () => {
   const { user } = useAuth();
@@ -50,15 +51,18 @@ const RewardsShowcase: React.FC = () => {
 
   if (!rewardsWithPerks.length && !displayedTitles.length) {
     return (
-      <DaystromCard className="p-8">
-        <div className="text-center">
-          <Gift className="h-16 w-16 mx-auto mb-4 text-muted-foreground opacity-50" />
-          <h3 className="text-xl font-bold mb-2">No Perks Yet</h3>
-          <p className="text-muted-foreground">
-            Start backing campaigns to unlock exclusive perks and rewards!
-          </p>
-        </div>
-      </DaystromCard>
+      <div className="space-y-4">
+        <MissingPledgeDataAlert />
+        <DaystromCard className="p-8">
+          <div className="text-center">
+            <Gift className="h-16 w-16 mx-auto mb-4 text-muted-foreground opacity-50" />
+            <h3 className="text-xl font-bold mb-2">No Perks Yet</h3>
+            <p className="text-muted-foreground">
+              Start backing campaigns to unlock exclusive perks and rewards!
+            </p>
+          </div>
+        </DaystromCard>
+      </div>
     );
   }
 
