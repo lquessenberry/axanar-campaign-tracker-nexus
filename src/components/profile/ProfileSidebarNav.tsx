@@ -98,8 +98,8 @@ export function ProfileSidebarNav({
   return (
     <div className="relative">
       {/* Sidebar Toggle Button */}
-      <div className="absolute -right-16 top-32 z-50">
-        <SidebarTrigger className="bg-primary text-primary-foreground hover:bg-primary/90 p-4 rounded-r-lg shadow-lg border-r-4 border-t-4 border-b-4 border-primary/50 transition-all duration-200 hover:shadow-xl min-h-[72px] min-w-[72px]" />
+      <div className="absolute left-full ml-2 top-32 z-50">
+        <SidebarTrigger className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg shadow-lg border-2 border-primary/50 transition-all duration-200 hover:shadow-xl w-[72px] h-[72px] flex items-center justify-center" />
       </div>
       
       <Sidebar 
