@@ -69,9 +69,6 @@ export const useUpdateAddress = () => {
         throw new Error('Please fill in all required fields');
       }
       
-      // Call the secure database function that bypasses RLS
-      console.log('📞 Calling upsert_user_address function...');
-      
       // First verify donor record exists
       const { data: donorCheck, error: donorError } = await supabase
         .from('donors')
@@ -92,6 +89,7 @@ export const useUpdateAddress = () => {
       
       console.log('✅ Donor record verified:', donorCheck.id, donorCheck.email);
       
+      // Call the secure database function
       const { data, error } = await supabase.rpc('upsert_user_address', {
         p_address1: addressData.address1,
         p_city: addressData.city,
@@ -104,27 +102,29 @@ export const useUpdateAddress = () => {
 
       if (error) {
         console.error('❌ Error from upsert function:', error);
-        console.error('Full error details:', JSON.stringify(error, null, 2));
-        
-        // Parse error message to provide helpful feedback
-        const errorMsg = error.message || error.details || 'Unknown error';
-        
-        if (errorMsg.includes('No donor record found')) {
-          throw new Error('Your donor account could not be found. Please contact support.');
-        } else if (errorMsg.includes('required')) {
-          throw new Error('Please fill in all required fields');
-        } else {
-          throw new Error(`Failed to save address: ${errorMsg}`);
-        }
+        throw new Error(error.message || 'Failed to save address');
       }
       
-      console.log('✅ Address saved successfully:', data);
-      return data;
+      console.log('✅ Address saved successfully');
+      
+      // Return the full address object for optimistic update
+      return {
+        address1: addressData.address1,
+        address2: addressData.address2 || null,
+        city: addressData.city,
+        state: addressData.state,
+        postal_code: addressData.postal_code,
+        country: addressData.country,
+        phone: addressData.phone || null,
+        is_primary: true,
+      };
     },
     onSuccess: (data) => {
-      console.log('✅ Address update mutation succeeded, invalidating cache');
-      queryClient.invalidateQueries({ queryKey: ['user-address', user?.id] });
+      console.log('✅ Address update mutation succeeded, updating cache immediately');
+      // Immediately update the cache with the new data
       queryClient.setQueryData(['user-address', user?.id], data);
+      // Invalidate to trigger a background refetch for consistency
+      queryClient.invalidateQueries({ queryKey: ['user-address', user?.id] });
     },
     onError: (error) => {
       console.error('❌ Address update mutation failed:', error);
