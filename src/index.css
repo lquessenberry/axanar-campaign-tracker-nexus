@@ -140,14 +140,18 @@ html { font-size: 16px; }        /* makes 1rem = 16px */
 body { font-size: 1.125rem; }    /* ≈18px – comfortable on handhelds */
 
 /* 2. Era-specific font families */
-.theme-nx01      { font-family: 'Rajdhani', sans-serif; }
-.theme-tos       { font-family: 'Orbitron', sans-serif; }
-.theme-tmp-refit { font-family: 'Antonio', sans-serif; }
-.theme-excelsior { font-family: 'Exo 2', sans-serif; }
-.theme-tng       { font-family: 'Overpass', sans-serif; }
-.theme-defiant   { font-family: 'Share Tech Mono', monospace; }
-.theme-voyager   { font-family: 'Kanit', sans-serif; }
-.theme-sovereign { font-family: 'Electrolize', sans-serif; }
+.theme-nx-2151              { font-family: 'Rajdhani', sans-serif; }
+.theme-ares-mk4-light       { font-family: 'Rajdhani', sans-serif; }
+.theme-hercules-mk4-dark    { font-family: 'Rajdhani', sans-serif; }
+.theme-mark-v-wartime       { font-family: 'Staatliches', sans-serif; }
+.theme-klingon-d7           { font-family: 'Orbitron', sans-serif; }
+.theme-constitution-2265    { font-family: 'Orbitron', sans-serif; }
+.theme-tmp-refit-2273       { font-family: 'Antonio', sans-serif; }
+.theme-excelsior-2285       { font-family: 'Exo 2', sans-serif; }
+.theme-ambassador-2350      { font-family: 'Overpass', sans-serif; }
+.theme-galaxy-2363          { font-family: 'Overpass', sans-serif; }
+.theme-defiant-2371         { font-family: 'Share Tech Mono', monospace; }
+.theme-sovereign-2378       { font-family: 'Electrolize', sans-serif; }
 
 /* 3. Moderate heading scale – same for all eras (feels consistent) */
 h1, .h1 { font-size: 2.25rem;   line-height: 1.2;   margin: 1.5em 0 0.75em; }   /* 36px */
@@ -158,14 +162,18 @@ h5, .h5 { font-size: 1.125rem;  line-height: 1.4; }                           /*
 h6, .h6 { font-size: 1rem;      line-height: 1.45;  font-weight: bold; }
 
 /* 4. Era-specific heading flair (still moderate size) */
-.theme-nx01 h1       { font-family: 'Staatliches', sans-serif; letter-spacing: 0.08em; }
-.theme-tos h1        { font-weight: 900; letter-spacing: 0.06em; }
-.theme-tmp-refit h1  { font-family: 'Cinzel Decorative', serif; font-weight: 900; }
-.theme-excelsior h1  { font-family: 'Russo One', sans-serif; letter-spacing: 0.08em; }
-.theme-tng h1        { font-weight: 800; letter-spacing: 0.03em; }
-.theme-defiant h1    { font-family: 'Bungee', sans-serif; }
-.theme-voyager h1    { font-family: 'Exo 2', sans-serif; font-weight: 800; font-style: italic; }
-.theme-sovereign h1  { letter-spacing: 0.06em; }
+.theme-nx-2151 h1,
+.theme-ares-mk4-light h1,
+.theme-hercules-mk4-dark h1        { font-family: 'Staatliches', sans-serif; letter-spacing: 0.08em; }
+.theme-mark-v-wartime h1           { font-family: 'Russo One', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
+.theme-klingon-d7 h1,
+.theme-constitution-2265 h1        { font-weight: 900; letter-spacing: 0.06em; }
+.theme-tmp-refit-2273 h1           { font-family: 'Cinzel Decorative', serif; font-weight: 900; }
+.theme-excelsior-2285 h1           { font-family: 'Russo One', sans-serif; letter-spacing: 0.08em; }
+.theme-ambassador-2350 h1,
+.theme-galaxy-2363 h1              { font-weight: 800; letter-spacing: 0.03em; }
+.theme-defiant-2371 h1             { font-family: 'Bungee', sans-serif; }
+.theme-sovereign-2378 h1           { letter-spacing: 0.06em; }
 
 /* 5. Small text */
 small, .small { font-size: 0.875rem; }   /* 14px */
