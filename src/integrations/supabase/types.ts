@@ -50,6 +50,129 @@ export type Database = {
         }
         Relationships: []
       }
+      address_change_log: {
+        Row: {
+          action: string
+          address_id: string | null
+          changed_by_admin_id: string | null
+          changed_fields: string[] | null
+          created_at: string | null
+          donor_id: string
+          id: string
+          ip_address: unknown
+          metadata: Json | null
+          new_values: Json | null
+          old_values: Json | null
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          address_id?: string | null
+          changed_by_admin_id?: string | null
+          changed_fields?: string[] | null
+          created_at?: string | null
+          donor_id: string
+          id?: string
+          ip_address?: unknown
+          metadata?: Json | null
+          new_values?: Json | null
+          old_values?: Json | null
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          address_id?: string | null
+          changed_by_admin_id?: string | null
+          changed_fields?: string[] | null
+          created_at?: string | null
+          donor_id?: string
+          id?: string
+          ip_address?: unknown
+          metadata?: Json | null
+          new_values?: Json | null
+          old_values?: Json | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "address_change_log_address_id_fkey"
+            columns: ["address_id"]
+            isOneToOne: false
+            referencedRelation: "addresses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "address_change_log_address_id_fkey"
+            columns: ["address_id"]
+            isOneToOne: false
+            referencedRelation: "my_addresses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "address_change_log_address_id_fkey"
+            columns: ["address_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["address_id"]
+          },
+          {
+            foreignKeyName: "address_change_log_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "contributor_leaderboard"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "address_change_log_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "address_change_log_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "address_change_log_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "leaderboard_cache"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "address_change_log_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "my_donor_profile"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "address_change_log_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "reserve_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "address_change_log_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "address_change_log_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+        ]
+      }
       addresses: {
         Row: {
           address1: string | null
