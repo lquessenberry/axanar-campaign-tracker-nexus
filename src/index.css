@@ -1523,50 +1523,177 @@ body:not(.game-active) [role="button"] {
 }
 
 /* ============================================================================
-   LCARS EVOLUTION TIMELINE - 2245 → 2378
-   155 years of Starfleet interface design
+   LCARS EVOLUTION TIMELINE - 2151 → 2378
+   Proto-LCARS through Full LCARS - 227 years of Starfleet interface design
    ============================================================================ */
 
-/* DAYSTROM MARK IV (2245) - Hard Black Glass Era */
-.era-mark-iv {
-  --background: 220 13% 8%;
-  --foreground: 195 100% 85%;
-  --primary: 195 100% 65%;
-  --primary-glow: 195 100% 75%;
-  --secondary: 30 100% 55%;
-  --accent: 195 80% 60%;
-  --lcars-blur: 0px;
-  --lcars-glass-opacity: 0;
-  --border: 195 30% 25%;
+/* NX-CLASS PROTO-LCARS (2151) - Enterprise Era */
+.era-nx-2151 {
+  --background: 26 20% 18%; /* Gray-blue metallic #1a2a3a */
+  --foreground: 30 60% 70%; /* Dull orange #CC8844 for readability */
+  --primary: 45 40% 60%; /* Pale yellow #DDCC88 */
+  --primary-glow: 30 60% 65%;
+  --secondary: 30 60% 60%; /* Dull orange */
+  --accent: 195 40% 50%; /* Steel blue accent */
+  --lcars-blur: 0px; /* NO BLUR - hard edges */
+  --border: 0 0% 30%; /* Dark gray borders */
+  --card: 26 20% 20%;
+  --card-foreground: 30 60% 70%;
   --card-glassmorphism: transparent;
 }
 
-.era-mark-iv * {
+.era-nx-2151 * {
   backdrop-filter: none !important;
-  box-shadow: none !important;
 }
 
-.era-mark-iv .daystrom-card,
-.era-mark-iv .card {
-  background: hsl(220 13% 8%) !important;
-  border: 1px solid hsl(195 30% 25%) !important;
+.era-nx-2151 .daystrom-card,
+.era-nx-2151 .card {
+  background: linear-gradient(180deg, hsl(26 20% 22%), hsl(26 20% 18%)) !important;
+  border: 1px solid hsl(0 0% 30%) !important;
+  border-radius: 4px !important; /* Square-ish corners */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 4px rgba(0, 0, 0, 0.3) !important;
 }
 
-.era-mark-iv button {
-  backdrop-filter: none !important;
-  border: 1px solid hsl(195 30% 30%) !important;
-  box-shadow: inset 0 1px 0 hsl(195 100% 85% / 0.1) !important;
-  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+.era-nx-2151 button {
+  border-radius: 4px !important; /* Square buttons */
+  background: linear-gradient(180deg, hsl(26 20% 24%), hsl(26 20% 20%)) !important;
+  border: 1px solid hsl(0 0% 35%) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  font-family: 'Courier', 'Monaco', monospace !important; /* OCR-A style */
+  font-size: 12px !important;
+  text-transform: uppercase;
 }
 
-.era-mark-iv button:hover {
-  background: hsl(195 100% 65% / 0.1) !important;
-  transform: translateY(-1px);
+.era-nx-2151 button:hover {
+  background: linear-gradient(180deg, hsl(26 20% 28%), hsl(26 20% 24%)) !important;
 }
 
-.era-mark-iv button:active {
-  transform: translateY(0px);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+/* CONSTITUTION-CLASS ORIGINAL (2265) - TOS TV Era */
+.era-constitution-2265 {
+  --background: 220 15% 15%;
+  --foreground: 195 80% 80%;
+  --primary: 207 90% 54%; /* Primary blue */
+  --primary-glow: 207 90% 64%;
+  --secondary: 30 100% 50%; /* Orange accent */
+  --accent: 4 90% 58%; /* Alert red */
+  --lcars-blur: 0px; /* Still no blur */
+  --border: 220 15% 25%;
+  --card: 220 15% 18%;
+  --card-foreground: 195 80% 80%;
+  --card-glassmorphism: transparent;
+}
+
+.era-constitution-2265 .daystrom-card,
+.era-constitution-2265 .card {
+  background: hsl(220 15% 18%) !important;
+  border: 1px solid hsl(220 15% 30%) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+.era-constitution-2265 button {
+  border-radius: 6px !important;
+  background: hsl(220 15% 20%) !important;
+  border: 1px solid hsl(207 90% 54%) !important;
+  font-size: 13px !important;
+  text-transform: uppercase;
+}
+
+/* TMP CONSTITUTION REFIT (2273) - BIRTH OF LCARS */
+.era-tmp-refit-2273 {
+  --background: 0 0% 0%; /* PURE BLACK - first time! */
+  --foreground: 12 100% 80%; /* Orange-red glow */
+  --primary: 12 100% 60%; /* Glowing orange-red #FF4500 */
+  --primary-glow: 25 100% 50%; /* Yellow-orange #FF8C00 */
+  --secondary: 195 80% 55%; /* Cool blue-gray readouts */
+  --accent: 12 100% 60%;
+  --lcars-blur: 0px;
+  --border: 12 60% 30%;
+  --card: 0 0% 5%;
+  --card-foreground: 12 100% 80%;
+  --card-glassmorphism: transparent;
+}
+
+.era-tmp-refit-2273 .daystrom-card,
+.era-tmp-refit-2273 .card {
+  background: hsl(0 0% 5%) !important;
+  border: 2px solid hsl(12 100% 60%) !important;
+  border-radius: 24px !important; /* FIRST TRUE PILLS! */
+  box-shadow: 0 0 20px hsl(12 100% 60% / 0.3), 0 4px 8px rgba(0, 0, 0, 0.5) !important;
+}
+
+.era-tmp-refit-2273 button {
+  border-radius: 999px !important; /* Full pill shape */
+  background: linear-gradient(90deg, hsl(12 100% 60%), hsl(25 100% 50%)) !important;
+  border: none !important;
+  box-shadow: 0 0 20px hsl(12 100% 60% / 0.5), 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+  font-size: 14px !important;
+  padding: 12px 32px !important;
+}
+
+.era-tmp-refit-2273 button:hover {
+  box-shadow: 0 0 30px hsl(12 100% 60% / 0.7), 0 6px 12px rgba(0, 0, 0, 0.4) !important;
+  transform: translateY(-2px);
+}
+
+/* Data crawl animation for TMP era */
+@keyframes data-crawl-slow {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.era-tmp-refit-2273 .lcars-data-line {
+  animation: data-crawl-slow 4s linear infinite;
+}
+
+/* EXCELSIOR-CLASS (2285) - TWOK Through TUC */
+.era-excelsior-2285 {
+  --background: 0 0% 0%; /* Pure black maintained */
+  --foreground: 24 100% 80%; /* Richer orange */
+  --primary: 24 100% 60%; /* True orange #FF6600 */
+  --primary-glow: 30 100% 65%; /* Peach #FFAA77 */
+  --secondary: 270 60% 55%; /* First purple hints #9933CC */
+  --accent: 24 100% 60%;
+  --lcars-blur: 2px; /* Subtle blur begins */
+  --border: 24 60% 35%;
+  --card: 0 0% 5%;
+  --card-foreground: 24 100% 80%;
+  --card-glassmorphism: hsl(24 100% 60% / 0.02);
+}
+
+.era-excelsior-2285 .daystrom-card,
+.era-excelsior-2285 .card {
+  background: hsl(0 0% 5%) !important;
+  border: 2px solid hsl(24 100% 60%) !important;
+  border-radius: 28px !important; /* Even rounder pills */
+  box-shadow: 0 0 15px hsl(24 100% 60% / 0.3), 0 4px 8px rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(2px);
+}
+
+.era-excelsior-2285 button {
+  border-radius: 24px !important;
+  background: linear-gradient(135deg, hsl(24 100% 60%), hsl(30 100% 65%)) !important;
+  border: 1px solid hsl(24 100% 70%) !important;
+  box-shadow: 0 0 12px hsl(24 100% 60% / 0.4) !important;
+  font-size: 14px !important;
+  padding: 10px 28px !important;
+  letter-spacing: 0.05em; /* Stretched letters */
+}
+
+.era-excelsior-2285 button.secondary {
+  background: linear-gradient(135deg, hsl(270 60% 55%), hsl(270 50% 50%)) !important;
+  border: 1px solid hsl(270 70% 60%) !important;
+  box-shadow: 0 0 12px hsl(270 60% 55% / 0.4) !important;
+}
+
+/* Faster data crawl for Excelsior era */
+@keyframes data-crawl-fast {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.era-excelsior-2285 .lcars-data-line {
+  animation: data-crawl-fast 2s linear infinite;
 }
 
 /* DAYSTROM MARK V WARTIME (2256-2260) - Emergency Combat Mode */
@@ -1648,88 +1775,8 @@ body:not(.game-active) [role="button"] {
   opacity: 0.3;
 }
 
-/* LCARS BLOCK I (2265) - First Soft Translucency */
-.era-block-i {
-  --background: 220 15% 12%;
-  --foreground: 195 80% 80%;
-  --primary: 195 90% 60%;
-  --primary-glow: 195 100% 70%;
-  --secondary: 280 60% 65%;
-  --accent: 30 90% 60%;
-  --lcars-blur: 4px;
-  --lcars-glass-opacity: 0.03;
-  --border: 195 25% 30%;
-  --card-glassmorphism: hsl(195 100% 80% / 0.03);
-}
-
-.era-block-i .daystrom-card,
-.era-block-i .card {
-  backdrop-filter: blur(4px);
-  background: hsl(220 15% 12% / 0.8);
-  border-radius: 12px;
-}
-
-.era-block-i button {
-  border-radius: 8px;
-  backdrop-filter: blur(2px);
-}
-
-/* LCARS BLOCK II (2278) - TOS Movie Rainbow Era */
-.era-block-ii {
-  --background: 220 15% 10%;
-  --foreground: 195 100% 85%;
-  --primary: 195 100% 55%;
-  --primary-glow: 195 100% 70%;
-  --secondary: 30 100% 50%;
-  --accent: 280 80% 60%;
-  --destructive: 0 90% 60%;
-  --lcars-blur: 8px;
-  --border: 195 40% 35%;
-  --card-glassmorphism: hsl(195 100% 70% / 0.05);
-}
-
-.era-block-ii button {
-  border: 2px solid hsl(30 100% 50%);
-  box-shadow: 0 0 10px hsl(30 100% 50% / 0.3);
-}
-
-.era-block-ii .badge {
-  background: linear-gradient(135deg, hsl(195 100% 55%), hsl(280 80% 60%), hsl(30 100% 50%));
-  animation: rainbowShift 3s ease-in-out infinite;
-}
-
-@keyframes rainbowShift {
-  0%, 100% { filter: hue-rotate(0deg); }
-  50% { filter: hue-rotate(20deg); }
-}
-
-/* LCARS BLOCK III (2288) - Excelsior Era */
-.era-block-iii {
-  --background: 220 20% 8%;
-  --foreground: 30 100% 80%;
-  --primary: 30 100% 60%;
-  --primary-glow: 30 100% 70%;
-  --secondary: 195 80% 55%;
-  --accent: 30 90% 65%;
-  --lcars-blur: 6px;
-  --border: 30 40% 30%;
-  --card-glassmorphism: hsl(30 100% 60% / 0.04);
-}
-
-.era-block-iii .daystrom-card,
-.era-block-iii .card {
-  background: hsl(220 20% 8% / 0.95);
-  border: 1px solid hsl(30 60% 40%);
-}
-
-.era-block-iii button {
-  background: hsl(220 20% 12%);
-  border: 1px solid hsl(30 80% 50%);
-  box-shadow: 0 0 8px hsl(30 100% 60% / 0.2);
-}
-
-/* LCARS BLOCK IV (2350) - Ambassador Purple Era */
-.era-block-iv {
+/* AMBASSADOR-CLASS LCARS BLOCK IV (2350) - Purple Transition Era */
+.era-ambassador-2350 {
   --background: 260 25% 12%;
   --foreground: 260 60% 85%;
   --primary: 260 70% 60%;
@@ -1741,21 +1788,21 @@ body:not(.game-active) [role="button"] {
   --card-glassmorphism: hsl(260 70% 60% / 0.06);
 }
 
-.era-block-iv .daystrom-card,
-.era-block-iv .card {
+.era-ambassador-2350 .daystrom-card,
+.era-ambassador-2350 .card {
   background: linear-gradient(135deg, hsl(260 25% 12% / 0.7), hsl(240 30% 15% / 0.7));
   backdrop-filter: blur(12px);
   border: 1px solid hsl(260 50% 45%);
 }
 
-.era-block-iv button {
+.era-ambassador-2350 button {
   background: linear-gradient(135deg, hsl(260 30% 15%), hsl(240 35% 18%));
   border: 1px solid hsl(260 60% 50%);
   backdrop-filter: blur(8px);
 }
 
-/* LCARS BLOCK V (2363) - Galaxy Class / Early TNG */
-.era-block-v {
+/* GALAXY-CLASS LCARS BLOCK V (2363) - Early TNG Pastels */
+.era-galaxy-2363 {
   --background: 220 15% 15%;
   --foreground: 30 80% 80%;
   --primary: 30 100% 70%;
@@ -1767,23 +1814,23 @@ body:not(.game-active) [role="button"] {
   --card-glassmorphism: hsl(30 100% 70% / 0.05);
 }
 
-.era-block-v .daystrom-card,
-.era-block-v .card {
+.era-galaxy-2363 .daystrom-card,
+.era-galaxy-2363 .card {
   background: hsl(220 15% 15% / 0.6);
   backdrop-filter: blur(16px);
   border-radius: 16px;
   border: 1px solid hsl(30 50% 50% / 0.3);
 }
 
-.era-block-v button {
+.era-galaxy-2363 button {
   background: hsl(220 15% 18% / 0.5);
   backdrop-filter: blur(12px);
   border-radius: 12px;
   border: 1px solid hsl(30 60% 60% / 0.4);
 }
 
-/* LCARS BLOCK VI (2371) - Mid TNG / Darker Era */
-.era-block-vi {
+/* DEFIANT-CLASS LCARS BLOCK VI (2371) - Mid TNG / DS9 */
+.era-defiant-2371 {
   --background: 260 20% 10%;
   --foreground: 260 50% 80%;
   --primary: 260 80% 65%;
@@ -1795,15 +1842,15 @@ body:not(.game-active) [role="button"] {
   --card-glassmorphism: hsl(260 80% 65% / 0.05);
 }
 
-.era-block-vi .daystrom-card,
-.era-block-vi .card {
+.era-defiant-2371 .daystrom-card,
+.era-defiant-2371 .card {
   background: linear-gradient(135deg, hsl(260 20% 10% / 0.85), hsl(280 25% 12% / 0.85));
   backdrop-filter: blur(14px);
   border: 1px solid hsl(260 50% 40%);
 }
 
-/* LCARS BLOCK VII (2378) - Voyager / DS9 / Maximum Contrast */
-.era-block-vii {
+/* SOVEREIGN-CLASS LCARS BLOCK VII (2378) - Voyager / Maximum Contrast */
+.era-sovereign-2378 {
   --background: 220 20% 5%;
   --foreground: 195 100% 90%;
   --primary: 195 100% 60%;
@@ -1815,22 +1862,22 @@ body:not(.game-active) [role="button"] {
   --card-glassmorphism: transparent;
 }
 
-.era-block-vii .daystrom-card,
-.era-block-vii .card {
+.era-sovereign-2378 .daystrom-card,
+.era-sovereign-2378 .card {
   background: hsl(220 20% 5%);
   border: 2px solid hsl(195 80% 50%);
   box-shadow: 0 0 15px hsl(195 100% 60% / 0.2);
   border-radius: 4px;
 }
 
-.era-block-vii button {
+.era-sovereign-2378 button {
   background: hsl(220 20% 8%);
   border: 2px solid hsl(195 90% 55%);
   box-shadow: 0 0 10px hsl(195 100% 60% / 0.3);
   border-radius: 4px;
 }
 
-.era-block-vii button:hover {
+.era-sovereign-2378 button:hover {
   background: hsl(195 100% 60% / 0.15);
   box-shadow: 0 0 20px hsl(195 100% 60% / 0.5);
 }

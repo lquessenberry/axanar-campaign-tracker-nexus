@@ -53,13 +53,14 @@ export function ThemeProvider({
     
     // Remove all era classes
     root.classList.remove(
-      'era-mark-iv', 'era-mark-v-war', 'era-block-i', 'era-block-ii',
-      'era-block-iii', 'era-block-iv', 'era-block-v', 'era-block-vi', 'era-block-vii'
+      'era-nx-2151', 'era-constitution-2265', 'era-tmp-refit-2273', 
+      'era-excelsior-2285', 'era-mark-v-war', 'era-ambassador-2350',
+      'era-galaxy-2363', 'era-defiant-2371', 'era-sovereign-2378'
     );
     
     // Add current era class
-    const eraClass = era.replace(/-\d{4}$/, '').replace(/(\d+)/g, '-$1');
-    root.classList.add(`era-${eraClass}`);
+    const eraClass = `era-${era.replace(/-\d{4}$/, '')}`;
+    root.classList.add(eraClass);
     
     // Store era preference
     localStorage.setItem(eraStorageKey, era);

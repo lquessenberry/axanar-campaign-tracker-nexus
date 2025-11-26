@@ -4,15 +4,18 @@
  */
 
 export type LCARSEra = 
-  | 'mark-iv-2245'      // Daystrom Mark IV - Pre-LCARS hard glass
+  // Proto-LCARS (Pre-TNG Evolution)
+  | 'nx-2151'           // ENT NX-class - Gray-blue metallic, square buttons
+  | 'constitution-2265' // TOS TV - Primary colors, blocky, first hints
+  | 'tmp-refit-2273'    // TMP - BIRTH OF LCARS - pure black, orange wedges, first pills
+  | 'excelsior-2285'    // TWOK-TUC - Richer orange, L-shapes, first purple
   | 'mark-v-wartime'    // Mark V Wartime Emergency (2256-2260)
-  | 'block-i-2265'      // LCARS Block I - First soft surfaces
-  | 'block-ii-2278'     // LCARS Block II - TOS Movie rainbow
-  | 'block-iii-2288'    // LCARS Block III - Excelsior era
-  | 'block-iv-2350'     // LCARS Block IV - Ambassador purple
-  | 'block-v-2363'      // LCARS Block V - Early TNG Galaxy
-  | 'block-vi-2371'     // LCARS Block VI - Mid TNG
-  | 'block-vii-2378';   // LCARS Block VII - Voyager/DS9
+  
+  // LCARS Proper (TNG Era Forward)
+  | 'ambassador-2350'   // LCARS Block IV - Ambassador purple transition
+  | 'galaxy-2363'       // LCARS Block V - Early TNG pastels
+  | 'defiant-2371'      // LCARS Block VI - DS9/VOY minimalist
+  | 'sovereign-2378';   // LCARS Block VII - Nemesis-era refined
 
 export interface EraDefinition {
   id: LCARSEra;
@@ -27,14 +30,44 @@ export interface EraDefinition {
 
 export const LCARS_ERAS: EraDefinition[] = [
   {
-    id: 'mark-iv-2245',
-    year: '2245',
-    name: 'Daystrom Mark IV',
-    shortName: 'Mark IV',
-    description: 'Hard black glass panels, physical buttons, ice-blue/orange bars',
-    shipClass: 'NX, Daedalus, Ares',
-    visualSignature: ['Hard black glass', 'Ice-blue/orange bars', 'OCR-A typography', 'No blur'],
-    cssClass: 'era-mark-iv'
+    id: 'nx-2151',
+    year: '2151',
+    name: 'NX-Class Proto-LCARS',
+    shortName: 'NX-2151',
+    description: 'Cold steely gray-blue metallic, square buttons with small corners, submarine control room aesthetic',
+    shipClass: 'Enterprise NX-01, Columbia NX-02',
+    visualSignature: ['Gray-blue metallic', 'Square buttons', 'Dull orange accents', 'Thin grid lines', 'No blur', 'OCR-A font'],
+    cssClass: 'era-nx-2151'
+  },
+  {
+    id: 'constitution-2265',
+    year: '2265',
+    name: 'Constitution-Class Original',
+    shortName: 'TOS-2265',
+    description: 'Primary colors, blocky sans-serif, first hint of orange highlight bars',
+    shipClass: 'Constitution (Original)',
+    visualSignature: ['Primary colors', 'Blocky buttons', 'Small text', 'Orange sliding bars', 'Practical workstation'],
+    cssClass: 'era-constitution-2265'
+  },
+  {
+    id: 'tmp-refit-2273',
+    year: '2273',
+    name: 'Constitution Refit - BIRTH OF LCARS',
+    shortName: 'TMP-2273',
+    description: 'PURE BLACK background debuts! Glowing orange-red wedges, first true pill buttons',
+    shipClass: 'Constitution-Refit, Miranda',
+    visualSignature: ['Pure black debut', 'Orange-red shoulder wedge', 'First pill buttons', 'Glowing accents', 'Horizontal crawling bars'],
+    cssClass: 'era-tmp-refit-2273'
+  },
+  {
+    id: 'excelsior-2285',
+    year: '2285',
+    name: 'Excelsior-Class Evolution',
+    shortName: 'Excelsior-2285',
+    description: 'Richer true orange, clear L-shaped bars, first purple-magenta hints, taller stretched font',
+    shipClass: 'Excelsior, Enterprise-A',
+    visualSignature: ['Richer orange', 'L-shaped frames', 'First purple hints', 'Rounder pills', 'Faster animations', 'Stretched letters'],
+    cssClass: 'era-excelsior-2285'
   },
   {
     id: 'mark-v-wartime',
@@ -47,78 +80,48 @@ export const LCARS_ERAS: EraDefinition[] = [
     cssClass: 'era-mark-v-war'
   },
   {
-    id: 'block-i-2265',
-    year: '2265',
-    name: 'LCARS Block I',
-    shortName: 'Block I',
-    description: 'First soft translucency, pastel elbows, rounded rectangles',
-    shipClass: 'Constitution (Original)',
-    visualSignature: ['Soft translucency', 'Pastel elbows', 'Subtle blur begins', 'Touch surfaces'],
-    cssClass: 'era-block-i'
-  },
-  {
-    id: 'block-ii-2278',
-    year: '2278',
-    name: 'LCARS Block II (TOS Movie)',
-    shortName: 'Block II',
-    description: 'Famous rainbow palette, thick bezels, animated caution stripes',
-    shipClass: 'Constitution-Refit, Miranda',
-    visualSignature: ['Rainbow palette', 'Thick orange/cyan bezels', 'Barber-pole alerts', 'Microgramma Bold'],
-    cssClass: 'era-block-ii'
-  },
-  {
-    id: 'block-iii-2288',
-    year: '2288',
-    name: 'LCARS Block III (Excelsior)',
-    shortName: 'Block III',
-    description: 'Black-background Okuda-grams, hard 45° elbows, amber dominant',
-    shipClass: 'Excelsior, Constellation',
-    visualSignature: ['Black Okuda-grams', '45° hard elbows', 'Amber alerts', 'Library computer access'],
-    cssClass: 'era-block-iii'
-  },
-  {
-    id: 'block-iv-2350',
+    id: 'ambassador-2350',
     year: '2350',
     name: 'LCARS Block IV (Ambassador)',
-    shortName: 'Block IV',
-    description: 'Soft purple/blue gradients, strong glassmorphism, variable opacity',
+    shortName: 'Ambassador-2350',
+    description: 'Soft purple/blue gradients, strong glassmorphism, variable opacity transition',
     shipClass: 'Ambassador, New Orleans',
     visualSignature: ['Purple/blue gradients', 'Strong glassmorphism', 'Variable opacity', 'Golden age'],
-    cssClass: 'era-block-iv'
+    cssClass: 'era-ambassador-2350'
   },
   {
-    id: 'block-v-2363',
+    id: 'galaxy-2363',
     year: '2363',
     name: 'LCARS Block V (Galaxy)',
-    shortName: 'Block V',
+    shortName: 'Galaxy-2363',
     description: 'Pastel peach/cyan/orange, maximum blur, soft rounded rectangles',
     shipClass: 'Galaxy (Enterprise-D Launch)',
     visualSignature: ['Pastel peaches', 'Maximum blur', 'Pool table bridge', 'Picard\'s favorite'],
-    cssClass: 'era-block-v'
+    cssClass: 'era-galaxy-2363'
   },
   {
-    id: 'block-vi-2371',
+    id: 'defiant-2371',
     year: '2371',
     name: 'LCARS Block VI (Mid TNG)',
-    shortName: 'Block VI',
-    description: 'Darker backgrounds, more purple accents, captain\'s yacht purple',
-    shipClass: 'Galaxy, Nebula, Early Intrepid',
+    shortName: 'Defiant-2371',
+    description: 'Darker backgrounds, more purple accents, refined TNG aesthetic',
+    shipClass: 'Defiant, Nebula, Early Intrepid',
     visualSignature: ['Darker backgrounds', 'Purple accents', 'Refined TNG', 'Seasons 3-7'],
-    cssClass: 'era-block-vi'
+    cssClass: 'era-defiant-2371'
   },
   {
-    id: 'block-vii-2378',
+    id: 'sovereign-2378',
     year: '2378',
-    name: 'LCARS Block VII (Voyager)',
-    shortName: 'Block VII',
+    name: 'LCARS Block VII (Sovereign)',
+    shortName: 'Sovereign-2378',
     description: 'Pure black, bright cyan/orange, minimalist elbows, maximum contrast',
-    shipClass: 'Intrepid, Defiant, Sovereign',
+    shipClass: 'Sovereign, Intrepid, Defiant',
     visualSignature: ['Pure black', 'Neon cyan/orange', 'Minimal elbows', 'Maximum contrast'],
-    cssClass: 'era-block-vii'
+    cssClass: 'era-sovereign-2378'
   }
 ];
 
-export const DEFAULT_ERA: LCARSEra = 'mark-iv-2245';
+export const DEFAULT_ERA: LCARSEra = 'nx-2151';
 
 export function getEraByYear(year: string): EraDefinition | undefined {
   return LCARS_ERAS.find(era => era.year === year);
