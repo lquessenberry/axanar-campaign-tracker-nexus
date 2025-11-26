@@ -5672,8 +5672,10 @@ export type Database = {
       link_donors_to_auth_users: {
         Args: never
         Returns: {
-          count: number
-          result_status: string
+          auth_user_id: string
+          donor_id: string
+          email: string
+          linked_count: number
         }[]
       }
       load_staging_axanar_kickstarter_from_url: {
