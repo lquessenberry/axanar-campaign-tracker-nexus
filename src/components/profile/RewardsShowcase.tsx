@@ -162,11 +162,19 @@ const RewardsShowcase: React.FC = () => {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ ...DAYSTROM_SPRINGS.snappy, delay: index * 0.05 }}
-                        className="p-3 rounded-daystrom-small bg-background/50 border border-border/50 hover:border-primary/30 transition-colors"
+                        className="group relative p-4 rounded-daystrom-small
+                          bg-gradient-to-br from-background/80 via-background/60 to-background/80
+                          border-2 border-primary/20
+                          shadow-[0_8px_24px_-4px_hsl(var(--primary)/0.15),inset_0_1px_0_0_hsl(var(--background)/0.8)]
+                          hover:border-primary/40 hover:shadow-[0_12px_32px_-4px_hsl(var(--primary)/0.25),inset_0_1px_0_0_hsl(var(--background)/0.9)]
+                          transition-all duration-300
+                          backdrop-blur-xl
+                          before:absolute before:inset-0 before:rounded-daystrom-small before:bg-gradient-to-br before:from-primary/5 before:to-transparent before:opacity-0 before:transition-opacity before:duration-300
+                          hover:before:opacity-100"
                       >
                         <TitleBadgeDisplay title={title} size="sm" />
                         {title.campaign_name && (
-                          <p className="text-xs text-muted-foreground mt-2">
+                          <p className="text-xs text-muted-foreground/80 mt-2 font-medium tracking-wide">
                             {title.campaign_name}
                           </p>
                         )}

@@ -48,13 +48,18 @@ export const TitleBadgeDisplay = ({
         className={`
           ${sizeClasses[size]}
           ${title.color || 'text-cyan-400'}
-          ${title.badge_style || 'border-cyan-400/30'}
+          ${title.badge_style || 'border-cyan-400/40'}
+          relative
           bg-gradient-to-r ${tierGradient}
-          backdrop-blur-sm
-          shadow-lg shadow-primary/10
-          font-semibold
+          backdrop-blur-xl
+          border-2
+          shadow-[0_4px_16px_-2px_hsl(var(--primary)/0.2),0_2px_8px_-1px_hsl(var(--primary)/0.1),inset_0_1px_0_0_hsl(var(--background)/0.6)]
+          font-bold
+          tracking-wide
           transition-all duration-300
-          hover:shadow-xl hover:shadow-primary/20
+          hover:shadow-[0_8px_24px_-2px_hsl(var(--primary)/0.35),0_4px_12px_-1px_hsl(var(--primary)/0.2),inset_0_1px_0_0_hsl(var(--background)/0.8)]
+          hover:border-primary/60
+          before:absolute before:inset-0 before:rounded-[inherit] before:bg-gradient-to-br before:from-white/10 before:via-transparent before:to-transparent before:pointer-events-none
         `}
       >
         {title.icon && (
@@ -62,10 +67,16 @@ export const TitleBadgeDisplay = ({
             <img 
               src={title.icon} 
               alt={title.display_name}
-              className={`${size === 'sm' ? 'w-4 h-4' : size === 'lg' ? 'w-6 h-6' : 'w-5 h-5'} object-contain mr-1.5`}
+              className={`${size === 'sm' ? 'w-5 h-5' : size === 'lg' ? 'w-7 h-7' : 'w-6 h-6'} 
+                object-contain mr-2
+                drop-shadow-[0_2px_8px_hsl(var(--primary)/0.4)]
+                brightness-110`}
             />
           ) : (
-            <span className={`${iconSize[size]} mr-1.5`}>{title.icon}</span>
+            <span className={`
+              ${iconSize[size]} mr-2
+              drop-shadow-[0_2px_6px_hsl(var(--primary)/0.5)]
+            `}>{title.icon}</span>
           )
         )}
         {title.display_name}
