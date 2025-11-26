@@ -1,12 +1,17 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 import DonorMigrationSection from "@/components/admin/DonorMigrationSection";
 import AdminReserveUsersSection from "@/components/admin/AdminReserveUsersSection";
 import { UpdateRewardsData } from "./UpdateRewardsData";
 import { BetaUserOutreach } from "@/components/admin/BetaUserOutreach";
 import { ProfileAudit } from "@/components/admin/ProfileAudit";
 import { PledgeDataCorrection } from "@/components/admin/PledgeDataCorrection";
+import { useSeedForumThreads } from "@/hooks/useSeedForumThreads";
+import { MessageSquarePlus } from "lucide-react";
 
 const Settings = () => {
+  const { seedThreads, isSeeding } = useSeedForumThreads();
+
   return (
     <div className="space-y-6">
       <div>
@@ -41,6 +46,27 @@ const Settings = () => {
             <p className="text-muted-foreground">
               Platform-wide configuration options will be available here.
             </p>
+          </div>
+
+          <div className="rounded-lg border bg-card p-6">
+            <div className="flex items-start justify-between">
+              <div className="space-y-1">
+                <h3 className="text-lg font-semibold flex items-center gap-2">
+                  <MessageSquarePlus className="h-5 w-5" />
+                  Seed Forum Threads
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Create official forum announcement threads (missing pledge data notice, etc.)
+                </p>
+              </div>
+              <Button 
+                onClick={seedThreads} 
+                disabled={isSeeding}
+                variant="default"
+              >
+                {isSeeding ? 'Seeding...' : 'Seed Threads'}
+              </Button>
+            </div>
           </div>
         </TabsContent>
       </Tabs>
