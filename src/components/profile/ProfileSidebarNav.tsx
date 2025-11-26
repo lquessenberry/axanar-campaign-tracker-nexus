@@ -13,7 +13,8 @@ import {
   Users,
   BarChart3,
   UserCog,
-  FolderOpen
+  FolderOpen,
+  Package
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -51,6 +52,7 @@ const adminSections = [
   { title: "Donor Management", value: "donor-management", path: "/admin/dashboard?section=donor-management", icon: Users },
   { title: "Campaigns", value: "campaigns", path: "/admin/dashboard?section=campaigns", icon: BarChart3 },
   { title: "Rewards", value: "rewards", path: "/admin/dashboard?section=rewards", icon: Gift },
+  { title: "Pledge Restoration", value: "pledge-restoration", path: "/admin/dashboard?section=pledge-restoration", icon: Package },
   { title: "Analytics", value: "analytics", path: "/admin/analytics", icon: Activity },
   { title: "Messages", value: "messages", path: "/admin/dashboard?section=messages", icon: MessageCircle },
   { title: "Media & Files", value: "media-files", path: "/admin/dashboard?section=media-files", icon: FolderOpen },
