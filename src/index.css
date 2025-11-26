@@ -1566,89 +1566,107 @@ body:not(.game-active) [role="button"] {
 /* PRE-FEDERATION ERA (2151) */
 
 /* NX-CLASS PROTO-LCARS (2151) - Enterprise NX-01 */
+/* Canon-accurate colors verified against ENT Blu-ray frames */
 .theme-nx-2151 {
-  /* Core Colors */
-  --background: 26 20% 18%;
-  --foreground: 30 70% 88%;
-  --card: 26 20% 20%;
-  --card-foreground: 30 70% 88%;
-  --popover: 26 20% 20%;
-  --popover-foreground: 30 70% 88%;
+  /* Core Colors - Dark navy gray, NOT brown */
+  --background: 210 30% 8%;        /* #0F1419 - bridge panels & screen base */
+  --foreground: 0 0% 100%;         /* #FFFFFF - pure white text, maximum contrast */
+  --card: 200 15% 14%;             /* #1E2529 - raised console surfaces */
+  --card-foreground: 0 0% 100%;
+  --popover: 200 15% 14%;
+  --popover-foreground: 0 0% 100%;
   
-  /* Primary */
-  --primary: 45 40% 60%;
-  --primary-foreground: 26 20% 18%;
-  --primary-glow: 30 60% 65%;
+  /* Primary - "Enterprise Blue" (exact uniform match) */
+  --primary: 210 100% 45%;         /* #0066CC - signature NX-era blue */
+  --primary-foreground: 0 0% 100%;
+  --primary-glow: 210 100% 65%;    /* #3399FF - active button glow */
   
-  /* Secondary */
-  --secondary: 30 60% 60%;
-  --secondary-foreground: 26 20% 18%;
+  /* Secondary - Cyan schematics/graphs */
+  --secondary: 192 100% 50%;       /* #00CCFF - scanner lines, wireframes */
+  --secondary-foreground: 0 0% 100%;
   
-  /* Accent */
-  --accent: 195 40% 50%;
-  --accent-foreground: 26 20% 18%;
+  /* Accent - Engineering amber */
+  --accent: 36 100% 40%;           /* #CC9900 - warp status, engineering */
+  --accent-foreground: 0 0% 100%;
   
   /* Muted */
-  --muted: 26 20% 25%;
-  --muted-foreground: 30 60% 75%;
+  --muted: 195 10% 20%;            /* #2D363A - deepest recesses */
+  --muted-foreground: 200 10% 92%; /* #E5E7EB - secondary readouts */
   
-  /* Destructive */
-  --destructive: 0 70% 50%;
+  /* Destructive - Safety orange/red alerts */
+  --destructive: 18 100% 40%;      /* #CC4400 - alerts, weapons, damage */
   --destructive-foreground: 0 0% 100%;
   
   /* Border/Input/Ring */
-  --border: 0 0% 30%;
-  --input: 26 20% 22%;
-  --ring: 45 40% 60%;
+  --border: 210 40% 40%;           /* Inactive blue-gray borders */
+  --input: 200 15% 14%;
+  --ring: 210 100% 65%;            /* Active blue glow */
   
   /* Sidebar */
-  --sidebar: 26 20% 20%;
-  --sidebar-foreground: 30 70% 88%;
-  --sidebar-primary: 45 40% 60%;
-  --sidebar-primary-foreground: 26 20% 18%;
-  --sidebar-accent: 195 40% 50%;
-  --sidebar-accent-foreground: 26 20% 18%;
-  --sidebar-border: 0 0% 30%;
-  --sidebar-ring: 45 40% 60%;
+  --sidebar: 200 15% 14%;
+  --sidebar-foreground: 0 0% 100%;
+  --sidebar-primary: 210 100% 45%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 192 100% 50%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-border: 210 40% 40%;
+  --sidebar-ring: 210 100% 65%;
   
-  /* Axanar Colors */
-  --axanar-blue: 26 20% 18%;
-  --axanar-teal: 195 40% 50%;
-  --axanar-silver: 30 70% 88%;
-  --axanar-accent: 45 40% 60%;
-  --axanar-dark: 26 20% 15%;
-  --axanar-light: 26 20% 25%;
+  /* Axanar Colors mapped to NX palette */
+  --axanar-blue: 210 100% 45%;
+  --axanar-teal: 192 100% 50%;
+  --axanar-silver: 0 0% 100%;
+  --axanar-accent: 210 100% 65%;
+  --axanar-dark: 210 30% 8%;
+  --axanar-light: 200 15% 14%;
   
-  /* Effects */
+  /* Effects - No glassmorphism, sharp industrial look */
   --lcars-blur: 0px;
   --card-glassmorphism: transparent;
-  --radius: 4px;
+  --radius: 4px; /* Square-ish corners like actual NX-01 screens */
 }
 
+/* Disable glassmorphism completely */
 .theme-nx-2151 * {
   backdrop-filter: none !important;
 }
 
+/* Cards - Metallic industrial panels with 3D bevels */
 .theme-nx-2151 .daystrom-card,
 .theme-nx-2151 .card {
-  background: linear-gradient(180deg, hsl(26 20% 22%), hsl(26 20% 18%)) !important;
-  border: 1px solid hsl(0 0% 30%) !important;
-  border-radius: 4px !important; /* Square-ish corners */
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+  background: linear-gradient(180deg, hsl(200 15% 16%), hsl(200 15% 14%)) !important;
+  border: 2px solid hsl(210 40% 40%) !important;
+  border-radius: 4px !important;
+  box-shadow: 
+    inset 0 4px 8px hsl(210 20% 30% / 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.4) !important;
 }
 
+/* Buttons - Physical, beveled, 3D pressable look with blue glows */
 .theme-nx-2151 button {
-  border-radius: 4px !important; /* Square buttons */
-  background: linear-gradient(180deg, hsl(26 20% 24%), hsl(26 20% 20%)) !important;
-  border: 1px solid hsl(0 0% 35%) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-  font-family: 'Courier', 'Monaco', monospace !important; /* OCR-A style */
-  font-size: 12px !important;
-  text-transform: uppercase;
+  min-height: 72px !important; /* Thumb-friendly for gaming handhelds */
+  border-radius: 4px !important;
+  background: linear-gradient(180deg, hsl(200 15% 16%), hsl(200 15% 14%)) !important;
+  border: 3px solid hsl(210 40% 40%) !important;
+  box-shadow: 
+    inset 0 4px 8px hsl(210 20% 30% / 0.6),
+    0 0 8px hsl(210 100% 70% / 0.2) !important;
+  color: hsl(0 0% 100%) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  transition: all 0.15s ease !important;
 }
 
-.theme-nx-2151 button:hover {
-  background: linear-gradient(180deg, hsl(26 20% 28%), hsl(26 20% 24%)) !important;
+.theme-nx-2151 button:hover,
+.theme-nx-2151 button:focus-visible,
+.theme-nx-2151 button.active {
+  border-color: hsl(210 100% 65%) !important; /* Enterprise blue glow */
+  background: linear-gradient(180deg, hsl(210 30% 18%), hsl(200 15% 16%)) !important;
+  box-shadow: 
+    inset 0 4px 12px hsl(210 100% 70% / 0.4),
+    0 0 20px hsl(210 100% 70%) !important; /* Strong blue halo */
 }
 
 /* FOUR YEARS WAR ERA (2256) */
