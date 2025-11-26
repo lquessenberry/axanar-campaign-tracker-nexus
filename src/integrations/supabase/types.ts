@@ -5377,7 +5377,6 @@ export type Database = {
       get_leaderboard: {
         Args: { p_category?: string; p_limit?: string; p_user_id?: string }
         Returns: {
-          achievements: number
           avatar_url: string
           comment_count: number
           donor_id: string
@@ -5388,10 +5387,7 @@ export type Database = {
           last_seen: string
           metric_value: number
           profile_id: string
-          profile_score: number
-          proposed_ares: number
           rank: number
-          recruits: number
           thread_count: number
           total_donated: number
           unified_xp: number
