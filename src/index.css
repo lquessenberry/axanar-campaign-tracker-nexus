@@ -517,7 +517,7 @@ body:not(.game-active) [role="button"] {
   .klingon .btn-lcars {
     background: linear-gradient(135deg, hsl(0 72% 30%), hsl(0 84% 35%));
     border: 2px solid hsl(0 100% 50%);
-    color: hsl(0 0% 98%);
+    color: hsl(0 0% 100%);
     box-shadow: 0 4px 8px rgba(139, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
@@ -879,7 +879,7 @@ body:not(.game-active) [role="button"] {
     text-transform: uppercase;
     letter-spacing: 0.05em;
     padding: 0.75rem 1.5rem;
-    color: hsl(var(--background));
+    color: hsl(0 0% 8%);
     font-weight: 600;
   }
   
@@ -897,14 +897,14 @@ body:not(.game-active) [role="button"] {
   .btn-lcars-secondary {
     background: linear-gradient(135deg, hsl(var(--lcars-yellow)), hsl(var(--lcars-orange)));
     border: 2px solid hsl(var(--lcars-yellow));
-    color: hsl(var(--background));
+    color: hsl(0 0% 8%);
   }
 
   /* LCARS Alert Button */
   .btn-lcars-alert {
     background: linear-gradient(135deg, hsl(var(--lcars-red)), hsl(var(--lcars-orange)));
     border: 2px solid hsl(var(--lcars-red));
-    color: hsl(var(--foreground));
+    color: hsl(0 0% 100%);
   }
 
   /* LCARS Navigation Bar */
