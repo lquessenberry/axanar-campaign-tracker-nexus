@@ -1,0 +1,280 @@
+{
+  "themes": {
+    "nx-2151": {
+      "name": "NX-Class Proto-LCARS",
+      "era": "Pre-Federation (2151)",
+      "shipClass": "Enterprise NX-01",
+      "colors": {
+        "background": "26 20% 18%",
+        "foreground": "30 60% 70%",
+        "primary": "45 40% 60%",
+        "primaryGlow": "30 60% 65%",
+        "secondary": "30 60% 60%",
+        "accent": "195 40% 50%",
+        "lcarsBlur": "0px",
+        "border": "0 0% 30%",
+        "card": "26 20% 20%",
+        "cardForeground": "30 60% 70%",
+        "cardGlassmorphism": "transparent",
+        "buttonRadius": "4px",
+        "cardRadius": "4px"
+      },
+      "signature": ["Gray-blue metallic", "Square buttons", "Dull orange accents", "No blur"]
+    },
+    "ares-mk4-light": {
+      "name": "Ares Mark IV (Light)",
+      "era": "Four Years War (2256)",
+      "shipClass": "Ares-class Daedalus",
+      "colors": {
+        "background": "40 15% 92%",
+        "foreground": "0 0% 10%",
+        "primary": "30 85% 50%",
+        "primaryGlow": "30 90% 60%",
+        "secondary": "195 70% 40%",
+        "accent": "30 85% 50%",
+        "lcarsBlur": "0px",
+        "border": "30 20% 75%",
+        "card": "40 15% 96%",
+        "cardForeground": "0 0% 10%",
+        "cardGlassmorphism": "transparent",
+        "muted": "40 10% 85%",
+        "mutedForeground": "0 0% 35%",
+        "buttonRadius": "8px",
+        "cardRadius": "8px"
+      },
+      "signature": ["Light background", "High contrast", "Clear readability", "Tactical efficiency"]
+    },
+    "hercules-mk4-dark": {
+      "name": "Hercules Mark IV (Dark)",
+      "era": "Four Years War (2256)",
+      "shipClass": "Hercules-class Heavy Cruiser",
+      "default": true,
+      "colors": {
+        "background": "220 20% 12%",
+        "foreground": "30 80% 85%",
+        "primary": "30 95% 55%",
+        "primaryGlow": "30 100% 65%",
+        "secondary": "195 70% 55%",
+        "accent": "30 95% 55%",
+        "lcarsBlur": "4px",
+        "border": "220 15% 25%",
+        "card": "220 20% 15%",
+        "cardForeground": "30 80% 85%",
+        "cardGlassmorphism": "30 95% 55% / 0.03",
+        "muted": "220 15% 22%",
+        "mutedForeground": "30 40% 65%",
+        "buttonRadius": "10px",
+        "cardRadius": "12px"
+      },
+      "signature": ["Dark background", "Reduced glare", "Night operations", "Command standard"]
+    },
+    "mark-v-wartime": {
+      "name": "Daystrom Mark V (Wartime)",
+      "era": "Four Years War (2256)",
+      "shipClass": "Legacy Daedalus/Ares",
+      "colors": {
+        "background": "0 40% 8%",
+        "foreground": "0 100% 90%",
+        "primary": "30 100% 50%",
+        "primaryGlow": "0 100% 60%",
+        "secondary": "0 80% 40%",
+        "accent": "195 80% 60%",
+        "destructive": "0 84% 60%",
+        "lcarsBlur": "0px",
+        "border": "0 50% 30%",
+        "card": "0 40% 10%",
+        "cardForeground": "0 100% 90%",
+        "cardGlassmorphism": "0 100% 30% / 0.04",
+        "buttonRadius": "6px",
+        "cardRadius": "8px"
+      },
+      "signature": ["Blood-red underglow", "Pulsing amber alerts", "Scanline damage", "Combat ready"],
+      "specialEffects": ["bloodPulse", "alertPulse", "scanlineOverlay", "glowPulse"]
+    },
+    "klingon-d7": {
+      "name": "Klingon D7 Battle Cruiser",
+      "era": "Four Years War (2256)",
+      "shipClass": "D7 Battle Cruiser",
+      "colors": {
+        "background": "0 50% 8%",
+        "foreground": "30 95% 85%",
+        "primary": "10 90% 50%",
+        "primaryGlow": "10 100% 60%",
+        "secondary": "0 80% 35%",
+        "accent": "30 100% 50%",
+        "lcarsBlur": "0px",
+        "border": "0 60% 25%",
+        "card": "0 50% 10%",
+        "cardForeground": "30 95% 85%",
+        "cardGlassmorphism": "transparent",
+        "buttonRadius": "0px",
+        "cardRadius": "0px"
+      },
+      "signature": ["Deep red/orange", "Aggressive angles", "Klingon pIqaD", "Honor & Glory"],
+      "specialFeatures": ["angularClipPath", "klingonFonts", "honorColorScheme"]
+    },
+    "constitution-2265": {
+      "name": "Constitution-Class Original",
+      "era": "TOS Era (2265)",
+      "shipClass": "Constitution (Original)",
+      "colors": {
+        "background": "220 15% 15%",
+        "foreground": "195 80% 80%",
+        "primary": "207 90% 54%",
+        "primaryGlow": "207 90% 64%",
+        "secondary": "30 100% 50%",
+        "accent": "4 90% 58%",
+        "lcarsBlur": "0px",
+        "border": "220 15% 25%",
+        "card": "220 15% 18%",
+        "cardForeground": "195 80% 80%",
+        "cardGlassmorphism": "transparent",
+        "buttonRadius": "6px",
+        "cardRadius": "6px"
+      },
+      "signature": ["Primary colors", "Blocky buttons", "Orange sliding bars", "Classic Trek"]
+    },
+    "tmp-refit-2273": {
+      "name": "Constitution Refit - BIRTH OF LCARS",
+      "era": "TMP Era (2273)",
+      "shipClass": "Constitution-Refit, Miranda",
+      "milestone": true,
+      "colors": {
+        "background": "0 0% 0%",
+        "foreground": "12 100% 80%",
+        "primary": "12 100% 60%",
+        "primaryGlow": "25 100% 50%",
+        "secondary": "195 80% 55%",
+        "accent": "12 100% 60%",
+        "lcarsBlur": "0px",
+        "border": "12 60% 30%",
+        "card": "0 0% 5%",
+        "cardForeground": "12 100% 80%",
+        "cardGlassmorphism": "transparent",
+        "buttonRadius": "999px",
+        "cardRadius": "24px"
+      },
+      "signature": ["Pure black debut", "Orange-red shoulder wedge", "First pill buttons", "LCARS birth"],
+      "historicalNote": "Robert Abel's team created the iconic shoulder wedge and glowing orange aesthetics"
+    },
+    "excelsior-2285": {
+      "name": "Excelsior-Class Evolution",
+      "era": "TMP Era (2285)",
+      "shipClass": "Excelsior, Enterprise-A",
+      "colors": {
+        "background": "0 0% 0%",
+        "foreground": "24 100% 80%",
+        "primary": "24 100% 60%",
+        "primaryGlow": "30 100% 65%",
+        "secondary": "270 60% 55%",
+        "accent": "24 100% 60%",
+        "lcarsBlur": "2px",
+        "border": "24 60% 35%",
+        "card": "0 0% 5%",
+        "cardForeground": "24 100% 80%",
+        "cardGlassmorphism": "24 100% 60% / 0.02",
+        "buttonRadius": "24px",
+        "cardRadius": "28px"
+      },
+      "signature": ["Richer orange", "L-shaped frames", "First purple hints", "Rounder pills"]
+    },
+    "ambassador-2350": {
+      "name": "LCARS Block IV (Ambassador)",
+      "era": "TNG Era (2350)",
+      "shipClass": "Ambassador, New Orleans",
+      "colors": {
+        "background": "260 25% 12%",
+        "foreground": "260 60% 85%",
+        "primary": "260 70% 60%",
+        "primaryGlow": "260 80% 70%",
+        "secondary": "195 70% 60%",
+        "accent": "260 60% 65%",
+        "lcarsBlur": "12px",
+        "border": "260 35% 35%",
+        "card": "260 25% 12%",
+        "cardForeground": "260 60% 85%",
+        "cardGlassmorphism": "260 70% 60% / 0.06",
+        "buttonRadius": "12px",
+        "cardRadius": "14px"
+      },
+      "signature": ["Purple/blue gradients", "Strong glassmorphism", "Variable opacity"]
+    },
+    "galaxy-2363": {
+      "name": "LCARS Block V (Galaxy)",
+      "era": "TNG Era (2363)",
+      "shipClass": "Galaxy-class (Enterprise-D)",
+      "colors": {
+        "background": "220 15% 15%",
+        "foreground": "30 80% 80%",
+        "primary": "30 100% 70%",
+        "primaryGlow": "30 100% 80%",
+        "secondary": "195 70% 65%",
+        "accent": "15 90% 70%",
+        "lcarsBlur": "16px",
+        "border": "30 30% 40%",
+        "card": "220 15% 15%",
+        "cardForeground": "30 80% 80%",
+        "cardGlassmorphism": "30 100% 70% / 0.05",
+        "buttonRadius": "12px",
+        "cardRadius": "16px"
+      },
+      "signature": ["Pastel peaches", "Maximum blur", "Pool table bridge", "Picard's favorite"]
+    },
+    "defiant-2371": {
+      "name": "LCARS Block VI (Defiant)",
+      "era": "TNG Era (2371)",
+      "shipClass": "Defiant, Nebula, Early Intrepid",
+      "colors": {
+        "background": "260 20% 10%",
+        "foreground": "260 50% 80%",
+        "primary": "260 80% 65%",
+        "primaryGlow": "260 90% 75%",
+        "secondary": "195 70% 60%",
+        "accent": "280 70% 65%",
+        "lcarsBlur": "14px",
+        "border": "260 30% 30%",
+        "card": "260 20% 10%",
+        "cardForeground": "260 50% 80%",
+        "cardGlassmorphism": "260 80% 65% / 0.05",
+        "buttonRadius": "10px",
+        "cardRadius": "12px"
+      },
+      "signature": ["Darker backgrounds", "Purple accents", "Refined TNG", "Seasons 3-7"]
+    },
+    "sovereign-2378": {
+      "name": "LCARS Block VII (Sovereign)",
+      "era": "TNG Era (2378)",
+      "shipClass": "Sovereign, Intrepid, Defiant",
+      "colors": {
+        "background": "220 20% 5%",
+        "foreground": "195 100% 90%",
+        "primary": "195 100% 60%",
+        "primaryGlow": "195 100% 75%",
+        "secondary": "30 100% 55%",
+        "accent": "195 90% 65%",
+        "lcarsBlur": "0px",
+        "border": "195 50% 35%",
+        "card": "220 20% 5%",
+        "cardForeground": "195 100% 90%",
+        "cardGlassmorphism": "transparent",
+        "buttonRadius": "4px",
+        "cardRadius": "4px"
+      },
+      "signature": ["Pure black", "Neon cyan/orange", "Minimal elbows", "Maximum contrast"]
+    }
+  },
+  "categories": {
+    "pre-federation": ["nx-2151"],
+    "four-years-war": ["ares-mk4-light", "hercules-mk4-dark", "mark-v-wartime", "klingon-d7"],
+    "tos": ["constitution-2265"],
+    "tmp": ["tmp-refit-2273", "excelsior-2285"],
+    "tng-era": ["ambassador-2350", "galaxy-2363", "defiant-2371", "sovereign-2378"]
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "totalThemes": 12,
+    "defaultTheme": "hercules-mk4-dark",
+    "historicalSpan": "2151-2378",
+    "years": 227
+  }
+}
