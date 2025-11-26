@@ -135,7 +135,7 @@ const OptimizedConversationList: React.FC<OptimizedConversationListProps> = ({
                       key={conversation.partner_id}
                       className={cn(
                         "flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors hover:bg-muted/50 relative group",
-                        isSelected && "bg-primary/10 border border-primary/20 [&_h4]:!text-[hsl(0_0%_10%)] [&_p]:!text-[hsl(0_0%_25%)] [&_span.text-muted-foreground]:!text-[hsl(0_0%_40%)]",
+                        isSelected && "bg-accent text-accent-foreground border border-accent [&_h4]:text-accent-foreground [&_p]:text-accent-foreground/80 [&_span.text-muted-foreground]:text-accent-foreground/60",
                         hasUnread && !isSelected && "bg-muted/30"
                       )}
                       onClick={() => onSelectConversation(conversation.partner_id)}
