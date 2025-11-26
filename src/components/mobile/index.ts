@@ -7,3 +7,6 @@ export { MobileFriendlyAuth } from './MobileFriendlyAuth';
 export { MobileProfileHeader } from './MobileProfileHeader';
 export { MobileProfileContent } from './MobileProfileContent';
 export { MobileProfileLayout } from './MobileProfileLayout';
+
+// Export handheld device hook
+export { useHandheldDevice } from '@/hooks/useHandheldDevice';
