@@ -346,80 +346,80 @@ body:not(.game-active) [role="button"] {
   /* ============= NIGHT MODE (Enhanced Dark) ============= */
   .dark {
     --background: 0 0% 0%;
-    --foreground: var(--lcars-yellow);
+    --foreground: 48 100% 67%; /* LCARS Yellow - never black */
     --card: 220 13% 8%;
-    --card-foreground: var(--lcars-yellow);
+    --card-foreground: 48 100% 67%; /* LCARS Yellow */
     --popover: 220 13% 8%;
-    --popover-foreground: var(--lcars-yellow);
+    --popover-foreground: 48 100% 67%; /* LCARS Yellow */
     --primary: var(--lcars-blue);
     --primary-foreground: 0 0% 100%;
     --secondary: 220 13% 15%;
-    --secondary-foreground: var(--lcars-yellow);
+    --secondary-foreground: 48 100% 67%; /* LCARS Yellow */
     --muted: 220 13% 15%;
-    --muted-foreground: var(--lcars-gray);
+    --muted-foreground: 210 11% 71%; /* LCARS Gray - light */
     --accent: var(--lcars-yellow);
-    --accent-foreground: 0 0% 0%;
+    --accent-foreground: 220 13% 8%; /* Dark background, not black */
     --destructive: var(--lcars-red);
-    --destructive-foreground: var(--lcars-yellow);
+    --destructive-foreground: 0 0% 98%; /* Near white */
     --border: 220 13% 15%;
     --input: 220 13% 15%;
     --ring: var(--lcars-yellow);
     
     /* Enhanced dark sidebar */
     --sidebar: 220 13% 8%;
-    --sidebar-foreground: var(--lcars-yellow);
+    --sidebar-foreground: 48 100% 67%; /* LCARS Yellow */
     --sidebar-primary: var(--lcars-yellow);
-    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-primary-foreground: 220 13% 8%; /* Dark background, not black */
     --sidebar-accent: 220 13% 15%;
-    --sidebar-accent-foreground: var(--lcars-yellow);
+    --sidebar-accent-foreground: 48 100% 67%; /* LCARS Yellow */
     --sidebar-border: 220 13% 15%;
     --sidebar-ring: var(--lcars-yellow);
     
     /* Dark mode overrides */
     --lcars-panel-bg: 0 0% 5%;
-    --lcars-text-primary: var(--lcars-yellow);
-    --lcars-text-secondary: var(--lcars-blue);
+    --lcars-text-primary: 48 100% 67%; /* LCARS Yellow */
+    --lcars-text-secondary: 195 100% 61%; /* LCARS Light Blue */
   }
 
   /* ============= TACTICAL MODE (4 Years War Theme) ============= */
   .tactical {
     --background: 0 0% 3%;
-    --foreground: var(--lcars-orange);
+    --foreground: 36 100% 50%; /* LCARS Orange - never black */
     --card: 4 25% 8%;
-    --card-foreground: var(--lcars-orange);
+    --card-foreground: 36 100% 50%; /* LCARS Orange */
     --popover: 4 25% 8%;
-    --popover-foreground: var(--lcars-orange);
+    --popover-foreground: 36 100% 50%; /* LCARS Orange */
     --primary: var(--lcars-red);
     --primary-foreground: 0 0% 100%;
     --secondary: 4 25% 15%;
-    --secondary-foreground: var(--lcars-orange);
+    --secondary-foreground: 36 100% 50%; /* LCARS Orange */
     --muted: 4 25% 15%;
-    --muted-foreground: var(--lcars-dark-gray);
+    --muted-foreground: 200 18% 70%; /* Light gray, not dark */
     --accent: var(--lcars-orange);
-    --accent-foreground: 0 0% 0%;
+    --accent-foreground: 4 25% 8%; /* Dark background, not black */
     --destructive: var(--lcars-red);
-    --destructive-foreground: var(--lcars-orange);
+    --destructive-foreground: 0 0% 98%; /* Near white */
     --border: 4 25% 15%;
     --input: 4 25% 15%;
     --ring: var(--lcars-orange);
     
     /* Tactical sidebar */
     --sidebar: 4 25% 8%;
-    --sidebar-foreground: var(--lcars-orange);
+    --sidebar-foreground: 36 100% 50%; /* LCARS Orange */
     --sidebar-primary: var(--lcars-red);
-    --sidebar-primary-foreground: var(--lcars-orange);
+    --sidebar-primary-foreground: 0 0% 98%; /* Near white */
     --sidebar-accent: 4 25% 15%;
-    --sidebar-accent-foreground: var(--lcars-orange);
+    --sidebar-accent-foreground: 36 100% 50%; /* LCARS Orange */
     --sidebar-border: 4 25% 15%;
     --sidebar-ring: var(--lcars-orange);
     
     /* Tactical overrides */
     --lcars-panel-bg: 4 25% 5%;
-    --lcars-panel-border: var(--lcars-orange);
+    --lcars-panel-border: 36 100% 50%; /* LCARS Orange */
     --lcars-button-primary: var(--lcars-red);
-    --lcars-button-secondary: var(--lcars-orange);
-    --lcars-text-primary: var(--lcars-orange);
-    --lcars-text-secondary: var(--lcars-red);
+    --lcars-button-secondary: 36 100% 50%; /* LCARS Orange */
+    --lcars-text-primary: 36 100% 50%; /* LCARS Orange */
+    --lcars-text-secondary: 4 90% 58%; /* LCARS Red */
   }
 
   /* ============= KLINGON MODE (tlhIngan Hol) ============= */
