@@ -64,15 +64,15 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Axanar theme colors
-				axanar: {
-					'blue': '#1A1F2C',
-					'teal': '#0EA5E9',
-					'silver': '#F1F0FB',
-					'accent': '#8B5CF6',
-					'dark': '#111827',
-					'light': '#F8FAFC'
-				},
+			// Axanar theme colors (using HSL for theme compatibility)
+			axanar: {
+				'blue': 'hsl(var(--axanar-blue))',
+				'teal': 'hsl(var(--axanar-teal))',
+				'silver': 'hsl(var(--axanar-silver))',
+				'accent': 'hsl(var(--axanar-accent))',
+				'dark': 'hsl(var(--axanar-dark))',
+				'light': 'hsl(var(--axanar-light))'
+			},
 				// LCARS-PADD Color System (TOS-Inspired)
 				lcars: {
 					'yellow': 'hsl(48, 100%, 67%)',
