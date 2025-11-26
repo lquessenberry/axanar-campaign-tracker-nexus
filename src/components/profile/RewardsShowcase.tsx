@@ -198,7 +198,7 @@ const RewardsShowcase: React.FC = () => {
         </motion.div>
       )}
 
-      {/* Physical Rewards */}
+      {/* Physical Rewards - Enhanced Display */}
       {physicalRewards.length > 0 && (
         <div className="space-y-4">
           <div className="flex items-center gap-2">
@@ -207,10 +207,13 @@ const RewardsShowcase: React.FC = () => {
             <Badge variant="secondary">{physicalRewards.length}</Badge>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-6">
             {physicalRewards.map((pledge, index) => {
               const statusConfig = getShippingStatusConfig(pledge.shipping_status);
               const StatusIcon = statusConfig.icon;
+              const pledgeDate = new Date(pledge.created_at);
+              const shippedDate = pledge.shipped_at ? new Date(pledge.shipped_at) : null;
+              const deliveredDate = pledge.delivered_at ? new Date(pledge.delivered_at) : null;
               
               return (
                 <motion.div
@@ -220,69 +223,165 @@ const RewardsShowcase: React.FC = () => {
                   transition={{ ...DAYSTROM_SPRINGS.gentle, delay: index * 0.1 }}
                   layoutId={`reward-${pledge.id}`}
                 >
-                  <DaystromCard className="h-full hover:border-primary/30 transition-colors">
-                    <CardContent className="p-6">
-                      {/* Campaign & Amount */}
-                      <div className="flex items-start justify-between mb-4">
+                  <DaystromCard className="overflow-hidden hover:border-primary/40 transition-all duration-300">
+                    {/* Header with gradient */}
+                    <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-6 border-b border-border/50">
+                      <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <h4 className="font-bold text-lg mb-1">{pledge.reward?.name}</h4>
-                          <p className="text-sm text-muted-foreground">{pledge.campaign.name}</p>
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
+                              <Package className="h-5 w-5 text-primary" />
+                            </div>
+                            <div>
+                              <h4 className="font-bold text-xl">{pledge.reward?.name}</h4>
+                              <p className="text-sm text-muted-foreground">{pledge.campaign.name}</p>
+                            </div>
+                          </div>
                         </div>
-                        <Badge variant="outline" className="bg-background">
-                          ${Number(pledge.amount).toFixed(0)}
-                        </Badge>
+                        <div className="flex flex-col items-end gap-2">
+                          <Badge variant="outline" className="bg-background text-base px-3 py-1">
+                            <DollarSign className="h-3 w-3 mr-1" />
+                            {Number(pledge.amount).toFixed(0)}
+                          </Badge>
+                          <div className="text-xs text-muted-foreground flex items-center gap-1">
+                            <Calendar className="h-3 w-3" />
+                            {pledgeDate.toLocaleDateString()}
+                          </div>
+                        </div>
                       </div>
 
                       {/* Description */}
                       {pledge.reward?.description && (
-                        <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                        <p className="text-sm text-muted-foreground mt-3 pl-14">
                           {pledge.reward.description}
                         </p>
                       )}
+                    </div>
 
-                      {/* Shipping Status */}
-                      <div className={`rounded-daystrom-small p-4 ${statusConfig.bg} border ${statusConfig.border}`}>
-                        <div className="flex items-center gap-2 mb-2">
-                          <StatusIcon className={`h-5 w-5 ${statusConfig.color}`} />
-                          <span className={`font-semibold ${statusConfig.color}`}>
-                            {statusConfig.label}
-                          </span>
+                    <CardContent className="p-6">
+                      {/* Status Timeline */}
+                      <div className="space-y-4">
+                        {/* Current Status Banner */}
+                        <div className={`rounded-lg p-4 ${statusConfig.bg} border-2 ${statusConfig.border} shadow-sm`}>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <div className="p-2 rounded-lg bg-background/50">
+                                <StatusIcon className={`h-6 w-6 ${statusConfig.color}`} />
+                              </div>
+                              <div>
+                                <div className={`font-bold text-lg ${statusConfig.color}`}>
+                                  {statusConfig.label}
+                                </div>
+                                {pledge.shipping_status === 'pending' && (
+                                  <p className="text-xs text-muted-foreground mt-0.5">
+                                    Awaiting fulfillment
+                                  </p>
+                                )}
+                                {pledge.shipping_status === 'processing' && (
+                                  <p className="text-xs text-muted-foreground mt-0.5">
+                                    Preparing your order
+                                  </p>
+                                )}
+                                {pledge.shipping_status === 'shipped' && (
+                                  <p className="text-xs text-muted-foreground mt-0.5">
+                                    On the way to you
+                                  </p>
+                                )}
+                                {pledge.shipping_status === 'delivered' && (
+                                  <p className="text-xs text-muted-foreground mt-0.5">
+                                    Successfully received
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                            
+                            {/* Progress Indicator */}
+                            <div className="hidden sm:flex items-center gap-2">
+                              <div className={`h-2 w-2 rounded-full ${pledge.shipping_status ? 'bg-green-500' : 'bg-muted'}`} />
+                              <div className={`h-2 w-2 rounded-full ${shippedDate ? 'bg-green-500' : 'bg-muted'}`} />
+                              <div className={`h-2 w-2 rounded-full ${deliveredDate ? 'bg-green-500' : 'bg-muted'}`} />
+                            </div>
+                          </div>
                         </div>
-                        
-                        {pledge.tracking_number && (
-                          <div className="text-xs text-muted-foreground mt-2">
-                            <span className="font-medium">Tracking:</span>{' '}
-                            <code className="bg-background/50 px-2 py-1 rounded">
-                              {pledge.tracking_number}
-                            </code>
-                          </div>
-                        )}
-                        
-                        {pledge.delivered_at && (
-                          <div className="text-xs text-muted-foreground mt-1">
-                            <CheckCircle2 className="h-3 w-3 inline mr-1" />
-                            Delivered: {new Date(pledge.delivered_at).toLocaleDateString()}
-                          </div>
-                        )}
-                        
-                        {pledge.shipped_at && !pledge.delivered_at && (
-                          <div className="text-xs text-muted-foreground mt-1">
-                            <Truck className="h-3 w-3 inline mr-1" />
-                            Shipped: {new Date(pledge.shipped_at).toLocaleDateString()}
-                          </div>
-                        )}
-                        
-                        {pledge.shipping_notes && (
-                          <div className="text-xs text-muted-foreground mt-2 italic border-t border-border/50 pt-2">
-                            {pledge.shipping_notes}
-                          </div>
-                        )}
-                      </div>
 
-                      {/* Pledge Date */}
-                      <div className="flex items-center gap-2 mt-4 text-xs text-muted-foreground">
-                        <Calendar className="h-3 w-3" />
-                        Pledged: {new Date(pledge.created_at).toLocaleDateString()}
+                        {/* Tracking Details */}
+                        {(pledge.tracking_number || shippedDate || deliveredDate) && (
+                          <div className="space-y-3 pt-2">
+                            {pledge.tracking_number && (
+                              <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30 border border-border/50">
+                                <Truck className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                                <div className="flex-1 min-w-0">
+                                  <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">
+                                    Tracking Number
+                                  </div>
+                                  <code className="text-sm font-mono bg-background px-3 py-1.5 rounded border border-border inline-block">
+                                    {pledge.tracking_number}
+                                  </code>
+                                </div>
+                              </div>
+                            )}
+                            
+                            {/* Timeline */}
+                            <div className="space-y-2">
+                              {shippedDate && (
+                                <div className="flex items-center gap-3 text-sm">
+                                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/10 border border-blue-500/20">
+                                    <Truck className="h-4 w-4 text-blue-500" />
+                                  </div>
+                                  <div className="flex-1">
+                                    <span className="font-medium">Shipped</span>
+                                    <span className="text-muted-foreground ml-2">
+                                      {shippedDate.toLocaleDateString('en-US', { 
+                                        month: 'short', 
+                                        day: 'numeric', 
+                                        year: 'numeric',
+                                        hour: 'numeric',
+                                        minute: '2-digit'
+                                      })}
+                                    </span>
+                                  </div>
+                                </div>
+                              )}
+                              
+                              {deliveredDate && (
+                                <div className="flex items-center gap-3 text-sm">
+                                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-500/10 border border-green-500/20">
+                                    <CheckCircle2 className="h-4 w-4 text-green-500" />
+                                  </div>
+                                  <div className="flex-1">
+                                    <span className="font-medium">Delivered</span>
+                                    <span className="text-muted-foreground ml-2">
+                                      {deliveredDate.toLocaleDateString('en-US', { 
+                                        month: 'short', 
+                                        day: 'numeric', 
+                                        year: 'numeric',
+                                        hour: 'numeric',
+                                        minute: '2-digit'
+                                      })}
+                                    </span>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                        
+                        {/* Shipping Notes */}
+                        {pledge.shipping_notes && (
+                          <div className="mt-4 p-4 rounded-lg bg-muted/20 border border-border/50">
+                            <div className="flex items-start gap-2">
+                              <AlertCircle className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+                              <div>
+                                <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">
+                                  Notes
+                                </div>
+                                <p className="text-sm text-foreground">
+                                  {pledge.shipping_notes}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </CardContent>
                   </DaystromCard>
