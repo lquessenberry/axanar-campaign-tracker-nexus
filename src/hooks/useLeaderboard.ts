@@ -23,10 +23,6 @@ export interface LeaderboardEntry {
   metric_value: number;
   total_donated: number;
   years_supporting: number;
-  achievements: number;
-  recruits: number;
-  profile_score: number;
-  proposed_ares: number;
   is_account_linked: boolean;
   unified_xp: number;
   is_online: boolean;
