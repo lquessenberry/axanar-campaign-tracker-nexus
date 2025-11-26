@@ -229,6 +229,248 @@ Try out the new features and let us know what you think! Report any issues or su
     }
   },
 
+  {
+    id: 'official-missing-pledge-data',
+    category: 'announcements',
+    title: '🚨 Known Issue: Missing Pledge Data & Address Update Problems',
+    emoji: '🚨',
+    isPinned: true,
+    isOfficial: true,
+    author: {
+      username: 'lee',
+      rank: { name: 'Fleet Admiral', min_points: 999999 },
+      badges: [
+        { label: 'Official', icon: '⭐' },
+        { label: 'Production Team', icon: '🎬' },
+        { label: 'Administrator', icon: '🛡️' }
+      ],
+      signatureText: '🖖 Lee Quessenberry - Axanar Productions\n━━━━━━━━━━━━━━━━━━━━━━━━\n"Live Long and Prosper"'
+    },
+    initialPost: {
+      content: `**Important Notice for Affected Users** 🚨
+
+We're aware that some donors are experiencing issues accessing their complete pledge history and updating shipping addresses. **Your data is safe** - this is a migration issue we're actively resolving.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 📋 What's Happening?
+
+During our platform migration from the legacy system, some pledge records weren't fully transferred to the new database. This affects:
+
+**Specific groups impacted:**
+- Donors who contributed via **PayPal direct purchases** (not through Kickstarter/Indiegogo)
+- Donors who made **label purchases** outside main campaigns
+- Some **low-tier pledges** ($1-$9) from certain campaign periods
+
+**What this means for you:**
+- ❌ You can log in, but your pledge history appears empty
+- ❌ You can't update your shipping address (no pledges linked = no address access)
+- ❌ Your perks/rewards don't show up in your profile
+- ❌ Your ambassadorial titles may be missing
+
+**Your original data still exists** - it's in our source files, just not yet connected to your account.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 🛒 What About Store Purchases?
+
+**Important clarification:**
+
+This platform currently handles **crowdfunding campaign pledges only** (Kickstarter, Indiegogo, direct campaign contributions).
+
+**Axanar/Ares ecommerce store purchases are NOT yet included** in this migration phase. If you purchased items from our online stores:
+- Those transactions are tracked in a separate system
+- They are **not slated for migration at this time**
+- We will announce when store purchase integration is planned
+
+**Current Migration Roadmap:**
+1. ✅ **Phase 1** (Complete): Kickstarter & Indiegogo campaign pledges
+2. 🔄 **Phase 2** (In Progress): PayPal direct pledges & missing records restoration
+3. ⏳ **Phase 3** (Next Priority): Patreon supporter integration
+4. ⏳ **Phase 4** (Future): Ecommerce store purchase history integration
+
+**If you're looking for store purchase records**, please hold tight - we'll have a plan for integrating those after we complete Patreon sync.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## ✅ Are You Affected?
+
+**You're likely affected if:**
+- You successfully logged in or recovered your account
+- You made a **campaign pledge** (not a store purchase)
+- Your profile shows "0 pledges" or "No contribution history"
+- You can't find the "Update Shipping Address" button
+- You remember pledging but see no record of it
+- You pledged via PayPal directly (not campaign platforms)
+
+**You're probably NOT affected if:**
+- You can see your pledge history in your profile
+- You can update your shipping address
+- Your total pledged amount is displayed correctly
+- Your perks/titles show up in your dashboard
+
+**Not applicable to you if:**
+- You only purchased from the Axanar/Ares stores (no crowdfunding pledges)
+- You're a Patreon supporter only (integration coming in Phase 3)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 🛠️ What We're Doing About It
+
+Our admin team is actively working on **Phase 2** restoration:
+
+1. **Data Restoration Tool** (in progress)
+   - Re-importing missing pledge records from original source files
+   - Matching PayPal donations to user accounts
+   - Restoring physical reward entitlements
+
+2. **Donor-Auth Linkage Verification** (ongoing)
+   - Connecting legacy donor records to new authentication system
+   - Ensuring all ~3,600+ donors have complete data access
+
+3. **Address Update Function** (investigating)
+   - Fixing the shipping address update workflow
+   - Enabling address changes for all verified donors
+
+**Next up after this:**
+- Patreon supporter integration (Phase 3)
+- Planning for store purchase history (Phase 4)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 📞 What You Should Do
+
+### If you're affected by missing campaign pledge data:
+
+**Option 1: Use the Support Form**
+1. Go to our [Support page](/support)
+2. Select "Missing Pledge Data" or "Address Update Issue"
+3. Include this information:
+   - Email you used for original pledge
+   - Campaign you supported (Prelude Kickstarter, Prelude PayPal, Indiegogo, etc.)
+   - Approximate pledge amount
+   - Whether you paid via PayPal, Kickstarter, or Indiegogo
+   - Any order/transaction IDs you have
+
+**Option 2: Reply to This Thread**
+Post below with:
+- "I'm affected" + your pledge email (if comfortable sharing publicly)
+- Which campaign/platform you used
+- Describe what you're seeing (or not seeing)
+
+**DO NOT post:**
+- Credit card numbers
+- Passwords
+- Full transaction details
+
+**If you're a store customer or Patreon supporter:**
+- Store purchases: Not yet scheduled for migration (Phase 4)
+- Patreon: Integration coming in Phase 3 (after pledge restoration)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## ⏱️ Timeline & Expectations
+
+**Current Status (Phase 2):**
+- ✅ Issue identified and root cause understood
+- 🔄 Data restoration tools being developed
+- 🔄 Manual verification process active for reported cases
+- ⏳ Estimated resolution: 1-2 weeks for most cases
+
+**What happens next:**
+1. You report your issue to support
+2. Admin team manually verifies your pledge in source files
+3. Your pledge data is restored and linked to your account
+4. You receive confirmation email
+5. You can then update shipping address and view perks
+
+**Future phases:**
+- Patreon integration timeline: TBD after Phase 2 completion
+- Store purchase integration: TBD after Patreon sync
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 🔒 Your Data Security
+
+**Important reassurances:**
+- ✅ Your original pledge data is **safe and preserved** in source files
+- ✅ No financial information was lost
+- ✅ Your rewards entitlements are documented
+- ✅ This is a display/linkage issue, not a data loss issue
+
+We maintain multiple backups of all donor information from:
+- Kickstarter campaign exports
+- Indiegogo campaign exports
+- PayPal transaction records
+- Legacy database archives
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 💬 Known Affected Users
+
+If your email matches any of these patterns, you're **definitely** affected and should contact support:
+
+- PayPal donors from 2014-2016 period
+- "Label purchase" contributors (crowdfunding, not store)
+- Certain $1-$9 tier backers from Indiegogo
+- Anyone who got confirmation emails but sees no pledge history now
+
+**Already reported cases we're working on:**
+- Several cases being tracked and resolved privately
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## ❓ FAQ
+
+**Q: Will I lose my rewards/perks?**
+**A:** No! Your rewards are tied to your original pledge data, which we have preserved. Once we restore your pledge records, all entitlements will be visible.
+
+**Q: Can I just create a new account?**
+**A:** No - that won't solve the issue. The problem is linking your existing pledge data to your current account. A new account would have the same problem.
+
+**Q: Do I need to re-pledge?**
+**A:** Absolutely not! Your original pledge is valid and recorded. This is just a technical migration issue.
+
+**Q: What about my store purchases?**
+**A:** Store purchases from Axanar/Ares ecommerce sites are not part of this migration phase. They're tracked separately and will be integrated in a future phase (after Patreon sync).
+
+**Q: I'm a Patreon supporter - does this apply to me?**
+**A:** Patreon integration is our next priority (Phase 3), coming after we complete pledge data restoration. Stay tuned for announcements!
+
+**Q: How long will the address update issue last?**
+**A:** Once your pledge data is restored (1-2 weeks), address updates will work normally. If you need urgent address changes for shipping, mention that in your support request.
+
+**Q: Is this affecting everyone?**
+**A:** No - most donors (~90%+) have complete data. This affects specific subgroups whose pledges came through non-standard channels or certain campaign periods.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 🙏 Thank You for Your Patience
+
+We understand this is frustrating, especially for donors who need to update shipping addresses. We're prioritizing this fix and working through cases as quickly as possible.
+
+**Your support made Axanar possible**, and we're committed to ensuring every backer has full access to their pledge history and rewards.
+
+We'll update this thread as we make progress on the restoration process and announce when we begin Patreon integration.
+
+🖖 Live Long and Prosper!
+- The Axanar Admin Team
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+**Thread will be updated with:**
+- Progress reports on Phase 2 pledge restoration
+- Number of cases resolved
+- When the automated fix is deployed
+- When address updates are fully functional
+- Announcement of Phase 3 (Patreon) kickoff
+- Plans for Phase 4 (store purchases)
+
+*Last updated: Stardate 2025.027*`,
+      timestamp: new Date('2025-01-27T08:00:00Z').toISOString()
+    }
+  },
+
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   // SUPPORT CATEGORY - FAQ THREADS
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
