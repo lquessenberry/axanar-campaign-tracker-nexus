@@ -2,408 +2,20 @@
 /* Typography: Eurostile (content), Bebas Neue (headings), Inter (admin) */
 
 @import './styles/mobile-enhancements.css';
-
-/* ============= GOOGLE FONTS - ALL STARFLEET ERAS ============= */
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Staatliches&family=Orbitron:wght@700;900&family=Antonio:wght@400;700&family=Cinzel+Decorative:wght@900&family=Exo+2:wght@600;800&family=Russo+One&family=Overpass:wght@700;800&family=Share+Tech+Mono&family=Kanit:wght@700;800&family=Bungee&family=Electrolize&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ===========================================================================
-   LCARS DESIGN SYSTEM (v5.0)
-   TNG / DS9 / Voyager era interface elements
-   ============================================================================ */
-
-/* Universal LCARS defaults */
-:root {
-  --lcars-orange: #ff9500;
-  --lcars-amber: #ffcc00;
-  --lcars-yellow: #ffff00;
-  --lcars-lime: #ccff33;
-  --lcars-green: #00ff41;
-  --lcars-teal: #00ffcc;
-  --lcars-cyan: #00ffff;
-  --lcars-blue: #00ccff;
-  --lcars-violet: #9966ff;
-  --lcars-magenta: #ff00ff;
-  --lcars-red: #ff0040;
-  --lcars-white: #fff;
-  --lcars-gray: #aaa;
-  --lcars-black: #000;
-
-  --primary: var(--lcars-blue);
-  --secondary: var(--lcars-violet);
-  --accent: var(--lcars-orange);
-  --neutral: var(--lcars-gray);
-  --base-100: #222;
-  --base-200: #333;
-  --base-300: #444;
-  --content: var(--lcars-white);
-  --background: var(--lcars-black);
-
-  --rounded-box: 0.6rem;
-  --rounded-btn: 0.5rem;
-  --rounded-badge: 0.5rem;
-
-  --animation-btn: 0.25s;
-  --animation-input: 0.2s;
-  --btn-text-case: normal;
-  --btn-focus-scale: 0.95;
-  --border-btn: 1px;
-  --tab-border: 1px;
-  --tab-radius: 0.5rem;
-
-  /* Era Typography */
-  font-family: 'Eurostile', sans-serif;
-  --era-display-font: 'Orbitron', sans-serif;
-}
-
-/* LCARS "buttons" */
-.btn,
-button,
-[role="button"] {
-  font-family: 'Eurostile', sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--content) !important;
-  background-color: var(--primary);
-  border: 2px solid var(--primary);
-  transition: all 0.1s ease-in-out;
-}
-
-.btn-ghost {
-  background-color: transparent;
-  border: 2px solid var(--primary);
-}
-
-.btn-ghost:hover {
-  background-color: var(--base-100);
-}
-
-/* LCARS button hover */
-.btn:hover,
-button:hover,
-[role="button"]:hover {
-  color: var(--background) !important;
-  background-color: var(--accent);
-  border: 2px solid var(--accent);
-  transition: all 0.1s ease-in-out;
-}
-
-/* LCARS button active/focus */
-.btn:focus,
-button:focus,
-[role="button"]:focus {
-  outline: none !important;
-  color: var(--background) !important;
-  background-color: var(--secondary);
-  border: 2px solid var(--secondary);
-  transition: all 0.1s ease-in-out;
-}
-
-/* LCARS "input" fields */
-input,
-textarea,
-select {
-  font-family: 'Eurostile', sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--content);
-  background-color: var(--base-100);
-  border: 2px solid var(--primary);
-  transition: all 0.1s ease-in-out;
-}
-
-/* LCARS input focus */
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none !important;
-  color: var(--content);
-  background-color: var(--base-200);
-  border: 2px solid var(--accent);
-  transition: all 0.1s ease-in-out;
-}
-
-/* LCARS "card" backgrounds */
-.card {
-  background-color: var(--base-100);
-  color: var(--content);
-}
-
-/* LCARS alerts */
-.alert {
-  color: var(--content);
-}
-
-.alert-info {
-  background-color: var(--base-100);
-}
-
-.alert-warning {
-  background-color: var(--lcars-amber);
-  color: var(--lcars-black);
-}
-
-.alert-error {
-  background-color: var(--lcars-red);
-}
-
-/* LCARS tables */
-.table {
-  color: var(--content);
-}
-
-thead {
-  color: var(--accent);
-}
-
-/* LCARS code blocks */
-code {
-  color: var(--lime);
-  background-color: var(--base-200);
-}
-
-/* LCARS blockquotes */
-blockquote {
-  color: var(--gray);
-  border-left: 6px solid var(--primary);
-}
-
-/* LCARS anchor links */
-a {
-  color: var(--primary);
-  text-decoration: none;
-  transition: all 0.1s ease-in-out;
-}
-
-a:hover {
-  color: var(--accent);
-  text-shadow: 0 0 8px var(--accent);
-  transition: all 0.1s ease-in-out;
-}
-
-/* ===========================================================================
-   SOVEREIGN-CLASS LCARS BLOCK VII (2378) - Voyager / Maximum Contrast
-   ============================================================================ */
-.theme-sovereign-2378 {
-  /* Era Typography */
-  font-family: 'Electrolize', sans-serif;
-  --era-display-font: 'Electrolize', sans-serif;
-
-  /* Default LCARS color scheme */
-  --primary: var(--lcars-blue);
-  --secondary: var(--lcars-violet);
-  --accent: var(--lcars-orange);
-  --neutral: var(--lcars-gray);
-  --base-100: #222;
-  --base-200: #333;
-  --base-300: #444;
-  --content: var(--lcars-white);
-  --background: var(--lcars-black);
-}
-
-/* ===========================================================================
-   MIRROR UNIVERSE (2265) - Aggressor / Maximum Contrast
-   ============================================================================ */
-.theme-mirror-2265 {
-  /* Era Typography */
-  font-family: 'Electrolize', sans-serif;
-  --era-display-font: 'Cinzel Decorative', serif;
-
-  /* Mirror Universe color scheme */
-  --primary: var(--lcars-red);
-  --secondary: var(--lcars-orange);
-  --accent: var(--lcars-yellow);
-  --neutral: var(--lcars-gray);
-  --base-100: #111;
-  --base-200: #222;
-  --base-300: #333;
-  --content: var(--lcars-white);
-  --background: var(--lcars-black);
-}
-
-/* ===========================================================================
-   NX-01 (2151) - Enterprise / Maximum Contrast
-   ============================================================================ */
-.theme-nx-2151 {
-  /* Era Typography */
-  font-family: 'Electrolize', sans-serif;
-  --era-display-font: 'Staatliches', serif;
-
-  /* NX-01 color scheme */
-  --primary: #3399ff;
-  --secondary: #0066cc;
-  --accent: #cc9966;
-  --neutral: var(--lcars-gray);
-  --base-100: #111;
-  --base-200: #222;
-  --base-300: #333;
-  --content: var(--lcars-white);
-  --background: var(--lcars-black);
-}
-
-/* ===========================================================================
-   CONSTITUTION-CLASS (2265) - The Original Series / Maximum Contrast
-   ============================================================================ */
-.theme-constitution-2265 {
-  /* Era Typography */
-  font-family: 'Electrolize', sans-serif;
-  --era-display-font: 'Bungee', sans-serif;
-
-  /* TOS color scheme */
-  --primary: #ff0080;
-  --secondary: #ff0040;
-  --accent: #ffff00;
-  --neutral: var(--lcars-gray);
-  --base-100: #111;
-  --base-200: #222;
-  --base-300: #333;
-  --content: var(--lcars-white);
-  --background: var(--lcars-black);
-}
-
-/* ===========================================================================
-   TMP REFIT (2273) - The Motion Picture / Maximum Contrast
-   ============================================================================ */
-.theme-tmp-refit-2273 {
-  /* Era Typography */
-  font-family: 'Electrolize', sans-serif;
-  --era-display-font: 'Antonio', sans-serif;
-
-  /* TMP color scheme */
-  --primary: #f5f5dc;
-  --secondary: #ddddbb;
-  --accent: #ccaa99;
-  --neutral: var(--lcars-gray);
-  --base-100: #111;
-  --base-200: #222;
-  --base-300: #333;
-  --content: var(--lcars-black);
-  --background: var(--lcars-white);
-}
-
-/* ===========================================================================
-   EXCELSIOR-CLASS (2285) - The Search for Spock / Maximum Contrast
-   ============================================================================ */
-.theme-excelsior-2285 {
-  /* Era Typography */
-  font-family: 'Electrolize', sans-serif;
-  --era-display-font: 'Russo One', sans-serif;
-
-  /* Excelsior color scheme */
-  --primary: #ffd700;
-  --secondary: #cc9900;
-  --accent: #ffa500;
-  --neutral: var(--lcars-gray);
-  --base-100: #111;
-  --base-200: #222;
-  --base-300: #333;
-  --content: var(--lcars-black);
-  --background: var(--lcars-white);
-}
-
-/* ===========================================================================
-   AMBASSADOR-CLASS (2350) - All Good Things... / Maximum Contrast
-   ============================================================================ */
-.theme-ambassador-2350 {
-  /* Era Typography */
-  font-family: 'Electrolize', sans-serif;
-  --era-display-font: 'Exo 2', sans-serif;
-
-  /* Ambassador color scheme */
-  --primary: #ff9500;
-  --secondary: #ff6500;
-  --accent: #9966ff;
-  --neutral: var(--lcars-gray);
-  --base-100: #222;
-  --base-200: #333;
-  --base-300: #444;
-  --content: var(--lcars-white);
-  --background: var(--lcars-black);
-}
-
-/* ===========================================================================
-   GALAXY-CLASS (2363) - The Next Generation / Maximum Contrast
-   ============================================================================ */
-.theme-galaxy-2363 {
-  /* Era Typography */
-  font-family: 'Electrolize', sans-serif;
-  --era-display-font: 'Overpass', sans-serif;
-
-  /* Galaxy color scheme */
-  --primary: #ff9500;
-  --secondary: #ff6500;
-  --accent: #9966ff;
-  --neutral: var(--lcars-gray);
-  --base-100: #222;
-  --base-200: #333;
-  --base-300: #444;
-  --content: var(--lcars-white);
-  --background: var(--lcars-black);
-}
-
-/* ===========================================================================
-   DEFIANT-CLASS (2371) - Deep Space Nine / Maximum Contrast
-   ============================================================================ */
-.theme-defiant-2371 {
-  /* Era Typography */
-  font-family: 'Electrolize', sans-serif;
-  --era-display-font: 'Share Tech Mono', monospace;
-
-  /* Defiant color scheme */
-  --primary: #00ff41;
-  --secondary: #00cc41;
-  --accent: #ffff00;
-  --neutral: var(--lcars-gray);
-  --base-100: #222;
-  --base-200: #333;
-  --base-300: #444;
-  --content: var(--lcars-white);
-  --background: var(--lcars-black);
-}
-
-/* ===========================================================================
-   SOVEREIGN-CLASS LCARS BLOCK VII (2378) - Voyager / Maximum Contrast
-   ============================================================================ */
-.theme-sovereign-2378 {
-  /* Era Typography */
-  font-family: 'Electrolize', sans-serif;
-  --era-display-font: 'Electrolize', sans-serif;
-
-  /* Default LCARS color scheme */
-  --primary: #00ccff;
-  --secondary: #0088cc;
-  --accent: #ff9500;
-  --neutral: var(--lcars-gray);
-  --base-100: #222;
-  --base-200: #333;
-  --base-300: #444;
-  --content: var(--lcars-white);
-  --background: var(--lcars-black);
-}
-
-/* ============= UNIVERSAL THUMBY-TABLET OPTIMIZATIONS ============= */
-/* Gaming handhelds (Steam Deck, Legion Go, ROG Ally) + tablets */
-button, 
-.btn, 
-[role="button"], 
-a, 
-input, 
-textarea, 
-select {
-  min-height: 72px !important;
-  min-width: 72px !important;
-  padding: 16px !important;
-  touch-action: manipulation;
-}
-
-/* Controller navigation focus (no hover on handhelds) */
-:focus-visible {
-  outline: 6px solid currentColor !important;
-  outline-offset: 4px !important;
-  box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 24px currentColor !important;
+/* Handheld gaming device optimizations */
+@media (max-width: 1000px) {
+  html {
+    font-size: 18px;
+  }
+  
+  /* Ensure single column layout */
+  .container {
+    max-width: 800px !important;
+  }
 }
 
 /* Thumby mode enhancements */
@@ -430,204 +42,2703 @@ select {
   box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 24px hsl(var(--primary) / 0.6) !important;
 }
 
-/* ===========================================================================
-   ERA-SPECIFIC DISPLAY TYPOGRAPHY & BODY TEXT
-   Canon-accurate fonts + glows for all Starfleet eras
+/* ============= AXANAR FLUID TYPOGRAPHY SYSTEM ============= */
+/* Star Trek-inspired design with fluid scaling for immersive experience */
+@layer base {
+  html {
+    font-size: 16px; /* Base size for rem calculations */
+  }
+}
+
+/* Custom Font Faces for TTF files */
+@font-face {
+  font-family: 'CustomFont';
+  src: url('/fonts/CustomFont-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CustomFont';
+  src: url('/fonts/CustomFont-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CustomFont';
+  src: url('/fonts/CustomFont-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Star Trek Font Pack */
+@font-face {
+  font-family: 'StarTrek';
+  src: url('/fonts/startrek/StarTrek.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'StarTrekFilm';
+  src: url('/fonts/startrek/StarTrekFilm.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'StarTrekPi';
+  src: url('/fonts/startrek/StarTrekPi.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'StarfleetBoldExtended';
+  src: url('/fonts/startrek/StarfleetBoldExtended.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Venetian301';
+  src: url('/fonts/startrek/Venetian301.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Square721Condensed';
+  src: url('/fonts/startrek/Square721Condensed.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============= RESPONSIVE PROFILE LAYOUT ============= */
+/* Laptop viewport optimization (1200px - 1920px) */
+@media (min-width: 1200px) {
+  .profile-header-hero {
+    max-width: 1400px;
+  }
+  
+  /* Ensure stat pills don't wrap awkwardly */
+  .lcars-stat-pill {
+    flex: 0 1 auto;
+    white-space: nowrap;
+  }
+  
+  /* Rank card stays fixed width on large screens */
+  .lcars-rank-card {
+    min-width: 280px;
+    max-width: 280px;
+  }
+}
+
+/* Tablet/Smaller Laptop (768px - 1199px) */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .profile-header-hero {
+    padding-left: clamp(16px, 3vw, 32px);
+    padding-right: clamp(16px, 3vw, 32px);
+  }
+}
+
+/* Mobile (below 768px) */
+@media (max-width: 767px) {
+  .lcars-rank-card {
+    width: 100%;
+  }
+}
+
+/* LCARS Tab Strip - Hero to Body Transition */
+.lcars-tab-strip {
+  animation: lcars-slide-down 0.3s ease-out;
+  position: relative;
+}
+
+.lcars-tab-strip::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    hsl(var(--primary)) 0%, 
+    hsl(var(--primary)) 30%, 
+    transparent 100%);
+}
+
+@keyframes lcars-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============= PROFILE HEADER LCARS STYLING ============= */
+/* LCARS-inspired hero console with optimistic reveals */
+
+.lcars-stat-pill {
+  animation: lcars-fade-in 0.4s ease-out;
+}
+
+.lcars-rank-card {
+  animation: lcars-fade-in 0.5s ease-out;
+  transform-origin: top right;
+}
+
+.lcars-vanity-card {
+  animation: lcars-fade-in 0.6s ease-out;
+}
+
+.lcars-action-strip {
+  animation: lcars-fade-in 0.7s ease-out;
+}
+
+@keyframes lcars-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* LCARS Tactile Button Effect */
+.lcars-stat-pill:active,
+.lcars-rank-card:active,
+.lcars-vanity-card:active {
+  transform: translateY(2px);
+}
+
+/* ============= CURSOR FIXES ============= */
+/* Fix crosshair cursor appearing in profile/form contexts */
+input:focus,
+textarea:focus,
+[contenteditable="true"]:focus,
+.profile-edit-field {
+  cursor: text !important;
+}
+
+/* Ensure default cursor for non-interactive elements */
+body:not(.game-active) * {
+  cursor: default;
+}
+
+body:not(.game-active) a,
+body:not(.game-active) button,
+body:not(.game-active) [role="button"] {
+  cursor: pointer !important;
+}
+
+/* Battle/game mode gets crosshair */
+.game-active .cursor-crosshair {
+  cursor: crosshair;
+}
+
+/* ============= FORUM MENTION LINKS ============= */
+.mention-link {
+  @apply font-semibold text-axanar-teal no-underline;
+  transition: all 0.2s ease;
+}
+
+.mention-link:hover {
+  @apply underline;
+}
+
+.prose .mention-link {
+  @apply text-axanar-teal;
+}
+
+@layer base {
+  :root {
+    /* ============= DAYSTROM DESIGN SYSTEM ============= */
+    /* Unified Shadow System - 60° Top-Left Light Source */
+    --shadow-light-sm: -1px -1px 2px rgba(255, 255, 255, 0.1), 2px 2px 4px rgba(0, 0, 0, 0.2);
+    --shadow-light-md: -2px -2px 4px rgba(255, 255, 255, 0.1), 4px 4px 8px rgba(0, 0, 0, 0.2);
+    --shadow-light-lg: -4px -4px 8px rgba(255, 255, 255, 0.1), 8px 8px 16px rgba(0, 0, 0, 0.25);
+    
+    /* ============= LCARS COLOR PALETTE ============= */
+    /* Primary LCARS Colors */
+    --lcars-yellow: 48 100% 67%;      /* #FFC107 - LCARS Orange/Yellow */
+    --lcars-blue: 207 90% 45%;        /* Darker blue for better contrast */
+    --lcars-light-blue: 195 100% 61%; /* #0288D1 - Light Blue */
+    --lcars-dark-blue: 211 100% 44%;  /* #1565C0 - Dark Blue */
+    --lcars-red: 4 90% 58%;           /* #D32F2F - Alert Red */
+    --lcars-orange: 36 100% 50%;      /* #F57C00 - Tactical Orange */
+    --lcars-gray: 210 11% 71%;        /* #B0BEC5 - LCARS Gray */
+    --lcars-light-gray: 210 15% 87%;  /* #CFD8DC - Light Gray */
+    --lcars-dark-gray: 200 18% 54%;   /* #78909C - Dark Gray */
+    
+    /* ============= DESIGN TOKENS ============= */
+    /* Typography */
+    --font-heading: 'Inter', 'Eurostile', 'Swiss 911 Ultra Compressed', 'Bebas Neue', sans-serif;
+    --font-body: 'Inter', 'Arial', 'Helvetica', sans-serif;
+    --font-mono: 'Orbitron', 'Monaco', monospace;
+    
+    /* Spacing - Command Rail System */
+    --space-unit: 8px;
+    --command-rail-min-width: 280px;
+    --command-rail-module-height: 64px;
+    --command-rail-gap: 8px;
+    --spacing-unit: 0.75rem;
+    --lcars-gap: var(--spacing-unit);
+    
+    /* TOS-Inspired Colors */
+    --tos-primary-black: 10 10% 4%;      /* #0a0a0a */
+    --tos-optimism-blue: 225 73% 57%;    /* #4169E1 */
+    --tos-util-gray: 0 0% 41%;           /* #696969 */
+    --tos-etched-border: 0 0% 20%;       /* #333 */
+    --tos-exploration-glow: 195 100% 50%; /* #00BFFF */
+    
+    /* Effects */
+    --lcars-glow: 0 0 10px currentColor;
+    --lcars-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    --lcars-shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.3);
+    
+    /* Command Rail Tactile Effects */
+    --command-rail-inset-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+    --command-rail-depth: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --command-rail-glow: 0 0 20px hsl(var(--tos-exploration-glow));
+    --command-rail-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* ============= STANDARD LCARS MODE (Light) ============= */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 98%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: var(--lcars-blue);
+    --primary-foreground: 0 0% 100%;
+    --secondary: var(--lcars-light-gray);
+    --secondary-foreground: 0 0% 0%;
+    --muted: var(--lcars-light-gray);
+    --muted-foreground: var(--lcars-dark-gray);
+    --accent: var(--lcars-yellow);
+    --accent-foreground: 0 0% 0%;
+    --destructive: var(--lcars-red);
+    --destructive-foreground: 0 0% 100%;
+    --border: var(--lcars-gray);
+    --input: var(--lcars-light-gray);
+    --ring: var(--lcars-yellow);
+    --radius: 0.5rem;
+    
+    /* Chart colors for data displays */
+    --chart-1: var(--lcars-blue);
+    --chart-2: var(--lcars-yellow);
+    --chart-3: var(--lcars-red);
+    --chart-4: var(--lcars-light-blue);
+    --chart-5: var(--lcars-orange);
+    
+    /* Sidebar */
+    --sidebar: var(--lcars-light-gray);
+    --sidebar-foreground: 0 0% 0%;
+    --sidebar-primary: var(--lcars-blue);
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: var(--lcars-yellow);
+    --sidebar-accent-foreground: 0 0% 0%;
+    --sidebar-border: var(--lcars-gray);
+    --sidebar-ring: var(--lcars-yellow);
+    
+    /* LCARS Panel Styling */
+    --lcars-panel-bg: 0 0% 8%;
+    --lcars-panel-border: var(--lcars-yellow);
+    --lcars-button-primary: var(--lcars-blue);
+    --lcars-button-secondary: var(--lcars-yellow);
+    --lcars-text-primary: var(--lcars-yellow);
+    --lcars-text-secondary: var(--lcars-blue);
+    
+    /* Nebula theme colors */
+    --nebula-purple: 280 100% 70%;
+    --nebula-cyan: 190 100% 60%;
+    --nebula-pink: 330 100% 70%;
+    --nebula-blue: 220 100% 60%;
+    --nebula-dark: 260 50% 10%;
+    
+    /* Sci-Fi Animations */
+    --glow-primary: 0 0 20px hsl(var(--lcars-blue)), 0 0 40px hsl(var(--lcars-blue)), 0 0 60px hsl(var(--lcars-blue));
+    --glow-secondary: 0 0 20px hsl(var(--lcars-yellow)), 0 0 40px hsl(var(--lcars-yellow)), 0 0 60px hsl(var(--lcars-yellow));
+    --glow-alert: 0 0 20px hsl(var(--lcars-red)), 0 0 40px hsl(var(--lcars-red)), 0 0 60px hsl(var(--lcars-red));
+    --glow-nebula: 0 0 30px hsl(var(--nebula-purple)), 0 0 60px hsl(var(--nebula-cyan)), 0 0 90px hsl(var(--nebula-pink));
+  }
+
+  /* ============= NIGHT MODE (Enhanced Dark) ============= */
+  /* WCAG Compliance: All text colors maintain 4.5:1 minimum contrast for small text */
+  .dark {
+    --background: 0 0% 0%; /* Pure black */
+    --foreground: 48 100% 67%; /* LCARS Yellow #FFC107 - 12.8:1 contrast on black ✓ */
+    --card: 220 13% 8%; /* Very dark blue-gray */
+    --card-foreground: 48 100% 67%; /* LCARS Yellow - 11.2:1 contrast ✓ */
+    --popover: 220 13% 8%;
+    --popover-foreground: 48 100% 67%; /* LCARS Yellow - 11.2:1 contrast ✓ */
+    --primary: var(--lcars-blue);
+    --primary-foreground: 0 0% 100%; /* White - maximum contrast ✓ */
+    --secondary: 220 13% 15%;
+    --secondary-foreground: 48 100% 67%; /* LCARS Yellow - 9.8:1 contrast ✓ */
+    --muted: 220 13% 15%;
+    --muted-foreground: 210 11% 71%; /* LCARS Gray - 5.2:1 contrast ✓ */
+    --accent: var(--lcars-yellow);
+    --accent-foreground: 220 13% 8%; /* Dark for contrast with yellow ✓ */
+    --destructive: var(--lcars-red);
+    --destructive-foreground: 0 0% 98%; /* Near white - 19.8:1 contrast ✓ */
+    --border: 220 13% 15%;
+    --input: 220 13% 15%;
+    --ring: var(--lcars-yellow);
+    
+    /* Enhanced dark sidebar */
+    --sidebar: 220 13% 8%;
+    --sidebar-foreground: 48 100% 67%; /* LCARS Yellow */
+    --sidebar-primary: var(--lcars-yellow);
+    --sidebar-primary-foreground: 220 13% 8%; /* Dark background, not black */
+    --sidebar-accent: 220 13% 15%;
+    --sidebar-accent-foreground: 48 100% 67%; /* LCARS Yellow */
+    --sidebar-border: 220 13% 15%;
+    --sidebar-ring: var(--lcars-yellow);
+    
+    /* Dark mode overrides */
+    --lcars-panel-bg: 0 0% 5%;
+    --lcars-text-primary: 48 100% 67%; /* LCARS Yellow */
+    --lcars-text-secondary: 195 100% 61%; /* LCARS Light Blue */
+  }
+
+  /* ============= TACTICAL MODE (4 Years War Theme) ============= */
+  /* WCAG Compliance: Tactical orange maintains 7.1:1 contrast on dark backgrounds */
+  .tactical {
+    --background: 0 0% 3%; /* Near black tactical background */
+    --foreground: 36 100% 50%; /* LCARS Orange #FF8C00 - 7.1:1 contrast ✓ */
+    --card: 4 25% 8%; /* Dark red-tinted card */
+    --card-foreground: 36 100% 50%; /* LCARS Orange - 6.5:1 contrast ✓ */
+    --popover: 4 25% 8%;
+    --popover-foreground: 36 100% 50%; /* LCARS Orange - 6.5:1 contrast ✓ */
+    --primary: var(--lcars-red);
+    --primary-foreground: 0 0% 100%; /* White - maximum contrast ✓ */
+    --secondary: 4 25% 15%;
+    --secondary-foreground: 36 100% 50%; /* LCARS Orange - 5.8:1 contrast ✓ */
+    --muted: 4 25% 15%;
+    --muted-foreground: 200 18% 70%; /* Light gray - 4.9:1 contrast ✓ */
+    --accent: var(--lcars-orange);
+    --accent-foreground: 4 25% 8%; /* Dark for contrast with orange ✓ */
+    --destructive: var(--lcars-red);
+    --destructive-foreground: 0 0% 98%; /* Near white - 18.2:1 contrast ✓ */
+    --border: 4 25% 15%;
+    --input: 4 25% 15%;
+    --ring: var(--lcars-orange);
+    
+    /* Tactical sidebar */
+    --sidebar: 4 25% 8%;
+    --sidebar-foreground: 36 100% 50%; /* LCARS Orange */
+    --sidebar-primary: var(--lcars-red);
+    --sidebar-primary-foreground: 0 0% 98%; /* Near white */
+    --sidebar-accent: 4 25% 15%;
+    --sidebar-accent-foreground: 36 100% 50%; /* LCARS Orange */
+    --sidebar-border: 4 25% 15%;
+    --sidebar-ring: var(--lcars-orange);
+    
+    /* Tactical overrides */
+    --lcars-panel-bg: 4 25% 5%;
+    --lcars-panel-border: 36 100% 50%; /* LCARS Orange */
+    --lcars-button-primary: var(--lcars-red);
+    --lcars-button-secondary: 36 100% 50%; /* LCARS Orange */
+    --lcars-text-primary: 36 100% 50%; /* LCARS Orange */
+    --lcars-text-secondary: 4 90% 58%; /* LCARS Red */
+  }
+
+  /* ============= KLINGON MODE (tlhIngan Hol) ============= */
+  /* WCAG Compliance: Near-white text maintains 16.9:1 contrast on dark backgrounds */
+  .klingon {
+    /* Klingon Color Palette - Militaristic Dark Red Theme */
+    --background: 0 0% 0%; /* Pure black */
+    --foreground: 0 0% 98%; /* Near white - 18.2:1 contrast ✓ */
+    --card: 0 72% 15%; /* Dark red card background */
+    --card-foreground: 0 0% 98%; /* Near white - 9.8:1 contrast ✓ */
+    --popover: 0 72% 15%;
+    --popover-foreground: 0 0% 98%; /* Near white - 9.8:1 contrast ✓ */
+    --primary: 0 72% 30%; /* Dark red primary */
+    --primary-foreground: 0 0% 98%; /* Near white - 5.1:1 contrast ✓ */
+    --secondary: 0 84% 35%; /* Darker red secondary */
+    --secondary-foreground: 0 0% 98%; /* Near white - 4.8:1 contrast ✓ */
+    --muted: 0 0% 10%; /* Very dark gray */
+    --muted-foreground: 0 0% 65%; /* Gray - 4.6:1 contrast ✓ */
+    --accent: 0 100% 50%; /* Bright red accent */
+    --accent-foreground: 0 0% 98%; /* Near white for readability ✓ */
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 98%; /* Near white - maximum contrast ✓ */
+    --border: 0 84% 25%; /* Dark red border */
+    --input: 0 72% 15%;
+    --ring: 0 100% 50%;
+    --radius: 0.5rem;
+    
+    /* Klingon sidebar */
+    --sidebar: 0 72% 10%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 0 100% 50%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 0 84% 25%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 84% 25%;
+    --sidebar-ring: 0 100% 50%;
+    
+    /* Klingon LCARS overrides */
+    --lcars-panel-bg: 0 72% 8%;
+    --lcars-panel-border: 0 100% 50%;
+    --lcars-button-primary: 0 72% 30%;
+    --lcars-button-secondary: 0 100% 50%;
+    --lcars-text-primary: 0 0% 98%;
+    --lcars-text-secondary: 0 100% 50%;
+  }
+
+  /* Klingon theme typography override */
+  .klingon {
+    font-family: 'pIqaD', 'Orbitron', monospace !important;
+  }
+
+  .klingon * {
+    font-family: 'pIqaD', 'Orbitron', monospace !important;
+  }
+
+  /* Klingon specific component styles */
+  .klingon .btn-lcars {
+    background: linear-gradient(135deg, hsl(0 72% 30%), hsl(0 84% 35%));
+    border: 2px solid hsl(0 100% 50%);
+    color: hsl(0 0% 100%);
+    box-shadow: 0 4px 8px rgba(139, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .klingon .btn-lcars:hover {
+    background: linear-gradient(135deg, hsl(0 84% 35%), hsl(0 100% 40%));
+    box-shadow: 0 6px 12px rgba(139, 0, 0, 0.4);
+  }
+
+  .klingon .lcars-panel {
+    background: linear-gradient(135deg, hsl(0 72% 15%), hsl(0 84% 20%));
+    border: 2px solid hsl(0 100% 50%);
+    box-shadow: 0 4px 12px rgba(139, 0, 0, 0.5);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Eurostile', system-ui, sans-serif; /* Trek-inspired content font */
+    font-feature-settings: "kern" 1, "liga" 1, "clig" 1;
+    line-height: 1.6;
+    font-size: clamp(16px, 2.5vw + 0.5rem, 18px); /* Fluid body text */
+    font-weight: 400;
+    letter-spacing: -0.005em;
+  }
+
+  /* ============= AXANAR FLUID TYPOGRAPHY HIERARCHY ============= */
+  /* Inspired by LCARS and Star Trek interfaces with fluid scaling */
+  
+  h1 {
+    font-family: 'Bebas Neue', 'Orbitron', system-ui, sans-serif; /* Bold condensed titles */
+    font-size: clamp(32px, 5vw + 1rem, 48px); /* Fluid H1 scaling */
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.5rem;
+    font-weight: 400; /* Bebas Neue is naturally bold */
+    text-transform: uppercase;
+    @apply text-foreground;
+  }
+
+  h2 {
+    font-family: 'Bebas Neue', 'Orbitron', system-ui, sans-serif;
+    font-size: clamp(24px, 3.5vw + 0.8rem, 36px); /* Fluid H2 scaling */
+    line-height: 1.3;
+    letter-spacing: 0.015em;
+    margin-bottom: 1.25rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    @apply text-foreground;
+  }
+
+  h3 {
+    font-family: 'Bebas Neue', 'Orbitron', system-ui, sans-serif;
+    font-size: clamp(20px, 3vw + 0.6rem, 28px); /* Fluid H3 scaling */
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    margin-bottom: 1rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    @apply text-foreground;
+  }
+
+  h4 {
+    font-family: 'Eurostile', system-ui, sans-serif; /* Content font for smaller headings */
+    font-size: clamp(18px, 2.5vw + 0.5rem, 22px);
+    line-height: 1.45;
+    letter-spacing: 0.005em;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    @apply text-foreground;
+  }
+
+  h5 {
+    font-family: 'Eurostile', system-ui, sans-serif;
+    font-size: clamp(16px, 2vw + 0.4rem, 20px);
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    @apply text-foreground;
+  }
+
+  h6 {
+    font-family: 'Eurostile', system-ui, sans-serif;
+    font-size: clamp(14px, 1.5vw + 0.3rem, 18px);
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    @apply text-muted-foreground;
+  }
+
+  /* Magazine-Style Body Text */
+  p {
+    font-family: 'Eurostile', system-ui, sans-serif; /* Editorial font */
+    font-size: clamp(16px, 2.5vw + 0.5rem, 18px); /* Fluid body text */
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-weight: 400;
+    max-width: 75ch; /* Optimal reading length */
+    letter-spacing: 0.01em;
+    @apply text-foreground;
+  }
+
+  /* ============= AXANAR FLUID TEXT SIZE UTILITIES ============= */
+  /* Responsive text sizes with clamp() for perfect scaling */
+  
+  .text-xs {
+    font-size: clamp(10px, 1.5vw + 0.2rem, 12px);
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    font-family: 'Inter', system-ui, sans-serif; /* Admin/UI font */
+  }
+
+  .text-sm {
+    font-size: clamp(12px, 2vw + 0.3rem, 14px);
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  .text-base {
+    font-size: clamp(16px, 2.5vw + 0.5rem, 18px); /* Body text */
+    line-height: 1.6;
+    font-family: 'Eurostile', system-ui, sans-serif;
+  }
+
+  .text-lg {
+    font-size: clamp(18px, 3vw + 0.6rem, 22px);
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+    font-family: 'Eurostile', system-ui, sans-serif;
+  }
+
+  .text-xl {
+    font-size: clamp(20px, 3.5vw + 0.7rem, 26px);
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    font-family: 'Bebas Neue', system-ui, sans-serif;
+  }
+
+  .text-2xl {
+    font-size: clamp(24px, 4vw + 0.8rem, 32px);
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    font-family: 'Bebas Neue', system-ui, sans-serif;
+  }
+
+  .text-3xl {
+    font-size: clamp(28px, 4.5vw + 1rem, 40px);
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    font-family: 'Bebas Neue', system-ui, sans-serif;
+  }
+
+  .text-4xl {
+    font-size: clamp(32px, 5vw + 1rem, 48px);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    font-family: 'Bebas Neue', system-ui, sans-serif;
+  }
+
+  .text-5xl {
+    font-size: clamp(40px, 6vw + 1.5rem, 64px);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    font-family: 'Bebas Neue', system-ui, sans-serif;
+  }
+
+  /* ============= AXANAR FONT WEIGHTS & UTILITIES ============= */
+  .font-light { font-weight: 300; }
+  .font-normal { font-weight: 400; }
+  .font-medium { font-weight: 500; }
+  .font-semibold { font-weight: 600; }
+  .font-bold { font-weight: 700; }
+  .font-extrabold { font-weight: 800; }
+
+  /* Font Family Utilities */
+  .font-trek-heading { font-family: 'Bebas Neue', 'Orbitron', system-ui, sans-serif; }
+  .font-trek-content { font-family: 'Eurostile', system-ui, sans-serif; }
+  .font-trek-admin { font-family: 'Inter', system-ui, sans-serif; }
+  .font-trek-tech { font-family: 'Orbitron', monospace; }
+
+  /* Admin Interface Text - Inter for clarity */
+  .admin-text {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(14px, 2vw + 0.4rem, 16px);
+    line-height: 1.5;
+    letter-spacing: 0.005em;
+  }
+
+  /* Code and monospace - LCARS style */
+  code, pre, kbd, samp {
+    font-family: 'Orbitron', 'Monaco', monospace;
+    font-feature-settings: "kern" 0, "liga" 0;
+    font-size: clamp(12px, 1.8vw + 0.3rem, 14px);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    @apply bg-muted text-muted-foreground;
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+  }
+
+  /* Button text - LCARS inspired */
+  button, .btn {
+    font-family: 'Eurostile', system-ui, sans-serif;
+    font-size: clamp(14px, 2vw + 0.4rem, 16px);
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: all 0.3s ease; /* LCARS smooth transitions */
+  }
+
+  /* Lists with Trek styling */
+  ul, ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+    font-size: clamp(16px, 2.5vw + 0.5rem, 18px);
+    font-family: 'Eurostile', system-ui, sans-serif;
+  }
+
+  /* Links with LCARS-style transitions */
+  a {
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: all 0.3s ease;
+    @apply text-primary hover:text-accent;
+  }
+
+  /* Small text elements */
+  small {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(12px, 1.8vw + 0.3rem, 14px);
+    line-height: 1.5;
+    font-weight: 400;
+    @apply text-muted-foreground;
+  }
+}
+
+@layer components {
+  /* ============= AXANAR COMPONENT STYLES ============= */
+  /* LCARS-inspired components with Star Trek aesthetics */
+  
+  .hero-gradient {
+    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
+  }
+  
+  .axanar-gradient {
+    background: linear-gradient(135deg, hsl(195 25% 8%) 0%, hsl(195 60% 15%) 50%, hsl(195 25% 8%) 100%);
+  }
+  
+  .lcars-panel {
+    @apply bg-card border border-border rounded-lg p-6;
+    background: linear-gradient(145deg, hsl(var(--card)), hsl(var(--muted)));
+    box-shadow: 0 4px 6px -1px hsl(var(--primary) / 0.1), 0 2px 4px -1px hsl(var(--primary) / 0.06);
+  }
+  
+  .lcars-button {
+    @apply bg-primary hover:bg-primary/90 text-primary-foreground;
+    @apply px-6 py-3 rounded-lg font-trek-content text-sm uppercase tracking-wider;
+    @apply transition-all duration-300 ease-out;
+    @apply border-2 border-transparent hover:border-accent;
+    box-shadow: 0 2px 8px hsl(var(--primary) / 0.3);
+  }
+  
+  .lcars-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px hsl(var(--primary) / 0.4);
+  }
+  
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: clamp(1rem, 3vw, 2rem);
+    padding: clamp(1rem, 5vw, 2rem);
+  }
+  
+  .badge {
+    @apply inline-flex items-center px-3 py-1 text-xs font-trek-admin font-medium uppercase tracking-wider;
+    @apply rounded-full border transition-colors duration-300;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary/20 text-primary border-primary/30 hover:bg-primary/30;
+  }
+
+  .badge-secondary {
+    @apply badge bg-secondary/20 text-secondary-foreground border-secondary/30 hover:bg-secondary/30;
+  }
+  
+  .badge-accent {
+    @apply badge bg-accent/20 text-accent-foreground border-accent/30 hover:bg-accent/30;
+  }
+
+  .text-shadow {
+    text-shadow: 0 2px 4px hsl(var(--background) / 0.8);
+  }
+
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px hsl(var(--background) / 0.9);
+  }
+  
+  .text-glow {
+    text-shadow: 0 0 10px hsl(var(--primary) / 0.5), 0 0 20px hsl(var(--primary) / 0.3);
+  }
+
+  /* LCARS-style data displays */
+  .data-display {
+    @apply font-trek-tech text-accent bg-muted/50 px-3 py-1 rounded border-l-4 border-accent;
+    letter-spacing: 0.1em;
+  }
+  
+  /* Trek-themed form elements */
+  .trek-input {
+    @apply bg-input border border-border rounded-md px-4 py-2;
+    @apply font-trek-content text-foreground placeholder:text-muted-foreground;
+    @apply focus:border-primary focus:ring-2 focus:ring-primary/20;
+    @apply transition-all duration-300;
+  }
+  
+  /* Navigation elements */
+  .trek-nav-link {
+    @apply font-trek-content text-sm uppercase tracking-wider;
+    @apply text-muted-foreground hover:text-primary;
+    @apply transition-colors duration-300;
+    @apply relative;
+  }
+  
+  .trek-nav-link::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-accent;
+    @apply transition-all duration-300;
+  }
+  
+  .trek-nav-link:hover::after {
+    @apply w-full;
+  }
+
+  /* ============= LCARS ENTERPRISE COMPONENTS ============= */
+  /* Early 2000s enterprise software with Star Trek aesthetics */
+  
+  /* LCARS 3D Buttons with beveled edges */
+  .btn-lcars {
+    background: linear-gradient(135deg, hsl(var(--lcars-light-blue)), hsl(var(--lcars-dark-blue)));
+    border: 2px solid hsl(var(--lcars-blue));
+    border-radius: 8px;
+    box-shadow: var(--lcars-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.75rem 1.5rem;
+    color: hsl(0 0% 8%);
+    font-weight: 600;
+  }
+  
+  .btn-lcars:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--lcars-shadow-hover);
+  }
+  
+  .btn-lcars:active {
+    transform: translateY(1px);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  /* LCARS Secondary Button */
+  .btn-lcars-secondary {
+    background: linear-gradient(135deg, hsl(var(--lcars-yellow)), hsl(var(--lcars-orange)));
+    border: 2px solid hsl(var(--lcars-yellow));
+    color: hsl(0 0% 8%);
+  }
+
+  /* LCARS Alert Button */
+  .btn-lcars-alert {
+    background: linear-gradient(135deg, hsl(var(--lcars-red)), hsl(var(--lcars-orange)));
+    border: 2px solid hsl(var(--lcars-red));
+    color: hsl(0 0% 100%);
+  }
+
+  /* LCARS Navigation Bar */
+  .nav-lcars {
+    background: hsl(var(--background));
+    display: flex;
+    gap: var(--lcars-gap);
+    padding: var(--lcars-gap);
+    border-left: 4px solid hsl(var(--lcars-yellow));
+    border-bottom: 1px solid hsl(var(--border));
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-lcars a {
+    color: hsl(var(--lcars-yellow));
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+  }
+  
+  .nav-lcars a:hover {
+    background: hsl(var(--lcars-yellow) / 0.1);
+    border-color: hsl(var(--lcars-yellow));
+    color: hsl(var(--lcars-blue));
+  }
+
+  /* LCARS Panel System */
+  .lcars-panel-system {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--lcars-gap);
+    padding: var(--lcars-gap);
+  }
+
+  .lcars-display-panel {
+    background: hsl(var(--lcars-panel-bg));
+    border: 2px solid hsl(var(--lcars-panel-border));
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .lcars-display-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, hsl(var(--lcars-yellow)), hsl(var(--lcars-blue)), hsl(var(--lcars-red)));
+  }
+
+  .lcars-display-panel h3 {
+    color: hsl(var(--lcars-text-primary));
+    margin-bottom: 1rem;
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .lcars-display-panel .content {
+    color: hsl(var(--lcars-text-secondary));
+    font-family: var(--font-body);
+    line-height: 1.6;
+  }
+
+  /* LCARS Status Indicators */
+  .lcars-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+
+  .lcars-status.active {
+    background: hsl(var(--lcars-blue) / 0.2);
+    color: hsl(var(--lcars-blue));
+    border: 1px solid hsl(var(--lcars-blue));
+  }
+
+  .lcars-status.alert {
+    background: hsl(var(--lcars-red) / 0.2);
+    color: hsl(var(--lcars-red));
+    border: 1px solid hsl(var(--lcars-red));
+  }
+
+  .lcars-status.warning {
+    background: hsl(var(--lcars-orange) / 0.2);
+    color: hsl(var(--lcars-orange));
+    border: 1px solid hsl(var(--lcars-orange));
+  }
+
+  /* LCARS Data Grid */
+  .lcars-data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: hsl(var(--border));
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .lcars-data-cell {
+    background: hsl(var(--card));
+    padding: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: hsl(var(--foreground));
+  }
+
+  .lcars-data-cell.header {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  /* LCARS Form Elements */
+  .lcars-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: 12px;
+  }
+
+  .lcars-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .lcars-form-label {
+    font-family: var(--font-heading);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: hsl(var(--lcars-text-primary));
+    font-weight: 600;
+  }
+
+  .lcars-form-input {
+    padding: 0.75rem 1rem;
+    background: hsl(var(--input));
+    border: 2px solid hsl(var(--border));
+    border-radius: 6px;
+    font-family: var(--font-body);
+    color: hsl(var(--foreground));
+    transition: all 0.3s ease;
+  }
+
+  .lcars-form-input:focus {
+    outline: none;
+    border-color: hsl(var(--lcars-blue));
+    box-shadow: 0 0 0 3px hsl(var(--lcars-blue) / 0.2);
+  }
+
+  /* LCARS Progress Bars */
+  .lcars-progress {
+    width: 100%;
+    height: 24px;
+    background: hsl(var(--muted));
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid hsl(var(--border));
+  }
+
+  .lcars-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, hsl(var(--lcars-blue)), hsl(var(--lcars-light-blue)));
+    transition: width 0.5s ease;
+    position: relative;
+  }
+
+  .lcars-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3));
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* Sci-Fi Specific Animations */
+  @keyframes data-stream {
+    0% { transform: translateY(100%); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-100%); opacity: 0; }
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 5px hsl(var(--lcars-blue)), 0 0 10px hsl(var(--lcars-blue)); }
+    50% { box-shadow: 0 0 20px hsl(var(--lcars-blue)), 0 0 30px hsl(var(--lcars-blue)), 0 0 40px hsl(var(--lcars-blue)); }
+  }
+
+  @keyframes scan-line {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100vw); }
+  }
+
+  @keyframes scan {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100%); }
+  }
+
+  @keyframes hologram-flicker {
+    0%, 100% { opacity: 1; }
+    97% { opacity: 1; }
+    98% { opacity: 0.8; }
+    99% { opacity: 0.9; }
+  }
+
+  @keyframes matrix-fall {
+    0% { transform: translateY(-100vh); }
+    100% { transform: translateY(100vh); }
+  }
+
+  @keyframes energy-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Cage Era Specific Animations */
+  @keyframes pre-kirk-glow {
+    0%, 100% { text-shadow: 0 0 10px hsl(var(--lcars-yellow)), 0 0 20px hsl(var(--lcars-yellow)); }
+    50% { text-shadow: 0 0 20px hsl(var(--lcars-yellow)), 0 0 30px hsl(var(--lcars-yellow)), 0 0 40px hsl(var(--lcars-yellow)); }
+  }
+
+  @keyframes enterprise-startup {
+    0% { opacity: 0; transform: scale(0.8) rotateY(-10deg); }
+    50% { opacity: 0.8; transform: scale(1.05) rotateY(5deg); }
+    100% { opacity: 1; transform: scale(1) rotateY(0deg); }
+  }
+
+  @keyframes tactical-alert {
+    0%, 100% { background-color: transparent; }
+    50% { background-color: hsl(var(--lcars-red) / 0.2); }
+  }
+
+  /* Glitch Effects for Lottie */
+  @keyframes glitch-static {
+    0% { 
+      background-position: 0 0;
+      filter: hue-rotate(0deg);
+    }
+    25% { 
+      background-position: 2px 1px;
+      filter: hue-rotate(90deg);
+    }
+    50% { 
+      background-position: -1px 2px;
+      filter: hue-rotate(180deg);
+    }
+    75% { 
+      background-position: 1px -1px;
+      filter: hue-rotate(270deg);
+    }
+    100% { 
+      background-position: 0 0;
+      filter: hue-rotate(360deg);
+    }
+  }
+
+  /* Utility Classes for Sci-Fi Effects */
+  .animate-data-stream {
+    animation: data-stream 3s linear infinite;
+  }
+
+  .animate-glow-pulse {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+
+  .animate-scan-line {
+    animation: scan-line 4s linear infinite;
+  }
+
+  .animate-hologram {
+    animation: hologram-flicker 0.1s infinite;
+  }
+
+  .animate-matrix {
+    animation: matrix-fall 10s linear infinite;
+  }
+
+  .animate-energy {
+    background: linear-gradient(-45deg, hsl(var(--lcars-blue)), hsl(var(--lcars-light-blue)), hsl(var(--lcars-blue)), hsl(var(--lcars-light-blue)));
+    background-size: 400% 400%;
+    animation: energy-flow 3s ease infinite;
+  }
+
+  .animate-pre-kirk {
+    animation: pre-kirk-glow 3s ease-in-out infinite;
+  }
+
+  .animate-enterprise {
+    animation: enterprise-startup 1s ease-out;
+  }
+
+  .animate-tactical {
+    animation: tactical-alert 1s ease-in-out infinite;
+  }
+
+  /* LCARS Alerts and Notifications */
+  .lcars-alert {
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid;
+    font-family: var(--font-body);
+    margin: 1rem 0;
+  }
+
+  .lcars-alert.info {
+    background: hsl(var(--lcars-blue) / 0.1);
+    border-color: hsl(var(--lcars-blue));
+    color: hsl(var(--lcars-blue));
+  }
+
+  .lcars-alert.warning {
+    background: hsl(var(--lcars-orange) / 0.1);
+    border-color: hsl(var(--lcars-orange));
+    color: hsl(var(--lcars-orange));
+  }
+
+  .lcars-alert.error {
+    background: hsl(var(--lcars-red) / 0.1);
+    border-color: hsl(var(--lcars-red));
+    color: hsl(var(--lcars-red));
+  }
+
+  /* Enterprise Software Aesthetic */
+  .enterprise-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-body);
+    background: hsl(var(--card));
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .enterprise-table th {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    padding: 1rem;
+    text-align: left;
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+
+  .enterprise-table td {
+    padding: 1rem;
+    border-bottom: 1px solid hsl(var(--border));
+    color: hsl(var(--foreground));
+  }
+
+  .enterprise-table tr:hover {
+    background: hsl(var(--muted) / 0.5);
+  }
+
+  /* Circuit Pattern Background */
+  .circuit-pattern {
+    background-image: 
+      radial-gradient(circle at 2px 2px, hsl(var(--primary) / 0.05) 1px, transparent 0);
+    background-size: 20px 20px;
+  }
+
+  /* LCARS Corner Elements */
+  .lcars-corner {
+    position: relative;
+  }
+
+  .lcars-corner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border-top: 3px solid hsl(var(--lcars-yellow));
+    border-left: 3px solid hsl(var(--lcars-yellow));
+    border-radius: 8px 0 0 0;
+  }
+
+  .lcars-corner::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    border-bottom: 3px solid hsl(var(--lcars-yellow));
+    border-right: 3px solid hsl(var(--lcars-yellow));
+    border-radius: 0 0 8px 0;
+  }
+}
+
+/* Siren ripple animation for red alert */
+@keyframes siren-ripple {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* ============= MOBILE-SPECIFIC STYLES ============= */
+/* Mobile-first responsive design with Capacitor native features */
+
+/* Safe area support for devices with notches */
+@supports (padding: env(safe-area-inset-top)) {
+  .mobile-safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .mobile-safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .mobile-safe-area-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  
+  .mobile-safe-area-right {
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* Mobile breakpoint optimizations */
+@media (max-width: 767px) {
+  /* Ensure minimum touch target sizes */
+  .mobile-touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Optimize text sizes for mobile */
+  .mobile-optimized-text {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    line-height: 1.5;
+  }
+  
+  /* Mobile navigation animations */
+  .mobile-nav-enter {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  
+  .mobile-nav-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 300ms, transform 300ms;
+  }
+  
+  .mobile-nav-exit {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .mobile-nav-exit-active {
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: opacity 300ms, transform 300ms;
+  }
+  
+  /* Improve scrolling on mobile */
+  .mobile-scroll-container {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+  }
+  
+  /* Hide scrollbars on mobile for cleaner look */
+  .mobile-hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .mobile-hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Mobile-friendly cards */
+  .mobile-card {
+    margin: 0.5rem;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Responsive tables for mobile */
+  .mobile-table-stack {
+    display: block;
+    width: 100%;
+  }
+  
+  .mobile-table-stack thead,
+  .mobile-table-stack tbody,
+  .mobile-table-stack th,
+  .mobile-table-stack td,
+  .mobile-table-stack tr {
+    display: block;
+  }
+  
+  .mobile-table-stack thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  .mobile-table-stack tr {
+    border: 1px solid hsl(var(--border));
+    margin-bottom: 12px;
+    padding: 16px;
+    border-radius: 8px;
+    background: hsl(var(--card));
+  }
+  
+  .mobile-table-stack td {
+    border: none !important;
+    position: relative;
+    padding-left: 50% !important;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    text-align: right;
+  }
+  
+  .mobile-table-stack td:before {
+    content: attr(data-label) ":";
+    position: absolute;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    font-weight: 600;
+    color: hsl(var(--muted-foreground));
+    text-align: left;
+  }
+  
+  /* Mobile button optimizations */
+  .mobile-button {
+    min-height: 44px;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+    touch-action: manipulation;
+  }
+  
+  /* Mobile form optimizations */
+  .mobile-form-input {
+    min-height: 44px;
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 12px 16px;
+    border-radius: 8px;
+  }
+  
+  /* Mobile spacing utilities */
+  .mobile-spacing-sm { padding: 0.5rem; }
+  .mobile-spacing-md { padding: 1rem; }
+  .mobile-spacing-lg { padding: 1.5rem; }
+  .mobile-spacing-xl { padding: 2rem; }
+  
+  /* Mobile grid optimizations */
+  .mobile-grid-single {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+  
+  .mobile-grid-double {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem;
+  }
+  
+  /* Bottom navigation safe area */
+  .mobile-bottom-nav {
+    padding-bottom: calc(16px + env(safe-area-inset-bottom));
+  }
+  
+  /* Mobile modals and dialogs */
+  .mobile-modal {
+    margin: 0;
+    max-height: 90vh;
+    border-radius: 16px 16px 0 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  /* Mobile-optimized admin panels */
+  .mobile-admin-card {
+    padding: 1rem;
+    margin: 0.5rem;
+    border-radius: 12px;
+  }
+  
+  .mobile-admin-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: hsl(var(--background) / 0.95);
+    backdrop-filter: blur(8px);
+    padding: 1rem;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+  
+  /* Slow Lottie Animation */
+  .slow-lottie svg * {
+    animation-duration: calc(var(--animation-duration, 1s) * 8) !important;
+  }
+  
+  .slow-lottie svg animateTransform,
+  .slow-lottie svg animate {
+    dur: 16s !important;
+  }
+}
+
+/* ============================================================================
+   UNIFIED THEME SYSTEM - 2151 → 2378
+   Complete interface themes across all Starfleet eras
    ============================================================================ */
 
-/* NX-01 Display/Header Typography */
-.theme-nx-2151 .display,
-.theme-nx-2151 h1 {
-  font-family: var(--era-display-font);
-  font-size: 4.5rem;
-  letter-spacing: 0.18em;
-  text-shadow: 0 0 16px #3399FF, 0 0 32px #0066CC;
-  line-height: 1;
+/* PRE-FEDERATION ERA (2151) */
+
+/* NX-CLASS PROTO-LCARS (2151) - Enterprise NX-01 */
+/* Canon-accurate colors verified against ENT Blu-ray frames */
+.theme-nx-2151 {
+  /* Core Colors - Dark navy gray, NOT brown */
+  --background: 210 30% 8%;        /* #0F1419 - bridge panels & screen base */
+  --foreground: 0 0% 100%;         /* #FFFFFF - pure white text, maximum contrast */
+  --card: 200 15% 14%;             /* #1E2529 - raised console surfaces */
+  --card-foreground: 0 0% 100%;
+  --popover: 200 15% 14%;
+  --popover-foreground: 0 0% 100%;
+  
+  /* Primary - "Enterprise Blue" (exact uniform match) */
+  --primary: 210 100% 45%;         /* #0066CC - signature NX-era blue */
+  --primary-foreground: 0 0% 100%;
+  --primary-glow: 210 100% 65%;    /* #3399FF - active button glow */
+  
+  /* Secondary - Cyan schematics/graphs */
+  --secondary: 192 100% 50%;       /* #00CCFF - scanner lines, wireframes */
+  --secondary-foreground: 0 0% 100%;
+  
+  /* Accent - Engineering amber */
+  --accent: 36 100% 40%;           /* #CC9900 - warp status, engineering */
+  --accent-foreground: 0 0% 100%;
+  
+  /* Muted */
+  --muted: 195 10% 20%;            /* #2D363A - deepest recesses */
+  --muted-foreground: 200 10% 92%; /* #E5E7EB - secondary readouts */
+  
+  /* Destructive - Safety orange/red alerts */
+  --destructive: 18 100% 40%;      /* #CC4400 - alerts, weapons, damage */
+  --destructive-foreground: 0 0% 100%;
+  
+  /* Border/Input/Ring */
+  --border: 210 40% 40%;           /* Inactive blue-gray borders */
+  --input: 200 15% 14%;
+  --ring: 210 100% 65%;            /* Active blue glow */
+  
+  /* Sidebar */
+  --sidebar: 200 15% 14%;
+  --sidebar-foreground: 0 0% 100%;
+  --sidebar-primary: 210 100% 45%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 192 100% 50%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-border: 210 40% 40%;
+  --sidebar-ring: 210 100% 65%;
+  
+  /* Axanar Colors mapped to NX palette */
+  --axanar-blue: 210 100% 45%;
+  --axanar-teal: 192 100% 50%;
+  --axanar-silver: 0 0% 100%;
+  --axanar-accent: 210 100% 65%;
+  --axanar-dark: 210 30% 8%;
+  --axanar-light: 200 15% 14%;
+  
+  /* Effects - No glassmorphism, sharp industrial look */
+  --lcars-blur: 0px;
+  --card-glassmorphism: transparent;
+  --radius: 4px; /* Square-ish corners like actual NX-01 screens */
+}
+
+/* Disable glassmorphism completely */
+.theme-nx-2151 * {
+  backdrop-filter: none !important;
+}
+
+/* Cards - Metallic industrial panels with 3D bevels */
+.theme-nx-2151 .daystrom-card,
+.theme-nx-2151 .card {
+  background: linear-gradient(180deg, hsl(200 15% 16%), hsl(200 15% 14%)) !important;
+  border: 2px solid hsl(210 40% 40%) !important;
+  border-radius: 4px !important;
+  box-shadow: 
+    inset 0 4px 8px hsl(210 20% 30% / 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Buttons - Physical, beveled, 3D pressable look with blue glows */
+.theme-nx-2151 button {
+  min-height: 72px !important; /* Thumb-friendly for gaming handhelds */
+  border-radius: 4px !important;
+  background: linear-gradient(180deg, hsl(200 15% 16%), hsl(200 15% 14%)) !important;
+  border: 3px solid hsl(210 40% 40%) !important;
+  box-shadow: 
+    inset 0 4px 8px hsl(210 20% 30% / 0.6),
+    0 0 8px hsl(210 100% 70% / 0.2) !important;
+  color: hsl(0 0% 100%) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  transition: all 0.15s ease !important;
+}
+
+.theme-nx-2151 button:hover,
+.theme-nx-2151 button:focus-visible,
+.theme-nx-2151 button.active {
+  border-color: hsl(210 100% 65%) !important; /* Enterprise blue glow */
+  background: linear-gradient(180deg, hsl(210 30% 18%), hsl(200 15% 16%)) !important;
+  box-shadow: 
+    inset 0 4px 12px hsl(210 100% 70% / 0.4),
+    0 0 20px hsl(210 100% 70%) !important; /* Strong blue halo */
+}
+
+/* FOUR YEARS WAR ERA (2256) */
+
+/* ARES MARK IV - LIGHT MODE */
+.theme-ares-mk4-light {
+  /* Core Colors */
+  --background: 40 15% 92%;
+  --foreground: 0 0% 10%;
+  --card: 40 15% 96%;
+  --card-foreground: 0 0% 10%;
+  --popover: 40 15% 96%;
+  --popover-foreground: 0 0% 10%;
+  
+  /* Primary */
+  --primary: 30 85% 50%;
+  --primary-foreground: 0 0% 100%;
+  --primary-glow: 30 90% 60%;
+  
+  /* Secondary */
+  --secondary: 195 70% 40%;
+  --secondary-foreground: 0 0% 100%;
+  
+  /* Accent */
+  --accent: 30 85% 50%;
+  --accent-foreground: 0 0% 100%;
+  
+  /* Muted */
+  --muted: 40 10% 85%;
+  --muted-foreground: 0 0% 35%;
+  
+  /* Destructive */
+  --destructive: 0 70% 45%;
+  --destructive-foreground: 0 0% 100%;
+  
+  /* Border/Input/Ring */
+  --border: 30 20% 75%;
+  --input: 40 15% 90%;
+  --ring: 30 85% 50%;
+  
+  /* Sidebar */
+  --sidebar: 40 15% 94%;
+  --sidebar-foreground: 0 0% 10%;
+  --sidebar-primary: 30 85% 50%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 195 70% 40%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-border: 30 20% 75%;
+  --sidebar-ring: 30 85% 50%;
+  
+  /* Axanar Colors */
+  --axanar-blue: 220 60% 50%;
+  --axanar-teal: 195 70% 45%;
+  --axanar-silver: 40 10% 85%;
+  --axanar-accent: 30 85% 50%;
+  --axanar-dark: 0 0% 20%;
+  --axanar-light: 40 15% 92%;
+  
+  /* Effects */
+  --lcars-blur: 0px;
+  --card-glassmorphism: transparent;
+  --radius: 8px;
+}
+
+.theme-ares-mk4-light .daystrom-card,
+.theme-ares-mk4-light .card {
+  background: hsl(40 15% 96%) !important;
+  border: 1px solid hsl(30 20% 75%) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.theme-ares-mk4-light button {
+  border-radius: 8px !important;
+  background: hsl(40 15% 94%) !important;
+  border: 1px solid hsl(30 20% 70%) !important;
+  color: hsl(0 0% 10%) !important;
+  font-size: 13px !important;
+}
+
+.theme-ares-mk4-light button:hover {
+  background: hsl(30 25% 88%) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* HERCULES MARK IV - DARK MODE (DEFAULT) */
+.theme-hercules-mk4-dark {
+  /* Core Colors */
+  --background: 220 20% 12%;
+  --foreground: 30 80% 85%;
+  --card: 220 20% 15%;
+  --card-foreground: 30 80% 85%;
+  --popover: 220 20% 15%;
+  --popover-foreground: 30 80% 85%;
+  
+  /* Primary */
+  --primary: 30 95% 55%;
+  --primary-foreground: 220 20% 12%;
+  --primary-glow: 30 100% 65%;
+  
+  /* Secondary */
+  --secondary: 195 70% 55%;
+  --secondary-foreground: 220 20% 12%;
+  
+  /* Accent */
+  --accent: 30 95% 55%;
+  --accent-foreground: 220 20% 12%;
+  
+  /* Muted */
+  --muted: 220 15% 22%;
+  --muted-foreground: 30 40% 65%;
+  
+  /* Destructive */
+  --destructive: 0 70% 55%;
+  --destructive-foreground: 0 0% 100%;
+  
+  /* Border/Input/Ring */
+  --border: 220 15% 25%;
+  --input: 220 20% 18%;
+  --ring: 30 95% 55%;
+  
+  /* Sidebar */
+  --sidebar: 220 20% 15%;
+  --sidebar-foreground: 30 80% 85%;
+  --sidebar-primary: 30 95% 55%;
+  --sidebar-primary-foreground: 220 20% 12%;
+  --sidebar-accent: 195 70% 55%;
+  --sidebar-accent-foreground: 220 20% 12%;
+  --sidebar-border: 220 15% 25%;
+  --sidebar-ring: 30 95% 55%;
+  
+  /* Axanar Colors */
+  --axanar-blue: 220 60% 40%;
+  --axanar-teal: 195 70% 55%;
+  --axanar-silver: 30 80% 85%;
+  --axanar-accent: 30 95% 55%;
+  --axanar-dark: 220 20% 8%;
+  --axanar-light: 220 15% 22%;
+  
+  /* Effects */
+  --lcars-blur: 4px;
+  --card-glassmorphism: 30 95% 55% / 0.03;
+  --radius: 10px;
+}
+
+.theme-hercules-mk4-dark .daystrom-card,
+.theme-hercules-mk4-dark .card {
+  background: linear-gradient(135deg, hsl(220 20% 15% / 0.9), hsl(220 22% 13% / 0.9)) !important;
+  border: 1px solid hsl(220 15% 28%) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  backdrop-filter: blur(4px);
+}
+
+.theme-hercules-mk4-dark button {
+  border-radius: 10px !important;
+  background: linear-gradient(135deg, hsl(220 20% 18%), hsl(220 22% 20%)) !important;
+  border: 1px solid hsl(30 60% 45%) !important;
+  font-size: 13px !important;
+}
+
+.theme-hercules-mk4-dark button:hover {
+  background: linear-gradient(135deg, hsl(220 20% 22%), hsl(220 22% 24%)) !important;
+  box-shadow: 0 0 12px hsl(30 95% 55% / 0.3) !important;
+}
+
+/* DAYSTROM MARK V WARTIME (2256-2260) - Emergency Combat Mode */
+.theme-mark-v-wartime {
+  /* Core Colors */
+  --background: 0 40% 8%;
+  --foreground: 45 100% 88%;
+  --card: 0 40% 10%;
+  --card-foreground: 45 100% 88%;
+  --popover: 0 40% 10%;
+  --popover-foreground: 45 100% 88%;
+  
+  /* Primary */
+  --primary: 30 100% 50%;
+  --primary-foreground: 0 0% 0%;
+  --primary-glow: 0 100% 60%;
+  
+  /* Secondary */
+  --secondary: 0 80% 40%;
+  --secondary-foreground: 45 100% 88%;
+  
+  /* Accent */
+  --accent: 60 100% 90%;
+  --accent-foreground: 0 0% 0%;
+  
+  /* Muted */
+  --muted: 0 40% 15%;
+  --muted-foreground: 45 80% 75%;
+  
+  /* Destructive */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  
+  /* Border/Input/Ring */
+  --border: 45 90% 50%;
+  --input: 0 40% 12%;
+  --ring: 30 100% 50%;
+  
+  /* Sidebar */
+  --sidebar: 0 40% 10%;
+  --sidebar-foreground: 45 100% 88%;
+  --sidebar-primary: 30 100% 50%;
+  --sidebar-primary-foreground: 0 0% 0%;
+  --sidebar-accent: 60 100% 90%;
+  --sidebar-accent-foreground: 0 0% 0%;
+  --sidebar-border: 45 90% 50%;
+  --sidebar-ring: 30 100% 50%;
+  
+  /* Axanar Colors */
+  --axanar-blue: 0 60% 25%;
+  --axanar-teal: 195 80% 60%;
+  --axanar-silver: 45 100% 88%;
+  --axanar-accent: 30 100% 50%;
+  --axanar-dark: 0 40% 5%;
+  --axanar-light: 0 40% 15%;
+  
+  /* Effects */
+  --lcars-blur: 0px;
+  --card-glassmorphism: 0 100% 30% / 0.04;
+  --radius: 6px;
+}
+
+.theme-mark-v-wartime::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, hsl(0 100% 20% / 0.15) 100%);
+  pointer-events: none;
+  z-index: 0;
+  animation: bloodPulse 3s ease-in-out infinite;
+}
+
+@keyframes bloodPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}
+
+.theme-mark-v-wartime .lcars-edge-bar {
+  background: hsl(0 100% 50%) !important;
+  height: 3px !important;
+  animation: alertPulse 1s ease-in-out infinite;
+}
+
+@keyframes alertPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.theme-mark-v-wartime button {
+  border: 1px solid hsl(0 80% 50%) !important;
+  background: hsl(0 40% 12%) !important;
+  box-shadow: 0 0 10px hsl(0 100% 50% / 0.2), inset 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+}
+
+.theme-mark-v-wartime button:hover {
+  background: hsl(0 60% 20%) !important;
+  box-shadow: 0 0 20px hsl(0 100% 50% / 0.4) !important;
+}
+
+.theme-mark-v-wartime .badge {
+  background: hsl(0 80% 25%) !important;
+  border: 1px solid hsl(0 100% 50%) !important;
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 5px hsl(30 100% 50% / 0.3); }
+  50% { box-shadow: 0 0 15px hsl(30 100% 50% / 0.6); }
+}
+
+/* Scanline damage effect */
+.theme-mark-v-wartime::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.1) 2px,
+    rgba(0, 0, 0, 0.1) 3px
+  );
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.3;
+}
+
+/* KLINGON D7 - EMPIRE INTERFACE */
+.theme-klingon-d7 {
+  /* Core Colors */
+  --background: 0 50% 8%;
+  --foreground: 30 95% 85%;
+  --card: 0 50% 10%;
+  --card-foreground: 30 95% 85%;
+  --popover: 0 50% 10%;
+  --popover-foreground: 30 95% 85%;
+  
+  /* Primary */
+  --primary: 10 90% 50%;
+  --primary-foreground: 0 0% 0%;
+  --primary-glow: 10 100% 60%;
+  
+  /* Secondary */
+  --secondary: 0 80% 35%;
+  --secondary-foreground: 30 95% 85%;
+  
+  /* Accent */
+  --accent: 30 100% 50%;
+  --accent-foreground: 0 0% 0%;
+  
+  /* Muted */
+  --muted: 0 50% 15%;
+  --muted-foreground: 30 70% 70%;
+  
+  /* Destructive */
+  --destructive: 0 90% 55%;
+  --destructive-foreground: 0 0% 100%;
+  
+  /* Border/Input/Ring */
+  --border: 0 60% 25%;
+  --input: 0 50% 12%;
+  --ring: 30 100% 50%;
+  
+  /* Sidebar */
+  --sidebar: 0 50% 10%;
+  --sidebar-foreground: 30 95% 85%;
+  --sidebar-primary: 10 90% 50%;
+  --sidebar-primary-foreground: 0 0% 0%;
+  --sidebar-accent: 30 100% 50%;
+  --sidebar-accent-foreground: 0 0% 0%;
+  --sidebar-border: 0 60% 25%;
+  --sidebar-ring: 30 100% 50%;
+  
+  /* Axanar Colors */
+  --axanar-blue: 0 60% 20%;
+  --axanar-teal: 30 100% 50%;
+  --axanar-silver: 30 95% 85%;
+  --axanar-accent: 10 90% 50%;
+  --axanar-dark: 0 50% 5%;
+  --axanar-light: 0 50% 15%;
+  
+  /* Effects */
+  --lcars-blur: 0px;
+  --card-glassmorphism: transparent;
+  --radius: 0px;
+}
+
+.theme-klingon-d7 .daystrom-card,
+.theme-klingon-d7 .card {
+  background: linear-gradient(135deg, hsl(0 50% 10%), hsl(10 55% 12%)) !important;
+  border: 2px solid hsl(10 80% 40%) !important;
+  border-radius: 0px !important; /* Angular Klingon aesthetic */
+  box-shadow: 0 0 20px hsl(10 90% 50% / 0.2), inset 0 2px 0 hsl(10 100% 40% / 0.1) !important;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+}
+
+.theme-klingon-d7 button {
+  border-radius: 0px !important;
+  background: linear-gradient(135deg, hsl(0 60% 15%), hsl(10 65% 18%)) !important;
+  border: 2px solid hsl(10 80% 45%) !important;
+  box-shadow: 0 0 15px hsl(10 90% 50% / 0.3) !important;
+  font-family: var(--font-klingon), var(--font-heading) !important;
+  font-size: 14px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+}
+
+.theme-klingon-d7 button:hover {
+  background: linear-gradient(135deg, hsl(0 70% 20%), hsl(10 75% 22%)) !important;
+  box-shadow: 0 0 25px hsl(10 90% 50% / 0.5) !important;
+  transform: translateY(-1px);
+}
+
+.theme-klingon-d7 h1, 
+.theme-klingon-d7 h2, 
+.theme-klingon-d7 h3 {
+  font-family: var(--font-klingon), var(--font-heading) !important;
+  letter-spacing: 0.08em;
+}
+
+/* TOS ERA (2265) */
+
+/* CONSTITUTION-CLASS ORIGINAL (2265) - TOS TV Era */
+.theme-constitution-2265 {
+  /* Core Colors */
+  --background: 220 15% 15%;
+  --foreground: 190 85% 85%;
+  --card: 220 15% 18%;
+  --card-foreground: 190 85% 85%;
+  --popover: 220 15% 18%;
+  --popover-foreground: 190 85% 85%;
+  
+  /* Primary */
+  --primary: 207 90% 54%;
+  --primary-foreground: 0 0% 100%;
+  --primary-glow: 207 90% 64%;
+  
+  /* Secondary */
+  --secondary: 30 100% 50%;
+  --secondary-foreground: 0 0% 0%;
+  
+  /* Accent */
+  --accent: 4 90% 58%;
+  --accent-foreground: 0 0% 100%;
+  
+  /* Muted */
+  --muted: 220 15% 22%;
+  --muted-foreground: 195 60% 70%;
+  
+  /* Destructive */
+  --destructive: 4 90% 58%;
+  --destructive-foreground: 0 0% 100%;
+  
+  /* Border/Input/Ring */
+  --border: 220 15% 25%;
+  --input: 220 15% 20%;
+  --ring: 207 90% 54%;
+  
+  /* Sidebar */
+  --sidebar: 220 15% 18%;
+  --sidebar-foreground: 190 85% 85%;
+  --sidebar-primary: 207 90% 54%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 30 100% 50%;
+  --sidebar-accent-foreground: 0 0% 0%;
+  --sidebar-border: 220 15% 25%;
+  --sidebar-ring: 207 90% 54%;
+  
+  /* Axanar Colors */
+  --axanar-blue: 207 90% 54%;
+  --axanar-teal: 195 80% 60%;
+  --axanar-silver: 190 85% 85%;
+  --axanar-accent: 30 100% 50%;
+  --axanar-dark: 220 15% 12%;
+  --axanar-light: 220 15% 22%;
+  
+  /* Effects */
+  --lcars-blur: 0px;
+  --card-glassmorphism: transparent;
+  --radius: 6px;
+}
+
+.theme-constitution-2265 .daystrom-card,
+.theme-constitution-2265 .card {
+  background: hsl(220 15% 18%) !important;
+  border: 1px solid hsl(220 15% 30%) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+.theme-constitution-2265 button {
+  border-radius: 6px !important;
+  background: hsl(220 15% 20%) !important;
+  border: 1px solid hsl(207 90% 54%) !important;
+  font-size: 13px !important;
   text-transform: uppercase;
 }
 
-.theme-nx-2151 :not(.display) {
-  font-size: 1.9rem;
-  line-height: 1.35;
-  letter-spacing: 0.06em;
-  text-shadow: 0 0 6px #3399FF;
-}
+/* TMP ERA (2273-2285) */
 
-.theme-nx-2151 small,
-.theme-nx-2151 .small {
-  font-size: 1.5rem;
-  text-shadow: 0 0 4px #0066CC;
-}
-
-/* TOS Display/Header Typography */
-.theme-constitution-2265 .display,
-.theme-constitution-2265 h1 {
-  font-family: var(--era-display-font);
-  font-weight: 900;
-  font-size: 5rem;
-  letter-spacing: 0.12em;
-  text-shadow: 0 0 20px #FF0080, 0 0 40px #FF0040;
-  line-height: 1;
-}
-
-.theme-constitution-2265 :not(.display) {
-  font-size: 2.1rem;
-  line-height: 1.3;
-  letter-spacing: 0.08em;
-  text-shadow: 0 0 8px #FF4080;
-}
-
-.theme-constitution-2265 small,
-.theme-constitution-2265 .small {
-  font-size: 1.6rem;
-  text-shadow: 0 0 5px #FF0040;
-}
-
-/* TMP Refit Display/Header Typography */
-.theme-tmp-refit-2273 .display,
-.theme-tmp-refit-2273 h1 {
-  font-family: var(--era-display-font);
-  font-weight: 900;
-  font-size: 4.8rem;
-  letter-spacing: 0.08em;
-  text-shadow: 0 2px 8px #000, 0 0 12px #F5F5DC;
-  line-height: 1.1;
-}
-
-.theme-tmp-refit-2273 :not(.display) {
-  font-size: 1.85rem;
-  line-height: 1.4;
-  letter-spacing: 0.05em;
-  text-shadow: 0 1px 4px #00000088;
-}
-
-.theme-tmp-refit-2273 small {
-  font-size: 1.5rem;
-  text-shadow: none;
-}
-
-/* Excelsior Display/Header Typography */
-.theme-excelsior-2285 .display,
-.theme-excelsior-2285 h1 {
-  font-family: var(--era-display-font);
-  font-size: 4.6rem;
-  letter-spacing: 0.15em;
-  text-shadow: 0 0 14px #FFD700, 0 0 30px #CC9900;
-  line-height: 1;
-}
-
-.theme-excelsior-2285 :not(.display) {
-  font-size: 2.0rem;
-  line-height: 1.35;
-  letter-spacing: 0.09em;
-  text-shadow: 0 0 6px #CC9900;
-}
-
-.theme-excelsior-2285 small {
-  font-size: 1.6rem;
-  text-shadow: 0 0 4px #FFD700;
-}
-
-/* Ambassador Display/Header Typography */
-.theme-ambassador-2350 .display,
-.theme-ambassador-2350 h1 {
-  font-family: var(--era-display-font);
-  font-weight: 800;
-  font-size: 4.2rem;
-  letter-spacing: 0.06em;
-  text-shadow: 0 0 12px #FF9500, 0 0 24px #FF6500;
-  line-height: 1;
-}
-
-.theme-ambassador-2350 :not(.display) {
-  font-size: 1.8rem;
-  line-height: 1.4;
-  letter-spacing: 0.04em;
-  text-shadow: 0 0 6px #FF9500;
-}
-
-.theme-ambassador-2350 small {
-  font-size: 1.45rem;
-  text-shadow: 0 0 4px #9966FF;
-}
-
-/* Galaxy Display/Header Typography */
-.theme-galaxy-2363 .display,
-.theme-galaxy-2363 h1 {
-  font-family: var(--era-display-font);
-  font-weight: 800;
-  font-size: 4.2rem;
-  letter-spacing: 0.06em;
-  text-shadow: 0 0 12px #FF9500, 0 0 24px #FF6500;
-  line-height: 1;
-}
-
-.theme-galaxy-2363 :not(.display) {
-  font-size: 1.8rem;
-  line-height: 1.4;
-  letter-spacing: 0.04em;
-  text-shadow: 0 0 6px #FF9500;
-}
-
-.theme-galaxy-2363 small {
-  font-size: 1.45rem;
-  text-shadow: 0 0 4px #9966FF;
-}
-
-/* Defiant Display/Header Typography */
-.theme-defiant-2371 .display,
-.theme-defiant-2371 h1 {
-  font-family: var(--era-display-font);
-  font-size: 5.2rem;
-  letter-spacing: 0.10em;
-  text-shadow: 0 0 20px #00FF41, 0 0 40px #00CC41, 2px 2px 4px #000;
-  line-height: 0.95;
-}
-
-.theme-defiant-2371 :not(.display) {
-  font-size: 2.2rem;
-  line-height: 1.3;
-  letter-spacing: 0.08em;
-  text-shadow: 0 0 10px #00FF41, 0 0 20px #00CC41;
-}
-
-.theme-defiant-2371 small {
-  font-size: 1.7rem;
-  text-shadow: 0 0 6px #00FF41;
-}
-
-/* Sovereign Display/Header Typography */
-.theme-sovereign-2378 .display,
-.theme-sovereign-2378 h1 {
-  font-family: var(--era-display-font);
-  font-size: 4.7rem;
-  letter-spacing: 0.10em;
-  text-shadow: 0 0 18px #00CCFF, 0 0 36px #0088CC, 0 2px 8px #000;
-  line-height: 1;
-}
-
-.theme-sovereign-2378 :not(.display) {
-  font-size: 1.95rem;
-  line-height: 1.35;
-  letter-spacing: 0.07em;
-  text-shadow: 0 0 8px #00CCFF, 0 2px 6px #000;
-}
-
-.theme-sovereign-2378 small {
-  font-size: 1.6rem;
-  text-shadow: 0 0 5px #0088CC;
-}
-
-/* ===========================================================================
-   AUTO-SCALING FOR HANDHELD DEVICES
-   Responsive typography for Steam Deck, Legion Go, ROG Ally
-   ============================================================================ */
-@media (max-width: 900px) {
-  .display, h1 { 
-    font-size: calc(3.5rem + 2vw) !important; 
-  }
+/* TMP CONSTITUTION REFIT (2273) - BIRTH OF LCARS */
+.theme-tmp-refit-2273 {
+  /* Core Colors */
+  --background: 0 0% 0%;
+  --foreground: 25 100% 88%;
+  --card: 0 0% 5%;
+  --card-foreground: 25 100% 88%;
+  --popover: 0 0% 5%;
+  --popover-foreground: 25 100% 88%;
   
-  :not(.display) { 
-    font-size: calc(1.6rem + 0.8vw) !important; 
-  }
+  /* Primary */
+  --primary: 12 100% 60%;
+  --primary-foreground: 0 0% 0%;
+  --primary-glow: 25 100% 50%;
+  
+  /* Secondary */
+  --secondary: 195 80% 55%;
+  --secondary-foreground: 0 0% 0%;
+  
+  /* Accent */
+  --accent: 35 100% 90%;
+  --accent-foreground: 0 0% 0%;
+  
+  /* Muted */
+  --muted: 0 0% 12%;
+  --muted-foreground: 12 80% 70%;
+  
+  /* Destructive */
+  --destructive: 0 90% 60%;
+  --destructive-foreground: 0 0% 100%;
+  
+  /* Border/Input/Ring */
+  --border: 12 60% 30%;
+  --input: 0 0% 8%;
+  --ring: 12 100% 60%;
+  
+  /* Sidebar */
+  --sidebar: 0 0% 5%;
+  --sidebar-foreground: 25 100% 88%;
+  --sidebar-primary: 12 100% 60%;
+  --sidebar-primary-foreground: 0 0% 0%;
+  --sidebar-accent: 25 100% 50%;
+  --sidebar-accent-foreground: 0 0% 0%;
+  --sidebar-border: 12 60% 30%;
+  --sidebar-ring: 12 100% 60%;
+  
+  /* Axanar Colors */
+  --axanar-blue: 0 0% 5%;
+  --axanar-teal: 195 80% 55%;
+  --axanar-silver: 25 100% 88%;
+  --axanar-accent: 12 100% 60%;
+  --axanar-dark: 0 0% 0%;
+  --axanar-light: 0 0% 12%;
+  
+  /* Effects */
+  --lcars-blur: 0px;
+  --card-glassmorphism: transparent;
+  --radius: 24px;
+}
+
+.theme-tmp-refit-2273 .daystrom-card,
+.theme-tmp-refit-2273 .card {
+  background: hsl(0 0% 5%) !important;
+  border: 2px solid hsl(12 100% 60%) !important;
+  border-radius: 24px !important; /* FIRST TRUE PILLS! */
+  box-shadow: 0 0 20px hsl(12 100% 60% / 0.3), 0 4px 8px rgba(0, 0, 0, 0.5) !important;
+}
+
+.theme-tmp-refit-2273 button {
+  border-radius: 999px !important;
+  background: hsl(0 0% 20%) !important;           /* Dark gray TMP console base */
+  color: hsl(30 20% 92%) !important;               /* Warm beige text */
+  border: 3px solid hsl(210 30% 70%) !important;   /* Cool blue-gray border */
+  box-shadow: 0 0 8px hsl(210 30% 70% / 0.3) !important; /* Soft blue halo */
+  font-size: 14px !important;
+  padding: 12px 32px !important;
+}
+
+.theme-tmp-refit-2273 button:hover {
+  background: hsl(0 0% 30%) !important;
+  box-shadow: 0 0 16px hsl(210 30% 80%) !important;
+  transform: translateY(-2px);
+}
+
+/* TMP accent buttons - gold-tan for primary actions */
+.theme-tmp-refit-2273 button.accent,
+.theme-tmp-refit-2273 .btn-lcars,
+.theme-tmp-refit-2273 .btn-lcars-secondary {
+  background: hsl(40 40% 75%) !important;         /* Muted gold-tan (ST III screens) */
+  color: hsl(0 0% 15%) !important;                 /* Dark gray text - high contrast */
+  border: 3px solid hsl(40 40% 60%) !important;
+  box-shadow: 0 0 12px hsl(40 40% 75% / 0.5) !important;
+}
+
+.theme-tmp-refit-2273 button.accent:hover,
+.theme-tmp-refit-2273 .btn-lcars:hover,
+.theme-tmp-refit-2273 .btn-lcars-secondary:hover {
+  background: hsl(40 40% 85%) !important;
+  box-shadow: 0 0 20px hsl(40 40% 85%) !important;
+}
+
+/* Data crawl animation for TMP era */
+@keyframes data-crawl-slow {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.theme-tmp-refit-2273 .lcars-data-line {
+  animation: data-crawl-slow 4s linear infinite;
+}
+
+/* EXCELSIOR-CLASS (2285) - TWOK Through TUC */
+.theme-excelsior-2285 {
+  /* Core Colors */
+  --background: 0 0% 0%;
+  --foreground: 25 100% 88%;
+  --card: 0 0% 5%;
+  --card-foreground: 25 100% 88%;
+  --popover: 0 0% 5%;
+  --popover-foreground: 25 100% 88%;
+  
+  /* Primary */
+  --primary: 24 100% 60%;
+  --primary-foreground: 0 0% 0%;
+  --primary-glow: 30 100% 65%;
+  
+  /* Secondary */
+  --secondary: 270 60% 55%;
+  --secondary-foreground: 0 0% 100%;
+  
+  /* Accent */
+  --accent: 35 100% 90%;
+  --accent-foreground: 0 0% 0%;
+  
+  /* Muted */
+  --muted: 0 0% 12%;
+  --muted-foreground: 24 80% 70%;
+  
+  /* Destructive */
+  --destructive: 0 85% 60%;
+  --destructive-foreground: 0 0% 100%;
+  
+  /* Border/Input/Ring */
+  --border: 24 60% 35%;
+  --input: 0 0% 8%;
+  --ring: 24 100% 60%;
+  
+  /* Sidebar */
+  --sidebar: 0 0% 5%;
+  --sidebar-foreground: 25 100% 88%;
+  --sidebar-primary: 24 100% 60%;
+  --sidebar-primary-foreground: 0 0% 0%;
+  --sidebar-accent: 270 60% 55%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-border: 24 60% 35%;
+  --sidebar-ring: 24 100% 60%;
+  
+  /* Axanar Colors */
+  --axanar-blue: 0 0% 5%;
+  --axanar-teal: 195 80% 55%;
+  --axanar-silver: 25 100% 88%;
+  --axanar-accent: 24 100% 60%;
+  --axanar-dark: 0 0% 0%;
+  --axanar-light: 0 0% 12%;
+  
+  /* Effects */
+  --lcars-blur: 2px;
+  --card-glassmorphism: 24 100% 60% / 0.02;
+  --radius: 28px;
+}
+
+.theme-excelsior-2285 .daystrom-card,
+.theme-excelsior-2285 .card {
+  background: hsl(0 0% 5%) !important;
+  border: 2px solid hsl(24 100% 60%) !important;
+  border-radius: 28px !important; /* Even rounder pills */
+  box-shadow: 0 0 15px hsl(24 100% 60% / 0.3), 0 4px 8px rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(2px);
+}
+
+.theme-excelsior-2285 button {
+  border-radius: 24px !important;
+  background: hsl(0 0% 20%) !important;           /* Dark gray panel */
+  color: hsl(30 20% 92%) !important;               /* Warm beige text */
+  border: 3px solid hsl(210 30% 70%) !important;   /* Cool blue-gray border */
+  box-shadow: 0 0 8px hsl(210 30% 70% / 0.3) !important;
+  font-size: 14px !important;
+  padding: 10px 28px !important;
+  letter-spacing: 0.05em;
+}
+
+.theme-excelsior-2285 button:hover {
+  background: hsl(0 0% 30%) !important;
+  box-shadow: 0 0 16px hsl(210 30% 80%) !important;
+}
+
+/* Excelsior accent buttons - gold-tan for primary actions */
+.theme-excelsior-2285 button.accent,
+.theme-excelsior-2285 .btn-lcars,
+.theme-excelsior-2285 .btn-lcars-secondary {
+  background: hsl(40 40% 75%) !important;
+  color: hsl(0 0% 15%) !important;
+  border: 3px solid hsl(40 40% 60%) !important;
+  box-shadow: 0 0 12px hsl(40 40% 75% / 0.5) !important;
+}
+
+.theme-excelsior-2285 button.accent:hover,
+.theme-excelsior-2285 .btn-lcars:hover,
+.theme-excelsior-2285 .btn-lcars-secondary:hover {
+  background: hsl(40 40% 85%) !important;
+  box-shadow: 0 0 20px hsl(40 40% 85%) !important;
+}
+
+/* Excelsior secondary/alert buttons - darker purple with light text */
+.theme-excelsior-2285 button.secondary,
+.theme-excelsior-2285 .btn-lcars-alert {
+  background: hsl(270 40% 35%) !important;        /* Darker purple */
+  color: hsl(270 30% 92%) !important;              /* Light lavender text */
+  border: 3px solid hsl(270 50% 50%) !important;
+  box-shadow: 0 0 12px hsl(270 40% 50% / 0.4) !important;
+}
+
+.theme-excelsior-2285 button.secondary:hover,
+.theme-excelsior-2285 .btn-lcars-alert:hover {
+  background: hsl(270 40% 45%) !important;
+  box-shadow: 0 0 20px hsl(270 40% 55% / 0.5) !important;
+}
+
+/* Faster data crawl for Excelsior era */
+@keyframes data-crawl-fast {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.theme-excelsior-2285 .lcars-data-line {
+  animation: data-crawl-fast 2s linear infinite;
+}
+
+/* TNG/DS9/VOY ERA (2350-2378) */
+
+/* AMBASSADOR-CLASS LCARS BLOCK IV (2350) - Purple Transition Era */
+.theme-ambassador-2350 {
+  /* Core Colors */
+  --background: 260 25% 12%;
+  --foreground: 260 70% 88%;
+  --card: 260 25% 14%;
+  --card-foreground: 260 70% 88%;
+  --popover: 260 25% 14%;
+  --popover-foreground: 260 70% 88%;
+  
+  /* Primary */
+  --primary: 260 70% 60%;
+  --primary-foreground: 0 0% 100%;
+  --primary-glow: 260 80% 70%;
+  
+  /* Secondary */
+  --secondary: 195 70% 60%;
+  --secondary-foreground: 0 0% 0%;
+  
+  /* Accent */
+  --accent: 260 60% 65%;
+  --accent-foreground: 0 0% 100%;
+  
+  /* Muted */
+  --muted: 260 20% 20%;
+  --muted-foreground: 280 60% 78%;
+  
+  /* Destructive */
+  --destructive: 0 70% 55%;
+  --destructive-foreground: 0 0% 100%;
+  
+  /* Border/Input/Ring */
+  --border: 260 35% 35%;
+  --input: 260 25% 18%;
+  --ring: 260 70% 60%;
+  
+  /* Sidebar */
+  --sidebar: 260 25% 14%;
+  --sidebar-foreground: 260 70% 88%;
+  --sidebar-primary: 260 70% 60%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 195 70% 60%;
+  --sidebar-accent-foreground: 0 0% 0%;
+  --sidebar-border: 260 35% 35%;
+  --sidebar-ring: 260 70% 60%;
+  
+  /* Axanar Colors */
+  --axanar-blue: 260 70% 40%;
+  --axanar-teal: 195 70% 60%;
+  --axanar-silver: 260 70% 88%;
+  --axanar-accent: 260 70% 60%;
+  --axanar-dark: 260 25% 8%;
+  --axanar-light: 260 20% 20%;
+  
+  /* Effects */
+  --lcars-blur: 12px;
+  --card-glassmorphism: 260 70% 60% / 0.06;
+  --radius: 14px;
+}
+
+.theme-ambassador-2350 .daystrom-card,
+.theme-ambassador-2350 .card {
+  background: linear-gradient(135deg, hsl(260 25% 12% / 0.7), hsl(240 30% 15% / 0.7));
+  backdrop-filter: blur(12px);
+  border: 1px solid hsl(260 50% 45%);
+}
+
+.theme-ambassador-2350 button {
+  background: linear-gradient(135deg, hsl(260 30% 15%), hsl(240 35% 18%));
+  border: 1px solid hsl(260 60% 50%);
+  backdrop-filter: blur(8px);
+}
+
+/* GALAXY-CLASS LCARS BLOCK V (2363) - Early TNG Pastels */
+.theme-galaxy-2363 {
+  /* Core Colors */
+  --background: 220 15% 15%;
+  --foreground: 30 85% 88%;
+  --card: 220 15% 17%;
+  --card-foreground: 30 85% 88%;
+  --popover: 220 15% 17%;
+  --popover-foreground: 30 85% 88%;
+  
+  /* Primary */
+  --primary: 30 100% 70%;
+  --primary-foreground: 0 0% 0%;
+  --primary-glow: 30 100% 80%;
+  
+  /* Secondary */
+  --secondary: 195 70% 65%;
+  --secondary-foreground: 0 0% 0%;
+  
+  /* Accent */
+  --accent: 15 90% 70%;
+  --accent-foreground: 0 0% 0%;
+  
+  /* Muted */
+  --muted: 220 15% 22%;
+  --muted-foreground: 30 70% 78%;
+  
+  /* Destructive */
+  --destructive: 0 75% 60%;
+  --destructive-foreground: 0 0% 100%;
+  
+  /* Border/Input/Ring */
+  --border: 30 30% 40%;
+  --input: 220 15% 20%;
+  --ring: 30 100% 70%;
+  
+  /* Sidebar */
+  --sidebar: 220 15% 17%;
+  --sidebar-foreground: 30 85% 88%;
+  --sidebar-primary: 30 100% 70%;
+  --sidebar-primary-foreground: 0 0% 0%;
+  --sidebar-accent: 195 70% 65%;
+  --sidebar-accent-foreground: 0 0% 0%;
+  --sidebar-border: 30 30% 40%;
+  --sidebar-ring: 30 100% 70%;
+  
+  /* Axanar Colors */
+  --axanar-blue: 195 70% 50%;
+  --axanar-teal: 195 70% 65%;
+  --axanar-silver: 30 85% 88%;
+  --axanar-accent: 30 100% 70%;
+  --axanar-dark: 220 15% 12%;
+  --axanar-light: 220 15% 22%;
+  
+  /* Effects */
+  --lcars-blur: 16px;
+  --card-glassmorphism: 30 100% 70% / 0.05;
+  --radius: 16px;
+}
+
+.theme-galaxy-2363 .daystrom-card,
+.theme-galaxy-2363 .card {
+  background: hsl(220 15% 15% / 0.6);
+  backdrop-filter: blur(16px);
+  border-radius: 16px;
+  border: 1px solid hsl(30 50% 50% / 0.3);
+}
+
+.theme-galaxy-2363 button {
+  background: hsl(220 15% 18% / 0.5);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  border: 1px solid hsl(30 60% 60% / 0.4);
+}
+
+/* DEFIANT-CLASS LCARS BLOCK VI (2371) - Mid TNG / DS9 */
+.theme-defiant-2371 {
+  /* Core Colors */
+  --background: 260 20% 10%;
+  --foreground: 260 60% 88%;
+  --card: 260 20% 12%;
+  --card-foreground: 260 60% 88%;
+  --popover: 260 20% 12%;
+  --popover-foreground: 260 60% 88%;
+  
+  /* Primary */
+  --primary: 260 80% 65%;
+  --primary-foreground: 0 0% 100%;
+  --primary-glow: 260 90% 75%;
+  
+  /* Secondary */
+  --secondary: 195 70% 60%;
+  --secondary-foreground: 0 0% 0%;
+  
+  /* Accent */
+  --accent: 280 70% 65%;
+  --accent-foreground: 0 0% 0%;
+  
+  /* Muted */
+  --muted: 260 20% 18%;
+  --muted-foreground: 280 60% 78%;
+  
+  /* Destructive */
+  --destructive: 0 70% 55%;
+  --destructive-foreground: 0 0% 100%;
+  
+  /* Border/Input/Ring */
+  --border: 260 30% 30%;
+  --input: 260 20% 15%;
+  --ring: 260 80% 65%;
+  
+  /* Sidebar */
+  --sidebar: 260 20% 12%;
+  --sidebar-foreground: 260 60% 88%;
+  --sidebar-primary: 260 80% 65%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 195 70% 60%;
+  --sidebar-accent-foreground: 0 0% 0%;
+  --sidebar-border: 260 30% 30%;
+  --sidebar-ring: 260 80% 65%;
+  
+  /* Axanar Colors */
+  --axanar-blue: 260 70% 45%;
+  --axanar-teal: 195 70% 60%;
+  --axanar-silver: 260 60% 88%;
+  --axanar-accent: 260 80% 65%;
+  --axanar-dark: 260 20% 8%;
+  --axanar-light: 260 20% 18%;
+  
+  /* Effects */
+  --lcars-blur: 14px;
+  --card-glassmorphism: 260 80% 65% / 0.05;
+  --radius: 12px;
+}
+
+.theme-defiant-2371 .daystrom-card,
+.theme-defiant-2371 .card {
+  background: linear-gradient(135deg, hsl(260 20% 10% / 0.85), hsl(280 25% 12% / 0.85));
+  backdrop-filter: blur(14px);
+  border: 1px solid hsl(260 50% 40%);
+}
+
+/* SOVEREIGN-CLASS LCARS BLOCK VII (2378) - Voyager / Maximum Contrast */
+.theme-sovereign-2378 {
+  /* Core Colors */
+  --background: 220 20% 5%;
+  --foreground: 190 85% 85%;
+  --card: 220 20% 7%;
+  --card-foreground: 190 85% 85%;
+  --popover: 220 20% 7%;
+  --popover-foreground: 190 85% 85%;
+  
+  /* Primary */
+  --primary: 195 100% 60%;
+  --primary-foreground: 0 0% 0%;
+  --primary-glow: 195 100% 75%;
+  
+  /* Secondary */
+  --secondary: 30 100% 55%;
+  --secondary-foreground: 0 0% 0%;
+  
+  /* Accent */
+  --accent: 195 90% 65%;
+  --accent-foreground: 0 0% 0%;
+  
+  /* Muted */
+  --muted: 220 20% 12%;
+  --muted-foreground: 195 80% 80%;
+  
+  /* Destructive */
+  --destructive: 0 80% 60%;
+  --destructive-foreground: 0 0% 100%;
+  
+  /* Border/Input/Ring */
+  --border: 195 50% 35%;
+  --input: 220 20% 10%;
+  --ring: 195 100% 60%;
+  
+  /* Sidebar */
+  --sidebar: 220 20% 7%;
+  --sidebar-foreground: 190 85% 85%;
+  --sidebar-primary: 195 100% 60%;
+  --sidebar-primary-foreground: 0 0% 0%;
+  --sidebar-accent: 30 100% 55%;
+  --sidebar-accent-foreground: 0 0% 0%;
+  --sidebar-border: 195 50% 35%;
+  --sidebar-ring: 195 100% 60%;
+  
+  /* Axanar Colors */
+  --axanar-blue: 195 100% 40%;
+  --axanar-teal: 195 100% 60%;
+  --axanar-silver: 190 85% 85%;
+  --axanar-accent: 195 90% 65%;
+  --axanar-dark: 220 20% 3%;
+  --axanar-light: 220 20% 12%;
+  
+  /* Effects */
+  --lcars-blur: 0px;
+  --card-glassmorphism: transparent;
+  --radius: 4px;
+}
+
+.theme-sovereign-2378 .daystrom-card,
+.theme-sovereign-2378 .card {
+  background: hsl(220 20% 5%);
+  border: 2px solid hsl(195 80% 50%);
+  box-shadow: 0 0 15px hsl(195 100% 60% / 0.2);
+  border-radius: 4px;
+}
+
+.theme-sovereign-2378 button {
+  background: hsl(220 20% 8%);
+  border: 2px solid hsl(195 90% 55%);
+  box-shadow: 0 0 10px hsl(195 100% 60% / 0.3);
+  border-radius: 4px;
+}
+
+.theme-sovereign-2378 button:hover {
+  background: hsl(195 100% 60% / 0.15);
+  box-shadow: 0 0 20px hsl(195 100% 60% / 0.5);
+}
+
+/* ============================================================================
+   THUMBY-FRIENDLY WCAG CONTRAST ENHANCEMENTS
+   Global accessibility fixes for all dark themes
+   ============================================================================ */
+
+/* Global muted text safety - ensure minimum 68% lightness on dark backgrounds */
+.theme-nx-2151 [class*="muted"],
+.theme-hercules-mk4-dark [class*="muted"],
+.theme-mark-v-wartime [class*="muted"],
+.theme-klingon-d7 [class*="muted"],
+.theme-constitution-2265 [class*="muted"],
+.theme-tmp-refit-2273 [class*="muted"],
+.theme-excelsior-2285 [class*="muted"],
+.theme-ambassador-2350 [class*="muted"],
+.theme-galaxy-2363 [class*="muted"],
+.theme-defiant-2371 [class*="muted"],
+.theme-sovereign-2378 [class*="muted"] {
+  color: hsl(var(--muted-foreground));
+  opacity: 1;
+}
+
+/* Enhanced input/border visibility for all dark themes */
+.theme-nx-2151 input,
+.theme-nx-2151 textarea,
+.theme-nx-2151 select,
+.theme-hercules-mk4-dark input,
+.theme-hercules-mk4-dark textarea,
+.theme-hercules-mk4-dark select,
+.theme-mark-v-wartime input,
+.theme-mark-v-wartime textarea,
+.theme-mark-v-wartime select,
+.theme-klingon-d7 input,
+.theme-klingon-d7 textarea,
+.theme-klingon-d7 select,
+.theme-constitution-2265 input,
+.theme-constitution-2265 textarea,
+.theme-constitution-2265 select,
+.theme-tmp-refit-2273 input,
+.theme-tmp-refit-2273 textarea,
+.theme-tmp-refit-2273 select,
+.theme-excelsior-2285 input,
+.theme-excelsior-2285 textarea,
+.theme-excelsior-2285 select,
+.theme-ambassador-2350 input,
+.theme-ambassador-2350 textarea,
+.theme-ambassador-2350 select,
+.theme-galaxy-2363 input,
+.theme-galaxy-2363 textarea,
+.theme-galaxy-2363 select,
+.theme-defiant-2371 input,
+.theme-defiant-2371 textarea,
+.theme-defiant-2371 select,
+.theme-sovereign-2378 input,
+.theme-sovereign-2378 textarea,
+.theme-sovereign-2378 select {
+  border: 2px solid hsl(var(--foreground) / 0.4);
+  background: hsl(var(--background) / 0.6);
+  color: hsl(var(--foreground));
+}
+
+/* Enhanced focus indicators for controller/thumbstick navigation */
+:focus-visible {
+  outline: 4px solid hsl(var(--accent, var(--primary))) !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 6px hsl(var(--accent, var(--primary)) / 0.2) !important;
+}
+
+/* Ensure buttons have visible focus states */
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 5px solid hsl(var(--accent, var(--primary))) !important;
+  outline-offset: 4px !important;
+  box-shadow: 0 0 0 8px hsl(var(--accent, var(--primary)) / 0.25) !important;
 }
