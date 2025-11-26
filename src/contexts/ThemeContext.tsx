@@ -58,8 +58,8 @@ export function ThemeProvider({
       'era-galaxy-2363', 'era-defiant-2371', 'era-sovereign-2378'
     );
     
-    // Add current era class
-    const eraClass = `era-${era.replace(/-\d{4}$/, '')}`;
+    // Add current era class (CSS class names match era IDs exactly)
+    const eraClass = `era-${era}`;
     root.classList.add(eraClass);
     
     // Store era preference
