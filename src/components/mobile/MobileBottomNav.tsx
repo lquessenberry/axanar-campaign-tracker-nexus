@@ -20,32 +20,32 @@ export function MobileBottomNav({ onMenuToggle }: MobileBottomNavProps) {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-t md:hidden">
-      <div className="flex items-center justify-around h-16 px-2">
+      <div className="flex items-center justify-around h-24 px-4 gap-2">
         {navItems.map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
             className={({ isActive }) =>
               cn(
-                'flex flex-col items-center justify-center min-w-0 flex-1 px-2 py-1 text-xs font-medium transition-colors',
-                'hover:text-primary focus:text-primary',
+                'flex flex-col items-center justify-center min-w-[72px] min-h-[72px] px-3 py-2 text-sm font-medium transition-colors rounded-lg',
+                'hover:text-primary focus:text-primary focus-visible:ring-2 focus-visible:ring-ring',
                 isActive
-                  ? 'text-primary'
-                  : 'text-muted-foreground hover:text-foreground'
+                  ? 'text-primary bg-primary/10'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-accent'
               )
             }
           >
-            <item.icon className="w-5 h-5 mb-1" />
-            <span className="truncate">{item.label}</span>
+            <item.icon className="w-8 h-8 mb-1" />
+            <span className="truncate text-xs">{item.label}</span>
           </NavLink>
         ))}
         
         <button
           onClick={onMenuToggle}
-          className="flex flex-col items-center justify-center min-w-0 flex-1 px-2 py-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+          className="flex flex-col items-center justify-center min-w-[72px] min-h-[72px] px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors rounded-lg focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <Menu className="w-5 h-5 mb-1" />
-          <span>Menu</span>
+          <Menu className="w-8 h-8 mb-1" />
+          <span className="text-xs">Menu</span>
         </button>
       </div>
     </nav>

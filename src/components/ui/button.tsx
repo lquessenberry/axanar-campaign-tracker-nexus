@@ -22,10 +22,10 @@ const buttonVariants = cva(
         tactical: "bg-gradient-to-r from-red-600 to-orange-600 text-white border-2 border-red-500 rounded-daystrom-button shadow-lg hover:shadow-red-500/50 transition-all duration-300 font-trek-heading uppercase tracking-wider shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_1px_0_rgba(0,0,0,0.2)]",
       },
       size: {
-        default: "h-11 px-5 py-2.5",
-        sm: "h-10 px-4 py-2 text-sm",
-        lg: "h-12 px-9 py-3 text-lg",
-        icon: "h-11 w-11",
+        default: "min-h-[56px] px-6 py-3",
+        sm: "min-h-[48px] px-4 py-2 text-sm",
+        lg: "min-h-[72px] px-8 py-4 text-lg",
+        icon: "min-h-[56px] min-w-[56px]",
       },
     },
     defaultVariants: {
