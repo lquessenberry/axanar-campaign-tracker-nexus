@@ -47,9 +47,29 @@ Deno.serve(async (req) => {
       );
     }
 
+    // Get the 'lee' user's ID from profiles table
+    const { data: leeProfile, error: leeError } = await supabase
+      .from('profiles')
+      .select('id, username')
+      .eq('username', 'lee')
+      .single();
+
+    console.log('Lee profile lookup result:', { leeProfile, leeError });
+
+    if (leeError || !leeProfile) {
+      console.error('Could not find lee user:', leeError);
+      return new Response(
+        JSON.stringify({ error: 'Could not find author user', details: leeError }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    console.log('Using lee user_id:', leeProfile.id);
+
     // Missing pledge data thread
     const missingPledgeThread = {
       title: '🚨 Known Issue: Missing Pledge Data & Address Update Problems',
+      author_user_id: leeProfile.id,
       content: `**Important Notice for Affected Users** 🚨
 
 We're aware that some donors are experiencing issues accessing their complete pledge history and updating shipping addresses. **Your data is safe** - this is a migration issue we're actively resolving.
