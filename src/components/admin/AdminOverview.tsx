@@ -333,9 +333,9 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
           </CardContent>
         </Card>
         
-        {/* Quick Actions - LCARS Style */}
-        <Card className="border-2 border-lcars-light-blue/40 bg-gradient-to-br from-background/95 to-lcars-dark-blue/5">
-          <CardHeader className="border-b border-lcars-light-blue/20 pb-4">
+        {/* Quick Actions */}
+        <Card className="border-2 border-border bg-card">
+          <CardHeader className="border-b border-border pb-4">
             <CardTitle className="text-2xl font-bold tracking-wider uppercase text-foreground">
               Quick Actions
             </CardTitle>
@@ -344,80 +344,80 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
             </CardDescription>
           </CardHeader>
           <CardContent className="p-0">
-            <div className="divide-y divide-lcars-light-blue/20">
+            <div className="divide-y divide-border">
               <button
                 onClick={() => onSectionChange("donors")}
-                className="w-full flex items-center justify-between px-6 py-5 hover:bg-lcars-light-blue/5 transition-all duration-200 group"
+                className="w-full flex items-center justify-between px-6 py-5 hover:bg-accent/10 transition-all duration-200 group"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-lcars-blue to-lcars-light-blue flex items-center justify-center ring-2 ring-lcars-light-blue/30 group-hover:ring-lcars-light-blue/60 transition-all">
-                    <Users className="h-5 w-5 text-white" />
+                  <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center ring-2 ring-primary/30 group-hover:ring-primary/60 transition-all">
+                    <Users className="h-5 w-5 text-primary-foreground" />
                   </div>
-                  <span className="text-lg font-medium text-lcars-light-blue group-hover:text-lcars-blue transition-colors">
+                  <span className="text-lg font-medium text-foreground group-hover:text-primary transition-colors">
                     Manage Donors
                   </span>
                 </div>
-                <ChevronDown className="h-5 w-5 text-lcars-light-blue/60 group-hover:text-lcars-light-blue transition-colors" />
+                <ChevronDown className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
               </button>
               
               <button
                 onClick={() => onSectionChange("pledges")}
-                className="w-full flex items-center justify-between px-6 py-5 hover:bg-lcars-light-blue/5 transition-all duration-200 group"
+                className="w-full flex items-center justify-between px-6 py-5 hover:bg-accent/10 transition-all duration-200 group"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-lcars-yellow to-lcars-orange flex items-center justify-center ring-2 ring-lcars-yellow/30 group-hover:ring-lcars-yellow/60 transition-all">
-                    <DollarSign className="h-5 w-5 text-white" />
+                  <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center ring-2 ring-secondary/30 group-hover:ring-secondary/60 transition-all">
+                    <DollarSign className="h-5 w-5 text-secondary-foreground" />
                   </div>
-                  <span className="text-lg font-medium text-lcars-light-blue group-hover:text-lcars-blue transition-colors">
+                  <span className="text-lg font-medium text-foreground group-hover:text-primary transition-colors">
                     View Pledges
                   </span>
                 </div>
-                <ChevronDown className="h-5 w-5 text-lcars-light-blue/60 group-hover:text-lcars-light-blue transition-colors" />
+                <ChevronDown className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
               </button>
               
               <button
                 onClick={() => onSectionChange("rewards")}
-                className="w-full flex items-center justify-between px-6 py-5 hover:bg-lcars-light-blue/5 transition-all duration-200 group"
+                className="w-full flex items-center justify-between px-6 py-5 hover:bg-accent/10 transition-all duration-200 group"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center ring-2 ring-purple-500/30 group-hover:ring-purple-500/60 transition-all">
-                    <Gift className="h-5 w-5 text-white" />
+                  <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center ring-2 ring-accent/30 group-hover:ring-accent/60 transition-all">
+                    <Gift className="h-5 w-5 text-accent-foreground" />
                   </div>
-                  <span className="text-lg font-medium text-lcars-light-blue group-hover:text-lcars-blue transition-colors">
+                  <span className="text-lg font-medium text-foreground group-hover:text-primary transition-colors">
                     Manage Rewards
                   </span>
                 </div>
-                <ChevronDown className="h-5 w-5 text-lcars-light-blue/60 group-hover:text-lcars-light-blue transition-colors" />
+                <ChevronDown className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
               </button>
               
               <button
                 onClick={() => onSectionChange("campaigns")}
-                className="w-full flex items-center justify-between px-6 py-5 hover:bg-lcars-light-blue/5 transition-all duration-200 group"
+                className="w-full flex items-center justify-between px-6 py-5 hover:bg-accent/10 transition-all duration-200 group"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-lcars-red to-red-600 flex items-center justify-center ring-2 ring-lcars-red/30 group-hover:ring-lcars-red/60 transition-all">
-                    <BarChart3 className="h-5 w-5 text-white" />
+                  <div className="w-12 h-12 rounded-full bg-destructive flex items-center justify-center ring-2 ring-destructive/30 group-hover:ring-destructive/60 transition-all">
+                    <BarChart3 className="h-5 w-5 text-destructive-foreground" />
                   </div>
-                  <span className="text-lg font-medium text-lcars-light-blue group-hover:text-lcars-blue transition-colors">
+                  <span className="text-lg font-medium text-foreground group-hover:text-primary transition-colors">
                     Manage Campaigns
                   </span>
                 </div>
-                <ChevronDown className="h-5 w-5 text-lcars-light-blue/60 group-hover:text-lcars-light-blue transition-colors" />
+                <ChevronDown className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
               </button>
               
               <button
                 onClick={() => onSectionChange("user-profiles")}
-                className="w-full flex items-center justify-between px-6 py-5 hover:bg-lcars-light-blue/5 transition-all duration-200 group"
+                className="w-full flex items-center justify-between px-6 py-5 hover:bg-accent/10 transition-all duration-200 group"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center ring-2 ring-teal-500/30 group-hover:ring-teal-500/60 transition-all">
-                    <Eye className="h-5 w-5 text-white" />
+                  <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center ring-2 ring-muted-foreground/30 group-hover:ring-muted-foreground/60 transition-all">
+                    <Eye className="h-5 w-5 text-muted-foreground" />
                   </div>
-                  <span className="text-lg font-medium text-lcars-light-blue group-hover:text-lcars-blue transition-colors">
+                  <span className="text-lg font-medium text-foreground group-hover:text-primary transition-colors">
                     View User Profiles
                   </span>
                 </div>
-                <ChevronDown className="h-5 w-5 text-lcars-light-blue/60 group-hover:text-lcars-light-blue transition-colors" />
+                <ChevronDown className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
               </button>
             </div>
           </CardContent>
