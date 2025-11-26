@@ -27,6 +27,7 @@ export interface UserTitle extends AmbassadorialTitle {
   is_displayed: boolean;
   is_primary: boolean;
   campaign_name?: string;
+  campaign_platform?: string;
   tier_level: number;
 }
 
@@ -46,6 +47,7 @@ export const useAmbassadorialTitles = (userId?: string) => {
             display_name,
             description,
             campaign_id,
+            campaign_platform,
             minimum_pledge_amount,
             original_rank_name,
             xp_multiplier,
@@ -55,10 +57,12 @@ export const useAmbassadorialTitles = (userId?: string) => {
             icon,
             color,
             badge_style,
+            tier_level,
             created_at,
             updated_at,
             campaigns (
-              name
+              name,
+              provider
             )
           )
         `)
@@ -78,6 +82,7 @@ export const useAmbassadorialTitles = (userId?: string) => {
         is_displayed: item.is_displayed,
         is_primary: item.is_primary,
         campaign_name: item.ambassadorial_titles?.campaigns?.name,
+        campaign_platform: item.ambassadorial_titles?.campaign_platform || item.ambassadorial_titles?.campaigns?.provider,
         tier_level: item.ambassadorial_titles?.tier_level || 0
       }));
 

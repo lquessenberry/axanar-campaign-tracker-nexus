@@ -138,12 +138,18 @@ const RewardsShowcase: React.FC = () => {
                   </p>
                 )}
 
-                {primaryTitle.campaign_name && (
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <Calendar className="h-3 w-3" />
-                    <span>Earned from: <span className="text-foreground font-medium">{primaryTitle.campaign_name}</span></span>
-                  </div>
-                )}
+              {primaryTitle.campaign_name && (
+                <div className="flex flex-col gap-1 text-xs text-muted-foreground mt-2">
+                  {primaryTitle.campaign_platform && (
+                    <div className="flex items-center gap-1.5">
+                      <span className="px-2 py-0.5 rounded bg-primary/10 text-primary uppercase font-bold text-[10px] tracking-wider">
+                        {primaryTitle.campaign_platform}
+                      </span>
+                    </div>
+                  )}
+                  <span>Earned from: <span className="text-foreground font-medium">{primaryTitle.campaign_name}</span></span>
+                </div>
+              )}
               </div>
             )}
 
@@ -173,11 +179,16 @@ const RewardsShowcase: React.FC = () => {
                           hover:before:opacity-100"
                       >
                         <TitleBadgeDisplay title={title} size="sm" />
-                        {title.campaign_name && (
-                          <p className="text-xs text-muted-foreground/80 mt-2 font-medium tracking-wide">
-                            {title.campaign_name}
-                          </p>
-                        )}
+              {title.campaign_name && (
+                <div className="flex items-center gap-2 text-xs text-muted-foreground/80 mt-2">
+                  <span className="font-medium tracking-wide">
+                    {title.campaign_platform && (
+                      <span className="text-primary/80 uppercase font-bold mr-1">{title.campaign_platform}</span>
+                    )}
+                    {title.campaign_name}
+                  </span>
+                </div>
+              )}
                       </motion.div>
                     ))}
                 </div>
