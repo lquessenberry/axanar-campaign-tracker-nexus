@@ -95,13 +95,18 @@ const App = () => (
         <BrowserRouter>
           <AuthProvider>
             <ChatProvider>
+              {/* Skip link for gamepad/controller navigation */}
+              <a href="#main-content" className="skip-link">
+                Skip to main content
+              </a>
               <DaystromCursorGlow />
               <LCARSEdgeBars />
               <GlobalPresenceTracker />
               <GlobalMessageNotifications />
               <ErrorBoundary>
                 <Suspense fallback={<PageLoader />}>
-                  <Routes>
+                  <main id="main-content">
+                    <Routes>
                     <Route path="/" element={<Index />} />
                     <Route path="/auth" element={<Auth />} />
                     <Route path="/login" element={<Auth />} />
@@ -169,7 +174,8 @@ const App = () => (
                     <Route path="/tactical/:gameId" element={<RequireAuth><TacticalBattle /></RequireAuth>} />
                     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                     <Route path="*" element={<NotFound />} />
-                  </Routes>
+                    </Routes>
+                  </main>
                 </Suspense>
                 <ChatWindow />
               </ErrorBoundary>

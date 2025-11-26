@@ -6,6 +6,42 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Handheld gaming device optimizations */
+@media (max-width: 1000px) {
+  html {
+    font-size: 18px;
+  }
+  
+  /* Ensure single column layout */
+  .container {
+    max-width: 800px !important;
+  }
+}
+
+/* Thumby mode enhancements */
+.thumby-mode button,
+.thumby-mode a,
+.thumby-mode input,
+.thumby-mode textarea,
+.thumby-mode [role="button"],
+.thumby-mode [tabindex]:not([tabindex="-1"]) {
+  min-height: 72px;
+  min-width: 72px;
+  touch-action: manipulation;
+}
+
+/* Remove hover-only content on thumby devices */
+.thumby-mode *:hover:not(:focus):not(:active) {
+  /* Hover does nothing special */
+}
+
+/* Enhanced focus for controller navigation */
+.thumby-mode :focus-visible {
+  outline: 6px solid hsl(var(--primary)) !important;
+  outline-offset: 4px !important;
+  box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 24px hsl(var(--primary) / 0.6) !important;
+}
+
 /* ============= AXANAR FLUID TYPOGRAPHY SYSTEM ============= */
 /* Star Trek-inspired design with fluid scaling for immersive experience */
 @layer base {

@@ -13,6 +13,32 @@ export const isMobileDevice = (): boolean => {
 };
 
 /**
+ * Check if device is a handheld gaming device (Steam Deck, ROG Ally, Legion Go, etc.)
+ */
+export const isHandheldGamingDevice = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  const ua = navigator.userAgent.toLowerCase();
+  return (
+    ua.includes('steamdeck') ||
+    ua.includes('steamos') ||
+    ua.includes('gamepad') ||
+    ua.includes('valve') ||
+    (window.matchMedia('(pointer: coarse)').matches && 
+     window.innerWidth >= 800 && 
+     window.innerWidth <= 1920)
+  );
+};
+
+/**
+ * Detect if gamepad/controller is connected
+ */
+export const isGamepadConnected = (): boolean => {
+  if (typeof window === 'undefined' || !navigator.getGamepads) return false;
+  const gamepads = navigator.getGamepads();
+  return Array.from(gamepads).some(gp => gp !== null);
+};
+
+/**
  * Check if touch is supported
  */
 export const isTouchDevice = (): boolean => {

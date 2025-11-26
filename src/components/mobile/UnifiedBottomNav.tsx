@@ -67,7 +67,7 @@ export function UnifiedBottomNav({ profile }: UnifiedBottomNavProps) {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[hsl(var(--tos-primary-black))] backdrop-blur supports-[backdrop-filter]:bg-[hsl(var(--tos-primary-black))]/95 border-t-2 border-[hsl(var(--tos-etched-border))] md:hidden shadow-[0_-4px_12px_rgba(0,0,0,0.3)]">
-      <div className="flex items-center h-16 px-2">
+      <div className="flex items-center h-20 px-2">
         <div className="flex-1 flex items-center justify-around gap-1">
           {primaryNavItems.map((item) => (
             <NavLink
@@ -76,8 +76,8 @@ export function UnifiedBottomNav({ profile }: UnifiedBottomNavProps) {
               onClick={handleNavClick}
               className={({ isActive }) =>
                 cn(
-                  'command-rail-module group',
-                  'flex flex-col items-center justify-center flex-1 min-w-0 px-2 py-2 text-xs font-medium',
+                  'command-rail-module group touch-target-large',
+                  'flex flex-col items-center justify-center flex-1 min-w-0 px-3 py-2 text-sm font-medium',
                   'transition-all duration-200 ease-out',
                   'hover:scale-105 active:translate-y-[1px]',
                   'border-2 rounded-lg',
@@ -90,17 +90,17 @@ export function UnifiedBottomNav({ profile }: UnifiedBottomNavProps) {
               }
             >
               <div className="relative">
-                <item.icon className="w-6 h-6 mb-1 transition-transform group-hover:scale-110" />
+                <item.icon className="w-7 h-7 mb-1 transition-transform group-hover:scale-110" />
                 {item.badge && item.badge > 0 && (
                   <Badge 
                     variant="destructive" 
-                    className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center p-0 text-[10px] animate-pulse"
+                    className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs animate-pulse"
                   >
                     {item.badge > 9 ? '9+' : item.badge}
                   </Badge>
                 )}
               </div>
-              <span className="truncate text-[10px] leading-tight">{item.label}</span>
+              <span className="truncate text-xs leading-tight">{item.label}</span>
             </NavLink>
           ))}
         </div>
