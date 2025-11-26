@@ -2183,17 +2183,36 @@ body:not(.game-active) [role="button"] {
 }
 
 .theme-tmp-refit-2273 button {
-  border-radius: 999px !important; /* Full pill shape */
-  background: linear-gradient(90deg, hsl(12 100% 60%), hsl(25 100% 50%)) !important;
-  border: none !important;
-  box-shadow: 0 0 20px hsl(12 100% 60% / 0.5), 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+  border-radius: 999px !important;
+  background: hsl(0 0% 20%) !important;           /* Dark gray TMP console base */
+  color: hsl(30 20% 92%) !important;               /* Warm beige text */
+  border: 3px solid hsl(210 30% 70%) !important;   /* Cool blue-gray border */
+  box-shadow: 0 0 8px hsl(210 30% 70% / 0.3) !important; /* Soft blue halo */
   font-size: 14px !important;
   padding: 12px 32px !important;
 }
 
 .theme-tmp-refit-2273 button:hover {
-  box-shadow: 0 0 30px hsl(12 100% 60% / 0.7), 0 6px 12px rgba(0, 0, 0, 0.4) !important;
+  background: hsl(0 0% 30%) !important;
+  box-shadow: 0 0 16px hsl(210 30% 80%) !important;
   transform: translateY(-2px);
+}
+
+/* TMP accent buttons - gold-tan for primary actions */
+.theme-tmp-refit-2273 button.accent,
+.theme-tmp-refit-2273 .btn-lcars,
+.theme-tmp-refit-2273 .btn-lcars-secondary {
+  background: hsl(40 40% 75%) !important;         /* Muted gold-tan (ST III screens) */
+  color: hsl(0 0% 15%) !important;                 /* Dark gray text - high contrast */
+  border: 3px solid hsl(40 40% 60%) !important;
+  box-shadow: 0 0 12px hsl(40 40% 75% / 0.5) !important;
+}
+
+.theme-tmp-refit-2273 button.accent:hover,
+.theme-tmp-refit-2273 .btn-lcars:hover,
+.theme-tmp-refit-2273 .btn-lcars-secondary:hover {
+  background: hsl(40 40% 85%) !important;
+  box-shadow: 0 0 20px hsl(40 40% 85%) !important;
 }
 
 /* Data crawl animation for TMP era */
@@ -2277,18 +2296,50 @@ body:not(.game-active) [role="button"] {
 
 .theme-excelsior-2285 button {
   border-radius: 24px !important;
-  background: linear-gradient(135deg, hsl(24 100% 60%), hsl(30 100% 65%)) !important;
-  border: 1px solid hsl(24 100% 70%) !important;
-  box-shadow: 0 0 12px hsl(24 100% 60% / 0.4) !important;
+  background: hsl(0 0% 20%) !important;           /* Dark gray panel */
+  color: hsl(30 20% 92%) !important;               /* Warm beige text */
+  border: 3px solid hsl(210 30% 70%) !important;   /* Cool blue-gray border */
+  box-shadow: 0 0 8px hsl(210 30% 70% / 0.3) !important;
   font-size: 14px !important;
   padding: 10px 28px !important;
-  letter-spacing: 0.05em; /* Stretched letters */
+  letter-spacing: 0.05em;
 }
 
-.theme-excelsior-2285 button.secondary {
-  background: linear-gradient(135deg, hsl(270 60% 55%), hsl(270 50% 50%)) !important;
-  border: 1px solid hsl(270 70% 60%) !important;
-  box-shadow: 0 0 12px hsl(270 60% 55% / 0.4) !important;
+.theme-excelsior-2285 button:hover {
+  background: hsl(0 0% 30%) !important;
+  box-shadow: 0 0 16px hsl(210 30% 80%) !important;
+}
+
+/* Excelsior accent buttons - gold-tan for primary actions */
+.theme-excelsior-2285 button.accent,
+.theme-excelsior-2285 .btn-lcars,
+.theme-excelsior-2285 .btn-lcars-secondary {
+  background: hsl(40 40% 75%) !important;
+  color: hsl(0 0% 15%) !important;
+  border: 3px solid hsl(40 40% 60%) !important;
+  box-shadow: 0 0 12px hsl(40 40% 75% / 0.5) !important;
+}
+
+.theme-excelsior-2285 button.accent:hover,
+.theme-excelsior-2285 .btn-lcars:hover,
+.theme-excelsior-2285 .btn-lcars-secondary:hover {
+  background: hsl(40 40% 85%) !important;
+  box-shadow: 0 0 20px hsl(40 40% 85%) !important;
+}
+
+/* Excelsior secondary/alert buttons - darker purple with light text */
+.theme-excelsior-2285 button.secondary,
+.theme-excelsior-2285 .btn-lcars-alert {
+  background: hsl(270 40% 35%) !important;        /* Darker purple */
+  color: hsl(270 30% 92%) !important;              /* Light lavender text */
+  border: 3px solid hsl(270 50% 50%) !important;
+  box-shadow: 0 0 12px hsl(270 40% 50% / 0.4) !important;
+}
+
+.theme-excelsior-2285 button.secondary:hover,
+.theme-excelsior-2285 .btn-lcars-alert:hover {
+  background: hsl(270 40% 45%) !important;
+  box-shadow: 0 0 20px hsl(270 40% 55% / 0.5) !important;
 }
 
 /* Faster data crawl for Excelsior era */
