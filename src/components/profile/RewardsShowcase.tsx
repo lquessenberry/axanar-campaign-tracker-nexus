@@ -10,6 +10,7 @@ import { TitleBadgeDisplay } from "./TitleBadgeDisplay";
 import { DAYSTROM_SPRINGS } from "@/lib/daystrom-springs";
 import { Gift, Package, Truck, CheckCircle2, Clock, AlertCircle, DollarSign, Calendar, Crown, Award } from "lucide-react";
 import { MissingPledgeDataAlert } from "./MissingPledgeDataAlert";
+import { AccountMergeAlert } from "./AccountMergeAlert";
 
 const RewardsShowcase: React.FC = () => {
   const { user } = useAuth();
@@ -52,6 +53,7 @@ const RewardsShowcase: React.FC = () => {
   if (!rewardsWithPerks.length && !displayedTitles.length) {
     return (
       <div className="space-y-4">
+        <AccountMergeAlert />
         <MissingPledgeDataAlert />
         <DaystromCard className="p-8">
           <div className="text-center">
