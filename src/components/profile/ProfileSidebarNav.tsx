@@ -122,13 +122,13 @@ export function ProfileSidebarNav({
                       <SidebarMenuButton
                         onClick={() => onSectionChange?.(section.value)}
                         isActive={activeSection === section.value}
-                        className={`transition-all duration-200 !m-0 ${isCollapsed ? 'justify-center !px-2' : ''} ${
+                        className={`transition-all duration-200 !m-0 ${isCollapsed ? 'justify-center !px-4 min-h-[72px]' : 'min-h-[48px]'} ${
                           activeSection === section.value 
                             ? "bg-primary text-primary-foreground font-semibold shadow-md border-l-4 border-primary-foreground" 
                             : "hover:bg-primary/20 hover:border-l-4 hover:border-primary/50"
                         }`}
                       >
-                        <section.icon className={isCollapsed ? "h-5 w-5" : "h-4 w-4"} />
+                        <section.icon className={isCollapsed ? "h-7 w-7" : "h-5 w-5"} />
                         {!isCollapsed && <span>{section.title}</span>}
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -156,13 +156,13 @@ export function ProfileSidebarNav({
                       <SidebarMenuButton
                         onClick={() => handleAdminSectionClick(section)}
                         isActive={isAdminSectionActive(section)}
-                        className={`transition-all duration-200 !m-0 ${isCollapsed ? 'justify-center !px-2' : ''} ${
+                        className={`transition-all duration-200 !m-0 ${isCollapsed ? 'justify-center !px-4 min-h-[72px]' : 'min-h-[48px]'} ${
                           isAdminSectionActive(section)
                             ? "bg-primary text-primary-foreground font-semibold shadow-md border-l-4 border-primary-foreground" 
                             : "hover:bg-primary/20 hover:border-l-4 hover:border-primary/50"
                         }`}
                       >
-                        <section.icon className={isCollapsed ? "h-5 w-5" : "h-4 w-4"} />
+                        <section.icon className={isCollapsed ? "h-7 w-7" : "h-5 w-5"} />
                         {!isCollapsed && <span>{section.title}</span>}
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -188,9 +188,9 @@ export function ProfileSidebarNav({
                   <SidebarMenuButton asChild>
                     <Link 
                       to={link.path}
-                      className={`hover:bg-primary/20 hover:border-l-4 hover:border-primary/50 transition-all duration-200 !m-0 ${isCollapsed ? 'justify-center !px-2' : ''}`}
+                      className={`hover:bg-primary/20 hover:border-l-4 hover:border-primary/50 transition-all duration-200 !m-0 ${isCollapsed ? 'justify-center !px-4 min-h-[72px]' : 'min-h-[48px]'}`}
                     >
-                      <link.icon className={isCollapsed ? "h-5 w-5" : "h-4 w-4"} />
+                      <link.icon className={isCollapsed ? "h-7 w-7" : "h-5 w-5"} />
                       {!isCollapsed && <span>{link.title}</span>}
                     </Link>
                   </SidebarMenuButton>
@@ -201,13 +201,13 @@ export function ProfileSidebarNav({
         </SidebarGroup>
 
         {/* Sign Out at Bottom */}
-        <div className="mt-auto p-4 border-t border-primary/30 bg-muted/20">
+        <div className="mt-auto p-2 border-t border-primary/30 bg-muted/20">
           <Button
             variant="ghost"
             onClick={onSignOut}
-            className={`w-full ${isCollapsed ? 'justify-center !px-2' : 'justify-start'} text-destructive hover:text-destructive hover:bg-destructive/20 font-semibold transition-all duration-200 border-l-4 border-transparent hover:border-l-4 hover:border-destructive`}
+            className={`w-full ${isCollapsed ? 'justify-center !px-4 min-h-[72px]' : 'justify-start min-h-[48px]'} text-destructive hover:text-destructive hover:bg-destructive/20 font-semibold transition-all duration-200 border-l-4 border-transparent hover:border-l-4 hover:border-destructive`}
           >
-            <LogOut className={isCollapsed ? "h-5 w-5" : "h-4 w-4"} />
+            <LogOut className={isCollapsed ? "h-7 w-7" : "h-5 w-5"} />
             {!isCollapsed && <span className="ml-2">Sign Out</span>}
           </Button>
         </div>
