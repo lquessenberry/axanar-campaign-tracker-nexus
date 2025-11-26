@@ -1523,12 +1523,14 @@ body:not(.game-active) [role="button"] {
 }
 
 /* ============================================================================
-   LCARS EVOLUTION TIMELINE - 2151 → 2378
-   Proto-LCARS through Full LCARS - 227 years of Starfleet interface design
+   UNIFIED THEME SYSTEM - 2151 → 2378
+   Complete interface themes across all Starfleet eras
    ============================================================================ */
 
-/* NX-CLASS PROTO-LCARS (2151) - Enterprise Era */
-.era-nx-2151 {
+/* PRE-FEDERATION ERA (2151) */
+
+/* NX-CLASS PROTO-LCARS (2151) - Enterprise NX-01 */
+.theme-nx-2151 {
   --background: 26 20% 18%; /* Gray-blue metallic #1a2a3a */
   --foreground: 30 60% 70%; /* Dull orange #CC8844 for readability */
   --primary: 45 40% 60%; /* Pale yellow #DDCC88 */
@@ -1542,19 +1544,19 @@ body:not(.game-active) [role="button"] {
   --card-glassmorphism: transparent;
 }
 
-.era-nx-2151 * {
+.theme-nx-2151 * {
   backdrop-filter: none !important;
 }
 
-.era-nx-2151 .daystrom-card,
-.era-nx-2151 .card {
+.theme-nx-2151 .daystrom-card,
+.theme-nx-2151 .card {
   background: linear-gradient(180deg, hsl(26 20% 22%), hsl(26 20% 18%)) !important;
   border: 1px solid hsl(0 0% 30%) !important;
   border-radius: 4px !important; /* Square-ish corners */
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 4px rgba(0, 0, 0, 0.3) !important;
 }
 
-.era-nx-2151 button {
+.theme-nx-2151 button {
   border-radius: 4px !important; /* Square buttons */
   background: linear-gradient(180deg, hsl(26 20% 24%), hsl(26 20% 20%)) !important;
   border: 1px solid hsl(0 0% 35%) !important;
@@ -1564,140 +1566,90 @@ body:not(.game-active) [role="button"] {
   text-transform: uppercase;
 }
 
-.era-nx-2151 button:hover {
+.theme-nx-2151 button:hover {
   background: linear-gradient(180deg, hsl(26 20% 28%), hsl(26 20% 24%)) !important;
 }
 
-/* CONSTITUTION-CLASS ORIGINAL (2265) - TOS TV Era */
-.era-constitution-2265 {
-  --background: 220 15% 15%;
-  --foreground: 195 80% 80%;
-  --primary: 207 90% 54%; /* Primary blue */
-  --primary-glow: 207 90% 64%;
-  --secondary: 30 100% 50%; /* Orange accent */
-  --accent: 4 90% 58%; /* Alert red */
-  --lcars-blur: 0px; /* Still no blur */
-  --border: 220 15% 25%;
-  --card: 220 15% 18%;
-  --card-foreground: 195 80% 80%;
-  --card-glassmorphism: transparent;
-}
+/* FOUR YEARS WAR ERA (2256) */
 
-.era-constitution-2265 .daystrom-card,
-.era-constitution-2265 .card {
-  background: hsl(220 15% 18%) !important;
-  border: 1px solid hsl(220 15% 30%) !important;
-  border-radius: 6px !important;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-}
-
-.era-constitution-2265 button {
-  border-radius: 6px !important;
-  background: hsl(220 15% 20%) !important;
-  border: 1px solid hsl(207 90% 54%) !important;
-  font-size: 13px !important;
-  text-transform: uppercase;
-}
-
-/* TMP CONSTITUTION REFIT (2273) - BIRTH OF LCARS */
-.era-tmp-refit-2273 {
-  --background: 0 0% 0%; /* PURE BLACK - first time! */
-  --foreground: 12 100% 80%; /* Orange-red glow */
-  --primary: 12 100% 60%; /* Glowing orange-red #FF4500 */
-  --primary-glow: 25 100% 50%; /* Yellow-orange #FF8C00 */
-  --secondary: 195 80% 55%; /* Cool blue-gray readouts */
-  --accent: 12 100% 60%;
+/* ARES MARK IV - LIGHT MODE */
+.theme-ares-mk4-light {
+  --background: 40 15% 92%; /* Light warm gray */
+  --foreground: 0 0% 10%; /* Near black text */
+  --primary: 30 85% 50%; /* Warm orange */
+  --primary-glow: 30 90% 60%;
+  --secondary: 195 70% 40%; /* Steel blue */
+  --accent: 30 85% 50%;
   --lcars-blur: 0px;
-  --border: 12 60% 30%;
-  --card: 0 0% 5%;
-  --card-foreground: 12 100% 80%;
+  --border: 30 20% 75%;
+  --card: 40 15% 96%;
+  --card-foreground: 0 0% 10%;
   --card-glassmorphism: transparent;
+  --muted: 40 10% 85%;
+  --muted-foreground: 0 0% 35%;
 }
 
-.era-tmp-refit-2273 .daystrom-card,
-.era-tmp-refit-2273 .card {
-  background: hsl(0 0% 5%) !important;
-  border: 2px solid hsl(12 100% 60%) !important;
-  border-radius: 24px !important; /* FIRST TRUE PILLS! */
-  box-shadow: 0 0 20px hsl(12 100% 60% / 0.3), 0 4px 8px rgba(0, 0, 0, 0.5) !important;
+.theme-ares-mk4-light .daystrom-card,
+.theme-ares-mk4-light .card {
+  background: hsl(40 15% 96%) !important;
+  border: 1px solid hsl(30 20% 75%) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
 }
 
-.era-tmp-refit-2273 button {
-  border-radius: 999px !important; /* Full pill shape */
-  background: linear-gradient(90deg, hsl(12 100% 60%), hsl(25 100% 50%)) !important;
-  border: none !important;
-  box-shadow: 0 0 20px hsl(12 100% 60% / 0.5), 0 4px 8px rgba(0, 0, 0, 0.3) !important;
-  font-size: 14px !important;
-  padding: 12px 32px !important;
+.theme-ares-mk4-light button {
+  border-radius: 8px !important;
+  background: hsl(40 15% 94%) !important;
+  border: 1px solid hsl(30 20% 70%) !important;
+  color: hsl(0 0% 10%) !important;
+  font-size: 13px !important;
 }
 
-.era-tmp-refit-2273 button:hover {
-  box-shadow: 0 0 30px hsl(12 100% 60% / 0.7), 0 6px 12px rgba(0, 0, 0, 0.4) !important;
-  transform: translateY(-2px);
+.theme-ares-mk4-light button:hover {
+  background: hsl(30 25% 88%) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12) !important;
 }
 
-/* Data crawl animation for TMP era */
-@keyframes data-crawl-slow {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+/* HERCULES MARK IV - DARK MODE (DEFAULT) */
+.theme-hercules-mk4-dark {
+  --background: 220 20% 12%; /* Dark blue-gray */
+  --foreground: 30 80% 85%; /* Warm text */
+  --primary: 30 95% 55%; /* Bright orange */
+  --primary-glow: 30 100% 65%;
+  --secondary: 195 70% 55%; /* Bright cyan */
+  --accent: 30 95% 55%;
+  --lcars-blur: 4px;
+  --border: 220 15% 25%;
+  --card: 220 20% 15%;
+  --card-foreground: 30 80% 85%;
+  --card-glassmorphism: hsl(30 95% 55% / 0.03);
+  --muted: 220 15% 22%;
+  --muted-foreground: 30 40% 65%;
 }
 
-.era-tmp-refit-2273 .lcars-data-line {
-  animation: data-crawl-slow 4s linear infinite;
+.theme-hercules-mk4-dark .daystrom-card,
+.theme-hercules-mk4-dark .card {
+  background: linear-gradient(135deg, hsl(220 20% 15% / 0.9), hsl(220 22% 13% / 0.9)) !important;
+  border: 1px solid hsl(220 15% 28%) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  backdrop-filter: blur(4px);
 }
 
-/* EXCELSIOR-CLASS (2285) - TWOK Through TUC */
-.era-excelsior-2285 {
-  --background: 0 0% 0%; /* Pure black maintained */
-  --foreground: 24 100% 80%; /* Richer orange */
-  --primary: 24 100% 60%; /* True orange #FF6600 */
-  --primary-glow: 30 100% 65%; /* Peach #FFAA77 */
-  --secondary: 270 60% 55%; /* First purple hints #9933CC */
-  --accent: 24 100% 60%;
-  --lcars-blur: 2px; /* Subtle blur begins */
-  --border: 24 60% 35%;
-  --card: 0 0% 5%;
-  --card-foreground: 24 100% 80%;
-  --card-glassmorphism: hsl(24 100% 60% / 0.02);
+.theme-hercules-mk4-dark button {
+  border-radius: 10px !important;
+  background: linear-gradient(135deg, hsl(220 20% 18%), hsl(220 22% 20%)) !important;
+  border: 1px solid hsl(30 60% 45%) !important;
+  font-size: 13px !important;
 }
 
-.era-excelsior-2285 .daystrom-card,
-.era-excelsior-2285 .card {
-  background: hsl(0 0% 5%) !important;
-  border: 2px solid hsl(24 100% 60%) !important;
-  border-radius: 28px !important; /* Even rounder pills */
-  box-shadow: 0 0 15px hsl(24 100% 60% / 0.3), 0 4px 8px rgba(0, 0, 0, 0.4) !important;
-  backdrop-filter: blur(2px);
-}
-
-.era-excelsior-2285 button {
-  border-radius: 24px !important;
-  background: linear-gradient(135deg, hsl(24 100% 60%), hsl(30 100% 65%)) !important;
-  border: 1px solid hsl(24 100% 70%) !important;
-  box-shadow: 0 0 12px hsl(24 100% 60% / 0.4) !important;
-  font-size: 14px !important;
-  padding: 10px 28px !important;
-  letter-spacing: 0.05em; /* Stretched letters */
-}
-
-.era-excelsior-2285 button.secondary {
-  background: linear-gradient(135deg, hsl(270 60% 55%), hsl(270 50% 50%)) !important;
-  border: 1px solid hsl(270 70% 60%) !important;
-  box-shadow: 0 0 12px hsl(270 60% 55% / 0.4) !important;
-}
-
-/* Faster data crawl for Excelsior era */
-@keyframes data-crawl-fast {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-.era-excelsior-2285 .lcars-data-line {
-  animation: data-crawl-fast 2s linear infinite;
+.theme-hercules-mk4-dark button:hover {
+  background: linear-gradient(135deg, hsl(220 20% 22%), hsl(220 22% 24%)) !important;
+  box-shadow: 0 0 12px hsl(30 95% 55% / 0.3) !important;
 }
 
 /* DAYSTROM MARK V WARTIME (2256-2260) - Emergency Combat Mode */
-.era-mark-v-war {
+.theme-mark-v-wartime {
   --background: 0 40% 8%;
   --foreground: 0 100% 90%;
   --primary: 30 100% 50%;
@@ -1710,7 +1662,7 @@ body:not(.game-active) [role="button"] {
   --card-glassmorphism: hsl(0 100% 30% / 0.04);
 }
 
-.era-mark-v-war::before {
+.theme-mark-v-wartime::before {
   content: '';
   position: fixed;
   inset: 0;
@@ -1725,7 +1677,7 @@ body:not(.game-active) [role="button"] {
   50% { opacity: 0.7; }
 }
 
-.era-mark-v-war .lcars-edge-bar {
+.theme-mark-v-wartime .lcars-edge-bar {
   background: hsl(0 100% 50%) !important;
   height: 3px !important;
   animation: alertPulse 1s ease-in-out infinite;
@@ -1736,18 +1688,18 @@ body:not(.game-active) [role="button"] {
   50% { opacity: 0.3; }
 }
 
-.era-mark-v-war button {
+.theme-mark-v-wartime button {
   border: 1px solid hsl(0 80% 50%) !important;
   background: hsl(0 40% 12%) !important;
   box-shadow: 0 0 10px hsl(0 100% 50% / 0.2), inset 0 1px 2px rgba(0, 0, 0, 0.5) !important;
 }
 
-.era-mark-v-war button:hover {
+.theme-mark-v-wartime button:hover {
   background: hsl(0 60% 20%) !important;
   box-shadow: 0 0 20px hsl(0 100% 50% / 0.4) !important;
 }
 
-.era-mark-v-war .badge {
+.theme-mark-v-wartime .badge {
   background: hsl(0 80% 25%) !important;
   border: 1px solid hsl(0 100% 50%) !important;
   animation: glowPulse 2s ease-in-out infinite;
@@ -1759,7 +1711,7 @@ body:not(.game-active) [role="button"] {
 }
 
 /* Scanline damage effect */
-.era-mark-v-war::after {
+.theme-mark-v-wartime::after {
   content: '';
   position: fixed;
   inset: 0;
@@ -1775,8 +1727,191 @@ body:not(.game-active) [role="button"] {
   opacity: 0.3;
 }
 
+/* KLINGON D7 - EMPIRE INTERFACE */
+.theme-klingon-d7 {
+  --background: 0 50% 8%; /* Deep blood red */
+  --foreground: 30 95% 85%; /* Warm orange-white */
+  --primary: 10 90% 50%; /* Aggressive red-orange */
+  --primary-glow: 10 100% 60%;
+  --secondary: 0 80% 35%; /* Dark red */
+  --accent: 30 100% 50%; /* Honor gold */
+  --lcars-blur: 0px;
+  --border: 0 60% 25%;
+  --card: 0 50% 10%;
+  --card-foreground: 30 95% 85%;
+  --card-glassmorphism: transparent;
+}
+
+.theme-klingon-d7 .daystrom-card,
+.theme-klingon-d7 .card {
+  background: linear-gradient(135deg, hsl(0 50% 10%), hsl(10 55% 12%)) !important;
+  border: 2px solid hsl(10 80% 40%) !important;
+  border-radius: 0px !important; /* Angular Klingon aesthetic */
+  box-shadow: 0 0 20px hsl(10 90% 50% / 0.2), inset 0 2px 0 hsl(10 100% 40% / 0.1) !important;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+}
+
+.theme-klingon-d7 button {
+  border-radius: 0px !important;
+  background: linear-gradient(135deg, hsl(0 60% 15%), hsl(10 65% 18%)) !important;
+  border: 2px solid hsl(10 80% 45%) !important;
+  box-shadow: 0 0 15px hsl(10 90% 50% / 0.3) !important;
+  font-family: var(--font-klingon), var(--font-heading) !important;
+  font-size: 14px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+}
+
+.theme-klingon-d7 button:hover {
+  background: linear-gradient(135deg, hsl(0 70% 20%), hsl(10 75% 22%)) !important;
+  box-shadow: 0 0 25px hsl(10 90% 50% / 0.5) !important;
+  transform: translateY(-1px);
+}
+
+.theme-klingon-d7 h1, 
+.theme-klingon-d7 h2, 
+.theme-klingon-d7 h3 {
+  font-family: var(--font-klingon), var(--font-heading) !important;
+  letter-spacing: 0.08em;
+}
+
+/* TOS ERA (2265) */
+
+/* CONSTITUTION-CLASS ORIGINAL (2265) - TOS TV Era */
+.theme-constitution-2265 {
+  --background: 220 15% 15%;
+  --foreground: 195 80% 80%;
+  --primary: 207 90% 54%; /* Primary blue */
+  --primary-glow: 207 90% 64%;
+  --secondary: 30 100% 50%; /* Orange accent */
+  --accent: 4 90% 58%; /* Alert red */
+  --lcars-blur: 0px; /* Still no blur */
+  --border: 220 15% 25%;
+  --card: 220 15% 18%;
+  --card-foreground: 195 80% 80%;
+  --card-glassmorphism: transparent;
+}
+
+.theme-constitution-2265 .daystrom-card,
+.theme-constitution-2265 .card {
+  background: hsl(220 15% 18%) !important;
+  border: 1px solid hsl(220 15% 30%) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+.theme-constitution-2265 button {
+  border-radius: 6px !important;
+  background: hsl(220 15% 20%) !important;
+  border: 1px solid hsl(207 90% 54%) !important;
+  font-size: 13px !important;
+  text-transform: uppercase;
+}
+
+/* TMP ERA (2273-2285) */
+
+/* TMP CONSTITUTION REFIT (2273) - BIRTH OF LCARS */
+.theme-tmp-refit-2273 {
+  --background: 0 0% 0%; /* PURE BLACK - first time! */
+  --foreground: 12 100% 80%; /* Orange-red glow */
+  --primary: 12 100% 60%; /* Glowing orange-red #FF4500 */
+  --primary-glow: 25 100% 50%; /* Yellow-orange #FF8C00 */
+  --secondary: 195 80% 55%; /* Cool blue-gray readouts */
+  --accent: 12 100% 60%;
+  --lcars-blur: 0px;
+  --border: 12 60% 30%;
+  --card: 0 0% 5%;
+  --card-foreground: 12 100% 80%;
+  --card-glassmorphism: transparent;
+}
+
+.theme-tmp-refit-2273 .daystrom-card,
+.theme-tmp-refit-2273 .card {
+  background: hsl(0 0% 5%) !important;
+  border: 2px solid hsl(12 100% 60%) !important;
+  border-radius: 24px !important; /* FIRST TRUE PILLS! */
+  box-shadow: 0 0 20px hsl(12 100% 60% / 0.3), 0 4px 8px rgba(0, 0, 0, 0.5) !important;
+}
+
+.theme-tmp-refit-2273 button {
+  border-radius: 999px !important; /* Full pill shape */
+  background: linear-gradient(90deg, hsl(12 100% 60%), hsl(25 100% 50%)) !important;
+  border: none !important;
+  box-shadow: 0 0 20px hsl(12 100% 60% / 0.5), 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+  font-size: 14px !important;
+  padding: 12px 32px !important;
+}
+
+.theme-tmp-refit-2273 button:hover {
+  box-shadow: 0 0 30px hsl(12 100% 60% / 0.7), 0 6px 12px rgba(0, 0, 0, 0.4) !important;
+  transform: translateY(-2px);
+}
+
+/* Data crawl animation for TMP era */
+@keyframes data-crawl-slow {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.theme-tmp-refit-2273 .lcars-data-line {
+  animation: data-crawl-slow 4s linear infinite;
+}
+
+/* EXCELSIOR-CLASS (2285) - TWOK Through TUC */
+.theme-excelsior-2285 {
+  --background: 0 0% 0%; /* Pure black maintained */
+  --foreground: 24 100% 80%; /* Richer orange */
+  --primary: 24 100% 60%; /* True orange #FF6600 */
+  --primary-glow: 30 100% 65%; /* Peach #FFAA77 */
+  --secondary: 270 60% 55%; /* First purple hints #9933CC */
+  --accent: 24 100% 60%;
+  --lcars-blur: 2px; /* Subtle blur begins */
+  --border: 24 60% 35%;
+  --card: 0 0% 5%;
+  --card-foreground: 24 100% 80%;
+  --card-glassmorphism: hsl(24 100% 60% / 0.02);
+}
+
+.theme-excelsior-2285 .daystrom-card,
+.theme-excelsior-2285 .card {
+  background: hsl(0 0% 5%) !important;
+  border: 2px solid hsl(24 100% 60%) !important;
+  border-radius: 28px !important; /* Even rounder pills */
+  box-shadow: 0 0 15px hsl(24 100% 60% / 0.3), 0 4px 8px rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(2px);
+}
+
+.theme-excelsior-2285 button {
+  border-radius: 24px !important;
+  background: linear-gradient(135deg, hsl(24 100% 60%), hsl(30 100% 65%)) !important;
+  border: 1px solid hsl(24 100% 70%) !important;
+  box-shadow: 0 0 12px hsl(24 100% 60% / 0.4) !important;
+  font-size: 14px !important;
+  padding: 10px 28px !important;
+  letter-spacing: 0.05em; /* Stretched letters */
+}
+
+.theme-excelsior-2285 button.secondary {
+  background: linear-gradient(135deg, hsl(270 60% 55%), hsl(270 50% 50%)) !important;
+  border: 1px solid hsl(270 70% 60%) !important;
+  box-shadow: 0 0 12px hsl(270 60% 55% / 0.4) !important;
+}
+
+/* Faster data crawl for Excelsior era */
+@keyframes data-crawl-fast {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.theme-excelsior-2285 .lcars-data-line {
+  animation: data-crawl-fast 2s linear infinite;
+}
+
+/* TNG/DS9/VOY ERA (2350-2378) */
+
 /* AMBASSADOR-CLASS LCARS BLOCK IV (2350) - Purple Transition Era */
-.era-ambassador-2350 {
+.theme-ambassador-2350 {
   --background: 260 25% 12%;
   --foreground: 260 60% 85%;
   --primary: 260 70% 60%;
@@ -1788,21 +1923,21 @@ body:not(.game-active) [role="button"] {
   --card-glassmorphism: hsl(260 70% 60% / 0.06);
 }
 
-.era-ambassador-2350 .daystrom-card,
-.era-ambassador-2350 .card {
+.theme-ambassador-2350 .daystrom-card,
+.theme-ambassador-2350 .card {
   background: linear-gradient(135deg, hsl(260 25% 12% / 0.7), hsl(240 30% 15% / 0.7));
   backdrop-filter: blur(12px);
   border: 1px solid hsl(260 50% 45%);
 }
 
-.era-ambassador-2350 button {
+.theme-ambassador-2350 button {
   background: linear-gradient(135deg, hsl(260 30% 15%), hsl(240 35% 18%));
   border: 1px solid hsl(260 60% 50%);
   backdrop-filter: blur(8px);
 }
 
 /* GALAXY-CLASS LCARS BLOCK V (2363) - Early TNG Pastels */
-.era-galaxy-2363 {
+.theme-galaxy-2363 {
   --background: 220 15% 15%;
   --foreground: 30 80% 80%;
   --primary: 30 100% 70%;
@@ -1814,15 +1949,15 @@ body:not(.game-active) [role="button"] {
   --card-glassmorphism: hsl(30 100% 70% / 0.05);
 }
 
-.era-galaxy-2363 .daystrom-card,
-.era-galaxy-2363 .card {
+.theme-galaxy-2363 .daystrom-card,
+.theme-galaxy-2363 .card {
   background: hsl(220 15% 15% / 0.6);
   backdrop-filter: blur(16px);
   border-radius: 16px;
   border: 1px solid hsl(30 50% 50% / 0.3);
 }
 
-.era-galaxy-2363 button {
+.theme-galaxy-2363 button {
   background: hsl(220 15% 18% / 0.5);
   backdrop-filter: blur(12px);
   border-radius: 12px;
@@ -1830,7 +1965,7 @@ body:not(.game-active) [role="button"] {
 }
 
 /* DEFIANT-CLASS LCARS BLOCK VI (2371) - Mid TNG / DS9 */
-.era-defiant-2371 {
+.theme-defiant-2371 {
   --background: 260 20% 10%;
   --foreground: 260 50% 80%;
   --primary: 260 80% 65%;
@@ -1842,15 +1977,15 @@ body:not(.game-active) [role="button"] {
   --card-glassmorphism: hsl(260 80% 65% / 0.05);
 }
 
-.era-defiant-2371 .daystrom-card,
-.era-defiant-2371 .card {
+.theme-defiant-2371 .daystrom-card,
+.theme-defiant-2371 .card {
   background: linear-gradient(135deg, hsl(260 20% 10% / 0.85), hsl(280 25% 12% / 0.85));
   backdrop-filter: blur(14px);
   border: 1px solid hsl(260 50% 40%);
 }
 
 /* SOVEREIGN-CLASS LCARS BLOCK VII (2378) - Voyager / Maximum Contrast */
-.era-sovereign-2378 {
+.theme-sovereign-2378 {
   --background: 220 20% 5%;
   --foreground: 195 100% 90%;
   --primary: 195 100% 60%;
@@ -1862,22 +1997,22 @@ body:not(.game-active) [role="button"] {
   --card-glassmorphism: transparent;
 }
 
-.era-sovereign-2378 .daystrom-card,
-.era-sovereign-2378 .card {
+.theme-sovereign-2378 .daystrom-card,
+.theme-sovereign-2378 .card {
   background: hsl(220 20% 5%);
   border: 2px solid hsl(195 80% 50%);
   box-shadow: 0 0 15px hsl(195 100% 60% / 0.2);
   border-radius: 4px;
 }
 
-.era-sovereign-2378 button {
+.theme-sovereign-2378 button {
   background: hsl(220 20% 8%);
   border: 2px solid hsl(195 90% 55%);
   box-shadow: 0 0 10px hsl(195 100% 60% / 0.3);
   border-radius: 4px;
 }
 
-.era-sovereign-2378 button:hover {
+.theme-sovereign-2378 button:hover {
   background: hsl(195 100% 60% / 0.15);
   box-shadow: 0 0 20px hsl(195 100% 60% / 0.5);
 }

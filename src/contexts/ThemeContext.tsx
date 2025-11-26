@@ -1,89 +1,61 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { LCARSEra, DEFAULT_ERA } from '@/lib/lcars-eras';
-
-type Theme = 'dark' | 'light' | 'tactical' | 'klingon';
+import { UnifiedTheme, DEFAULT_THEME } from '@/lib/unified-themes';
 
 type ThemeProviderContextType = {
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
-  toggleTheme: () => void;
-  era: LCARSEra;
-  setEra: (era: LCARSEra) => void;
+  theme: UnifiedTheme;
+  setTheme: (theme: UnifiedTheme) => void;
 };
 
 const ThemeProviderContext = createContext<ThemeProviderContextType | undefined>(undefined);
 
 export function ThemeProvider({
   children,
-  defaultTheme = 'dark', // Axanar defaults to dark mode (82% mobile preference)
-  storageKey = 'axanar-ui-theme',
-  eraStorageKey = 'axanar-lcars-era',
+  defaultTheme = DEFAULT_THEME,
+  storageKey = 'axanar-unified-theme',
 }: {
   children: React.ReactNode;
-  defaultTheme?: Theme;
+  defaultTheme?: UnifiedTheme;
   storageKey?: string;
-  eraStorageKey?: string;
 }) {
-  const [theme, setTheme] = useState<Theme>(() => {
+  const [theme, setTheme] = useState<UnifiedTheme>(() => {
     if (typeof window !== 'undefined') {
-      return (localStorage.getItem(storageKey) as Theme) || defaultTheme;
+      return (localStorage.getItem(storageKey) as UnifiedTheme) || defaultTheme;
     }
     return defaultTheme;
-  });
-
-  const [era, setEra] = useState<LCARSEra>(() => {
-    if (typeof window !== 'undefined') {
-      return (localStorage.getItem(eraStorageKey) as LCARSEra) || DEFAULT_ERA;
-    }
-    return DEFAULT_ERA;
   });
 
   useEffect(() => {
     const root = window.document.documentElement;
     
-    root.classList.remove('light', 'dark', 'tactical', 'klingon');
-    root.classList.add(theme);
+    // Remove all theme classes
+    const allThemeClasses = [
+      'theme-nx-2151',
+      'theme-ares-mk4-light',
+      'theme-hercules-mk4-dark',
+      'theme-mark-v-wartime',
+      'theme-klingon-d7',
+      'theme-constitution-2265',
+      'theme-tmp-refit-2273',
+      'theme-excelsior-2285',
+      'theme-ambassador-2350',
+      'theme-galaxy-2363',
+      'theme-defiant-2371',
+      'theme-sovereign-2378'
+    ];
+    
+    root.classList.remove(...allThemeClasses);
+    
+    // Add current theme class
+    const themeClass = `theme-${theme}`;
+    root.classList.add(themeClass);
     
     // Store theme preference
     localStorage.setItem(storageKey, theme);
   }, [theme, storageKey]);
 
-  useEffect(() => {
-    const root = window.document.documentElement;
-    
-    // Remove all era classes
-    root.classList.remove(
-      'era-nx-2151', 'era-constitution-2265', 'era-tmp-refit-2273', 
-      'era-excelsior-2285', 'era-mark-v-war', 'era-ambassador-2350',
-      'era-galaxy-2363', 'era-defiant-2371', 'era-sovereign-2378'
-    );
-    
-    // Add current era class (CSS class names match era IDs exactly)
-    const eraClass = `era-${era}`;
-    root.classList.add(eraClass);
-    
-    // Store era preference
-    localStorage.setItem(eraStorageKey, era);
-  }, [era, eraStorageKey]);
-
-  const toggleTheme = () => {
-    setTheme((prevTheme) => {
-      switch (prevTheme) {
-        case 'light': return 'dark';
-        case 'dark': return 'tactical';
-        case 'tactical': return 'klingon';
-        case 'klingon': return 'light';
-        default: return 'dark';
-      }
-    });
-  };
-
   const value = {
     theme,
     setTheme,
-    toggleTheme,
-    era,
-    setEra,
   };
 
   return (
