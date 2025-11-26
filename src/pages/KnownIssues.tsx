@@ -12,7 +12,7 @@ export default function KnownIssues() {
         <div className="mb-8">
           <Badge variant="outline" className="mb-2">
             <Clock className="h-3 w-3 mr-1" />
-            Updated Nov 25, 2025
+            Updated Nov 26, 2025
           </Badge>
           <h1 className="text-4xl font-trek-heading tracking-wider mb-2">
             Platform Status & Known Issues
@@ -27,35 +27,27 @@ export default function KnownIssues() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-yellow-500">
               <AlertCircle className="h-5 w-5" />
-              Under Investigation
+              In Progress - Fixes Deployed
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <h3 className="font-semibold mb-2">Address Update Issues</h3>
+              <h3 className="font-semibold mb-2">🔧 Address Update Issues - FIX DEPLOYED</h3>
               <p className="text-sm text-muted-foreground mb-2">
-                Some users are experiencing difficulty saving shipping address updates.
-                We've added enhanced diagnostics and are investigating donor account linkage.
+                Root cause identified: Donor records weren't linked to user accounts. Admin tool deployed
+                to automatically link accounts by email. Users who couldn't save addresses should now be able to.
+                If you still experience issues, please DM @lee.
               </p>
-              <Badge variant="secondary" className="text-xs">Priority: High</Badge>
+              <Badge variant="secondary" className="text-xs">Status: Testing</Badge>
             </div>
 
             <div>
-              <h3 className="font-semibold mb-2">Pledge History Accuracy</h3>
+              <h3 className="font-semibold mb-2">🔧 Contribution Details - Enhanced View</h3>
               <p className="text-sm text-muted-foreground mb-2">
-                Some upgraded pledges may show original amounts instead of current values.
-                We're conducting a comprehensive data reconciliation audit.
+                Click any contribution to see full details including pledge tier, rewards, and campaign info.
+                Upgraded pledges and store purchases are being reconciled - if your data looks incorrect, DM @lee.
               </p>
-              <Badge variant="secondary" className="text-xs">Priority: High</Badge>
-            </div>
-
-            <div>
-              <h3 className="font-semibold mb-2">Perks Tracking Access</h3>
-              <p className="text-sm text-muted-foreground mb-2">
-                Some users report difficulty accessing detailed perks information.
-                We're improving navigation and permissions.
-              </p>
-              <Badge variant="secondary" className="text-xs">Priority: Medium</Badge>
+              <Badge variant="secondary" className="text-xs">Status: Live</Badge>
             </div>
           </CardContent>
         </Card>
@@ -91,6 +83,14 @@ export default function KnownIssues() {
                 Users can now delete individual messages and entire conversation threads.
               </p>
               <Badge variant="outline" className="text-xs">Fixed: Nov 25</Badge>
+            </div>
+
+            <div>
+              <h3 className="font-semibold mb-2">✅ Contribution Details Modal</h3>
+              <p className="text-sm text-muted-foreground">
+                Click any contribution to view full campaign details, pledge tier, and rewards.
+              </p>
+              <Badge variant="outline" className="text-xs">Added: Nov 26</Badge>
             </div>
 
             <div>
@@ -157,7 +157,7 @@ export default function KnownIssues() {
 
         <div className="mt-8 text-center text-sm text-muted-foreground">
           <p>This page is updated regularly as we resolve issues and add features.</p>
-          <p className="mt-1">Last updated: November 25, 2025</p>
+          <p className="mt-1">Last updated: November 26, 2025</p>
         </div>
       </div>
     </div>
