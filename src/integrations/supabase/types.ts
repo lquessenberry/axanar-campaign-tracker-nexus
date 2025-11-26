@@ -5739,6 +5739,15 @@ export type Database = {
         Args: { catalog: unknown; options: string[] }
         Returns: undefined
       }
+      merge_donor_accounts: {
+        Args: { p_source_email: string; p_target_auth_user_id: string }
+        Returns: {
+          message: string
+          pledges_transferred: number
+          success: boolean
+          titles_transferred: number
+        }[]
+      }
       merge_legacy_donor_data: {
         Args: never
         Returns: {
