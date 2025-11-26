@@ -8,6 +8,7 @@ import AdminOverview from "@/components/admin/AdminOverview";
 import AdminRewardsSection from "@/components/admin/AdminRewardsSection";
 import AdminAdminsSection from "@/components/admin/AdminAdminsSection";
 import AdminPlaceholderSection from "@/components/admin/AdminPlaceholderSection";
+import { PledgeDataRestoration } from "@/components/admin/PledgeDataRestoration";
 import DonorManagement from "./DonorManagement";
 import MediaFiles from "./MediaFiles";
 import CampaignsWithPledges from "./CampaignsWithPledges";
@@ -50,6 +51,8 @@ const Dashboard = () => {
         return <CampaignsWithPledges />;
       case "rewards":
         return <AdminRewardsSection />;
+      case "pledge-restoration":
+        return <PledgeDataRestoration />;
       case "messages":
         return <AdminPlaceholderSection title="Messages" description="Admin message center" Icon={MessageCircle} />;
       case "media-files":
