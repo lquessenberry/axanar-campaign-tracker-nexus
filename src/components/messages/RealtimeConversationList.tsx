@@ -121,7 +121,7 @@ const RealtimeConversationList: React.FC<RealtimeConversationListProps> = ({
                     key={conversation.partnerId}
                     className={cn(
                       "flex items-center space-x-4 p-4 rounded-lg cursor-pointer transition-colors hover:bg-muted/50 min-h-[72px]",
-                      isSelected && "bg-primary/10 border border-primary/20",
+                      isSelected && "bg-primary/10 border border-primary/20 [&_h4]:!text-[hsl(0_0%_10%)] [&_p]:!text-[hsl(0_0%_25%)] [&_span.text-muted-foreground]:!text-[hsl(0_0%_40%)]",
                       hasUnread && !isSelected && "bg-muted/30"
                     )}
                     onClick={() => onSelectConversation(conversation.partnerId)}

@@ -131,17 +131,17 @@ const OptimizedConversationList: React.FC<OptimizedConversationListProps> = ({
                 const displayName = conversation.partner_full_name || conversation.partner_username || 'Unknown User';
 
                 return (
-                  <div
-                    key={conversation.partner_id}
-                    className={cn(
-                      "flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors hover:bg-muted/50 relative group",
-                      isSelected && "bg-primary/10 border border-primary/20",
-                      hasUnread && !isSelected && "bg-muted/30"
-                    )}
-                    onClick={() => onSelectConversation(conversation.partner_id)}
-                    onMouseEnter={() => setHoveredConversation(conversation.partner_id)}
-                    onMouseLeave={() => setHoveredConversation(null)}
-                  >
+                    <div
+                      key={conversation.partner_id}
+                      className={cn(
+                        "flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors hover:bg-muted/50 relative group",
+                        isSelected && "bg-primary/10 border border-primary/20 [&_h4]:!text-[hsl(0_0%_10%)] [&_p]:!text-[hsl(0_0%_25%)] [&_span.text-muted-foreground]:!text-[hsl(0_0%_40%)]",
+                        hasUnread && !isSelected && "bg-muted/30"
+                      )}
+                      onClick={() => onSelectConversation(conversation.partner_id)}
+                      onMouseEnter={() => setHoveredConversation(conversation.partner_id)}
+                      onMouseLeave={() => setHoveredConversation(null)}
+                    >
                     {onDeleteConversation && hoveredConversation === conversation.partner_id && (
                       <Button
                         size="sm"
