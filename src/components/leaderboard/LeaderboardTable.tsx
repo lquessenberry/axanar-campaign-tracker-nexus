@@ -158,7 +158,7 @@ const EntryCard: React.FC<EntryCardProps> = ({
           <div className="min-w-0">
             <h4 className="font-semibold text-base mb-1">Account Not Linked</h4>
             <p className="text-xs text-muted-foreground leading-tight">
-              <span className="font-semibold text-foreground">{Math.round(entry.proposed_ares).toLocaleString()} proposed ARES</span> from donations.
+              <span className="font-semibold text-foreground">${Number(entry.total_donated || 0).toLocaleString()} donated</span> - link to claim ARES XP.
             </p>
           </div>
         </div>
