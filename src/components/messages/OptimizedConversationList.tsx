@@ -172,8 +172,7 @@ const OptimizedConversationList: React.FC<OptimizedConversationListProps> = ({
                         <div className="flex items-center gap-2 min-w-0">
                           <h4 className={cn(
                             "font-medium text-sm truncate",
-                            hasUnread && "font-semibold",
-                            isSelected && "text-foreground"
+                            hasUnread && "font-semibold"
                           )}>
                             {displayName}
                           </h4>
@@ -192,10 +191,7 @@ const OptimizedConversationList: React.FC<OptimizedConversationListProps> = ({
 
                       {/* Subject line for support tickets */}
                       {conversation.category === 'support' && conversation.subject && (
-                        <p className={cn(
-                          "text-xs font-medium truncate mt-1",
-                          isSelected ? "text-foreground" : "text-muted-foreground"
-                        )}>
+                        <p className="text-xs font-medium truncate mt-1">
                           {conversation.subject}
                         </p>
                       )}
@@ -203,8 +199,7 @@ const OptimizedConversationList: React.FC<OptimizedConversationListProps> = ({
                       <div className="flex items-center justify-between mt-1">
                         <p className={cn(
                           "text-sm truncate",
-                          hasUnread && "font-medium text-foreground",
-                          isSelected ? "text-foreground" : "text-muted-foreground"
+                          hasUnread && !isSelected && "font-medium text-foreground"
                         )}>
                           {conversation.last_message ? truncateText(conversation.last_message) : 'No messages yet'}
                         </p>
