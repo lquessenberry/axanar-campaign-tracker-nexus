@@ -2606,8 +2606,8 @@ body:not(.game-active) [role="button"] {
   --secondary-foreground: 0 0% 0%;
   
   /* Accent */
-  --accent: 280 70% 65%;
-  --accent-foreground: 0 0% 0%;
+  --accent: 260 20% 18%;
+  --accent-foreground: 260 60% 88%;
   
   /* Muted */
   --muted: 260 20% 18%;
