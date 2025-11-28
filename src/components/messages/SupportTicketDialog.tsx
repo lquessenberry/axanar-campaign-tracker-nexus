@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -13,6 +13,10 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { AlertCircle, Zap, AlertTriangle, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import SupportCategorySelector, { SupportCategory } from './SupportCategorySelector';
+import UserStatusBanner, { UserStatus } from './UserStatusBanner';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 
 interface SupportTicketDialogProps {
   open: boolean;
@@ -20,6 +24,7 @@ interface SupportTicketDialogProps {
   onSubmit: (data: {
     message: string;
     priority: 'low' | 'medium' | 'high' | 'urgent';
+    category?: SupportCategory;
   }) => Promise<void>;
 }
 
@@ -35,9 +40,67 @@ const SupportTicketDialog: React.FC<SupportTicketDialogProps> = ({
   onOpenChange,
   onSubmit
 }) => {
+  const { user } = useAuth();
   const [message, setMessage] = useState('');
+  const [category, setCategory] = useState<SupportCategory>('general');
   const [priority, setPriority] = useState<'low' | 'medium' | 'high' | 'urgent'>('medium');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [userStatus, setUserStatus] = useState<UserStatus | null>(null);
+  const [loadingStatus, setLoadingStatus] = useState(false);
+
+  // Auto-detect user status when dialog opens
+  useEffect(() => {
+    if (open && user?.id) {
+      setLoadingStatus(true);
+      
+      const fetchUserStatus = async () => {
+        try {
+          // Check donor linkage
+          const { data: donor } = await supabase
+            .from('donors')
+            .select('id, email')
+            .eq('auth_user_id', user.id)
+            .maybeSingle();
+
+          // Check pledges if donor exists
+          let pledgeCount = 0;
+          let totalPledged = 0;
+          
+          if (donor) {
+            const { data: pledges } = await supabase
+              .from('pledges')
+              .select('amount')
+              .eq('donor_id', donor.id);
+            
+            pledgeCount = pledges?.length || 0;
+            totalPledged = pledges?.reduce((sum, p) => sum + (Number(p.amount) || 0), 0) || 0;
+          }
+
+          // Check address
+          const { data: address } = await supabase
+            .from('addresses')
+            .select('id')
+            .eq('donor_id', donor?.id || '')
+            .eq('is_primary', true)
+            .maybeSingle();
+
+          setUserStatus({
+            hasAuth: true,
+            hasDonor: !!donor,
+            pledgeCount,
+            totalPledged,
+            hasAddress: !!address
+          });
+        } catch (error) {
+          console.error('Error fetching user status:', error);
+        } finally {
+          setLoadingStatus(false);
+        }
+      };
+
+      fetchUserStatus();
+    }
+  }, [open, user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,11 +113,13 @@ const SupportTicketDialog: React.FC<SupportTicketDialogProps> = ({
     try {
       await onSubmit({
         message: message.trim(),
-        priority
+        priority,
+        category
       });
       
       // Reset form
       setMessage('');
+      setCategory('general');
       setPriority('medium');
       onOpenChange(false);
     } catch (error) {
@@ -77,7 +142,12 @@ const SupportTicketDialog: React.FC<SupportTicketDialogProps> = ({
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* User Status Banner */}
+          <UserStatusBanner status={userStatus} loading={loadingStatus} />
+
+          {/* Category Selection */}
+          <SupportCategorySelector value={category} onChange={setCategory} />
           <div className="space-y-2">
             <Label>Priority (Optional)</Label>
             <div className="grid grid-cols-4 gap-2">
