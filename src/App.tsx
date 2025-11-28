@@ -44,8 +44,6 @@ const Campaign = lazy(() => import("./pages/Campaign"));
 const Campaigns = lazy(() => import("./pages/Campaigns"));
 const Forum = lazy(() => import("./pages/Forum"));
 const ForumThread = lazy(() => import("./pages/ForumThread"));
-const TacticalBattle = lazy(() => import("./pages/TacticalBattle"));
-const TacticalDemo = lazy(() => import("./pages/TacticalDemo"));
 const VisitorAnalytics = lazy(() => import("./pages/admin/VisitorAnalytics"));
 const HowToEarnARES = lazy(() => import("./pages/HowToEarnARES"));
 const Leaderboard = lazy(() => import("./pages/Leaderboard"));
@@ -170,8 +168,6 @@ const App = () => (
                     <Route path="/leaderboard" element={<Leaderboard />} />
                     <Route path="/known-issues" element={<KnownIssues />} />
                     <Route path="/status" element={<KnownIssues />} />
-                    <Route path="/tactical" element={<RequireAuth><TacticalDemo /></RequireAuth>} />
-                    <Route path="/tactical/:gameId" element={<RequireAuth><TacticalBattle /></RequireAuth>} />
                     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                     <Route path="*" element={<NotFound />} />
                     </Routes>
