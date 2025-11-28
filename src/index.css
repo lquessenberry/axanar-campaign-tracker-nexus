@@ -1690,6 +1690,27 @@ body:not(.game-active) [role="button"] {
   --lcars-blur: 0px;
   --card-glassmorphism: transparent;
   --radius: 4px; /* Square-ish corners like actual NX-01 screens */
+  
+  /* LCARS Slab Navigation Colors */
+  --lcars-slab-primary: 210 100% 45%; /* Enterprise Blue */
+  --lcars-slab-primary-active: 210 100% 65%;
+  --lcars-slab-primary-foreground: 0 0% 100%;
+  
+  --lcars-slab-secondary: 192 100% 50%; /* Cyan */
+  --lcars-slab-secondary-active: 192 100% 70%;
+  --lcars-slab-secondary-foreground: 0 0% 100%;
+  
+  --lcars-slab-alert: 18 100% 40%; /* Safety Orange */
+  --lcars-slab-alert-active: 18 100% 60%;
+  --lcars-slab-alert-foreground: 0 0% 100%;
+  
+  --lcars-slab-accent: 36 100% 40%; /* Amber */
+  --lcars-slab-accent-active: 36 100% 60%;
+  --lcars-slab-accent-foreground: 0 0% 100%;
+  
+  --lcars-slab-info: 210 100% 45%; /* Blue */
+  --lcars-slab-info-active: 210 100% 65%;
+  --lcars-slab-info-foreground: 0 0% 100%;
 }
 
 /* Disable glassmorphism completely */
@@ -1795,6 +1816,27 @@ body:not(.game-active) [role="button"] {
   --lcars-blur: 0px;
   --card-glassmorphism: transparent;
   --radius: 8px;
+  
+  /* LCARS Slab Navigation Colors */
+  --lcars-slab-primary: 30 85% 50%; /* Warm Orange */
+  --lcars-slab-primary-active: 30 95% 65%;
+  --lcars-slab-primary-foreground: 0 0% 0%;
+  
+  --lcars-slab-secondary: 195 70% 40%; /* Steel Teal */
+  --lcars-slab-secondary-active: 195 80% 55%;
+  --lcars-slab-secondary-foreground: 0 0% 100%;
+  
+  --lcars-slab-alert: 0 84% 60%; /* Bright Red */
+  --lcars-slab-alert-active: 0 90% 70%;
+  --lcars-slab-alert-foreground: 0 0% 100%;
+  
+  --lcars-slab-accent: 45 90% 50%; /* Golden */
+  --lcars-slab-accent-active: 45 100% 65%;
+  --lcars-slab-accent-foreground: 0 0% 0%;
+  
+  --lcars-slab-info: 220 60% 50%; /* Deep Blue */
+  --lcars-slab-info-active: 220 70% 65%;
+  --lcars-slab-info-foreground: 0 0% 100%;
 }
 
 .theme-ares-mk4-light .daystrom-card,
@@ -1876,6 +1918,27 @@ body:not(.game-active) [role="button"] {
   --lcars-blur: 4px;
   --card-glassmorphism: 30 95% 55% / 0.03;
   --radius: 10px;
+  
+  /* LCARS Slab Navigation Colors */
+  --lcars-slab-primary: 30 95% 55%; /* Bright Orange */
+  --lcars-slab-primary-active: 30 100% 70%;
+  --lcars-slab-primary-foreground: 220 20% 12%;
+  
+  --lcars-slab-secondary: 195 70% 55%; /* Teal */
+  --lcars-slab-secondary-active: 195 80% 70%;
+  --lcars-slab-secondary-foreground: 220 20% 12%;
+  
+  --lcars-slab-alert: 0 70% 55%; /* Red */
+  --lcars-slab-alert-active: 0 80% 70%;
+  --lcars-slab-alert-foreground: 0 0% 100%;
+  
+  --lcars-slab-accent: 45 90% 60%; /* Gold */
+  --lcars-slab-accent-active: 45 100% 75%;
+  --lcars-slab-accent-foreground: 220 20% 12%;
+  
+  --lcars-slab-info: 220 60% 50%; /* Blue */
+  --lcars-slab-info-active: 220 70% 65%;
+  --lcars-slab-info-foreground: 0 0% 100%;
 }
 
 .theme-hercules-mk4-dark .daystrom-card,
@@ -1957,6 +2020,27 @@ body:not(.game-active) [role="button"] {
   --lcars-blur: 0px;
   --card-glassmorphism: 0 100% 30% / 0.04;
   --radius: 6px;
+  
+  /* LCARS Slab Navigation Colors */
+  --lcars-slab-primary: 30 100% 50%; /* Emergency Amber */
+  --lcars-slab-primary-active: 45 100% 88%;
+  --lcars-slab-primary-foreground: 0 0% 0%;
+  
+  --lcars-slab-secondary: 0 80% 40%; /* Dark Red */
+  --lcars-slab-secondary-active: 0 90% 55%;
+  --lcars-slab-secondary-foreground: 45 100% 88%;
+  
+  --lcars-slab-alert: 0 84% 60%; /* Bright Red Alert */
+  --lcars-slab-alert-active: 0 100% 75%;
+  --lcars-slab-alert-foreground: 0 0% 0%;
+  
+  --lcars-slab-accent: 60 100% 90%; /* Bright Amber */
+  --lcars-slab-accent-active: 60 100% 95%;
+  --lcars-slab-accent-foreground: 0 0% 0%;
+  
+  --lcars-slab-info: 30 100% 50%; /* Orange */
+  --lcars-slab-info-active: 30 100% 70%;
+  --lcars-slab-info-foreground: 0 0% 0%;
 }
 
 .theme-mark-v-wartime::before {
@@ -2082,6 +2166,27 @@ body:not(.game-active) [role="button"] {
   --lcars-blur: 0px;
   --card-glassmorphism: transparent;
   --radius: 0px;
+  
+  /* LCARS Slab Navigation Colors */
+  --lcars-slab-primary: 10 90% 50%; /* Blood Red */
+  --lcars-slab-primary-active: 10 100% 70%;
+  --lcars-slab-primary-foreground: 0 0% 100%;
+  
+  --lcars-slab-secondary: 0 70% 35%; /* Dark Crimson */
+  --lcars-slab-secondary-active: 0 80% 50%;
+  --lcars-slab-secondary-foreground: 30 95% 85%;
+  
+  --lcars-slab-alert: 0 84% 60%; /* Bright Red */
+  --lcars-slab-alert-active: 0 90% 75%;
+  --lcars-slab-alert-foreground: 0 0% 100%;
+  
+  --lcars-slab-accent: 30 95% 85%; /* Off-White */
+  --lcars-slab-accent-active: 30 100% 95%;
+  --lcars-slab-accent-foreground: 0 0% 0%;
+  
+  --lcars-slab-info: 10 80% 40%; /* Deep Red */
+  --lcars-slab-info-active: 10 90% 55%;
+  --lcars-slab-info-foreground: 0 0% 100%;
 }
 
 .theme-klingon-d7 .daystrom-card,
@@ -2178,6 +2283,27 @@ body:not(.game-active) [role="button"] {
   --lcars-blur: 0px;
   --card-glassmorphism: transparent;
   --radius: 6px;
+  
+  /* LCARS Slab Navigation Colors */
+  --lcars-slab-primary: 207 90% 54%; /* Classic TOS Blue */
+  --lcars-slab-primary-active: 207 90% 70%;
+  --lcars-slab-primary-foreground: 0 0% 100%;
+  
+  --lcars-slab-secondary: 30 100% 50%; /* Orange */
+  --lcars-slab-secondary-active: 30 100% 65%;
+  --lcars-slab-secondary-foreground: 0 0% 0%;
+  
+  --lcars-slab-alert: 4 90% 58%; /* Red */
+  --lcars-slab-alert-active: 4 95% 70%;
+  --lcars-slab-alert-foreground: 0 0% 100%;
+  
+  --lcars-slab-accent: 195 80% 60%; /* Cyan */
+  --lcars-slab-accent-active: 195 90% 75%;
+  --lcars-slab-accent-foreground: 0 0% 0%;
+  
+  --lcars-slab-info: 220 60% 50%; /* Deep Blue */
+  --lcars-slab-info-active: 220 70% 65%;
+  --lcars-slab-info-foreground: 0 0% 100%;
 }
 
 .theme-constitution-2265 .daystrom-card,
@@ -2256,6 +2382,27 @@ body:not(.game-active) [role="button"] {
   --lcars-blur: 0px;
   --card-glassmorphism: transparent;
   --radius: 24px;
+  
+  /* LCARS Slab Navigation Colors */
+  --lcars-slab-primary: 12 100% 60%; /* Warm Orange-Red */
+  --lcars-slab-primary-active: 25 100% 88%;
+  --lcars-slab-primary-foreground: 0 0% 0%;
+  
+  --lcars-slab-secondary: 210 30% 70%; /* Cool Blue-Gray */
+  --lcars-slab-secondary-active: 210 50% 85%;
+  --lcars-slab-secondary-foreground: 0 0% 0%;
+  
+  --lcars-slab-alert: 0 90% 60%; /* Bright Red */
+  --lcars-slab-alert-active: 0 100% 75%;
+  --lcars-slab-alert-foreground: 0 0% 0%;
+  
+  --lcars-slab-accent: 40 40% 75%; /* Muted Gold-Tan */
+  --lcars-slab-accent-active: 40 40% 85%;
+  --lcars-slab-accent-foreground: 0 0% 15%;
+  
+  --lcars-slab-info: 210 40% 60%; /* Medium Blue */
+  --lcars-slab-info-active: 210 50% 75%;
+  --lcars-slab-info-foreground: 0 0% 0%;
 }
 
 .theme-tmp-refit-2273 .daystrom-card,
@@ -2496,6 +2643,27 @@ body:not(.game-active) [role="button"] {
   --lcars-blur: 12px;
   --card-glassmorphism: 260 70% 60% / 0.06;
   --radius: 14px;
+  
+  /* LCARS Slab Navigation Colors */
+  --lcars-slab-primary: 260 70% 60%; /* Soft Purple */
+  --lcars-slab-primary-active: 260 80% 75%;
+  --lcars-slab-primary-foreground: 0 0% 0%;
+  
+  --lcars-slab-secondary: 310 60% 55%; /* Magenta-Purple */
+  --lcars-slab-secondary-active: 310 70% 70%;
+  --lcars-slab-secondary-foreground: 0 0% 100%;
+  
+  --lcars-slab-alert: 0 80% 60%; /* Red */
+  --lcars-slab-alert-active: 0 90% 75%;
+  --lcars-slab-alert-foreground: 0 0% 100%;
+  
+  --lcars-slab-accent: 195 70% 60%; /* Teal */
+  --lcars-slab-accent-active: 195 80% 75%;
+  --lcars-slab-accent-foreground: 0 0% 0%;
+  
+  --lcars-slab-info: 220 60% 55%; /* Deep Blue */
+  --lcars-slab-info-active: 220 70% 70%;
+  --lcars-slab-info-foreground: 0 0% 100%;
 }
 
 .theme-ambassador-2350 .daystrom-card,
@@ -2569,6 +2737,27 @@ body:not(.game-active) [role="button"] {
   --lcars-blur: 16px;
   --card-glassmorphism: 30 100% 70% / 0.05;
   --radius: 16px;
+  
+  /* LCARS Slab Navigation Colors */
+  --lcars-slab-primary: 30 100% 70%; /* Peachy Orange */
+  --lcars-slab-primary-active: 30 100% 85%;
+  --lcars-slab-primary-foreground: 0 0% 0%;
+  
+  --lcars-slab-secondary: 260 70% 65%; /* Soft Purple */
+  --lcars-slab-secondary-active: 260 80% 80%;
+  --lcars-slab-secondary-foreground: 0 0% 0%;
+  
+  --lcars-slab-alert: 0 80% 65%; /* Coral Red */
+  --lcars-slab-alert-active: 0 90% 80%;
+  --lcars-slab-alert-foreground: 0 0% 0%;
+  
+  --lcars-slab-accent: 195 70% 65%; /* Light Teal */
+  --lcars-slab-accent-active: 195 80% 80%;
+  --lcars-slab-accent-foreground: 0 0% 0%;
+  
+  --lcars-slab-info: 220 50% 60%; /* Medium Blue */
+  --lcars-slab-info-active: 220 60% 75%;
+  --lcars-slab-info-foreground: 0 0% 100%;
 }
 
 .theme-galaxy-2363 .daystrom-card,
@@ -2711,6 +2900,27 @@ body:not(.game-active) [role="button"] {
   --lcars-blur: 0px;
   --card-glassmorphism: transparent;
   --radius: 4px;
+  
+  /* LCARS Slab Navigation Colors */
+  --lcars-slab-primary: 195 100% 60%; /* Cyan */
+  --lcars-slab-primary-active: 195 100% 75%;
+  --lcars-slab-primary-foreground: 0 0% 0%;
+  
+  --lcars-slab-secondary: 30 100% 60%; /* Orange */
+  --lcars-slab-secondary-active: 30 100% 75%;
+  --lcars-slab-secondary-foreground: 0 0% 0%;
+  
+  --lcars-slab-alert: 0 90% 60%;
+  --lcars-slab-alert-active: 0 100% 75%;
+  --lcars-slab-alert-foreground: 0 0% 0%;
+  
+  --lcars-slab-accent: 280 80% 60%;
+  --lcars-slab-accent-active: 280 90% 75%;
+  --lcars-slab-accent-foreground: 0 0% 100%;
+  
+  --lcars-slab-info: 220 80% 65%;
+  --lcars-slab-info-active: 220 90% 80%;
+  --lcars-slab-info-foreground: 0 0% 0%;
 }
 
 .theme-sovereign-2378 .daystrom-card,
