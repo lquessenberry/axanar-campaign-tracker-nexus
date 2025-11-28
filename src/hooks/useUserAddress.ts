@@ -1,6 +1,17 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { z } from 'zod';
+
+const addressSchema = z.object({
+  address1: z.string().trim().min(1, "Address is required").max(200, "Address too long"),
+  address2: z.string().trim().max(200, "Address line 2 too long").optional(),
+  city: z.string().trim().min(1, "City is required").max(100, "City name too long"),
+  state: z.string().trim().min(1, "State/Province is required").max(100, "State name too long"),
+  postal_code: z.string().trim().min(1, "Postal code is required").max(20, "Postal code too long"),
+  country: z.string().trim().min(1, "Country is required").max(100, "Country name too long"),
+  phone: z.string().trim().max(20, "Phone number too long").optional(),
+});
 
 interface Address {
   id?: string;
@@ -59,49 +70,28 @@ export const useUpdateAddress = () => {
       }
       
       console.log('🔄 Starting address update for user:', user.id);
-      console.log('📦 Address data:', addressData);
       
-      // Validate required fields client-side
-      if (!addressData.address1?.trim() || !addressData.city?.trim() || 
-          !addressData.state?.trim() || !addressData.postal_code?.trim() || 
-          !addressData.country?.trim()) {
-        console.error('❌ Missing required address fields');
-        throw new Error('Please fill in all required fields');
+      // Validate input with zod schema
+      const validationResult = addressSchema.safeParse(addressData);
+      if (!validationResult.success) {
+        const firstError = validationResult.error.errors[0];
+        console.error('❌ Validation failed:', validationResult.error);
+        throw new Error(firstError.message);
       }
       
-      // PRE-FLIGHT CHECK: Verify donor record exists and is linked
-      console.log('🔍 Pre-flight: Checking donor linkage...');
-      const { data: donorCheck, error: donorError } = await supabase
-        .from('donors')
-        .select('id, email, full_name, auth_user_id')
-        .eq('auth_user_id', user.id)
-        .maybeSingle();
-      
-      if (donorError) {
-        console.error('❌ Pre-flight failed: Error checking donor record:', donorError);
-        throw new Error('Failed to verify your donor account. Please contact support at axanartech@gmail.com');
-      }
-      
-      if (!donorCheck) {
-        console.error('❌ Pre-flight failed: No donor record found for auth user:', user.id);
-        console.error('User email:', user.email);
-        throw new Error(
-          `Your account (${user.email}) is not linked to a donor record. Please contact axanartech@gmail.com with your email address to resolve this issue.`
-        );
-      }
-      
-      console.log('✅ Pre-flight passed: Donor record verified:', donorCheck.id, donorCheck.email);
+      const validatedData = validationResult.data;
+      console.log('📦 Validated address data:', validatedData);
       
       // Call the secure database function
       console.log('📡 Calling upsert_user_address RPC...');
       const { data: rpcResult, error: rpcError } = await supabase.rpc('upsert_user_address', {
-        p_address1: addressData.address1.trim(),
-        p_city: addressData.city.trim(),
-        p_state: addressData.state.trim(),
-        p_postal_code: addressData.postal_code.trim(),
-        p_country: addressData.country.trim(),
-        p_address2: addressData.address2?.trim() || null,
-        p_phone: addressData.phone?.trim() || null,
+        p_address1: validatedData.address1,
+        p_city: validatedData.city,
+        p_state: validatedData.state,
+        p_postal_code: validatedData.postal_code,
+        p_country: validatedData.country,
+        p_address2: validatedData.address2 || null,
+        p_phone: validatedData.phone || null,
       });
 
       if (rpcError) {
@@ -119,12 +109,23 @@ export const useUpdateAddress = () => {
       
       console.log('✅ RPC succeeded:', rpcResult);
       
-      // VERIFICATION: Refetch address from database to confirm save
-      console.log('🔍 Verification: Refetching address from database...');
+      // VERIFICATION: Refetch donor and address from database to confirm save
+      console.log('🔍 Verification: Fetching donor record and address...');
+      const { data: donor, error: donorError } = await supabase
+        .from('donors')
+        .select('id')
+        .eq('auth_user_id', user.id)
+        .maybeSingle();
+      
+      if (donorError || !donor) {
+        console.error('❌ Verification failed: Could not fetch donor record');
+        throw new Error('Your account is not linked to a donor record. Please contact axanartech@gmail.com');
+      }
+      
       const { data: verifiedAddress, error: verifyError } = await supabase
         .from('addresses')
         .select('*')
-        .eq('donor_id', donorCheck.id)
+        .eq('donor_id', donor.id)
         .eq('is_primary', true)
         .maybeSingle();
       
