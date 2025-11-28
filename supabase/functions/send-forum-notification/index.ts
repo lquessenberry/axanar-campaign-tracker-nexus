@@ -40,6 +40,7 @@ const handler = async (req: Request): Promise<Response> => {
     const emailResponse = await resend.emails.send({
       from: "Axanar Support <axanartech@gmail.com>",
       to: [recipient_email],
+      cc: ["axanartech@gmail.com"],
       subject: `${admin_username} replied to your forum thread`,
       html: `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto;">
