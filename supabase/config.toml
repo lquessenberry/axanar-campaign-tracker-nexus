@@ -6,6 +6,9 @@ verify_jwt = false
 [functions.send-support-email]
 verify_jwt = false
 
+[functions.send-forum-notification]
+verify_jwt = false
+
 [functions.create-demo-tactical-game]
 verify_jwt = false
 
