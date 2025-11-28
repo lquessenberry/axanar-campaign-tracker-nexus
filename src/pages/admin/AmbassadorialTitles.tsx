@@ -25,13 +25,8 @@ import { Award, Plus, Edit, Users, RefreshCw, AlertCircle } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
-import { useAdminCheck } from '@/hooks/useAdminCheck';
-import { Navigate } from 'react-router-dom';
 
 const AmbassadorialTitlesAdmin = () => {
-  const { data: isAdmin, isLoading: adminLoading } = useAdminCheck();
   const queryClient = useQueryClient();
   const [selectedTitle, setSelectedTitle] = useState<any>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -52,7 +47,6 @@ const AmbassadorialTitlesAdmin = () => {
       if (error) throw error;
       return data;
     },
-    enabled: isAdmin === true,
   });
 
   // Backfill mutation
@@ -93,40 +87,32 @@ const AmbassadorialTitlesAdmin = () => {
     }
   });
 
-  if (adminLoading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
-  }
-
-  if (!isAdmin) {
-    return <Navigate to="/forbidden" replace />;
+  if (titlesLoading) {
+    return <div className="flex items-center justify-center h-64">Loading...</div>;
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      
-      <main className="container mx-auto px-4 py-8 mt-20">
-        <div className="max-w-7xl mx-auto space-y-6">
-          {/* Header */}
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold flex items-center gap-2">
-                <Award className="w-8 h-8" />
-                Ambassadorial Titles Administration
-              </h1>
-              <p className="text-muted-foreground mt-2">
-                Manage campaign-based titles and their benefits
-              </p>
-            </div>
-            <Button
-              onClick={() => backfillMutation.mutate()}
-              disabled={backfillMutation.isPending}
-              variant="outline"
-            >
-              <RefreshCw className={`w-4 h-4 mr-2 ${backfillMutation.isPending ? 'animate-spin' : ''}`} />
-              {backfillMutation.isPending ? 'Running...' : 'Backfill All Users'}
-            </Button>
-          </div>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold flex items-center gap-2">
+            <Award className="w-6 h-6" />
+            Ambassadorial Titles
+          </h2>
+          <p className="text-muted-foreground mt-1">
+            Manage campaign-based titles and their benefits
+          </p>
+        </div>
+        <Button
+          onClick={() => backfillMutation.mutate()}
+          disabled={backfillMutation.isPending}
+          variant="outline"
+        >
+          <RefreshCw className={`w-4 h-4 mr-2 ${backfillMutation.isPending ? 'animate-spin' : ''}`} />
+          {backfillMutation.isPending ? 'Running...' : 'Backfill All Users'}
+        </Button>
+      </div>
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -263,13 +249,9 @@ const AmbassadorialTitlesAdmin = () => {
                     </TableBody>
                   </Table>
                 </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      </main>
-
-      <Footer />
+            )}
+          </CardContent>
+        </Card>
     </div>
   );
 };

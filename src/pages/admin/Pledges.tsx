@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import AdminLayout from "@/components/admin/AdminLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -106,16 +105,14 @@ const Pledges = () => {
 
   if (isLoading) {
     return (
-      <AdminLayout title="Manage Pledges" description="View and edit campaign pledges">
-        <div className="flex items-center justify-center h-64">
-          <div className="text-foreground">Loading pledges...</div>
-        </div>
-      </AdminLayout>
+      <div className="flex items-center justify-center h-64">
+        <div className="text-foreground">Loading pledges...</div>
+      </div>
     );
   }
 
   return (
-    <AdminLayout title="Manage Pledges" description="View and edit campaign pledges">
+    <div className="space-y-6">
       <Card className="bg-card border-border">
         <CardHeader>
           <CardTitle className="text-card-foreground">All Pledges</CardTitle>
@@ -192,7 +189,7 @@ const Pledges = () => {
           </div>
         </CardContent>
       </Card>
-    </AdminLayout>
+    </div>
   );
 };
 
