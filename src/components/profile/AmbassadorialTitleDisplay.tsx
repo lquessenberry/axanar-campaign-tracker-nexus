@@ -71,7 +71,7 @@ export const AmbassadorialTitleDisplay: React.FC<AmbassadorialTitleDisplayProps>
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg">
           <Award className="w-5 h-5" />
-          Ambassadorial Title
+          Ambassadorial Titles
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
