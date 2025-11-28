@@ -49,10 +49,10 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({
         </CardContent>
       </Card>
 
-      {/* REWARDS SHOWCASE - MOST IMPORTANT */}
+      {/* PHYSICAL & DIGITAL REWARDS */}
       <RewardsShowcase />
 
-      {/* AMBASSADORIAL TITLES - DIGITAL PERKS */}
+      {/* AMBASSADORIAL TITLES - BELOW DIGITAL PERKS */}
       <AmbassadorialTitleDisplay userId={user.id} />
 
       {/* SHIPPING ADDRESS - CRITICAL FOR PHYSICAL REWARDS */}

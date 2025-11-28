@@ -4,28 +4,23 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DaystromCard } from "@/components/ui/daystrom-card";
 import { useUserRewards } from "@/hooks/useUserRewards";
-import { useAmbassadorialTitles } from "@/hooks/useAmbassadorialTitles";
 import { useAuth } from "@/contexts/AuthContext";
-import { TitleBadgeDisplay } from "./TitleBadgeDisplay";
 import { DAYSTROM_SPRINGS } from "@/lib/daystrom-springs";
-import { Gift, Package, Truck, CheckCircle2, Clock, AlertCircle, DollarSign, Calendar, Crown, Award } from "lucide-react";
+import { Gift, Package, Truck, CheckCircle2, Clock, DollarSign, Calendar, Award, AlertCircle } from "lucide-react";
 import { MissingPledgeDataAlert } from "./MissingPledgeDataAlert";
 import { AccountMergeAlert } from "./AccountMergeAlert";
 
 const RewardsShowcase: React.FC = () => {
   const { user } = useAuth();
   const { data: pledges, isLoading: rewardsLoading } = useUserRewards();
-  const { data: titleData, isLoading: titlesLoading } = useAmbassadorialTitles(user?.id);
   
-  const isLoading = rewardsLoading || titlesLoading;
+  const isLoading = rewardsLoading;
 
   const rewardsWithPerks = pledges?.filter(pledge => pledge.reward) || [];
   const physicalRewards = rewardsWithPerks.filter(p => p.reward?.requires_shipping);
   const digitalRewards = rewardsWithPerks.filter(p => !p.reward?.requires_shipping);
   
-  const primaryTitle = titleData?.primaryTitle;
-  const displayedTitles = titleData?.titles.filter(t => t.is_displayed) || [];
-  const totalItems = rewardsWithPerks.length + (displayedTitles.length > 0 ? 1 : 0);
+  const totalItems = rewardsWithPerks.length;
   
   const getShippingStatusConfig = (status?: string | null) => {
     switch (status) {
@@ -50,7 +45,7 @@ const RewardsShowcase: React.FC = () => {
     );
   }
 
-  if (!rewardsWithPerks.length && !displayedTitles.length) {
+  if (!rewardsWithPerks.length) {
     return (
       <div className="space-y-4">
         <AccountMergeAlert />
@@ -88,115 +83,6 @@ const RewardsShowcase: React.FC = () => {
           </Badge>
         </motion.div>
       </div>
-
-      {/* Ambassadorial Titles Collection */}
-      {displayedTitles.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={DAYSTROM_SPRINGS.gentle}
-          className="space-y-4"
-        >
-          <div className="flex items-center gap-2">
-            <Crown className="h-5 w-5 text-primary" />
-            <h3 className="text-xl font-light tracking-wide">Diplomatic Titles</h3>
-            <Badge variant="secondary">{displayedTitles.length}</Badge>
-          </div>
-
-          <DaystromCard className="p-6 bg-gradient-to-br from-primary/5 via-transparent to-primary/5">
-            {/* Primary Title Showcase */}
-            {primaryTitle && (
-              <div className="mb-6 pb-6 border-b border-border/50">
-                <div className="flex items-start justify-between gap-4 mb-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Award className="h-5 w-5 text-primary" />
-                      <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                        Primary Title
-                      </span>
-                    </div>
-                    <TitleBadgeDisplay title={primaryTitle} size="lg" />
-                  </div>
-                  <div className="flex flex-col gap-2 text-right">
-                    {primaryTitle.xp_multiplier > 1 && (
-                      <div className="text-sm">
-                        <span className="text-primary font-bold text-lg">{primaryTitle.xp_multiplier}x</span>
-                        <span className="text-muted-foreground ml-1 text-xs">XP</span>
-                      </div>
-                    )}
-                    {primaryTitle.forum_xp_bonus > 0 && (
-                      <div className="text-xs text-muted-foreground">
-                        +{primaryTitle.forum_xp_bonus} Forum XP
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {primaryTitle.description && (
-                  <p className="text-sm text-muted-foreground mb-2 italic">
-                    {primaryTitle.description}
-                  </p>
-                )}
-
-              {primaryTitle.campaign_name && (
-                <div className="flex flex-col gap-1 text-xs text-muted-foreground mt-2">
-                  {primaryTitle.campaign_platform && (
-                    <div className="flex items-center gap-1.5">
-                      <span className="px-2 py-0.5 rounded bg-primary/10 text-primary uppercase font-bold text-[10px] tracking-wider">
-                        {primaryTitle.campaign_platform}
-                      </span>
-                    </div>
-                  )}
-                  <span>Earned from: <span className="text-foreground font-medium">{primaryTitle.campaign_name}</span></span>
-                </div>
-              )}
-              </div>
-            )}
-
-            {/* Additional Titles */}
-            {displayedTitles.length > 1 && (
-              <div>
-                <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
-                  Additional Titles ({displayedTitles.length - 1})
-                </h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {displayedTitles
-                    .filter(t => !t.is_primary)
-                    .map((title, index) => (
-                      <motion.div
-                        key={title.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ ...DAYSTROM_SPRINGS.snappy, delay: index * 0.05 }}
-                        className="group relative p-4 rounded-daystrom-small
-                          bg-gradient-to-br from-background/80 via-background/60 to-background/80
-                          border-2 border-primary/20
-                          shadow-[0_8px_24px_-4px_hsl(var(--primary)/0.15),inset_0_1px_0_0_hsl(var(--background)/0.8)]
-                          hover:border-primary/40 hover:shadow-[0_12px_32px_-4px_hsl(var(--primary)/0.25),inset_0_1px_0_0_hsl(var(--background)/0.9)]
-                          transition-all duration-300
-                          backdrop-blur-xl
-                          before:absolute before:inset-0 before:rounded-daystrom-small before:bg-gradient-to-br before:from-primary/5 before:to-transparent before:opacity-0 before:transition-opacity before:duration-300
-                          hover:before:opacity-100"
-                      >
-                        <TitleBadgeDisplay title={title} size="sm" />
-              {title.campaign_name && (
-                <div className="flex items-center gap-2 text-xs text-muted-foreground/80 mt-2">
-                  <span className="font-medium tracking-wide">
-                    {title.campaign_platform && (
-                      <span className="text-primary/80 uppercase font-bold mr-1">{title.campaign_platform}</span>
-                    )}
-                    {title.campaign_name}
-                  </span>
-                </div>
-              )}
-                      </motion.div>
-                    ))}
-                </div>
-              </div>
-            )}
-          </DaystromCard>
-        </motion.div>
-      )}
 
       {/* Physical Rewards - Enhanced Display */}
       {physicalRewards.length > 0 && (
