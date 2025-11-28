@@ -26,6 +26,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserForumActivity } from "@/hooks/useUserForumActivity";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
+import { CampaignDataWelcomeModal } from "@/components/CampaignDataWelcomeModal";
 
 const Profile = () => {
   const { userId } = useParams<{ userId?: string }>();
@@ -339,6 +340,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <CampaignDataWelcomeModal />
       <div className="sticky top-0 z-40 border-b">
         <Navigation />
       </div>

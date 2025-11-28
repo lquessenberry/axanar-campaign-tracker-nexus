@@ -11,6 +11,26 @@ const FAQ = () => {
   
   const faqSections = [
     {
+      title: "Campaign Data & Platform Status",
+      items: [
+        {
+          id: "campaign-data-status",
+          question: "Which campaigns are currently integrated into the platform?",
+          answer: "The platform currently includes complete data from the <strong>2014 and 2015 Kickstarter and Indiegogo campaigns</strong>, including all perks and donation records. Additional platforms (WooCommerce store purchases, Patreon contributions, and other campaigns) will be integrated as we continue building the system. If you contributed through other platforms or time periods, your data will be added in future updates."
+        },
+        {
+          id: "missing-contributions",
+          question: "Why don't I see all my contributions on my profile?",
+          answer: "If you contributed through platforms other than the 2014-2015 Kickstarter or Indiegogo campaigns, your data may not yet be integrated. We're actively working to add data from WooCommerce store purchases, Patreon subscriptions, and other contribution methods. Please check the forum for updates or contact support if you believe your 2014-2015 campaign contributions are missing."
+        },
+        {
+          id: "future-integrations",
+          question: "When will additional campaign data be added?",
+          answer: "We're working to integrate additional platforms and campaigns on an ongoing basis. Follow announcements in the <Link to='/forum' className='text-axanar-teal hover:underline'>forum</Link> for updates on when new data sources will be integrated. Priority is being given to platforms with the largest number of contributors."
+        }
+      ]
+    },
+    {
       title: "About Axanar",
       items: [
         {
@@ -212,6 +232,25 @@ const FAQ = () => {
           </div>
         </GradientSection>
 
+        <GradientSection 
+          variant="muted" 
+          pattern="radial"
+          className="py-16"
+          topDivider={{
+            dividerType: 'rounded-notch',
+            color: 'ui-divider',
+            flip: true
+          }}
+          bottomDivider={{
+            dividerType: 'data-scallop',
+            color: 'ui-divider'
+          }}
+        >
+          <div className="container mx-auto px-4">
+            <ImprovedFAQ sections={[faqSections[3]]} sectionVariant="muted" />
+          </div>
+        </GradientSection>
+
         {/* Contact Support Section */}
         <GradientSection 
           variant="muted" 
@@ -221,10 +260,6 @@ const FAQ = () => {
             dividerType: 'rounded-notch',
             color: 'ui-divider',
             flip: true
-          }}
-          bottomDivider={{
-            dividerType: 'data-scallop',
-            color: 'ui-divider'
           }}
         >
           <div className="container mx-auto px-4">
