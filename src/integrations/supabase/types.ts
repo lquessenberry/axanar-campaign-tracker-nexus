@@ -3035,6 +3035,36 @@ export type Database = {
         }
         Relationships: []
       }
+      pledge_reward_links_backup_20251128: {
+        Row: {
+          amount: number | null
+          campaign_id: string | null
+          created_at: string | null
+          donor_id: string | null
+          pledge_id: string | null
+          reward_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount?: number | null
+          campaign_id?: string | null
+          created_at?: string | null
+          donor_id?: string | null
+          pledge_id?: string | null
+          reward_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number | null
+          campaign_id?: string | null
+          created_at?: string | null
+          donor_id?: string | null
+          pledge_id?: string | null
+          reward_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       pledges: {
         Row: {
           amount: number
@@ -3459,6 +3489,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      rewards_backup_20251128: {
+        Row: {
+          campaign_id: string | null
+          created_at: string | null
+          description: string | null
+          estimated_ship_date: string | null
+          id: string | null
+          is_physical: boolean | null
+          legacy_id: number | null
+          minimum_amount: number | null
+          name: string | null
+          requires_shipping: boolean | null
+          updated_at: string | null
+        }
+        Insert: {
+          campaign_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          estimated_ship_date?: string | null
+          id?: string | null
+          is_physical?: boolean | null
+          legacy_id?: number | null
+          minimum_amount?: number | null
+          name?: string | null
+          requires_shipping?: boolean | null
+          updated_at?: string | null
+        }
+        Update: {
+          campaign_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          estimated_ship_date?: string | null
+          id?: string | null
+          is_physical?: boolean | null
+          legacy_id?: number | null
+          minimum_amount?: number | null
+          name?: string | null
+          requires_shipping?: boolean | null
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       schema_versions: {
         Row: {
