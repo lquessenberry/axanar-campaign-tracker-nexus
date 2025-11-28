@@ -69,65 +69,98 @@ export const useUpdateAddress = () => {
         throw new Error('Please fill in all required fields');
       }
       
-      // First verify donor record exists
+      // PRE-FLIGHT CHECK: Verify donor record exists and is linked
+      console.log('🔍 Pre-flight: Checking donor linkage...');
       const { data: donorCheck, error: donorError } = await supabase
         .from('donors')
-        .select('id, email, full_name')
+        .select('id, email, full_name, auth_user_id')
         .eq('auth_user_id', user.id)
         .maybeSingle();
       
       if (donorError) {
-        console.error('❌ Error checking donor record:', donorError);
-        throw new Error('Failed to verify your donor account. Please contact support.');
+        console.error('❌ Pre-flight failed: Error checking donor record:', donorError);
+        throw new Error('Failed to verify your donor account. Please contact support at support@axanar.com');
       }
       
       if (!donorCheck) {
-        console.error('❌ No donor record found for auth user:', user.id);
+        console.error('❌ Pre-flight failed: No donor record found for auth user:', user.id);
         console.error('User email:', user.email);
-        throw new Error('No donor account linked to your login. Please contact support with your email address.');
+        throw new Error(
+          `Your account (${user.email}) is not linked to a donor record. Please contact support@axanar.com with your email address to resolve this issue.`
+        );
       }
       
-      console.log('✅ Donor record verified:', donorCheck.id, donorCheck.email);
+      console.log('✅ Pre-flight passed: Donor record verified:', donorCheck.id, donorCheck.email);
       
       // Call the secure database function
-      const { data, error } = await supabase.rpc('upsert_user_address', {
-        p_address1: addressData.address1,
-        p_city: addressData.city,
-        p_state: addressData.state,
-        p_postal_code: addressData.postal_code,
-        p_country: addressData.country,
-        p_address2: addressData.address2 || null,
-        p_phone: addressData.phone || null,
+      console.log('📡 Calling upsert_user_address RPC...');
+      const { data: rpcResult, error: rpcError } = await supabase.rpc('upsert_user_address', {
+        p_address1: addressData.address1.trim(),
+        p_city: addressData.city.trim(),
+        p_state: addressData.state.trim(),
+        p_postal_code: addressData.postal_code.trim(),
+        p_country: addressData.country.trim(),
+        p_address2: addressData.address2?.trim() || null,
+        p_phone: addressData.phone?.trim() || null,
       });
 
-      if (error) {
-        console.error('❌ Error from upsert function:', error);
-        throw new Error(error.message || 'Failed to save address');
+      if (rpcError) {
+        console.error('❌ RPC function failed:', rpcError);
+        console.error('RPC error details:', JSON.stringify(rpcError, null, 2));
+        throw new Error(
+          rpcError.message || 'Failed to save address to database. Please try again or contact support@axanar.com'
+        );
       }
       
-      console.log('✅ Address saved successfully');
+      if (!rpcResult) {
+        console.error('❌ RPC returned no data');
+        throw new Error('Address save returned no confirmation. Please refresh and verify your address was saved.');
+      }
       
-      // Return the full address object for optimistic update
-      return {
-        address1: addressData.address1,
-        address2: addressData.address2 || null,
-        city: addressData.city,
-        state: addressData.state,
-        postal_code: addressData.postal_code,
-        country: addressData.country,
-        phone: addressData.phone || null,
-        is_primary: true,
-      };
+      console.log('✅ RPC succeeded:', rpcResult);
+      
+      // VERIFICATION: Refetch address from database to confirm save
+      console.log('🔍 Verification: Refetching address from database...');
+      const { data: verifiedAddress, error: verifyError } = await supabase
+        .from('addresses')
+        .select('*')
+        .eq('donor_id', donorCheck.id)
+        .eq('is_primary', true)
+        .maybeSingle();
+      
+      if (verifyError) {
+        console.warn('⚠️ Verification failed:', verifyError);
+        // Don't throw - save might have succeeded even if verification fails
+      }
+      
+      if (!verifiedAddress) {
+        console.error('❌ Verification failed: Address not found in database after save');
+        throw new Error('Address save could not be verified. Please refresh the page and check if your address was saved.');
+      }
+      
+      console.log('✅ Verification passed: Address confirmed in database:', verifiedAddress);
+      
+      // Return verified address from database
+      return verifiedAddress;
     },
-    onSuccess: (data) => {
-      console.log('✅ Address update mutation succeeded, updating cache immediately');
-      // Immediately update the cache with the new data
-      queryClient.setQueryData(['user-address', user?.id], data);
-      // Invalidate to trigger a background refetch for consistency
-      queryClient.invalidateQueries({ queryKey: ['user-address', user?.id] });
+    onSuccess: (verifiedAddress) => {
+      console.log('✅ Address update mutation succeeded');
+      console.log('📥 Updating cache with verified address from database');
+      
+      // Update cache with database-verified address
+      queryClient.setQueryData(['user-address', user?.id], verifiedAddress);
+      
+      // Invalidate to trigger background refetch for consistency
+      queryClient.invalidateQueries({ 
+        queryKey: ['user-address', user?.id],
+        exact: true 
+      });
     },
     onError: (error) => {
       console.error('❌ Address update mutation failed:', error);
+      console.error('Error name:', error.name);
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
     },
   });
 };
