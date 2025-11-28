@@ -17,6 +17,7 @@ import Settings from "./Settings";
 import Pledges from "./Pledges";
 import AmbassadorialTitles from "./AmbassadorialTitles";
 import VisitorAnalytics from "./VisitorAnalytics";
+import CreateCanonicalRewards from "./CreateCanonicalRewards";
 import { MessageCircle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -63,6 +64,8 @@ const Dashboard = () => {
         return <PledgeDataRestoration />;
       case "reward-reconciliation":
         return <PledgeRewardReconciliation />;
+      case "create-canonical-rewards":
+        return <CreateCanonicalRewards />;
       case "analytics":
         return <VisitorAnalytics />;
       case "messages":
