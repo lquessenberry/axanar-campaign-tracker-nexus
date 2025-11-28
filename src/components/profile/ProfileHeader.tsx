@@ -48,6 +48,8 @@ interface ProfileHeaderProps {
   pledgesCount: number;
   campaignsCount: number;
   totalPledged: number;
+  isCollapsed?: boolean;
+  onToggleCollapse?: () => void;
 }
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({
@@ -63,6 +65,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   pledgesCount,
   campaignsCount,
   totalPledged,
+  isCollapsed = false,
+  onToggleCollapse,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const backgroundInputRef = useRef<HTMLInputElement>(null);
@@ -128,6 +132,54 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     }
   };
 
+  // Collapsed state - minimal header
+  if (isCollapsed) {
+    return (
+      <section className="relative bg-axanar-dark text-white border-b border-white/10">
+        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-axanar-teal/20 ring-2 ring-axanar-teal flex items-center justify-center flex-shrink-0">
+                {profile?.avatar_url ? (
+                  <img
+                    src={profile.avatar_url}
+                    alt={profile.full_name || profile.username || 'User'}
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                ) : (
+                  <User className="h-6 w-6 text-axanar-teal" />
+                )}
+              </div>
+              <div>
+                <h1 className="text-lg font-bold">
+                  {profile?.full_name || profile?.username || 'Anonymous User'}
+                </h1>
+                {profile?.username && (
+                  <a 
+                    href={`/u/${profile.username}`}
+                    className="text-sm text-axanar-silver/80 hover:text-axanar-teal transition-colors"
+                  >
+                    @{profile.username}
+                  </a>
+                )}
+              </div>
+            </div>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={onToggleCollapse}
+              className="text-white hover:bg-white/10"
+            >
+              <ChevronDown className="h-4 w-4 rotate-180" />
+              <span className="ml-2">Expand</span>
+            </Button>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Expanded state - full hero header
   return (
     <section 
       className="relative bg-axanar-dark text-white overflow-hidden min-h-[33vh] flex items-center"
@@ -497,6 +549,15 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                         <X className="h-4 w-4 mr-2" />
                         Remove Background
                       </DropdownMenuItem>
+                    )}
+                    {onToggleCollapse && (
+                      <>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={onToggleCollapse}>
+                          <ChevronDown className="h-4 w-4 mr-2" />
+                          Collapse Header
+                        </DropdownMenuItem>
+                      </>
                     )}
                   </DropdownMenuContent>
                 </DropdownMenu>

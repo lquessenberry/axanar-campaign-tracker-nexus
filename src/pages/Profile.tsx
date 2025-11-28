@@ -3,11 +3,13 @@ import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Card, CardContent } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import ProfileHeader from "@/components/profile/ProfileHeader";
 import { ProfileSidebarNav } from "@/components/profile/ProfileSidebarNav";
-import OverviewSection from "@/components/profile/sections/OverviewSection";
+import RewardsSection from "@/components/profile/sections/RewardsSection";
+import ProgressSection from "@/components/profile/sections/ProgressSection";
 import AboutSection from "@/components/profile/sections/AboutSection";
 import ActivitySection from "@/components/profile/sections/ActivitySection";
 import SettingsSection from "@/components/profile/sections/SettingsSection";
@@ -64,8 +66,9 @@ const Profile = () => {
   const updateOwnProfile = useUpdateProfile();
   const updateAdminProfile = useAdminUpdateUserProfile();
   
-  const [activeSection, setActiveSection] = useState<string>('overview');
+  const [activeSection, setActiveSection] = useState<string>('rewards');
   const [isEditing, setIsEditing] = useState(false);
+  const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(true);
   const [formData, setFormData] = useState({
     full_name: '',
     username: '',
@@ -196,9 +199,9 @@ const Profile = () => {
 
   const renderSection = () => {
     switch (activeSection) {
-      case 'overview':
+      case 'rewards':
         return (
-          <OverviewSection
+          <RewardsSection
             profile={profile}
             user={user!}
             totalPledged={totalPledged}
@@ -206,21 +209,50 @@ const Profile = () => {
             achievementsCount={achievementsCount}
             recruitCount={recruitCount}
             memberSince={memberSince}
-            pledges={pledges}
-            achievements={achievements}
-            forumThreads={forumThreads}
-            forumComments={forumComments}
           />
         );
-      case 'about':
+      case 'progress':
         return (
-          <AboutSection
+          <ProgressSection
             profile={profile}
             totalXP={totalXP}
             totalDonated={totalPledged}
             xpBreakdown={xpBreakdown}
             rankSystem={rankSystem}
+            pledges={pledges}
+            campaigns={campaigns}
           />
+        );
+      case 'about':
+        return (
+          <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold">About</h3>
+              </div>
+              <p className="text-muted-foreground leading-relaxed mb-6">
+                {profile?.bio || 'No bio added yet. Click "Settings" to add information about yourself.'}
+              </p>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 bg-background/40 rounded-lg">
+                  <span className="text-sm text-muted-foreground">Member Since</span>
+                  <span className="text-sm font-semibold">{memberSince}</span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-background/40 rounded-lg">
+                  <span className="text-sm text-muted-foreground">Email</span>
+                  <span className="text-sm font-semibold truncate max-w-48">
+                    {user?.email || 'No email'}
+                  </span>
+                </div>
+                {profile?.username && (
+                  <div className="flex items-center justify-between p-3 bg-background/40 rounded-lg">
+                    <span className="text-sm text-muted-foreground">Username</span>
+                    <span className="text-sm font-semibold">@{profile.username}</span>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
         );
       case 'activity':
         return (
@@ -362,6 +394,8 @@ const Profile = () => {
                 pledgesCount={pledges?.length || 0}
                 campaignsCount={totalCampaigns}
                 totalPledged={totalPledged}
+                isCollapsed={isHeaderCollapsed}
+                onToggleCollapse={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
               />
             </div>
             
