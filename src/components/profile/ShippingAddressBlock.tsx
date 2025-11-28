@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { useUserAddress, useUpdateAddress } from "@/hooks/useUserAddress";
 import { useUserRewards } from "@/hooks/useUserRewards";
 import { DAYSTROM_SPRINGS } from "@/lib/daystrom-springs";
-import { MapPin, Edit3, Save, X, Package, AlertCircle, CheckCircle } from "lucide-react";
+import { MapPin, Edit3, Save, X, Package, AlertCircle, CheckCircle, Home, Phone, Globe } from "lucide-react";
 import { toast } from "sonner";
 
 export const ShippingAddressBlock: React.FC = () => {
@@ -133,20 +133,24 @@ export const ShippingAddressBlock: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={DAYSTROM_SPRINGS.gentle}
     >
-      <DaystromCard className="overflow-hidden">
-        {/* Header */}
-        <div className="p-6 pb-4 border-b border-border/50">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-daystrom-small bg-primary/10">
-                <MapPin className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <h3 className="text-xl font-light tracking-wide">Shipping Address</h3>
-                <p className="text-sm text-muted-foreground">
+      <DaystromCard className="overflow-hidden border-2 border-primary/20">
+        {/* Header with prominent status */}
+        <div className="p-6 pb-5 bg-gradient-to-br from-primary/5 via-transparent to-transparent border-b-2 border-border/30">
+          <div className="flex items-start justify-between gap-4 mb-4">
+            <div className="flex items-start gap-4 flex-1">
+              <motion.div 
+                className="p-3 rounded-daystrom-medium bg-primary/15 border border-primary/30"
+                whileHover={{ scale: 1.05 }}
+                transition={DAYSTROM_SPRINGS.snappy}
+              >
+                <MapPin className="h-6 w-6 text-primary" />
+              </motion.div>
+              <div className="flex-1">
+                <h3 className="text-2xl font-light tracking-wide mb-2 text-foreground">Shipping Address</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   {hasPhysicalRewards 
-                    ? `Required for ${physicalRewards.length} physical reward${physicalRewards.length !== 1 ? 's' : ''}`
-                    : 'For physical rewards and merchandise'}
+                    ? `Your address is required to ship ${physicalRewards.length} physical reward${physicalRewards.length !== 1 ? 's' : ''}`
+                    : 'Add your shipping address for physical rewards and merchandise'}
                 </p>
               </div>
             </div>
@@ -161,71 +165,49 @@ export const ShippingAddressBlock: React.FC = () => {
                   transition={DAYSTROM_SPRINGS.snappy}
                 >
                   <Button
-                    variant="outline"
-                    size="sm"
+                    variant={hasAddress ? "outline" : "default"}
+                    size="lg"
                     onClick={() => setIsEditing(true)}
-                    className="gap-2"
+                    className="gap-2 min-h-[48px] px-6 font-medium shadow-md hover:shadow-lg transition-shadow"
                   >
-                    <Edit3 className="h-4 w-4" />
-                    {hasAddress ? 'Edit' : 'Add Address'}
+                    <Edit3 className="h-5 w-5" />
+                    {hasAddress ? 'Edit Address' : 'Add Address'}
                   </Button>
                 </motion.div>
-              ) : (
-                <motion.div
-                  key="action-buttons"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  transition={DAYSTROM_SPRINGS.snappy}
-                  className="flex gap-2"
-                >
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleCancel}
-                    disabled={updateAddress.isPending}
-                    className="gap-2"
-                  >
-                    <X className="h-4 w-4" />
-                    Cancel
-                  </Button>
-                  <Button
-                    size="sm"
-                    onClick={handleSubmit}
-                    disabled={updateAddress.isPending}
-                    className="gap-2"
-                  >
-                    <Save className="h-4 w-4" />
-                    {updateAddress.isPending ? 'Saving...' : 'Save'}
-                  </Button>
-                </motion.div>
-              )}
+              ) : null}
             </AnimatePresence>
           </div>
 
-          {/* Status Indicator */}
+          {/* Prominent Status Indicator */}
           {hasPhysicalRewards && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
-              className="mt-4"
+              className="mt-5"
             >
-              <Badge 
-                variant={hasAddress ? "default" : "outline"}
-                className={`gap-2 ${hasAddress ? 'bg-green-500/10 text-green-500 border-green-500/20' : 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'}`}
-              >
+              <div className={`flex items-center gap-3 p-4 rounded-daystrom-medium border-2 ${
+                hasAddress 
+                  ? 'bg-green-500/10 border-green-500/30' 
+                  : 'bg-amber-500/10 border-amber-500/30'
+              }`}>
                 {hasAddress ? (
                   <>
-                    <CheckCircle className="h-3 w-3" />
-                    Ready for shipment
+                    <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium text-green-500">Ready for Shipment</p>
+                      <p className="text-sm text-muted-foreground">Your rewards can be shipped to this address</p>
+                    </div>
                   </>
                 ) : (
                   <>
-                    <AlertCircle className="h-3 w-3" />
-                    Address required
+                    <AlertCircle className="h-5 w-5 text-amber-500 flex-shrink-0 animate-pulse" />
+                    <div>
+                      <p className="font-medium text-amber-500">Action Required</p>
+                      <p className="text-sm text-muted-foreground">Add your address to receive physical rewards</p>
+                    </div>
                   </>
                 )}
-              </Badge>
+              </div>
             </motion.div>
           )}
         </div>
@@ -233,114 +215,167 @@ export const ShippingAddressBlock: React.FC = () => {
         {/* Content */}
         <AnimatePresence mode="wait">
           {isEditing ? (
-            <motion.form
+            <motion.div
               key="edit-form"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={DAYSTROM_SPRINGS.gentle}
-              onSubmit={handleSubmit}
-              className="p-6 space-y-4"
+              className="p-6 bg-muted/20"
             >
-              <div>
-                <Label htmlFor="address1" className="text-sm font-medium">
-                  Address Line 1 <span className="text-destructive">*</span>
-                </Label>
-                <Input
-                  id="address1"
-                  value={formData.address1}
-                  onChange={(e) => setFormData(prev => ({ ...prev, address1: e.target.value }))}
-                  placeholder="Street address"
-                  className="mt-1.5"
-                  required
-                />
-              </div>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Street Address Section */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Home className="h-4 w-4 text-primary" />
+                    <h4 className="font-medium text-sm text-foreground">Street Address</h4>
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="address1" className="text-sm font-medium flex items-center gap-1.5">
+                      <span>Address Line 1</span>
+                      <span className="text-destructive text-xs">*</span>
+                    </Label>
+                    <Input
+                      id="address1"
+                      value={formData.address1}
+                      onChange={(e) => setFormData(prev => ({ ...prev, address1: e.target.value }))}
+                      placeholder="123 Main Street"
+                      className="mt-2 h-12 text-base"
+                      required
+                    />
+                  </div>
 
-              <div>
-                <Label htmlFor="address2" className="text-sm font-medium">
-                  Address Line 2
-                </Label>
-                <Input
-                  id="address2"
-                  value={formData.address2}
-                  onChange={(e) => setFormData(prev => ({ ...prev, address2: e.target.value }))}
-                  placeholder="Apartment, suite, etc. (optional)"
-                  className="mt-1.5"
-                />
-              </div>
+                  <div>
+                    <Label htmlFor="address2" className="text-sm font-medium">
+                      Address Line 2 <span className="text-muted-foreground text-xs">(optional)</span>
+                    </Label>
+                    <Input
+                      id="address2"
+                      value={formData.address2}
+                      onChange={(e) => setFormData(prev => ({ ...prev, address2: e.target.value }))}
+                      placeholder="Apartment, suite, unit, etc."
+                      className="mt-2 h-12 text-base"
+                    />
+                  </div>
+                </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="city" className="text-sm font-medium">
-                    City <span className="text-destructive">*</span>
-                  </Label>
-                  <Input
-                    id="city"
-                    value={formData.city}
-                    onChange={(e) => setFormData(prev => ({ ...prev, city: e.target.value }))}
-                    placeholder="City"
-                    className="mt-1.5"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="state" className="text-sm font-medium">
-                    State/Province <span className="text-destructive">*</span>
-                  </Label>
-                  <Input
-                    id="state"
-                    value={formData.state}
-                    onChange={(e) => setFormData(prev => ({ ...prev, state: e.target.value }))}
-                    placeholder="State"
-                    className="mt-1.5"
-                    required
-                  />
-                </div>
-              </div>
+                {/* Location Section */}
+                <div className="space-y-4 pt-2 border-t border-border/50">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Globe className="h-4 w-4 text-primary" />
+                    <h4 className="font-medium text-sm text-foreground">Location Details</h4>
+                  </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="postal_code" className="text-sm font-medium">
-                    Postal Code <span className="text-destructive">*</span>
-                  </Label>
-                  <Input
-                    id="postal_code"
-                    value={formData.postal_code}
-                    onChange={(e) => setFormData(prev => ({ ...prev, postal_code: e.target.value }))}
-                    placeholder="ZIP/Postal code"
-                    className="mt-1.5"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="country" className="text-sm font-medium">
-                    Country <span className="text-destructive">*</span>
-                  </Label>
-                  <Input
-                    id="country"
-                    value={formData.country}
-                    onChange={(e) => setFormData(prev => ({ ...prev, country: e.target.value }))}
-                    placeholder="Country"
-                    className="mt-1.5"
-                    required
-                  />
-                </div>
-              </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="city" className="text-sm font-medium flex items-center gap-1.5">
+                        <span>City</span>
+                        <span className="text-destructive text-xs">*</span>
+                      </Label>
+                      <Input
+                        id="city"
+                        value={formData.city}
+                        onChange={(e) => setFormData(prev => ({ ...prev, city: e.target.value }))}
+                        placeholder="City name"
+                        className="mt-2 h-12 text-base"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="state" className="text-sm font-medium flex items-center gap-1.5">
+                        <span>State / Province</span>
+                        <span className="text-destructive text-xs">*</span>
+                      </Label>
+                      <Input
+                        id="state"
+                        value={formData.state}
+                        onChange={(e) => setFormData(prev => ({ ...prev, state: e.target.value }))}
+                        placeholder="State or province"
+                        className="mt-2 h-12 text-base"
+                        required
+                      />
+                    </div>
+                  </div>
 
-              <div>
-                <Label htmlFor="phone" className="text-sm font-medium">
-                  Phone Number
-                </Label>
-                <Input
-                  id="phone"
-                  value={formData.phone}
-                  onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                  placeholder="Phone number (optional)"
-                  type="tel"
-                  className="mt-1.5"
-                />
-              </div>
-            </motion.form>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="postal_code" className="text-sm font-medium flex items-center gap-1.5">
+                        <span>Postal Code</span>
+                        <span className="text-destructive text-xs">*</span>
+                      </Label>
+                      <Input
+                        id="postal_code"
+                        value={formData.postal_code}
+                        onChange={(e) => setFormData(prev => ({ ...prev, postal_code: e.target.value }))}
+                        placeholder="ZIP or postal code"
+                        className="mt-2 h-12 text-base"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="country" className="text-sm font-medium flex items-center gap-1.5">
+                        <span>Country</span>
+                        <span className="text-destructive text-xs">*</span>
+                      </Label>
+                      <Input
+                        id="country"
+                        value={formData.country}
+                        onChange={(e) => setFormData(prev => ({ ...prev, country: e.target.value }))}
+                        placeholder="Country name"
+                        className="mt-2 h-12 text-base"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Contact Section */}
+                <div className="space-y-4 pt-2 border-t border-border/50">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Phone className="h-4 w-4 text-primary" />
+                    <h4 className="font-medium text-sm text-foreground">Contact Information</h4>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="phone" className="text-sm font-medium">
+                      Phone Number <span className="text-muted-foreground text-xs">(optional)</span>
+                    </Label>
+                    <Input
+                      id="phone"
+                      value={formData.phone}
+                      onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                      placeholder="(555) 123-4567"
+                      type="tel"
+                      className="mt-2 h-12 text-base"
+                    />
+                    <p className="text-xs text-muted-foreground mt-2">For delivery notifications and questions</p>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex gap-3 pt-4">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleCancel}
+                    disabled={updateAddress.isPending}
+                    className="flex-1 h-12 gap-2"
+                  >
+                    <X className="h-4 w-4" />
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={updateAddress.isPending}
+                    className="flex-1 h-12 gap-2 font-medium shadow-md"
+                  >
+                    <Save className="h-4 w-4" />
+                    {updateAddress.isPending ? 'Saving Address...' : 'Save Address'}
+                  </Button>
+                </div>
+              </form>
+            </motion.div>
           ) : (
             <motion.div
               key="view-mode"
@@ -351,42 +386,57 @@ export const ShippingAddressBlock: React.FC = () => {
               className="p-6"
             >
               {hasAddress ? (
-                <div className="space-y-3">
-                  <div className="flex items-start gap-3">
-                    <div className="flex-1 space-y-1">
-                      <p className="font-medium">{formData.address1}</p>
-                      {formData.address2 && (
-                        <p className="text-muted-foreground">{formData.address2}</p>
-                      )}
-                      <p className="text-muted-foreground">
-                        {formData.city}, {formData.state} {formData.postal_code}
-                      </p>
-                      <p className="text-muted-foreground">{formData.country}</p>
-                      {formData.phone && (
-                        <p className="text-sm text-muted-foreground mt-2">
-                          📞 {formData.phone}
+                <div className="space-y-4">
+                  <div className="p-5 rounded-daystrom-medium bg-card border border-border/50">
+                    <div className="flex items-start gap-4">
+                      <div className="p-2.5 rounded-daystrom-small bg-primary/10 border border-primary/20">
+                        <Home className="h-5 w-5 text-primary" />
+                      </div>
+                      <div className="flex-1 space-y-2">
+                        <p className="text-base font-medium text-foreground">{formData.address1}</p>
+                        {formData.address2 && (
+                          <p className="text-sm text-muted-foreground">{formData.address2}</p>
+                        )}
+                        <p className="text-sm text-muted-foreground">
+                          {formData.city}, {formData.state} {formData.postal_code}
                         </p>
-                      )}
+                        <p className="text-sm font-medium text-foreground">{formData.country}</p>
+                      </div>
                     </div>
+                    
+                    {formData.phone && (
+                      <div className="flex items-center gap-3 mt-4 pt-4 border-t border-border/50">
+                        <Phone className="h-4 w-4 text-muted-foreground" />
+                        <p className="text-sm text-muted-foreground">{formData.phone}</p>
+                      </div>
+                    )}
                   </div>
+                  
+                  <p className="text-xs text-muted-foreground text-center">
+                    Need to update your address? Click "Edit Address" above
+                  </p>
                 </div>
               ) : (
-                <div className="text-center py-8">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted/50 mb-4">
-                    <Package className="h-8 w-8 text-muted-foreground" />
-                  </div>
-                  <h4 className="font-medium mb-2">No shipping address on file</h4>
-                  <p className="text-sm text-muted-foreground mb-4">
+                <div className="text-center py-12">
+                  <motion.div 
+                    className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 border-2 border-primary/20 mb-6"
+                    animate={{ scale: [1, 1.05, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    <Package className="h-10 w-10 text-primary" />
+                  </motion.div>
+                  <h4 className="text-xl font-medium mb-3 text-foreground">No Shipping Address</h4>
+                  <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto leading-relaxed">
                     {hasPhysicalRewards 
-                      ? 'Add your address to receive your physical rewards'
-                      : 'Add your address for future physical rewards'}
+                      ? 'You have physical rewards waiting! Add your shipping address so we can send them to you.'
+                      : 'Add your shipping address now to be ready for any physical rewards or merchandise.'}
                   </p>
                   <Button
-                    variant="outline"
+                    size="lg"
                     onClick={() => setIsEditing(true)}
-                    className="gap-2"
+                    className="gap-2 min-h-[48px] px-8 font-medium shadow-lg"
                   >
-                    <MapPin className="h-4 w-4" />
+                    <MapPin className="h-5 w-5" />
                     Add Shipping Address
                   </Button>
                 </div>
