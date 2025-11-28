@@ -48,25 +48,55 @@ const AddressDialog: React.FC<AddressDialogProps> = ({ open, onOpenChange }) => 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    console.log('📍 Submitting address form:', formData);
+    console.log('📍 Submitting address form from AddressDialog:', formData);
     
     // Client-side validation
     if (!formData.address1.trim() || !formData.city.trim() || !formData.state.trim() || 
         !formData.postal_code.trim() || !formData.country.trim()) {
-      toast.error("Please fill in all required fields");
+      toast.error("Please fill in all required fields", {
+        description: "Address, City, State, Postal Code, and Country are required"
+      });
       return;
     }
     
     try {
+      // Show loading toast
+      const loadingToast = toast.loading("Saving your shipping address...");
+      
       const result = await updateAddress.mutateAsync(formData);
+      
+      // Dismiss loading toast
+      toast.dismiss(loadingToast);
+      
       console.log('✅ Address saved successfully:', result);
-      toast.success("Shipping address saved successfully!");
+      
+      toast.success("Shipping address saved successfully!", {
+        description: "Your address has been verified and saved to the database"
+      });
+      
       onOpenChange(false);
     } catch (error: any) {
       console.error('❌ Error in address submission:', error);
-      const errorMessage = error?.message || "Failed to update shipping address. Please try again or contact support.";
-      toast.error(errorMessage, {
-        duration: 5000,
+      
+      // Parse error message for better user feedback
+      let errorTitle = "Failed to update shipping address";
+      let errorDescription = error?.message || "An unexpected error occurred";
+      
+      // Check for specific error types
+      if (errorDescription.includes('not linked to a donor record')) {
+        errorTitle = "Account Linkage Issue";
+        errorDescription = "Your account needs to be linked to your donor record. Please contact support@axanar.com with your email address.";
+      } else if (errorDescription.includes('verify your donor account')) {
+        errorTitle = "Account Verification Failed";
+        errorDescription = "We couldn't verify your donor account. Please contact support@axanar.com for assistance.";
+      } else if (errorDescription.includes('could not be verified')) {
+        errorTitle = "Save Verification Failed";
+        errorDescription = "The address may have been saved, but we couldn't confirm it. Please refresh the page to check.";
+      }
+      
+      toast.error(errorTitle, {
+        description: errorDescription,
+        duration: 7000,
       });
     }
   };
