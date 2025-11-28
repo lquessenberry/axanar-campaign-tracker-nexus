@@ -70,9 +70,13 @@ export const useCreateComment = () => {
         .single();
 
       if (error) throw error;
-      return comment;
+      
+      // Return comment and username for notification processing
+      return { comment, username, threadId: data.thread_id, content: data.content };
     },
-    onSuccess: (_, variables) => {
+    onSuccess: async (result, variables) => {
+      const { comment, username, threadId, content } = result;
+      
       queryClient.invalidateQueries({ queryKey: ['forum-comments', variables.thread_id] });
       queryClient.invalidateQueries({ queryKey: ['forum-thread', variables.thread_id] });
       queryClient.invalidateQueries({ queryKey: ['forum-threads'] });
@@ -80,6 +84,73 @@ export const useCreateComment = () => {
         title: '💬 Comment posted!',
         description: 'Your comment has been added.',
       });
+
+      // Check if user is admin and send notifications
+      if (!user) return;
+      
+      const { data: isAdmin } = await supabase
+        .from('admin_users')
+        .select('user_id')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (!isAdmin) return; // Only send notifications for admin replies
+
+      // Get thread details and participants
+      const { data: thread } = await supabase
+        .from('forum_threads')
+        .select('title, author_user_id, author_username')
+        .eq('id', threadId)
+        .single();
+
+      if (!thread) return;
+
+      // Get all unique commenters
+      const { data: comments } = await supabase
+        .from('forum_comments')
+        .select('author_user_id, author_username')
+        .eq('thread_id', threadId)
+        .not('author_user_id', 'eq', user.id); // Exclude the admin
+
+      // Collect unique participants (thread author + commenters)
+      const participantMap = new Map<string, string>();
+      
+      // Add thread author
+      if (thread.author_user_id && thread.author_user_id !== user.id) {
+        participantMap.set(thread.author_user_id, thread.author_username);
+      }
+      
+      // Add commenters
+      comments?.forEach(c => {
+        if (c.author_user_id && c.author_user_id !== user.id) {
+          participantMap.set(c.author_user_id, c.author_username);
+        }
+      });
+
+      // Send notification to each unique participant
+      for (const [userId, participantUsername] of participantMap.entries()) {
+        try {
+          // Get participant email
+          const { data: { user: participantUser } } = await supabase.auth.admin.getUserById(userId);
+          
+          if (participantUser?.email) {
+            // Send notification email
+            await supabase.functions.invoke('send-forum-notification', {
+              body: {
+                recipient_email: participantUser.email,
+                recipient_username: participantUsername,
+                admin_username: username,
+                thread_title: thread.title,
+                thread_id: threadId,
+                comment_content: content,
+              }
+            });
+          }
+        } catch (error) {
+          console.error('Error sending notification to participant:', error);
+          // Don't fail the whole operation if notification fails
+        }
+      }
     },
     onError: (error: any) => {
       console.error('❌ Comment creation error:', error);
