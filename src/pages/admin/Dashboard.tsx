@@ -66,6 +66,9 @@ const Dashboard = () => {
         return <PledgeRewardReconciliation />;
       case "create-canonical-rewards":
         return <CreateCanonicalRewards />;
+      case "send-announcement":
+        navigate('/admin/send-announcement');
+        return null;
       case "analytics":
         return <VisitorAnalytics />;
       case "messages":
