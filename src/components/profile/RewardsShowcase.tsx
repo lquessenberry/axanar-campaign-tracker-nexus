@@ -9,10 +9,13 @@ import { DAYSTROM_SPRINGS } from "@/lib/daystrom-springs";
 import { Gift, Package, Truck, CheckCircle2, Clock, DollarSign, Calendar, Award, AlertCircle } from "lucide-react";
 import { MissingPledgeDataAlert } from "./MissingPledgeDataAlert";
 import { AccountMergeAlert } from "./AccountMergeAlert";
+import { AdminPledgeEditor } from "./AdminPledgeEditor";
+import { useAdminCheck } from "@/hooks/useAdminCheck";
 
 const RewardsShowcase: React.FC = () => {
   const { user } = useAuth();
   const { data: pledges, isLoading: rewardsLoading } = useUserRewards();
+  const { data: isAdmin } = useAdminCheck();
   
   const isLoading = rewardsLoading;
 
@@ -269,6 +272,18 @@ const RewardsShowcase: React.FC = () => {
                           </div>
                         )}
                       </div>
+
+                      {/* Admin Controls */}
+                      {isAdmin && (
+                        <AdminPledgeEditor
+                          pledgeId={pledge.id}
+                          currentStatus={pledge.shipping_status}
+                          currentShippedAt={pledge.shipped_at}
+                          currentDeliveredAt={pledge.delivered_at}
+                          currentTrackingNumber={pledge.tracking_number}
+                          currentShippingNotes={pledge.shipping_notes}
+                        />
+                      )}
                     </CardContent>
                   </DaystromCard>
                 </motion.div>
