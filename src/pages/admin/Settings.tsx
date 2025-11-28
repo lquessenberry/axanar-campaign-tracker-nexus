@@ -6,6 +6,7 @@ import { UpdateRewardsData } from "./UpdateRewardsData";
 import { BetaUserOutreach } from "@/components/admin/BetaUserOutreach";
 import { ProfileAudit } from "@/components/admin/ProfileAudit";
 import { PledgeDataCorrection } from "@/components/admin/PledgeDataCorrection";
+import { AccountMergeExecutor } from "@/components/admin/AccountMergeExecutor";
 import { useSeedForumThreads } from "@/hooks/useSeedForumThreads";
 import { MessageSquarePlus } from "lucide-react";
 
@@ -29,12 +30,13 @@ const Settings = () => {
         </TabsList>
 
         <TabsContent value="migration" className="space-y-6 mt-6">
+          <AccountMergeExecutor />
           <DonorMigrationSection />
           <UpdateRewardsData />
-              <BetaUserOutreach />
-              <ProfileAudit />
-              <PledgeDataCorrection />
-            </TabsContent>
+          <BetaUserOutreach />
+          <ProfileAudit />
+          <PledgeDataCorrection />
+        </TabsContent>
 
         <TabsContent value="reserve-users" className="space-y-6 mt-6">
           <AdminReserveUsersSection />
