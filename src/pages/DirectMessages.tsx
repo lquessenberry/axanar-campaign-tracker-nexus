@@ -10,10 +10,12 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useOptimizedMessages } from '@/hooks/useOptimizedMessages';
 import { useUserPresence } from '@/hooks/useUserPresence';
 import { useMessageNotifications } from '@/hooks/useMessageNotifications';
+import { useAdminCheck } from '@/hooks/useAdminCheck';
 import OptimizedMessageThread from '@/components/messages/OptimizedMessageThread';
 import OptimizedConversationList from '@/components/messages/OptimizedConversationList';
 import MessageBubble from '@/components/messages/MessageBubble';
 import UserSelector from '@/components/messages/UserSelector';
+import UserSupportContext from '@/components/admin/UserSupportContext';
 import { OnlineUsersList } from '@/components/forum/OnlineUsersList';
 import { RecentlyActiveUsers } from '@/components/forum/RecentlyActiveUsers';
 import { toast } from 'sonner';
@@ -33,6 +35,7 @@ const DirectMessages = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { user } = useAuth();
   const { theme } = useTheme();
+  const { data: isAdmin } = useAdminCheck();
   const { 
     conversations, 
     loading, 
@@ -613,6 +616,25 @@ const DirectMessages = () => {
             </div>
           )}
         </div>
+
+        {/* Admin Support Context - Right Sidebar */}
+        <AnimatePresence>
+          {isAdmin && selectedConversationId && activeTab === 'support' && (
+            <motion.div
+              initial={{ x: 400 }}
+              animate={{ x: 0 }}
+              exit={{ x: 400 }}
+              transition={{ type: "spring", damping: 34, stiffness: 400 }}
+            >
+              <UserSupportContext 
+                userId={selectedConversationId}
+                onOpenDonorSearch={() => toast.info('Opening Donor Account Link Tool...')}
+                onOpenPledgeRestore={() => toast.info('Opening Pledge Data Restoration...')}
+                onOpenAccountMerge={() => toast.info('Opening Account Merge Tool...')}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Dialogs */}
         {showUserSelector && (

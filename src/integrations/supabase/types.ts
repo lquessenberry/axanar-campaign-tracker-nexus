@@ -1284,6 +1284,90 @@ export type Database = {
         }
         Relationships: []
       }
+      external_platform_links: {
+        Row: {
+          created_at: string | null
+          external_email: string | null
+          external_id: string | null
+          id: string
+          is_verified: boolean | null
+          last_synced_at: string | null
+          linked_at: string | null
+          metadata: Json | null
+          platform: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          external_email?: string | null
+          external_id?: string | null
+          id?: string
+          is_verified?: boolean | null
+          last_synced_at?: string | null
+          linked_at?: string | null
+          metadata?: Json | null
+          platform: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          external_email?: string | null
+          external_id?: string | null
+          id?: string
+          is_verified?: boolean | null
+          last_synced_at?: string | null
+          linked_at?: string | null
+          metadata?: Json | null
+          platform?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      external_transactions: {
+        Row: {
+          amount: number
+          created_at: string | null
+          currency: string | null
+          description: string | null
+          external_transaction_id: string | null
+          id: string
+          metadata: Json | null
+          platform: string
+          transaction_date: string
+          user_id: string
+          xp_awarded: number | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          external_transaction_id?: string | null
+          id?: string
+          metadata?: Json | null
+          platform: string
+          transaction_date: string
+          user_id: string
+          xp_awarded?: number | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          external_transaction_id?: string | null
+          id?: string
+          metadata?: Json | null
+          platform?: string
+          transaction_date?: string
+          user_id?: string
+          xp_awarded?: number | null
+        }
+        Relationships: []
+      }
       forum_badges: {
         Row: {
           created_at: string
