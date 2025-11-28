@@ -64,6 +64,7 @@ const DirectMessages = () => {
   const [messageInput, setMessageInput] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [mobileView, setMobileView] = useState<'list' | 'thread'>('list');
   
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
@@ -137,7 +138,13 @@ const DirectMessages = () => {
   const handleSelectConversation = async (partnerId: string) => {
     setSelectedConversationId(partnerId);
     setShowUserSelector(false);
+    setMobileView('thread'); // Switch to thread view on mobile
     await fetchConversationMessages(partnerId);
+  };
+
+  const handleBackToList = () => {
+    setMobileView('list');
+    setSelectedConversationId(null);
   };
 
   const handleSendMessage = async (recipientId: string, content: string) => {
@@ -298,7 +305,7 @@ const DirectMessages = () => {
           className="h-screen md:h-[calc(100vh-113px)] bg-background flex overflow-hidden"
         >
 
-        {/* Sidebar */}
+        {/* Sidebar - Hidden on mobile when viewing thread */}
         <AnimatePresence>
           {sidebarOpen && (
             <motion.aside
@@ -306,19 +313,21 @@ const DirectMessages = () => {
               animate={{ x: 0 }}
               exit={{ x: -400 }}
               transition={{ type: "spring", damping: 34, stiffness: 400 }}
-              className="w-96 h-full bg-card/40 backdrop-blur-3xl border-r border-border flex flex-col relative z-10"
+              className={`w-full md:w-96 h-full bg-card/40 backdrop-blur-3xl border-r border-border flex flex-col relative z-10 ${
+                mobileView === 'thread' ? 'hidden md:flex' : 'flex'
+              }`}
             >
-              <div className="p-8 border-b border-border">
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
-                    <MessageCircle className="w-8 h-8 text-primary-foreground" />
+              <div className="p-4 md:p-8 border-b border-border">
+                <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-8">
+                  <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
+                    <MessageCircle className="w-6 h-6 md:w-8 md:h-8 text-primary-foreground" />
                   </div>
-                  <h2 className="text-xl font-semibold">Messages</h2>
+                  <h2 className="text-lg md:text-xl font-semibold">Messages</h2>
                 </div>
 
                 <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'all' | 'support')} className="w-full">
-                  <TabsList className="grid w-full grid-cols-2 min-h-[56px]">
-                    <TabsTrigger value="all" className="gap-2 rounded-xl relative text-base min-h-[48px]">
+                  <TabsList className="grid w-full grid-cols-2 min-h-[48px] md:min-h-[56px]">
+                    <TabsTrigger value="all" className="gap-2 rounded-xl relative text-sm md:text-base min-h-[44px] md:min-h-[48px]">
                       All
                       {getUnreadCount() > 0 && (
                         <Badge variant="destructive" className="ml-2 px-2 py-0.5 text-sm h-6">
@@ -326,8 +335,8 @@ const DirectMessages = () => {
                         </Badge>
                       )}
                     </TabsTrigger>
-                    <TabsTrigger value="support" className="gap-2 rounded-xl relative text-base min-h-[48px]">
-                      <HelpCircle className="w-5 h-5" />
+                    <TabsTrigger value="support" className="gap-2 rounded-xl relative text-sm md:text-base min-h-[44px] md:min-h-[48px]">
+                      <HelpCircle className="w-4 h-4 md:w-5 md:h-5" />
                       Support
                       {supportUnreadCount > 0 && (
                         <Badge variant="destructive" className="ml-2 px-2 py-0.5 text-sm h-6">
@@ -339,66 +348,66 @@ const DirectMessages = () => {
                 </Tabs>
               </div>
 
-              <div className="px-8 pb-8">
+              <div className="px-4 md:px-8 pb-4 md:pb-8">
                 <div className="relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <Search className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground" />
                   <input
                     type="text"
                     placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full min-h-[56px] pl-12 pr-4 rounded-xl bg-background/50 border border-border text-base outline-none focus:ring-4 ring-primary/20 transition-all"
+                    className="w-full min-h-[48px] md:min-h-[56px] pl-10 md:pl-12 pr-3 md:pr-4 rounded-xl bg-background/50 border border-border text-sm md:text-base outline-none focus:ring-4 ring-primary/20 transition-all"
                   />
                 </div>
               </div>
 
               {/* Conversations List - Scrollable */}
-              <div className="px-8">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+              <div className="px-4 md:px-8">
+                <div className="flex items-center justify-between mb-3 md:mb-4">
+                  <span className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider">
                     {activeTab === 'support' ? 'Tickets' : 'Conversations'}
                   </span>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={activeTab === 'support' ? handleStartSupportConversation : handleStartNewConversation}
-                    className="min-w-[48px] min-h-[48px] p-3 rounded-lg hover:bg-accent transition-colors flex items-center justify-center"
+                    className="min-w-[44px] min-h-[44px] md:min-w-[48px] md:min-h-[48px] p-2 md:p-3 rounded-lg hover:bg-accent transition-colors flex items-center justify-center"
                   >
-                    <Plus className="w-6 h-6" />
+                    <Plus className="w-5 h-5 md:w-6 md:h-6" />
                   </motion.button>
                 </div>
 
-                <div className="max-h-[35vh] overflow-y-auto pr-2">
+                <div className="max-h-[calc(100vh-400px)] md:max-h-[35vh] overflow-y-auto pr-2">
                   {loading ? (
-                    <div className="flex items-center justify-center py-12">
-                      <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent" />
+                    <div className="flex items-center justify-center py-8 md:py-12">
+                      <div className="animate-spin rounded-full h-6 w-6 md:h-8 md:w-8 border-2 border-primary border-t-transparent" />
                     </div>
                   ) : filteredConversations.length === 0 ? (
-                    <div className="text-center py-12 text-muted-foreground text-base">
+                    <div className="text-center py-8 md:py-12 text-muted-foreground text-sm md:text-base">
                       No conversations yet
                     </div>
                   ) : (
-                    <div className="space-y-2">
+                    <div className="space-y-1.5 md:space-y-2">
                       {filteredConversations.map((conv) => (
                         <motion.div
                           key={conv.partner_id}
                           layoutId={`conversation-${conv.partner_id}`}
                           layout
                           transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                          className={`relative group w-full text-left p-4 rounded-xl transition-all cursor-pointer min-h-[72px] ${
+                          className={`relative group w-full text-left p-3 md:p-4 rounded-lg md:rounded-xl transition-all cursor-pointer min-h-[60px] md:min-h-[72px] ${
                             selectedConversationId === conv.partner_id 
                               ? 'bg-accent font-medium' 
                               : 'hover:bg-accent/50'
                           }`}
                           onClick={() => handleSelectConversation(conv.partner_id)}
                         >
-                          <div className="flex items-center justify-between mb-2">
-                            <p className="font-medium truncate text-base pr-16">
+                          <div className="flex items-center justify-between mb-1 md:mb-2">
+                            <p className="font-medium truncate text-sm md:text-base pr-12 md:pr-16">
                               {conv.partner_full_name || conv.partner_username}
                             </p>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1.5 md:gap-2">
                               {conv.unread_count > 0 && (
-                                <Badge variant="default" className="px-2 py-0.5 text-sm h-6">
+                                <Badge variant="default" className="px-1.5 md:px-2 py-0.5 text-xs md:text-sm h-5 md:h-6">
                                   {conv.unread_count}
                                 </Badge>
                               )}
@@ -409,13 +418,13 @@ const DirectMessages = () => {
                                   e.stopPropagation();
                                   handleDeleteConversation(conv.partner_id);
                                 }}
-                                className="opacity-0 group-hover:opacity-100 transition-opacity min-w-[40px] min-h-[40px] p-2 rounded hover:bg-destructive hover:text-destructive-foreground flex items-center justify-center"
+                                className="opacity-0 md:group-hover:opacity-100 transition-opacity min-w-[36px] min-h-[36px] md:min-w-[40px] md:min-h-[40px] p-1.5 md:p-2 rounded hover:bg-destructive hover:text-destructive-foreground flex items-center justify-center"
                               >
-                                <Trash2 className="w-5 h-5" />
+                                <Trash2 className="w-4 h-4 md:w-5 md:h-5" />
                               </motion.button>
                             </div>
                           </div>
-                          <p className="text-sm text-muted-foreground truncate">
+                          <p className="text-xs md:text-sm text-muted-foreground truncate">
                             {conv.last_message || 'No messages yet'}
                           </p>
                         </motion.div>
@@ -425,9 +434,9 @@ const DirectMessages = () => {
                 </div>
               </div>
 
-              {/* Online Users - only in "all" tab - Always visible below conversations */}
+              {/* Online Users - only in "all" tab - Hidden on mobile */}
               {activeTab === 'all' && !showUserSelector && (
-                <div className="flex-1 overflow-y-auto px-8 mt-8 space-y-4">
+                <div className="hidden md:flex flex-1 overflow-y-auto px-8 mt-8 flex-col gap-4">
                   <OnlineUsersList />
                   <RecentlyActiveUsers />
                 </div>
@@ -436,33 +445,44 @@ const DirectMessages = () => {
           )}
         </AnimatePresence>
 
-        {/* Main Content */}
-        <div className="flex-1 flex flex-col relative z-10">
+        {/* Main Content - Full screen on mobile when showing thread */}
+        <div className={`flex-1 flex flex-col relative z-10 ${
+          mobileView === 'list' ? 'hidden md:flex' : 'flex'
+        }`}>
           {/* Header */}
-          <header className="min-h-[80px] border-b border-border bg-card/40 backdrop-blur-3xl flex items-center justify-between px-8">
-            <div className="flex items-center gap-6">
+          <header className="min-h-[60px] md:min-h-[80px] border-b border-border bg-card/40 backdrop-blur-3xl flex items-center justify-between px-3 md:px-8">
+            <div className="flex items-center gap-3 md:gap-6">
+              {/* Back button on mobile, sidebar toggle on desktop */}
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="p-2 rounded-xl hover:bg-accent transition-colors"
+                onClick={() => {
+                  if (window.innerWidth < 768 && mobileView === 'thread') {
+                    handleBackToList();
+                  } else {
+                    setSidebarOpen(!sidebarOpen);
+                  }
+                }}
+                className="min-w-[44px] min-h-[44px] p-2 rounded-xl hover:bg-accent transition-colors flex items-center justify-center"
               >
                 <motion.div
                   animate={{ rotate: sidebarOpen ? 0 : 180 }}
                   transition={{ duration: 0.3 }}
+                  className="md:block hidden"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </motion.div>
+                <ChevronLeft className="w-5 h-5 md:hidden" />
               </motion.button>
 
               {selectedConversation && (
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary/60" />
+                <div className="flex items-center gap-2 md:gap-3">
+                  <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-primary to-primary/60" />
                   <div>
-                    <h2 className="font-semibold text-sm">
+                    <h2 className="font-semibold text-xs md:text-sm truncate max-w-[150px] md:max-w-none">
                       {selectedConversation.partner_full_name || selectedConversation.partner_username}
                     </h2>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-[10px] md:text-xs text-muted-foreground">
                       Active
                     </p>
                   </div>
@@ -475,19 +495,19 @@ const DirectMessages = () => {
           <div className="flex-1 overflow-y-auto">
             {!selectedConversationId ? (
               <div className="h-full flex items-center justify-center">
-                <div className="text-center space-y-6 max-w-lg px-4">
+                <div className="text-center space-y-4 md:space-y-6 max-w-lg px-4">
                   <motion.div 
                     animate={{ y: [0, -8, 0] }} 
                     transition={{ repeat: Infinity, duration: 4 }}
                   >
-                    <div className="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shadow-2xl">
-                      <MessageCircle className="w-12 h-12 text-primary-foreground" />
+                    <div className="w-16 h-16 md:w-20 md:h-20 mx-auto rounded-2xl md:rounded-3xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shadow-2xl">
+                      <MessageCircle className="w-10 h-10 md:w-12 md:h-12 text-primary-foreground" />
                     </div>
                   </motion.div>
-                  <h2 className="text-3xl font-light">
+                  <h2 className="text-2xl md:text-3xl font-light">
                     {activeTab === 'support' ? 'Need Help?' : 'Your Messages'}
                   </h2>
-                  <p className="text-muted-foreground">
+                  <p className="text-sm md:text-base text-muted-foreground">
                     {activeTab === 'support' 
                       ? 'Start a conversation with our support team' 
                       : 'Select a conversation or start a new one'}
@@ -496,14 +516,14 @@ const DirectMessages = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={activeTab === 'support' ? handleStartSupportConversation : handleStartNewConversation}
-                    className="px-8 py-4 rounded-2xl bg-primary text-primary-foreground font-medium shadow-lg hover:shadow-xl transition-shadow"
+                    className="px-6 py-3 md:px-8 md:py-4 rounded-xl md:rounded-2xl bg-primary text-primary-foreground font-medium shadow-lg hover:shadow-xl transition-shadow text-sm md:text-base"
                   >
                     {activeTab === 'support' ? 'Contact Support' : 'Start Conversation'}
                   </motion.button>
                 </div>
               </div>
             ) : (
-              <div className="max-w-4xl mx-auto py-8 px-6 space-y-6">
+              <div className="max-w-4xl mx-auto py-4 md:py-8 px-3 md:px-6 space-y-3 md:space-y-6">
                 {selectedMessages.map((msg) => {
                   const isFromCurrentUser = msg.sender_id === user?.id;
                   const sender = {
@@ -568,14 +588,14 @@ const DirectMessages = () => {
 
           {/* Input */}
           {selectedConversationId && (
-            <div className="border-t border-border bg-card/40 backdrop-blur-3xl px-6 py-6">
+            <div className="border-t border-border bg-card/40 backdrop-blur-3xl px-3 md:px-6 py-3 md:py-6 pb-safe">
               <div className="max-w-4xl mx-auto">
-                <div className="flex items-end gap-4 p-3 rounded-3xl bg-background/50 ring-1 ring-border shadow-2xl">
+                <div className="flex items-end gap-2 md:gap-4 p-2 md:p-3 rounded-2xl md:rounded-3xl bg-background/50 ring-1 ring-border shadow-2xl">
                   <motion.button 
                     whileTap={{ scale: 0.9 }} 
-                    className="p-3 rounded-2xl hover:bg-accent transition-colors"
+                    className="min-w-[44px] min-h-[44px] p-2 md:p-3 rounded-xl md:rounded-2xl hover:bg-accent transition-colors hidden md:flex items-center justify-center"
                   >
-                    <Paperclip className="w-5 h-5" />
+                    <Paperclip className="w-4 h-4 md:w-5 md:h-5" />
                   </motion.button>
 
                   <Textarea
@@ -589,7 +609,7 @@ const DirectMessages = () => {
                       }
                     }}
                     placeholder="Type a message..."
-                    className="flex-1 bg-transparent border-0 outline-none resize-none py-2 text-base min-h-[40px] max-h-[200px] focus-visible:ring-0 shadow-none"
+                    className="flex-1 bg-transparent border-0 outline-none resize-none py-2 text-sm md:text-base min-h-[40px] max-h-[160px] md:max-h-[200px] focus-visible:ring-0 shadow-none"
                     rows={1}
                   />
 
@@ -598,16 +618,16 @@ const DirectMessages = () => {
                     whileTap={{ scale: 0.9 }}
                     onClick={handleQuickSend}
                     disabled={!messageInput.trim()}
-                    className={`p-3 rounded-2xl transition-all ${
+                    className={`min-w-[44px] min-h-[44px] p-2 md:p-3 rounded-xl md:rounded-2xl transition-all ${
                       messageInput.trim() 
                         ? 'bg-primary text-primary-foreground shadow-lg' 
                         : 'bg-muted text-muted-foreground cursor-not-allowed'
                     }`}
                   >
-                    <Send className="w-5 h-5" />
+                    <Send className="w-4 h-4 md:w-5 md:h-5" />
                   </motion.button>
                 </div>
-                <p className="text-xs text-muted-foreground text-center mt-3">
+                <p className="text-[10px] md:text-xs text-muted-foreground text-center mt-2 md:mt-3 hidden md:block">
                   Press <kbd className="px-2 py-0.5 bg-muted rounded text-[10px]">⌘K</kbd> to focus • 
                   <kbd className="px-2 py-0.5 bg-muted rounded text-[10px] ml-1">⌘B</kbd> to toggle sidebar •
                   <kbd className="px-2 py-0.5 bg-muted rounded text-[10px] ml-1">⌘N</kbd> new conversation
