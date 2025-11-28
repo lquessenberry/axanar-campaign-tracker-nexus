@@ -6104,6 +6104,7 @@ export type Database = {
         }[]
       }
       is_admin: { Args: { check_user_id: string }; Returns: boolean }
+      is_admin_user: { Args: { user_id: string }; Returns: boolean }
       is_message_to_admin: {
         Args: { recipient_user_id: string }
         Returns: boolean
