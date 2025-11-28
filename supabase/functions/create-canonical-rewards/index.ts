@@ -198,11 +198,117 @@ Deno.serve(async (req) => {
       }
     }
 
+    console.log('Canonical rewards created, starting pledge assignment...');
+
+    // === PHASE 2: Auto-assign rewards to pledges ===
+    const assignmentResults = {
+      by_perk_name: 0,
+      by_amount: 0,
+      no_match: 0,
+      total: 0,
+      campaigns: {
+        indiegogo: { exact_match: 0, amount_match: 0, no_match: 0 },
+        axanar_ks: { exact_match: 0, amount_match: 0, no_match: 0 },
+        prelude_ks: { exact_match: 0, amount_match: 0, no_match: 0 }
+      }
+    };
+
+    // Step 1: Indiegogo perk name matching
+    console.log('Starting Indiegogo perk name matching...');
+    const { data: iggPledges } = await supabaseAdmin
+      .from('pledges')
+      .select('id, amount, donor_id, donors(email)')
+      .eq('campaign_id', CAMPAIGN_IDS.AXANAR_IGG);
+
+    if (iggPledges) {
+      for (const pledge of iggPledges) {
+        const email = pledge.donors?.email?.toLowerCase().trim();
+        if (!email) continue;
+
+        // Find staging record by email
+        const { data: stagingRecord } = await supabaseAdmin
+          .from('staging_indiegogo')
+          .select('perk_name')
+          .ilike('email', email)
+          .single();
+
+        if (stagingRecord?.perk_name) {
+          // Match perk_name to reward platform_perk_name
+          const { data: matchedReward } = await supabaseAdmin
+            .from('rewards')
+            .select('id')
+            .eq('campaign_id', CAMPAIGN_IDS.AXANAR_IGG)
+            .eq('platform_perk_name', stagingRecord.perk_name)
+            .single();
+
+          if (matchedReward) {
+            await supabaseAdmin
+              .from('pledges')
+              .update({ reward_id: matchedReward.id })
+              .eq('id', pledge.id);
+            
+            assignmentResults.by_perk_name++;
+            assignmentResults.campaigns.indiegogo.exact_match++;
+            assignmentResults.total++;
+            continue;
+          }
+        }
+      }
+    }
+
+    console.log(`Matched ${assignmentResults.by_perk_name} Indiegogo pledges by perk name`);
+
+    // Step 2: Amount-based fallback matching for all campaigns
+    console.log('Starting amount-based matching for remaining pledges...');
+    
+    for (const [campaignKey, campaignId] of Object.entries(CAMPAIGN_IDS)) {
+      const { data: unmatchedPledges } = await supabaseAdmin
+        .from('pledges')
+        .select('id, amount')
+        .eq('campaign_id', campaignId)
+        .is('reward_id', null);
+
+      if (!unmatchedPledges) continue;
+
+      for (const pledge of unmatchedPledges) {
+        // Find highest-tier reward where pledge amount >= minimum_amount
+        const { data: matchedReward } = await supabaseAdmin
+          .from('rewards')
+          .select('id')
+          .eq('campaign_id', campaignId)
+          .lte('minimum_amount', pledge.amount)
+          .order('minimum_amount', { ascending: false })
+          .limit(1)
+          .single();
+
+        const campaignKey2 = campaignKey === 'PRELUDE_KS' ? 'prelude_ks' : 
+                            campaignKey === 'AXANAR_KS' ? 'axanar_ks' : 'indiegogo';
+
+        if (matchedReward) {
+          await supabaseAdmin
+            .from('pledges')
+            .update({ reward_id: matchedReward.id })
+            .eq('id', pledge.id);
+          
+          assignmentResults.by_amount++;
+          assignmentResults.campaigns[campaignKey2].amount_match++;
+          assignmentResults.total++;
+        } else {
+          assignmentResults.no_match++;
+          assignmentResults.campaigns[campaignKey2].no_match++;
+          assignmentResults.total++;
+        }
+      }
+    }
+
+    console.log('Pledge assignment complete:', assignmentResults);
+
     return new Response(
       JSON.stringify({
         success: true,
-        message: `Created ${results.prelude + results.axanar_ks + results.axanar_igg} canonical rewards`,
-        details: results,
+        message: `Created ${results.prelude + results.axanar_ks + results.axanar_igg} canonical rewards and assigned ${assignmentResults.total} pledges`,
+        rewards_created: results,
+        pledges_assigned: assignmentResults,
         errors: errors.length > 0 ? errors : undefined
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

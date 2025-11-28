@@ -95,15 +95,39 @@ export default function CreateCanonicalRewards() {
               <p className="text-sm mb-2">
                 {result.message}
               </p>
-              {result.details && (
-                <div className="mt-2 text-sm space-y-1">
-                  <p>Prelude KS: {result.details.prelude || 0} rewards</p>
-                  <p>Axanar KS: {result.details.axanar_ks || 0} rewards</p>
-                  <p>Axanar IGG: {result.details.axanar_igg || 0} rewards</p>
+              
+              {result.rewards_created && (
+                <div className="mt-3 text-sm space-y-1">
+                  <p className="font-medium">Rewards Created:</p>
+                  <p className="ml-4">Prelude KS: {result.rewards_created.prelude || 0} tiers</p>
+                  <p className="ml-4">Axanar KS: {result.rewards_created.axanar_ks || 0} tiers</p>
+                  <p className="ml-4">Axanar IGG: {result.rewards_created.axanar_igg || 0} tiers</p>
                 </div>
               )}
+
+              {result.pledges_assigned && (
+                <div className="mt-3 text-sm space-y-2">
+                  <p className="font-medium">Pledges Assigned:</p>
+                  <div className="ml-4 space-y-1">
+                    <p>✓ By perk name: {result.pledges_assigned.by_perk_name}</p>
+                    <p>✓ By amount: {result.pledges_assigned.by_amount}</p>
+                    <p>⚠ No match: {result.pledges_assigned.no_match}</p>
+                    <p className="font-medium mt-2">Total: {result.pledges_assigned.total}</p>
+                  </div>
+                  
+                  {result.pledges_assigned.campaigns && (
+                    <div className="mt-2 ml-4 space-y-1 text-xs">
+                      <p className="font-medium">Campaign Breakdown:</p>
+                      <p className="ml-2">Indiegogo: {result.pledges_assigned.campaigns.indiegogo.exact_match} exact, {result.pledges_assigned.campaigns.indiegogo.amount_match} amount, {result.pledges_assigned.campaigns.indiegogo.no_match} unmatched</p>
+                      <p className="ml-2">Axanar KS: {result.pledges_assigned.campaigns.axanar_ks.exact_match} exact, {result.pledges_assigned.campaigns.axanar_ks.amount_match} amount, {result.pledges_assigned.campaigns.axanar_ks.no_match} unmatched</p>
+                      <p className="ml-2">Prelude KS: {result.pledges_assigned.campaigns.prelude_ks.exact_match} exact, {result.pledges_assigned.campaigns.prelude_ks.amount_match} amount, {result.pledges_assigned.campaigns.prelude_ks.no_match} unmatched</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {result.errors && result.errors.length > 0 && (
-                <div className="mt-2 text-sm">
+                <div className="mt-3 text-sm">
                   <p className="font-medium mb-1">Errors:</p>
                   <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                     {result.errors.map((error: string, index: number) => (
