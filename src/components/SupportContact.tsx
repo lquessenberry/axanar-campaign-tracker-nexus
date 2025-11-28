@@ -26,9 +26,9 @@ export const SupportContact = () => {
               className="w-full justify-start"
               asChild
             >
-              <a href="mailto:support@axanar.com">
+              <a href="mailto:axanartech@gmail.com">
                 <Mail className="h-4 w-4 mr-2" />
-                support@axanar.com
+                axanartech@gmail.com
               </a>
             </Button>
             

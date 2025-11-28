@@ -79,14 +79,14 @@ export const useUpdateAddress = () => {
       
       if (donorError) {
         console.error('❌ Pre-flight failed: Error checking donor record:', donorError);
-        throw new Error('Failed to verify your donor account. Please contact support at support@axanar.com');
+        throw new Error('Failed to verify your donor account. Please contact support at axanartech@gmail.com');
       }
       
       if (!donorCheck) {
         console.error('❌ Pre-flight failed: No donor record found for auth user:', user.id);
         console.error('User email:', user.email);
         throw new Error(
-          `Your account (${user.email}) is not linked to a donor record. Please contact support@axanar.com with your email address to resolve this issue.`
+          `Your account (${user.email}) is not linked to a donor record. Please contact axanartech@gmail.com with your email address to resolve this issue.`
         );
       }
       
@@ -108,7 +108,7 @@ export const useUpdateAddress = () => {
         console.error('❌ RPC function failed:', rpcError);
         console.error('RPC error details:', JSON.stringify(rpcError, null, 2));
         throw new Error(
-          rpcError.message || 'Failed to save address to database. Please try again or contact support@axanar.com'
+          rpcError.message || 'Failed to save address to database. Please try again or contact axanartech@gmail.com'
         );
       }
       
