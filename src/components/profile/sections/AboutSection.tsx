@@ -1,8 +1,6 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { User, Zap, Heart } from "lucide-react";
-import ForumBadgesPanel from "../ForumBadgesPanel";
-import { ARESBreakdown } from "../ARESBreakdown";
 
 interface AboutSectionProps {
   profile: any;
@@ -83,20 +81,6 @@ const AboutSection: React.FC<AboutSectionProps> = ({
           </div>
         </CardContent>
       </Card>
-
-      {/* ARES Breakdown */}
-      <ARESBreakdown
-        donationAres={xpBreakdown?.donation_xp || 0}
-        participationAres={xpBreakdown?.participation_xp || 0}
-        forumXP={xpBreakdown?.forum_xp || 0}
-        profileXP={xpBreakdown?.profile_completion_xp || 0}
-        achievementXP={xpBreakdown?.achievement_xp || 0}
-        recruitmentXP={xpBreakdown?.recruitment_xp || 0}
-        totalAres={totalXP}
-      />
-
-      {/* Forum Badges */}
-      <ForumBadgesPanel />
     </div>
   );
 };
