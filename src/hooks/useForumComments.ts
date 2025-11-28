@@ -49,11 +49,13 @@ export const useCreateComment = () => {
       if (!user) throw new Error('Must be logged in');
 
       // Get user profile for author info
-      const { data: profile } = await supabase
+      const { data: profiles } = await supabase
         .from('profiles')
         .select('username, full_name')
         .eq('id', user.id)
-        .single();
+        .limit(1);
+      
+      const profile = profiles?.[0];
 
       const username = profile?.username || profile?.full_name || 'Anonymous';
 
