@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { UnifiedBottomNav } from './UnifiedBottomNav';
 import { MobileHamburgerMenu } from './MobileHamburgerMenu';
 import { useAuth } from '@/contexts/AuthContext';
+import { AnnouncementBanner } from '@/components/AnnouncementBanner';
 
 export function MobileNavigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,6 +12,11 @@ export function MobileNavigation() {
 
   return (
     <>
+      {/* Announcement Banner - Mobile */}
+      <div className="md:hidden sticky top-0 z-50">
+        <AnnouncementBanner />
+      </div>
+
       {/* Mobile Header */}
       <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:hidden">
         <div className="flex h-24 items-center px-4 gap-4">

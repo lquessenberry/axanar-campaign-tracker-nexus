@@ -11,6 +11,7 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { AlertLevel } from "@/hooks/useAlertSystem";
 import { useTranslation } from 'react-i18next';
 import { MobileNavigation } from "@/components/mobile/MobileNavigation";
+import { AnnouncementBanner } from "@/components/AnnouncementBanner";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -78,6 +79,11 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
 
   return (
     <>
+      {/* Announcement Banner - Desktop */}
+      <div className="hidden md:block sticky top-0 z-50">
+        <AnnouncementBanner />
+      </div>
+
       {/* Mobile Navigation */}
       <MobileNavigation />
       
