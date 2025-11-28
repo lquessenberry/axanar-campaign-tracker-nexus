@@ -85,10 +85,10 @@ const AddressDialog: React.FC<AddressDialogProps> = ({ open, onOpenChange }) => 
       // Check for specific error types
       if (errorDescription.includes('not linked to a donor record')) {
         errorTitle = "Account Linkage Issue";
-        errorDescription = "Your account needs to be linked to your donor record. Please contact support@axanar.com with your email address.";
+        errorDescription = "Your account needs to be linked to your donor record. Please contact axanartech@gmail.com with your email address.";
       } else if (errorDescription.includes('verify your donor account')) {
         errorTitle = "Account Verification Failed";
-        errorDescription = "We couldn't verify your donor account. Please contact support@axanar.com for assistance.";
+        errorDescription = "We couldn't verify your donor account. Please contact axanartech@gmail.com for assistance.";
       } else if (errorDescription.includes('could not be verified')) {
         errorTitle = "Save Verification Failed";
         errorDescription = "The address may have been saved, but we couldn't confirm it. Please refresh the page to check.";

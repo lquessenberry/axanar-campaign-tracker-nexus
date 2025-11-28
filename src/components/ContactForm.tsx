@@ -109,8 +109,8 @@ const ContactForm = () => {
         error
       } = await supabase.functions.invoke('send-email', {
         body: {
-          to: 'support@axanar.com',
-          cc: ['support@axanar.com', 'alec@axanar.com'],
+          to: 'axanartech@gmail.com',
+          cc: ['axanartech@gmail.com', 'alec@axanar.com'],
           replyTo: sanitizedEmail,
           subject: `Contact Form: ${safeSubject}`,
           html: `

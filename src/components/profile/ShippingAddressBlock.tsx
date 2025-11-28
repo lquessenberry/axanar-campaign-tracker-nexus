@@ -85,10 +85,10 @@ export const ShippingAddressBlock: React.FC = () => {
       // Check for specific error types
       if (errorDescription.includes('not linked to a donor record')) {
         errorTitle = "Account Linkage Issue";
-        errorDescription = "Your account needs to be linked to your donor record. Please contact support@axanar.com";
+        errorDescription = "Your account needs to be linked to your donor record. Please contact axanartech@gmail.com";
       } else if (errorDescription.includes('verify your donor account')) {
         errorTitle = "Account Verification Failed";
-        errorDescription = "We couldn't verify your donor account. Please contact support@axanar.com";
+        errorDescription = "We couldn't verify your donor account. Please contact axanartech@gmail.com";
       } else if (errorDescription.includes('could not be verified')) {
         errorTitle = "Save Verification Failed";
         errorDescription = "The address may have been saved, but we couldn't confirm it. Please refresh the page to check.";
