@@ -35,7 +35,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Sending forum notification to:", recipient_email);
 
-    const threadUrl = `https://0a69648e-42c4-41d6-82ee-290ad344c5cf.lovableproject.com/forum/thread/${thread_id}`;
+    const threadUrl = `https://axanardonors.com/forum/thread/${thread_id}`;
 
     const emailResponse = await resend.emails.send({
       from: "Axanar Support <axanartech@gmail.com>",
