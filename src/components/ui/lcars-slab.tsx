@@ -15,24 +15,29 @@ type LCARSSlabProps = {
 
 const variantStyles = {
   primary: {
-    inactive: 'bg-orange-900/30',
-    active: 'bg-orange-500',
+    inactive: 'bg-[hsl(var(--lcars-slab-primary)/0.3)]',
+    active: 'bg-[hsl(var(--lcars-slab-primary-active))]',
+    text: 'text-[hsl(var(--lcars-slab-primary-foreground))]',
   },
   secondary: {
-    inactive: 'bg-purple-900/30',
-    active: 'bg-purple-500',
+    inactive: 'bg-[hsl(var(--lcars-slab-secondary)/0.3)]',
+    active: 'bg-[hsl(var(--lcars-slab-secondary-active))]',
+    text: 'text-[hsl(var(--lcars-slab-secondary-foreground))]',
   },
   alert: {
-    inactive: 'bg-red-900/30',
-    active: 'bg-red-600',
+    inactive: 'bg-[hsl(var(--lcars-slab-alert)/0.3)]',
+    active: 'bg-[hsl(var(--lcars-slab-alert-active))]',
+    text: 'text-[hsl(var(--lcars-slab-alert-foreground))]',
   },
   accent: {
-    inactive: 'bg-cyan-900/30',
-    active: 'bg-cyan-500',
+    inactive: 'bg-[hsl(var(--lcars-slab-accent)/0.3)]',
+    active: 'bg-[hsl(var(--lcars-slab-accent-active))]',
+    text: 'text-[hsl(var(--lcars-slab-accent-foreground))]',
   },
   info: {
-    inactive: 'bg-blue-900/40',
-    active: 'bg-blue-500',
+    inactive: 'bg-[hsl(var(--lcars-slab-info)/0.3)]',
+    active: 'bg-[hsl(var(--lcars-slab-info-active))]',
+    text: 'text-[hsl(var(--lcars-slab-info-foreground))]',
   },
 };
 
@@ -82,9 +87,13 @@ export default function LCARSSlab({
 
       {/* Label - appears on hover/active */}
       <motion.div
-        className="absolute inset-0 flex items-center justify-center 
-                   font-bold uppercase tracking-widest text-black 
-                   pointer-events-none px-4"
+        className={twMerge(
+          clsx(
+            "absolute inset-0 flex items-center justify-center",
+            "font-bold uppercase tracking-widest pointer-events-none px-4",
+            colors.text
+          )
+        )}
         initial={false}
         animate={{ opacity: showText ? 1 : 0 }}
         transition={{ duration: 0.2 }}
