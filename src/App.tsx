@@ -44,7 +44,6 @@ const Campaign = lazy(() => import("./pages/Campaign"));
 const Campaigns = lazy(() => import("./pages/Campaigns"));
 const Forum = lazy(() => import("./pages/Forum"));
 const ForumThread = lazy(() => import("./pages/ForumThread"));
-const VisitorAnalytics = lazy(() => import("./pages/admin/VisitorAnalytics"));
 const HowToEarnARES = lazy(() => import("./pages/HowToEarnARES"));
 const Leaderboard = lazy(() => import("./pages/Leaderboard"));
 const KnownIssues = lazy(() => import("./pages/KnownIssues"));
@@ -130,14 +129,6 @@ const App = () => (
                       element={
                         <RequireAdmin>
                           <AdminDashboard />
-                        </RequireAdmin>
-                      }
-                    />
-                    <Route
-                      path="/admin/analytics"
-                      element={
-                        <RequireAdmin>
-                          <VisitorAnalytics />
                         </RequireAdmin>
                       }
                     />

@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import AdminLayout from "@/components/admin/AdminLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Activity, Users, UserPlus, DollarSign, Eye } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, ComposedChart } from "recharts";
@@ -26,28 +25,23 @@ const VisitorAnalytics = () => {
 
   if (isLoading) {
     return (
-      <AdminLayout title="Visitor Analytics" description="Real-time visitor statistics">
-        <div className="flex items-center justify-center h-64">
-          <div className="text-muted-foreground">Loading analytics...</div>
-        </div>
-      </AdminLayout>
+      <div className="flex items-center justify-center h-64">
+        <div className="text-muted-foreground">Loading analytics...</div>
+      </div>
     );
   }
 
   if (error) {
     return (
-      <AdminLayout title="Visitor Analytics" description="Real-time visitor statistics">
-        <div className="flex items-center justify-center h-64">
-          <div className="text-destructive">Error loading analytics: {error.message}</div>
-        </div>
-      </AdminLayout>
+      <div className="flex items-center justify-center h-64">
+        <div className="text-destructive">Error loading analytics: {error.message}</div>
+      </div>
     );
   }
 
   return (
-    <AdminLayout title="Visitor Analytics" description="Real-time visitor statistics">
-      <div className="space-y-6">
-        {/* Summary Stats */}
+    <div className="space-y-6">
+      {/* Summary Stats */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -209,7 +203,6 @@ const VisitorAnalytics = () => {
           </CardContent>
         </Card>
       </div>
-    </AdminLayout>
   );
 };
 

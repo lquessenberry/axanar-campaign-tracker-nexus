@@ -13,6 +13,9 @@ import DonorManagement from "./DonorManagement";
 import MediaFiles from "./MediaFiles";
 import CampaignsWithPledges from "./CampaignsWithPledges";
 import Settings from "./Settings";
+import Pledges from "./Pledges";
+import AmbassadorialTitles from "./AmbassadorialTitles";
+import VisitorAnalytics from "./VisitorAnalytics";
 import { MessageCircle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -49,10 +52,16 @@ const Dashboard = () => {
         return <DonorManagement />;
       case "campaigns":
         return <CampaignsWithPledges />;
+      case "pledges":
+        return <Pledges />;
       case "rewards":
         return <AdminRewardsSection />;
+      case "titles":
+        return <AmbassadorialTitles />;
       case "pledge-restoration":
         return <PledgeDataRestoration />;
+      case "analytics":
+        return <VisitorAnalytics />;
       case "messages":
         return <AdminPlaceholderSection title="Messages" description="Admin message center" Icon={MessageCircle} />;
       case "media-files":
