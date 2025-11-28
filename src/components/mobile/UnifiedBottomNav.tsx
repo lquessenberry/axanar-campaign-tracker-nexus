@@ -29,9 +29,9 @@ export function UnifiedBottomNav({ profile }: UnifiedBottomNavProps) {
   ];
 
   return (
-    <LCARSNavFrame position="top" className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-t border-border/50 md:hidden">
-      <nav className="flex items-center h-20 px-0">
-        <div className="flex-1 flex items-center justify-around gap-0">
+    <LCARSNavFrame position="top" className="fixed bottom-0 left-0 right-0 z-50 bg-background/98 backdrop-blur-md border-t border-border/50 md:hidden safe-area-bottom">
+      <nav className="flex items-center h-16 px-0">
+        <div className="flex-1 flex items-center justify-around gap-0.5">
           {primaryNavItems.map((item, index) => {
             const isFirst = index === 0;
             const isLast = index === primaryNavItems.length - 1;
@@ -47,9 +47,10 @@ export function UnifiedBottomNav({ profile }: UnifiedBottomNavProps) {
                 to={item.to}
                 icon={item.icon}
                 variant="secondary"
-                showLabel="active"
+                showLabel="hover"
                 badge={item.badge}
-                className={borderRadiusClass}
+                className={`${borderRadiusClass} flex-1 h-14`}
+                aria-label={item.label}
               >
                 {item.label}
               </LCARSNavSlab>
