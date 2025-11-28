@@ -1,10 +1,9 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Shield, Calendar } from "lucide-react";
+import { Shield } from "lucide-react";
 import RewardsShowcase from "../RewardsShowcase";
 import { ShippingAddressBlock } from "../ShippingAddressBlock";
 import { AmbassadorialTitleDisplay } from "../AmbassadorialTitleDisplay";
-import ForumBadgesPanel from "../ForumBadgesPanel";
 import DashboardStats from "../DashboardStats";
 import { User } from "@supabase/supabase-js";
 
@@ -65,37 +64,6 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({
         achievementsCount={achievementsCount}
         recruitCount={recruitCount}
       />
-
-      {/* Forum Badges */}
-      <ForumBadgesPanel />
-
-      {/* Account Info */}
-      <Card className="bg-card/50 backdrop-blur-sm border-border/50">
-        <CardContent className="p-6">
-          <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-            <Calendar className="h-5 w-5 text-primary" />
-            Account Info
-          </h3>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 bg-background/40 rounded-lg">
-              <span className="text-sm text-muted-foreground">Member Since</span>
-              <span className="text-sm font-semibold">{memberSince}</span>
-            </div>
-            <div className="flex items-center justify-between p-3 bg-background/40 rounded-lg">
-              <span className="text-sm text-muted-foreground">Email</span>
-              <span className="text-sm font-semibold truncate max-w-48">
-                {user.email || 'No email'}
-              </span>
-            </div>
-            {profile?.username && (
-              <div className="flex items-center justify-between p-3 bg-background/40 rounded-lg">
-                <span className="text-sm text-muted-foreground">Username</span>
-                <span className="text-sm font-semibold">@{profile.username}</span>
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
