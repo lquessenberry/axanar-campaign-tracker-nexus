@@ -24,10 +24,11 @@ import SupportTicketDialog from '@/components/messages/SupportTicketDialog';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { PullToRefresh } from '@/components/mobile/PullToRefresh';
-import { motion, AnimatePresence, useSpring } from 'framer-motion';
+import { motion, AnimatePresence, useSpring, useDragControls } from 'framer-motion';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { format } from 'date-fns';
 import Navigation from '@/components/Navigation';
+import { SwipeGesture } from '@/components/mobile/SwipeGesture';
 
 const DirectMessages = () => {
   const navigate = useNavigate();
@@ -145,6 +146,12 @@ const DirectMessages = () => {
   const handleBackToList = () => {
     setMobileView('list');
     setSelectedConversationId(null);
+  };
+
+  const handleSwipeRight = () => {
+    if (mobileView === 'thread' && window.innerWidth < 768) {
+      handleBackToList();
+    }
   };
 
   const handleSendMessage = async (recipientId: string, content: string) => {
@@ -394,7 +401,7 @@ const DirectMessages = () => {
                           layoutId={`conversation-${conv.partner_id}`}
                           layout
                           transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                          className={`relative group w-full text-left p-3 md:p-4 rounded-lg md:rounded-xl transition-all cursor-pointer min-h-[60px] md:min-h-[72px] ${
+                          className={`relative group w-full text-left p-3 md:p-4 rounded-lg md:rounded-xl transition-all cursor-pointer min-h-[60px] md:min-h-[72px] active:scale-[0.98] ${
                             selectedConversationId === conv.partner_id 
                               ? 'bg-accent font-medium' 
                               : 'hover:bg-accent/50'
@@ -446,53 +453,98 @@ const DirectMessages = () => {
         </AnimatePresence>
 
         {/* Main Content - Full screen on mobile when showing thread */}
-        <div className={`flex-1 flex flex-col relative z-10 ${
-          mobileView === 'list' ? 'hidden md:flex' : 'flex'
-        }`}>
-          {/* Header */}
-          <header className="min-h-[60px] md:min-h-[80px] border-b border-border bg-card/40 backdrop-blur-3xl flex items-center justify-between px-3 md:px-8">
-            <div className="flex items-center gap-3 md:gap-6">
-              {/* Back button on mobile, sidebar toggle on desktop */}
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => {
-                  if (window.innerWidth < 768 && mobileView === 'thread') {
-                    handleBackToList();
-                  } else {
-                    setSidebarOpen(!sidebarOpen);
-                  }
-                }}
-                className="min-w-[44px] min-h-[44px] p-2 rounded-xl hover:bg-accent transition-colors flex items-center justify-center"
-              >
-                <motion.div
-                  animate={{ rotate: sidebarOpen ? 0 : 180 }}
-                  transition={{ duration: 0.3 }}
-                  className="md:block hidden"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </motion.div>
-                <ChevronLeft className="w-5 h-5 md:hidden" />
-              </motion.button>
+        <SwipeGesture onSwipeRight={handleSwipeRight}>
+          <div className={`flex-1 flex flex-col relative z-10 ${
+            mobileView === 'list' ? 'hidden md:flex' : 'flex'
+          }`}>
+            {/* Header */}
+            <header className="min-h-[60px] md:min-h-[80px] border-b border-border bg-card/40 backdrop-blur-3xl flex items-center justify-between px-3 md:px-8 sticky top-0 z-20">
+              <div className="flex items-center gap-3 md:gap-6 flex-1">
+                {/* Mobile back button - prominent and clear */}
+                {mobileView === 'thread' && (
+                  <motion.button
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={handleBackToList}
+                    className="md:hidden flex items-center gap-2 min-w-[44px] min-h-[44px] px-3 rounded-xl bg-primary/10 hover:bg-primary/20 transition-colors"
+                  >
+                    <ChevronLeft className="w-5 h-5 text-primary" />
+                    <span className="text-sm font-medium text-primary">Back</span>
+                  </motion.button>
+                )}
 
-              {selectedConversation && (
-                <div className="flex items-center gap-2 md:gap-3">
-                  <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-primary to-primary/60" />
-                  <div>
-                    <h2 className="font-semibold text-xs md:text-sm truncate max-w-[150px] md:max-w-none">
-                      {selectedConversation.partner_full_name || selectedConversation.partner_username}
-                    </h2>
-                    <p className="text-[10px] md:text-xs text-muted-foreground">
-                      Active
-                    </p>
+                {/* Desktop sidebar toggle */}
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setSidebarOpen(!sidebarOpen)}
+                  className="hidden md:flex min-w-[44px] min-h-[44px] p-2 rounded-xl hover:bg-accent transition-colors items-center justify-center"
+                >
+                  <motion.div
+                    animate={{ rotate: sidebarOpen ? 0 : 180 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </motion.div>
+                </motion.button>
+
+                {selectedConversation && (
+                  <div className="flex items-center gap-2 md:gap-3 flex-1 min-w-0">
+                    <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-primary to-primary/60 flex-shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <h2 className="font-semibold text-xs md:text-sm truncate">
+                        {selectedConversation.partner_full_name || selectedConversation.partner_username}
+                      </h2>
+                      <p className="text-[10px] md:text-xs text-muted-foreground">
+                        Active
+                      </p>
+                    </div>
                   </div>
+                )}
+              </div>
+
+              {/* Mobile view indicator - shows you're viewing a thread */}
+              {mobileView === 'thread' && selectedConversation && (
+                <div className="md:hidden flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-xs text-primary font-medium">
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  Thread
                 </div>
               )}
-            </div>
-          </header>
+              {/* Mobile view breadcrumb - shows navigation path */}
+              {mobileView === 'thread' && selectedConversation && (
+                <div className="md:hidden flex items-center gap-2 text-xs text-muted-foreground">
+                  <MessageCircle className="w-4 h-4" />
+                  <ChevronLeft className="w-3 h-3 rotate-180" />
+                  <span className="font-medium text-foreground truncate max-w-[120px]">
+                    {selectedConversation.partner_full_name || selectedConversation.partner_username}
+                  </span>
+                </div>
+              )}
+            </header>
 
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto">
+            {/* Swipe hint on mobile - appears briefly */}
+            {mobileView === 'thread' && selectedConversationId && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ delay: 0.5 }}
+                className="md:hidden absolute top-20 left-0 right-0 z-10 pointer-events-none px-4"
+              >
+                <motion.div
+                  animate={{ x: [0, 10, 0] }}
+                  transition={{ repeat: 3, duration: 1.5, ease: "easeInOut" }}
+                  className="bg-primary/95 backdrop-blur-sm text-primary-foreground text-xs px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 max-w-xs"
+                >
+                  <ChevronLeft className="w-5 h-5 flex-shrink-0" />
+                  <span className="font-medium">Swipe right or tap Back</span>
+                </motion.div>
+              </motion.div>
+            )}
+
+            {/* Messages */}
+            <div className="flex-1 overflow-y-auto">
             {!selectedConversationId ? (
               <div className="h-full flex items-center justify-center">
                 <div className="text-center space-y-4 md:space-y-6 max-w-lg px-4">
@@ -636,6 +688,32 @@ const DirectMessages = () => {
             </div>
           )}
         </div>
+        </SwipeGesture>
+
+        {/* Floating Action Button - Quick access to conversation list */}
+        {mobileView === 'thread' && selectedConversationId && (
+          <AnimatePresence>
+            <motion.button
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              exit={{ scale: 0, rotate: 180 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={handleBackToList}
+              className="md:hidden fixed bottom-24 right-4 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-2xl flex items-center justify-center ring-4 ring-background"
+            >
+              <MessageCircle className="w-6 h-6" />
+              {getUnreadCount() > 0 && (
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-destructive text-destructive-foreground text-xs font-bold flex items-center justify-center ring-2 ring-background"
+                >
+                  {getUnreadCount()}
+                </motion.div>
+              )}
+            </motion.button>
+          </AnimatePresence>
+        )}
 
         {/* Admin Support Context - Right Sidebar */}
         <AnimatePresence>
