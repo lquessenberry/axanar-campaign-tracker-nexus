@@ -207,7 +207,40 @@ export default {
 					'100%': {
 						transform: 'translateX(-100%)'
 					}
-				}
+				},
+				// ============= LCARS BUTTON ANIMATIONS =============
+				'pulse-orange': {
+					'0%, 100%': { 
+						boxShadow: '0 0 20px 4px rgba(251,146,60,0.5)' 
+					},
+					'50%': { 
+						boxShadow: '0 0 40px 12px rgba(251,146,60,0.9)' 
+					},
+				},
+				'pulse-purple': {
+					'0%, 100%': { 
+						boxShadow: '0 0 20px 4px rgba(168,85,247,0.5)' 
+					},
+					'50%': { 
+						boxShadow: '0 0 40px 12px rgba(168,85,247,0.9)' 
+					},
+				},
+				'pulse-red-fast': {
+					'0%, 100%': { 
+						boxShadow: '0 0 20px 8px rgba(239,68,68,0.7)' 
+					},
+					'50%': { 
+						boxShadow: '0 0 50px 20px rgba(239,68,68,1)' 
+					},
+				},
+				'pulse-cyan': {
+					'0%, 100%': { 
+						boxShadow: '0 0 20px 4px rgba(34,211,238,0.5)' 
+					},
+					'50%': { 
+						boxShadow: '0 0 40px 12px rgba(34,211,238,0.9)' 
+					},
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -218,6 +251,11 @@ export default {
 				'slide-in-left': 'slide-in-left 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
 				'scale-in': 'scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
 				'sparkle': 'sparkle 1s ease-in-out infinite',
+				// ============= LCARS BUTTON ANIMATIONS =============
+				'pulse-orange': 'pulse-orange 3s ease-in-out infinite',
+				'pulse-purple': 'pulse-purple 3s ease-in-out infinite',
+				'pulse-red-fast': 'pulse-red-fast 1.5s ease-in-out infinite',
+				'pulse-cyan': 'pulse-cyan 3s ease-in-out infinite',
 			},
 			fontFamily: {
 				// ============= DAYSTROM TYPOGRAPHY =============
