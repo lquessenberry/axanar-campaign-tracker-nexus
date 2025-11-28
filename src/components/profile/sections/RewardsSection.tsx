@@ -51,11 +51,11 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({
       {/* PHYSICAL & DIGITAL REWARDS */}
       <RewardsShowcase />
 
-      {/* AMBASSADORIAL TITLES - BELOW DIGITAL PERKS */}
-      <AmbassadorialTitleDisplay userId={user.id} />
-
       {/* SHIPPING ADDRESS - CRITICAL FOR PHYSICAL REWARDS */}
       <ShippingAddressBlock />
+
+      {/* AMBASSADORIAL TITLES - BELOW DIGITAL PERKS */}
+      <AmbassadorialTitleDisplay userId={user.id} />
 
       {/* Dashboard Stats */}
       <DashboardStats
