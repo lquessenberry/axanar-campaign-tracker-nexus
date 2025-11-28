@@ -9,6 +9,7 @@ import AdminRewardsSection from "@/components/admin/AdminRewardsSection";
 import AdminAdminsSection from "@/components/admin/AdminAdminsSection";
 import AdminPlaceholderSection from "@/components/admin/AdminPlaceholderSection";
 import { PledgeDataRestoration } from "@/components/admin/PledgeDataRestoration";
+import { PledgeRewardReconciliation } from "@/components/admin/PledgeRewardReconciliation";
 import DonorManagement from "./DonorManagement";
 import MediaFiles from "./MediaFiles";
 import CampaignsWithPledges from "./CampaignsWithPledges";
@@ -60,6 +61,8 @@ const Dashboard = () => {
         return <AmbassadorialTitles />;
       case "pledge-restoration":
         return <PledgeDataRestoration />;
+      case "reward-reconciliation":
+        return <PledgeRewardReconciliation />;
       case "analytics":
         return <VisitorAnalytics />;
       case "messages":

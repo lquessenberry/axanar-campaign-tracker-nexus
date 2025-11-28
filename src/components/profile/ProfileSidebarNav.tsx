@@ -55,6 +55,7 @@ const adminSections = [
   { title: "Rewards", value: "rewards", path: "/admin/dashboard?section=rewards", icon: Gift },
   { title: "Titles", value: "titles", path: "/admin/dashboard?section=titles", icon: Trophy },
   { title: "Pledge Restoration", value: "pledge-restoration", path: "/admin/dashboard?section=pledge-restoration", icon: Package },
+  { title: "Reward Reconciliation", value: "reward-reconciliation", path: "/admin/dashboard?section=reward-reconciliation", icon: Gift },
   { title: "Analytics", value: "analytics", path: "/admin/dashboard?section=analytics", icon: Activity },
   { title: "Messages", value: "messages", path: "/admin/dashboard?section=messages", icon: MessageCircle },
   { title: "Media & Files", value: "media-files", path: "/admin/dashboard?section=media-files", icon: FolderOpen },
