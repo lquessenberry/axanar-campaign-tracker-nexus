@@ -1,8 +1,6 @@
 import React from "react";
 import { 
-  LayoutDashboard, 
   User, 
-  Activity, 
   Settings, 
   LogOut, 
   Gift,
@@ -14,7 +12,8 @@ import {
   BarChart3,
   UserCog,
   FolderOpen,
-  Package
+  Package,
+  Activity
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -33,9 +32,10 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 const profileSections = [
-  { title: "Overview", value: "overview", icon: LayoutDashboard },
+  { title: "Rewards", value: "rewards", icon: Package },
+  { title: "Progress", value: "progress", icon: Trophy },
   { title: "About", value: "about", icon: User },
-  { title: "Activity", value: "activity", icon: Activity },
+  { title: "Activity", value: "activity", icon: BarChart3 },
   { title: "Settings", value: "settings", icon: Settings },
 ];
 
