@@ -22,7 +22,11 @@ export function SwipeGesture({
 }: SwipeGestureProps) {
   const handleDragEnd = (_: any, info: PanInfo) => {
     const { offset, velocity } = info;
-    const swipe = Math.abs(offset.x) * velocity.x;
+    
+    // Only trigger if horizontal movement is greater than vertical
+    if (Math.abs(offset.x) < Math.abs(offset.y)) return;
+    
+    const swipe = offset.x * Math.abs(velocity.x);
 
     if (swipe < -threshold && onSwipeLeft) {
       onSwipeLeft();
@@ -35,10 +39,10 @@ export function SwipeGesture({
     <motion.div
       className={className}
       drag="x"
+      dragDirectionLock
       dragConstraints={{ left: 0, right: 0 }}
-      dragElastic={0.2}
+      dragElastic={0.15}
       onDragEnd={handleDragEnd}
-      style={{ touchAction: 'pan-y' }} // Allow vertical scrolling
     >
       {children}
     </motion.div>
