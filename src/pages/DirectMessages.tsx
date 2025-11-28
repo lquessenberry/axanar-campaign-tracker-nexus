@@ -699,9 +699,9 @@ const DirectMessages = () => {
               exit={{ scale: 0, rotate: 180 }}
               whileTap={{ scale: 0.9 }}
               onClick={handleBackToList}
-              className="md:hidden fixed bottom-24 right-4 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-2xl flex items-center justify-center ring-4 ring-background"
+              className="md:hidden fixed bottom-24 left-4 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-2xl flex items-center justify-center ring-4 ring-background"
             >
-              <MessageCircle className="w-6 h-6" />
+              <ChevronLeft className="w-6 h-6" />
               {getUnreadCount() > 0 && (
                 <motion.div
                   initial={{ scale: 0 }}
