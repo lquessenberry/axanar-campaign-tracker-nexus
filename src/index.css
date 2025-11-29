@@ -373,7 +373,7 @@ body:not(.game-active) [role="button"] {
     
     /* Spacing - Command Rail System */
     --space-unit: 8px;
-    --command-rail-min-width: 280px;
+    --command-rail-min-width: 340px;
     --command-rail-module-height: 64px;
     --command-rail-gap: 8px;
     --spacing-unit: 0.75rem;
