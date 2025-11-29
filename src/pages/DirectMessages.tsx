@@ -575,7 +575,7 @@ const DirectMessages = () => {
                 </div>
               </div>
             ) : (
-              <div className="max-w-4xl mx-auto py-4 md:py-8 px-3 md:px-6 space-y-3 md:space-y-6">
+              <div className="py-4 md:py-8 px-3 md:px-6 space-y-3 md:space-y-6">
                 {selectedMessages.map((msg) => {
                   const isFromCurrentUser = msg.sender_id === user?.id;
                   const sender = {
@@ -641,7 +641,7 @@ const DirectMessages = () => {
           {/* Input */}
           {selectedConversationId && (
             <div className="border-t border-border bg-card/40 backdrop-blur-3xl px-3 md:px-6 py-3 md:py-6 pb-safe">
-              <div className="max-w-4xl mx-auto">
+              <div className="w-full">
                 <div className="flex items-end gap-2 md:gap-4 p-2 md:p-3 rounded-2xl md:rounded-3xl bg-background/50 ring-1 ring-border shadow-2xl">
                   <motion.button 
                     whileTap={{ scale: 0.9 }} 
