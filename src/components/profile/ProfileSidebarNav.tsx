@@ -122,13 +122,13 @@ export function ProfileSidebarNav({
               </SidebarGroupLabel>
               
               <SidebarGroupContent className="!p-0 !m-0">
-                <SidebarMenu className="!gap-0 !p-0">
+                <SidebarMenu className={`!p-0 ${isCollapsed ? '!gap-2' : '!gap-0'}`}>
                   {profileSections.map((section) => (
                     <SidebarMenuItem key={section.value} className="!p-0 !m-0">
                       <SidebarMenuButton
                         onClick={() => onSectionChange?.(section.value)}
                         isActive={activeSection === section.value}
-                        className={`transition-all duration-200 !m-0 ${isCollapsed ? 'justify-center !px-4 min-h-[72px]' : 'min-h-[48px]'} ${
+                        className={`transition-all duration-200 !m-0 ${isCollapsed ? 'justify-center !p-0 w-[72px] h-[72px] rounded-xl' : 'min-h-[48px]'} ${
                           activeSection === section.value 
                             ? "bg-primary text-primary-foreground font-semibold shadow-md border-l-4 border-primary-foreground" 
                             : "hover:bg-primary/20 hover:border-l-4 hover:border-primary/50"
@@ -156,13 +156,13 @@ export function ProfileSidebarNav({
               </SidebarGroupLabel>
               
               <SidebarGroupContent className="!p-0 !m-0">
-                <SidebarMenu className="!gap-0 !p-0"  >
+                <SidebarMenu className={`!p-0 ${isCollapsed ? '!gap-2' : '!gap-0'}`}  >
                   {adminSections.map((section) => (
                     <SidebarMenuItem key={section.value} className="!p-0 !m-0">
                       <SidebarMenuButton
                         onClick={() => handleAdminSectionClick(section)}
                         isActive={isAdminSectionActive(section)}
-                        className={`transition-all duration-200 !m-0 ${isCollapsed ? 'justify-center !px-4 min-h-[72px]' : 'min-h-[48px]'} ${
+                        className={`transition-all duration-200 !m-0 ${isCollapsed ? 'justify-center !p-0 w-[72px] h-[72px] rounded-xl' : 'min-h-[48px]'} ${
                           isAdminSectionActive(section)
                             ? "bg-primary text-primary-foreground font-semibold shadow-md border-l-4 border-primary-foreground" 
                             : "hover:bg-primary/20 hover:border-l-4 hover:border-primary/50"
@@ -188,13 +188,13 @@ export function ProfileSidebarNav({
           </SidebarGroupLabel>
           
           <SidebarGroupContent className="!p-0 !m-0">
-            <SidebarMenu className="!gap-0 !p-0">
+            <SidebarMenu className={`!p-0 ${isCollapsed ? '!gap-2' : '!gap-0'}`}>
               {navigationLinks.map((link) => (
                 <SidebarMenuItem key={link.path} className="!p-0 !m-0">
                   <SidebarMenuButton asChild>
                     <Link 
                       to={link.path}
-                      className={`hover:bg-primary/20 hover:border-l-4 hover:border-primary/50 transition-all duration-200 !m-0 ${isCollapsed ? 'justify-center !px-4 min-h-[72px]' : 'min-h-[48px]'}`}
+                      className={`hover:bg-primary/20 hover:border-l-4 hover:border-primary/50 transition-all duration-200 !m-0 ${isCollapsed ? 'justify-center !p-0 w-[72px] h-[72px] rounded-xl' : 'min-h-[48px]'}`}
                     >
                       <link.icon className={isCollapsed ? "h-7 w-7" : "h-5 w-5"} />
                       {!isCollapsed && <span>{link.title}</span>}
@@ -211,7 +211,7 @@ export function ProfileSidebarNav({
           <Button
             variant="ghost"
             onClick={onSignOut}
-            className={`w-full ${isCollapsed ? 'justify-center !px-4 min-h-[72px]' : 'justify-start min-h-[48px]'} text-destructive hover:text-destructive hover:bg-destructive/20 font-semibold transition-all duration-200 border-l-4 border-transparent hover:border-l-4 hover:border-destructive`}
+            className={`${isCollapsed ? 'justify-center !p-0 w-[72px] h-[72px] rounded-xl' : 'w-full justify-start min-h-[48px]'} text-destructive hover:text-destructive hover:bg-destructive/20 font-semibold transition-all duration-200 border-l-4 border-transparent hover:border-l-4 hover:border-destructive`}
           >
             <LogOut className={isCollapsed ? "h-7 w-7" : "h-5 w-5"} />
             {!isCollapsed && <span className="ml-2">Sign Out</span>}
