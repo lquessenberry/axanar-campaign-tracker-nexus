@@ -83,7 +83,7 @@ const ThumbMenu = () => {
       <div className="fixed bottom-20 right-6 z-50">
         <Button
           onClick={() => setIsOpen(!isOpen)}
-          className={`w-14 h-14 rounded-full shadow-lg transition-all duration-300 relative overflow-hidden ${
+          className={`w-[72px] h-[72px] rounded-full shadow-lg transition-all duration-300 relative overflow-hidden ${
             isOpen 
               ? 'bg-red-600 hover:bg-red-700 rotate-45' 
               : 'bg-axanar-teal hover:bg-axanar-teal/90'
@@ -123,7 +123,7 @@ const ThumbMenu = () => {
                     <Button
                       variant="secondary"
                       size="sm"
-                      className={`w-12 h-12 rounded-full shadow-md transition-all duration-200 ${
+                      className={`w-[72px] h-[72px] rounded-full shadow-md transition-all duration-200 ${
                         location.pathname === item.path 
                           ? 'bg-axanar-teal text-white' 
                           : 'bg-white text-axanar-dark hover:bg-gray-100'
@@ -132,7 +132,7 @@ const ThumbMenu = () => {
                         animationDelay: `${index * 50}ms`
                       }}
                     >
-                      <item.icon className="h-5 w-5" />
+                      <item.icon className="h-8 w-8" />
                     </Button>
                   </Link>
                 </div>
@@ -148,9 +148,9 @@ const ThumbMenu = () => {
                   variant="secondary"
                   size="sm"
                   onClick={handleSignOut}
-                  className="w-12 h-12 rounded-full shadow-md bg-red-100 text-red-600 hover:bg-red-200 transition-all duration-200"
+                  className="w-[72px] h-[72px] rounded-full shadow-md bg-red-100 text-red-600 hover:bg-red-200 transition-all duration-200"
                 >
-                  <LogOut className="h-5 w-5" />
+                  <LogOut className="h-8 w-8" />
                 </Button>
               </div>
             )}

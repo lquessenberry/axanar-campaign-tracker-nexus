@@ -29,18 +29,18 @@ export function ThemeToggle() {
 
   const getIcon = (iconType: string) => {
     switch (iconType) {
-      case 'sun': return <Sun className="h-4 w-4" />;
-      case 'moon': return <Moon className="h-4 w-4" />;
-      case 'zap': return <Zap className="h-4 w-4" />;
-      case 'sword': return <Sword className="h-4 w-4" />;
-      case 'rocket': return <Rocket className="h-4 w-4" />;
-      case 'ship': return <Ship className="h-4 w-4" />;
-      default: return <Ship className="h-4 w-4" />;
+      case 'sun': return <Sun className="h-8 w-8" />;
+      case 'moon': return <Moon className="h-8 w-8" />;
+      case 'zap': return <Zap className="h-8 w-8" />;
+      case 'sword': return <Sword className="h-8 w-8" />;
+      case 'rocket': return <Rocket className="h-8 w-8" />;
+      case 'ship': return <Ship className="h-8 w-8" />;
+      default: return <Ship className="h-8 w-8" />;
     }
   };
 
   const currentThemeDef = UNIFIED_THEMES.find(t => t.id === theme);
-  const currentIcon = currentThemeDef ? getIcon(currentThemeDef.icon) : <Moon className="h-4 w-4" />;
+  const currentIcon = currentThemeDef ? getIcon(currentThemeDef.icon) : <Moon className="h-8 w-8" />;
 
   const preFederation = getThemesByCategory('pre-federation');
   const fourYearsWar = getThemesByCategory('four-years-war');
@@ -54,7 +54,7 @@ export function ThemeToggle() {
         <Button 
           variant="ghost" 
           size="icon" 
-          className="btn-lcars h-9 w-9"
+          className="btn-lcars h-[72px] w-[72px]"
           aria-label="Theme selector"
         >
           {currentIcon}

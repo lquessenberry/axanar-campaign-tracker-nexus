@@ -134,7 +134,7 @@ export function ProfileSidebarNav({
                             : "hover:bg-primary/20 hover:border-l-4 hover:border-primary/50"
                         }`}
                       >
-                        <section.icon className={isCollapsed ? "h-7 w-7" : "h-5 w-5"} />
+                        <section.icon className={isCollapsed ? "h-8 w-8" : "h-5 w-5"} />
                         {!isCollapsed && <span>{section.title}</span>}
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -168,7 +168,7 @@ export function ProfileSidebarNav({
                             : "hover:bg-primary/20 hover:border-l-4 hover:border-primary/50"
                         }`}
                       >
-                        <section.icon className={isCollapsed ? "h-7 w-7" : "h-5 w-5"} />
+                        <section.icon className={isCollapsed ? "h-8 w-8" : "h-5 w-5"} />
                         {!isCollapsed && <span>{section.title}</span>}
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -196,7 +196,7 @@ export function ProfileSidebarNav({
                       to={link.path}
                       className={`hover:bg-primary/20 hover:border-l-4 hover:border-primary/50 transition-all duration-200 !m-0 ${isCollapsed ? 'justify-center !p-0 w-[72px] h-[72px] rounded-xl' : 'min-h-[48px]'}`}
                     >
-                      <link.icon className={isCollapsed ? "h-7 w-7" : "h-5 w-5"} />
+                      <link.icon className={isCollapsed ? "h-8 w-8" : "h-5 w-5"} />
                       {!isCollapsed && <span>{link.title}</span>}
                     </Link>
                   </SidebarMenuButton>
@@ -213,7 +213,7 @@ export function ProfileSidebarNav({
             onClick={onSignOut}
             className={`${isCollapsed ? 'justify-center !p-0 w-[72px] h-[72px] rounded-xl' : 'w-full justify-start min-h-[48px]'} text-destructive hover:text-destructive hover:bg-destructive/20 font-semibold transition-all duration-200 border-l-4 border-transparent hover:border-l-4 hover:border-destructive`}
           >
-            <LogOut className={isCollapsed ? "h-7 w-7" : "h-5 w-5"} />
+            <LogOut className={isCollapsed ? "h-8 w-8" : "h-5 w-5"} />
             {!isCollapsed && <span className="ml-2">Sign Out</span>}
           </Button>
         </div>
