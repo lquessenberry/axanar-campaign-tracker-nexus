@@ -64,9 +64,17 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
           className={cn(
             "inline-block rounded-lg p-3 break-words relative shadow-lg border",
             isFromCurrentUser 
-              ? 'bg-accent text-accent-foreground border-accent' 
-              : 'bg-popover text-popover-foreground border-border'
+              ? 'border-border/30' 
+              : 'border-border'
           )}
+          style={{
+            backgroundColor: isFromCurrentUser 
+              ? 'hsl(var(--message-sent))' 
+              : 'hsl(var(--message-received))',
+            color: isFromCurrentUser 
+              ? 'hsl(var(--message-sent-foreground))' 
+              : 'hsl(var(--message-received-foreground))'
+          }}
           onMouseEnter={() => setShowDelete(true)}
           onMouseLeave={() => setShowDelete(false)}
         >
