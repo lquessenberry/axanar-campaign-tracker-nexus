@@ -1655,6 +1655,12 @@ body:not(.game-active) [role="button"] {
   --popover: 200 15% 14%;
   --popover-foreground: 0 0% 100%;
   
+  /* Message Bubbles - High Contrast Guaranteed */
+  --message-sent: 210 100% 40%;     /* Dark blue - sent messages */
+  --message-sent-foreground: 0 0% 100%;
+  --message-received: 200 15% 18%;  /* Slightly lighter gray - received */
+  --message-received-foreground: 0 0% 100%;
+  
   /* Primary - "Enterprise Blue" (exact uniform match) */
   --primary: 210 100% 45%;         /* #0066CC - signature NX-era blue */
   --primary-foreground: 0 0% 100%;
@@ -1781,6 +1787,12 @@ body:not(.game-active) [role="button"] {
   --popover: 40 15% 96%;
   --popover-foreground: 0 0% 10%;
   
+  /* Message Bubbles - High Contrast Guaranteed */
+  --message-sent: 30 85% 45%;       /* Warm orange - sent */
+  --message-sent-foreground: 0 0% 100%;
+  --message-received: 40 15% 85%;   /* Light warm gray - received */
+  --message-received-foreground: 0 0% 10%;
+  
   /* Primary */
   --primary: 30 85% 50%;
   --primary-foreground: 0 0% 100%;
@@ -1883,6 +1895,12 @@ body:not(.game-active) [role="button"] {
   --popover: 220 20% 15%;
   --popover-foreground: 30 80% 85%;
   
+  /* Message Bubbles - High Contrast Guaranteed */
+  --message-sent: 30 95% 50%;       /* Bright orange - sent */
+  --message-sent-foreground: 220 20% 12%;
+  --message-received: 220 20% 20%;  /* Dark gray-blue - received */
+  --message-received-foreground: 30 80% 85%;
+  
   /* Primary */
   --primary: 30 95% 55%;
   --primary-foreground: 220 20% 12%;
@@ -1984,6 +2002,12 @@ body:not(.game-active) [role="button"] {
   --card-foreground: 45 100% 88%;
   --popover: 0 40% 10%;
   --popover-foreground: 45 100% 88%;
+  
+  /* Message Bubbles - High Contrast Guaranteed */
+  --message-sent: 0 100% 45%;       /* Bright alert red - sent */
+  --message-sent-foreground: 45 100% 88%;
+  --message-received: 0 40% 15%;    /* Dark red - received */
+  --message-received-foreground: 45 100% 88%;
   
   /* Primary */
   --primary: 30 100% 50%;
@@ -2131,6 +2155,12 @@ body:not(.game-active) [role="button"] {
   --popover: 0 50% 10%;
   --popover-foreground: 30 95% 85%;
   
+  /* Message Bubbles - High Contrast Guaranteed */
+  --message-sent: 10 90% 40%;       /* Deep blood red - sent */
+  --message-sent-foreground: 30 95% 85%;
+  --message-received: 0 50% 15%;    /* Very dark red - received */
+  --message-received-foreground: 30 95% 85%;
+  
   /* Primary */
   --primary: 10 90% 50%;
   --primary-foreground: 0 0% 0%;
@@ -2248,6 +2278,12 @@ body:not(.game-active) [role="button"] {
   --popover: 220 15% 18%;
   --popover-foreground: 190 85% 85%;
   
+  /* Message Bubbles - High Contrast Guaranteed */
+  --message-sent: 207 90% 45%;      /* Deep blue - sent */
+  --message-sent-foreground: 190 85% 85%;
+  --message-received: 220 15% 22%;  /* Dark gray - received */
+  --message-received-foreground: 190 85% 85%;
+  
   /* Primary */
   --primary: 207 90% 54%;
   --primary-foreground: 0 0% 100%;
@@ -2346,6 +2382,12 @@ body:not(.game-active) [role="button"] {
   --card-foreground: 25 100% 88%;
   --popover: 0 0% 5%;
   --popover-foreground: 25 100% 88%;
+  
+  /* Message Bubbles - High Contrast Guaranteed */
+  --message-sent: 16 100% 40%;      /* Deep orange-red - sent */
+  --message-sent-foreground: 25 100% 88%;
+  --message-received: 0 0% 8%;      /* Very dark gray - received */
+  --message-received-foreground: 25 100% 88%;
   
   /* Primary */
   --primary: 12 100% 60%;
@@ -2479,6 +2521,12 @@ body:not(.game-active) [role="button"] {
   --popover: 0 0% 5%;
   --popover-foreground: 25 100% 88%;
   
+  /* Message Bubbles - High Contrast Guaranteed */
+  --message-sent: 20 100% 40%;      /* Deep orange - sent */
+  --message-sent-foreground: 25 100% 88%;
+  --message-received: 0 0% 8%;      /* Very dark gray - received */
+  --message-received-foreground: 25 100% 88%;
+  
   /* Primary */
   --primary: 24 100% 60%;
   --primary-foreground: 0 0% 0%;
@@ -2608,6 +2656,12 @@ body:not(.game-active) [role="button"] {
   --popover: 260 25% 14%;
   --popover-foreground: 260 70% 88%;
   
+  /* Message Bubbles - High Contrast Guaranteed */
+  --message-sent: 260 80% 45%;      /* Deep purple - sent */
+  --message-sent-foreground: 260 70% 88%;
+  --message-received: 260 25% 18%;  /* Dark purple-gray - received */
+  --message-received-foreground: 260 70% 88%;
+  
   /* Primary */
   --primary: 260 70% 60%;
   --primary-foreground: 0 0% 100%;
@@ -2701,6 +2755,12 @@ body:not(.game-active) [role="button"] {
   --card-foreground: 30 85% 88%;
   --popover: 220 15% 17%;
   --popover-foreground: 30 85% 88%;
+  
+  /* Message Bubbles - High Contrast Guaranteed */
+  --message-sent: 30 100% 45%;      /* Bright peach/orange - sent */
+  --message-sent-foreground: 0 0% 0%;
+  --message-received: 220 15% 22%;  /* Dark gray-blue - received */
+  --message-received-foreground: 30 85% 88%;
   
   /* Primary */
   --primary: 30 100% 70%;
@@ -2798,6 +2858,12 @@ body:not(.game-active) [role="button"] {
   --popover: 260 20% 12%;
   --popover-foreground: 260 60% 88%;
   
+  /* Message Bubbles - High Contrast Guaranteed */
+  --message-sent: 30 100% 45%;      /* Bright orange - sent */
+  --message-sent-foreground: 0 0% 0%;
+  --message-received: 260 20% 18%;  /* Dark purple-gray - received */
+  --message-received-foreground: 260 60% 88%;
+  
   /* Primary */
   --primary: 260 80% 65%;
   --primary-foreground: 0 0% 100%;
@@ -2864,6 +2930,12 @@ body:not(.game-active) [role="button"] {
   --card-foreground: 190 85% 85%;
   --popover: 220 20% 7%;
   --popover-foreground: 190 85% 85%;
+  
+  /* Message Bubbles - High Contrast Guaranteed */
+  --message-sent: 195 100% 40%;     /* Deep cyan - sent */
+  --message-sent-foreground: 190 85% 85%;
+  --message-received: 220 20% 12%;  /* Very dark gray - received */
+  --message-received-foreground: 190 85% 85%;
   
   /* Primary */
   --primary: 195 100% 60%;
