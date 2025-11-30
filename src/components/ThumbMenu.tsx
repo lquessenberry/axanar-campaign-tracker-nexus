@@ -85,8 +85,8 @@ const ThumbMenu = () => {
           onClick={() => setIsOpen(!isOpen)}
           className={`w-[72px] h-[72px] rounded-full shadow-lg transition-all duration-300 relative overflow-hidden ${
             isOpen 
-              ? 'bg-red-600 hover:bg-red-700 rotate-45' 
-              : 'bg-axanar-teal hover:bg-axanar-teal/90'
+              ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90 rotate-45' 
+              : 'bg-primary text-primary-foreground hover:bg-primary/90'
           }`}
         >
           <div 
@@ -125,8 +125,8 @@ const ThumbMenu = () => {
                       size="sm"
                       className={`w-[72px] h-[72px] rounded-full shadow-md transition-all duration-200 ${
                         location.pathname === item.path 
-                          ? 'bg-axanar-teal text-white' 
-                          : 'bg-white text-axanar-dark hover:bg-gray-100'
+                          ? 'bg-primary text-primary-foreground' 
+                          : 'bg-card text-card-foreground hover:bg-accent hover:text-accent-foreground'
                       }`}
                       style={{
                         animationDelay: `${index * 50}ms`
@@ -148,7 +148,7 @@ const ThumbMenu = () => {
                   variant="secondary"
                   size="sm"
                   onClick={handleSignOut}
-                  className="w-[72px] h-[72px] rounded-full shadow-md bg-red-100 text-red-600 hover:bg-red-200 transition-all duration-200"
+                  className="w-[72px] h-[72px] rounded-full shadow-md bg-destructive/10 text-destructive hover:bg-destructive/20 transition-all duration-200"
                 >
                   <LogOut className="h-8 w-8" />
                 </Button>
