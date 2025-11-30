@@ -62,17 +62,15 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
       )}>
         <div 
           className={cn(
-            "inline-block rounded-lg p-3 break-words relative shadow-lg",
+            "inline-block rounded-lg p-3 break-words relative shadow-lg border",
             isFromCurrentUser 
-              ? 'bg-primary text-primary-foreground border border-primary/20' 
-              : 'bg-accent/95 text-accent-foreground border border-accent'
+              ? 'bg-primary text-primary-foreground border-primary/30' 
+              : 'bg-secondary text-secondary-foreground border-border'
           )}
           onMouseEnter={() => setShowDelete(true)}
           onMouseLeave={() => setShowDelete(false)}
         >
-          <p className="text-sm whitespace-pre-wrap leading-relaxed font-medium" style={{
-            textShadow: '0 1px 3px rgba(0, 0, 0, 0.4)'
-          }}>
+          <p className="text-sm whitespace-pre-wrap leading-relaxed font-medium">
             {message.content}
           </p>
           
