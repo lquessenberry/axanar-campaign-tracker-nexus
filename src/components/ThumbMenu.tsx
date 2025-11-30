@@ -101,7 +101,9 @@ const ThumbMenu = () => {
               backgroundPosition: '0 0'
             }}
           />
-          <HamburgerIcon isOpen={isOpen} />
+          <div className={isOpen ? 'text-destructive-foreground' : 'text-primary-foreground'}>
+            <HamburgerIcon isOpen={isOpen} />
+          </div>
         </Button>
 
         {/* Menu Items */}
