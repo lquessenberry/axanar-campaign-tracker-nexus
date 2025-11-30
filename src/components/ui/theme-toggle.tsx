@@ -54,7 +54,7 @@ export function ThemeToggle() {
         <Button 
           variant="ghost" 
           size="icon" 
-          className="btn-lcars h-[72px] w-[72px]"
+          className="btn-lcars h-[72px] w-[72px] text-foreground"
           aria-label="Theme selector"
         >
           {currentIcon}
