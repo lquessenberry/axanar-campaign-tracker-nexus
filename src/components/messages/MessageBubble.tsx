@@ -65,7 +65,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
             "inline-block rounded-lg p-3 break-words relative shadow-lg border",
             isFromCurrentUser 
               ? 'bg-primary text-primary-foreground border-primary/30' 
-              : 'bg-secondary text-secondary-foreground border-border'
+              : 'bg-popover text-popover-foreground border-border'
           )}
           onMouseEnter={() => setShowDelete(true)}
           onMouseLeave={() => setShowDelete(false)}
