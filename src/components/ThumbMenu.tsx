@@ -81,9 +81,9 @@ const ThumbMenu = () => {
 
       {/* Floating Menu Button */}
       <div className="fixed bottom-20 right-6 z-50">
-        <Button
+        <button
           onClick={() => setIsOpen(!isOpen)}
-          className={`w-[72px] h-[72px] rounded-full shadow-lg transition-all duration-300 relative overflow-hidden ${
+          className={`w-[72px] h-[72px] rounded-full shadow-lg transition-all duration-300 relative overflow-hidden inline-flex items-center justify-center ${
             isOpen 
               ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90 rotate-45' 
               : 'bg-primary text-primary-foreground hover:bg-primary/90'
@@ -101,10 +101,8 @@ const ThumbMenu = () => {
               backgroundPosition: '0 0'
             }}
           />
-          <div className={isOpen ? 'text-destructive-foreground' : 'text-primary-foreground'}>
-            <HamburgerIcon isOpen={isOpen} />
-          </div>
-        </Button>
+          <HamburgerIcon isOpen={isOpen} />
+        </button>
 
         {/* Menu Items */}
         <div className={`absolute bottom-16 right-0 transition-all duration-300 ${
