@@ -3,6 +3,7 @@
  * All forum-related components in one place
  */
 
+export { AnnouncementsSection } from './AnnouncementsSection';
 export { default as CommentItem } from './CommentItem';
 export { default as EmojiPicker } from './EmojiPicker';
 export { EmojiPickerButton } from './EmojiPickerButton';
