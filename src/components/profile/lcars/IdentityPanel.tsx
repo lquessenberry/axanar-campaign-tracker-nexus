@@ -55,48 +55,48 @@ export function IdentityPanel({
 }: IdentityPanelProps) {
   return <div className="bg-black border-2 border-[#FFCC33] p-6">
       {/* Main Content - Single Row Layout */}
-      <div className="flex flex-col lg:flex-row gap-6 items-center lg:items-stretch mb-6">
-        {/* Left: Avatar + Name + Rank in row */}
-        <div className="flex flex-col sm:flex-row items-center gap-4 lg:gap-6">
+      <div className="flex flex-col sm:flex-row gap-4 items-center mb-6">
+        {/* Left: Avatar + Name + Rank */}
+        <div className="flex items-center gap-4">
           {/* Avatar */}
           <div className="relative flex-shrink-0">
-            <div className="h-32 w-28 border-2 border-[#33CCFF] bg-black">
-              {avatarUrl ? <img src={avatarUrl} alt={fullName} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-2xl font-bold text-[#33CCFF]">
+            <div className="h-24 w-20 border-2 border-[#33CCFF] bg-black">
+              {avatarUrl ? <img src={avatarUrl} alt={fullName} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-xl font-bold text-[#33CCFF]">
                   {fullName.split(' ').map(n => n[0]).join('')}
                 </div>}
             </div>
-            {onAvatarClick && !isEditing && <Button size="sm" onClick={onAvatarClick} disabled={isUploading} className="absolute -bottom-2 -right-2 h-7 w-7 p-0 bg-[#33CCFF] hover:bg-[#00CCFF] text-black border-2 border-[#33CCFF]">
+            {onAvatarClick && !isEditing && <Button size="sm" onClick={onAvatarClick} disabled={isUploading} className="absolute -bottom-1 -right-1 h-6 w-6 p-0 bg-[#33CCFF] hover:bg-[#00CCFF] text-black border border-[#33CCFF]">
                 <Camera className="h-3 w-3" />
               </Button>}
           </div>
           
           {/* Name & Username & Rank */}
-          <div className="text-center sm:text-left">
-            <h1 className="text-2xl lg:text-3xl font-bold tracking-wider text-white uppercase leading-tight" style={{
+          <div>
+            <h1 className="text-xl lg:text-2xl font-bold tracking-wider text-white uppercase leading-tight" style={{
               fontFamily: 'system-ui, -apple-system, sans-serif',
               letterSpacing: '0.1em'
             }}>
               {fullName}
             </h1>
-            {username && <p className="text-[#FFCC33] text-sm mt-1">@{username}</p>}
-            {rankTitle && <div className="flex items-center gap-2 mt-2 justify-center sm:justify-start">
+            {username && <p className="text-[#FFCC33] text-sm">@{username}</p>}
+            {rankTitle && <div className="flex items-center gap-2 mt-1">
                 {rankIcon}
-                <Badge className="bg-[#1a1a1a] text-[#FFCC33] border-2 border-[#FFCC33] rounded-none px-3 py-1 uppercase text-xs font-bold tracking-wider">
+                <Badge className="bg-[#1a1a1a] text-[#FFCC33] border border-[#FFCC33] rounded-none px-2 py-0.5 uppercase text-xs font-bold tracking-wider">
                   {rankTitle}
                 </Badge>
               </div>}
           </div>
         </div>
 
-        {/* Right: Mission Patch + Stats in row */}
-        <div className="flex-1 flex flex-col sm:flex-row items-center justify-center lg:justify-end gap-4 lg:gap-8">
+        {/* Right: Mission Patch + Stats */}
+        <div className="flex-1 flex items-center justify-center sm:justify-end gap-4 lg:gap-6">
           {/* Mission Patch */}
-          <MissionPatch donorName={fullName} donorSince="2014" scale={0.4} />
+          <MissionPatch donorName={fullName} donorSince="2014" scale={0.35} />
           
           {/* Total Contributed */}
-          <div className="text-center lg:text-right">
+          <div className="text-right">
             <p className="text-[#FFCC33] text-xs uppercase tracking-widest font-bold mb-1">TOTAL CONTRIBUTED</p>
-            <p className="text-[#33CCFF] text-4xl lg:text-5xl font-bold tracking-wider" style={{
+            <p className="text-[#33CCFF] text-3xl lg:text-4xl font-bold tracking-wider" style={{
               fontFamily: 'monospace'
             }}>
               ${totalContributed.toLocaleString()}
