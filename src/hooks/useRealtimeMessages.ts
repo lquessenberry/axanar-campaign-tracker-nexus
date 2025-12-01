@@ -115,10 +115,12 @@ export const useRealtimeMessages = () => {
 
     fetchMessages();
 
-    // Set up real-time subscription - subscribe to all messages and filter client-side
+    // Set up real-time subscription with unique channel name per user
+    // Subscribe to all messages and filter client-side
     // since Supabase realtime doesn't support OR filters
+    const channelName = `messages-legacy-${user.id}`;
     const channel = supabase
-      .channel('messages-changes')
+      .channel(channelName)
       .on(
         'postgres_changes',
         {
@@ -141,8 +143,16 @@ export const useRealtimeMessages = () => {
           }
         }
       )
-      .subscribe((status) => {
-        console.log('Realtime subscription status:', status);
+      .subscribe((status, err) => {
+        if (status === 'SUBSCRIBED') {
+          console.log('✅ Legacy realtime subscribed successfully');
+        } else if (status === 'CHANNEL_ERROR') {
+          console.error('❌ Legacy realtime channel error:', err);
+        } else if (status === 'TIMED_OUT') {
+          console.error('⏱️ Legacy realtime subscription timed out');
+        } else if (status === 'CLOSED') {
+          console.log('🔒 Legacy realtime channel closed');
+        }
       });
 
     return () => {
