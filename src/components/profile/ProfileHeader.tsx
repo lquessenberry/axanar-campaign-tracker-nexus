@@ -179,128 +179,42 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     );
   }
 
-  // Expanded state - full hero header
+  // Expanded state - LCARS-styled info panel (complements IdentityPanel above)
   return (
-    <section 
-      className="relative bg-axanar-dark text-white overflow-hidden min-h-[33vh] flex items-center"
-      onPointerMove={(e) => {
-        const { currentTarget: el, clientX: x, clientY: y } = e;
-        const { top: t, left: l, width: w, height: h } = el.getBoundingClientRect();
-        el.style.setProperty('--posX', `${x - l - w / 2}`);
-        el.style.setProperty('--posY', `${y - t - h / 2}`);
-      }}
-      style={{
-        '--x': 'calc(var(--posX, 0) * 1px)',
-        '--y': 'calc(var(--posY, 0) * 1px)',
-        backgroundImage: profile?.background_url 
-          ? `
-              radial-gradient(90% 100% at calc(50% + var(--x)) calc(0% + var(--y)), rgba(64, 224, 208, 0.25), rgba(255, 255, 255, 0.15)),
-              radial-gradient(100% 100% at calc(80% - var(--x)) calc(0% - var(--y)), rgba(255, 255, 255, 0.2), rgba(64, 224, 208, 0.1)),
-              radial-gradient(150% 210% at calc(100% + var(--x)) calc(0% + var(--y)), rgba(0, 255, 255, 0.2), rgba(64, 224, 208, 0.15)),
-              radial-gradient(80% 80% at calc(20% + var(--x)) calc(80% + var(--y)), rgba(255, 255, 255, 0.18), rgba(0, 255, 255, 0.12)),
-              url(${profile.background_url})
-            ` 
-          : `
-              radial-gradient(90% 100% at calc(50% + var(--x)) calc(0% + var(--y)), rgba(64, 224, 208, 0.4), rgba(0, 255, 255, 0.2)),
-              radial-gradient(100% 100% at calc(80% - var(--x)) calc(0% - var(--y)), rgba(255, 255, 255, 0.3), rgba(64, 224, 208, 0.15)),
-              radial-gradient(150% 210% at calc(100% + var(--x)) calc(0% + var(--y)), rgba(0, 255, 255, 0.25), rgba(64, 224, 208, 0.18)),
-              radial-gradient(80% 80% at calc(20% + var(--x)) calc(80% + var(--y)), rgba(255, 255, 255, 0.22), rgba(0, 255, 255, 0.12)),
-              linear-gradient(60deg, rgb(0, 10, 15), rgb(0, 20, 25))
-            `,
-        backgroundSize: profile?.background_url 
-          ? '300% 300%, 300% 300%, 300% 300%, 300% 300%, 100% auto'
-          : '300% 300%, 300% 300%, 300% 300%, 300% 300%, 100% 100%',
-        backgroundPosition: profile?.background_url 
-          ? 'center, center, center, center, center top'
-          : 'center, center, center, center, center',
-        backgroundRepeat: 'no-repeat',
-        backgroundBlendMode: profile?.background_url ? 'overlay, screen, multiply, soft-light, normal' : 'overlay, screen, multiply, soft-light, normal'
-      } as React.CSSProperties}
-    >
-      {/* StarField layer - subtle background effect */}
-      <div className="absolute inset-0 opacity-10 z-5">
-        <StarField />
-      </div>
-      
-      {/* Mouse tracker effect */}
-      <div className="absolute inset-0 z-15">
-        <MouseTracker />
-      </div>
-      
-      {/* Dark overlay for text readability */}
-      {profile?.background_url && (
-        <div className="absolute inset-x-0 top-0 h-[33vh] bg-black/50 z-0 pointer-events-none" />
-      )}
-      
-      {/* Hero Console Container - LCARS-inspired layout with max-width constraint */}
-      <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10 relative z-20">
-        {/* Grid System: Avatar | Info | Rank Card */}
-        <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_auto] gap-4 lg:gap-6 items-start">
-          {/* Avatar Section - Fixed size */}
-          <div className="relative flex-shrink-0 justify-self-start md:justify-self-auto">
-            <div className="w-24 h-24 rounded-full bg-axanar-teal/20 ring-4 ring-axanar-teal flex items-center justify-center">
-              {profile?.avatar_url ? (
-                <img
-                  src={profile.avatar_url}
-                  alt={profile.full_name || profile.username || 'User'}
-                  className="w-full h-full rounded-full object-cover"
-                />
-              ) : (
-                <User className="h-12 w-12 text-axanar-teal" />
-              )}
-            </div>
-            {!isEditing && (
-              <>
-                <Button
-                  size="sm"
-                  variant="secondary"
-                  onClick={handleAvatarClick}
-                  disabled={isUploading}
-                  className="absolute -bottom-2 -right-2 h-8 w-8 rounded-full p-0"
-                >
-                  <Camera className="h-4 w-4" />
-                </Button>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="hidden"
-                />
-              </>
-            )}
-          </div>
-          
-          {/* Profile Info Section - Flexible width */}
+    <section className="relative bg-black text-white border-t-2 border-[#FFCC33]">
+      {/* LCARS Info Container */}
+      <div className="w-full max-w-[1200px] mx-auto px-6 py-6">
+        <div className="flex flex-col gap-4">
+          {/* Bio Section */}
           <div className="flex-1 min-w-0">
             {isEditing ? (
-              <div className="space-y-4 bg-white/5 p-4 rounded-lg backdrop-blur-sm border border-white/10">
+              <div className="space-y-4 bg-[#1a1a1a] p-4 border-2 border-[#FFCC33]">
                 <div>
-                  <Label htmlFor="full_name" className="text-white text-sm font-medium mb-1 block">
+                  <Label htmlFor="full_name" className="text-[#FFCC33] text-sm font-bold mb-1 block uppercase tracking-wider">
                     Full Name
                   </Label>
                   <Input
                     id="full_name"
                     value={formData.full_name}
                     onChange={(e) => setFormData(prev => ({ ...prev, full_name: e.target.value }))}
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:bg-white/15 focus:border-axanar-teal h-8"
+                    className="bg-black border-2 border-[#FFCC33] text-white placeholder:text-white/50 focus:border-[#33CCFF] h-10"
                     placeholder="Enter your full name"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="username" className="text-white text-sm font-medium mb-1 block">
+                  <Label htmlFor="username" className="text-[#FFCC33] text-sm font-bold mb-1 block uppercase tracking-wider">
                     Username
                   </Label>
                   <Input
                     id="username"
                     value={formData.username}
                     onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:bg-white/15 focus:border-axanar-teal h-8"
+                    className="bg-black border-2 border-[#FFCC33] text-white placeholder:text-white/50 focus:border-[#33CCFF] h-10"
                     placeholder="Enter your username"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="bio" className="text-white text-sm font-medium mb-1 block">
+                  <Label htmlFor="bio" className="text-[#FFCC33] text-sm font-bold mb-1 block uppercase tracking-wider">
                     Bio <span className="text-white/60 text-xs">({formData.bio.length}/5000 characters)</span>
                   </Label>
                   <Textarea
@@ -312,22 +226,22 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                       }
                     }}
                     placeholder="Tell us about yourself..."
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:bg-white/15 focus:border-axanar-teal resize-none"
+                    className="bg-black border-2 border-[#FFCC33] text-white placeholder:text-white/50 focus:border-[#33CCFF] resize-none"
                     rows={3}
                     maxLength={5000}
                   />
                   {formData.bio.length > 4500 && (
-                    <p className="text-xs text-amber-400 mt-1">
+                    <p className="text-xs text-[#FFCC33] mt-1">
                       {5000 - formData.bio.length} characters remaining
                     </p>
                   )}
                 </div>
                 
                 {/* Privacy Settings */}
-                <div className="pt-3 border-t border-white/20">
+                <div className="pt-3 border-t-2 border-[#FFCC33]">
                   <div className="flex items-center gap-2 mb-3">
-                    <Eye className="h-4 w-4 text-white" />
-                    <Label className="text-white text-sm font-medium">Public Profile Privacy</Label>
+                    <Eye className="h-4 w-4 text-[#FFCC33]" />
+                    <Label className="text-[#FFCC33] text-sm font-bold uppercase tracking-wider">Public Profile Privacy</Label>
                   </div>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
@@ -374,207 +288,124 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               </div>
             ) : (
               <div>
-                <h1 className="text-2xl md:text-3xl font-bold">
-                  {profile?.full_name || profile?.username || 'Anonymous User'}
-                </h1>
-                {profile?.username && (
-                  <a 
-                    href={`/u/${profile.username}`}
-                    className="text-axanar-silver/80 mt-1 hover:text-axanar-teal transition-colors cursor-pointer inline-block"
-                  >
-                    @{profile.username}
-                  </a>
-                )}
                 {profile?.bio && (
-                  <p className="text-axanar-silver/80 mt-2">{profile.bio}</p>
+                  <p className="text-white/90 text-lg leading-relaxed">{profile.bio}</p>
                 )}
-                <p className="text-axanar-silver/80 mt-1">Member since {memberSince}</p>
+                <p className="text-[#FFCC33] mt-2 text-sm uppercase tracking-wider">Member since {memberSince}</p>
               </div>
             )}
             
             {/* Quick Stats Pills - LCARS Module Style */}
-            <div className="flex flex-wrap gap-2 lg:gap-3 mt-3 lg:mt-4">
-              <div className="lcars-stat-pill bg-white/10 backdrop-blur-sm px-3 lg:px-4 py-1.5 lg:py-2 rounded-full border border-white/20 hover:border-lcars-blue hover:bg-white/15 transition-all">
-                <span className="text-xs lg:text-sm font-medium text-white">
+            <div className="flex flex-wrap gap-3 mt-4">
+              <div className="bg-[#1a1a1a] border-2 border-[#33CCFF] px-4 py-2">
+                <span className="text-sm font-bold text-white uppercase tracking-wider">
                   {pledgesCount} Projects Backed
                 </span>
               </div>
-              <div className="lcars-stat-pill bg-white/10 backdrop-blur-sm px-3 lg:px-4 py-1.5 lg:py-2 rounded-full border border-white/20 hover:border-lcars-blue hover:bg-white/15 transition-all">
-                <span className="text-xs lg:text-sm font-medium text-white">
+              <div className="bg-[#1a1a1a] border-2 border-[#33CCFF] px-4 py-2">
+                <span className="text-sm font-bold text-white uppercase tracking-wider">
                   {campaignsCount} Campaigns Created
-                </span>
-              </div>
-              <div className="lcars-stat-pill bg-axanar-teal/20 backdrop-blur-sm px-3 lg:px-4 py-1.5 lg:py-2 rounded-full border border-axanar-teal/40 hover:border-axanar-teal hover:bg-axanar-teal/30 transition-all">
-                <span className="text-xs lg:text-sm font-medium text-axanar-teal">
-                  ${totalPledged.toLocaleString()} Total Pledged
                 </span>
               </div>
             </div>
           </div>
           
-          {/* Unified Rank Display - Fixed width on desktop */}
-          <div className="flex flex-col gap-3 items-stretch w-full lg:w-[280px] lg:col-start-3 lg:row-start-1">
-            {rankSystem && (
-              <div className="lcars-rank-card rounded-lg border border-white/20 p-3 lg:p-4 bg-gradient-to-br from-axanar-teal/20 to-blue-500/20 backdrop-blur-sm w-full hover:border-axanar-teal/60 transition-all">
-                  <div className="flex items-center justify-between mb-3">
-                    <div>
-                      <h3 className="text-lg font-bold text-white">{(rankSystem.forumRank?.name || 'CADET').toUpperCase()}</h3>
-                      <div className="text-xs text-axanar-teal font-medium">STARFLEET RANK</div>
-                    </div>
-                    <div className="flex gap-1">
-                      {/* Rank pips based on level */}
-                      {Array.from({ length: Math.min(rankSystem.militaryRank?.level || 1, 7) }).map((_, i) => (
-                        <div
-                          key={i}
-                          className="w-2 h-6 rounded-sm bg-yellow-400 border border-white/30 shadow-sm"
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm text-white/90">
-                      <span>ARES: {rankSystem.xp.total.toLocaleString()}</span>
-                      <span>Level {rankSystem.militaryRank?.level}</span>
-                    </div>
-                    <div className="w-full bg-white/20 rounded-full h-2">
-                      <div 
-                        className="h-2 rounded-full bg-yellow-400 transition-all"
-                        style={{ width: `${rankSystem.progressToNext}%` }}
-                      />
-                    </div>
-                    <div className="text-xs text-white/70 text-center">
-                      Progress: {Math.round(rankSystem.progressToNext)}%
-                    </div>
-                  </div>
-                </div>
-            )}
-            
-            {/* Vanity URL Card - LCARS Module */}
-            {profile?.username && (
-                <Card className="w-full bg-white/10 backdrop-blur-sm border-white/20 hover:border-axanar-teal/60 transition-all lcars-vanity-card">
-                  <CardContent className="p-3 lg:p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Link2 className="h-4 w-4 text-white" />
-                      <span className="text-sm font-medium text-white">Your Public Profile</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <code className="text-xs bg-black/20 text-white px-2 py-1 rounded flex-1 truncate">
-                        /u/{profile.username}
-                      </code>
-                      <Button 
-                        size="sm" 
-                        variant="ghost" 
-                        className="h-6 w-6 p-0 text-white hover:bg-white/20"
-                        asChild
-                      >
-                        <a href={`/u/${profile.username}`} target="_blank" rel="noopener noreferrer">
-                          <Eye className="h-3 w-3" />
-                        </a>
-                      </Button>
-                      <Button 
-                        size="sm" 
-                        variant="ghost" 
-                        className="h-6 w-6 p-0 text-white hover:bg-white/20"
-                        onClick={() => {
-                          const vanityURL = `${window.location.origin}/u/${profile.username}`;
-                          navigator.clipboard.writeText(vanityURL);
-                          toast.success("Public profile URL copied!");
-                        }}
-                      >
-                        <Copy className="h-3 w-3" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-            
-            {/* Action Buttons - LCARS Command Strip */}
-            <div className="flex flex-wrap gap-2 lcars-action-strip">
-              {isEditing ? (
-                <>
-                  <Button 
-                    variant="outline" 
-                    onClick={onCancel}
-                    disabled={isLoading}
-                    className="border-white/40 text-white hover:bg-white/20 hover:text-white bg-transparent"
-                  >
-                    Cancel
-                  </Button>
-                  <Button 
-                    className="bg-axanar-teal hover:bg-axanar-teal/90 text-white"
-                    onClick={onSave}
-                    disabled={isLoading}
-                  >
-                    {isLoading ? 'Saving...' : 'Save Changes'}
-                  </Button>
-                </>
-              ) : (
+          {/* Actions Section */}
+          <div className="flex gap-3 mt-4 flex-wrap">
+            {isEditing ? (
+              <>
+                <Button
+                  onClick={onSave}
+                  disabled={isLoading}
+                  className="bg-[#FFCC33] hover:bg-[#FFD700] text-black font-bold uppercase tracking-wider border-2 border-[#FFCC33]"
+                >
+                  {isLoading ? "Saving..." : "Save Changes"}
+                </Button>
+                <Button
+                  onClick={onCancel}
+                  className="bg-black hover:bg-[#1a1a1a] text-white font-bold uppercase tracking-wider border-2 border-[#FFCC33]"
+                >
+                  Cancel
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  onClick={onEdit}
+                  className="bg-black hover:bg-[#1a1a1a] text-[#FFCC33] font-bold uppercase tracking-wider border-2 border-[#FFCC33]"
+                >
+                  <Edit className="h-4 w-4 mr-2" />
+                  Edit Profile
+                </Button>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button 
-                      className="bg-axanar-teal hover:bg-axanar-teal/90 text-white"
+                    <Button
+                      className="bg-black hover:bg-[#1a1a1a] text-[#33CCFF] font-bold uppercase tracking-wider border-2 border-[#33CCFF]"
                       disabled={isUploading || isUploadingBackground}
                     >
                       <Settings className="h-4 w-4 mr-2" />
-                      Edit Profile
+                      Settings
                       <ChevronDown className="h-4 w-4 ml-2" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent 
-                    align="end" 
-                    className="w-56"
-                  >
-                    <DropdownMenuItem onClick={onEdit} className="cursor-pointer">
-                      <Edit className="h-4 w-4 mr-2" />
-                      Edit Profile Info
+                  <DropdownMenuContent align="end" className="w-56 bg-black border-2 border-[#FFCC33]">
+                    <DropdownMenuItem onClick={handleBackgroundClick} className="text-white hover:bg-[#1a1a1a] focus:bg-[#1a1a1a]">
+                      <Image className="mr-2 h-4 w-4" />
+                      <span>{profile?.background_url ? 'Change Background' : 'Add Background'}</span>
                     </DropdownMenuItem>
-                    
-                    <DropdownMenuSeparator />
-                    
-                    <DropdownMenuItem 
-                      onClick={handleBackgroundClick} 
-                      className="cursor-pointer"
-                      disabled={isUploadingBackground}
-                    >
-                      <Image className="h-4 w-4 mr-2" />
-                      {profile?.background_url ? 'Change Background' : 'Add Background'}
-                    </DropdownMenuItem>
-                    
                     {profile?.background_url && (
-                      <DropdownMenuItem 
-                        onClick={handleRemoveBackground} 
-                        className="cursor-pointer text-destructive focus:text-destructive"
-                      >
-                        <X className="h-4 w-4 mr-2" />
-                        Remove Background
+                      <DropdownMenuItem onClick={handleRemoveBackground} className="text-white hover:bg-[#1a1a1a] focus:bg-[#1a1a1a]">
+                        <X className="mr-2 h-4 w-4" />
+                        <span>Remove Background</span>
                       </DropdownMenuItem>
                     )}
+                    <DropdownMenuSeparator className="bg-[#FFCC33]" />
+                    <DropdownMenuItem onClick={() => {
+                      const url = `${window.location.origin}/u/${profile?.username || profile?.id}`;
+                      navigator.clipboard.writeText(url);
+                      toast.success('Profile link copied to clipboard!');
+                    }} className="text-white hover:bg-[#1a1a1a] focus:bg-[#1a1a1a]">
+                      <Copy className="mr-2 h-4 w-4" />
+                      <span>Copy Profile Link</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => {
+                      window.open(`/u/${profile?.username || profile?.id}`, '_blank');
+                    }} className="text-white hover:bg-[#1a1a1a] focus:bg-[#1a1a1a]">
+                      <Link2 className="mr-2 h-4 w-4" />
+                      <span>View Public Profile</span>
+                    </DropdownMenuItem>
                     {onToggleCollapse && (
                       <>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={onToggleCollapse}>
+                        <DropdownMenuSeparator className="bg-[#FFCC33]" />
+                        <DropdownMenuItem onClick={onToggleCollapse} className="text-white hover:bg-[#1a1a1a] focus:bg-[#1a1a1a]">
                           <ChevronDown className="h-4 w-4 mr-2" />
-                          Collapse Header
+                          <span>Collapse Header</span>
                         </DropdownMenuItem>
                       </>
                     )}
                   </DropdownMenuContent>
                 </DropdownMenu>
-              )}
-            </div>
+              </>
+            )}
           </div>
         </div>
-        
-        {/* Hidden file inputs */}
-        <input
-          ref={backgroundInputRef}
-          type="file"
-          accept="image/*"
-          onChange={handleBackgroundFileChange}
-          className="hidden"
-        />
       </div>
+      
+      {/* Hidden file inputs */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        className="hidden"
+      />
+      <input
+        ref={backgroundInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleBackgroundFileChange}
+        className="hidden"
+      />
     </section>
   );
 };
