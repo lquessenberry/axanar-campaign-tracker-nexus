@@ -138,22 +138,17 @@ export function IdentityPanel({
         )}
       </div>
 
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-8 items-center">
-        {/* Mission Patch - Scaled Down */}
-        <div className="flex-shrink-0 mx-auto lg:mx-0">
-          <MissionPatch donorName={fullName} donorSince="2014" scale={0.64} />
-        </div>
-
-        {/* Identity Section */}
-        <div className="flex gap-6 items-start">
+      {/* Main Content - Horizontal Layout */}
+      <div className="flex flex-col lg:flex-row gap-8 items-stretch">
+        {/* Left: Avatar + Name Column */}
+        <div className="flex flex-col items-center lg:items-start gap-4 lg:min-w-[200px]">
           {/* Avatar */}
-          <div className="flex-shrink-0 relative">
-            <div className="h-40 w-32 border-2 border-[#33CCFF] bg-black">
+          <div className="relative">
+            <div className="h-48 w-40 border-2 border-[#33CCFF] bg-black">
               {avatarUrl ? (
                 <img src={avatarUrl} alt={fullName} className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-2xl font-bold text-[#33CCFF]">
+                <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-[#33CCFF]">
                   {fullName.split(' ').map(n => n[0]).join('')}
                 </div>
               )}
@@ -169,37 +164,40 @@ export function IdentityPanel({
               </Button>
             )}
           </div>
-
-          {/* Identity Info */}
-          <div className="flex-1 space-y-4 min-w-0">
-            <div>
-              <h1 className="text-5xl font-bold tracking-wider text-white uppercase leading-tight" style={{ fontFamily: 'system-ui, -apple-system, sans-serif', letterSpacing: '0.15em' }}>
-                {fullName}
-              </h1>
-              {username && (
-                <p className="text-[#FFCC33] text-base mt-2">@{username}</p>
-              )}
-            </div>
-
-            {/* Rank Badge */}
-            {rankTitle && (
-              <div className="flex items-center gap-3">
-                {rankIcon}
-                <Badge className="bg-[#1a1a1a] text-[#FFCC33] border-2 border-[#FFCC33] rounded-none px-4 py-2 uppercase text-sm font-bold tracking-wider">
-                  {rankTitle}
-                </Badge>
-              </div>
+          
+          {/* Name & Username */}
+          <div className="text-center lg:text-left">
+            <h1 className="text-3xl lg:text-4xl font-bold tracking-wider text-white uppercase leading-tight" style={{ fontFamily: 'system-ui, -apple-system, sans-serif', letterSpacing: '0.1em' }}>
+              {fullName}
+            </h1>
+            {username && (
+              <p className="text-[#FFCC33] text-sm mt-1">@{username}</p>
             )}
-
-            {/* Total Contributed */}
-            <div className="pt-2">
-              <div className="space-y-2">
-                <p className="text-[#FFCC33] text-xs uppercase tracking-widest font-bold">TOTAL CONTRIBUTED</p>
-                <p className="text-[#33CCFF] text-6xl font-bold tracking-wider" style={{ fontFamily: 'monospace' }}>
-                  ${totalContributed.toLocaleString()}
-                </p>
-              </div>
+          </div>
+          
+          {/* Rank Badge */}
+          {rankTitle && (
+            <div className="flex items-center gap-2">
+              {rankIcon}
+              <Badge className="bg-[#1a1a1a] text-[#FFCC33] border-2 border-[#FFCC33] rounded-none px-3 py-1.5 uppercase text-xs font-bold tracking-wider">
+                {rankTitle}
+              </Badge>
             </div>
+          )}
+        </div>
+
+        {/* Center: Mission Patch */}
+        <div className="flex-shrink-0 flex items-center justify-center">
+          <MissionPatch donorName={fullName} donorSince="2014" scale={0.5} />
+        </div>
+
+        {/* Right: Stats Column */}
+        <div className="flex-1 flex flex-col justify-center items-center lg:items-end gap-4">
+          <div className="text-center lg:text-right">
+            <p className="text-[#FFCC33] text-xs uppercase tracking-widest font-bold mb-2">TOTAL CONTRIBUTED</p>
+            <p className="text-[#33CCFF] text-5xl lg:text-6xl font-bold tracking-wider" style={{ fontFamily: 'monospace' }}>
+              ${totalContributed.toLocaleString()}
+            </p>
           </div>
         </div>
       </div>
