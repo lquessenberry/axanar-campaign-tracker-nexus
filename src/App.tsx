@@ -48,6 +48,7 @@ const ForumThread = lazy(() => import("./pages/ForumThread"));
 const HowToEarnARES = lazy(() => import("./pages/HowToEarnARES"));
 const Leaderboard = lazy(() => import("./pages/Leaderboard"));
 const KnownIssues = lazy(() => import("./pages/KnownIssues"));
+const AxanarVideos = lazy(() => import("./pages/AxanarVideos"));
 
 import { Navigate } from "react-router-dom";
 import RequireAdmin from "@/components/auth/RequireAdmin";
@@ -168,6 +169,7 @@ const App = () => (
                     <Route path="/leaderboard" element={<Leaderboard />} />
                     <Route path="/known-issues" element={<KnownIssues />} />
                     <Route path="/status" element={<KnownIssues />} />
+                    <Route path="/videos" element={<AxanarVideos />} />
                     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                     <Route path="*" element={<NotFound />} />
                     </Routes>
