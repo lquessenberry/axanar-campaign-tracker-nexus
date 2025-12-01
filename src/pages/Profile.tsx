@@ -379,9 +379,23 @@ const Profile = () => {
               </div>
             )}
             
-            <div className="relative">
+            <div className="relative overflow-hidden">
+              {/* Background Image Layer for entire hero section */}
+              {profile?.background_url && (
+                <>
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                    style={{ backgroundImage: `url(${profile.background_url})` }}
+                  />
+                  <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+                </>
+              )}
+              {!profile?.background_url && (
+                <div className="absolute inset-0 bg-gradient-to-br from-black via-[#0a0a0a] to-black" />
+              )}
+              
               {/* LCARS Identity Panel */}
-              <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl">
+              <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl">
                 <IdentityPanel
                   avatarUrl={profile?.avatar_url}
                   fullName={profile?.full_name || 'Anonymous Contributor'}
