@@ -42,11 +42,11 @@ export const MissionPatch: React.FC<MissionPatchProps> = ({
       </div>
 
       {/* Center Section with Scanlines */}
-      <div className="relative flex-1 bg-[#1C2526] flex flex-col items-center justify-center px-8" style={{
+      <div style={{
       height: `${centerHeight}px`,
       gap: `${Math.round(24 * scale)}px`,
       backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0, 0, 0, 0.15) 3px, rgba(0, 0, 0, 0.15) 4px)'
-    }}>
+    }} className="relative flex-1 bg-[#1C2526] flex flex-col items-center justify-center py-0 px-0">
         {/* Circle with Badge */}
         <div className="rounded-full bg-white border-black flex items-center justify-center relative overflow-hidden" style={{
         width: `${circleSize}px`,
