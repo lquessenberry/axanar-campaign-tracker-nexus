@@ -402,6 +402,46 @@ const Profile = () => {
                   username={profile?.username}
                   rankTitle={rankSystem?.militaryRank?.name}
                   totalContributed={totalPledged}
+                  profileId={profile?.id}
+                  backgroundUrl={profile?.background_url}
+                  isEditing={isEditing}
+                  isLoading={updateOwnProfile.isPending}
+                  isUploading={false}
+                  isUploadingBackground={false}
+                  onEdit={() => {
+                    console.log('📝 IdentityPanel: Edit Profile clicked, switching to settings section');
+                    setActiveSection('settings');
+                    setIsEditing(true);
+                  }}
+                  onSave={handleSave}
+                  onCancel={handleCancel}
+                  onAvatarClick={() => {
+                    // Trigger avatar upload via ProfileHeader
+                    const avatarInput = document.querySelector<HTMLInputElement>('input[type="file"][accept="image/*"]');
+                    if (avatarInput && avatarInput.className.includes('hidden')) {
+                      avatarInput.click();
+                    }
+                  }}
+                  onBackgroundClick={() => {
+                    // Trigger background upload via ProfileHeader
+                    const bgInputs = document.querySelectorAll<HTMLInputElement>('input[type="file"][accept="image/*"]');
+                    const backgroundInput = Array.from(bgInputs).find(input => 
+                      input !== document.querySelector('input[type="file"][accept="image/*"]')
+                    );
+                    if (backgroundInput) {
+                      backgroundInput.click();
+                    }
+                  }}
+                  onRemoveBackground={async () => {
+                    // Trigger remove background action
+                    try {
+                      await updateOwnProfile.mutateAsync({ background_url: null });
+                      toast.success('Background removed successfully');
+                    } catch (error) {
+                      console.error('Failed to remove background:', error);
+                      toast.error('Failed to remove background');
+                    }
+                  }}
                 />
               </div>
 
