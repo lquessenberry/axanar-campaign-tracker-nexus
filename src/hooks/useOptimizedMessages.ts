@@ -133,9 +133,10 @@ export const useOptimizedMessages = () => {
 
     fetchConversations();
 
-    // Setup realtime channel
+    // Setup realtime channel with unique channel name per user to avoid conflicts
+    const channelName = `messages-user-${user.id}`;
     const channel = supabase
-      .channel('messages-changes')
+      .channel(channelName)
       .on(
         'postgres_changes',
         {
@@ -284,7 +285,17 @@ export const useOptimizedMessages = () => {
           }
         }
       )
-      .subscribe();
+      .subscribe((status, err) => {
+        if (status === 'SUBSCRIBED') {
+          console.log('✅ Realtime subscribed successfully');
+        } else if (status === 'CHANNEL_ERROR') {
+          console.error('❌ Realtime channel error:', err);
+        } else if (status === 'TIMED_OUT') {
+          console.error('⏱️ Realtime subscription timed out');
+        } else if (status === 'CLOSED') {
+          console.log('🔒 Realtime channel closed');
+        }
+      });
 
     channelRef.current = channel;
 
