@@ -181,9 +181,9 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
   // Expanded state - LCARS-styled info panel (complements IdentityPanel above)
   return (
-    <section className="relative bg-black text-white border-t-2 border-[#FFCC33]">
+    <section className="relative text-white border-t-2 border-[#FFCC33]">
       {/* LCARS Info Container */}
-      <div className="w-full max-w-[1200px] mx-auto px-6 py-6">
+      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-6 py-6">
         <div className="flex flex-col gap-4">
           {/* Bio Section */}
           <div className="flex-1 min-w-0">
