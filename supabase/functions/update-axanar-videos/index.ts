@@ -11,15 +11,44 @@ const supabase = createClient(
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
 );
 
+// Fetch actual publish date from video page
+async function fetchVideoPublishDate(videoId: string): Promise<string | null> {
+  try {
+    const resp = await fetch(`https://www.youtube.com/watch?v=${videoId}`, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept-Language': 'en-US,en;q=0.9',
+      }
+    });
+    const html = await resp.text();
+    
+    // Look for datePublished in JSON-LD structured data
+    const dateMatch = html.match(/"datePublished"\s*:\s*"(\d{4}-\d{2}-\d{2})"/);
+    if (dateMatch) {
+      return new Date(dateMatch[1]).toISOString();
+    }
+    
+    // Fallback: look for uploadDate
+    const uploadMatch = html.match(/"uploadDate"\s*:\s*"(\d{4}-\d{2}-\d{2})"/);
+    if (uploadMatch) {
+      return new Date(uploadMatch[1]).toISOString();
+    }
+    
+    return null;
+  } catch (e) {
+    console.error(`Error fetching date for ${videoId}:`, e);
+    return null;
+  }
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    console.log("Starting Axanar video scrape - DEBUG MODE...");
+    console.log("Starting Axanar video scrape...");
     const allVideos = new Map<string, any>();
-    const debugInfo: any = { playlists: [] };
 
     // Step 1: Get the channel page to find playlist IDs
     const channelPage = await fetch(`https://www.youtube.com/@AxanarHQ/playlists`, {
@@ -39,12 +68,11 @@ serve(async (req) => {
       }
     }
 
-    console.log(`Found ${playlistIds.length} playlists: ${playlistIds.join(', ')}`);
+    console.log(`Found ${playlistIds.length} playlists`);
 
-    // Just fetch ONE playlist for debugging
-    if (playlistIds.length > 0) {
-      const playlistId = playlistIds[0];
-      console.log(`DEBUG: Fetching first playlist: ${playlistId}`);
+    // Step 2: Fetch each playlist page and extract videos
+    for (const playlistId of playlistIds) {
+      console.log(`Fetching playlist: ${playlistId}`);
       
       const playlistUrl = `https://www.youtube.com/playlist?list=${playlistId}`;
       const playlistResp = await fetch(playlistUrl, {
@@ -67,107 +95,70 @@ serve(async (req) => {
         try {
           const ytData = JSON.parse(ytInitialDataMatch[1]);
           
-          // Log the top-level keys
-          console.log("ytInitialData top-level keys:", Object.keys(ytData));
+          // Navigate to playlist content
+          const contents = ytData.contents?.twoColumnBrowseResultsRenderer?.tabs?.[0]?.tabRenderer?.content?.sectionListRenderer?.contents?.[0]?.itemSectionRenderer?.contents?.[0]?.playlistVideoListRenderer?.contents;
           
-          // Try to navigate to playlist content
-          const contents = ytData.contents;
           if (contents) {
-            console.log("contents keys:", Object.keys(contents));
-            
-            const twoColumn = contents.twoColumnBrowseResultsRenderer;
-            if (twoColumn) {
-              console.log("twoColumnBrowseResultsRenderer keys:", Object.keys(twoColumn));
-              
-              const tabs = twoColumn.tabs;
-              if (tabs && tabs[0]) {
-                const tabContent = tabs[0].tabRenderer?.content;
-                if (tabContent) {
-                  console.log("tab content keys:", Object.keys(tabContent));
-                  
-                  const sectionList = tabContent.sectionListRenderer;
-                  if (sectionList) {
-                    console.log("sectionListRenderer keys:", Object.keys(sectionList));
-                    
-                    const sectionContents = sectionList.contents;
-                    if (sectionContents && sectionContents[0]) {
-                      console.log("first section keys:", Object.keys(sectionContents[0]));
-                      
-                      const itemSection = sectionContents[0].itemSectionRenderer;
-                      if (itemSection) {
-                        console.log("itemSectionRenderer keys:", Object.keys(itemSection));
-                        
-                        const itemContents = itemSection.contents;
-                        if (itemContents && itemContents[0]) {
-                          console.log("first item keys:", Object.keys(itemContents[0]));
-                          
-                          const playlistVideoList = itemContents[0].playlistVideoListRenderer;
-                          if (playlistVideoList) {
-                            console.log("playlistVideoListRenderer keys:", Object.keys(playlistVideoList));
-                            
-                            const videos = playlistVideoList.contents;
-                            if (videos) {
-                              console.log(`Found ${videos.length} video items`);
-                              
-                              // Log first video structure
-                              if (videos[0]) {
-                                console.log("First video item keys:", Object.keys(videos[0]));
-                                const firstVideo = videos[0].playlistVideoRenderer;
-                                if (firstVideo) {
-                                  console.log("playlistVideoRenderer keys:", Object.keys(firstVideo));
-                                  console.log("First video data:", JSON.stringify(firstVideo).slice(0, 500));
-                                  
-                                  // Extract all videos
-                                  for (const item of videos) {
-                                    const video = item.playlistVideoRenderer;
-                                    if (video && video.videoId) {
-                                      allVideos.set(video.videoId, {
-                                        video_id: video.videoId,
-                                        video_url: `https://www.youtube.com/watch?v=${video.videoId}`,
-                                        title: video.title?.runs?.[0]?.text || "Untitled",
-                                        playlist_title: playlistTitle,
-                                        position: parseInt(video.index?.simpleText || "0"),
-                                        published_at: new Date().toISOString(),
-                                        updated_at: new Date().toISOString(),
-                                      });
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
+            for (const item of contents) {
+              const video = item.playlistVideoRenderer;
+              if (video && video.videoId) {
+                allVideos.set(video.videoId, {
+                  video_id: video.videoId,
+                  video_url: `https://www.youtube.com/watch?v=${video.videoId}`,
+                  title: video.title?.runs?.[0]?.text || "Untitled",
+                  playlist_title: playlistTitle,
+                  position: parseInt(video.index?.simpleText || "0"),
+                  published_at: null, // Will be filled in batch
+                  updated_at: new Date().toISOString(),
+                });
               }
             }
           }
           
-          debugInfo.ytDataKeys = Object.keys(ytData);
-          debugInfo.hasContents = !!ytData.contents;
-          
         } catch (parseErr) {
-          console.error("JSON parse error:", parseErr);
-          debugInfo.parseError = parseErr.message;
+          console.error(`JSON parse error for playlist ${playlistId}:`, parseErr);
         }
-      } else {
-        console.log("No ytInitialData found in page");
-        
-        // Show a sample of the HTML to see what we got
-        const htmlSample = playlistHtml.slice(0, 2000);
-        console.log("HTML sample:", htmlSample);
-        
-        debugInfo.noYtInitialData = true;
-        debugInfo.htmlLength = playlistHtml.length;
-        debugInfo.htmlSample = htmlSample;
+      }
+      
+      console.log(`Found videos in playlist "${playlistTitle}", total now: ${allVideos.size}`);
+    }
+
+    console.log(`Collected ${allVideos.size} unique videos, now fetching publish dates...`);
+
+    // Step 3: Fetch actual publish dates for each video (in batches)
+    const videoIds = Array.from(allVideos.keys());
+    const batchSize = 5;
+    let datesFound = 0;
+    
+    for (let i = 0; i < videoIds.length; i += batchSize) {
+      const batch = videoIds.slice(i, i + batchSize);
+      console.log(`Fetching dates for batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(videoIds.length/batchSize)} (${batch.length} videos)`);
+      
+      // Fetch dates in parallel for this batch
+      const dateResults = await Promise.all(batch.map(async (videoId) => {
+        const date = await fetchVideoPublishDate(videoId);
+        return { videoId, date };
+      }));
+      
+      for (const { videoId, date } of dateResults) {
+        if (date) {
+          const video = allVideos.get(videoId);
+          if (video) {
+            video.published_at = date;
+            datesFound++;
+          }
+        }
+      }
+      
+      // Small delay between batches
+      if (i + batchSize < videoIds.length) {
+        await new Promise(resolve => setTimeout(resolve, 300));
       }
     }
 
-    console.log(`Collected ${allVideos.size} unique videos`);
+    console.log(`Got publish dates for ${datesFound}/${videoIds.length} videos`);
 
-    // Upsert if we found any
+    // Step 4: Upsert into Supabase
     const rows = Array.from(allVideos.values());
     if (rows.length > 0) {
       const { error } = await supabase
@@ -176,16 +167,20 @@ serve(async (req) => {
 
       if (error) {
         console.error("Supabase upsert failed:", error);
+        return new Response(JSON.stringify({ error: error.message }), {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        });
       }
     }
+
+    console.log(`Done! Saved ${rows.length} videos to database`);
 
     return new Response(JSON.stringify({
       success: true,
       playlists_found: playlistIds.length,
-      playlist_ids: playlistIds,
       videos_collected: allVideos.size,
-      videos: rows.slice(0, 5),
-      debug: debugInfo,
+      videos_with_dates: datesFound,
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
