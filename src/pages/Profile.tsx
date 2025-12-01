@@ -23,6 +23,7 @@ import { useAdminCheck } from "@/hooks/useAdminCheck";
 import { useAdminUserProfile, useAdminUpdateUserProfile } from "@/hooks/useAdminUserProfile";
 import { useUserAchievements, useUserRecruitment } from "@/hooks/useUserAchievements";
 import { useRankSystem } from "@/hooks/useRankSystem";
+import { useAmbassadorialTitles } from "@/hooks/useAmbassadorialTitles";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUserForumActivity } from "@/hooks/useUserForumActivity";
 import { toast } from "sonner";
@@ -60,6 +61,7 @@ const Profile = () => {
   const { data: achievements } = useUserAchievements();
   const { data: recruitmentData } = useUserRecruitment();
   const { data: rankSystem } = useRankSystem(user?.id);
+  const { data: titlesData } = useAmbassadorialTitles(user?.id);
   const { threads: forumThreads, comments: forumComments } = useUserForumActivity();
   const { data: adminUserData, isLoading: adminProfileLoading } = useAdminUserProfile(
     isViewingOtherUser ? userId! : ''
@@ -404,6 +406,7 @@ const Profile = () => {
                   totalContributed={totalPledged}
                   profileId={profile?.id}
                   backgroundUrl={profile?.background_url}
+                  primaryTitleIcon={titlesData?.primaryTitle?.icon}
                   isEditing={isEditing}
                   isLoading={updateOwnProfile.isPending}
                   isUploading={false}

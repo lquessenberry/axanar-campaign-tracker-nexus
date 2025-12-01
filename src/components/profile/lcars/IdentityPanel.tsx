@@ -20,6 +20,7 @@ interface IdentityPanelProps {
   totalContributed: number;
   profileId?: string;
   backgroundUrl?: string | null;
+  primaryTitleIcon?: string | null;
   isEditing?: boolean;
   isLoading?: boolean;
   isUploading?: boolean;
@@ -41,6 +42,7 @@ export function IdentityPanel({
   totalContributed,
   profileId,
   backgroundUrl,
+  primaryTitleIcon,
   isEditing = false,
   isLoading = false,
   isUploading = false,
@@ -93,7 +95,7 @@ export function IdentityPanel({
           {/* Right: Mission Patch + Stats */}
           <div className="flex items-center gap-6">
             {/* Mission Patch */}
-            <MissionPatch donorName={fullName} donorSince="2014" scale={0.4} />
+            <MissionPatch donorName={fullName} donorSince="2014" scale={0.4} badgeIcon={primaryTitleIcon} />
             
             {/* Total Contributed */}
             <div className="text-right">
