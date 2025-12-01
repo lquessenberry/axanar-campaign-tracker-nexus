@@ -16,6 +16,7 @@ import SettingsSection from "@/components/profile/sections/SettingsSection";
 import { MobileProfileLayout } from "@/components/mobile";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUserProfile, useUpdateProfile } from "@/hooks/useUserProfile";
+import { IdentityPanel } from "@/components/profile/lcars";
 import { useUserCampaigns } from "@/hooks/useUserCampaigns";
 import { useUserPledges } from "@/hooks/useUserPledges";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
@@ -379,6 +380,17 @@ const Profile = () => {
             )}
             
             <div className="relative">
+              {/* LCARS Identity Panel */}
+              <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl">
+                <IdentityPanel
+                  avatarUrl={profile?.avatar_url}
+                  fullName={profile?.full_name || 'Anonymous Contributor'}
+                  username={profile?.username}
+                  rankTitle={rankSystem?.militaryRank?.name}
+                  totalContributed={totalPledged}
+                />
+              </div>
+
               <ProfileHeader
                 profile={profile}
                 isEditing={false}
