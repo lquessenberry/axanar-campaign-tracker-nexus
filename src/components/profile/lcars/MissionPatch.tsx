@@ -1,6 +1,5 @@
 import React from 'react';
 import ussAresBadge from '@/assets/uss-ares-badge.png';
-
 interface MissionPatchProps {
   donorName?: string;
   donorSince?: string;
@@ -54,21 +53,9 @@ export const MissionPatch: React.FC<MissionPatchProps> = ({
         height: `${circleSize}px`,
         borderWidth: `${Math.max(2, Math.round(3 * scale))}px`
       }}>
-          {badgeIcon && (badgeIcon.startsWith('/') || badgeIcon.startsWith('http')) ? (
-            <img 
-              src={badgeIcon} 
-              alt="Title Badge" 
-              className="w-full h-full object-contain p-2"
-            />
-          ) : badgeIcon ? (
-            <span style={{ fontSize: `${Math.round(120 * scale)}px` }}>{badgeIcon}</span>
-          ) : (
-            <img 
-              src={ussAresBadge} 
-              alt="USS Ares Badge" 
-              className="w-full h-full object-contain"
-            />
-          )}
+          {badgeIcon && (badgeIcon.startsWith('/') || badgeIcon.startsWith('http')) ? <img src={badgeIcon} alt="Title Badge" className="w-full h-full object-contain p-0 " /> : badgeIcon ? <span style={{
+          fontSize: `${Math.round(120 * scale)}px`
+        }}>{badgeIcon}</span> : <img src={ussAresBadge} alt="USS Ares Badge" className="w-full h-full object-contain" />}
         </div>
 
         {/* Donor Name */}
