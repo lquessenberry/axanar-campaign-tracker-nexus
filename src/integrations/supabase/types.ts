@@ -1070,6 +1070,93 @@ export type Database = {
           },
         ]
       }
+      donor_invitation_log: {
+        Row: {
+          account_activated_at: string | null
+          created_at: string
+          donor_id: string
+          email: string
+          id: string
+          invitation_sent_at: string
+          invited_by: string | null
+        }
+        Insert: {
+          account_activated_at?: string | null
+          created_at?: string
+          donor_id: string
+          email: string
+          id?: string
+          invitation_sent_at?: string
+          invited_by?: string | null
+        }
+        Update: {
+          account_activated_at?: string | null
+          created_at?: string
+          donor_id?: string
+          email?: string
+          id?: string
+          invitation_sent_at?: string
+          invited_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "donor_invitation_log_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "contributor_leaderboard"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_invitation_log_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_invitation_log_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "donor_invitation_log_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "leaderboard_cache"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_invitation_log_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "my_donor_profile"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_invitation_log_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "reserve_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "donor_invitation_log_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "donor_invitation_log_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+        ]
+      }
       donor_sku_items: {
         Row: {
           created_at: string | null
@@ -5974,6 +6061,16 @@ export type Database = {
         Returns: Json
       }
       get_total_raised: { Args: never; Returns: number }
+      get_unlinked_donors_for_invitation: {
+        Args: { min_pledge_amount?: number }
+        Returns: {
+          email: string
+          full_name: string
+          id: string
+          pledge_count: number
+          total_pledged: number
+        }[]
+      }
       get_user_by_username: {
         Args: { lookup_username: string }
         Returns: {
