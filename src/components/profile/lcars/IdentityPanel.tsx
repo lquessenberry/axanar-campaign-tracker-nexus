@@ -54,8 +54,61 @@ export function IdentityPanel({
   onToggleCollapse
 }: IdentityPanelProps) {
   return <div className="bg-black border-2 border-[#FFCC33] p-8">
-      {/* Action Buttons - Top Right */}
-      <div className="justify-end gap-3 mb-6 flex flex-col">
+      {/* Main Content - Horizontal Layout */}
+      <div className="flex flex-col lg:flex-row gap-8 items-stretch mb-6">
+        {/* Left: Avatar + Name Column */}
+        <div className="flex flex-col items-center lg:items-start gap-4 lg:min-w-[200px]">
+          {/* Avatar */}
+          <div className="relative">
+            <div className="h-48 w-40 border-2 border-[#33CCFF] bg-black">
+              {avatarUrl ? <img src={avatarUrl} alt={fullName} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-[#33CCFF]">
+                  {fullName.split(' ').map(n => n[0]).join('')}
+                </div>}
+            </div>
+            {onAvatarClick && !isEditing && <Button size="sm" onClick={onAvatarClick} disabled={isUploading} className="absolute -bottom-2 -right-2 h-8 w-8 p-0 bg-[#33CCFF] hover:bg-[#00CCFF] text-black border-2 border-[#33CCFF]">
+                <Camera className="h-4 w-4" />
+              </Button>}
+          </div>
+          
+          {/* Name & Username */}
+          <div className="text-center lg:text-left">
+            <h1 className="text-3xl lg:text-4xl font-bold tracking-wider text-white uppercase leading-tight" style={{
+            fontFamily: 'system-ui, -apple-system, sans-serif',
+            letterSpacing: '0.1em'
+          }}>
+              {fullName}
+            </h1>
+            {username && <p className="text-[#FFCC33] text-sm mt-1">@{username}</p>}
+          </div>
+          
+          {/* Rank Badge */}
+          {rankTitle && <div className="flex items-center gap-2">
+              {rankIcon}
+              <Badge className="bg-[#1a1a1a] text-[#FFCC33] border-2 border-[#FFCC33] rounded-none px-3 py-1.5 uppercase text-xs font-bold tracking-wider">
+                {rankTitle}
+              </Badge>
+            </div>}
+        </div>
+
+        {/* Right: Mission Patch + Stats Stacked */}
+        <div className="flex-1 flex flex-col items-center lg:items-end gap-6">
+          {/* Mission Patch */}
+          <MissionPatch donorName={fullName} donorSince="2014" scale={0.5} />
+          
+          {/* Total Contributed */}
+          <div className="text-center lg:text-right">
+            <p className="text-[#FFCC33] text-xs uppercase tracking-widest font-bold mb-2">TOTAL CONTRIBUTED</p>
+            <p className="text-[#33CCFF] text-5xl lg:text-6xl font-bold tracking-wider" style={{
+            fontFamily: 'monospace'
+          }}>
+              ${totalContributed.toLocaleString()}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Action Buttons - Bottom */}
+      <div className="flex flex-col sm:flex-row justify-end gap-3 pt-6 border-t border-[#FFCC33]/30">
         {isEditing ? <>
             <Button onClick={onSave} disabled={isLoading} className="bg-[#FFCC33] hover:bg-[#FFD700] text-black font-bold uppercase tracking-wider border-2 border-[#FFCC33]">
               {isLoading ? "Saving..." : "Save Changes"}
@@ -110,59 +163,6 @@ export function IdentityPanel({
               </DropdownMenuContent>
             </DropdownMenu>
           </>}
-      </div>
-
-      {/* Main Content - Horizontal Layout */}
-      <div className="flex flex-col lg:flex-row gap-8 items-stretch">
-        {/* Left: Avatar + Name Column */}
-        <div className="flex flex-col items-center lg:items-start gap-4 lg:min-w-[200px]">
-          {/* Avatar */}
-          <div className="relative">
-            <div className="h-48 w-40 border-2 border-[#33CCFF] bg-black">
-              {avatarUrl ? <img src={avatarUrl} alt={fullName} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-[#33CCFF]">
-                  {fullName.split(' ').map(n => n[0]).join('')}
-                </div>}
-            </div>
-            {onAvatarClick && !isEditing && <Button size="sm" onClick={onAvatarClick} disabled={isUploading} className="absolute -bottom-2 -right-2 h-8 w-8 p-0 bg-[#33CCFF] hover:bg-[#00CCFF] text-black border-2 border-[#33CCFF]">
-                <Camera className="h-4 w-4" />
-              </Button>}
-          </div>
-          
-          {/* Name & Username */}
-          <div className="text-center lg:text-left">
-            <h1 className="text-3xl lg:text-4xl font-bold tracking-wider text-white uppercase leading-tight" style={{
-            fontFamily: 'system-ui, -apple-system, sans-serif',
-            letterSpacing: '0.1em'
-          }}>
-              {fullName}
-            </h1>
-            {username && <p className="text-[#FFCC33] text-sm mt-1">@{username}</p>}
-          </div>
-          
-          {/* Rank Badge */}
-          {rankTitle && <div className="flex items-center gap-2">
-              {rankIcon}
-              <Badge className="bg-[#1a1a1a] text-[#FFCC33] border-2 border-[#FFCC33] rounded-none px-3 py-1.5 uppercase text-xs font-bold tracking-wider">
-                {rankTitle}
-              </Badge>
-            </div>}
-        </div>
-
-        {/* Right: Mission Patch + Stats Stacked */}
-        <div className="flex-1 flex flex-col items-center lg:items-end gap-6">
-          {/* Mission Patch */}
-          <MissionPatch donorName={fullName} donorSince="2014" scale={0.5} />
-          
-          {/* Total Contributed */}
-          <div className="text-center lg:text-right">
-            <p className="text-[#FFCC33] text-xs uppercase tracking-widest font-bold mb-2">TOTAL CONTRIBUTED</p>
-            <p className="text-[#33CCFF] text-5xl lg:text-6xl font-bold tracking-wider" style={{
-            fontFamily: 'monospace'
-          }}>
-              ${totalContributed.toLocaleString()}
-            </p>
-          </div>
-        </div>
       </div>
     </div>;
 }
