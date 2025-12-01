@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { RefreshCw, Play, ExternalLink, Download } from "lucide-react";
+import { RefreshCw, Play, ExternalLink, Download, Calendar } from "lucide-react";
 import { toast } from "sonner";
+import { VideoTheaterDialog } from "@/components/VideoTheaterDialog";
+import { format } from "date-fns";
 
 interface AxanarVideo {
   id: string;
@@ -22,6 +24,7 @@ interface AxanarVideo {
 export default function AxanarVideos() {
   const queryClient = useQueryClient();
   const [selectedPlaylist, setSelectedPlaylist] = useState<string | null>(null);
+  const [theaterVideo, setTheaterVideo] = useState<{ id: string; title: string } | null>(null);
 
   // Fetch videos from database
   const { data: videos, isLoading } = useQuery({
@@ -168,30 +171,37 @@ export default function AxanarVideos() {
             {filteredVideos.map((video) => (
               <Card key={video.id} className="overflow-hidden hover:ring-2 hover:ring-primary/50 transition-all">
                 {/* Thumbnail */}
-                <div className="relative aspect-video bg-muted">
+                <div className="relative aspect-video bg-muted group">
                   <img
                     src={`https://img.youtube.com/vi/${video.video_id}/mqdefault.jpg`}
                     alt={video.title || "Video thumbnail"}
                     className="w-full h-full object-cover"
                     loading="lazy"
                   />
-                  <a
-                    href={video.video_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition-opacity"
+                  <button
+                    onClick={() => setTheaterVideo({ id: video.video_id, title: video.title || "Untitled" })}
+                    className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                   >
-                    <Play className="w-12 h-12 text-white" />
-                  </a>
+                    <Play className="w-12 h-12 text-white fill-white" />
+                  </button>
                 </div>
                 
                 <CardContent className="p-4">
                   <h3 className="font-medium text-foreground line-clamp-2 mb-1">
                     {video.title || "Untitled"}
                   </h3>
-                  <p className="text-xs text-muted-foreground">
-                    {video.playlist_title || "No playlist"}
-                  </p>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
+                    <span>{video.playlist_title || "No playlist"}</span>
+                    {video.published_at && (
+                      <>
+                        <span>•</span>
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          {format(new Date(video.published_at), "MMM d, yyyy")}
+                        </span>
+                      </>
+                    )}
+                  </div>
                   <a
                     href={video.video_url}
                     target="_blank"
@@ -205,6 +215,13 @@ export default function AxanarVideos() {
             ))}
           </div>
         )}
+
+        <VideoTheaterDialog
+          open={!!theaterVideo}
+          onOpenChange={(open) => !open && setTheaterVideo(null)}
+          videoId={theaterVideo?.id || null}
+          title={theaterVideo?.title || ""}
+        />
       </div>
     </div>
   );
