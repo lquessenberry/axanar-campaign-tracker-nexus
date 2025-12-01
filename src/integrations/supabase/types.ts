@@ -173,6 +173,99 @@ export type Database = {
           },
         ]
       }
+      address_update_diagnostics: {
+        Row: {
+          address_data: Json | null
+          attempt_type: string
+          auth_user_id: string | null
+          created_at: string | null
+          donor_id: string
+          error_message: string | null
+          id: string
+          metadata: Json | null
+          status: string
+        }
+        Insert: {
+          address_data?: Json | null
+          attempt_type: string
+          auth_user_id?: string | null
+          created_at?: string | null
+          donor_id: string
+          error_message?: string | null
+          id?: string
+          metadata?: Json | null
+          status: string
+        }
+        Update: {
+          address_data?: Json | null
+          attempt_type?: string
+          auth_user_id?: string | null
+          created_at?: string | null
+          donor_id?: string
+          error_message?: string | null
+          id?: string
+          metadata?: Json | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "address_update_diagnostics_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "contributor_leaderboard"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "address_update_diagnostics_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donor_pledge_totals"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "address_update_diagnostics_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "donors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "address_update_diagnostics_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "leaderboard_cache"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "address_update_diagnostics_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "my_donor_profile"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "address_update_diagnostics_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "reserve_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "address_update_diagnostics_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donor_details"
+            referencedColumns: ["donor_id"]
+          },
+          {
+            foreignKeyName: "address_update_diagnostics_donor_id_fkey"
+            columns: ["donor_id"]
+            isOneToOne: false
+            referencedRelation: "vw_donors_with_addresses"
+            referencedColumns: ["donor_id"]
+          },
+        ]
+      }
       addresses: {
         Row: {
           address1: string | null
