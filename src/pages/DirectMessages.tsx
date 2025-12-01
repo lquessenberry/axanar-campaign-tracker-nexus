@@ -454,7 +454,7 @@ const DirectMessages = () => {
 
         {/* Main Content - Full screen on mobile when showing thread */}
         <SwipeGesture onSwipeRight={handleSwipeRight}>
-          <div className={`flex-1 flex flex-col relative z-10 ${
+          <div className={`flex-1 flex flex-col h-full relative z-10 ${
             mobileView === 'list' ? 'hidden md:flex' : 'flex'
           }`}>
             {/* Header */}
