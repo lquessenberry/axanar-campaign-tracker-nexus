@@ -407,6 +407,7 @@ const Profile = () => {
                   profileId={profile?.id}
                   backgroundUrl={profile?.background_url}
                   primaryTitleIcon={titlesData?.primaryTitle?.icon}
+                  primaryTitleName={titlesData?.primaryTitle?.display_name}
                   isEditing={isEditing}
                   isLoading={updateOwnProfile.isPending}
                   isUploading={false}

@@ -3,6 +3,7 @@ import ussAresBadge from '@/assets/uss-ares-badge.png';
 interface MissionPatchProps {
   donorName?: string;
   donorSince?: string;
+  titleName?: string | null; // Primary ambassadorial title to display
   className?: string;
   scale?: number; // 1.0 = 420x560, 0.5 = 210x280, etc.
   badgeIcon?: string | null; // URL or emoji for custom badge
@@ -10,6 +11,7 @@ interface MissionPatchProps {
 export const MissionPatch: React.FC<MissionPatchProps> = ({
   donorName = "Captain Kelvar Garth",
   donorSince = "2014",
+  titleName = null,
   className = "",
   scale = 1.0,
   badgeIcon = null
@@ -58,13 +60,13 @@ export const MissionPatch: React.FC<MissionPatchProps> = ({
         }}>{badgeIcon}</span> : <img src={ussAresBadge} alt="USS Ares Badge" className="w-full h-full object-contain" />}
         </div>
 
-        {/* Donor Name */}
+        {/* Title Name */}
         <div className="text-[#E8E8E0] font-bold tracking-wide text-center px-4" style={{
         fontFamily: 'Eurostile, "Bank Gothic", "Arial Black", sans-serif',
         fontSize: `${nameFontSize}px`,
         lineHeight: '1.1'
       }}>
-          {donorName}
+          {titleName || donorName}
         </div>
       </div>
 
