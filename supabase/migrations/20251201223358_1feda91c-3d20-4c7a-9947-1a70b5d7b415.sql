@@ -1,0 +1,24 @@
+-- Add emoji icons to the 23 ambassadorial titles missing them
+UPDATE ambassadorial_titles SET icon = '📋' WHERE display_name = 'Diplomatic Yeoman';
+UPDATE ambassadorial_titles SET icon = '🤝' WHERE display_name = 'Foundation Diplomatic Liaison';
+UPDATE ambassadorial_titles SET icon = '📝' WHERE display_name = 'Senior Diplomatic Yeoman';
+UPDATE ambassadorial_titles SET icon = '🎖️' WHERE display_name = 'Ensign Attaché';
+UPDATE ambassadorial_titles SET icon = '💾' WHERE display_name = 'Digital Archive Consul';
+UPDATE ambassadorial_titles SET icon = '⚓' WHERE display_name = 'Junior Lieutenant Consul';
+UPDATE ambassadorial_titles SET icon = '📊' WHERE display_name = 'Lieutenant Protocol Officer';
+UPDATE ambassadorial_titles SET icon = '📯' WHERE display_name = 'First Fleet Herald Consul';
+UPDATE ambassadorial_titles SET icon = '🚀' WHERE display_name = 'Second Lieutenant Envoy';
+UPDATE ambassadorial_titles SET icon = '⭐' WHERE display_name = 'Lieutenant Commander Legate';
+UPDATE ambassadorial_titles SET icon = '📺' WHERE display_name = 'High-Definition Diplomatic Consul';
+UPDATE ambassadorial_titles SET icon = '✨' WHERE display_name = 'Stellar Signature Attaché';
+UPDATE ambassadorial_titles SET icon = '🏛️' WHERE display_name = 'Commander Ambassador';
+UPDATE ambassadorial_titles SET icon = '⚔️' WHERE display_name = 'Ares Emblem Ambassador';
+UPDATE ambassadorial_titles SET icon = '📖' WHERE display_name = 'Narrative Protocol Plenipotentiary';
+UPDATE ambassadorial_titles SET icon = '🎩' WHERE display_name = 'Ceremonial Consul Attendant';
+UPDATE ambassadorial_titles SET icon = '🚢' WHERE display_name = 'Fleet Captain Plenipotentiary';
+UPDATE ambassadorial_titles SET icon = '👔' WHERE display_name = 'Screen-Certified Garment Envoy';
+UPDATE ambassadorial_titles SET icon = '🌌' WHERE display_name = 'Full Stellar Assembly Ambassador';
+UPDATE ambassadorial_titles SET icon = '🎬' WHERE display_name = 'On-Set Diplomatic Liaison';
+UPDATE ambassadorial_titles SET icon = '🎦' WHERE display_name = 'Production Protocol Attaché';
+UPDATE ambassadorial_titles SET icon = '🛸' WHERE display_name = 'Stellar Vessel Naming Consul';
+UPDATE ambassadorial_titles SET icon = '🎞️' WHERE display_name = 'Associate Production Ambassador';
