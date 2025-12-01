@@ -441,13 +441,6 @@ const DirectMessages = () => {
                 </div>
               </div>
 
-              {/* Online Users - only in "all" tab - Hidden on mobile */}
-              {activeTab === 'all' && !showUserSelector && (
-                <div className="hidden md:flex flex-1 overflow-y-auto px-8 mt-8 flex-col gap-4">
-                  <OnlineUsersList />
-                  <RecentlyActiveUsers />
-                </div>
-              )}
             </motion.aside>
           )}
         </AnimatePresence>
@@ -696,6 +689,24 @@ const DirectMessages = () => {
           </div>
         </div>
         </SwipeGesture>
+
+        {/* Right Sidebar - User Activity - Hidden on mobile and when showing user selector */}
+        <AnimatePresence>
+          {activeTab === 'all' && !showUserSelector && (
+            <motion.aside
+              initial={{ x: 400 }}
+              animate={{ x: 0 }}
+              exit={{ x: 400 }}
+              transition={{ type: "spring", damping: 34, stiffness: 400 }}
+              className="hidden lg:flex w-80 h-full bg-card/40 backdrop-blur-3xl border-l border-border flex-col overflow-hidden"
+            >
+              <div className="flex-1 overflow-y-auto p-6 space-y-6">
+                <OnlineUsersList />
+                <RecentlyActiveUsers />
+              </div>
+            </motion.aside>
+          )}
+        </AnimatePresence>
 
         {/* Floating Action Button - Quick access to conversation list */}
         {mobileView === 'thread' && selectedConversationId && (
