@@ -4,3 +4,4 @@ export { RankConduit } from "./RankConduit";
 export { PerkGrid } from "./PerkGrid";
 export { TimelineFeed } from "./TimelineFeed";
 export { AuxStatsRail } from "./AuxStatsRail";
+export { MissionPatch } from "./MissionPatch";
