@@ -97,6 +97,7 @@ export const AmbassadorialTitleDisplay: React.FC<AmbassadorialTitleDisplayProps>
   ];
 
   if (compact) {
+    const compactIcon = primaryTitle?.icon && !primaryTitle.icon.startsWith('/') ? primaryTitle.icon : null;
     return (
       <TooltipProvider>
         <Tooltip>
@@ -105,7 +106,11 @@ export const AmbassadorialTitleDisplay: React.FC<AmbassadorialTitleDisplayProps>
               variant="outline" 
               className={`${primaryTitle.color} border-current bg-current/10 cursor-help ${className}`}
             >
-              <Award className="w-3 h-3 mr-1" />
+              {compactIcon ? (
+                <span className="mr-1 text-xs">{compactIcon}</span>
+              ) : (
+                <Award className="w-3 h-3 mr-1" />
+              )}
               {primaryTitle.display_name}
             </Badge>
           </TooltipTrigger>
@@ -265,15 +270,20 @@ export const AmbassadorialTitleDisplay: React.FC<AmbassadorialTitleDisplayProps>
             <div className="flex flex-wrap gap-2">
               {allTitles
                 .filter(t => !t.is_primary && t.is_displayed)
-                .map(title => (
-                  <Badge 
-                    key={title.id}
-                    variant="outline"
-                    className={`${title.color} border-current bg-current/5`}
-                  >
-                    {title.display_name}
-                  </Badge>
-                ))}
+                .map(title => {
+                  const icon = 'icon' in title ? title.icon : null;
+                  const isEmojiIcon = icon && !icon.startsWith('/');
+                  return (
+                    <Badge 
+                      key={title.id}
+                      variant="outline"
+                      className={`${title.color} border-current bg-current/5`}
+                    >
+                      {isEmojiIcon && <span className="mr-1 text-xs">{icon}</span>}
+                      {title.display_name}
+                    </Badge>
+                  );
+                })}
             </div>
           </div>
         )}
@@ -297,7 +307,10 @@ export const AmbassadorialTitleDisplay: React.FC<AmbassadorialTitleDisplayProps>
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-2 mb-2">
+                        {'icon' in title && title.icon && !title.icon.startsWith('/') && (
+                          <span className="text-lg">{title.icon}</span>
+                        )}
                         <h3 className={`font-bold ${title.color}`}>
                           {title.display_name}
                         </h3>
