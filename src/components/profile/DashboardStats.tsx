@@ -1,82 +1,90 @@
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DollarSign, Users, Trophy, Zap } from "lucide-react";
+import { GlassPanel, DaystromStatusDisplay, LCARSGrid } from "@/components/tactical";
+import { OkudagramNumber } from "./OkudagramNumber";
+import { WarpPlasmaProgress } from "./WarpPlasmaProgress";
+import { RankBadge3D } from "./RankBadge3D";
 
 interface DashboardStatsProps {
   totalPledged: number;
   totalXP: number;
   achievementsCount: number;
   recruitCount: number;
+  currentRank?: string;
+  nextRank?: string;
+  rankProgress?: { current: number; required: number };
 }
 
 const DashboardStats: React.FC<DashboardStatsProps> = ({
   totalPledged,
   totalXP,
   achievementsCount,
-  recruitCount
+  recruitCount,
+  currentRank = "Ensign",
+  nextRank = "Lieutenant",
+  rankProgress = { current: totalXP, required: 1000 }
 }) => {
   return (
-    <section className="py-8 bg-gradient-to-br from-background/95 via-background to-background/95">
-      <div className="container mx-auto px-4">
+    <section className="relative py-8">
+      {/* LCARS Grid overlay */}
+      <LCARSGrid alertLevel="standard" />
+      
+      <div className="container mx-auto px-4 relative z-10">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-2xl font-bold">Donor Dashboard</h2>
-            <p className="text-muted-foreground">Your exclusive access to the Axanar donor portal</p>
+            <h2 className="text-2xl font-bold">Mission Status</h2>
+            <p className="text-muted-foreground">USS Ares Personnel Archive</p>
           </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-colors">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Contributed</CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-primary">${totalPledged.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                Your lifetime contributions
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-colors">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">ARES Tokens</CardTitle>
-              <Zap className="h-4 w-4 text-axanar-teal" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-axanar-teal">{totalXP}</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                Total participation credits earned
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-colors">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Achievements</CardTitle>
-              <Trophy className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{achievementsCount}</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                Milestones unlocked
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-colors">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Recruitment</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{recruitCount}</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                Accounts re-enlisted
-              </p>
-            </CardContent>
-          </Card>
+        {/* Hero contribution display - Okudagram style */}
+        <GlassPanel className="mb-8 p-8 text-center">
+          <OkudagramNumber 
+            value={totalPledged} 
+            label="Total Contribution"
+            prefix="$"
+          />
+        </GlassPanel>
+        
+        {/* Rank progression */}
+        <GlassPanel className="mb-8 p-8">
+          <div className="flex flex-col lg:flex-row items-center gap-8">
+            <RankBadge3D rank={currentRank} tier="Current Rank" />
+            
+            <div className="flex-1 w-full">
+              <WarpPlasmaProgress
+                current={rankProgress.current}
+                total={rankProgress.required}
+                label={`Progress to ${nextRank}`}
+              />
+            </div>
+            
+            <RankBadge3D 
+              rank={nextRank} 
+              tier="Next Rank" 
+              className="opacity-50"
+            />
+          </div>
+        </GlassPanel>
+        
+        {/* Status grid - Tactical displays */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <DaystromStatusDisplay
+            label="ARES Tokens"
+            value={totalXP}
+            status="nominal"
+          />
+          
+          <DaystromStatusDisplay
+            label="Achievements"
+            value={achievementsCount}
+            status={achievementsCount > 5 ? "nominal" : "caution"}
+          />
+          
+          <DaystromStatusDisplay
+            label="Recruitment"
+            value={recruitCount}
+            status={recruitCount > 0 ? "nominal" : "offline"}
+          />
         </div>
       </div>
     </section>
