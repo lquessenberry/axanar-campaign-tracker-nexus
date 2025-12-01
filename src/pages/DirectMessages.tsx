@@ -679,14 +679,18 @@ const DirectMessages = () => {
                     <Send className="w-4 h-4 md:w-5 md:h-5" />
                   </motion.button>
                 </div>
-                <p className="text-[10px] md:text-xs text-muted-foreground text-center mt-2 md:mt-3 hidden md:block">
-                  Press <kbd className="px-2 py-0.5 bg-muted rounded text-[10px]">⌘K</kbd> to focus • 
-                  <kbd className="px-2 py-0.5 bg-muted rounded text-[10px] ml-1">⌘B</kbd> to toggle sidebar •
-                  <kbd className="px-2 py-0.5 bg-muted rounded text-[10px] ml-1">⌘N</kbd> new conversation
-                </p>
               </div>
             </div>
           )}
+
+          {/* Keyboard shortcuts hint - fixed at bottom */}
+          <div className="border-t border-border bg-card/40 backdrop-blur-3xl px-3 md:px-6 py-3 md:py-6 pb-safe">
+            <p className="text-[10px] md:text-xs text-muted-foreground text-center hidden md:block">
+              Press <kbd className="px-2 py-0.5 bg-muted rounded text-[10px]">⌘K</kbd> to focus • 
+              <kbd className="px-2 py-0.5 bg-muted rounded text-[10px] ml-1">⌘B</kbd> to toggle sidebar •
+              <kbd className="px-2 py-0.5 bg-muted rounded text-[10px] ml-1">⌘N</kbd> new conversation
+            </p>
+          </div>
         </div>
         </SwipeGesture>
 
