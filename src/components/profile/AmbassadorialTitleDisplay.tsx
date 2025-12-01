@@ -7,7 +7,6 @@ import { Switch } from '@/components/ui/switch';
 import { Award, Zap, MessageCircle, Users, Shield, Settings, Star, Eye, EyeOff } from 'lucide-react';
 import { useAmbassadorialTitles, useSetPrimaryTitle, useToggleTitleDisplay } from '@/hooks/useAmbassadorialTitles';
 import { useTitleBuffs } from '@/hooks/useTitleBuffs';
-import { useForumBadges } from '@/hooks/useForumBadges';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
@@ -27,7 +26,6 @@ export const AmbassadorialTitleDisplay: React.FC<AmbassadorialTitleDisplayProps>
   
   const { data: titleData, isLoading: titlesLoading } = useAmbassadorialTitles(userId);
   const { data: buffs, isLoading: buffsLoading } = useTitleBuffs(userId);
-  const { data: forumBadges = [], isLoading: badgesLoading } = useForumBadges(userId);
   const { setPrimaryTitle } = useSetPrimaryTitle();
   const { toggleDisplay } = useToggleTitleDisplay();
   const queryClient = useQueryClient();
@@ -66,7 +64,7 @@ export const AmbassadorialTitleDisplay: React.FC<AmbassadorialTitleDisplayProps>
     }
   };
 
-  if (titlesLoading || buffsLoading || badgesLoading) {
+  if (titlesLoading || buffsLoading) {
     return (
       <div className={`animate-pulse ${className}`}>
         <div className="h-20 bg-muted rounded-lg"></div>
@@ -74,27 +72,13 @@ export const AmbassadorialTitleDisplay: React.FC<AmbassadorialTitleDisplayProps>
     );
   }
 
-  if (!titleData?.primaryTitle && forumBadges.length === 0) {
+  if (!titleData?.primaryTitle) {
     return null;
   }
 
   const { primaryTitle } = titleData || {};
   const ambassadorialTitles = titleData?.titles || [];
   const displayedTitles = ambassadorialTitles.filter(t => t.is_displayed);
-  
-  // Combine ambassadorial titles and forum badges
-  const allTitles = [
-    ...ambassadorialTitles,
-    ...forumBadges.map(fb => ({
-      id: fb.badge_id,
-      display_name: fb.badge.label,
-      description: fb.badge.description || undefined,
-      color: 'text-cyan-400',
-      is_displayed: true,
-      is_primary: false,
-      type: 'forum_badge' as const
-    }))
-  ];
 
   if (compact) {
     const compactIcon = primaryTitle?.icon && !primaryTitle.icon.startsWith('/') ? primaryTitle.icon : null;
@@ -262,24 +246,23 @@ export const AmbassadorialTitleDisplay: React.FC<AmbassadorialTitleDisplayProps>
         )}
 
         {/* All Titles Section */}
-        {!isManaging && allTitles.length > 1 && (
+        {!isManaging && ambassadorialTitles.length > 1 && (
           <div className="space-y-2">
             <h4 className="text-sm font-semibold text-muted-foreground">
-              Additional Titles ({allTitles.filter(t => !t.is_primary).length})
+              Additional Titles ({ambassadorialTitles.filter(t => !t.is_primary).length})
             </h4>
             <div className="flex flex-wrap gap-2">
-              {allTitles
+              {ambassadorialTitles
                 .filter(t => !t.is_primary && t.is_displayed)
                 .map(title => {
-                  const icon = 'icon' in title ? title.icon : null;
-                  const isEmojiIcon = icon && !icon.startsWith('/');
+                  const isEmojiIcon = title.icon && !title.icon.startsWith('/');
                   return (
                     <Badge 
                       key={title.id}
                       variant="outline"
                       className={`${title.color} border-current bg-current/5`}
                     >
-                      {isEmojiIcon && <span className="mr-1 text-xs">{icon}</span>}
+                      {isEmojiIcon && <span className="mr-1 text-xs">{title.icon}</span>}
                       {title.display_name}
                     </Badge>
                   );
@@ -292,94 +275,84 @@ export const AmbassadorialTitleDisplay: React.FC<AmbassadorialTitleDisplayProps>
         {isManaging && (
           <div className="space-y-3">
             <h4 className="text-sm font-semibold text-muted-foreground">
-              All Titles ({allTitles.length})
+              All Titles ({ambassadorialTitles.length})
             </h4>
-            {allTitles.map(title => {
-              const isForum = 'type' in title && title.type === 'forum_badge';
-              return (
-                <div
-                  key={title.id}
-                  className={`p-4 rounded-lg border-2 transition-all ${
-                    title.is_primary
-                      ? 'bg-primary/5 border-primary'
-                      : 'bg-muted/30 border-muted'
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1 min-w-0">
+            {ambassadorialTitles.map(title => (
+              <div
+                key={title.id}
+                className={`p-4 rounded-lg border-2 transition-all ${
+                  title.is_primary
+                    ? 'bg-primary/5 border-primary'
+                    : 'bg-muted/30 border-muted'
+                }`}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2">
-                        {'icon' in title && title.icon && !title.icon.startsWith('/') && (
-                          <span className="text-lg">{title.icon}</span>
-                        )}
-                        <h3 className={`font-bold ${title.color}`}>
-                          {title.display_name}
-                        </h3>
-                        {title.is_primary && (
-                          <Badge variant="default" className="shrink-0">
-                            <Star className="w-3 h-3 mr-1" />
-                            Primary
-                          </Badge>
-                        )}
-                        {isForum && (
-                          <Badge variant="secondary" className="shrink-0">
-                            Forum
-                          </Badge>
-                        )}
-                      </div>
-                      
-                      {title.description && (
-                        <p className="text-sm text-muted-foreground mb-2">
-                          {title.description}
-                        </p>
+                      {title.icon && !title.icon.startsWith('/') && (
+                        <span className="text-lg">{title.icon}</span>
                       )}
-
-                      {'campaign_name' in title && title.campaign_name && (
-                        <p className="text-xs text-muted-foreground">
-                          Campaign: {title.campaign_name}
-                        </p>
+                      <h3 className={`font-bold ${title.color}`}>
+                        {title.display_name}
+                      </h3>
+                      {title.is_primary && (
+                        <Badge variant="default" className="shrink-0">
+                          <Star className="w-3 h-3 mr-1" />
+                          Primary
+                        </Badge>
                       )}
                     </div>
+                    
+                    {title.description && (
+                      <p className="text-sm text-muted-foreground mb-2">
+                        {title.description}
+                      </p>
+                    )}
 
-                    {!isForum && (
-                      <div className="flex flex-col gap-2 shrink-0">
-                        {!title.is_primary && (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleSetPrimary(title.id, title.display_name)}
-                            disabled={updating === title.id}
-                          >
-                            <Star className="w-4 h-4 mr-1" />
-                            Set Primary
-                          </Button>
-                        )}
-                        
-                        <div className="flex items-center gap-2">
-                          <Switch
-                            checked={title.is_displayed}
-                            onCheckedChange={() => handleToggleDisplay(title.id, title.is_displayed, title.display_name)}
-                            disabled={updating === title.id}
-                          />
-                          <span className="text-sm text-muted-foreground">
-                            {title.is_displayed ? (
-                              <>
-                                <Eye className="w-4 h-4 inline mr-1" />
-                                Visible
-                              </>
-                            ) : (
-                              <>
-                                <EyeOff className="w-4 h-4 inline mr-1" />
-                                Hidden
-                              </>
-                            )}
-                          </span>
-                        </div>
-                      </div>
+                    {title.campaign_name && (
+                      <p className="text-xs text-muted-foreground">
+                        Campaign: {title.campaign_name}
+                      </p>
                     )}
                   </div>
+
+                  <div className="flex flex-col gap-2 shrink-0">
+                    {!title.is_primary && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleSetPrimary(title.id, title.display_name)}
+                        disabled={updating === title.id}
+                      >
+                        <Star className="w-4 h-4 mr-1" />
+                        Set Primary
+                      </Button>
+                    )}
+                    
+                    <div className="flex items-center gap-2">
+                      <Switch
+                        checked={title.is_displayed}
+                        onCheckedChange={() => handleToggleDisplay(title.id, title.is_displayed, title.display_name)}
+                        disabled={updating === title.id}
+                      />
+                      <span className="text-sm text-muted-foreground">
+                        {title.is_displayed ? (
+                          <>
+                            <Eye className="w-4 h-4 inline mr-1" />
+                            Visible
+                          </>
+                        ) : (
+                          <>
+                            <EyeOff className="w-4 h-4 inline mr-1" />
+                            Hidden
+                          </>
+                        )}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         )}
       </CardContent>
