@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +13,7 @@ import { ForumSearchBar } from "@/components/forum/ForumSearchBar";
 import { NotificationBell } from "@/components/forum/NotificationBell";
 import { OnlineUsersList } from "@/components/forum/OnlineUsersList";
 import { RecentlyActiveUsers } from "@/components/forum/RecentlyActiveUsers";
+import { AnnouncementsSection } from "@/components/forum/AnnouncementsSection";
 import { useForumSearch } from "@/hooks/useForumSearch";
 import { useForumBookmarks } from "@/hooks/useForumBookmarks";
 import { supabase } from "@/integrations/supabase/client";
@@ -59,6 +60,15 @@ const Forum: React.FC = () => {
 
   const threads = searchQuery || category ? searchResults : allThreads;
   const loading = searchQuery || category ? searchLoading : threadsLoading;
+
+  // Separate pinned (announcements) from regular threads
+  const { pinnedThreads, regularThreads } = useMemo(() => {
+    if (!threads) return { pinnedThreads: [], regularThreads: [] };
+    return {
+      pinnedThreads: threads.filter(t => t.is_pinned),
+      regularThreads: threads.filter(t => !t.is_pinned),
+    };
+  }, [threads]);
 
   const { data: bookmarkedThreadIds = [] } = useForumBookmarks();
 
@@ -209,12 +219,33 @@ const Forum: React.FC = () => {
                 </Card>
               )}
 
-              {!loading && threads && threads.map((thread, index) => (
+              {/* Announcements Section (Pinned Threads) */}
+              {!loading && pinnedThreads.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                  <AnnouncementsSection
+                    threads={pinnedThreads}
+                    renderThread={(thread) => (
+                      <ThreadCardWithLike
+                        key={thread.id}
+                        thread={thread}
+                        isBookmarked={bookmarkedThreadIds.includes(thread.id)}
+                      />
+                    )}
+                  />
+                </motion.div>
+              )}
+
+              {/* Regular Threads */}
+              {!loading && regularThreads && regularThreads.map((thread, index) => (
                 <motion.div
                   key={thread.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 * index }}
+                  transition={{ duration: 0.5, delay: 0.1 * (index + 1) }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
