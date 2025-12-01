@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.rebuild-tactical-game]
 verify_jwt = false
+
+[functions.update-axanar-videos]
+verify_jwt = false

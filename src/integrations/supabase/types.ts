@@ -852,6 +852,42 @@ export type Database = {
           },
         ]
       }
+      axanar_videos: {
+        Row: {
+          created_at: string | null
+          id: string
+          playlist_title: string | null
+          position: number | null
+          published_at: string | null
+          title: string | null
+          updated_at: string | null
+          video_id: string
+          video_url: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          playlist_title?: string | null
+          position?: number | null
+          published_at?: string | null
+          title?: string | null
+          updated_at?: string | null
+          video_id: string
+          video_url: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          playlist_title?: string | null
+          position?: number | null
+          published_at?: string | null
+          title?: string | null
+          updated_at?: string | null
+          video_id?: string
+          video_url?: string
+        }
+        Relationships: []
+      }
       campaign_display_overrides: {
         Row: {
           campaign_id: string
