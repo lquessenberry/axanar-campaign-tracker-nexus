@@ -186,13 +186,12 @@ export function IdentityPanel({
           )}
         </div>
 
-        {/* Center: Mission Patch */}
-        <div className="flex-shrink-0 flex items-center justify-center">
+        {/* Right: Mission Patch + Stats Stacked */}
+        <div className="flex-1 flex flex-col items-center lg:items-end gap-6">
+          {/* Mission Patch */}
           <MissionPatch donorName={fullName} donorSince="2014" scale={0.5} />
-        </div>
-
-        {/* Right: Stats Column */}
-        <div className="flex-1 flex flex-col justify-center items-center lg:items-end gap-4">
+          
+          {/* Total Contributed */}
           <div className="text-center lg:text-right">
             <p className="text-[#FFCC33] text-xs uppercase tracking-widest font-bold mb-2">TOTAL CONTRIBUTED</p>
             <p className="text-[#33CCFF] text-5xl lg:text-6xl font-bold tracking-wider" style={{ fontFamily: 'monospace' }}>
