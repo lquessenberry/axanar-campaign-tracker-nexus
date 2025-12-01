@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { OkudagramNumber } from "@/components/profile/OkudagramNumber";
+import { MissionPatch } from "./MissionPatch";
 import { Edit, Settings, Image, X, Copy, Link2, ChevronDown, Camera } from "lucide-react";
 import { toast } from "sonner";
 
@@ -56,7 +57,14 @@ export function IdentityPanel({
 }: IdentityPanelProps) {
   return (
     <div className="bg-black border-2 border-[#FFCC33] p-6">
-      <div className="flex gap-6 items-start flex-wrap lg:flex-nowrap">
+      <div className="flex gap-6 items-start flex-wrap xl:flex-nowrap">
+        {/* Mission Patch */}
+        <div className="flex-shrink-0 mx-auto xl:mx-0">
+          <MissionPatch donorName={fullName} donorSince="2014" />
+        </div>
+
+        {/* Identity Details */}
+        <div className="flex-1 flex gap-6 items-start flex-wrap lg:flex-nowrap min-w-0">
         {/* Avatar - 4:5 ratio, sharp corners */}
         <div className="flex-shrink-0 relative">
           <div className="h-40 w-32 border-2 border-[#FFCC33] bg-black">
@@ -192,6 +200,7 @@ export function IdentityPanel({
             </>
           )}
         </div>
+      </div>
       </div>
     </div>
   );
