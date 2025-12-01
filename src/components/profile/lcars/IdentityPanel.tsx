@@ -11,7 +11,6 @@ import { OkudagramNumber } from "@/components/profile/OkudagramNumber";
 import { MissionPatch } from "./MissionPatch";
 import { Edit, Settings, Image, X, Copy, Link2, ChevronDown, Camera } from "lucide-react";
 import { toast } from "sonner";
-
 interface IdentityPanelProps {
   avatarUrl?: string | null;
   fullName: string;
@@ -33,7 +32,6 @@ interface IdentityPanelProps {
   onRemoveBackground?: () => void;
   onToggleCollapse?: () => void;
 }
-
 export function IdentityPanel({
   avatarUrl,
   fullName,
@@ -53,89 +51,65 @@ export function IdentityPanel({
   onAvatarClick,
   onBackgroundClick,
   onRemoveBackground,
-  onToggleCollapse,
+  onToggleCollapse
 }: IdentityPanelProps) {
-  return (
-    <div className="bg-black border-2 border-[#FFCC33] p-8">
+  return <div className="bg-black border-2 border-[#FFCC33] p-8">
       {/* Action Buttons - Top Right */}
-      <div className="flex justify-end gap-3 mb-6">
-        {isEditing ? (
-          <>
-            <Button
-              onClick={onSave}
-              disabled={isLoading}
-              className="bg-[#FFCC33] hover:bg-[#FFD700] text-black font-bold uppercase tracking-wider border-2 border-[#FFCC33]"
-            >
+      <div className="justify-end gap-3 mb-6 flex flex-col">
+        {isEditing ? <>
+            <Button onClick={onSave} disabled={isLoading} className="bg-[#FFCC33] hover:bg-[#FFD700] text-black font-bold uppercase tracking-wider border-2 border-[#FFCC33]">
               {isLoading ? "Saving..." : "Save Changes"}
             </Button>
-            <Button
-              onClick={onCancel}
-              className="bg-black hover:bg-[#1a1a1a] text-white font-bold uppercase tracking-wider border-2 border-[#FFCC33]"
-            >
+            <Button onClick={onCancel} className="bg-black hover:bg-[#1a1a1a] text-white font-bold uppercase tracking-wider border-2 border-[#FFCC33]">
               Cancel
             </Button>
-          </>
-        ) : (
-          <>
-            <Button
-              onClick={onEdit}
-              className="bg-black hover:bg-[#1a1a1a] text-[#FFCC33] font-bold uppercase tracking-wider border-2 border-[#FFCC33]"
-            >
+          </> : <>
+            <Button onClick={onEdit} className="bg-black hover:bg-[#1a1a1a] text-[#FFCC33] font-bold uppercase tracking-wider border-2 border-[#FFCC33]">
               <Edit className="h-4 w-4 mr-2" />
               Edit Profile
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
-                  className="bg-black hover:bg-[#1a1a1a] text-[#33CCFF] font-bold uppercase tracking-wider border-2 border-[#33CCFF]"
-                  disabled={isUploading || isUploadingBackground}
-                >
+                <Button className="bg-black hover:bg-[#1a1a1a] text-[#33CCFF] font-bold uppercase tracking-wider border-2 border-[#33CCFF]" disabled={isUploading || isUploadingBackground}>
                   <Settings className="h-4 w-4 mr-2" />
                   Settings
                   <ChevronDown className="h-4 w-4 ml-2" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 bg-black border-2 border-[#FFCC33]">
-                {onBackgroundClick && (
-                  <DropdownMenuItem onClick={onBackgroundClick} className="text-white hover:bg-[#1a1a1a] focus:bg-[#1a1a1a]">
+                {onBackgroundClick && <DropdownMenuItem onClick={onBackgroundClick} className="text-white hover:bg-[#1a1a1a] focus:bg-[#1a1a1a]">
                     <Image className="mr-2 h-4 w-4" />
                     <span>{backgroundUrl ? 'Change Background' : 'Add Background'}</span>
-                  </DropdownMenuItem>
-                )}
-                {backgroundUrl && onRemoveBackground && (
-                  <DropdownMenuItem onClick={onRemoveBackground} className="text-white hover:bg-[#1a1a1a] focus:bg-[#1a1a1a]">
+                  </DropdownMenuItem>}
+                {backgroundUrl && onRemoveBackground && <DropdownMenuItem onClick={onRemoveBackground} className="text-white hover:bg-[#1a1a1a] focus:bg-[#1a1a1a]">
                     <X className="mr-2 h-4 w-4" />
                     <span>Remove Background</span>
-                  </DropdownMenuItem>
-                )}
+                  </DropdownMenuItem>}
                 <DropdownMenuSeparator className="bg-[#FFCC33]" />
                 <DropdownMenuItem onClick={() => {
-                  const url = `${window.location.origin}/u/${username || profileId}`;
-                  navigator.clipboard.writeText(url);
-                  toast.success('Profile link copied to clipboard!');
-                }} className="text-white hover:bg-[#1a1a1a] focus:bg-[#1a1a1a]">
+              const url = `${window.location.origin}/u/${username || profileId}`;
+              navigator.clipboard.writeText(url);
+              toast.success('Profile link copied to clipboard!');
+            }} className="text-white hover:bg-[#1a1a1a] focus:bg-[#1a1a1a]">
                   <Copy className="mr-2 h-4 w-4" />
                   <span>Copy Profile Link</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => {
-                  window.open(`/u/${username || profileId}`, '_blank');
-                }} className="text-white hover:bg-[#1a1a1a] focus:bg-[#1a1a1a]">
+              window.open(`/u/${username || profileId}`, '_blank');
+            }} className="text-white hover:bg-[#1a1a1a] focus:bg-[#1a1a1a]">
                   <Link2 className="mr-2 h-4 w-4" />
                   <span>View Public Profile</span>
                 </DropdownMenuItem>
-                {onToggleCollapse && (
-                  <>
+                {onToggleCollapse && <>
                     <DropdownMenuSeparator className="bg-[#FFCC33]" />
                     <DropdownMenuItem onClick={onToggleCollapse} className="text-white hover:bg-[#1a1a1a] focus:bg-[#1a1a1a]">
                       <ChevronDown className="h-4 w-4 mr-2" />
                       <span>Collapse Header</span>
                     </DropdownMenuItem>
-                  </>
-                )}
+                  </>}
               </DropdownMenuContent>
             </DropdownMenu>
-          </>
-        )}
+          </>}
       </div>
 
       {/* Main Content - Horizontal Layout */}
@@ -145,45 +119,33 @@ export function IdentityPanel({
           {/* Avatar */}
           <div className="relative">
             <div className="h-48 w-40 border-2 border-[#33CCFF] bg-black">
-              {avatarUrl ? (
-                <img src={avatarUrl} alt={fullName} className="w-full h-full object-cover" />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-[#33CCFF]">
+              {avatarUrl ? <img src={avatarUrl} alt={fullName} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-[#33CCFF]">
                   {fullName.split(' ').map(n => n[0]).join('')}
-                </div>
-              )}
+                </div>}
             </div>
-            {onAvatarClick && !isEditing && (
-              <Button
-                size="sm"
-                onClick={onAvatarClick}
-                disabled={isUploading}
-                className="absolute -bottom-2 -right-2 h-8 w-8 p-0 bg-[#33CCFF] hover:bg-[#00CCFF] text-black border-2 border-[#33CCFF]"
-              >
+            {onAvatarClick && !isEditing && <Button size="sm" onClick={onAvatarClick} disabled={isUploading} className="absolute -bottom-2 -right-2 h-8 w-8 p-0 bg-[#33CCFF] hover:bg-[#00CCFF] text-black border-2 border-[#33CCFF]">
                 <Camera className="h-4 w-4" />
-              </Button>
-            )}
+              </Button>}
           </div>
           
           {/* Name & Username */}
           <div className="text-center lg:text-left">
-            <h1 className="text-3xl lg:text-4xl font-bold tracking-wider text-white uppercase leading-tight" style={{ fontFamily: 'system-ui, -apple-system, sans-serif', letterSpacing: '0.1em' }}>
+            <h1 className="text-3xl lg:text-4xl font-bold tracking-wider text-white uppercase leading-tight" style={{
+            fontFamily: 'system-ui, -apple-system, sans-serif',
+            letterSpacing: '0.1em'
+          }}>
               {fullName}
             </h1>
-            {username && (
-              <p className="text-[#FFCC33] text-sm mt-1">@{username}</p>
-            )}
+            {username && <p className="text-[#FFCC33] text-sm mt-1">@{username}</p>}
           </div>
           
           {/* Rank Badge */}
-          {rankTitle && (
-            <div className="flex items-center gap-2">
+          {rankTitle && <div className="flex items-center gap-2">
               {rankIcon}
               <Badge className="bg-[#1a1a1a] text-[#FFCC33] border-2 border-[#FFCC33] rounded-none px-3 py-1.5 uppercase text-xs font-bold tracking-wider">
                 {rankTitle}
               </Badge>
-            </div>
-          )}
+            </div>}
         </div>
 
         {/* Right: Mission Patch + Stats Stacked */}
@@ -194,12 +156,13 @@ export function IdentityPanel({
           {/* Total Contributed */}
           <div className="text-center lg:text-right">
             <p className="text-[#FFCC33] text-xs uppercase tracking-widest font-bold mb-2">TOTAL CONTRIBUTED</p>
-            <p className="text-[#33CCFF] text-5xl lg:text-6xl font-bold tracking-wider" style={{ fontFamily: 'monospace' }}>
+            <p className="text-[#33CCFF] text-5xl lg:text-6xl font-bold tracking-wider" style={{
+            fontFamily: 'monospace'
+          }}>
               ${totalContributed.toLocaleString()}
             </p>
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }
