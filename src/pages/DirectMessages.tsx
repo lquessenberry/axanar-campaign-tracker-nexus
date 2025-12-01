@@ -544,7 +544,7 @@ const DirectMessages = () => {
             )}
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto min-h-0">
             {!selectedConversationId ? (
               <div className="h-full flex items-center justify-center">
                 <div className="text-center space-y-4 md:space-y-6 max-w-lg px-4">
@@ -638,58 +638,61 @@ const DirectMessages = () => {
             )}
           </div>
 
-          {/* Input */}
-          {selectedConversationId && (
-            <div className="border-t border-border bg-card/40 backdrop-blur-3xl px-3 md:px-6 py-3 md:py-6 pb-safe">
-              <div className="w-full">
-                <div className="flex items-end gap-2 md:gap-4 p-2 md:p-3 rounded-2xl md:rounded-3xl bg-background/50 ring-1 ring-border shadow-2xl">
-                  <motion.button 
-                    whileTap={{ scale: 0.9 }} 
-                    className="min-w-[44px] min-h-[44px] p-2 md:p-3 rounded-xl md:rounded-2xl hover:bg-accent transition-colors hidden md:flex items-center justify-center"
-                  >
-                    <Paperclip className="w-4 h-4 md:w-5 md:h-5" />
-                  </motion.button>
+          {/* Bottom Section - Input and Shortcuts */}
+          <div className="mt-auto">
+            {/* Input */}
+            {selectedConversationId && (
+              <div className="border-t border-border bg-card/40 backdrop-blur-3xl px-3 md:px-6 py-3 md:py-6 pb-safe">
+                <div className="w-full">
+                  <div className="flex items-end gap-2 md:gap-4 p-2 md:p-3 rounded-2xl md:rounded-3xl bg-background/50 ring-1 ring-border shadow-2xl">
+                    <motion.button 
+                      whileTap={{ scale: 0.9 }} 
+                      className="min-w-[44px] min-h-[44px] p-2 md:p-3 rounded-xl md:rounded-2xl hover:bg-accent transition-colors hidden md:flex items-center justify-center"
+                    >
+                      <Paperclip className="w-4 h-4 md:w-5 md:h-5" />
+                    </motion.button>
 
-                  <Textarea
-                    ref={inputRef}
-                    value={messageInput}
-                    onChange={(e) => setMessageInput(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        handleQuickSend();
-                      }
-                    }}
-                    placeholder="Type a message..."
-                    className="flex-1 bg-transparent border-0 outline-none resize-none py-2 text-sm md:text-base min-h-[40px] max-h-[160px] md:max-h-[200px] focus-visible:ring-0 shadow-none"
-                    rows={1}
-                  />
+                    <Textarea
+                      ref={inputRef}
+                      value={messageInput}
+                      onChange={(e) => setMessageInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          handleQuickSend();
+                        }
+                      }}
+                      placeholder="Type a message..."
+                      className="flex-1 bg-transparent border-0 outline-none resize-none py-2 text-sm md:text-base min-h-[40px] max-h-[160px] md:max-h-[200px] focus-visible:ring-0 shadow-none"
+                      rows={1}
+                    />
 
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={handleQuickSend}
-                    disabled={!messageInput.trim()}
-                    className={`min-w-[44px] min-h-[44px] p-2 md:p-3 rounded-xl md:rounded-2xl transition-all ${
-                      messageInput.trim() 
-                        ? 'bg-primary text-primary-foreground shadow-lg' 
-                        : 'bg-muted text-muted-foreground cursor-not-allowed'
-                    }`}
-                  >
-                    <Send className="w-4 h-4 md:w-5 md:h-5" />
-                  </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={handleQuickSend}
+                      disabled={!messageInput.trim()}
+                      className={`min-w-[44px] min-h-[44px] p-2 md:p-3 rounded-xl md:rounded-2xl transition-all ${
+                        messageInput.trim() 
+                          ? 'bg-primary text-primary-foreground shadow-lg' 
+                          : 'bg-muted text-muted-foreground cursor-not-allowed'
+                      }`}
+                    >
+                      <Send className="w-4 h-4 md:w-5 md:h-5" />
+                    </motion.button>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {/* Keyboard shortcuts hint - fixed at bottom */}
-          <div className="border-t border-border bg-card/40 backdrop-blur-3xl px-3 md:px-6 py-3 md:py-6 pb-safe">
-            <p className="text-[10px] md:text-xs text-muted-foreground text-center hidden md:block">
-              Press <kbd className="px-2 py-0.5 bg-muted rounded text-[10px]">⌘K</kbd> to focus • 
-              <kbd className="px-2 py-0.5 bg-muted rounded text-[10px] ml-1">⌘B</kbd> to toggle sidebar •
-              <kbd className="px-2 py-0.5 bg-muted rounded text-[10px] ml-1">⌘N</kbd> new conversation
-            </p>
+            {/* Keyboard shortcuts hint - fixed at bottom */}
+            <div className="border-t border-border bg-card/40 backdrop-blur-3xl px-3 md:px-6 py-3 md:py-6 pb-safe">
+              <p className="text-[10px] md:text-xs text-muted-foreground text-center hidden md:block">
+                Press <kbd className="px-2 py-0.5 bg-muted rounded text-[10px]">⌘K</kbd> to focus • 
+                <kbd className="px-2 py-0.5 bg-muted rounded text-[10px] ml-1">⌘B</kbd> to toggle sidebar •
+                <kbd className="px-2 py-0.5 bg-muted rounded text-[10px] ml-1">⌘N</kbd> new conversation
+              </p>
+            </div>
           </div>
         </div>
         </SwipeGesture>
