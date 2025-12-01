@@ -4,9 +4,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { RefreshCw, Play, ExternalLink, Download, Calendar } from "lucide-react";
+import { RefreshCw, Play, ExternalLink, Download, Calendar, Tv } from "lucide-react";
 import { toast } from "sonner";
 import { VideoTheaterDialog } from "@/components/VideoTheaterDialog";
+import { LiveTVChannel } from "@/components/LiveTVChannel";
 import { format } from "date-fns";
 
 interface AxanarVideo {
@@ -25,6 +26,7 @@ export default function AxanarVideos() {
   const queryClient = useQueryClient();
   const [selectedPlaylist, setSelectedPlaylist] = useState<string | null>(null);
   const [theaterVideo, setTheaterVideo] = useState<{ id: string; title: string } | null>(null);
+  const [showTV, setShowTV] = useState(true);
 
   // Fetch videos from database
   const { data: videos, isLoading } = useQuery({
@@ -101,6 +103,13 @@ export default function AxanarVideos() {
           </div>
           <div className="flex gap-2">
             <Button
+              variant={showTV ? "default" : "outline"}
+              onClick={() => setShowTV(!showTV)}
+            >
+              <Tv className="w-4 h-4 mr-2" />
+              {showTV ? "Hide TV" : "Live TV"}
+            </Button>
+            <Button
               variant="outline"
               onClick={generateM3U}
               disabled={!videos || videos.length === 0}
@@ -109,14 +118,26 @@ export default function AxanarVideos() {
               Download .m3u8
             </Button>
             <Button
+              variant="outline"
               onClick={() => scrapeMutation.mutate()}
               disabled={scrapeMutation.isPending}
             >
               <RefreshCw className={`w-4 h-4 mr-2 ${scrapeMutation.isPending ? "animate-spin" : ""}`} />
-              {scrapeMutation.isPending ? "Scraping..." : "Refresh Videos"}
+              {scrapeMutation.isPending ? "Scraping..." : "Refresh"}
             </Button>
           </div>
         </div>
+
+        {/* Live TV Channel */}
+        {showTV && videos && videos.length > 0 && (
+          <div className="max-w-3xl">
+            <LiveTVChannel
+              videos={videos}
+              playlists={playlists}
+              playlistNames={playlistNames}
+            />
+          </div>
+        )}
 
         {/* Playlist Filter */}
         {playlistNames.length > 0 && (
