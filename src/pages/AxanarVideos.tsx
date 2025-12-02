@@ -1,12 +1,12 @@
 import { useState, useMemo } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-import { RefreshCw, Play, ExternalLink, Download, Calendar, Tv, Filter, ChevronDown, ChevronUp } from "lucide-react";
-import { toast } from "sonner";
+import { Play, ExternalLink, Calendar, Tv, Filter, ChevronDown, ChevronUp } from "lucide-react";
+
 import { VideoTheaterDialog } from "@/components/VideoTheaterDialog";
 import { LiveTVChannel } from "@/components/LiveTVChannel";
 import Navigation from "@/components/Navigation";
@@ -30,7 +30,6 @@ interface AxanarVideo {
 }
 
 export default function AxanarVideos() {
-  const queryClient = useQueryClient();
   const [theaterVideo, setTheaterVideo] = useState<{ id: string; title: string } | null>(null);
   const [showTV, setShowTV] = useState(true);
   const [filtersOpen, setFiltersOpen] = useState(true);
@@ -56,23 +55,6 @@ export default function AxanarVideos() {
     },
   });
 
-  // Mutation to trigger video scrape (quick mode - skips archiving)
-  const scrapeMutation = useMutation({
-    mutationFn: async () => {
-      const response = await supabase.functions.invoke("update-axanar-videos", {
-        body: { archiveMode: 'skip', refreshPlaylists: true }
-      });
-      if (response.error) throw response.error;
-      return response.data;
-    },
-    onSuccess: (data) => {
-      toast.success(`Refreshed ${data.videos_total} videos from YouTube channels`);
-      queryClient.invalidateQueries({ queryKey: ["axanar-videos"] });
-    },
-    onError: (error) => {
-      toast.error(`Refresh failed: ${error.message}`);
-    },
-  });
 
   // Extract unique filter options
   const filterOptions = useMemo(() => {
@@ -138,24 +120,6 @@ export default function AxanarVideos() {
     setSelectedChannel(null);
   };
 
-  // Generate M3U playlist
-  const generateM3U = () => {
-    if (!videos || videos.length === 0) return;
-    
-    const m3u = [
-      "#EXTM3U",
-      ...videos.map(v => `#EXTINF:-1,${v.title || "Untitled"}\n${v.video_url}`)
-    ].join("\n");
-
-    const blob = new Blob([m3u], { type: "audio/x-mpegurl" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "axanar-videos.m3u8";
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
   return (
     <>
       <Navigation />
@@ -169,31 +133,13 @@ export default function AxanarVideos() {
               {videos?.length || 0} videos from Axanar & Friends
             </p>
           </div>
-          <div className="flex gap-2 flex-wrap">
-            <Button
-              variant={showTV ? "default" : "outline"}
-              onClick={() => setShowTV(!showTV)}
-            >
-              <Tv className="w-4 h-4 mr-2" />
-              {showTV ? "Hide TV" : "Live TV"}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={generateM3U}
-              disabled={!videos || videos.length === 0}
-            >
-              <Download className="w-4 h-4 mr-2" />
-              Download .m3u8
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => scrapeMutation.mutate()}
-              disabled={scrapeMutation.isPending}
-            >
-              <RefreshCw className={`w-4 h-4 mr-2 ${scrapeMutation.isPending ? "animate-spin" : ""}`} />
-              {scrapeMutation.isPending ? "Scraping..." : "Refresh"}
-            </Button>
-          </div>
+          <Button
+            variant={showTV ? "default" : "outline"}
+            onClick={() => setShowTV(!showTV)}
+          >
+            <Tv className="w-4 h-4 mr-2" />
+            {showTV ? "Hide TV" : "Live TV"}
+          </Button>
         </div>
 
         {/* Live TV Channel */}
@@ -267,15 +213,10 @@ export default function AxanarVideos() {
               <p className="text-muted-foreground mb-4">
                 {videos && videos.length > 0 
                   ? "No videos match your filters. Try adjusting your selection."
-                  : "No videos found. Click \"Refresh\" to scrape from YouTube."}
+                  : "No videos found."}
               </p>
-              {videos && videos.length > 0 ? (
+              {videos && videos.length > 0 && (
                 <Button onClick={clearAllFilters}>Clear Filters</Button>
-              ) : (
-                <Button onClick={() => scrapeMutation.mutate()} disabled={scrapeMutation.isPending}>
-                  <RefreshCw className={`w-4 h-4 mr-2 ${scrapeMutation.isPending ? "animate-spin" : ""}`} />
-                  Scrape Videos Now
-                </Button>
               )}
             </CardContent>
           </Card>
