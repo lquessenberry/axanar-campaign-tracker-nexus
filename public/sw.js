@@ -1,5 +1,5 @@
 // Simple service worker for offline support
-const CACHE_NAME = 'axanar-v1';
+const CACHE_NAME = 'axanar-v2';
 const urlsToCache = [
   '/',
   '/index.html',
