@@ -854,6 +854,7 @@ export type Database = {
       }
       axanar_videos: {
         Row: {
+          archive_url: string | null
           created_at: string | null
           id: string
           playlist_title: string | null
@@ -865,6 +866,7 @@ export type Database = {
           video_url: string
         }
         Insert: {
+          archive_url?: string | null
           created_at?: string | null
           id?: string
           playlist_title?: string | null
@@ -876,6 +878,7 @@ export type Database = {
           video_url: string
         }
         Update: {
+          archive_url?: string | null
           created_at?: string | null
           id?: string
           playlist_title?: string | null
