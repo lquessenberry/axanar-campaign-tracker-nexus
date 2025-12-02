@@ -1905,6 +1905,7 @@ export type Database = {
           tactical_game_id: string | null
           title: string
           updated_at: string
+          video_id: string | null
           view_count: number | null
         }
         Insert: {
@@ -1928,6 +1929,7 @@ export type Database = {
           tactical_game_id?: string | null
           title: string
           updated_at?: string
+          video_id?: string | null
           view_count?: number | null
         }
         Update: {
@@ -1951,6 +1953,7 @@ export type Database = {
           tactical_game_id?: string | null
           title?: string
           updated_at?: string
+          video_id?: string | null
           view_count?: number | null
         }
         Relationships: [
