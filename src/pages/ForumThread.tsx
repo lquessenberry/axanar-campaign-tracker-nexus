@@ -4,7 +4,8 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { ArrowLeft, Heart, MessageCircle, Eye, Play, Tv } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { ArrowLeft, Heart, MessageCircle, Eye, Play, Tv, Pencil, X, Check } from 'lucide-react';
 import { useForumThread, useThreadLike, useThreadLikeStatus } from '@/hooks/useForumThreads';
 import { useForumComments, useCreateComment, useCommentLike, useCommentLikeStatus } from '@/hooks/useForumComments';
 import { useAuth } from '@/contexts/AuthContext';
@@ -16,15 +17,50 @@ import { RecentlyActiveUsers } from '@/components/forum/RecentlyActiveUsers';
 import { ProfileHoverCard } from '@/components/forum/ProfileHoverCard';
 import { MarkdownContent } from '@/utils/markdownParser';
 import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
 
 const ForumThread: React.FC = () => {
   const { threadId } = useParams<{ threadId: string }>();
   const { user } = useAuth();
+  const queryClient = useQueryClient();
   const [showVideo, setShowVideo] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editContent, setEditContent] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
   
   const { data: thread, isLoading: threadLoading } = useForumThread(threadId!);
   const { data: comments, isLoading: commentsLoading } = useForumComments(threadId!);
   const { data: isLiked } = useThreadLikeStatus(threadId!);
+  
+  const isAuthor = user?.id === thread?.author_user_id;
+  
+  const handleEditSave = async () => {
+    if (!editContent.trim() || !threadId) return;
+    
+    setIsSaving(true);
+    try {
+      const { error } = await supabase
+        .from('forum_threads')
+        .update({ content: editContent.trim(), updated_at: new Date().toISOString() })
+        .eq('id', threadId);
+      
+      if (error) throw error;
+      
+      toast.success('Post updated!');
+      setIsEditing(false);
+      queryClient.invalidateQueries({ queryKey: ['forum-thread', threadId] });
+    } catch (error: any) {
+      toast.error(`Failed to update: ${error.message}`);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+  
+  const startEditing = () => {
+    setEditContent(thread?.content || '');
+    setIsEditing(true);
+  };
   
   const threadLikeMutation = useThreadLike();
   const createCommentMutation = useCreateComment();
@@ -215,7 +251,50 @@ const ForumThread: React.FC = () => {
 
                   {/* Content */}
                   <div className="mb-4">
-                    <MarkdownContent content={thread.content} />
+                    {isEditing ? (
+                      <div className="space-y-3">
+                        <Textarea
+                          value={editContent}
+                          onChange={(e) => setEditContent(e.target.value)}
+                          rows={6}
+                          className="w-full"
+                          placeholder="Edit your post..."
+                        />
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            onClick={handleEditSave}
+                            disabled={isSaving || !editContent.trim()}
+                          >
+                            <Check className="w-4 h-4 mr-1" />
+                            {isSaving ? 'Saving...' : 'Save'}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setIsEditing(false)}
+                          >
+                            <X className="w-4 h-4 mr-1" />
+                            Cancel
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="relative group">
+                        <MarkdownContent content={thread.content} />
+                        {isAuthor && (
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={startEditing}
+                            className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <Pencil className="w-4 h-4 mr-1" />
+                            Edit
+                          </Button>
+                        )}
+                      </div>
+                    )}
                   </div>
 
                   {/* Image */}
