@@ -98,16 +98,36 @@ export default function AxanarVideos() {
 
   const playlistNames = Object.keys(playlists);
   
-  // Apply filters
+  // Apply filters and sorting
   const filteredVideos = useMemo(() => {
     if (!videos) return [];
     
-    return videos.filter(video => {
+    const filtered = videos.filter(video => {
       if (selectedPlaylist && video.playlist_title !== selectedPlaylist) return false;
       if (selectedContentType && video.content_type !== selectedContentType) return false;
       if (selectedSubject && video.subject_matter !== selectedSubject) return false;
       if (selectedChannel && video.source_channel !== selectedChannel) return false;
       return true;
+    });
+    
+    // Sort: videos with dates chronologically (newest first), then videos without dates by title
+    return filtered.sort((a, b) => {
+      const aHasDate = !!a.published_at;
+      const bHasDate = !!b.published_at;
+      
+      // Both have dates: sort by date descending (newest first)
+      if (aHasDate && bHasDate) {
+        return new Date(b.published_at!).getTime() - new Date(a.published_at!).getTime();
+      }
+      
+      // Only one has date: dated videos come first
+      if (aHasDate && !bHasDate) return -1;
+      if (!aHasDate && bHasDate) return 1;
+      
+      // Neither has date: sort by title alphabetically
+      const aTitle = a.title || '';
+      const bTitle = b.title || '';
+      return aTitle.localeCompare(bTitle);
     });
   }, [videos, selectedPlaylist, selectedContentType, selectedSubject, selectedChannel]);
 
