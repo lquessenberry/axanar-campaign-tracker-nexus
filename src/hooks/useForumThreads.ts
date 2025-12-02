@@ -23,6 +23,7 @@ export type ForumThread = {
   author_joined_date: string | null;
   author_post_count: number | null;
   image_url: string | null;
+  video_id: string | null;
   view_count: number;
   like_count: number;
   comment_count: number;
