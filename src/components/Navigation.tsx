@@ -6,7 +6,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
 import { useCampaigns } from "@/hooks/useCampaigns";
 import { useRealtimeMessages } from "@/hooks/useRealtimeMessages";
-import { Menu, X, User, LogOut, BarChart3, Shield, AlertTriangle, MessageCircle, ChevronDown } from "lucide-react";
+import { Menu, X, User, LogOut, BarChart3, Shield, AlertTriangle, MessageCircle, ChevronDown, Tv } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { AlertLevel } from "@/hooks/useAlertSystem";
 import { useTranslation } from 'react-i18next';
@@ -124,6 +124,12 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
               <Link to="/forum">
                 <Button variant="ghost" className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base rounded-none">
                   Forum
+                </Button>
+              </Link>
+              <Link to="/videos">
+                <Button variant="ghost" className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base rounded-none">
+                  <Tv className="h-4 w-4 mr-2" />
+                  Axanar TV
                 </Button>
               </Link>
               

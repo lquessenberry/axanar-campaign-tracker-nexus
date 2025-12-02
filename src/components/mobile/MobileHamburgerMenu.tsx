@@ -81,6 +81,7 @@ export function MobileHamburgerMenu({ isOpen, onClose, profile }: MobileHamburge
     { label: 'About', path: '/about' },
     { label: 'How It Works', path: '/how-it-works' },
     { label: 'How ARES Works', path: '/how-to-earn-ares' },
+    { label: 'Axanar TV', path: '/videos' },
     { label: 'FAQ', path: '/faq' },
     { label: 'Support', path: '/support' }
   ];
