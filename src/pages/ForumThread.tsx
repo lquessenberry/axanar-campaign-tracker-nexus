@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { ArrowLeft, Heart, MessageCircle, Eye } from 'lucide-react';
+import { ArrowLeft, Heart, MessageCircle, Eye, Play, Tv } from 'lucide-react';
 import { useForumThread, useThreadLike, useThreadLikeStatus } from '@/hooks/useForumThreads';
 import { useForumComments, useCreateComment, useCommentLike, useCommentLikeStatus } from '@/hooks/useForumComments';
 import { useAuth } from '@/contexts/AuthContext';
@@ -20,6 +20,7 @@ import { supabase } from '@/integrations/supabase/client';
 const ForumThread: React.FC = () => {
   const { threadId } = useParams<{ threadId: string }>();
   const { user } = useAuth();
+  const [showVideo, setShowVideo] = useState(false);
   
   const { data: thread, isLoading: threadLoading } = useForumThread(threadId!);
   const { data: comments, isLoading: commentsLoading } = useForumComments(threadId!);
@@ -132,6 +133,43 @@ const ForumThread: React.FC = () => {
                   Back to Forum
                 </Button>
               </Link>
+
+              {/* Video Player - shown for video-linked threads */}
+              {thread.video_id && (
+                <Card className="overflow-hidden bg-black">
+                  {showVideo ? (
+                    <div className="aspect-video">
+                      <iframe
+                        src={`https://www.youtube.com/embed/${thread.video_id}?autoplay=1&rel=0&modestbranding=1`}
+                        title="Video"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="w-full h-full border-0"
+                      />
+                    </div>
+                  ) : (
+                    <div 
+                      className="aspect-video relative cursor-pointer group"
+                      onClick={() => setShowVideo(true)}
+                    >
+                      <img
+                        src={`https://img.youtube.com/vi/${thread.video_id}/maxresdefault.jpg`}
+                        alt="Video thumbnail"
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/50 transition-colors">
+                        <div className="w-20 h-20 rounded-full bg-primary/90 flex items-center justify-center group-hover:scale-110 transition-transform">
+                          <Play className="w-10 h-10 text-primary-foreground fill-current ml-1" />
+                        </div>
+                      </div>
+                      <div className="absolute bottom-4 left-4 flex items-center gap-2 bg-black/70 px-3 py-1.5 rounded-full">
+                        <Tv className="w-4 h-4 text-primary" />
+                        <span className="text-sm font-medium text-white">Watch on Axanar TV</span>
+                      </div>
+                    </div>
+                  )}
+                </Card>
+              )}
 
               {/* Thread Post */}
               <Card className="overflow-hidden border-2 border-axanar-teal/30">
