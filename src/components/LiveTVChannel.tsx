@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { Tv, Radio, ChevronUp, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -39,6 +39,7 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
   const [currentChannel, setCurrentChannel] = useState<string | null>(
     playlistNames[0] || null
   );
+  const [tick, setTick] = useState(0);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   
   const channelVideos = currentChannel ? playlists[currentChannel] || [] : videos;
@@ -46,8 +47,19 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
   
   const { video, startSeconds, index } = useMemo(
     () => calculateCurrentVideo(channelVideos),
-    [channelVideos]
+    [channelVideos, tick]
   );
+  
+  // Auto-advance: check every 10 seconds if we need to move to next video
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTick(t => t + 1);
+    }, 10000); // Check every 10 seconds
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  const currentVideoId = video?.video_id;
   
   const nextVideo = channelVideos[(index + 1) % channelVideos.length];
   
@@ -85,6 +97,7 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
               <div className="aspect-video">
                 {embedUrl ? (
                   <iframe
+                    key={currentVideoId}
                     ref={iframeRef}
                     src={embedUrl}
                     title={video?.title || "Live TV"}
