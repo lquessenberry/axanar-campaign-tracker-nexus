@@ -1,5 +1,5 @@
-import { useState, useMemo, useRef, useEffect } from "react";
-import { Tv, Radio, ChevronUp, ChevronDown } from "lucide-react";
+import { useState, useRef } from "react";
+import { Tv, Radio, ChevronUp, ChevronDown, SkipForward } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -16,56 +16,28 @@ interface LiveTVChannelProps {
   playlistNames: string[];
 }
 
-const ASSUMED_DURATION_SECONDS = 300;
-
-function calculateCurrentVideo(videos: Video[]) {
-  if (!videos.length) return { video: null, startSeconds: 0, index: 0 };
-  
-  const totalDuration = videos.length * ASSUMED_DURATION_SECONDS;
-  const now = Date.now() / 1000;
-  const positionInLoop = now % totalDuration;
-  
-  const videoIndex = Math.floor(positionInLoop / ASSUMED_DURATION_SECONDS);
-  const startSeconds = Math.floor(positionInLoop % ASSUMED_DURATION_SECONDS);
-  
-  return {
-    video: videos[videoIndex],
-    startSeconds,
-    index: videoIndex,
-  };
-}
-
 export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChannelProps) {
   const [currentChannel, setCurrentChannel] = useState<string | null>(
     playlistNames[0] || null
   );
-  const [tick, setTick] = useState(0);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   
   const channelVideos = currentChannel ? playlists[currentChannel] || [] : videos;
   const currentChannelIndex = playlistNames.indexOf(currentChannel || "") + 1;
   
-  const { video, startSeconds, index } = useMemo(
-    () => calculateCurrentVideo(channelVideos),
-    [channelVideos, tick]
-  );
+  // Get current video from index
+  const video = channelVideos[currentVideoIndex] || channelVideos[0] || null;
+  const nextVideo = channelVideos[(currentVideoIndex + 1) % channelVideos.length];
   
-  // Auto-advance: check every 10 seconds if we need to move to next video
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTick(t => t + 1);
-    }, 10000); // Check every 10 seconds
-    
-    return () => clearInterval(interval);
-  }, []);
-  
-  const currentVideoId = video?.video_id;
-  
-  const nextVideo = channelVideos[(index + 1) % channelVideos.length];
-  
+  // Stable embed URL - only changes when video_id changes
   const embedUrl = video
-    ? `https://www.youtube.com/embed/${video.video_id}?autoplay=1&start=${startSeconds}&rel=0&modestbranding=1`
+    ? `https://www.youtube.com/embed/${video.video_id}?autoplay=1&rel=0&modestbranding=1`
     : null;
+
+  const handleNextVideo = () => {
+    setCurrentVideoIndex((prev) => (prev + 1) % channelVideos.length);
+  };
 
   const handleChannelChange = (direction: "prev" | "next") => {
     const currentIdx = playlistNames.indexOf(currentChannel || "");
@@ -78,6 +50,12 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
     }
     
     setCurrentChannel(playlistNames[newIndex]);
+    setCurrentVideoIndex(0); // Reset to first video of new channel
+  };
+
+  const handleSelectChannel = (name: string) => {
+    setCurrentChannel(name);
+    setCurrentVideoIndex(0); // Reset to first video
   };
 
   return (
@@ -97,7 +75,7 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
               <div className="aspect-video">
                 {embedUrl ? (
                   <iframe
-                    key={currentVideoId}
+                    key={video?.video_id}
                     ref={iframeRef}
                     src={embedUrl}
                     title={video?.title || "Live TV"}
@@ -147,6 +125,17 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
                   {video?.title || "No video"}
                 </h3>
               </div>
+              
+              {/* Skip button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleNextVideo}
+                className="h-8 px-2 text-zinc-400 hover:text-white hover:bg-zinc-700"
+                title="Next video"
+              >
+                <SkipForward className="w-4 h-4" />
+              </Button>
             </div>
           </div>
           
@@ -176,7 +165,7 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
                 {playlistNames.map((name, i) => (
                   <button
                     key={name}
-                    onClick={() => setCurrentChannel(name)}
+                    onClick={() => handleSelectChannel(name)}
                     className={`
                       w-full px-2 py-2 rounded text-left transition-all flex items-center gap-2
                       ${currentChannel === name 
