@@ -130,7 +130,7 @@ export default function AxanarVideos() {
 
         {/* Live TV Channel */}
         {showTV && videos && videos.length > 0 && (
-          <div className="max-w-3xl">
+          <div className="w-full">
             <LiveTVChannel
               videos={videos}
               playlists={playlists}
