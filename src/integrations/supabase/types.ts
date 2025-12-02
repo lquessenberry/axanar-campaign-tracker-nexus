@@ -855,11 +855,14 @@ export type Database = {
       axanar_videos: {
         Row: {
           archive_url: string | null
+          content_type: string | null
           created_at: string | null
           id: string
           playlist_title: string | null
           position: number | null
           published_at: string | null
+          source_channel: string | null
+          subject_matter: string | null
           title: string | null
           updated_at: string | null
           video_id: string
@@ -867,11 +870,14 @@ export type Database = {
         }
         Insert: {
           archive_url?: string | null
+          content_type?: string | null
           created_at?: string | null
           id?: string
           playlist_title?: string | null
           position?: number | null
           published_at?: string | null
+          source_channel?: string | null
+          subject_matter?: string | null
           title?: string | null
           updated_at?: string | null
           video_id: string
@@ -879,11 +885,14 @@ export type Database = {
         }
         Update: {
           archive_url?: string | null
+          content_type?: string | null
           created_at?: string | null
           id?: string
           playlist_title?: string | null
           position?: number | null
           published_at?: string | null
+          source_channel?: string | null
+          subject_matter?: string | null
           title?: string | null
           updated_at?: string | null
           video_id?: string
