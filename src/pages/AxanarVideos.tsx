@@ -8,6 +8,7 @@ import { RefreshCw, Play, ExternalLink, Download, Calendar, Tv, Tv2 } from "luci
 import { toast } from "sonner";
 import { VideoTheaterDialog } from "@/components/VideoTheaterDialog";
 import { LiveTVChannel } from "@/components/LiveTVChannel";
+import Navigation from "@/components/Navigation";
 import { format } from "date-fns";
 
 interface AxanarVideo {
@@ -91,7 +92,9 @@ export default function AxanarVideos() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <>
+      <Navigation />
+      <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -245,5 +248,6 @@ export default function AxanarVideos() {
         />
       </div>
     </div>
+    </>
   );
 }
