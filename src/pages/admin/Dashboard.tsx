@@ -11,6 +11,7 @@ import AdminPlaceholderSection from "@/components/admin/AdminPlaceholderSection"
 import { PledgeDataRestoration } from "@/components/admin/PledgeDataRestoration";
 import { PledgeRewardReconciliation } from "@/components/admin/PledgeRewardReconciliation";
 import { AddressUpdateDiagnostics } from "@/components/admin/AddressUpdateDiagnostics";
+import AxanarVideoArchiveStatus from "@/components/admin/AxanarVideoArchiveStatus";
 import DonorManagement from "./DonorManagement";
 import MediaFiles from "./MediaFiles";
 import CampaignsWithPledges from "./CampaignsWithPledges";
@@ -67,6 +68,8 @@ const Dashboard = () => {
         return <PledgeRewardReconciliation />;
       case "create-canonical-rewards":
         return <CreateCanonicalRewards />;
+      case "video-archive":
+        return <AxanarVideoArchiveStatus />;
       case "address-diagnostics":
         return <AddressUpdateDiagnostics />;
       case "send-announcement":

@@ -14,7 +14,8 @@ import {
   FolderOpen,
   Package,
   Activity,
-  Bell
+  Bell,
+  Video
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -58,6 +59,7 @@ const adminSections = [
   { title: "Pledge Restoration", value: "pledge-restoration", path: "/admin/dashboard?section=pledge-restoration", icon: Package },
   { title: "Reward Reconciliation", value: "reward-reconciliation", path: "/admin/dashboard?section=reward-reconciliation", icon: Gift },
   { title: "Create Canonical Rewards", value: "create-canonical-rewards", path: "/admin/dashboard?section=create-canonical-rewards", icon: Sparkles },
+  { title: "Video Archive", value: "video-archive", path: "/admin/dashboard?section=video-archive", icon: Video },
   { title: "Send Announcement", value: "send-announcement", path: "/admin/send-announcement", icon: Bell },
   { title: "Analytics", value: "analytics", path: "/admin/dashboard?section=analytics", icon: Activity },
   { title: "Messages", value: "messages", path: "/admin/dashboard?section=messages", icon: MessageCircle },
