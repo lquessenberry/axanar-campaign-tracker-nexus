@@ -187,65 +187,73 @@ serve(async (req) => {
     if (refreshPlaylists) {
       console.log('Fetching videos from YouTube...');
       
-      // PRIMARY SOURCE: RSS Feed - most reliable for recent videos with published dates
-      const RSS_URL = 'https://www.youtube.com/feeds/videos.xml?channel_id=UCxRrQIpejUXUi8i4mAbzSlg';
-      console.log('Fetching RSS feed...');
+      // PRIMARY SOURCE: RSS Feeds - most reliable for recent videos with published dates
+      const RSS_CHANNELS = [
+        { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCxRrQIpejUXUi8i4mAbzSlg', name: 'Axanar', playlistTitle: 'Recent Uploads' },
+        { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCWqf89_N2AT-HsyM6jIudzQ', name: 'Avalon Fan Films', playlistTitle: 'Avalon Fan Films' },
+      ];
       
-      try {
-        const rssResponse = await fetch(RSS_URL, {
-          headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-            'Accept': 'application/xml, text/xml, */*',
-          }
-        });
+      for (const channel of RSS_CHANNELS) {
+        console.log(`Fetching RSS feed for ${channel.name}...`);
         
-        if (rssResponse.ok) {
-          const rssXml = await rssResponse.text();
-          console.log(`RSS feed fetched, length: ${rssXml.length}`);
+        try {
+          const rssResponse = await fetch(channel.url, {
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+              'Accept': 'application/xml, text/xml, */*',
+            }
+          });
           
-          // Parse XML entries - YouTube RSS uses <entry> elements
-          const entryRegex = /<entry>([\s\S]*?)<\/entry>/g;
-          let entryMatch;
-          let rssCount = 0;
-          
-          while ((entryMatch = entryRegex.exec(rssXml)) !== null) {
-            const entry = entryMatch[1];
+          if (rssResponse.ok) {
+            const rssXml = await rssResponse.text();
+            console.log(`RSS feed fetched for ${channel.name}, length: ${rssXml.length}`);
             
-            // Extract video ID
-            const videoIdMatch = entry.match(/<yt:videoId>([^<]+)<\/yt:videoId>/);
-            if (!videoIdMatch) continue;
-            const videoId = videoIdMatch[1];
+            // Parse XML entries - YouTube RSS uses <entry> elements
+            const entryRegex = /<entry>([\s\S]*?)<\/entry>/g;
+            let entryMatch;
+            let rssCount = 0;
             
-            // Extract title
-            const titleMatch = entry.match(/<title>([^<]+)<\/title>/);
-            const title = titleMatch ? titleMatch[1] : 'Untitled';
+            while ((entryMatch = entryRegex.exec(rssXml)) !== null) {
+              const entry = entryMatch[1];
+              
+              // Extract video ID
+              const videoIdMatch = entry.match(/<yt:videoId>([^<]+)<\/yt:videoId>/);
+              if (!videoIdMatch) continue;
+              const videoId = videoIdMatch[1];
+              
+              // Extract title
+              const titleMatch = entry.match(/<title>([^<]+)<\/title>/);
+              const title = titleMatch ? titleMatch[1] : 'Untitled';
+              
+              // Extract published date
+              const publishedMatch = entry.match(/<published>([^<]+)<\/published>/);
+              const publishedAt = publishedMatch ? publishedMatch[1] : null;
+              
+              const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+              const existingArchiveUrl = existingArchives.get(videoId);
+              
+              allVideos.set(videoId, {
+                video_id: videoId,
+                video_url: videoUrl,
+                title: title,
+                playlist_title: channel.playlistTitle,
+                position: rssCount,
+                published_at: publishedAt,
+                updated_at: new Date().toISOString(),
+                archive_url: existingArchiveUrl || null,
+              });
+              rssCount++;
+            }
             
-            // Extract published date
-            const publishedMatch = entry.match(/<published>([^<]+)<\/published>/);
-            const publishedAt = publishedMatch ? publishedMatch[1] : null;
-            
-            const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
-            const existingArchiveUrl = existingArchives.get(videoId);
-            
-            allVideos.set(videoId, {
-              video_id: videoId,
-              video_url: videoUrl,
-              title: title,
-              playlist_title: "Recent Uploads", // RSS videos go to Recent Uploads
-              position: rssCount,
-              published_at: publishedAt,
-              updated_at: new Date().toISOString(),
-              archive_url: existingArchiveUrl || null,
-            });
-            rssCount++;
+            console.log(`Parsed ${rssCount} videos from ${channel.name} RSS feed`);
+          } else {
+            console.error(`RSS fetch failed for ${channel.name} with status: ${rssResponse.status}`);
           }
-          
-          console.log(`Parsed ${rssCount} videos from RSS feed`);
-        } else {
-          console.error(`RSS fetch failed with status: ${rssResponse.status}`);
+        } catch (rssErr) {
+          console.error(`Error fetching RSS feed for ${channel.name}:`, rssErr);
         }
-      } catch (rssErr) {
-        console.error('Error fetching RSS feed:', rssErr);
+        
+        await delay(500); // Small delay between channel fetches
       }
       
       await delay(1000);
