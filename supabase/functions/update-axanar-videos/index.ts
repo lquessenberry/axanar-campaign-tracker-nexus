@@ -183,130 +183,154 @@ serve(async (req) => {
 
     const allVideos = new Map<string, any>();
 
-    // Step 2: Optionally refresh playlist data from YouTube
+    // Step 2: Optionally refresh video data from YouTube
     if (refreshPlaylists) {
-      console.log('Scraping YouTube playlists and streams...');
+      console.log('Fetching videos from YouTube...');
       
-      // First, scrape the streams page for live/past streams
-      console.log('Fetching streams page...');
+      // PRIMARY SOURCE: RSS Feed - most reliable for recent videos with published dates
+      const RSS_URL = 'https://www.youtube.com/feeds/videos.xml?channel_id=UCxRrQIpejUXUi8i4mAbzSlg';
+      console.log('Fetching RSS feed...');
+      
       try {
-        const streamsPage = await fetch(`https://www.youtube.com/@AxanarHQ/streams`, {
+        const rssResponse = await fetch(RSS_URL, {
           headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Accept-Language': 'en-US,en;q=0.9',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'Accept': 'application/xml, text/xml, */*',
           }
         });
-        const streamsHtml = await streamsPage.text();
         
-        // Extract ytInitialData from streams page
-        const streamsDataMatch = streamsHtml.match(/var ytInitialData = ({.+?});<\/script>/s);
-        if (streamsDataMatch) {
-          try {
-            const ytData = JSON.parse(streamsDataMatch[1]);
-            // Navigate to the video grid in streams tab
-            const tabs = ytData.contents?.twoColumnBrowseResultsRenderer?.tabs || [];
-            for (const tab of tabs) {
-              const tabContent = tab.tabRenderer?.content?.richGridRenderer?.contents || [];
-              for (const item of tabContent) {
-                const video = item.richItemRenderer?.content?.videoRenderer;
-                if (video && video.videoId) {
-                  const videoUrl = `https://www.youtube.com/watch?v=${video.videoId}`;
-                  const existingArchiveUrl = existingArchives.get(video.videoId);
-                  
-                  allVideos.set(video.videoId, {
-                    video_id: video.videoId,
-                    video_url: videoUrl,
-                    title: video.title?.runs?.[0]?.text || "Untitled Stream",
-                    playlist_title: "Live Streams",
-                    position: 0,
-                    updated_at: new Date().toISOString(),
-                    archive_url: existingArchiveUrl || null,
-                  });
-                }
-              }
-            }
-            console.log(`Found streams, total videos now: ${allVideos.size}`);
-          } catch (parseErr) {
-            console.error('Error parsing streams data:', parseErr);
+        if (rssResponse.ok) {
+          const rssXml = await rssResponse.text();
+          console.log(`RSS feed fetched, length: ${rssXml.length}`);
+          
+          // Parse XML entries - YouTube RSS uses <entry> elements
+          const entryRegex = /<entry>([\s\S]*?)<\/entry>/g;
+          let entryMatch;
+          let rssCount = 0;
+          
+          while ((entryMatch = entryRegex.exec(rssXml)) !== null) {
+            const entry = entryMatch[1];
+            
+            // Extract video ID
+            const videoIdMatch = entry.match(/<yt:videoId>([^<]+)<\/yt:videoId>/);
+            if (!videoIdMatch) continue;
+            const videoId = videoIdMatch[1];
+            
+            // Extract title
+            const titleMatch = entry.match(/<title>([^<]+)<\/title>/);
+            const title = titleMatch ? titleMatch[1] : 'Untitled';
+            
+            // Extract published date
+            const publishedMatch = entry.match(/<published>([^<]+)<\/published>/);
+            const publishedAt = publishedMatch ? publishedMatch[1] : null;
+            
+            const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+            const existingArchiveUrl = existingArchives.get(videoId);
+            
+            allVideos.set(videoId, {
+              video_id: videoId,
+              video_url: videoUrl,
+              title: title,
+              playlist_title: "Recent Uploads", // RSS videos go to Recent Uploads
+              position: rssCount,
+              published_at: publishedAt,
+              updated_at: new Date().toISOString(),
+              archive_url: existingArchiveUrl || null,
+            });
+            rssCount++;
           }
+          
+          console.log(`Parsed ${rssCount} videos from RSS feed`);
+        } else {
+          console.error(`RSS fetch failed with status: ${rssResponse.status}`);
         }
-        await delay(1000); // Delay before fetching playlists
-      } catch (streamsErr) {
-        console.error('Error fetching streams page:', streamsErr);
+      } catch (rssErr) {
+        console.error('Error fetching RSS feed:', rssErr);
       }
       
-      // Then scrape playlists
-      console.log('Fetching playlists page...');
-      const channelPage = await fetch(`https://www.youtube.com/@AxanarHQ/playlists`, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Accept-Language': 'en-US,en;q=0.9',
-        }
-      });
-      const html = await channelPage.text();
-
-      // Extract playlist IDs
-      const playlistIds: string[] = [];
-      const playlistRegex = /"playlistId":"(PL[A-Za-z0-9_-]{32,})"/g;
-      for (const match of html.matchAll(playlistRegex)) {
-        if (!playlistIds.includes(match[1])) {
-          playlistIds.push(match[1]);
-        }
-      }
-
-      console.log(`Found ${playlistIds.length} playlists`);
-
-      // Fetch each playlist
-      for (const playlistId of playlistIds) {
-        console.log(`Fetching playlist: ${playlistId}`);
-        
-        const playlistUrl = `https://www.youtube.com/playlist?list=${playlistId}`;
-        const playlistResp = await fetch(playlistUrl, {
+      await delay(1000);
+      
+      // SECONDARY SOURCE: Playlist scraping for comprehensive coverage
+      // RSS only has ~15 most recent videos, so we still need playlists for full archive
+      console.log('Fetching playlists page for comprehensive coverage...');
+      
+      try {
+        const channelPage = await fetch(`https://www.youtube.com/@AxanarHQ/playlists`, {
           headers: {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
             'Accept-Language': 'en-US,en;q=0.9',
           }
         });
-        
-        const playlistHtml = await playlistResp.text();
-        
-        const titleMatch = playlistHtml.match(/<title>([^<]+)<\/title>/);
-        const playlistTitle = titleMatch ? titleMatch[1].replace(' - YouTube', '').trim() : 'Unknown';
-        
-        const ytInitialDataMatch = playlistHtml.match(/var ytInitialData = ({.+?});<\/script>/s);
-        
-        if (ytInitialDataMatch) {
-          try {
-            const ytData = JSON.parse(ytInitialDataMatch[1]);
-            const contents = ytData.contents?.twoColumnBrowseResultsRenderer?.tabs?.[0]?.tabRenderer?.content?.sectionListRenderer?.contents?.[0]?.itemSectionRenderer?.contents?.[0]?.playlistVideoListRenderer?.contents;
-            
-            if (contents) {
-              for (const item of contents) {
-                const video = item.playlistVideoRenderer;
-                if (video && video.videoId) {
-                  const videoUrl = `https://www.youtube.com/watch?v=${video.videoId}`;
-                  // Preserve existing archive_url if we have one
-                  const existingArchiveUrl = existingArchives.get(video.videoId);
-                  
-                  allVideos.set(video.videoId, {
-                    video_id: video.videoId,
-                    video_url: videoUrl,
-                    title: video.title?.runs?.[0]?.text || "Untitled",
-                    playlist_title: playlistTitle,
-                    position: parseInt(video.index?.simpleText || "0"),
-                    updated_at: new Date().toISOString(),
-                    archive_url: existingArchiveUrl || null,
-                  });
-                }
-              }
-            }
-          } catch (parseErr) {
-            console.error(`JSON parse error for playlist ${playlistId}:`, parseErr);
+        const html = await channelPage.text();
+
+        // Extract playlist IDs
+        const playlistIds: string[] = [];
+        const playlistRegex = /"playlistId":"(PL[A-Za-z0-9_-]{32,})"/g;
+        for (const match of html.matchAll(playlistRegex)) {
+          if (!playlistIds.includes(match[1])) {
+            playlistIds.push(match[1]);
           }
         }
-        
-        console.log(`Found videos in playlist "${playlistTitle}", total now: ${allVideos.size}`);
-        await delay(500); // Small delay between playlist fetches
+
+        console.log(`Found ${playlistIds.length} playlists`);
+
+        // Fetch each playlist
+        for (const playlistId of playlistIds) {
+          console.log(`Fetching playlist: ${playlistId}`);
+          
+          const playlistUrl = `https://www.youtube.com/playlist?list=${playlistId}`;
+          const playlistResp = await fetch(playlistUrl, {
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+              'Accept-Language': 'en-US,en;q=0.9',
+            }
+          });
+          
+          const playlistHtml = await playlistResp.text();
+          
+          const titleMatch = playlistHtml.match(/<title>([^<]+)<\/title>/);
+          const playlistTitle = titleMatch ? titleMatch[1].replace(' - YouTube', '').trim() : 'Unknown';
+          
+          const ytInitialDataMatch = playlistHtml.match(/var ytInitialData = ({.+?});<\/script>/s);
+          
+          if (ytInitialDataMatch) {
+            try {
+              const ytData = JSON.parse(ytInitialDataMatch[1]);
+              const contents = ytData.contents?.twoColumnBrowseResultsRenderer?.tabs?.[0]?.tabRenderer?.content?.sectionListRenderer?.contents?.[0]?.itemSectionRenderer?.contents?.[0]?.playlistVideoListRenderer?.contents;
+              
+              if (contents) {
+                for (const item of contents) {
+                  const video = item.playlistVideoRenderer;
+                  if (video && video.videoId) {
+                    const videoUrl = `https://www.youtube.com/watch?v=${video.videoId}`;
+                    // Preserve existing archive_url and published_at if we have them
+                    const existingVideo = allVideos.get(video.videoId);
+                    const existingArchiveUrl = existingVideo?.archive_url || existingArchives.get(video.videoId);
+                    const existingPublishedAt = existingVideo?.published_at;
+                    
+                    allVideos.set(video.videoId, {
+                      video_id: video.videoId,
+                      video_url: videoUrl,
+                      title: video.title?.runs?.[0]?.text || "Untitled",
+                      playlist_title: playlistTitle,
+                      position: parseInt(video.index?.simpleText || "0"),
+                      published_at: existingPublishedAt || null, // Preserve from RSS if available
+                      updated_at: new Date().toISOString(),
+                      archive_url: existingArchiveUrl || null,
+                    });
+                  }
+                }
+              }
+            } catch (parseErr) {
+              console.error(`JSON parse error for playlist ${playlistId}:`, parseErr);
+            }
+          }
+          
+          console.log(`Found videos in playlist "${playlistTitle}", total now: ${allVideos.size}`);
+          await delay(500); // Small delay between playlist fetches
+        }
+      } catch (playlistErr) {
+        console.error('Error fetching playlists:', playlistErr);
       }
     } else {
       // Just use existing videos from database
