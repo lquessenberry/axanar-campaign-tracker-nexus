@@ -56,19 +56,21 @@ export default function AxanarVideos() {
     },
   });
 
-  // Mutation to trigger video scrape
+  // Mutation to trigger video scrape (quick mode - skips archiving)
   const scrapeMutation = useMutation({
     mutationFn: async () => {
-      const response = await supabase.functions.invoke("update-axanar-videos");
+      const response = await supabase.functions.invoke("update-axanar-videos", {
+        body: { archiveMode: 'skip', refreshPlaylists: true }
+      });
       if (response.error) throw response.error;
       return response.data;
     },
     onSuccess: (data) => {
-      toast.success(`Scraped ${data.videos_total} videos from YouTube channels`);
+      toast.success(`Refreshed ${data.videos_total} videos from YouTube channels`);
       queryClient.invalidateQueries({ queryKey: ["axanar-videos"] });
     },
     onError: (error) => {
-      toast.error(`Scrape failed: ${error.message}`);
+      toast.error(`Refresh failed: ${error.message}`);
     },
   });
 
