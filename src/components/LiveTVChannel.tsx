@@ -1,7 +1,8 @@
 import { useState, useRef } from "react";
-import { Tv, Radio, ChevronUp, ChevronDown, SkipForward } from "lucide-react";
+import { Tv, Radio, ChevronUp, ChevronDown, SkipForward, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { VideoDiscussionModal } from "./VideoDiscussionModal";
 
 interface Video {
   video_id: string;
@@ -21,6 +22,7 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
     playlistNames[0] || null
   );
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [discussionOpen, setDiscussionOpen] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   
   const channelVideos = currentChannel ? playlists[currentChannel] || [] : videos;
@@ -136,6 +138,17 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
               >
                 <SkipForward className="w-4 h-4" />
               </Button>
+              
+              {/* Discussion button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setDiscussionOpen(true)}
+                className="h-8 px-2 text-zinc-400 hover:text-white hover:bg-zinc-700"
+                title="Discuss this video"
+              >
+                <MessageSquare className="w-4 h-4" />
+              </Button>
             </div>
           </div>
           
@@ -212,6 +225,17 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
       
       {/* Ambient glow */}
       <div className="absolute -inset-4 -z-10 bg-primary/5 blur-3xl rounded-full opacity-50" />
+      
+      {/* Discussion Modal */}
+      {video && (
+        <VideoDiscussionModal
+          open={discussionOpen}
+          onOpenChange={setDiscussionOpen}
+          videoId={video.video_id}
+          videoTitle={video.title || "Untitled Video"}
+          videoUrl={`https://youtube.com/watch?v=${video.video_id}`}
+        />
+      )}
     </div>
   );
 }
