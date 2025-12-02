@@ -17,6 +17,103 @@ function delay(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms + jitter));
 }
 
+// Auto-detect content type from video title
+function detectContentType(title: string): string {
+  const lowerTitle = title.toLowerCase();
+  
+  // Episodes / Full content
+  if (lowerTitle.includes('prelude to axanar') || lowerTitle.includes('full film') || lowerTitle.includes('full movie') || 
+      lowerTitle.includes('episode') || lowerTitle.includes('part 1') || lowerTitle.includes('part 2')) {
+    return 'Episode';
+  }
+  
+  // Behind the Scenes
+  if (lowerTitle.includes('behind the scenes') || lowerTitle.includes('bts') || lowerTitle.includes('making of') ||
+      lowerTitle.includes('on set') || lowerTitle.includes('filming') || lowerTitle.includes('production diary')) {
+    return 'Behind the Scenes';
+  }
+  
+  // Interviews
+  if (lowerTitle.includes('interview') || lowerTitle.includes('talks about') || lowerTitle.includes('sits down') ||
+      lowerTitle.includes('conversation with')) {
+    return 'Interview';
+  }
+  
+  // Q&A and Live Streams
+  if (lowerTitle.includes('q&a') || lowerTitle.includes('q & a') || lowerTitle.includes('live stream') || 
+      lowerTitle.includes('livestream') || lowerTitle.includes('live chat') || lowerTitle.includes('ask me')) {
+    return 'Q&A / Live Stream';
+  }
+  
+  // Trailers and Teasers
+  if (lowerTitle.includes('trailer') || lowerTitle.includes('teaser') || lowerTitle.includes('preview') ||
+      lowerTitle.includes('sneak peek')) {
+    return 'Trailer';
+  }
+  
+  // News and Updates
+  if (lowerTitle.includes('update') || lowerTitle.includes('news') || lowerTitle.includes('announcement') ||
+      lowerTitle.includes('kickstarter') || lowerTitle.includes('indiegogo') || lowerTitle.includes('crowdfund')) {
+    return 'News / Update';
+  }
+  
+  // Documentary content
+  if (lowerTitle.includes('documentary') || lowerTitle.includes('history of') || lowerTitle.includes('the story of')) {
+    return 'Documentary';
+  }
+  
+  // VFX / Technical
+  if (lowerTitle.includes('vfx') || lowerTitle.includes('visual effects') || lowerTitle.includes('cgi') ||
+      lowerTitle.includes('breakdown') || lowerTitle.includes('tutorial')) {
+    return 'VFX / Technical';
+  }
+  
+  return 'General';
+}
+
+// Auto-detect subject matter from video title
+function detectSubjectMatter(title: string): string {
+  const lowerTitle = title.toLowerCase();
+  
+  // Ship Design
+  if (lowerTitle.includes('ship') || lowerTitle.includes('ares') || lowerTitle.includes('enterprise') ||
+      lowerTitle.includes('klingon') || lowerTitle.includes('d7') || lowerTitle.includes('starship') ||
+      lowerTitle.includes('bridge') || lowerTitle.includes('engineering')) {
+    return 'Ship Design';
+  }
+  
+  // Cast & Crew
+  if (lowerTitle.includes('actor') || lowerTitle.includes('cast') || lowerTitle.includes('crew') ||
+      lowerTitle.includes('director') || lowerTitle.includes('producer') || lowerTitle.includes('writer') ||
+      lowerTitle.includes('gary graham') || lowerTitle.includes('tony todd') || lowerTitle.includes('j.g. hertzler') ||
+      lowerTitle.includes('kate vernon') || lowerTitle.includes('richard hatch')) {
+    return 'Cast & Crew';
+  }
+  
+  // Story & Lore
+  if (lowerTitle.includes('story') || lowerTitle.includes('lore') || lowerTitle.includes('four years war') ||
+      lowerTitle.includes('federation') || lowerTitle.includes('garth') || lowerTitle.includes('izar') ||
+      lowerTitle.includes('canon') || lowerTitle.includes('timeline') || lowerTitle.includes('battle of')) {
+    return 'Story & Lore';
+  }
+  
+  // Production
+  if (lowerTitle.includes('production') || lowerTitle.includes('set') || lowerTitle.includes('costume') ||
+      lowerTitle.includes('props') || lowerTitle.includes('makeup') || lowerTitle.includes('sound') ||
+      lowerTitle.includes('music') || lowerTitle.includes('score') || lowerTitle.includes('studio')) {
+    return 'Production';
+  }
+  
+  // Fan Community
+  if (lowerTitle.includes('fan') || lowerTitle.includes('backer') || lowerTitle.includes('donor') ||
+      lowerTitle.includes('community') || lowerTitle.includes('convention') || lowerTitle.includes('con ') ||
+      lowerTitle.includes('trek') && lowerTitle.includes('con')) {
+    return 'Fan Community';
+  }
+  
+  return 'General';
+}
+
 // Check if a URL is already archived on archive.today
 async function checkArchiveExists(videoUrl: string, retries = 3): Promise<string | null> {
   for (let attempt = 0; attempt < retries; attempt++) {
@@ -189,8 +286,8 @@ serve(async (req) => {
       
       // PRIMARY SOURCE: RSS Feeds - most reliable for recent videos with published dates
       const RSS_CHANNELS = [
-        { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCxRrQIpejUXUi8i4mAbzSlg', name: 'Axanar', playlistTitle: 'Recent Uploads' },
-        { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCWqf89_N2AT-HsyM6jIudzQ', name: 'Avalon Fan Films', playlistTitle: 'Avalon Fan Films' },
+        { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCxRrQIpejUXUi8i4mAbzSlg', name: 'Axanar', playlistTitle: 'Recent Uploads', sourceChannel: 'Axanar Productions' },
+        { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCWqf89_N2AT-HsyM6jIudzQ', name: 'Avalon Fan Films', playlistTitle: 'Avalon Fan Films', sourceChannel: 'Avalon Fan Films' },
       ];
       
       for (const channel of RSS_CHANNELS) {
@@ -241,6 +338,9 @@ serve(async (req) => {
                 published_at: publishedAt,
                 updated_at: new Date().toISOString(),
                 archive_url: existingArchiveUrl || null,
+                content_type: detectContentType(title),
+                subject_matter: detectSubjectMatter(title),
+                source_channel: channel.sourceChannel,
               });
               rssCount++;
             }
@@ -316,15 +416,19 @@ serve(async (req) => {
                     const existingArchiveUrl = existingVideo?.archive_url || existingArchives.get(video.videoId);
                     const existingPublishedAt = existingVideo?.published_at;
                     
+                    const videoTitle = video.title?.runs?.[0]?.text || "Untitled";
                     allVideos.set(video.videoId, {
                       video_id: video.videoId,
                       video_url: videoUrl,
-                      title: video.title?.runs?.[0]?.text || "Untitled",
+                      title: videoTitle,
                       playlist_title: playlistTitle,
                       position: parseInt(video.index?.simpleText || "0"),
                       published_at: existingPublishedAt || null, // Preserve from RSS if available
                       updated_at: new Date().toISOString(),
                       archive_url: existingArchiveUrl || null,
+                      content_type: existingVideo?.content_type || detectContentType(videoTitle),
+                      subject_matter: existingVideo?.subject_matter || detectSubjectMatter(videoTitle),
+                      source_channel: existingVideo?.source_channel || 'Axanar Productions',
                     });
                   }
                 }
