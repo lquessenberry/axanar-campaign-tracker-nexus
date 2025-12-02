@@ -84,10 +84,7 @@ export function VideoDiscussionModal({
       
       const username = profile.full_name || profile.username || "Anonymous";
       const title = newPostTitle.trim() || `Discussion: ${videoTitle}`;
-      const videoLink = videoUrl || `https://youtube.com/watch?v=${videoId}`;
-      const content = newPostContent.trim() 
-        ? `${newPostContent}\n\n---\n📺 [Watch the video](${videoLink})`
-        : `What are your thoughts on this video?\n\n📺 [Watch the video](${videoLink})`;
+      const content = newPostContent.trim() || "What are your thoughts on this video?";
 
       const { data, error } = await supabase
         .from("forum_threads")
