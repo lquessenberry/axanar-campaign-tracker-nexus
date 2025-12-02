@@ -288,6 +288,7 @@ serve(async (req) => {
       const RSS_CHANNELS = [
         { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCxRrQIpejUXUi8i4mAbzSlg', name: 'Axanar', playlistTitle: 'Recent Uploads', sourceChannel: 'Axanar Productions' },
         { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCWqf89_N2AT-HsyM6jIudzQ', name: 'Avalon Fan Films', playlistTitle: 'Avalon Fan Films', sourceChannel: 'Avalon Fan Films' },
+        { url: 'https://www.youtube.com/feeds/videos.xml?user=chrislea1000', name: 'Chris Lea', playlistTitle: 'Chris Lea Videos', sourceChannel: 'Chris Lea' },
       ];
       
       for (const channel of RSS_CHANNELS) {
