@@ -1,6 +1,7 @@
 import { useState, useMemo, useRef } from "react";
-import { Tv, Radio, ChevronLeft, ChevronRight, Volume2, Maximize2 } from "lucide-react";
+import { Tv, Radio, ChevronUp, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface Video {
   video_id: string;
@@ -15,7 +16,6 @@ interface LiveTVChannelProps {
   playlistNames: string[];
 }
 
-// Assume average video duration of 5 minutes for scheduling
 const ASSUMED_DURATION_SECONDS = 300;
 
 function calculateCurrentVideo(videos: Video[]) {
@@ -73,149 +73,142 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
       {/* TV Unit */}
       <div className="bg-gradient-to-b from-zinc-900 to-black rounded-xl overflow-hidden shadow-2xl shadow-black/50 border border-zinc-800">
         
-        {/* Screen bezel */}
-        <div className="p-3 pb-0">
-          {/* Inner screen frame with glow */}
-          <div className="relative rounded-lg overflow-hidden bg-black ring-1 ring-zinc-700 shadow-inner">
-            {/* Vignette overlay */}
-            <div className="absolute inset-0 pointer-events-none z-10 shadow-[inset_0_0_100px_rgba(0,0,0,0.8)]" />
-            
-            {/* Scan line effect (subtle) */}
-            <div 
-              className="absolute inset-0 pointer-events-none z-10 opacity-[0.03]"
-              style={{
-                backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0,0,0,0.5) 1px, rgba(0,0,0,0.5) 2px)',
-              }}
-            />
-            
-            {/* Video */}
-            <div className="aspect-video">
-              {embedUrl ? (
-                <iframe
-                  ref={iframeRef}
-                  src={embedUrl}
-                  title={video?.title || "Live TV"}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="w-full h-full border-0"
-                />
-              ) : (
-                <div className="flex items-center justify-center h-full bg-zinc-950 text-zinc-600">
-                  <div className="text-center">
-                    <Tv className="w-20 h-20 mx-auto mb-4 opacity-30" />
-                    <p className="text-sm">No Signal</p>
+        <div className="flex">
+          {/* Left: Screen */}
+          <div className="flex-1 p-3">
+            {/* Inner screen frame */}
+            <div className="relative rounded-lg overflow-hidden bg-black ring-1 ring-zinc-700 shadow-inner">
+              {/* Vignette */}
+              <div className="absolute inset-0 pointer-events-none z-10 shadow-[inset_0_0_80px_rgba(0,0,0,0.7)]" />
+              
+              {/* Video */}
+              <div className="aspect-video">
+                {embedUrl ? (
+                  <iframe
+                    ref={iframeRef}
+                    src={embedUrl}
+                    title={video?.title || "Live TV"}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full border-0"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full bg-zinc-950 text-zinc-600">
+                    <div className="text-center">
+                      <Tv className="w-16 h-16 mx-auto mb-3 opacity-30" />
+                      <p className="text-sm">No Signal</p>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-            
-            {/* On-screen display overlay */}
-            <div className="absolute top-0 left-0 right-0 p-4 pointer-events-none z-20">
-              <div className="flex items-start justify-between">
-                {/* Live badge */}
-                <div className="flex items-center gap-2 bg-black/60 backdrop-blur-sm px-3 py-1.5 rounded">
+                )}
+              </div>
+              
+              {/* On-screen display */}
+              <div className="absolute top-3 left-3 z-20 pointer-events-none">
+                <div className="flex items-center gap-2 bg-black/70 backdrop-blur-sm px-2.5 py-1 rounded">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
                   </span>
                   <span className="text-xs font-bold text-white tracking-wider">LIVE</span>
                 </div>
-                
-                {/* Channel number */}
-                <div className="bg-black/60 backdrop-blur-sm px-3 py-1.5 rounded text-right">
-                  <div className="text-2xl font-bold text-white tabular-nums">
-                    CH {currentChannelIndex.toString().padStart(2, '0')}
-                  </div>
+              </div>
+            </div>
+            
+            {/* Now Playing bar */}
+            <div className="mt-3 flex items-center gap-3">
+              {video && (
+                <div className="w-16 h-9 rounded overflow-hidden flex-shrink-0 bg-zinc-800">
+                  <img 
+                    src={`https://img.youtube.com/vi/${video.video_id}/mqdefault.jpg`}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
                 </div>
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5 text-[10px] text-emerald-400 font-medium">
+                  <Radio className="w-2.5 h-2.5" />
+                  NOW PLAYING
+                </div>
+                <h3 className="font-medium text-white line-clamp-1 text-xs">
+                  {video?.title || "No video"}
+                </h3>
               </div>
             </div>
           </div>
-        </div>
-        
-        {/* Control panel */}
-        <div className="p-4 space-y-4">
-          {/* Now Playing info */}
-          <div className="flex items-start gap-4">
-            {/* Thumbnail */}
-            {video && (
-              <div className="w-24 h-14 rounded overflow-hidden flex-shrink-0 bg-zinc-800">
-                <img 
-                  src={`https://img.youtube.com/vi/${video.video_id}/mqdefault.jpg`}
-                  alt=""
-                  className="w-full h-full object-cover"
-                />
+          
+          {/* Right: Channel List */}
+          <div className="w-48 border-l border-zinc-800 bg-zinc-900/50 flex flex-col">
+            {/* Channel header */}
+            <div className="p-3 border-b border-zinc-800">
+              <div className="text-[10px] text-zinc-500 uppercase tracking-wider">Channels</div>
+              <div className="text-lg font-bold text-white tabular-nums">
+                CH {currentChannelIndex.toString().padStart(2, '0')}
+              </div>
+            </div>
+            
+            {/* Channel nav */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleChannelChange("prev")}
+              className="h-8 rounded-none bg-zinc-800/50 hover:bg-zinc-700 text-zinc-400"
+            >
+              <ChevronUp className="w-4 h-4" />
+            </Button>
+            
+            {/* Channel list */}
+            <ScrollArea className="flex-1">
+              <div className="p-1.5 space-y-1">
+                {playlistNames.map((name, i) => (
+                  <button
+                    key={name}
+                    onClick={() => setCurrentChannel(name)}
+                    className={`
+                      w-full px-2 py-2 rounded text-left transition-all flex items-center gap-2
+                      ${currentChannel === name 
+                        ? 'bg-primary text-primary-foreground' 
+                        : 'bg-zinc-800/50 text-zinc-400 hover:bg-zinc-700 hover:text-white'
+                      }
+                    `}
+                  >
+                    <span className={`
+                      w-6 h-6 rounded flex items-center justify-center text-xs font-bold flex-shrink-0
+                      ${currentChannel === name ? 'bg-white/20' : 'bg-zinc-700'}
+                    `}>
+                      {i + 1}
+                    </span>
+                    <span className="text-xs truncate">{name}</span>
+                  </button>
+                ))}
+              </div>
+            </ScrollArea>
+            
+            {/* Channel nav */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleChannelChange("next")}
+              className="h-8 rounded-none bg-zinc-800/50 hover:bg-zinc-700 text-zinc-400"
+            >
+              <ChevronDown className="w-4 h-4" />
+            </Button>
+            
+            {/* Up next */}
+            {nextVideo && nextVideo.video_id !== video?.video_id && (
+              <div className="p-3 border-t border-zinc-800 bg-zinc-900">
+                <div className="text-[10px] text-zinc-500 uppercase tracking-wider mb-1">Up Next</div>
+                <p className="text-xs text-zinc-300 line-clamp-2">{nextVideo.title}</p>
               </div>
             )}
-            
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 text-xs text-emerald-400 font-medium mb-1">
-                <Radio className="w-3 h-3" />
-                NOW PLAYING
-              </div>
-              <h3 className="font-medium text-white line-clamp-1 text-sm">
-                {video?.title || "No video"}
-              </h3>
-              {nextVideo && nextVideo.video_id !== video?.video_id && (
-                <p className="text-xs text-zinc-500 mt-1 line-clamp-1">
-                  Up next: {nextVideo.title}
-                </p>
-              )}
-            </div>
-          </div>
-          
-          {/* Channel selector */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => handleChannelChange("prev")}
-              className="h-10 w-10 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-300"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </Button>
-            
-            <div className="flex-1 bg-zinc-800/50 rounded-lg px-4 py-2">
-              <div className="text-[10px] text-zinc-500 uppercase tracking-wider">Channel</div>
-              <div className="text-sm font-medium text-white truncate">
-                {currentChannel || "All Videos"}
-              </div>
-            </div>
-            
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => handleChannelChange("next")}
-              className="h-10 w-10 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-300"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </Button>
-          </div>
-          
-          {/* Channel grid */}
-          <div className="grid grid-cols-6 gap-1.5">
-            {playlistNames.map((name, i) => (
-              <button
-                key={name}
-                onClick={() => setCurrentChannel(name)}
-                className={`
-                  h-10 rounded-md text-sm font-bold transition-all
-                  ${currentChannel === name 
-                    ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25' 
-                    : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-white'
-                  }
-                `}
-              >
-                {i + 1}
-              </button>
-            ))}
           </div>
         </div>
         
-        {/* TV base/stand accent */}
+        {/* TV base accent */}
         <div className="h-1 bg-gradient-to-r from-transparent via-zinc-600 to-transparent" />
       </div>
       
-      {/* TV glow effect */}
+      {/* Ambient glow */}
       <div className="absolute -inset-4 -z-10 bg-primary/5 blur-3xl rounded-full opacity-50" />
     </div>
   );
