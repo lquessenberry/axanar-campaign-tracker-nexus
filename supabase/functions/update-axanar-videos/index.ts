@@ -185,8 +185,58 @@ serve(async (req) => {
 
     // Step 2: Optionally refresh playlist data from YouTube
     if (refreshPlaylists) {
-      console.log('Scraping YouTube playlists...');
+      console.log('Scraping YouTube playlists and streams...');
       
+      // First, scrape the streams page for live/past streams
+      console.log('Fetching streams page...');
+      try {
+        const streamsPage = await fetch(`https://www.youtube.com/@AxanarHQ/streams`, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept-Language': 'en-US,en;q=0.9',
+          }
+        });
+        const streamsHtml = await streamsPage.text();
+        
+        // Extract ytInitialData from streams page
+        const streamsDataMatch = streamsHtml.match(/var ytInitialData = ({.+?});<\/script>/s);
+        if (streamsDataMatch) {
+          try {
+            const ytData = JSON.parse(streamsDataMatch[1]);
+            // Navigate to the video grid in streams tab
+            const tabs = ytData.contents?.twoColumnBrowseResultsRenderer?.tabs || [];
+            for (const tab of tabs) {
+              const tabContent = tab.tabRenderer?.content?.richGridRenderer?.contents || [];
+              for (const item of tabContent) {
+                const video = item.richItemRenderer?.content?.videoRenderer;
+                if (video && video.videoId) {
+                  const videoUrl = `https://www.youtube.com/watch?v=${video.videoId}`;
+                  const existingArchiveUrl = existingArchives.get(video.videoId);
+                  
+                  allVideos.set(video.videoId, {
+                    video_id: video.videoId,
+                    video_url: videoUrl,
+                    title: video.title?.runs?.[0]?.text || "Untitled Stream",
+                    playlist_title: "Live Streams",
+                    position: 0,
+                    updated_at: new Date().toISOString(),
+                    archive_url: existingArchiveUrl || null,
+                  });
+                }
+              }
+            }
+            console.log(`Found streams, total videos now: ${allVideos.size}`);
+          } catch (parseErr) {
+            console.error('Error parsing streams data:', parseErr);
+          }
+        }
+        await delay(1000); // Delay before fetching playlists
+      } catch (streamsErr) {
+        console.error('Error fetching streams page:', streamsErr);
+      }
+      
+      // Then scrape playlists
+      console.log('Fetching playlists page...');
       const channelPage = await fetch(`https://www.youtube.com/@AxanarHQ/playlists`, {
         headers: {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
