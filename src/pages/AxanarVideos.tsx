@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { RefreshCw, Play, ExternalLink, Download, Calendar, Tv } from "lucide-react";
+import { RefreshCw, Play, ExternalLink, Download, Calendar, Tv, Tv2 } from "lucide-react";
 import { toast } from "sonner";
 import { VideoTheaterDialog } from "@/components/VideoTheaterDialog";
 import { LiveTVChannel } from "@/components/LiveTVChannel";
