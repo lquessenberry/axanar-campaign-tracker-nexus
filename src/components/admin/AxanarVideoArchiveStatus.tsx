@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { 
   Video, 
   Archive, 
@@ -16,7 +18,8 @@ import {
   Play,
   ExternalLink,
   Clock,
-  AlertTriangle
+  AlertTriangle,
+  Zap
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -32,9 +35,22 @@ interface AxanarVideo {
   updated_at: string | null;
 }
 
+interface CrawlResult {
+  success: boolean;
+  videos_total: number;
+  videos_archived: number;
+  videos_pending: number;
+  batch_attempted: number;
+  batch_succeeded: number;
+  archive_mode: string;
+  message: string;
+}
+
 const AxanarVideoArchiveStatus = () => {
   const queryClient = useQueryClient();
   const [isRunningCrawl, setIsRunningCrawl] = useState(false);
+  const [batchSize, setBatchSize] = useState(5);
+  const [lastResult, setLastResult] = useState<CrawlResult | null>(null);
 
   // Fetch all videos with archive status
   const { data: videos, isLoading, error } = useQuery({
@@ -53,17 +69,20 @@ const AxanarVideoArchiveStatus = () => {
 
   // Run the scraper with archive mode
   const runCrawlMutation = useMutation({
-    mutationFn: async (archiveMode: string) => {
+    mutationFn: async ({ archiveMode, batch }: { archiveMode: string; batch: number }) => {
       setIsRunningCrawl(true);
+      setLastResult(null);
+      
       const { data, error } = await supabase.functions.invoke('update-axanar-videos', {
-        body: { archiveMode }
+        body: { archiveMode, batchSize: batch }
       });
       
       if (error) throw error;
-      return data;
+      return data as CrawlResult;
     },
     onSuccess: (data) => {
-      toast.success(`Crawl complete: ${data.videos_collected} videos, ${data.videos_archived} archived`);
+      setLastResult(data);
+      toast.success(data.message || `Crawl complete: ${data.batch_succeeded}/${data.batch_attempted} archived`);
       queryClient.invalidateQueries({ queryKey: ['axanar-videos-archive-status'] });
       setIsRunningCrawl(false);
     },
@@ -91,6 +110,14 @@ const AxanarVideoArchiveStatus = () => {
     acc[playlist].push(video);
     return acc;
   }, {} as Record<string, AxanarVideo[]>) || {};
+
+  // Estimate time for batch
+  const estimateTime = (mode: string, count: number) => {
+    const seconds = mode === 'lookup-only' ? count * 3 : count * 35;
+    if (seconds < 60) return `~${seconds}s`;
+    const minutes = Math.ceil(seconds / 60);
+    return `~${minutes}min`;
+  };
 
   if (isLoading) {
     return (
@@ -180,65 +207,101 @@ const AxanarVideoArchiveStatus = () => {
         </Card>
       </div>
 
+      {/* Last Result Banner */}
+      {lastResult && (
+        <Card className="border-green-500/50 bg-green-500/5">
+          <CardContent className="pt-4">
+            <div className="flex items-center gap-3">
+              <CheckCircle2 className="h-5 w-5 text-green-500" />
+              <div>
+                <p className="font-medium">{lastResult.message}</p>
+                <p className="text-sm text-muted-foreground">
+                  Total: {lastResult.videos_total} | Archived: {lastResult.videos_archived} | Pending: {lastResult.videos_pending}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Action Buttons */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <RefreshCw className="h-5 w-5" />
-            Crawl Actions
+            Archive Actions
           </CardTitle>
           <CardDescription>
-            Run the YouTube scraper with different archive modes
+            archive.today has aggressive rate limiting. Use small batches (5-10) and run multiple times.
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
+          {/* Batch Size Control */}
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Label htmlFor="batchSize" className="whitespace-nowrap">Batch Size:</Label>
+              <Input
+                id="batchSize"
+                type="number"
+                min={1}
+                max={50}
+                value={batchSize}
+                onChange={(e) => setBatchSize(Math.max(1, Math.min(50, parseInt(e.target.value) || 5)))}
+                className="w-20"
+                disabled={isRunningCrawl}
+              />
+            </div>
+            <span className="text-sm text-muted-foreground">
+              {stats.pending > 0 && `(${Math.ceil(stats.pending / batchSize)} runs needed for ${stats.pending} pending)`}
+            </span>
+          </div>
+
+          {/* Action Buttons */}
           <div className="flex flex-wrap gap-3">
             <Button
-              onClick={() => runCrawlMutation.mutate('smart')}
+              onClick={() => runCrawlMutation.mutate({ archiveMode: 'lookup-only', batch: batchSize })}
               disabled={isRunningCrawl}
-              className="min-w-[140px]"
+              variant="outline"
+              className="min-w-[160px]"
+            >
+              {isRunningCrawl ? (
+                <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+              ) : (
+                <Zap className="h-4 w-4 mr-2" />
+              )}
+              Lookup Only
+              <span className="ml-2 text-xs opacity-70">{estimateTime('lookup-only', Math.min(batchSize, stats.pending))}</span>
+            </Button>
+            
+            <Button
+              onClick={() => runCrawlMutation.mutate({ archiveMode: 'smart', batch: batchSize })}
+              disabled={isRunningCrawl}
+              className="min-w-[160px]"
             >
               {isRunningCrawl ? (
                 <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
               ) : (
                 <Archive className="h-4 w-4 mr-2" />
               )}
-              Smart Crawl
-            </Button>
-            
-            <Button
-              variant="outline"
-              onClick={() => runCrawlMutation.mutate('lookup-only')}
-              disabled={isRunningCrawl}
-              className="min-w-[140px]"
-            >
-              Lookup Only
-            </Button>
-            
-            <Button
-              variant="outline"
-              onClick={() => runCrawlMutation.mutate('submit-only')}
-              disabled={isRunningCrawl}
-              className="min-w-[140px]"
-            >
-              Submit Only
+              Smart Archive
+              <span className="ml-2 text-xs opacity-70">{estimateTime('smart', Math.min(batchSize, stats.pending))}</span>
             </Button>
             
             <Button
               variant="secondary"
-              onClick={() => runCrawlMutation.mutate('skip')}
+              onClick={() => runCrawlMutation.mutate({ archiveMode: 'skip', batch: 0 })}
               disabled={isRunningCrawl}
               className="min-w-[140px]"
             >
-              Scrape Only
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Refresh Playlists
             </Button>
           </div>
           
-          <div className="mt-4 text-sm text-muted-foreground space-y-1">
-            <p><strong>Smart:</strong> Lookup first, submit only if no archive exists (recommended)</p>
-            <p><strong>Lookup Only:</strong> Only check for existing archives, never submit</p>
-            <p><strong>Submit Only:</strong> Submit all videos to archive.today (may create duplicates)</p>
-            <p><strong>Scrape Only:</strong> Just scrape YouTube playlists, skip archiving</p>
+          <div className="text-sm text-muted-foreground space-y-1 pt-2 border-t">
+            <p><strong>Lookup Only:</strong> Fast check for existing archives (~3s each), good first step</p>
+            <p><strong>Smart Archive:</strong> Lookup first, then submit missing ones (~35s each due to rate limits)</p>
+            <p><strong>Refresh Playlists:</strong> Just re-scrape YouTube, no archiving</p>
           </div>
         </CardContent>
       </Card>

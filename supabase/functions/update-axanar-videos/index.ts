@@ -11,84 +11,122 @@ const supabase = createClient(
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
 );
 
-// Check if a URL is already archived on archive.today
-async function checkArchiveExists(videoUrl: string): Promise<string | null> {
-  try {
-    const archiveLookupUrl = `https://archive.today/${encodeURIComponent(videoUrl)}`;
-    const response = await fetch(archiveLookupUrl, {
-      method: 'HEAD',
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-      },
-      redirect: 'manual', // Don't follow redirects automatically
-    });
-    
-    // If we get a redirect to an archive page, it exists
-    if (response.status === 302 || response.status === 301) {
-      const location = response.headers.get('location');
-      if (location && location.includes('archive.today')) {
-        console.log(`Archive exists for ${videoUrl}: ${location}`);
-        return location;
-      }
-    }
-    
-    // Also check if it returns 200 directly (sometimes archive.today does this)
-    if (response.status === 200) {
-      console.log(`Archive exists for ${videoUrl}: ${archiveLookupUrl}`);
-      return archiveLookupUrl;
-    }
-    
-    return null;
-  } catch (error) {
-    console.error(`Error checking archive for ${videoUrl}:`, error);
-    return null;
-  }
+// Delay helper with jitter
+function delay(ms: number): Promise<void> {
+  const jitter = Math.random() * 1000; // Add 0-1 second jitter
+  return new Promise(resolve => setTimeout(resolve, ms + jitter));
 }
 
-// Submit a URL to archive.today for archiving
-async function submitToArchive(videoUrl: string): Promise<string | null> {
-  try {
-    console.log(`Submitting ${videoUrl} to archive.today...`);
-    
-    // archive.today uses a form submission
-    const submitUrl = 'https://archive.today/submit/';
-    const formData = new URLSearchParams();
-    formData.append('url', videoUrl);
-    
-    const response = await fetch(submitUrl, {
-      method: 'POST',
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: formData.toString(),
-      redirect: 'manual',
-    });
-    
-    // archive.today typically redirects to the archive page or a processing page
-    const location = response.headers.get('location');
-    if (location) {
-      console.log(`Archive submitted for ${videoUrl}, location: ${location}`);
-      return location;
-    }
-    
-    // If no redirect, try to get the URL from the response
-    if (response.status === 200) {
-      const text = await response.text();
-      // Look for the archive URL in the response
-      const archiveMatch = text.match(/https:\/\/archive\.today\/[a-zA-Z0-9]+/);
-      if (archiveMatch) {
-        console.log(`Archive created for ${videoUrl}: ${archiveMatch[0]}`);
-        return archiveMatch[0];
+// Check if a URL is already archived on archive.today
+async function checkArchiveExists(videoUrl: string, retries = 3): Promise<string | null> {
+  for (let attempt = 0; attempt < retries; attempt++) {
+    try {
+      const archiveLookupUrl = `https://archive.today/${encodeURIComponent(videoUrl)}`;
+      const response = await fetch(archiveLookupUrl, {
+        method: 'HEAD',
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        },
+        redirect: 'manual',
+      });
+      
+      // Rate limited - back off exponentially
+      if (response.status === 429) {
+        const backoffMs = Math.pow(2, attempt) * 10000; // 10s, 20s, 40s
+        console.log(`Rate limited on lookup, backing off ${backoffMs}ms...`);
+        await delay(backoffMs);
+        continue;
+      }
+      
+      // If we get a redirect to an archive page, it exists
+      if (response.status === 302 || response.status === 301) {
+        const location = response.headers.get('location');
+        if (location && (location.includes('archive.today') || location.includes('archive.ph') || location.includes('archive.is'))) {
+          console.log(`Archive exists for ${videoUrl}: ${location}`);
+          return location;
+        }
+      }
+      
+      // Also check if it returns 200 directly
+      if (response.status === 200) {
+        console.log(`Archive exists for ${videoUrl}: ${archiveLookupUrl}`);
+        return archiveLookupUrl;
+      }
+      
+      // No archive found
+      return null;
+    } catch (error) {
+      console.error(`Error checking archive for ${videoUrl} (attempt ${attempt + 1}):`, error);
+      if (attempt < retries - 1) {
+        await delay(5000);
       }
     }
-    
-    console.log(`Archive submission response status: ${response.status}`);
-    return null;
-  } catch (error) {
-    console.error(`Error submitting to archive for ${videoUrl}:`, error);
-    return null;
   }
+  return null;
+}
+
+// Submit a URL to archive.today for archiving with exponential backoff
+async function submitToArchive(videoUrl: string, retries = 3): Promise<string | null> {
+  for (let attempt = 0; attempt < retries; attempt++) {
+    try {
+      console.log(`Submitting ${videoUrl} to archive.today (attempt ${attempt + 1})...`);
+      
+      const submitUrl = 'https://archive.today/submit/';
+      const formData = new URLSearchParams();
+      formData.append('url', videoUrl);
+      
+      const response = await fetch(submitUrl, {
+        method: 'POST',
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+        },
+        body: formData.toString(),
+        redirect: 'manual',
+      });
+      
+      console.log(`Archive submission response status: ${response.status}`);
+      
+      // Rate limited - back off exponentially
+      if (response.status === 429) {
+        const backoffMs = Math.pow(2, attempt) * 30000; // 30s, 60s, 120s
+        console.log(`Rate limited on submit, backing off ${backoffMs}ms...`);
+        await delay(backoffMs);
+        continue;
+      }
+      
+      // archive.today typically redirects to the archive page or a processing page
+      const location = response.headers.get('location');
+      if (location) {
+        // Check if it's a valid archive URL (not just a redirect to submit page)
+        if (location.includes('/wip/') || location.match(/archive\.(today|ph|is)\/[a-zA-Z0-9]+/)) {
+          console.log(`Archive submitted for ${videoUrl}, location: ${location}`);
+          return location;
+        }
+      }
+      
+      // If no redirect, try to get the URL from the response body
+      if (response.status === 200) {
+        const text = await response.text();
+        const archiveMatch = text.match(/https:\/\/archive\.(today|ph|is)\/[a-zA-Z0-9]+/);
+        if (archiveMatch) {
+          console.log(`Archive created for ${videoUrl}: ${archiveMatch[0]}`);
+          return archiveMatch[0];
+        }
+      }
+      
+      // Submission didn't work this time
+      return null;
+    } catch (error) {
+      console.error(`Error submitting to archive for ${videoUrl} (attempt ${attempt + 1}):`, error);
+      if (attempt < retries - 1) {
+        await delay(10000);
+      }
+    }
+  }
+  return null;
 }
 
 // Smart archive: lookup first, submit if missing
@@ -103,9 +141,6 @@ async function getOrCreateArchive(videoUrl: string): Promise<string | null> {
   console.log(`No archive found for ${videoUrl}, submitting...`);
   const newArchive = await submitToArchive(videoUrl);
   
-  // Small delay to be respectful to archive.today
-  await new Promise(resolve => setTimeout(resolve, 2000));
-  
   return newArchive;
 }
 
@@ -116,156 +151,210 @@ serve(async (req) => {
 
   try {
     // Parse request body for options
-    let archiveMode = 'smart'; // Default to smart mode
+    let archiveMode = 'smart'; // 'smart', 'lookup-only', 'submit-only', 'skip'
+    let batchSize = 10; // Process only this many unarchived videos per run
+    let refreshPlaylists = true; // Whether to re-scrape YouTube
+    
     try {
       const body = await req.json();
-      if (body.archiveMode) {
-        archiveMode = body.archiveMode; // 'smart', 'lookup-only', 'submit-only', 'skip'
-      }
+      if (body.archiveMode) archiveMode = body.archiveMode;
+      if (body.batchSize) batchSize = parseInt(body.batchSize) || 10;
+      if (body.refreshPlaylists !== undefined) refreshPlaylists = body.refreshPlaylists;
     } catch {
       // No body or invalid JSON, use defaults
     }
 
-    console.log(`Starting Axanar video scrape with archive mode: ${archiveMode}...`);
+    console.log(`Starting Axanar video update - mode: ${archiveMode}, batch: ${batchSize}, refresh: ${refreshPlaylists}`);
+    
+    // Step 1: Get existing videos from database
+    const { data: existingVideos, error: fetchError } = await supabase
+      .from('axanar_videos')
+      .select('video_id, archive_url');
+    
+    if (fetchError) {
+      console.error('Error fetching existing videos:', fetchError);
+    }
+    
+    const existingArchives = new Map<string, string | null>();
+    for (const v of existingVideos || []) {
+      existingArchives.set(v.video_id, v.archive_url);
+    }
+    console.log(`Found ${existingArchives.size} existing videos in database`);
+
     const allVideos = new Map<string, any>();
 
-    // Step 1: Get the channel page to find playlist IDs
-    const channelPage = await fetch(`https://www.youtube.com/@AxanarHQ/playlists`, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept-Language': 'en-US,en;q=0.9',
-      }
-    });
-    const html = await channelPage.text();
-
-    // Extract playlist IDs from the page HTML
-    const playlistIds: string[] = [];
-    const playlistRegex = /"playlistId":"(PL[A-Za-z0-9_-]{32,})"/g;
-    for (const match of html.matchAll(playlistRegex)) {
-      if (!playlistIds.includes(match[1])) {
-        playlistIds.push(match[1]);
-      }
-    }
-
-    console.log(`Found ${playlistIds.length} playlists`);
-
-    // Step 2: Fetch each playlist page and extract videos
-    for (const playlistId of playlistIds) {
-      console.log(`Fetching playlist: ${playlistId}`);
+    // Step 2: Optionally refresh playlist data from YouTube
+    if (refreshPlaylists) {
+      console.log('Scraping YouTube playlists...');
       
-      const playlistUrl = `https://www.youtube.com/playlist?list=${playlistId}`;
-      const playlistResp = await fetch(playlistUrl, {
+      const channelPage = await fetch(`https://www.youtube.com/@AxanarHQ/playlists`, {
         headers: {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
           'Accept-Language': 'en-US,en;q=0.9',
         }
       });
-      
-      const playlistHtml = await playlistResp.text();
-      
-      // Extract title
-      const titleMatch = playlistHtml.match(/<title>([^<]+)<\/title>/);
-      const playlistTitle = titleMatch ? titleMatch[1].replace(' - YouTube', '').trim() : 'Unknown';
-      
-      // Try to find ytInitialData
-      const ytInitialDataMatch = playlistHtml.match(/var ytInitialData = ({.+?});<\/script>/s);
-      
-      if (ytInitialDataMatch) {
-        try {
-          const ytData = JSON.parse(ytInitialDataMatch[1]);
-          
-          // Navigate to playlist content
-          const contents = ytData.contents?.twoColumnBrowseResultsRenderer?.tabs?.[0]?.tabRenderer?.content?.sectionListRenderer?.contents?.[0]?.itemSectionRenderer?.contents?.[0]?.playlistVideoListRenderer?.contents;
-          
-          if (contents) {
-            for (const item of contents) {
-              const video = item.playlistVideoRenderer;
-              if (video && video.videoId) {
-                const videoUrl = `https://www.youtube.com/watch?v=${video.videoId}`;
-                allVideos.set(video.videoId, {
-                  video_id: video.videoId,
-                  video_url: videoUrl,
-                  title: video.title?.runs?.[0]?.text || "Untitled",
-                  playlist_title: playlistTitle,
-                  position: parseInt(video.index?.simpleText || "0"),
-                  updated_at: new Date().toISOString(),
-                  archive_url: null, // Will be populated later if archiving is enabled
-                });
-              }
-            }
-          }
-          
-        } catch (parseErr) {
-          console.error(`JSON parse error for playlist ${playlistId}:`, parseErr);
+      const html = await channelPage.text();
+
+      // Extract playlist IDs
+      const playlistIds: string[] = [];
+      const playlistRegex = /"playlistId":"(PL[A-Za-z0-9_-]{32,})"/g;
+      for (const match of html.matchAll(playlistRegex)) {
+        if (!playlistIds.includes(match[1])) {
+          playlistIds.push(match[1]);
         }
       }
-      
-      console.log(`Found videos in playlist "${playlistTitle}", total now: ${allVideos.size}`);
+
+      console.log(`Found ${playlistIds.length} playlists`);
+
+      // Fetch each playlist
+      for (const playlistId of playlistIds) {
+        console.log(`Fetching playlist: ${playlistId}`);
+        
+        const playlistUrl = `https://www.youtube.com/playlist?list=${playlistId}`;
+        const playlistResp = await fetch(playlistUrl, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept-Language': 'en-US,en;q=0.9',
+          }
+        });
+        
+        const playlistHtml = await playlistResp.text();
+        
+        const titleMatch = playlistHtml.match(/<title>([^<]+)<\/title>/);
+        const playlistTitle = titleMatch ? titleMatch[1].replace(' - YouTube', '').trim() : 'Unknown';
+        
+        const ytInitialDataMatch = playlistHtml.match(/var ytInitialData = ({.+?});<\/script>/s);
+        
+        if (ytInitialDataMatch) {
+          try {
+            const ytData = JSON.parse(ytInitialDataMatch[1]);
+            const contents = ytData.contents?.twoColumnBrowseResultsRenderer?.tabs?.[0]?.tabRenderer?.content?.sectionListRenderer?.contents?.[0]?.itemSectionRenderer?.contents?.[0]?.playlistVideoListRenderer?.contents;
+            
+            if (contents) {
+              for (const item of contents) {
+                const video = item.playlistVideoRenderer;
+                if (video && video.videoId) {
+                  const videoUrl = `https://www.youtube.com/watch?v=${video.videoId}`;
+                  // Preserve existing archive_url if we have one
+                  const existingArchiveUrl = existingArchives.get(video.videoId);
+                  
+                  allVideos.set(video.videoId, {
+                    video_id: video.videoId,
+                    video_url: videoUrl,
+                    title: video.title?.runs?.[0]?.text || "Untitled",
+                    playlist_title: playlistTitle,
+                    position: parseInt(video.index?.simpleText || "0"),
+                    updated_at: new Date().toISOString(),
+                    archive_url: existingArchiveUrl || null,
+                  });
+                }
+              }
+            }
+          } catch (parseErr) {
+            console.error(`JSON parse error for playlist ${playlistId}:`, parseErr);
+          }
+        }
+        
+        console.log(`Found videos in playlist "${playlistTitle}", total now: ${allVideos.size}`);
+        await delay(500); // Small delay between playlist fetches
+      }
+    } else {
+      // Just use existing videos from database
+      for (const v of existingVideos || []) {
+        allVideos.set(v.video_id, {
+          video_id: v.video_id,
+          archive_url: v.archive_url,
+        });
+      }
     }
 
-    console.log(`Collected ${allVideos.size} unique videos`);
+    console.log(`Total videos to process: ${allVideos.size}`);
 
     // Step 3: Process archives based on mode
+    let archiveSuccesses = 0;
+    let archiveAttempts = 0;
+    
     if (archiveMode !== 'skip') {
-      console.log(`Processing archives in ${archiveMode} mode...`);
-      let processed = 0;
+      // Find videos that need archiving (no archive_url yet)
+      const videosToArchive = Array.from(allVideos.entries())
+        .filter(([_, data]) => !data.archive_url)
+        .slice(0, batchSize); // Limit to batch size
       
-      for (const [videoId, videoData] of allVideos) {
-        processed++;
-        console.log(`Processing archive ${processed}/${allVideos.size}: ${videoId}`);
+      console.log(`Found ${videosToArchive.length} videos to archive (batch limit: ${batchSize})`);
+      
+      for (const [videoId, videoData] of videosToArchive) {
+        archiveAttempts++;
+        console.log(`Processing archive ${archiveAttempts}/${videosToArchive.length}: ${videoId}`);
         
         let archiveUrl: string | null = null;
         
         switch (archiveMode) {
           case 'lookup-only':
             archiveUrl = await checkArchiveExists(videoData.video_url);
+            await delay(2000); // 2 second delay for lookups
             break;
           case 'submit-only':
             archiveUrl = await submitToArchive(videoData.video_url);
-            // Add delay between submissions
-            await new Promise(resolve => setTimeout(resolve, 3000));
+            await delay(45000); // 45 second delay between submissions
             break;
           case 'smart':
           default:
             archiveUrl = await getOrCreateArchive(videoData.video_url);
+            await delay(30000); // 30 second delay for smart mode
             break;
         }
         
         if (archiveUrl) {
           videoData.archive_url = archiveUrl;
-        }
-        
-        // Rate limiting to be respectful
-        if (archiveMode !== 'lookup-only') {
-          await new Promise(resolve => setTimeout(resolve, 1000));
+          archiveSuccesses++;
+          
+          // Immediately update this video in the database
+          const { error: updateError } = await supabase
+            .from('axanar_videos')
+            .update({ archive_url: archiveUrl, updated_at: new Date().toISOString() })
+            .eq('video_id', videoId);
+          
+          if (updateError) {
+            console.error(`Failed to update archive_url for ${videoId}:`, updateError);
+          } else {
+            console.log(`✓ Saved archive_url for ${videoId}`);
+          }
         }
       }
     }
 
-    // Step 4: Upsert into Supabase
-    const rows = Array.from(allVideos.values());
-    if (rows.length > 0) {
-      const { error } = await supabase
-        .from("axanar_videos")
-        .upsert(rows, { onConflict: "video_id" });
+    // Step 4: Upsert all video metadata (if we refreshed playlists)
+    if (refreshPlaylists) {
+      const rows = Array.from(allVideos.values());
+      if (rows.length > 0) {
+        const { error } = await supabase
+          .from("axanar_videos")
+          .upsert(rows, { onConflict: "video_id" });
 
-      if (error) {
-        console.error("Supabase upsert failed:", error);
-        return new Response(JSON.stringify({ error: error.message }), {
-          status: 500,
-          headers: { ...corsHeaders, "Content-Type": "application/json" }
-        });
+        if (error) {
+          console.error("Supabase upsert failed:", error);
+          return new Response(JSON.stringify({ error: error.message }), {
+            status: 500,
+            headers: { ...corsHeaders, "Content-Type": "application/json" }
+          });
+        }
       }
     }
 
-    const archivedCount = rows.filter(r => r.archive_url).length;
+    const totalArchived = Array.from(allVideos.values()).filter(r => r.archive_url).length;
+    const pendingCount = allVideos.size - totalArchived;
 
     return new Response(JSON.stringify({
       success: true,
-      playlists_found: playlistIds.length,
-      videos_collected: allVideos.size,
-      videos_archived: archivedCount,
+      videos_total: allVideos.size,
+      videos_archived: totalArchived,
+      videos_pending: pendingCount,
+      batch_attempted: archiveAttempts,
+      batch_succeeded: archiveSuccesses,
       archive_mode: archiveMode,
+      message: archiveMode === 'skip' 
+        ? 'Playlist data refreshed without archiving' 
+        : `Processed ${archiveAttempts} videos, ${archiveSuccesses} archived successfully. ${pendingCount} still pending.`,
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
