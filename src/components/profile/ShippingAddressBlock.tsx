@@ -89,9 +89,17 @@ const LCARSButton: React.FC<{
   );
 };
 
-export const ShippingAddressBlock: React.FC = () => {
-  const { data: address, isLoading } = useUserAddress();
-  const { data: pledges } = useUserRewards();
+interface ShippingAddressBlockProps {
+  targetUserId?: string;
+  readOnly?: boolean;
+}
+
+export const ShippingAddressBlock: React.FC<ShippingAddressBlockProps> = ({ 
+  targetUserId, 
+  readOnly = false 
+}) => {
+  const { data: address, isLoading } = useUserAddress(targetUserId);
+  const { data: pledges } = useUserRewards(targetUserId);
   const updateAddress = useUpdateAddress();
   const [isEditing, setIsEditing] = useState(false);
   
@@ -250,7 +258,7 @@ export const ShippingAddressBlock: React.FC = () => {
             </div>
             
             <AnimatePresence mode="wait">
-              {!isEditing ? (
+              {!isEditing && !readOnly ? (
                 <motion.div
                   key="edit-button"
                   initial={{ opacity: 0, scale: 0.8, x: 20 }}

@@ -22,19 +22,20 @@ interface UserPledge {
   } | null;
 }
 
-export const useUserRewards = () => {
+export const useUserRewards = (targetUserId?: string) => {
   const { user } = useAuth();
+  const userId = targetUserId || user?.id;
   
   return useQuery({
-    queryKey: ['user-rewards', user?.id],
+    queryKey: ['user-rewards', userId],
     queryFn: async () => {
-      if (!user) throw new Error('User not authenticated');
+      if (!userId) throw new Error('User ID required');
       
       // Get donor record first
       const { data: donor, error: donorError } = await supabase
         .from('donors')
         .select('id')
-        .eq('auth_user_id', user.id)
+        .eq('auth_user_id', userId)
         .maybeSingle();
 
       if (donorError) throw donorError;
@@ -84,12 +85,6 @@ export const useUserRewards = () => {
       }));
       
       console.log('🎯 User pledges found:', mappedPledges.length);
-      console.log('🎯 Pledge details:', mappedPledges.map(p => ({
-        id: p.id,
-        amount: p.amount,
-        date: p.created_at,
-        campaign: p.campaign.name
-      })));
       
       // Only remove exact duplicates (same ID)
       const uniquePledges = mappedPledges.filter((pledge, index, arr) => {
@@ -98,6 +93,6 @@ export const useUserRewards = () => {
       
       return uniquePledges;
     },
-    enabled: !!user,
+    enabled: !!userId,
   });
 };

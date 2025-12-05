@@ -206,12 +206,13 @@ const Profile = () => {
         return (
           <RewardsSection
             profile={profile}
-            user={user!}
             totalPledged={totalPledged}
             totalXP={totalXP}
             achievementsCount={achievementsCount}
             recruitCount={recruitCount}
             memberSince={memberSince}
+            targetUserId={targetUserId}
+            isViewingOtherUser={isViewingOtherUser}
           />
         );
       case 'progress':

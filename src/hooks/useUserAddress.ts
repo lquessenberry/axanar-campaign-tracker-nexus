@@ -25,19 +25,20 @@ interface Address {
   is_primary?: boolean;
 }
 
-export const useUserAddress = () => {
+export const useUserAddress = (targetUserId?: string) => {
   const { user } = useAuth();
+  const userId = targetUserId || user?.id;
   
   return useQuery({
-    queryKey: ['user-address', user?.id],
+    queryKey: ['user-address', userId],
     queryFn: async () => {
-      if (!user) throw new Error('User not authenticated');
+      if (!userId) throw new Error('User ID required');
       
       // Get donor record first
       const { data: donor, error: donorError } = await supabase
         .from('donors')
         .select('id')
-        .eq('auth_user_id', user.id)
+        .eq('auth_user_id', userId)
         .maybeSingle();
 
       if (donorError) throw donorError;
@@ -54,7 +55,7 @@ export const useUserAddress = () => {
       if (error) throw error;
       return address;
     },
-    enabled: !!user,
+    enabled: !!userId,
   });
 };
 
