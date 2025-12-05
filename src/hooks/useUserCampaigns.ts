@@ -1,18 +1,34 @@
-
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 
-export const useUserCampaigns = () => {
+export const useUserCampaigns = (targetUserId?: string) => {
   const { user } = useAuth();
+  const userId = targetUserId || user?.id;
   
   return useQuery({
-    queryKey: ['user-campaigns', user?.id],
+    queryKey: ['user-campaigns', userId],
     queryFn: async () => {
-      if (!user) throw new Error('User not authenticated');
+      if (!userId) throw new Error('User ID required');
       
-      // Since your schema doesn't have creator_id on campaigns,
-      // we'll return campaigns based on pledges made by the user
+      // First, find all donor records linked to this user
+      const { data: donorData, error: donorError } = await supabase
+        .from('donors')
+        .select('id')
+        .eq('auth_user_id', userId);
+      
+      if (donorError) {
+        console.error('Error fetching donors:', donorError);
+        return [];
+      }
+      
+      if (!donorData || donorData.length === 0) {
+        return [];
+      }
+      
+      const donorIds = donorData.map(donor => donor.id);
+      
+      // Fetch pledges for all linked donor records
       const { data, error } = await supabase
         .from('pledges')
         .select(`
@@ -28,7 +44,7 @@ export const useUserCampaigns = () => {
             web_url
           )
         `)
-        .eq('donor_id', user.id)
+        .in('donor_id', donorIds)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -67,6 +83,6 @@ export const useUserCampaigns = () => {
 
       return Array.from(campaignMap.values());
     },
-    enabled: !!user,
+    enabled: !!userId,
   });
 };

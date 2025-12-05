@@ -2,24 +2,25 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 
-export const useUserAchievements = () => {
+export const useUserAchievements = (targetUserId?: string) => {
   const { user } = useAuth();
+  const userId = targetUserId || user?.id;
   
   return useQuery({
-    queryKey: ['user-achievements', user?.id],
+    queryKey: ['user-achievements', userId],
     queryFn: async () => {
-      if (!user) throw new Error('User not authenticated');
+      if (!userId) throw new Error('User ID required');
       
       const { data, error } = await supabase
         .from('user_achievements')
         .select('*')
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .order('earned_at', { ascending: false });
 
       if (error) throw error;
       return data || [];
     },
-    enabled: !!user,
+    enabled: !!userId,
   });
 };
 
@@ -43,23 +44,24 @@ export const useCalculateAchievements = () => {
   });
 };
 
-export const useUserRecruitment = () => {
+export const useUserRecruitment = (targetUserId?: string) => {
   const { user } = useAuth();
+  const userId = targetUserId || user?.id;
   
   return useQuery({
-    queryKey: ['user-recruitment', user?.id],
+    queryKey: ['user-recruitment', userId],
     queryFn: async () => {
-      if (!user) throw new Error('User not authenticated');
+      if (!userId) throw new Error('User ID required');
       
       const { data, error } = await supabase
         .from('user_recruits')
         .select('*')
-        .eq('recruiter_id', user.id)
+        .eq('recruiter_id', userId)
         .order('recruited_at', { ascending: false });
 
       if (error) throw error;
       return data || [];
     },
-    enabled: !!user,
+    enabled: !!userId,
   });
 };
