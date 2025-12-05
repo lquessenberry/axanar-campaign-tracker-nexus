@@ -113,94 +113,100 @@ Deno.serve(async (req) => {
       throw new Error('Super admin access required');
     }
 
+    console.log('Admin verified, starting canonical rewards creation...');
+
     const supabaseAdmin = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    // Add columns if they don't exist
-    await supabaseAdmin.rpc('exec_sql', {
-      sql: `
-        ALTER TABLE rewards ADD COLUMN IF NOT EXISTS platform_perk_name TEXT;
-        ALTER TABLE rewards ADD COLUMN IF NOT EXISTS expected_backers INTEGER;
-      `
-    });
-
-    // Clear pledge reward links
-    await supabaseAdmin
+    // Clear pledge reward links for these campaigns
+    console.log('Clearing existing reward assignments...');
+    const { error: clearError } = await supabaseAdmin
       .from('pledges')
       .update({ reward_id: null })
       .in('campaign_id', Object.values(CAMPAIGN_IDS));
+    
+    if (clearError) {
+      console.error('Error clearing pledges:', clearError);
+    }
 
-    // Delete old rewards
-    await supabaseAdmin
+    // Delete old rewards for these campaigns
+    console.log('Deleting old rewards...');
+    const { error: deleteError } = await supabaseAdmin
       .from('rewards')
       .delete()
       .in('campaign_id', Object.values(CAMPAIGN_IDS));
+
+    if (deleteError) {
+      console.error('Error deleting rewards:', deleteError);
+    }
 
     const results = { prelude: 0, axanar_ks: 0, axanar_igg: 0 };
     const errors: string[] = [];
 
     // Insert Prelude rewards
+    console.log('Inserting Prelude KS rewards...');
     for (const r of PRELUDE_REWARDS) {
       const { error } = await supabaseAdmin.from('rewards').insert({
         campaign_id: CAMPAIGN_IDS.PRELUDE_KS,
         name: r.name,
-        platform_perk_name: r.platform,
         description: r.desc,
         minimum_amount: r.amt,
-        expected_backers: r.backers,
         is_physical: r.physical,
         requires_shipping: r.ship
       });
       if (error) {
         errors.push(`Prelude: ${r.name} - ${error.message}`);
+        console.error(`Prelude error:`, error);
       } else {
         results.prelude++;
       }
     }
 
     // Insert Axanar KS rewards
+    console.log('Inserting Axanar KS rewards...');
     for (const r of AXANAR_KS_REWARDS) {
       const { error } = await supabaseAdmin.from('rewards').insert({
         campaign_id: CAMPAIGN_IDS.AXANAR_KS,
         name: r.name,
-        platform_perk_name: r.platform,
         description: r.desc,
         minimum_amount: r.amt,
-        expected_backers: r.backers,
         is_physical: r.physical,
         requires_shipping: r.ship
       });
       if (error) {
         errors.push(`Axanar KS: ${r.name} - ${error.message}`);
+        console.error(`Axanar KS error:`, error);
       } else {
         results.axanar_ks++;
       }
     }
 
     // Insert Axanar IGG rewards
+    console.log('Inserting Axanar IGG rewards...');
     for (const r of AXANAR_IGG_REWARDS) {
       const { error } = await supabaseAdmin.from('rewards').insert({
         campaign_id: CAMPAIGN_IDS.AXANAR_IGG,
         name: r.name,
-        platform_perk_name: r.platform,
         description: r.desc,
         minimum_amount: r.amt,
-        expected_backers: r.backers,
         is_physical: r.physical,
         requires_shipping: r.ship
       });
       if (error) {
         errors.push(`Axanar IGG: ${r.name} - ${error.message}`);
+        console.error(`Axanar IGG error:`, error);
       } else {
         results.axanar_igg++;
       }
     }
 
-    console.log('Canonical rewards created, starting pledge assignment...');
+    console.log(`Created rewards: Prelude=${results.prelude}, Axanar KS=${results.axanar_ks}, Axanar IGG=${results.axanar_igg}`);
 
     // === PHASE 2: Auto-assign rewards to pledges ===
+    console.log('Starting pledge assignment phase...');
+    
     const assignmentResults = {
       by_perk_name: 0,
       by_amount: 0,
@@ -213,16 +219,17 @@ Deno.serve(async (req) => {
       }
     };
 
-    // Step 1: Indiegogo perk name matching
+    // Step 1: Indiegogo perk name matching via staging table
     console.log('Starting Indiegogo perk name matching...');
     const { data: iggPledges } = await supabaseAdmin
       .from('pledges')
-      .select('id, amount, donor_id, donors(email)')
+      .select('id, amount, donor_id, donors!inner(email)')
       .eq('campaign_id', CAMPAIGN_IDS.AXANAR_IGG);
 
     if (iggPledges) {
+      console.log(`Found ${iggPledges.length} IGG pledges to process`);
       for (const pledge of iggPledges) {
-        const email = pledge.donors?.email?.toLowerCase().trim();
+        const email = (pledge.donors as any)?.email?.toLowerCase().trim();
         if (!email) continue;
 
         // Find staging record by email
@@ -230,16 +237,17 @@ Deno.serve(async (req) => {
           .from('staging_indiegogo')
           .select('perk_name')
           .ilike('email', email)
-          .single();
+          .limit(1)
+          .maybeSingle();
 
         if (stagingRecord?.perk_name) {
-          // Match perk_name to reward platform_perk_name
+          // Match perk_name to reward name
           const { data: matchedReward } = await supabaseAdmin
             .from('rewards')
             .select('id')
             .eq('campaign_id', CAMPAIGN_IDS.AXANAR_IGG)
-            .eq('platform_perk_name', stagingRecord.perk_name)
-            .single();
+            .eq('name', stagingRecord.perk_name)
+            .maybeSingle();
 
           if (matchedReward) {
             await supabaseAdmin
@@ -270,6 +278,8 @@ Deno.serve(async (req) => {
 
       if (!unmatchedPledges) continue;
 
+      console.log(`Processing ${unmatchedPledges.length} unmatched pledges for ${campaignKey}`);
+
       for (const pledge of unmatchedPledges) {
         // Find highest-tier reward where pledge amount >= minimum_amount
         const { data: matchedReward } = await supabaseAdmin
@@ -279,7 +289,7 @@ Deno.serve(async (req) => {
           .lte('minimum_amount', pledge.amount)
           .order('minimum_amount', { ascending: false })
           .limit(1)
-          .single();
+          .maybeSingle();
 
         const campaignKey2 = campaignKey === 'PRELUDE_KS' ? 'prelude_ks' : 
                             campaignKey === 'AXANAR_KS' ? 'axanar_ks' : 'indiegogo';
@@ -301,12 +311,12 @@ Deno.serve(async (req) => {
       }
     }
 
-    console.log('Pledge assignment complete:', assignmentResults);
+    console.log('Pledge assignment complete:', JSON.stringify(assignmentResults, null, 2));
 
     return new Response(
       JSON.stringify({
         success: true,
-        message: `Created ${results.prelude + results.axanar_ks + results.axanar_igg} canonical rewards and assigned ${assignmentResults.total} pledges`,
+        message: `Created ${results.prelude + results.axanar_ks + results.axanar_igg} canonical rewards and processed ${assignmentResults.total} pledges`,
         rewards_created: results,
         pledges_assigned: assignmentResults,
         errors: errors.length > 0 ? errors : undefined
