@@ -12,73 +12,73 @@ const CAMPAIGN_IDS = {
 };
 
 const PRELUDE_REWARDS = [
-  { name: 'Crewman', platform: 'Crewman', desc: 'Backers page, poster, donor site', amt: 10, backers: 30, physical: true, ship: false },
-  { name: 'Crewman First Class', platform: 'Crewman First Class', desc: 'Prelude download', amt: 15, backers: 609, physical: false, ship: false },
-  { name: 'Ensign', platform: 'Ensign', desc: 'Illustrated script', amt: 20, backers: 207, physical: false, ship: false },
-  { name: 'Lieutenant Jr. Grade', platform: 'Lieutenant Jr. Grade', desc: 'Ares patch', amt: 25, backers: 350, physical: true, ship: true },
-  { name: 'Lieutenant', platform: 'Lieutenant', desc: 'Soundtrack CD', amt: 35, backers: 76, physical: true, ship: true },
-  { name: 'Second Lieutenant', platform: 'Second Lieutenant', desc: 'DVD or Blu-Ray +$10', amt: 50, backers: 411, physical: true, ship: true },
-  { name: 'Lieutenant Commander', platform: 'Lieutenant Commander', desc: 'Ltd Ed Axanar poster', amt: 75, backers: 73, physical: true, ship: true },
-  { name: 'Commander', platform: 'Commander', desc: 'Ares T-shirt', amt: 100, backers: 269, physical: true, ship: true },
-  { name: 'Starfleet Tunic', platform: 'Starfleet Tunic', desc: 'Starfleet tunic', amt: 300, backers: 5, physical: true, ship: true },
-  { name: 'Fleet Captain', platform: 'Fleet Captain', desc: 'All rewards + tunic', amt: 400, backers: 37, physical: true, ship: true }
+  { name: 'Crewman', desc: 'Backers page, poster, donor site', amt: 10, physical: true, ship: false },
+  { name: 'Crewman First Class', desc: 'Prelude download', amt: 15, physical: false, ship: false },
+  { name: 'Ensign', desc: 'Illustrated script', amt: 20, physical: false, ship: false },
+  { name: 'Lieutenant Jr. Grade', desc: 'Ares patch', amt: 25, physical: true, ship: true },
+  { name: 'Lieutenant', desc: 'Soundtrack CD', amt: 35, physical: true, ship: true },
+  { name: 'Second Lieutenant', desc: 'DVD or Blu-Ray +$10', amt: 50, physical: true, ship: true },
+  { name: 'Lieutenant Commander', desc: 'Ltd Ed Axanar poster', amt: 75, physical: true, ship: true },
+  { name: 'Commander', desc: 'Ares T-shirt', amt: 100, physical: true, ship: true },
+  { name: 'Starfleet Tunic', desc: 'Starfleet tunic', amt: 300, physical: true, ship: true },
+  { name: 'Fleet Captain', desc: 'All rewards + tunic', amt: 400, physical: true, ship: true }
 ];
 
 const AXANAR_KS_REWARDS = [
-  { name: 'Backers Page', platform: null, desc: 'Backers page', amt: 10, backers: 467, physical: false, ship: false },
-  { name: 'Script in PDF', platform: null, desc: 'Script in PDF', amt: 15, backers: 56, physical: false, ship: false },
-  { name: 'Illustrated Script', platform: null, desc: 'Illustrated script/PDF', amt: 20, backers: 96, physical: false, ship: false },
-  { name: 'Download Axanar', platform: null, desc: 'Download Axanar', amt: 25, backers: 2565, physical: false, ship: false },
-  { name: 'Prelude Premiere Program', platform: null, desc: 'Prelude premiere program', amt: 30, backers: 232, physical: true, ship: true },
-  { name: 'Starfleet First Fleet Patch', platform: null, desc: 'Starfleet First Fleet Patch', amt: 35, backers: 811, physical: true, ship: true },
-  { name: 'Ares Challenge Coin', platform: null, desc: 'Ares challenge coin', amt: 50, backers: 209, physical: true, ship: true },
-  { name: 'Axanar DVD', platform: null, desc: 'Axanar DVD', amt: 65, backers: 631, physical: true, ship: true },
-  { name: 'Axanar Blu-ray', platform: null, desc: 'Axanar Blu-ray', amt: 75, backers: 2052, physical: true, ship: true },
-  { name: 'Signed Cast Photo', platform: null, desc: 'Signed ltd. ed. cast photo', amt: 100, backers: 475, physical: true, ship: true },
-  { name: 'Black Ares T-shirt', platform: null, desc: 'Ltd. ed. black Ares T-shirt', amt: 125, backers: 384, physical: true, ship: true },
-  { name: 'Signed Bound Script', platform: null, desc: 'Signed, bound script/Gerrold', amt: 200, backers: 77, physical: true, ship: true },
-  { name: 'Casualty List', platform: null, desc: 'Name onscreen casualty list', amt: 250, backers: 50, physical: false, ship: false },
-  { name: 'Combined Collector Pack', platform: null, desc: 'Combined $100 & $200 lvls.', amt: 350, backers: 100, physical: true, ship: true },
-  { name: 'Ares Uniform Tunic', platform: null, desc: 'Ares uniform tunic', amt: 400, backers: 31, physical: true, ship: true },
-  { name: 'Full Cast Signed Photo', platform: null, desc: 'Cast photo signed by all cast', amt: 500, backers: 12, physical: true, ship: true },
-  { name: 'Set Visit', platform: null, desc: 'Set visit & cast/crew meal', amt: 2000, backers: 3, physical: false, ship: false },
-  { name: 'Production Assistant', platform: null, desc: 'On set prod. asst.', amt: 2500, backers: 4, physical: false, ship: false },
-  { name: 'Name Starfleet Ship', platform: null, desc: 'Name onscreen Starfleet ship', amt: 5000, backers: 5, physical: false, ship: false },
-  { name: 'Featured Extra', platform: null, desc: 'Featured extra onscreen', amt: 5000, backers: 5, physical: false, ship: false },
-  { name: 'Extra at Starfleet HQ', platform: null, desc: 'Extra at Starfleet HQ', amt: 5000, backers: 3, physical: false, ship: false },
-  { name: 'Producer on Set', platform: null, desc: 'Work as producer on set', amt: 10000, backers: 4, physical: false, ship: false }
+  { name: 'Backers Page', desc: 'Backers page', amt: 10, physical: false, ship: false },
+  { name: 'Script in PDF', desc: 'Script in PDF', amt: 15, physical: false, ship: false },
+  { name: 'Illustrated Script', desc: 'Illustrated script/PDF', amt: 20, physical: false, ship: false },
+  { name: 'Download Axanar', desc: 'Download Axanar', amt: 25, physical: false, ship: false },
+  { name: 'Prelude Premiere Program', desc: 'Prelude premiere program', amt: 30, physical: true, ship: true },
+  { name: 'Starfleet First Fleet Patch', desc: 'Starfleet First Fleet Patch', amt: 35, physical: true, ship: true },
+  { name: 'Ares Challenge Coin', desc: 'Ares challenge coin', amt: 50, physical: true, ship: true },
+  { name: 'Axanar DVD', desc: 'Axanar DVD', amt: 65, physical: true, ship: true },
+  { name: 'Axanar Blu-ray', desc: 'Axanar Blu-ray', amt: 75, physical: true, ship: true },
+  { name: 'Signed Cast Photo', desc: 'Signed ltd. ed. cast photo', amt: 100, physical: true, ship: true },
+  { name: 'Black Ares T-shirt', desc: 'Ltd. ed. black Ares T-shirt', amt: 125, physical: true, ship: true },
+  { name: 'Signed Bound Script', desc: 'Signed, bound script/Gerrold', amt: 200, physical: true, ship: true },
+  { name: 'Casualty List', desc: 'Name onscreen casualty list', amt: 250, physical: false, ship: false },
+  { name: 'Combined Collector Pack', desc: 'Combined $100 & $200 lvls.', amt: 350, physical: true, ship: true },
+  { name: 'Ares Uniform Tunic', desc: 'Ares uniform tunic', amt: 400, physical: true, ship: true },
+  { name: 'Full Cast Signed Photo', desc: 'Cast photo signed by all cast', amt: 500, physical: true, ship: true },
+  { name: 'Set Visit', desc: 'Set visit & cast/crew meal', amt: 2000, physical: false, ship: false },
+  { name: 'Production Assistant', desc: 'On set prod. asst.', amt: 2500, physical: false, ship: false },
+  { name: 'Name Starfleet Ship', desc: 'Name onscreen Starfleet ship', amt: 5000, physical: false, ship: false },
+  { name: 'Featured Extra', desc: 'Featured extra onscreen', amt: 5000, physical: false, ship: false },
+  { name: 'Extra at Starfleet HQ', desc: 'Extra at Starfleet HQ', amt: 5000, physical: false, ship: false },
+  { name: 'Producer on Set', desc: 'Work as producer on set', amt: 10000, physical: false, ship: false }
 ];
 
 const AXANAR_IGG_REWARDS = [
-  { name: 'Foundation Donor Package', platform: 'Foundation Donor Package', desc: 'Backers pg, donors store', amt: 10, backers: 398, physical: false, ship: false },
-  { name: 'Axanar Scripts', platform: 'Axanar Scripts', desc: 'Prelude & Axa scripts', amt: 15, backers: 44, physical: false, ship: false },
-  { name: 'Axanar Illustrated Scripts', platform: 'Axanar Illustrated Scripts', desc: 'Axanar illustrated script', amt: 20, backers: 114, physical: false, ship: false },
-  { name: 'Axanar Digital Download', platform: 'Axanar Digital Download', desc: 'Axanar download', amt: 25, backers: 2198, physical: false, ship: false },
-  { name: 'Digital Bits Special', platform: 'Digital Bits Special', desc: 'Digital Bits Special', amt: 30, backers: 29, physical: false, ship: false },
-  { name: 'Fourth Fleet Patch', platform: 'Fourth Fleet Patch', desc: 'Fourth Fleet patch', amt: 35, backers: 414, physical: true, ship: true },
-  { name: 'Sonja & Sam Patches', platform: 'Sonja & Sam Patches', desc: 'Ajax/Hercules patches', amt: 50, backers: 354, physical: true, ship: true },
-  { name: 'Axanar Soundtrack CD', platform: 'Axanar Soundtrack CD', desc: 'Axanar soundtrack', amt: 60, backers: 249, physical: true, ship: true },
-  { name: 'Axanar First Day Crew Badge', platform: 'Axanar First Day Crew Badge', desc: '1st Day patch, signed', amt: 75, backers: 50, physical: true, ship: true },
-  { name: 'Axanar Blu-ray', platform: 'Axanar Blu-ray', desc: 'Axanar Blu-ray', amt: 75, backers: 1030, physical: true, ship: true },
-  { name: 'Axanar Signed Crew Badge', platform: 'Axanar Signed Crew Badge', desc: 'Signed crew badge', amt: 75, backers: 109, physical: true, ship: true },
-  { name: 'Cast Member Signed Photo', platform: 'Cast Member Signed Photo', desc: 'Cast signed photo', amt: 100, backers: 80, physical: true, ship: true },
-  { name: 'Ultimate Patch Collection', platform: 'Ultimate Patch Collection', desc: 'Ultimate patch collection', amt: 100, backers: 363, physical: true, ship: true },
-  { name: 'Axanar T-Shirt', platform: 'Axanar T-Shirt', desc: 'Axanar T-shirt', amt: 125, backers: 146, physical: true, ship: true },
-  { name: 'Axanar Deluxe Blu-ray Set', platform: 'Axanar Deluxe Blu-ray Set', desc: 'Axanar deluxe Blu-ray', amt: 150, backers: 875, physical: true, ship: true },
-  { name: 'Bound, Signed Script', platform: 'Bound, Signed Script', desc: 'Bound, signed script', amt: 200, backers: 44, physical: true, ship: true },
-  { name: 'Voicemail Greeting', platform: 'Voicemail Greeting', desc: 'Actor voicemail greeting', amt: 350, backers: 4, physical: false, ship: false },
-  { name: 'Starfleet Cadet Jumpsuit', platform: 'Starfleet Cadet Jumpsuit', desc: 'Starfleet cadet jumpsuit', amt: 400, backers: 2, physical: true, ship: true },
-  { name: 'Cast Signed Photo', platform: 'Cast Signed Photo', desc: 'All cast signed photo', amt: 500, backers: 12, physical: true, ship: true },
-  { name: 'Lunch with Kharn and Garth!', platform: 'Lunch with Kharn and Garth!', desc: 'Lunch, Kharn & Garth', amt: 500, backers: 10, physical: false, ship: false },
-  { name: 'USS Ares Tunic', platform: 'USS Ares Tunic', desc: 'Ares tunic', amt: 600, backers: 8, physical: true, ship: true },
-  { name: 'First Day Production Clapper', platform: 'First Day Production Clapper', desc: '1st Day clapper', amt: 1000, backers: 5, physical: true, ship: true },
-  { name: 'USS Ares Dedication Plaque', platform: 'USS Ares Dedication Plaque', desc: 'Ares dedication plaque', amt: 1500, backers: 2, physical: true, ship: true },
-  { name: 'Set Visit', platform: 'Set Visit', desc: 'Set visit, meal w/cast', amt: 2000, backers: 4, physical: false, ship: false },
-  { name: 'Be a Production Assistant', platform: 'Be a Production Assistant', desc: 'Prod. Asst. for 1 week', amt: 2500, backers: 6, physical: false, ship: false },
-  { name: 'The Ultimate Collectors Pack', platform: 'The Ultimate Collectors Pack', desc: 'Ultimate collectors pack', amt: 4000, backers: 1, physical: true, ship: true },
-  { name: 'Be an Extra in Axanar', platform: 'Be an Extra in Axanar', desc: 'Extra in Axanar', amt: 5000, backers: 3, physical: false, ship: false },
-  { name: 'Associate Producer Upgrade', platform: 'Associate Producer Upgrade', desc: 'Assoc Producer upgrade', amt: 5000, backers: 1, physical: false, ship: false },
-  { name: 'Be an Associate Producer', platform: 'Be an Associate Producer', desc: 'Associate Producer', amt: 10000, backers: 3, physical: false, ship: false }
+  { name: 'Foundation Donor Package', desc: 'Backers pg, donors store', amt: 10, physical: false, ship: false },
+  { name: 'Axanar Scripts', desc: 'Prelude & Axa scripts', amt: 15, physical: false, ship: false },
+  { name: 'Axanar Illustrated Scripts', desc: 'Axanar illustrated script', amt: 20, physical: false, ship: false },
+  { name: 'Axanar Digital Download', desc: 'Axanar download', amt: 25, physical: false, ship: false },
+  { name: 'Digital Bits Special', desc: 'Digital Bits Special', amt: 30, physical: false, ship: false },
+  { name: 'Fourth Fleet Patch', desc: 'Fourth Fleet patch', amt: 35, physical: true, ship: true },
+  { name: 'Sonja & Sam Patches', desc: 'Ajax/Hercules patches', amt: 50, physical: true, ship: true },
+  { name: 'Axanar Soundtrack CD', desc: 'Axanar soundtrack', amt: 60, physical: true, ship: true },
+  { name: 'Axanar First Day Crew Badge', desc: '1st Day patch, signed', amt: 75, physical: true, ship: true },
+  { name: 'Axanar Blu-ray', desc: 'Axanar Blu-ray', amt: 75, physical: true, ship: true },
+  { name: 'Axanar Signed Crew Badge', desc: 'Signed crew badge', amt: 75, physical: true, ship: true },
+  { name: 'Cast Member Signed Photo', desc: 'Cast signed photo', amt: 100, physical: true, ship: true },
+  { name: 'Ultimate Patch Collection', desc: 'Ultimate patch collection', amt: 100, physical: true, ship: true },
+  { name: 'Axanar T-Shirt', desc: 'Axanar T-shirt', amt: 125, physical: true, ship: true },
+  { name: 'Axanar Deluxe Blu-ray Set', desc: 'Axanar deluxe Blu-ray', amt: 150, physical: true, ship: true },
+  { name: 'Bound, Signed Script', desc: 'Bound, signed script', amt: 200, physical: true, ship: true },
+  { name: 'Voicemail Greeting', desc: 'Actor voicemail greeting', amt: 350, physical: false, ship: false },
+  { name: 'Starfleet Cadet Jumpsuit', desc: 'Starfleet cadet jumpsuit', amt: 400, physical: true, ship: true },
+  { name: 'Cast Signed Photo', desc: 'All cast signed photo', amt: 500, physical: true, ship: true },
+  { name: 'Lunch with Kharn and Garth!', desc: 'Lunch, Kharn & Garth', amt: 500, physical: false, ship: false },
+  { name: 'USS Ares Tunic', desc: 'Ares tunic', amt: 600, physical: true, ship: true },
+  { name: 'First Day Production Clapper', desc: '1st Day clapper', amt: 1000, physical: true, ship: true },
+  { name: 'USS Ares Dedication Plaque', desc: 'Ares dedication plaque', amt: 1500, physical: true, ship: true },
+  { name: 'Set Visit', desc: 'Set visit, meal w/cast', amt: 2000, physical: false, ship: false },
+  { name: 'Be a Production Assistant', desc: 'Prod. Asst. for 1 week', amt: 2500, physical: false, ship: false },
+  { name: 'The Ultimate Collectors Pack', desc: 'Ultimate collectors pack', amt: 4000, physical: true, ship: true },
+  { name: 'Be an Extra in Axanar', desc: 'Extra in Axanar', amt: 5000, physical: false, ship: false },
+  { name: 'Associate Producer Upgrade', desc: 'Assoc Producer upgrade', amt: 5000, physical: false, ship: false },
+  { name: 'Be an Associate Producer', desc: 'Associate Producer', amt: 10000, physical: false, ship: false }
 ];
 
 Deno.serve(async (req) => {
@@ -113,175 +113,163 @@ Deno.serve(async (req) => {
       throw new Error('Super admin access required');
     }
 
-    console.log('Admin verified, starting canonical rewards creation...');
+    console.log('Admin verified, starting canonical rewards cleanup and creation...');
 
     const supabaseAdmin = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    // Clear pledge reward links for these campaigns
-    console.log('Clearing existing reward assignments...');
-    const { error: clearError } = await supabaseAdmin
-      .from('pledges')
-      .update({ reward_id: null })
-      .in('campaign_id', Object.values(CAMPAIGN_IDS));
-    
-    if (clearError) {
-      console.error('Error clearing pledges:', clearError);
-    }
+    // PHASE 1: Get all canonical reward definitions with their campaign
+    const allCanonicalRewards = [
+      ...PRELUDE_REWARDS.map(r => ({ ...r, campaign_id: CAMPAIGN_IDS.PRELUDE_KS })),
+      ...AXANAR_KS_REWARDS.map(r => ({ ...r, campaign_id: CAMPAIGN_IDS.AXANAR_KS })),
+      ...AXANAR_IGG_REWARDS.map(r => ({ ...r, campaign_id: CAMPAIGN_IDS.AXANAR_IGG }))
+    ];
 
-    // Delete old rewards for these campaigns
-    console.log('Deleting old rewards...');
-    const { error: deleteError } = await supabaseAdmin
-      .from('rewards')
-      .delete()
-      .in('campaign_id', Object.values(CAMPAIGN_IDS));
+    // PHASE 2: For each canonical reward, find or create it
+    const rewardIdMap: Record<string, string> = {}; // old_reward_id -> new_canonical_reward_id
+    const results = { created: 0, existing: 0, merged: 0, pledges_reassigned: 0 };
 
-    if (deleteError) {
-      console.error('Error deleting rewards:', deleteError);
-    }
+    for (const canonical of allCanonicalRewards) {
+      // Check if canonical reward already exists (exact name match)
+      const { data: existingCanonical } = await supabaseAdmin
+        .from('rewards')
+        .select('id')
+        .eq('campaign_id', canonical.campaign_id)
+        .eq('name', canonical.name)
+        .maybeSingle();
 
-    const results = { prelude: 0, axanar_ks: 0, axanar_igg: 0 };
-    const errors: string[] = [];
+      let canonicalRewardId: string;
 
-    // Insert Prelude rewards
-    console.log('Inserting Prelude KS rewards...');
-    for (const r of PRELUDE_REWARDS) {
-      const { error } = await supabaseAdmin.from('rewards').insert({
-        campaign_id: CAMPAIGN_IDS.PRELUDE_KS,
-        name: r.name,
-        description: r.desc,
-        minimum_amount: r.amt,
-        is_physical: r.physical,
-        requires_shipping: r.ship
-      });
-      if (error) {
-        errors.push(`Prelude: ${r.name} - ${error.message}`);
-        console.error(`Prelude error:`, error);
+      if (existingCanonical) {
+        canonicalRewardId = existingCanonical.id;
+        results.existing++;
       } else {
-        results.prelude++;
+        // Create the canonical reward
+        const { data: newReward, error } = await supabaseAdmin
+          .from('rewards')
+          .insert({
+            campaign_id: canonical.campaign_id,
+            name: canonical.name,
+            description: canonical.desc,
+            minimum_amount: canonical.amt,
+            is_physical: canonical.physical,
+            requires_shipping: canonical.ship
+          })
+          .select('id')
+          .single();
+
+        if (error) {
+          console.error(`Error creating ${canonical.name}:`, error);
+          continue;
+        }
+        canonicalRewardId = newReward.id;
+        results.created++;
       }
-    }
 
-    // Insert Axanar KS rewards
-    console.log('Inserting Axanar KS rewards...');
-    for (const r of AXANAR_KS_REWARDS) {
-      const { error } = await supabaseAdmin.from('rewards').insert({
-        campaign_id: CAMPAIGN_IDS.AXANAR_KS,
-        name: r.name,
-        description: r.desc,
-        minimum_amount: r.amt,
-        is_physical: r.physical,
-        requires_shipping: r.ship
-      });
-      if (error) {
-        errors.push(`Axanar KS: ${r.name} - ${error.message}`);
-        console.error(`Axanar KS error:`, error);
-      } else {
-        results.axanar_ks++;
-      }
-    }
+      // Find all duplicate rewards (same campaign, different name variations)
+      const nameVariations = [
+        canonical.name.toUpperCase(),
+        canonical.name.toLowerCase(),
+        canonical.name.replace(/,/g, ''),
+        canonical.name.toUpperCase().replace(/,/g, ''),
+      ];
 
-    // Insert Axanar IGG rewards
-    console.log('Inserting Axanar IGG rewards...');
-    for (const r of AXANAR_IGG_REWARDS) {
-      const { error } = await supabaseAdmin.from('rewards').insert({
-        campaign_id: CAMPAIGN_IDS.AXANAR_IGG,
-        name: r.name,
-        description: r.desc,
-        minimum_amount: r.amt,
-        is_physical: r.physical,
-        requires_shipping: r.ship
-      });
-      if (error) {
-        errors.push(`Axanar IGG: ${r.name} - ${error.message}`);
-        console.error(`Axanar IGG error:`, error);
-      } else {
-        results.axanar_igg++;
-      }
-    }
+      const { data: duplicates } = await supabaseAdmin
+        .from('rewards')
+        .select('id, name')
+        .eq('campaign_id', canonical.campaign_id)
+        .neq('id', canonicalRewardId)
+        .or(nameVariations.map(v => `name.ilike.${v}`).join(','));
 
-    console.log(`Created rewards: Prelude=${results.prelude}, Axanar KS=${results.axanar_ks}, Axanar IGG=${results.axanar_igg}`);
-
-    // === PHASE 2: Auto-assign rewards to pledges ===
-    console.log('Starting pledge assignment phase...');
-    
-    const assignmentResults = {
-      by_perk_name: 0,
-      by_amount: 0,
-      no_match: 0,
-      total: 0,
-      campaigns: {
-        indiegogo: { exact_match: 0, amount_match: 0, no_match: 0 },
-        axanar_ks: { exact_match: 0, amount_match: 0, no_match: 0 },
-        prelude_ks: { exact_match: 0, amount_match: 0, no_match: 0 }
-      }
-    };
-
-    // Step 1: Indiegogo perk name matching via staging table
-    console.log('Starting Indiegogo perk name matching...');
-    const { data: iggPledges } = await supabaseAdmin
-      .from('pledges')
-      .select('id, amount, donor_id, donors!inner(email)')
-      .eq('campaign_id', CAMPAIGN_IDS.AXANAR_IGG);
-
-    if (iggPledges) {
-      console.log(`Found ${iggPledges.length} IGG pledges to process`);
-      for (const pledge of iggPledges) {
-        const email = (pledge.donors as any)?.email?.toLowerCase().trim();
-        if (!email) continue;
-
-        // Find staging record by email
-        const { data: stagingRecord } = await supabaseAdmin
-          .from('staging_indiegogo')
-          .select('perk_name')
-          .ilike('email', email)
-          .limit(1)
-          .maybeSingle();
-
-        if (stagingRecord?.perk_name) {
-          // Match perk_name to reward name
-          const { data: matchedReward } = await supabaseAdmin
-            .from('rewards')
-            .select('id')
-            .eq('campaign_id', CAMPAIGN_IDS.AXANAR_IGG)
-            .eq('name', stagingRecord.perk_name)
-            .maybeSingle();
-
-          if (matchedReward) {
-            await supabaseAdmin
-              .from('pledges')
-              .update({ reward_id: matchedReward.id })
-              .eq('id', pledge.id);
-            
-            assignmentResults.by_perk_name++;
-            assignmentResults.campaigns.indiegogo.exact_match++;
-            assignmentResults.total++;
-            continue;
-          }
+      if (duplicates && duplicates.length > 0) {
+        for (const dup of duplicates) {
+          rewardIdMap[dup.id] = canonicalRewardId;
+          results.merged++;
         }
       }
     }
 
-    console.log(`Matched ${assignmentResults.by_perk_name} Indiegogo pledges by perk name`);
+    console.log(`Phase 2 complete: created=${results.created}, existing=${results.existing}, duplicates found=${results.merged}`);
 
-    // Step 2: Amount-based fallback matching for all campaigns
-    console.log('Starting amount-based matching for remaining pledges...');
+    // PHASE 3: Reassign pledges from duplicate rewards to canonical rewards (in batches)
+    console.log('Phase 3: Reassigning pledges from duplicates to canonical rewards...');
     
-    for (const [campaignKey, campaignId] of Object.entries(CAMPAIGN_IDS)) {
-      const { data: unmatchedPledges } = await supabaseAdmin
+    for (const [oldRewardId, newRewardId] of Object.entries(rewardIdMap)) {
+      // Update pledges in small batches
+      let updated = true;
+      while (updated) {
+        const { data: pledgeBatch } = await supabaseAdmin
+          .from('pledges')
+          .select('id')
+          .eq('reward_id', oldRewardId)
+          .limit(500);
+
+        if (!pledgeBatch || pledgeBatch.length === 0) {
+          updated = false;
+          continue;
+        }
+
+        const pledgeIds = pledgeBatch.map(p => p.id);
+        const { error } = await supabaseAdmin
+          .from('pledges')
+          .update({ reward_id: newRewardId })
+          .in('id', pledgeIds);
+
+        if (error) {
+          console.error(`Error reassigning pledges:`, error);
+          updated = false;
+        } else {
+          results.pledges_reassigned += pledgeBatch.length;
+          console.log(`Reassigned ${pledgeBatch.length} pledges from ${oldRewardId} to ${newRewardId}`);
+        }
+      }
+    }
+
+    console.log(`Phase 3 complete: ${results.pledges_reassigned} pledges reassigned`);
+
+    // PHASE 4: Delete orphaned duplicate rewards
+    console.log('Phase 4: Deleting orphaned duplicate rewards...');
+    let deleted = 0;
+    
+    for (const oldRewardId of Object.keys(rewardIdMap)) {
+      // Check if any pledges still reference this reward
+      const { data: remainingPledges } = await supabaseAdmin
+        .from('pledges')
+        .select('id')
+        .eq('reward_id', oldRewardId)
+        .limit(1);
+
+      if (!remainingPledges || remainingPledges.length === 0) {
+        const { error } = await supabaseAdmin
+          .from('rewards')
+          .delete()
+          .eq('id', oldRewardId);
+
+        if (!error) {
+          deleted++;
+        }
+      }
+    }
+
+    console.log(`Phase 4 complete: deleted ${deleted} duplicate rewards`);
+
+    // PHASE 5: Assign rewards to pledges without rewards (amount-based matching)
+    console.log('Phase 5: Assigning rewards to unassigned pledges...');
+    let assigned = 0;
+
+    for (const campaignId of Object.values(CAMPAIGN_IDS)) {
+      const { data: unassignedPledges } = await supabaseAdmin
         .from('pledges')
         .select('id, amount')
         .eq('campaign_id', campaignId)
-        .is('reward_id', null);
+        .is('reward_id', null)
+        .limit(1000);
 
-      if (!unmatchedPledges) continue;
+      if (!unassignedPledges) continue;
 
-      console.log(`Processing ${unmatchedPledges.length} unmatched pledges for ${campaignKey}`);
-
-      for (const pledge of unmatchedPledges) {
-        // Find highest-tier reward where pledge amount >= minimum_amount
+      for (const pledge of unassignedPledges) {
         const { data: matchedReward } = await supabaseAdmin
           .from('rewards')
           .select('id')
@@ -291,35 +279,30 @@ Deno.serve(async (req) => {
           .limit(1)
           .maybeSingle();
 
-        const campaignKey2 = campaignKey === 'PRELUDE_KS' ? 'prelude_ks' : 
-                            campaignKey === 'AXANAR_KS' ? 'axanar_ks' : 'indiegogo';
-
         if (matchedReward) {
           await supabaseAdmin
             .from('pledges')
             .update({ reward_id: matchedReward.id })
             .eq('id', pledge.id);
-          
-          assignmentResults.by_amount++;
-          assignmentResults.campaigns[campaignKey2].amount_match++;
-          assignmentResults.total++;
-        } else {
-          assignmentResults.no_match++;
-          assignmentResults.campaigns[campaignKey2].no_match++;
-          assignmentResults.total++;
+          assigned++;
         }
       }
     }
 
-    console.log('Pledge assignment complete:', JSON.stringify(assignmentResults, null, 2));
+    console.log(`Phase 5 complete: assigned ${assigned} pledges`);
 
     return new Response(
       JSON.stringify({
         success: true,
-        message: `Created ${results.prelude + results.axanar_ks + results.axanar_igg} canonical rewards and processed ${assignmentResults.total} pledges`,
-        rewards_created: results,
-        pledges_assigned: assignmentResults,
-        errors: errors.length > 0 ? errors : undefined
+        message: `Canonical rewards restoration complete`,
+        results: {
+          canonical_rewards_created: results.created,
+          canonical_rewards_existing: results.existing,
+          duplicate_rewards_merged: results.merged,
+          pledges_reassigned: results.pledges_reassigned,
+          duplicate_rewards_deleted: deleted,
+          unassigned_pledges_assigned: assigned
+        }
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
