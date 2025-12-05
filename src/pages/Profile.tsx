@@ -60,8 +60,9 @@ const Profile = () => {
   const { data: ownPledges } = useUserPledges();
   const { data: achievements } = useUserAchievements();
   const { data: recruitmentData } = useUserRecruitment();
-  const { data: rankSystem } = useRankSystem(user?.id);
-  const { data: titlesData } = useAmbassadorialTitles(user?.id);
+  // Use targetUserId for rank/titles so admin sees the correct user's data
+  const { data: rankSystem } = useRankSystem(targetUserId);
+  const { data: titlesData } = useAmbassadorialTitles(targetUserId);
   const { threads: forumThreads, comments: forumComments } = useUserForumActivity();
   const { data: adminUserData, isLoading: adminProfileLoading } = useAdminUserProfile(
     isViewingOtherUser ? userId! : ''
