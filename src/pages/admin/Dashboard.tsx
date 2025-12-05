@@ -20,6 +20,7 @@ import Pledges from "./Pledges";
 import AmbassadorialTitles from "./AmbassadorialTitles";
 import VisitorAnalytics from "./VisitorAnalytics";
 import CreateCanonicalRewards from "./CreateCanonicalRewards";
+import Documentation from "./Documentation";
 import { MessageCircle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -85,6 +86,8 @@ const Dashboard = () => {
         return <AdminAdminsSection />;
       case "settings":
         return <Settings />;
+      case "documentation":
+        return <Documentation />;
       default:
         return <AdminOverview onSectionChange={handleSectionChange} />;
     }

@@ -15,7 +15,8 @@ import {
   Package,
   Activity,
   Bell,
-  Video
+  Video,
+  FileText
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -65,6 +66,7 @@ const adminSections = [
   { title: "Messages", value: "messages", path: "/admin/dashboard?section=messages", icon: MessageCircle },
   { title: "Media & Files", value: "media-files", path: "/admin/dashboard?section=media-files", icon: FolderOpen },
   { title: "Admin Users", value: "admins", path: "/admin/dashboard?section=admins", icon: UserCog },
+  { title: "Documentation", value: "documentation", path: "/admin/dashboard?section=documentation", icon: FileText },
   { title: "Settings", value: "settings", path: "/admin/dashboard?section=settings", icon: Settings },
 ];
 
