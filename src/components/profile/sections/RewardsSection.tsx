@@ -9,28 +9,31 @@ import DashboardStats from "../DashboardStats";
 import { PhysicalRewardsPanel } from "../rewards/PhysicalRewardsPanel";
 import { DigitalPerksPanel } from "../rewards/DigitalPerksPanel";
 import { useUserRewards } from "@/hooks/useUserRewards";
-import { User } from "@supabase/supabase-js";
 
 interface RewardsSectionProps {
   profile: any;
-  user: User;
   totalPledged: number;
   totalXP: number;
   achievementsCount: number;
   recruitCount: number;
   memberSince: string;
+  targetUserId?: string;
+  isViewingOtherUser?: boolean;
 }
 
 const RewardsSection: React.FC<RewardsSectionProps> = ({
   profile,
-  user,
   totalPledged,
   totalXP,
   achievementsCount,
   recruitCount,
   memberSince,
+  targetUserId,
+  isViewingOtherUser = false,
 }) => {
-  const { data: pledges, isLoading } = useUserRewards();
+  // Use targetUserId if provided, otherwise use profile.id
+  const userId = targetUserId || profile?.id;
+  const { data: pledges, isLoading } = useUserRewards(userId);
   
   const rewardsWithPerks = pledges?.filter(pledge => pledge.reward) || [];
   const physicalRewards = rewardsWithPerks.filter(p => p.reward?.requires_shipping);
@@ -43,7 +46,7 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({
         <div className="flex items-center gap-3">
           <Shield className="h-5 w-5 text-primary" />
           <span className="font-medium">
-            Welcome, {profile?.full_name || profile?.username || 'Supporter'}
+            {isViewingOtherUser ? `Viewing ${profile?.full_name || profile?.username || 'User'}'s Profile` : `Welcome, ${profile?.full_name || profile?.username || 'Supporter'}`}
           </span>
           <Badge variant="outline" className="bg-primary/10 border-primary/30">
             Verified Donor
@@ -70,9 +73,14 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({
             isLoading={isLoading} 
           />
           
-          {/* Shipping Address - Below Physical Rewards */}
-          {physicalRewards.length > 0 && (
-            <ShippingAddressBlock />
+          {/* Shipping Address - Below Physical Rewards (only show for own profile or if admin) */}
+          {physicalRewards.length > 0 && !isViewingOtherUser && (
+            <ShippingAddressBlock targetUserId={userId} />
+          )}
+          
+          {/* Show address in read-only mode for admin viewing other users */}
+          {physicalRewards.length > 0 && isViewingOtherUser && (
+            <ShippingAddressBlock targetUserId={userId} readOnly />
           )}
         </div>
 
@@ -85,7 +93,7 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({
           />
 
           {/* Ambassadorial Titles */}
-          <AmbassadorialTitleDisplay userId={user.id} />
+          <AmbassadorialTitleDisplay userId={userId} />
 
           {/* Quick Stats */}
           <Card className="bg-card/50 border-border/50">
@@ -121,9 +129,9 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({
         </div>
       </div>
 
-      {/* Show address block at bottom on mobile if no physical rewards */}
-      {physicalRewards.length === 0 && (
-        <ShippingAddressBlock />
+      {/* Show address block at bottom on mobile if no physical rewards (own profile only) */}
+      {physicalRewards.length === 0 && !isViewingOtherUser && (
+        <ShippingAddressBlock targetUserId={userId} />
       )}
     </div>
   );
