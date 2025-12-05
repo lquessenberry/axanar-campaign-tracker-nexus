@@ -55,12 +55,12 @@ const Profile = () => {
   const isViewingOtherUser = userId && userId !== user?.id;
   
   // Use appropriate hooks based on whether we're viewing our own profile or another user's
+  // All hooks use targetUserId so admin sees the correct user's data when viewing other profiles
   const { data: ownProfile, isLoading: ownProfileLoading } = useUserProfile();
-  const { data: ownCampaigns } = useUserCampaigns();
-  const { data: ownPledges } = useUserPledges();
-  const { data: achievements } = useUserAchievements();
-  const { data: recruitmentData } = useUserRecruitment();
-  // Use targetUserId for rank/titles so admin sees the correct user's data
+  const { data: campaigns } = useUserCampaigns(targetUserId);
+  const { data: pledges } = useUserPledges(targetUserId);
+  const { data: achievements } = useUserAchievements(targetUserId);
+  const { data: recruitmentData } = useUserRecruitment(targetUserId);
   const { data: rankSystem } = useRankSystem(targetUserId);
   const { data: titlesData } = useAmbassadorialTitles(targetUserId);
   const { threads: forumThreads, comments: forumComments } = useUserForumActivity();
@@ -85,8 +85,6 @@ const Profile = () => {
 
   // Determine which data to use
   const profile = isViewingOtherUser ? adminUserData?.profile : ownProfile;
-  const campaigns = isViewingOtherUser ? [] : ownCampaigns; // TODO: Add admin campaigns hook
-  const pledges = isViewingOtherUser ? [] : ownPledges; // TODO: Add admin pledges hook
   const isLoading = isViewingOtherUser ? adminProfileLoading : ownProfileLoading;
   const updateProfile = isViewingOtherUser ? updateAdminProfile : updateOwnProfile;
 

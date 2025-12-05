@@ -2,19 +2,20 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 
-export const useUserPledges = () => {
+export const useUserPledges = (targetUserId?: string) => {
   const { user } = useAuth();
+  const userId = targetUserId || user?.id;
   
   return useQuery({
-    queryKey: ['user-pledges', user?.id],
+    queryKey: ['user-pledges', userId],
     queryFn: async () => {
-      if (!user) throw new Error('User not authenticated');
+      if (!userId) throw new Error('User ID required');
       
       // First, find all donor records linked to this user
       const { data: donorData, error: donorError } = await supabase
         .from('donors')
         .select('id')
-        .eq('auth_user_id', user.id);
+        .eq('auth_user_id', userId);
       
       if (donorError) {
         console.error('Error fetching donors:', donorError);
@@ -75,6 +76,6 @@ export const useUserPledges = () => {
 
       return transformedPledges;
     },
-    enabled: !!user,
+    enabled: !!userId,
   });
 };
