@@ -47,7 +47,7 @@ const navigationLinks = [
   { title: "Forum", path: "/forum", icon: MessageCircle },
   { title: "Messages", path: "/messages", icon: Users },
   { title: "Leaderboard", path: "/leaderboard", icon: Trophy },
-  { title: "Rewards", path: "/how-to-earn-ares", icon: Sparkles },
+  { title: "Rewards Info", path: "/how-to-earn-ares", icon: Sparkles },
 ];
 
 const adminSections = [

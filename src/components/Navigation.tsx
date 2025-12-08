@@ -113,12 +113,12 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
               </Link>
               <Link to="/how-it-works">
                 <Button variant="ghost" className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base rounded-none">
-                  {t('how-it-works')}
+                  Getting Started
                 </Button>
               </Link>
               <Link to="/how-to-earn-ares">
                 <Button variant="ghost" className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base rounded-none">
-                  How ARES Works
+                  Rewards
                 </Button>
               </Link>
               <Link to="/forum">
