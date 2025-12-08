@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import LCARSSlab from '@/components/ui/lcars-slab';
+import { Section31Panel } from '@/components/ui/section31-panel';
 
 const LCARSShowcase = () => {
   const [activePage, setActivePage] = useState('warp');
   const [clickCount, setClickCount] = useState(0);
   const [engageActive, setEngageActive] = useState(false);
   const [alertActive, setAlertActive] = useState(false);
-
   return (
     <>
       <Navigation />
@@ -221,7 +221,7 @@ const LCARSShowcase = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center"
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center mb-16"
           >
             <div className="p-8 bg-gradient-to-br from-orange-500/10 to-transparent border border-orange-500/30 backdrop-blur-sm">
               <div className="text-4xl mb-4">🎯</div>
@@ -237,6 +237,49 @@ const LCARSShowcase = () => {
               <div className="text-4xl mb-4">📐</div>
               <h4 className="text-xl font-bold text-cyan-400 mb-2">Pure Rectangles</h4>
               <p className="text-gray-400 text-sm">Size and position define hierarchy, not decoration</p>
+            </div>
+          </motion.div>
+
+          {/* Section 31 Panel Demo */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5 }}
+            className="mb-16"
+          >
+            <h3 className="text-3xl font-bold text-center text-purple-400 mb-8">SECTION 31 VARIANT</h3>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <Section31Panel
+                title="BLACK SITE OMEGA"
+                status="classified"
+              />
+              <Section31Panel
+                title="OPERATION VANGUARD"
+                status="active"
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-emerald-300">Encryption protocols active</span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-3 h-3 rounded-full bg-cyan-500 animate-pulse" />
+                    <span className="text-cyan-300">Subspace relay established</span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-3 h-3 rounded-full bg-purple-500 animate-pulse" />
+                    <span className="text-purple-300">Neural dampening field online</span>
+                  </div>
+                </div>
+              </Section31Panel>
+            </div>
+            
+            {/* Additional status variants */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+              <Section31Panel title="ASSET ALPHA" status="active" className="h-48" />
+              <Section31Panel title="ASSET BETA" status="locked" className="h-48" />
+              <Section31Panel title="ASSET GAMMA" status="classified" className="h-48" />
+              <Section31Panel title="ASSET DELTA" status="offline" className="h-48" />
             </div>
           </motion.div>
         </div>

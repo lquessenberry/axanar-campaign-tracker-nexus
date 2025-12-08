@@ -241,6 +241,15 @@ export default {
 						boxShadow: '0 0 40px 12px rgba(34,211,238,0.9)' 
 					},
 				},
+				// ============= SECTION 31 ANIMATIONS =============
+				'section31-scan': {
+					'0%': { transform: 'translateY(-100%)' },
+					'100%': { transform: 'translateY(2000%)' },
+				},
+				'section31-flicker': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.7' },
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -256,6 +265,9 @@ export default {
 				'pulse-purple': 'pulse-purple 3s ease-in-out infinite',
 				'pulse-red-fast': 'pulse-red-fast 1.5s ease-in-out infinite',
 				'pulse-cyan': 'pulse-cyan 3s ease-in-out infinite',
+				// ============= SECTION 31 ANIMATIONS =============
+				'section31-scan': 'section31-scan 8s linear infinite',
+				'section31-flicker': 'section31-flicker 3s infinite',
 			},
 			fontFamily: {
 				// ============= DAYSTROM TYPOGRAPHY =============
