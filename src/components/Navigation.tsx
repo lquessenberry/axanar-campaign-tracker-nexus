@@ -214,7 +214,7 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
                 <Button variant="ghost" className={`text-white hover:text-axanar-teal hover:bg-white/10 min-h-[72px] px-6 py-4 text-base rounded-l-lg rounded-r-none ${
                   isActive('/dashboard') ? 'bg-axanar-teal/20 text-axanar-teal' : ''
                 }`}>
-                  <User className="h-5 w-5 mr-2" />
+                  <BarChart3 className="h-5 w-5 mr-2" />
                   {t('dashboard')}
                 </Button>
               </Link>
@@ -223,7 +223,7 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
                   isActive('/direct-messages') ? 'bg-axanar-teal/20 text-axanar-teal' : ''
                 }`}>
                   <MessageCircle className="h-5 w-5 mr-2" />
-                  Direct Messages
+                  Messages
                   {unreadCount > 0 && (
                     <Badge 
                       variant="destructive" 
@@ -232,14 +232,6 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
                       {unreadCount > 9 ? '9+' : unreadCount}
                     </Badge>
                   )}
-                </Button>
-              </Link>
-              <Link to="/messages">
-                <Button variant="ghost" className={`text-white hover:text-axanar-teal hover:bg-white/10 min-h-[72px] px-6 py-4 text-base rounded-none ${
-                  isActive('/messages') ? 'bg-axanar-teal/20 text-axanar-teal' : ''
-                }`}>
-                  <MessageCircle className="h-5 w-5 mr-2" />
-                  Support
                 </Button>
               </Link>
               {isAdmin && (
@@ -258,14 +250,6 @@ const Navigation = ({ battleMode = true, onBattleModeToggle, alertLevel = 'norma
                 }`}>
                   <User className="h-5 w-5 mr-2" />
                   {t('profile')}
-                </Button>
-              </Link>
-              <Link to="/forum">
-                <Button variant="ghost" className={`text-white hover:text-axanar-teal hover:bg-white/10 min-h-[72px] px-6 py-4 text-base rounded-none ${
-                  isActive('/forum') ? 'bg-axanar-teal/20 text-axanar-teal' : ''
-                }`}>
-                  <MessageCircle className="h-5 w-5 mr-2" />
-                  Forum
                 </Button>
               </Link>
               <Button 
