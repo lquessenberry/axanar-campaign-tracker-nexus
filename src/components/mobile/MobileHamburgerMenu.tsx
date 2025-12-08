@@ -79,8 +79,8 @@ export function MobileHamburgerMenu({ isOpen, onClose, profile }: MobileHamburge
   const publicLinks = [
     { label: 'Home', path: '/' },
     { label: 'About', path: '/about' },
-    { label: 'How It Works', path: '/how-it-works' },
-    { label: 'How ARES Works', path: '/how-to-earn-ares' },
+    { label: 'Getting Started', path: '/how-it-works' },
+    { label: 'Rewards', path: '/how-to-earn-ares' },
     { label: 'Axanar TV', path: '/videos' },
     { label: 'FAQ', path: '/faq' },
     { label: 'Support', path: '/support' }
