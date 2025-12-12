@@ -249,15 +249,32 @@ const AdminEmailUpdateTool = () => {
         {/* Pending Requests Section */}
         <div className="border-t pt-4">
           <h4 className="font-medium mb-2">Known Email Change Requests</h4>
+          <p className="text-sm text-muted-foreground mb-3">Click to load and process:</p>
           <div className="space-y-2 text-sm">
-            <div className="p-3 bg-muted rounded-lg">
+            <button
+              onClick={() => {
+                setSearchEmail("pmagor@gmail.com");
+                setNewEmail("pmagor@pm.me");
+                setUserInfo(null);
+                setUpdateResult(null);
+              }}
+              className="w-full p-3 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors"
+            >
               <p><strong>Paul:</strong> pmagor@gmail.com → pmagor@pm.me</p>
               <p className="text-muted-foreground text-xs">Requested Dec 2, 2025</p>
-            </div>
-            <div className="p-3 bg-muted rounded-lg">
+            </button>
+            <button
+              onClick={() => {
+                setSearchEmail("geoffrey_pipes@yahoo.com");
+                setNewEmail("mike.doehler@gmail.com");
+                setUserInfo(null);
+                setUpdateResult(null);
+              }}
+              className="w-full p-3 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors"
+            >
               <p><strong>Michael Doehler:</strong> geoffrey_pipes@yahoo.com → mike.doehler@gmail.com</p>
               <p className="text-muted-foreground text-xs">Requested Nov 19, 2025</p>
-            </div>
+            </button>
           </div>
         </div>
       </CardContent>
