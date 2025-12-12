@@ -160,20 +160,20 @@ export function ProfileSidebarNav({
               </SidebarGroupLabel>
               
               <SidebarGroupContent className="!p-0 !m-0">
-                <SidebarMenu className={`!p-0 ${isCollapsed ? '!gap-2' : '!gap-0'}`}  >
+                <SidebarMenu className={`!p-0 ${isCollapsed ? '!gap-1' : '!gap-0'}`}>
                   {adminSections.map((section) => (
                     <SidebarMenuItem key={section.value} className="!p-0 !m-0">
                       <SidebarMenuButton
                         onClick={() => handleAdminSectionClick(section)}
                         isActive={isAdminSectionActive(section)}
-                        className={`transition-all duration-200 !m-0 ${isCollapsed ? 'justify-center !p-0 w-[72px] h-[72px] rounded-xl' : 'min-h-[48px]'} ${
+                        className={`transition-all duration-200 !m-0 ${isCollapsed ? 'justify-center !p-0 w-[58px] h-[58px] rounded-lg' : 'min-h-[38px]'} ${
                           isAdminSectionActive(section)
                             ? "bg-primary text-primary-foreground font-semibold shadow-md border-l-4 border-primary-foreground" 
                             : "hover:bg-primary/20 hover:border-l-4 hover:border-primary/50"
                         }`}
                       >
-                        <section.icon className={isCollapsed ? "h-8 w-8" : "h-5 w-5"} />
-                        {!isCollapsed && <span>{section.title}</span>}
+                        <section.icon className={isCollapsed ? "h-6 w-6" : "h-4 w-4"} />
+                        {!isCollapsed && <span className="text-sm">{section.title}</span>}
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   ))}
