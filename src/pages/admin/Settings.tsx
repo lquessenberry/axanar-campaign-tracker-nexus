@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import DonorMigrationSection from "@/components/admin/DonorMigrationSection";
 import AdminReserveUsersSection from "@/components/admin/AdminReserveUsersSection";
+import AdminEmailUpdateTool from "@/components/admin/AdminEmailUpdateTool";
 import { UpdateRewardsData } from "./UpdateRewardsData";
 import { BetaUserOutreach } from "@/components/admin/BetaUserOutreach";
 import { ProfileAudit } from "@/components/admin/ProfileAudit";
@@ -24,6 +25,7 @@ const Settings = () => {
       <Tabs defaultValue="migration">
         <TabsList>
           <TabsTrigger value="migration">Data Migration</TabsTrigger>
+          <TabsTrigger value="accounts">Account Management</TabsTrigger>
           <TabsTrigger value="reserve-users">Reserve Users</TabsTrigger>
           <TabsTrigger value="general">General Settings</TabsTrigger>
         </TabsList>
@@ -34,6 +36,10 @@ const Settings = () => {
           <BetaUserOutreach />
           <ProfileAudit />
           <PledgeDataCorrection />
+        </TabsContent>
+
+        <TabsContent value="accounts" className="space-y-6 mt-6">
+          <AdminEmailUpdateTool />
         </TabsContent>
 
         <TabsContent value="reserve-users" className="space-y-6 mt-6">
