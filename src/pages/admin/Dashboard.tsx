@@ -10,7 +10,7 @@ import AdminAdminsSection from "@/components/admin/AdminAdminsSection";
 import AdminPlaceholderSection from "@/components/admin/AdminPlaceholderSection";
 import { PledgeDataRestoration } from "@/components/admin/PledgeDataRestoration";
 import { PledgeRewardReconciliation } from "@/components/admin/PledgeRewardReconciliation";
-import { AddressUpdateDiagnostics } from "@/components/admin/AddressUpdateDiagnostics";
+import { UserDiagnostics } from "@/components/admin/UserDiagnostics";
 import AxanarVideoArchiveStatus from "@/components/admin/AxanarVideoArchiveStatus";
 import DonorManagement from "./DonorManagement";
 import MediaFiles from "./MediaFiles";
@@ -72,7 +72,7 @@ const Dashboard = () => {
       case "video-archive":
         return <AxanarVideoArchiveStatus />;
       case "address-diagnostics":
-        return <AddressUpdateDiagnostics />;
+        return <UserDiagnostics />;
       case "send-announcement":
         navigate('/admin/send-announcement');
         return null;
