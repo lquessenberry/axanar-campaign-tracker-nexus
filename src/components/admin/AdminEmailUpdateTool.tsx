@@ -6,8 +6,9 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Mail, AlertTriangle, CheckCircle, Search } from "lucide-react";
+import { Loader2, Mail, AlertTriangle, CheckCircle, Search, MessageSquare } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useChat } from "@/contexts/ChatContext";
 
 interface UserInfo {
   userId: string;
@@ -18,6 +19,7 @@ interface UserInfo {
 
 const AdminEmailUpdateTool = () => {
   const { toast } = useToast();
+  const { openChat } = useChat();
   const [searchEmail, setSearchEmail] = useState("");
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [newEmail, setNewEmail] = useState("");
@@ -246,35 +248,43 @@ const AdminEmailUpdateTool = () => {
           </Alert>
         )}
 
-        {/* Pending Requests Section */}
+        {/* Completed Requests Section */}
         <div className="border-t pt-4">
-          <h4 className="font-medium mb-2">Known Email Change Requests</h4>
-          <p className="text-sm text-muted-foreground mb-3">Click to load and process:</p>
+          <h4 className="font-medium mb-2">Completed Email Changes</h4>
+          <p className="text-sm text-muted-foreground mb-3">Click "Message" to notify the user:</p>
           <div className="space-y-2 text-sm">
-            <button
-              onClick={() => {
-                setSearchEmail("pmagor@gmail.com");
-                setNewEmail("pmagor@pm.me");
-                setUserInfo(null);
-                setUpdateResult(null);
-              }}
-              className="w-full p-3 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors"
-            >
-              <p><strong>Paul:</strong> pmagor@gmail.com → pmagor@pm.me</p>
-              <p className="text-muted-foreground text-xs">Requested Dec 2, 2025</p>
-            </button>
-            <button
-              onClick={() => {
-                setSearchEmail("geoffrey_pipes@yahoo.com");
-                setNewEmail("mike.doehler@gmail.com");
-                setUserInfo(null);
-                setUpdateResult(null);
-              }}
-              className="w-full p-3 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors"
-            >
-              <p><strong>Michael Doehler:</strong> geoffrey_pipes@yahoo.com → mike.doehler@gmail.com</p>
-              <p className="text-muted-foreground text-xs">Requested Nov 19, 2025</p>
-            </button>
+            <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg flex justify-between items-center">
+              <div>
+                <p><strong>Paul Magor:</strong> pmagor@gmail.com → pmagor@pm.me</p>
+                <p className="text-muted-foreground text-xs flex items-center gap-1">
+                  <CheckCircle className="h-3 w-3 text-green-500" /> Completed Dec 12, 2025
+                </p>
+              </div>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => openChat("68fd0551-e235-44ae-9a98-66ed04abf160", "Paul Magor")}
+              >
+                <MessageSquare className="h-4 w-4 mr-1" />
+                Message
+              </Button>
+            </div>
+            <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg flex justify-between items-center">
+              <div>
+                <p><strong>Michael Doehler:</strong> geoffrey_pipes@yahoo.com → mike.doehler@gmail.com</p>
+                <p className="text-muted-foreground text-xs flex items-center gap-1">
+                  <CheckCircle className="h-3 w-3 text-green-500" /> Completed Dec 12, 2025
+                </p>
+              </div>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => openChat("8ccb7218-3a61-4d31-9f4b-a9edceaad98d", "Michael Doehler")}
+              >
+                <MessageSquare className="h-4 w-4 mr-1" />
+                Message
+              </Button>
+            </div>
           </div>
         </div>
       </CardContent>
