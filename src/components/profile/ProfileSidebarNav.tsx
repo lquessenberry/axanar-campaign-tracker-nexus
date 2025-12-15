@@ -3,20 +3,15 @@ import {
   User, 
   Settings, 
   LogOut, 
-  Gift,
-  MessageCircle,
   Trophy,
   Sparkles,
   Home,
   Users,
   BarChart3,
-  UserCog,
-  FolderOpen,
   Package,
   Activity,
-  Bell,
   Video,
-  FileText
+  MessageCircle
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -50,23 +45,16 @@ const navigationLinks = [
   { title: "Rewards Info", path: "/how-to-earn-ares", icon: Sparkles },
 ];
 
+// Consolidated 8-section admin navigation
 const adminSections = [
   { title: "Dashboard", value: "overview", path: "/admin/dashboard", icon: Home },
-  { title: "Donor Management", value: "donor-management", path: "/admin/dashboard?section=donor-management", icon: Users },
+  { title: "Donors", value: "donor-management", path: "/admin/dashboard?section=donor-management", icon: Users },
+  { title: "Pledges & Rewards", value: "pledges-rewards", path: "/admin/dashboard?section=pledges-rewards", icon: Package },
+  { title: "Titles & Perks", value: "titles", path: "/admin/dashboard?section=titles", icon: Trophy },
   { title: "Campaigns", value: "campaigns", path: "/admin/dashboard?section=campaigns", icon: BarChart3 },
-  { title: "Pledges", value: "pledges", path: "/admin/dashboard?section=pledges", icon: Package },
-  { title: "Rewards", value: "rewards", path: "/admin/dashboard?section=rewards", icon: Gift },
-  { title: "Titles", value: "titles", path: "/admin/dashboard?section=titles", icon: Trophy },
-  { title: "Pledge Restoration", value: "pledge-restoration", path: "/admin/dashboard?section=pledge-restoration", icon: Package },
-  { title: "Reward Reconciliation", value: "reward-reconciliation", path: "/admin/dashboard?section=reward-reconciliation", icon: Gift },
-  { title: "Create Canonical Rewards", value: "create-canonical-rewards", path: "/admin/dashboard?section=create-canonical-rewards", icon: Sparkles },
-  { title: "Video Archive", value: "video-archive", path: "/admin/dashboard?section=video-archive", icon: Video },
-  { title: "Send Announcement", value: "send-announcement", path: "/admin/send-announcement", icon: Bell },
+  { title: "Media & Videos", value: "media-files", path: "/admin/dashboard?section=media-files", icon: Video },
   { title: "Analytics", value: "analytics", path: "/admin/dashboard?section=analytics", icon: Activity },
-  { title: "Messages", value: "messages", path: "/admin/dashboard?section=messages", icon: MessageCircle },
-  { title: "Media & Files", value: "media-files", path: "/admin/dashboard?section=media-files", icon: FolderOpen },
-  { title: "Admin Users", value: "admins", path: "/admin/dashboard?section=admins", icon: UserCog },
-  { title: "Documentation", value: "documentation", path: "/admin/dashboard?section=documentation", icon: FileText },
+  { title: "Utilities", value: "utilities", path: "/admin/dashboard?section=utilities", icon: Sparkles },
   { title: "Settings", value: "settings", path: "/admin/dashboard?section=settings", icon: Settings },
 ];
 

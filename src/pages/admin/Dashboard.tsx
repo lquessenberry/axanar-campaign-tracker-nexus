@@ -5,22 +5,18 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ProfileSidebarNav } from "@/components/profile/ProfileSidebarNav";
 import AdminHeader from "@/components/admin/AdminHeader";
 import AdminOverview from "@/components/admin/AdminOverview";
-import AdminRewardsSection from "@/components/admin/AdminRewardsSection";
 import AdminAdminsSection from "@/components/admin/AdminAdminsSection";
 import AdminPlaceholderSection from "@/components/admin/AdminPlaceholderSection";
-import { PledgeDataRestoration } from "@/components/admin/PledgeDataRestoration";
-import { PledgeRewardReconciliation } from "@/components/admin/PledgeRewardReconciliation";
-import { UserDiagnostics } from "@/components/admin/UserDiagnostics";
 import AxanarVideoArchiveStatus from "@/components/admin/AxanarVideoArchiveStatus";
 import DonorManagement from "./DonorManagement";
 import MediaFiles from "./MediaFiles";
 import CampaignsWithPledges from "./CampaignsWithPledges";
 import Settings from "./Settings";
-import Pledges from "./Pledges";
-import AmbassadorialTitles from "./AmbassadorialTitles";
+import BackfillTitles from "./BackfillTitles";
 import VisitorAnalytics from "./VisitorAnalytics";
-import CreateCanonicalRewards from "./CreateCanonicalRewards";
 import Documentation from "./Documentation";
+import { AdminPledgesRewardsSection } from "@/components/admin/AdminPledgesRewardsSection";
+import { AdminUtilitiesSection } from "@/components/admin/AdminUtilitiesSection";
 import { MessageCircle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -31,14 +27,12 @@ const Dashboard = () => {
   const { signOut } = useAuth();
   const navigate = useNavigate();
 
-  // Update active section when URL parameter changes
   useEffect(() => {
     if (sectionParam) {
       setActiveSection(sectionParam);
     }
   }, [sectionParam]);
 
-  // Update URL when section changes
   const handleSectionChange = (section: string) => {
     setActiveSection(section);
     setSearchParams({ section });
@@ -57,22 +51,12 @@ const Dashboard = () => {
         return <DonorManagement />;
       case "campaigns":
         return <CampaignsWithPledges />;
-      case "pledges":
-        return <Pledges />;
-      case "rewards":
-        return <AdminRewardsSection />;
+      case "pledges-rewards":
+        return <AdminPledgesRewardsSection />;
       case "titles":
-        return <AmbassadorialTitles />;
-      case "pledge-restoration":
-        return <PledgeDataRestoration />;
-      case "reward-reconciliation":
-        return <PledgeRewardReconciliation />;
-      case "create-canonical-rewards":
-        return <CreateCanonicalRewards />;
+        return <BackfillTitles />;
       case "video-archive":
         return <AxanarVideoArchiveStatus />;
-      case "address-diagnostics":
-        return <UserDiagnostics />;
       case "send-announcement":
         navigate('/admin/send-announcement');
         return null;
@@ -84,6 +68,8 @@ const Dashboard = () => {
         return <MediaFiles />;
       case "admins":
         return <AdminAdminsSection />;
+      case "utilities":
+        return <AdminUtilitiesSection />;
       case "settings":
         return <Settings />;
       case "documentation":
@@ -95,12 +81,10 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Navigation Header */}
       <div className="sticky top-0 z-50 border-b">
         <Navigation />
       </div>
       
-      {/* Full Height Admin Interface */}
       <SidebarProvider defaultOpen>
         <div className="flex w-full">
           <ProfileSidebarNav
@@ -109,7 +93,6 @@ const Dashboard = () => {
             isAdminContext={true}
           />
           
-          {/* Main Content Area */}
           <main className="flex-1 overflow-x-hidden">
             <div className="bg-background border-b px-4 py-3 flex items-center gap-2">
               <SidebarTrigger />
@@ -121,7 +104,6 @@ const Dashboard = () => {
               {renderContent()}
             </div>
             
-            {/* Inline Footer */}
             <div className="border-t bg-muted/30 px-6 py-4">
               <div className="text-sm text-muted-foreground text-center">
                 © 2025 AXANAR Admin Dashboard. All rights reserved.
