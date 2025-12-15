@@ -102,7 +102,7 @@ export function ProfileSidebarNav({
       
       <Sidebar 
         collapsible="icon"
-        className={`${isCollapsed ? "w-24" : "w-56 lg:w-64"} pt-24 lg:pt-28 ml-2 lg:ml-4 mr-1 lg:mr-2 mb-4 border-l-4 border-primary bg-muted/30 backdrop-blur-sm shadow-lg`}
+        className={`${isCollapsed ? "w-24" : "w-56 lg:w-64"} top-[13rem] h-[calc(100svh-13rem)] pt-4 ml-2 lg:ml-4 mr-1 lg:mr-2 mb-4 border-l-4 border-primary bg-muted/30 backdrop-blur-sm shadow-lg`}
       >
         <SidebarContent className="flex flex-col h-full bg-gradient-to-b from-primary/5 to-transparent">
         {/* Profile Sections - Only show when not in admin context */}
