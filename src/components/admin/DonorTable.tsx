@@ -2,7 +2,9 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Eye } from "lucide-react";
 import DonorActions from "./DonorActions";
 
 interface Donor {
@@ -106,7 +108,12 @@ const DonorTable = ({
               <TableCell className="text-card-foreground">
                 {donor.created_at ? new Date(donor.created_at).toLocaleDateString() : 'N/A'}
               </TableCell>
-              <TableCell>
+              <TableCell className="flex items-center gap-1">
+                <Button size="icon" variant="ghost" asChild title="View full profile">
+                  <Link to={`/admin/donor/${donor.id}`}>
+                    <Eye className="h-4 w-4" />
+                  </Link>
+                </Button>
                 <DonorActions
                   donor={donor}
                   onSendEmail={onSendEmail}
