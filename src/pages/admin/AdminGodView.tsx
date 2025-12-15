@@ -11,6 +11,7 @@ import AdminGodViewRewards from '@/components/admin/godview/AdminGodViewRewards'
 import AdminGodViewAddresses from '@/components/admin/godview/AdminGodViewAddresses';
 import AdminGodViewAuditLog from '@/components/admin/godview/AdminGodViewAuditLog';
 import AdminGodViewActions from '@/components/admin/godview/AdminGodViewActions';
+import LCARSCommandPalette from '@/components/admin/lcars/LCARSCommandPalette';
 import Navigation from '@/components/Navigation';
 import { toast } from '@/components/ui/use-toast';
 
@@ -27,13 +28,20 @@ const AdminGodView = () => {
   const { donorId } = useParams<{ donorId: string }>();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   
   const { data: donorData, isLoading, error } = useAdminDonorFullProfile(donorId || null);
 
   // Keyboard shortcuts
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    // Command palette
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      setCommandPaletteOpen(true);
+      return;
+    }
     // Escape to go back
-    if (e.key === 'Escape' && donorId) {
+    if (e.key === 'Escape' && donorId && !commandPaletteOpen) {
       navigate('/admin/dashboard?section=donor-management');
     }
     // Tab navigation with number keys
@@ -44,7 +52,7 @@ const AdminGodView = () => {
         setActiveTab(TABS[tabIndex].value);
       }
     }
-  }, [donorId, navigate]);
+  }, [donorId, navigate, commandPaletteOpen]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -312,9 +320,43 @@ const AdminGodView = () => {
 
       {/* Keyboard shortcuts hint */}
       <div className="fixed bottom-4 right-4 text-xs text-muted-foreground bg-background/80 backdrop-blur-sm px-3 py-2 rounded-lg border border-border/50 hidden lg:block">
+        <kbd className="px-1 py-0.5 bg-muted rounded text-[10px]">⌘K</kbd> Command •{' '}
         <kbd className="px-1 py-0.5 bg-muted rounded text-[10px]">Esc</kbd> Back •{' '}
         <kbd className="px-1 py-0.5 bg-muted rounded text-[10px]">Alt+1-6</kbd> Switch tabs
       </div>
+
+      {/* Command Palette */}
+      <LCARSCommandPalette
+        open={commandPaletteOpen}
+        onOpenChange={setCommandPaletteOpen}
+        currentDonorId={donorId}
+        currentDonorName={donorData?.donor?.donor_name || donorData?.donor?.full_name || undefined}
+        onAction={(action) => {
+          switch (action) {
+            case 'message-donor':
+              handleMessageDonor();
+              break;
+            case 'view-pledges':
+              setActiveTab('pledges');
+              break;
+            case 'view-rewards':
+              setActiveTab('rewards');
+              break;
+            case 'view-addresses':
+              setActiveTab('addresses');
+              break;
+            case 'view-audit':
+              setActiveTab('audit');
+              break;
+            case 'link-account':
+              handleLinkAccount();
+              break;
+            case 'ban-donor':
+              handleBanDonor();
+              break;
+          }
+        }}
+      />
     </div>
   );
 };
