@@ -363,6 +363,148 @@ export const useAdminDonorMutations = (donorId: string | null) => {
     },
   });
 
+  // Send email to donor
+  const sendEmail = useMutation({
+    mutationFn: async (data: EmailData) => {
+      if (!donorId) throw new Error('No donor ID');
+      
+      // Get donor email
+      const { data: donor } = await supabase
+        .from('donors')
+        .select('email')
+        .eq('id', donorId)
+        .single();
+
+      if (!donor?.email) throw new Error('Donor email not found');
+
+      // Call edge function to send email
+      const { error } = await supabase.functions.invoke('send-admin-email', {
+        body: { to: donor.email, subject: data.subject, message: data.message },
+      });
+
+      if (error) throw error;
+
+      await logAdminAction('send_email', donorId, null, { subject: data.subject }, true);
+      return { success: true };
+    },
+    onSuccess: () => {
+      toast({ title: 'Email Sent', description: 'Message sent to donor.' });
+    },
+    onError: (error) => {
+      toast({ title: 'Send Failed', description: 'Could not send email.', variant: 'destructive' });
+      console.error('Send email error:', error);
+    },
+  });
+
+  // Link donor to auth account
+  const linkAccount = useMutation({
+    mutationFn: async (authEmail: string) => {
+      if (!donorId) throw new Error('No donor ID');
+
+      // Find donor by email to get their auth_user_id if they have one
+      const { data: existingDonor, error: lookupError } = await supabase
+        .from('donors')
+        .select('id, auth_user_id')
+        .eq('email', authEmail)
+        .single();
+
+      if (lookupError && lookupError.code !== 'PGRST116') {
+        throw new Error('Error looking up account');
+      }
+
+      // If we found a donor with that email and they have an auth_user_id, use it
+      let authUserId = existingDonor?.auth_user_id;
+      
+      if (!authUserId) {
+        throw new Error('No auth account found with that email. User may need to create an account first.');
+      }
+
+      // Update donor with auth_user_id
+      const { error } = await supabase
+        .from('donors')
+        .update({ auth_user_id: authUserId, updated_at: new Date().toISOString() })
+        .eq('id', donorId);
+
+      if (error) throw error;
+
+      await logAdminAction('link_account', donorId, null, { auth_user_id: authUserId }, true);
+      return { success: true };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-donor-full-profile', donorId] });
+      toast({ title: 'Account Linked', description: 'Donor linked to auth account.' });
+    },
+    onError: (error) => {
+      toast({ title: 'Link Failed', description: error.message || 'Could not link account.', variant: 'destructive' });
+      console.error('Link account error:', error);
+    },
+  });
+
+  // Toggle donor deleted status (ban/activate)
+  const toggleDonorStatus = useMutation({
+    mutationFn: async (setDeleted: boolean) => {
+      if (!donorId) throw new Error('No donor ID');
+
+      const { data: updated, error } = await supabase
+        .from('donors')
+        .update({ deleted: setDeleted, updated_at: new Date().toISOString() })
+        .eq('id', donorId)
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      await logAdminAction(setDeleted ? 'ban_donor' : 'activate_donor', donorId, null, { deleted: setDeleted }, true);
+      return updated;
+    },
+    onSuccess: (_, setDeleted) => {
+      queryClient.invalidateQueries({ queryKey: ['admin-donor-full-profile', donorId] });
+      toast({ 
+        title: setDeleted ? 'Account Banned' : 'Account Activated', 
+        description: setDeleted ? 'Donor access has been disabled.' : 'Donor access has been restored.' 
+      });
+    },
+    onError: (error) => {
+      toast({ title: 'Update Failed', description: 'Could not change account status.', variant: 'destructive' });
+      console.error('Toggle status error:', error);
+    },
+  });
+
+  // Resend verification email
+  const resendVerification = useMutation({
+    mutationFn: async () => {
+      if (!donorId) throw new Error('No donor ID');
+
+      const { data: donor } = await supabase
+        .from('donors')
+        .select('email, auth_user_id')
+        .eq('id', donorId)
+        .single();
+
+      if (!donor?.auth_user_id) throw new Error('Donor has no linked auth account');
+
+      const { error } = await supabase.auth.resend({
+        type: 'signup',
+        email: donor.email,
+      });
+
+      if (error) throw error;
+
+      await logAdminAction('resend_verification', donorId, null, { email: donor.email }, true);
+      return { success: true };
+    },
+    onSuccess: () => {
+      toast({ title: 'Verification Sent', description: 'Email verification link sent.' });
+    },
+    onError: (error) => {
+      toast({ title: 'Send Failed', description: 'Could not send verification.', variant: 'destructive' });
+      console.error('Resend verification error:', error);
+    },
+  });
+
+  // Set primary address (alias for compatibility)
+  const setPrimaryAddress = setAddressPrimary;
+
   return {
     updateDonor,
     updatePledge,
@@ -372,6 +514,11 @@ export const useAdminDonorMutations = (donorId: string | null) => {
     createAddress,
     deleteAddress,
     setAddressPrimary,
+    setPrimaryAddress,
     bulkUpdatePledges,
+    sendEmail,
+    linkAccount,
+    toggleDonorStatus,
+    resendVerification,
   };
 };
