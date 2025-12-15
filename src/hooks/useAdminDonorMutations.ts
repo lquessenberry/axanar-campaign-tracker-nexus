@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/components/ui/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
+import type { Json } from '@/integrations/supabase/types';
 
 // Types for mutations
 export interface DonorUpdateData {
@@ -11,6 +12,11 @@ export interface DonorUpdateData {
   donor_name?: string;
   bio?: string;
   username?: string;
+}
+
+export interface EmailData {
+  subject: string;
+  message: string;
 }
 
 export interface PledgeUpdateData {
@@ -77,8 +83,8 @@ export const useAdminDonorMutations = (donorId: string | null) => {
         action_type: actionType,
         target_id: targetId,
         target_table: 'donors',
-        old_values: oldValues as Record<string, unknown> | null,
-        new_values: newValues as Record<string, unknown> | null,
+        old_values: oldValues as Json,
+        new_values: newValues as Json,
         success,
         error_message: errorMessage,
       }]);
@@ -180,7 +186,7 @@ export const useAdminDonorMutations = (donorId: string | null) => {
 
       if (error) throw error;
 
-      await logAdminAction('create_pledge', created.id, null, data as Record<string, unknown>, true);
+      await logAdminAction('create_pledge', created.id, null, data as unknown, true);
       return created;
     },
     onSuccess: () => {
