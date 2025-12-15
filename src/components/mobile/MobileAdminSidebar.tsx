@@ -96,14 +96,14 @@ export function MobileAdminSidebar() {
           <Button
             variant="ghost"
             size="sm"
-            className="fixed top-4 left-4 z-50 bg-background/95 backdrop-blur-sm border"
+            className="fixed top-24 left-4 z-[60] bg-background/95 backdrop-blur-sm border shadow-lg"
           >
-            <Menu className="h-4 w-4" />
+            <Menu className="h-5 w-5" />
             <span className="sr-only">Toggle admin menu</span>
           </Button>
         </SheetTrigger>
         
-        <SheetContent side="left" className="w-80 p-0">
+        <SheetContent side="left" className="w-80 p-0 z-[70]">
           <SheetHeader className="p-6 border-b">
             <SheetTitle className="text-left">Admin Panel</SheetTitle>
           </SheetHeader>
