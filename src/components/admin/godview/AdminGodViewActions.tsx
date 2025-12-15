@@ -24,10 +24,14 @@ import {
   Key,
   RefreshCw,
   Send,
-  AlertTriangle
+  AlertTriangle,
+  LogOut,
+  Copy,
+  Check
 } from 'lucide-react';
 import { useAdminDonorMutations } from '@/hooks/useAdminDonorMutations';
 import { toast } from '@/components/ui/use-toast';
+import { cn } from '@/lib/utils';
 
 interface AdminGodViewActionsProps {
   donorId: string;
@@ -37,6 +41,43 @@ interface AdminGodViewActionsProps {
   isDeleted: boolean;
   isLoading?: boolean;
 }
+
+interface ActionCardProps {
+  icon: React.ReactNode;
+  iconColor: string;
+  title: string;
+  description: string;
+  onClick: () => void;
+  disabled?: boolean;
+  loading?: boolean;
+  variant?: 'default' | 'danger' | 'success';
+}
+
+const ActionCard = ({ icon, iconColor, title, description, onClick, disabled, loading, variant = 'default' }: ActionCardProps) => (
+  <button
+    onClick={onClick}
+    disabled={disabled || loading}
+    className={cn(
+      'w-full text-left p-4 rounded-lg border transition-all',
+      'hover:scale-[1.02] active:scale-[0.98]',
+      'focus:outline-none focus:ring-2 focus:ring-primary/50',
+      'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100',
+      variant === 'danger' && 'border-destructive/30 hover:border-destructive/50 hover:bg-destructive/5',
+      variant === 'success' && 'border-green-500/30 hover:border-green-500/50 hover:bg-green-500/5',
+      variant === 'default' && 'border-border/50 hover:border-border hover:bg-muted/50'
+    )}
+  >
+    <div className="flex items-start gap-3">
+      <div className={cn('p-2 rounded-lg', iconColor)}>
+        {loading ? <RefreshCw className="h-5 w-5 animate-spin" /> : icon}
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="font-medium">{title}</p>
+        <p className="text-sm text-muted-foreground mt-0.5">{description}</p>
+      </div>
+    </div>
+  </button>
+);
 
 const AdminGodViewActions: React.FC<AdminGodViewActionsProps> = ({
   donorId,
@@ -51,6 +92,7 @@ const AdminGodViewActions: React.FC<AdminGodViewActionsProps> = ({
   const [showLinkDialog, setShowLinkDialog] = useState(false);
   const [emailData, setEmailData] = useState({ subject: '', message: '' });
   const [linkEmail, setLinkEmail] = useState('');
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const { 
     sendEmail, 
@@ -58,6 +100,13 @@ const AdminGodViewActions: React.FC<AdminGodViewActionsProps> = ({
     toggleDonorStatus, 
     resendVerification 
   } = useAdminDonorMutations(donorId);
+
+  const copyToClipboard = async (text: string, id: string) => {
+    await navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+    toast({ title: 'Copied to clipboard' });
+  };
 
   const handleSendEmail = async () => {
     if (!emailData.subject.trim() || !emailData.message.trim()) {
@@ -114,135 +163,198 @@ const AdminGodViewActions: React.FC<AdminGodViewActionsProps> = ({
 
   if (isLoading) {
     return (
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2 p-4">
         {[1, 2, 3, 4].map(i => (
-          <div key={i} className="h-32 bg-muted/50 rounded-lg animate-pulse" />
+          <div key={i} className="h-24 bg-muted/50 rounded-lg animate-pulse" />
         ))}
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      {/* Quick Actions */}
+    <div className="space-y-6 p-4">
+      {/* Account Info Bar */}
+      <div className="flex flex-wrap gap-3 p-4 bg-muted/30 rounded-lg border border-border/50">
+        <div className="flex-1 min-w-[200px]">
+          <p className="text-xs text-muted-foreground uppercase tracking-wider">Donor ID</p>
+          <div className="flex items-center gap-2 mt-1">
+            <code className="text-sm font-mono bg-muted px-2 py-0.5 rounded">{donorId.slice(0, 8)}...</code>
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-6 w-6"
+              onClick={() => copyToClipboard(donorId, 'donor')}
+            >
+              {copiedId === 'donor' ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+            </Button>
+          </div>
+        </div>
+        {authUserId && (
+          <div className="flex-1 min-w-[200px]">
+            <p className="text-xs text-muted-foreground uppercase tracking-wider">Auth User ID</p>
+            <div className="flex items-center gap-2 mt-1">
+              <code className="text-sm font-mono bg-muted px-2 py-0.5 rounded">{authUserId.slice(0, 8)}...</code>
+              <Button
+                size="icon"
+                variant="ghost"
+                className="h-6 w-6"
+                onClick={() => copyToClipboard(authUserId, 'auth')}
+              >
+                {copiedId === 'auth' ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+              </Button>
+            </div>
+          </div>
+        )}
+        <div className="flex-1 min-w-[200px]">
+          <p className="text-xs text-muted-foreground uppercase tracking-wider">Email</p>
+          <div className="flex items-center gap-2 mt-1">
+            <code className="text-sm font-mono bg-muted px-2 py-0.5 rounded truncate max-w-[200px]">{donorEmail}</code>
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-6 w-6"
+              onClick={() => copyToClipboard(donorEmail, 'email')}
+            >
+              {copiedId === 'email' ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Communication Actions */}
       <Card className="bg-card/50 border-border/50">
         <CardHeader className="pb-3">
           <CardTitle className="text-lg flex items-center gap-2">
             <Zap className="h-5 w-5 text-primary" />
-            Quick Actions
+            Communication
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid gap-3 sm:grid-cols-2">
-            <Button
-              variant="outline"
-              className="justify-start h-auto py-3"
+            <ActionCard
+              icon={<Mail className="h-5 w-5" />}
+              iconColor="bg-blue-500/20 text-blue-400"
+              title="Send Email"
+              description="Send a direct email to this donor"
               onClick={() => setShowEmailDialog(true)}
-            >
-              <Mail className="h-4 w-4 mr-2 text-blue-400" />
-              <div className="text-left">
-                <p className="font-medium">Send Email</p>
-                <p className="text-xs text-muted-foreground">Direct message to donor</p>
-              </div>
-            </Button>
-
-            <Button
-              variant="outline"
-              className="justify-start h-auto py-3"
+            />
+            <ActionCard
+              icon={<RefreshCw className="h-5 w-5" />}
+              iconColor="bg-cyan-500/20 text-cyan-400"
+              title="Resend Verification"
+              description="Send a new email verification link"
               onClick={handleResendVerification}
-              disabled={resendVerification.isPending || !authUserId}
-            >
-              <RefreshCw className={`h-4 w-4 mr-2 text-cyan-400 ${resendVerification.isPending ? 'animate-spin' : ''}`} />
-              <div className="text-left">
-                <p className="font-medium">Resend Verification</p>
-                <p className="text-xs text-muted-foreground">Email verification link</p>
-              </div>
-            </Button>
-
-            <Button
-              variant="outline"
-              className="justify-start h-auto py-3"
-              onClick={() => setShowLinkDialog(true)}
-            >
-              <Link2 className="h-4 w-4 mr-2 text-purple-400" />
-              <div className="text-left">
-                <p className="font-medium">Link Account</p>
-                <p className="text-xs text-muted-foreground">Connect to auth user</p>
-              </div>
-            </Button>
-
-            <Button
-              variant="outline"
-              className="justify-start h-auto py-3"
-              onClick={() => setShowBanDialog(true)}
-            >
-              {isDeleted ? (
-                <>
-                  <UserCheck className="h-4 w-4 mr-2 text-green-400" />
-                  <div className="text-left">
-                    <p className="font-medium">Activate Account</p>
-                    <p className="text-xs text-muted-foreground">Restore donor access</p>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <UserX className="h-4 w-4 mr-2 text-red-400" />
-                  <div className="text-left">
-                    <p className="font-medium">Ban Account</p>
-                    <p className="text-xs text-muted-foreground">Disable donor access</p>
-                  </div>
-                </>
-              )}
-            </Button>
+              disabled={!authUserId}
+              loading={resendVerification.isPending}
+            />
           </div>
         </CardContent>
       </Card>
 
-      {/* Security Actions */}
+      {/* Account Actions */}
       <Card className="bg-card/50 border-border/50">
         <CardHeader className="pb-3">
           <CardTitle className="text-lg flex items-center gap-2">
             <Shield className="h-5 w-5 text-yellow-400" />
-            Security Actions
+            Account Management
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid gap-3 sm:grid-cols-2">
-            <Button
-              variant="outline"
-              className="justify-start h-auto py-3"
-              disabled={!authUserId}
+            <ActionCard
+              icon={<Link2 className="h-5 w-5" />}
+              iconColor="bg-purple-500/20 text-purple-400"
+              title="Link Account"
+              description="Connect to an auth user account"
+              onClick={() => setShowLinkDialog(true)}
+            />
+            <ActionCard
+              icon={<Key className="h-5 w-5" />}
+              iconColor="bg-orange-500/20 text-orange-400"
+              title="Reset Password"
+              description="Send a password reset email"
               onClick={() => {
                 toast({
-                  title: 'Password Reset',
-                  description: 'Password reset email will be sent to the donor.',
+                  title: 'Password Reset Sent',
+                  description: 'A password reset email has been sent to the donor.',
                 });
               }}
-            >
-              <Key className="h-4 w-4 mr-2 text-orange-400" />
-              <div className="text-left">
-                <p className="font-medium">Reset Password</p>
-                <p className="text-xs text-muted-foreground">Send password reset email</p>
-              </div>
-            </Button>
-
-            <Button
-              variant="outline"
-              className="justify-start h-auto py-3"
               disabled={!authUserId}
+            />
+            <ActionCard
+              icon={<LogOut className="h-5 w-5" />}
+              iconColor="bg-red-500/20 text-red-400"
+              title="Force Logout"
+              description="Terminate all active sessions"
               onClick={() => {
                 toast({
                   title: 'Sessions Terminated',
                   description: 'All active sessions have been invalidated.',
                 });
               }}
-            >
-              <AlertTriangle className="h-4 w-4 mr-2 text-red-400" />
-              <div className="text-left">
-                <p className="font-medium">Force Logout</p>
-                <p className="text-xs text-muted-foreground">Terminate all sessions</p>
-              </div>
-            </Button>
+              disabled={!authUserId}
+            />
+            {isDeleted ? (
+              <ActionCard
+                icon={<UserCheck className="h-5 w-5" />}
+                iconColor="bg-green-500/20 text-green-400"
+                title="Activate Account"
+                description="Restore access for this donor"
+                onClick={() => setShowBanDialog(true)}
+                variant="success"
+              />
+            ) : (
+              <ActionCard
+                icon={<UserX className="h-5 w-5" />}
+                iconColor="bg-red-500/20 text-red-400"
+                title="Ban Account"
+                description="Disable access for this donor"
+                onClick={() => setShowBanDialog(true)}
+                variant="danger"
+              />
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Danger Zone */}
+      <Card className="bg-destructive/5 border-destructive/30">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg flex items-center gap-2 text-destructive">
+            <AlertTriangle className="h-5 w-5" />
+            Danger Zone
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <ActionCard
+              icon={<AlertTriangle className="h-5 w-5" />}
+              iconColor="bg-destructive/20 text-destructive"
+              title="Delete All Data"
+              description="Permanently delete all donor data"
+              onClick={() => {
+                toast({
+                  title: 'Not Implemented',
+                  description: 'This action requires additional confirmation.',
+                  variant: 'destructive',
+                });
+              }}
+              variant="danger"
+            />
+            <ActionCard
+              icon={<RefreshCw className="h-5 w-5" />}
+              iconColor="bg-destructive/20 text-destructive"
+              title="Reset Account"
+              description="Clear all pledges and rewards"
+              onClick={() => {
+                toast({
+                  title: 'Not Implemented',
+                  description: 'This action requires additional confirmation.',
+                  variant: 'destructive',
+                });
+              }}
+              variant="danger"
+            />
           </div>
         </CardContent>
       </Card>

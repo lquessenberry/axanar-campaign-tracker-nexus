@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Gift, Package, Truck, CheckCircle, Clock, AlertCircle, Save, X } from 'lucide-react';
 import { format } from 'date-fns';
 import { useAdminDonorMutations } from '@/hooks/useAdminDonorMutations';
 import { toast } from '@/components/ui/use-toast';
+import { LCARSDataTable, LCARSDataTableColumn, LCARSBulkAction, LCARSStatCard } from '@/components/admin/lcars';
+import { cn } from '@/lib/utils';
 
 interface Pledge {
   id: string;
@@ -50,39 +50,24 @@ const AdminGodViewRewards: React.FC<AdminGodViewRewardsProps> = ({
   donorId,
   isLoading = false,
 }) => {
-  const [selectedPledges, setSelectedPledges] = useState<Set<string>>(new Set());
   const [editingPledge, setEditingPledge] = useState<string | null>(null);
   const [editData, setEditData] = useState<{
     shipping_status: string;
     tracking_number: string;
     shipping_notes: string;
   }>({ shipping_status: '', tracking_number: '', shipping_notes: '' });
-  const [bulkStatus, setBulkStatus] = useState<string>('');
 
   const { updatePledge, bulkUpdatePledges } = useAdminDonorMutations(donorId);
 
-  // Filter pledges that have rewards (especially physical ones)
+  // Filter pledges that have rewards
   const rewardPledges = pledges.filter(p => p.reward);
   const physicalRewards = rewardPledges.filter(p => p.reward?.is_physical);
   const digitalRewards = rewardPledges.filter(p => !p.reward?.is_physical);
 
-  const handleSelectPledge = (pledgeId: string, checked: boolean) => {
-    const newSelected = new Set(selectedPledges);
-    if (checked) {
-      newSelected.add(pledgeId);
-    } else {
-      newSelected.delete(pledgeId);
-    }
-    setSelectedPledges(newSelected);
-  };
-
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedPledges(new Set(physicalRewards.map(p => p.id)));
-    } else {
-      setSelectedPledges(new Set());
-    }
-  };
+  // Calculate stats
+  const pendingCount = physicalRewards.filter(p => !p.shipping_status || p.shipping_status === 'pending').length;
+  const shippedCount = physicalRewards.filter(p => p.shipping_status === 'shipped').length;
+  const deliveredCount = physicalRewards.filter(p => p.shipping_status === 'delivered').length;
 
   const startEdit = (pledge: Pledge) => {
     setEditingPledge(pledge.id);
@@ -118,11 +103,11 @@ const AdminGodViewRewards: React.FC<AdminGodViewRewardsProps> = ({
     }
   };
 
-  const handleBulkUpdate = async () => {
-    if (selectedPledges.size === 0 || !bulkStatus) {
+  const handleBulkUpdate = async (selectedRows: Pledge[], status: string) => {
+    if (selectedRows.length === 0) {
       toast({
-        title: 'Select pledges and status',
-        description: 'Please select at least one pledge and a status to apply.',
+        title: 'No rewards selected',
+        description: 'Please select at least one reward to update.',
         variant: 'destructive',
       });
       return;
@@ -130,15 +115,13 @@ const AdminGodViewRewards: React.FC<AdminGodViewRewardsProps> = ({
 
     try {
       await bulkUpdatePledges.mutateAsync({
-        pledgeIds: Array.from(selectedPledges),
+        pledgeIds: selectedRows.map(p => p.id),
         data: {
-          shipping_status: bulkStatus,
-          shipped_at: bulkStatus === 'shipped' ? new Date().toISOString() : undefined,
-          delivered_at: bulkStatus === 'delivered' ? new Date().toISOString() : undefined,
+          shipping_status: status,
+          shipped_at: status === 'shipped' ? new Date().toISOString() : undefined,
+          delivered_at: status === 'delivered' ? new Date().toISOString() : undefined,
         },
       });
-      setSelectedPledges(new Set());
-      setBulkStatus('');
     } catch (error) {
       // Error handled by mutation
     }
@@ -148,12 +131,169 @@ const AdminGodViewRewards: React.FC<AdminGodViewRewardsProps> = ({
     const statusConfig = SHIPPING_STATUSES.find(s => s.value === status) || SHIPPING_STATUSES[0];
     const Icon = statusConfig.icon;
     return (
-      <Badge className={`${statusConfig.color} gap-1`}>
+      <Badge className={cn(statusConfig.color, 'gap-1')}>
         <Icon className="h-3 w-3" />
         {statusConfig.label}
       </Badge>
     );
   };
+
+  // Physical rewards columns
+  const physicalColumns: LCARSDataTableColumn<Pledge>[] = [
+    {
+      key: 'reward',
+      header: 'Reward',
+      sortable: true,
+      render: (pledge) => (
+        <div>
+          <p className="font-medium text-sm">{pledge.reward?.name}</p>
+          <p className="text-xs text-muted-foreground">{pledge.campaign?.name}</p>
+        </div>
+      ),
+    },
+    {
+      key: 'amount',
+      header: 'Amount',
+      sortable: true,
+      align: 'right',
+      render: (pledge) => <span className="font-medium">${pledge.amount}</span>,
+    },
+    {
+      key: 'shipping_status',
+      header: 'Status',
+      render: (pledge) => {
+        if (editingPledge === pledge.id) {
+          return (
+            <Select
+              value={editData.shipping_status}
+              onValueChange={(v) => setEditData(prev => ({ ...prev, shipping_status: v }))}
+            >
+              <SelectTrigger className="w-[130px] h-8">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {SHIPPING_STATUSES.map(status => (
+                  <SelectItem key={status.value} value={status.value}>
+                    {status.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          );
+        }
+        return getStatusBadge(pledge.shipping_status);
+      },
+    },
+    {
+      key: 'tracking_number',
+      header: 'Tracking',
+      render: (pledge) => {
+        if (editingPledge === pledge.id) {
+          return (
+            <Input
+              placeholder="Tracking #"
+              value={editData.tracking_number}
+              onChange={(e) => setEditData(prev => ({ ...prev, tracking_number: e.target.value }))}
+              className="h-8 w-[140px]"
+            />
+          );
+        }
+        return pledge.tracking_number ? (
+          <span className="text-sm font-mono">{pledge.tracking_number}</span>
+        ) : (
+          <span className="text-muted-foreground text-sm">—</span>
+        );
+      },
+    },
+    {
+      key: 'dates',
+      header: 'Dates',
+      render: (pledge) => (
+        <div className="text-xs text-muted-foreground">
+          {pledge.shipped_at && <p>Shipped: {format(new Date(pledge.shipped_at), 'MMM d, yyyy')}</p>}
+          {pledge.delivered_at && <p>Delivered: {format(new Date(pledge.delivered_at), 'MMM d, yyyy')}</p>}
+          {!pledge.shipped_at && !pledge.delivered_at && <span>—</span>}
+        </div>
+      ),
+    },
+    {
+      key: 'actions',
+      header: '',
+      width: '80px',
+      render: (pledge) => {
+        if (editingPledge === pledge.id) {
+          return (
+            <div className="flex items-center gap-1">
+              <Button size="icon" variant="ghost" onClick={saveEdit} disabled={updatePledge.isPending}>
+                <Save className="h-4 w-4 text-green-400" />
+              </Button>
+              <Button size="icon" variant="ghost" onClick={cancelEdit}>
+                <X className="h-4 w-4 text-muted-foreground" />
+              </Button>
+            </div>
+          );
+        }
+        return (
+          <Button size="sm" variant="ghost" onClick={() => startEdit(pledge)}>
+            Edit
+          </Button>
+        );
+      },
+    },
+  ];
+
+  // Digital rewards columns
+  const digitalColumns: LCARSDataTableColumn<Pledge>[] = [
+    {
+      key: 'reward',
+      header: 'Reward',
+      sortable: true,
+      render: (pledge) => (
+        <div>
+          <p className="font-medium text-sm">{pledge.reward?.name}</p>
+          {pledge.reward?.description && (
+            <p className="text-xs text-muted-foreground line-clamp-1">{pledge.reward.description}</p>
+          )}
+        </div>
+      ),
+    },
+    {
+      key: 'campaign',
+      header: 'Campaign',
+      render: (pledge) => <span className="text-sm">{pledge.campaign?.name}</span>,
+    },
+    {
+      key: 'amount',
+      header: 'Amount',
+      sortable: true,
+      align: 'right',
+      render: (pledge) => <span className="font-medium">${pledge.amount}</span>,
+    },
+    {
+      key: 'status',
+      header: 'Status',
+      render: () => (
+        <Badge className="bg-green-500/20 text-green-400 gap-1">
+          <CheckCircle className="h-3 w-3" />
+          Fulfilled
+        </Badge>
+      ),
+    },
+  ];
+
+  // Bulk actions for physical rewards
+  const bulkActions: LCARSBulkAction<Pledge>[] = [
+    {
+      label: 'Mark Shipped',
+      icon: <Truck className="h-4 w-4" />,
+      onClick: (rows) => handleBulkUpdate(rows, 'shipped'),
+    },
+    {
+      label: 'Mark Delivered',
+      icon: <CheckCircle className="h-4 w-4" />,
+      onClick: (rows) => handleBulkUpdate(rows, 'delivered'),
+    },
+  ];
 
   if (isLoading) {
     return (
@@ -166,196 +306,67 @@ const AdminGodViewRewards: React.FC<AdminGodViewRewardsProps> = ({
   }
 
   return (
-    <div className="space-y-6">
-      {/* Physical Rewards Section */}
-      <Card className="bg-card/50 border-border/50">
-        <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Package className="h-5 w-5 text-primary" />
-              Physical Rewards ({physicalRewards.length})
-            </CardTitle>
-            
-            {/* Bulk Actions */}
-            {physicalRewards.length > 0 && (
-              <div className="flex items-center gap-2">
-                <Select value={bulkStatus} onValueChange={setBulkStatus}>
-                  <SelectTrigger className="w-[140px] h-8">
-                    <SelectValue placeholder="Bulk status..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {SHIPPING_STATUSES.map(status => (
-                      <SelectItem key={status.value} value={status.value}>
-                        {status.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Button
-                  size="sm"
-                  onClick={handleBulkUpdate}
-                  disabled={selectedPledges.size === 0 || !bulkStatus || bulkUpdatePledges.isPending}
-                >
-                  Apply ({selectedPledges.size})
-                </Button>
-              </div>
-            )}
-          </div>
-        </CardHeader>
-        <CardContent>
-          {physicalRewards.length === 0 ? (
-            <p className="text-muted-foreground text-sm text-center py-4">
-              No physical rewards found
-            </p>
-          ) : (
-            <div className="space-y-3">
-              {/* Select All */}
-              <div className="flex items-center gap-2 pb-2 border-b border-border/50">
-                <Checkbox
-                  checked={selectedPledges.size === physicalRewards.length}
-                  onCheckedChange={handleSelectAll}
-                  aria-label="Select all physical rewards"
-                />
-                <span className="text-sm text-muted-foreground">Select All</span>
-              </div>
+    <div className="space-y-6 p-4">
+      {/* Stats Row */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <LCARSStatCard
+          title="Physical Rewards"
+          value={physicalRewards.length}
+          icon={<Package className="h-4 w-4" />}
+          variant="primary"
+        />
+        <LCARSStatCard
+          title="Pending"
+          value={pendingCount}
+          icon={<Clock className="h-4 w-4" />}
+          variant={pendingCount > 0 ? 'warning' : 'default'}
+        />
+        <LCARSStatCard
+          title="Shipped"
+          value={shippedCount}
+          icon={<Truck className="h-4 w-4" />}
+          variant="default"
+        />
+        <LCARSStatCard
+          title="Delivered"
+          value={deliveredCount}
+          icon={<CheckCircle className="h-4 w-4" />}
+          variant="success"
+        />
+      </div>
 
-              {physicalRewards.map(pledge => (
-                <div
-                  key={pledge.id}
-                  className="flex items-start gap-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
-                >
-                  <Checkbox
-                    checked={selectedPledges.has(pledge.id)}
-                    onCheckedChange={(checked) => handleSelectPledge(pledge.id, checked as boolean)}
-                    aria-label={`Select ${pledge.reward?.name}`}
-                  />
-                  
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-2">
-                      <div>
-                        <h4 className="font-medium text-sm">{pledge.reward?.name}</h4>
-                        <p className="text-xs text-muted-foreground mt-0.5">
-                          {pledge.campaign?.name} • ${pledge.amount}
-                        </p>
-                        {pledge.reward?.description && (
-                          <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
-                            {pledge.reward.description}
-                          </p>
-                        )}
-                      </div>
-                      
-                      {editingPledge === pledge.id ? (
-                        <div className="flex items-center gap-1">
-                          <Button size="icon" variant="ghost" onClick={saveEdit} disabled={updatePledge.isPending}>
-                            <Save className="h-4 w-4 text-green-400" />
-                          </Button>
-                          <Button size="icon" variant="ghost" onClick={cancelEdit}>
-                            <X className="h-4 w-4 text-muted-foreground" />
-                          </Button>
-                        </div>
-                      ) : (
-                        <Button size="sm" variant="ghost" onClick={() => startEdit(pledge)}>
-                          Edit
-                        </Button>
-                      )}
-                    </div>
-                    
-                    {editingPledge === pledge.id ? (
-                      <div className="mt-3 space-y-2">
-                        <div className="flex gap-2">
-                          <Select
-                            value={editData.shipping_status}
-                            onValueChange={(v) => setEditData(prev => ({ ...prev, shipping_status: v }))}
-                          >
-                            <SelectTrigger className="w-[140px] h-8">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {SHIPPING_STATUSES.map(status => (
-                                <SelectItem key={status.value} value={status.value}>
-                                  {status.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <Input
-                            placeholder="Tracking number"
-                            value={editData.tracking_number}
-                            onChange={(e) => setEditData(prev => ({ ...prev, tracking_number: e.target.value }))}
-                            className="h-8 flex-1"
-                          />
-                        </div>
-                        <Input
-                          placeholder="Shipping notes..."
-                          value={editData.shipping_notes}
-                          onChange={(e) => setEditData(prev => ({ ...prev, shipping_notes: e.target.value }))}
-                          className="h-8"
-                        />
-                      </div>
-                    ) : (
-                      <div className="mt-2 flex flex-wrap items-center gap-2">
-                        {getStatusBadge(pledge.shipping_status)}
-                        {pledge.tracking_number && (
-                          <Badge variant="outline" className="text-xs">
-                            Tracking: {pledge.tracking_number}
-                          </Badge>
-                        )}
-                        {pledge.shipped_at && (
-                          <span className="text-xs text-muted-foreground">
-                            Shipped: {format(new Date(pledge.shipped_at), 'MMM d, yyyy')}
-                          </span>
-                        )}
-                        {pledge.delivered_at && (
-                          <span className="text-xs text-muted-foreground">
-                            Delivered: {format(new Date(pledge.delivered_at), 'MMM d, yyyy')}
-                          </span>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+      {/* Physical Rewards Table */}
+      <div className="space-y-3">
+        <h3 className="text-lg font-semibold flex items-center gap-2">
+          <Package className="h-5 w-5 text-primary" />
+          Physical Rewards
+        </h3>
+        <LCARSDataTable
+          data={physicalRewards}
+          columns={physicalColumns}
+          bulkActions={bulkActions}
+          searchable={true}
+          searchPlaceholder="Search rewards..."
+          selectable={true}
+          emptyMessage="No physical rewards found"
+        />
+      </div>
 
-      {/* Digital Rewards Section */}
-      <Card className="bg-card/50 border-border/50">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Gift className="h-5 w-5 text-cyan-400" />
-            Digital Rewards ({digitalRewards.length})
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {digitalRewards.length === 0 ? (
-            <p className="text-muted-foreground text-sm text-center py-4">
-              No digital rewards found
-            </p>
-          ) : (
-            <div className="grid gap-2">
-              {digitalRewards.map(pledge => (
-                <div
-                  key={pledge.id}
-                  className="flex items-center justify-between p-3 rounded-lg bg-muted/30"
-                >
-                  <div>
-                    <h4 className="font-medium text-sm">{pledge.reward?.name}</h4>
-                    <p className="text-xs text-muted-foreground">
-                      {pledge.campaign?.name} • ${pledge.amount}
-                    </p>
-                  </div>
-                  <Badge className="bg-green-500/20 text-green-400">
-                    <CheckCircle className="h-3 w-3 mr-1" />
-                    Fulfilled
-                  </Badge>
-                </div>
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+      {/* Digital Rewards Table */}
+      <div className="space-y-3">
+        <h3 className="text-lg font-semibold flex items-center gap-2">
+          <Gift className="h-5 w-5 text-cyan-400" />
+          Digital Rewards
+        </h3>
+        <LCARSDataTable
+          data={digitalRewards}
+          columns={digitalColumns}
+          searchable={false}
+          selectable={false}
+          emptyMessage="No digital rewards found"
+          compact
+        />
+      </div>
     </div>
   );
 };
