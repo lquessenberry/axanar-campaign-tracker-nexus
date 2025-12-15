@@ -1,12 +1,6 @@
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
-import { 
-  Table, TableBody, TableCell, TableHead, 
-  TableHeader, TableRow 
-} from '@/components/ui/table';
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle,
   DialogDescription, DialogFooter
@@ -18,7 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { 
   Plus, Trash2, Package, DollarSign, AlertTriangle,
-  Loader2
+  Loader2, CheckCircle, Clock
 } from 'lucide-react';
 import { AdminDonorFullData, AdminPledge } from '@/hooks/useAdminDonorFullProfile';
 import { useAdminDonorMutations, PledgeUpdateData } from '@/hooks/useAdminDonorMutations';
@@ -26,6 +20,7 @@ import InlineEditField from './InlineEditField';
 import { cn } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { LCARSDataTable, LCARSDataTableColumn, LCARSBulkAction } from '@/components/admin/lcars';
 
 interface AdminGodViewPledgesProps {
   donorData: AdminDonorFullData;
@@ -36,7 +31,6 @@ const AdminGodViewPledges = ({ donorData }: AdminGodViewPledgesProps) => {
   const donorId = donor?.id || null;
   const { updatePledge, createPledge, deletePledge, bulkUpdatePledges } = useAdminDonorMutations(donorId);
   
-  const [selectedPledges, setSelectedPledges] = useState<Set<string>>(new Set());
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState<{ open: boolean; pledgeId: string | null }>({ 
     open: false, 
@@ -77,36 +71,17 @@ const AdminGodViewPledges = ({ donorData }: AdminGodViewPledgesProps) => {
     enabled: !!newPledge.campaign_id,
   });
 
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedPledges(new Set(pledges.map(p => p.id)));
-    } else {
-      setSelectedPledges(new Set());
-    }
-  };
-
-  const handleSelectPledge = (pledgeId: string, checked: boolean) => {
-    const newSelected = new Set(selectedPledges);
-    if (checked) {
-      newSelected.add(pledgeId);
-    } else {
-      newSelected.delete(pledgeId);
-    }
-    setSelectedPledges(newSelected);
-  };
-
-  const handleBulkShippingUpdate = async (status: string) => {
-    if (selectedPledges.size === 0) return;
+  const handleBulkShippingUpdate = async (selectedRows: AdminPledge[], status: string) => {
+    if (selectedRows.length === 0) return;
     
     await bulkUpdatePledges.mutateAsync({
-      pledgeIds: Array.from(selectedPledges),
+      pledgeIds: selectedRows.map(p => p.id),
       data: {
         shipping_status: status,
         shipped_at: status === 'shipped' ? new Date().toISOString() : undefined,
         delivered_at: status === 'delivered' ? new Date().toISOString() : undefined,
       },
     });
-    setSelectedPledges(new Set());
   };
 
   const handleAddPledge = async () => {
@@ -150,156 +125,145 @@ const AdminGodViewPledges = ({ donorData }: AdminGodViewPledgesProps) => {
     { value: 'delivered', label: 'Delivered' },
   ];
 
+  // Define columns for LCARSDataTable
+  const columns: LCARSDataTableColumn<AdminPledge>[] = [
+    {
+      key: 'campaign',
+      header: 'Campaign',
+      sortable: true,
+      render: (pledge) => (
+        <span className="font-medium">
+          {pledge.campaign?.name || 'Unknown'}
+        </span>
+      ),
+    },
+    {
+      key: 'amount',
+      header: 'Amount',
+      sortable: true,
+      align: 'right',
+      render: (pledge) => (
+        <InlineEditField
+          value={pledge.amount}
+          type="number"
+          prefix="$"
+          onSave={(value) => handleUpdateField(pledge.id, 'amount', Number(value))}
+          ariaLabel="Edit pledge amount"
+        />
+      ),
+    },
+    {
+      key: 'reward',
+      header: 'Reward',
+      render: (pledge) => (
+        <span className="text-sm">
+          {pledge.reward?.name || <span className="text-muted-foreground italic">None</span>}
+        </span>
+      ),
+    },
+    {
+      key: 'shipping_status',
+      header: 'Shipping',
+      render: (pledge) => {
+        if (!pledge.reward?.is_physical) {
+          return <span className="text-muted-foreground text-sm">N/A</span>;
+        }
+        return (
+          <ShippingStatusBadge
+            status={pledge.shipping_status}
+            onStatusChange={(status) => handleUpdateField(pledge.id, 'shipping_status', status)}
+          />
+        );
+      },
+    },
+    {
+      key: 'tracking_number',
+      header: 'Tracking',
+      render: (pledge) => {
+        if (!pledge.reward?.is_physical) {
+          return <span className="text-muted-foreground">—</span>;
+        }
+        return (
+          <InlineEditField
+            value={pledge.tracking_number}
+            type="text"
+            placeholder="Add tracking..."
+            emptyText="—"
+            onSave={(value) => handleUpdateField(pledge.id, 'tracking_number', value)}
+            ariaLabel="Edit tracking number"
+          />
+        );
+      },
+    },
+    {
+      key: 'created_at',
+      header: 'Date',
+      sortable: true,
+      render: (pledge) => (
+        <span className="text-sm text-muted-foreground">
+          {new Date(pledge.created_at).toLocaleDateString()}
+        </span>
+      ),
+    },
+    {
+      key: 'actions',
+      header: '',
+      width: '40px',
+      render: (pledge) => (
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-8 w-8 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+          onClick={() => setShowDeleteDialog({ open: true, pledgeId: pledge.id })}
+          aria-label="Delete pledge"
+        >
+          <Trash2 className="h-4 w-4" />
+        </Button>
+      ),
+    },
+  ];
+
+  // Define bulk actions
+  const bulkActions: LCARSBulkAction<AdminPledge>[] = [
+    {
+      label: 'Mark Shipped',
+      icon: <Package className="h-4 w-4" />,
+      onClick: (rows) => handleBulkShippingUpdate(rows, 'shipped'),
+    },
+    {
+      label: 'Mark Delivered',
+      icon: <CheckCircle className="h-4 w-4" />,
+      onClick: (rows) => handleBulkShippingUpdate(rows, 'delivered'),
+    },
+  ];
+
   return (
     <div className="p-4 space-y-4">
-      {/* Toolbar */}
+      {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <h2 className="text-lg font-semibold flex items-center gap-2">
-            <DollarSign className="h-5 w-5 text-primary" />
-            Pledges ({pledges.length})
-          </h2>
-          
-          {selectedPledges.size > 0 && (
-            <Badge variant="secondary">
-              {selectedPledges.size} selected
-            </Badge>
-          )}
-        </div>
+        <h2 className="text-lg font-semibold flex items-center gap-2">
+          <DollarSign className="h-5 w-5 text-primary" />
+          Pledges ({pledges.length})
+        </h2>
 
-        <div className="flex items-center gap-2">
-          {/* Bulk Actions */}
-          {selectedPledges.size > 0 && (
-            <div className="flex items-center gap-2">
-              <Select onValueChange={handleBulkShippingUpdate}>
-                <SelectTrigger className="w-[160px] h-9">
-                  <Package className="h-4 w-4 mr-2" />
-                  <SelectValue placeholder="Bulk Shipping" />
-                </SelectTrigger>
-                <SelectContent>
-                  {shippingStatusOptions.map(opt => (
-                    <SelectItem key={opt.value} value={opt.value}>
-                      Mark as {opt.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          )}
-
-          <Button onClick={() => setShowAddDialog(true)} size="sm" className="gap-1">
-            <Plus className="h-4 w-4" />
-            Add Pledge
-          </Button>
-        </div>
+        <Button onClick={() => setShowAddDialog(true)} size="sm" className="gap-1">
+          <Plus className="h-4 w-4" />
+          Add Pledge
+        </Button>
       </div>
 
-      {/* Pledges Table */}
-      <Card className="bg-card border-border">
-        <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow className="border-border">
-                  <TableHead className="w-10">
-                    <Checkbox
-                      checked={selectedPledges.size === pledges.length && pledges.length > 0}
-                      onCheckedChange={handleSelectAll}
-                      aria-label="Select all pledges"
-                    />
-                  </TableHead>
-                  <TableHead>Campaign</TableHead>
-                  <TableHead>Amount</TableHead>
-                  <TableHead>Reward</TableHead>
-                  <TableHead>Shipping</TableHead>
-                  <TableHead>Tracking</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead className="w-10">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {pledges.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
-                      No pledges found
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  pledges.map((pledge) => (
-                    <TableRow key={pledge.id} className="border-border group">
-                      <TableCell>
-                        <Checkbox
-                          checked={selectedPledges.has(pledge.id)}
-                          onCheckedChange={(checked) => handleSelectPledge(pledge.id, !!checked)}
-                          aria-label={`Select pledge for ${pledge.campaign?.name}`}
-                        />
-                      </TableCell>
-                      <TableCell className="font-medium">
-                        {pledge.campaign?.name || 'Unknown'}
-                      </TableCell>
-                      <TableCell>
-                        <InlineEditField
-                          value={pledge.amount}
-                          type="number"
-                          prefix="$"
-                          onSave={(value) => handleUpdateField(pledge.id, 'amount', Number(value))}
-                          ariaLabel="Edit pledge amount"
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <span className="text-sm">
-                          {pledge.reward?.name || <span className="text-muted-foreground italic">None</span>}
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        {pledge.reward?.is_physical ? (
-                          <InlineEditField
-                            value={pledge.shipping_status || 'pending'}
-                            type="select"
-                            options={shippingStatusOptions}
-                            onSave={(value) => handleUpdateField(pledge.id, 'shipping_status', value)}
-                            ariaLabel="Edit shipping status"
-                          />
-                        ) : (
-                          <span className="text-muted-foreground text-sm">N/A</span>
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {pledge.reward?.is_physical ? (
-                          <InlineEditField
-                            value={pledge.tracking_number}
-                            type="text"
-                            placeholder="Add tracking..."
-                            emptyText="—"
-                            onSave={(value) => handleUpdateField(pledge.id, 'tracking_number', value)}
-                            ariaLabel="Edit tracking number"
-                          />
-                        ) : (
-                          <span className="text-muted-foreground">—</span>
-                        )}
-                      </TableCell>
-                      <TableCell className="text-sm text-muted-foreground">
-                        {new Date(pledge.created_at).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 text-destructive hover:text-destructive hover:bg-destructive/10"
-                          onClick={() => setShowDeleteDialog({ open: true, pledgeId: pledge.id })}
-                          aria-label="Delete pledge"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </div>
-        </CardContent>
-      </Card>
+      {/* LCARS Data Table */}
+      <LCARSDataTable
+        data={pledges}
+        columns={columns}
+        bulkActions={bulkActions}
+        searchable={true}
+        searchPlaceholder="Search pledges..."
+        searchKeys={['campaign', 'reward']}
+        selectable={true}
+        emptyMessage="No pledges found"
+        compact={false}
+      />
 
       {/* Add Pledge Dialog */}
       <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
@@ -412,6 +376,42 @@ const AdminGodViewPledges = ({ donorData }: AdminGodViewPledgesProps) => {
         </DialogContent>
       </Dialog>
     </div>
+  );
+};
+
+// Shipping Status Badge Component
+interface ShippingStatusBadgeProps {
+  status: string | null;
+  onStatusChange: (status: string) => void;
+}
+
+const ShippingStatusBadge = ({ status, onStatusChange }: ShippingStatusBadgeProps) => {
+  const statusConfig = {
+    pending: { label: 'Pending', variant: 'secondary' as const, next: 'shipped' },
+    shipped: { label: 'Shipped', variant: 'default' as const, next: 'delivered' },
+    delivered: { label: 'Delivered', variant: 'default' as const, next: null },
+  };
+
+  const currentStatus = status || 'pending';
+  const config = statusConfig[currentStatus as keyof typeof statusConfig] || statusConfig.pending;
+
+  return (
+    <Badge
+      variant={config.variant}
+      className={cn(
+        'cursor-pointer text-xs',
+        currentStatus === 'delivered' && 'bg-green-600 hover:bg-green-700',
+        currentStatus === 'shipped' && 'bg-blue-600 hover:bg-blue-700',
+        config.next && 'hover:scale-105 transition-transform'
+      )}
+      onClick={() => config.next && onStatusChange(config.next)}
+      title={config.next ? `Click to mark as ${config.next}` : 'Delivered'}
+    >
+      {currentStatus === 'pending' && <Clock className="h-3 w-3 mr-1" />}
+      {currentStatus === 'shipped' && <Package className="h-3 w-3 mr-1" />}
+      {currentStatus === 'delivered' && <CheckCircle className="h-3 w-3 mr-1" />}
+      {config.label}
+    </Badge>
   );
 };
 
