@@ -209,7 +209,7 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
 
         <Card 
           className="bg-gradient-to-br from-accent/10 to-accent/5 border-accent/30 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
-          onClick={() => onSectionChange("rewards")}
+          onClick={() => onSectionChange("pledges-rewards")}
         >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -346,7 +346,7 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
           <CardContent className="p-0">
             <div className="divide-y divide-border">
               <button
-                onClick={() => onSectionChange("donors")}
+                onClick={() => onSectionChange("donor-management")}
                 className="w-full flex items-center justify-between px-6 py-5 hover:bg-accent/10 transition-all duration-200 group"
               >
                 <div className="flex items-center gap-4">
@@ -357,11 +357,11 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
                     Manage Donors
                   </span>
                 </div>
-                <ChevronDown className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                <ChevronDown className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors -rotate-90" />
               </button>
               
               <button
-                onClick={() => onSectionChange("pledges")}
+                onClick={() => onSectionChange("pledges-rewards")}
                 className="w-full flex items-center justify-between px-6 py-5 hover:bg-accent/10 transition-all duration-200 group"
               >
                 <div className="flex items-center gap-4">
@@ -369,25 +369,25 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
                     <DollarSign className="h-5 w-5 text-secondary-foreground" />
                   </div>
                   <span className="text-lg font-medium text-foreground group-hover:text-primary transition-colors">
-                    View Pledges
+                    Pledges & Rewards
                   </span>
                 </div>
-                <ChevronDown className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                <ChevronDown className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors -rotate-90" />
               </button>
               
               <button
-                onClick={() => onSectionChange("rewards")}
+                onClick={() => onSectionChange("titles")}
                 className="w-full flex items-center justify-between px-6 py-5 hover:bg-accent/10 transition-all duration-200 group"
               >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center ring-2 ring-accent/30 group-hover:ring-accent/60 transition-all">
-                    <Gift className="h-5 w-5 text-accent-foreground" />
+                    <Award className="h-5 w-5 text-accent-foreground" />
                   </div>
                   <span className="text-lg font-medium text-foreground group-hover:text-primary transition-colors">
-                    Manage Rewards
+                    Titles & Perks
                   </span>
                 </div>
-                <ChevronDown className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                <ChevronDown className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors -rotate-90" />
               </button>
               
               <button
@@ -399,25 +399,10 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
                     <BarChart3 className="h-5 w-5 text-destructive-foreground" />
                   </div>
                   <span className="text-lg font-medium text-foreground group-hover:text-primary transition-colors">
-                    Manage Campaigns
+                    Campaigns
                   </span>
                 </div>
-                <ChevronDown className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
-              </button>
-              
-              <button
-                onClick={() => onSectionChange("user-profiles")}
-                className="w-full flex items-center justify-between px-6 py-5 hover:bg-accent/10 transition-all duration-200 group"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center ring-2 ring-muted-foreground/30 group-hover:ring-muted-foreground/60 transition-all">
-                    <Eye className="h-5 w-5 text-muted-foreground" />
-                  </div>
-                  <span className="text-lg font-medium text-foreground group-hover:text-primary transition-colors">
-                    View User Profiles
-                  </span>
-                </div>
-                <ChevronDown className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                <ChevronDown className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors -rotate-90" />
               </button>
             </div>
           </CardContent>
