@@ -4,16 +4,17 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { History, ChevronLeft, ChevronRight, User, Globe, Clock } from 'lucide-react';
+import { History, ChevronLeft, ChevronRight, User, Clock, Database } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface AuditEntry {
   id: string;
   action: string;
-  details: string | null;
-  ip_address: string | null;
-  user_agent: string | null;
-  created_at: string | null;
+  created_at: string;
+  old_values: Record<string, unknown> | null;
+  new_values: Record<string, unknown> | null;
+  changed_by_admin_id: string | null;
+  source: 'address_change' | 'admin_action';
 }
 
 interface AdminGodViewAuditLogProps {
@@ -142,23 +143,26 @@ const AdminGodViewAuditLog: React.FC<AdminGodViewAuditLogProps> = ({
                         </span>
                       </div>
                       
-                      {entry.details && (
-                        <p className="text-sm mt-1 text-foreground/80">
-                          {entry.details}
-                        </p>
+                      {/* Show changes summary */}
+                      {(entry.old_values || entry.new_values) && (
+                        <div className="text-sm mt-1 text-foreground/80">
+                          {entry.new_values && Object.keys(entry.new_values).length > 0 && (
+                            <span>
+                              Changed: {Object.keys(entry.new_values).join(', ')}
+                            </span>
+                          )}
+                        </div>
                       )}
                       
                       <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
-                        {entry.ip_address && (
-                          <span className="flex items-center gap-1">
-                            <Globe className="h-3 w-3" />
-                            {entry.ip_address}
-                          </span>
-                        )}
-                        {entry.user_agent && (
+                        <span className="flex items-center gap-1">
+                          <Database className="h-3 w-3" />
+                          {entry.source === 'admin_action' ? 'Admin Action' : 'User Action'}
+                        </span>
+                        {entry.changed_by_admin_id && (
                           <span className="flex items-center gap-1">
                             <User className="h-3 w-3" />
-                            {parseUserAgent(entry.user_agent)}
+                            Admin
                           </span>
                         )}
                       </div>
