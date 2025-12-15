@@ -36,6 +36,7 @@ const Terms = lazy(() => import("./pages/Terms"));
 const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
 const BackfillTitles = lazy(() => import("./pages/admin/BackfillTitles"));
 const SendAnnouncement = lazy(() => import("./pages/admin/SendAnnouncement"));
+const AdminGodView = lazy(() => import("./pages/admin/AdminGodView"));
 const PasswordReset = lazy(() => import("./pages/PasswordReset"));
 const LCARSShowcase = lazy(() => import("./pages/LCARSShowcase"));
 const LCARSEvolution = lazy(() => import("./pages/LCARSEvolution"));
@@ -139,6 +140,14 @@ const App = () => (
                       element={
                         <RequireAdmin>
                           <BackfillTitles />
+                        </RequireAdmin>
+                      }
+                    />
+                    <Route
+                      path="/admin/donor/:donorId?"
+                      element={
+                        <RequireAdmin>
+                          <AdminGodView />
                         </RequireAdmin>
                       }
                     />
