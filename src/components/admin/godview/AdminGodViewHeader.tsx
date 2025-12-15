@@ -11,6 +11,7 @@ import {
 import { useAdminDonorSearch, AdminDonorFullData } from '@/hooks/useAdminDonorFullProfile';
 import { cn } from '@/lib/utils';
 import { useDebounce } from '@/hooks/useDebounce';
+import LCARSThemeSwitcher from '@/components/admin/lcars/LCARSThemeSwitcher';
 
 interface AdminGodViewHeaderProps {
   donorData: AdminDonorFullData | null;
@@ -181,6 +182,9 @@ const AdminGodViewHeader = ({
             </div>
           )}
         </div>
+
+        {/* Theme Switcher */}
+        <LCARSThemeSwitcher />
 
         {/* God View Title */}
         <Badge variant="outline" className="hidden md:flex gap-1 text-primary border-primary/50">
