@@ -43,6 +43,7 @@ serve(async (req) => {
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
     // Query unlinked donors and their pledge totals separately (donor_pledge_totals is a VIEW)
+    // Use larger limits to avoid pagination issues
     const [unreadRes, overdueRes, physicalRewardsRes, failedUpdatesRes, signupsRes, unlinkedDonorsRes, pledgeTotalsRes] =
       await Promise.all([
         supabase.from("messages").select("*", { count: "exact", head: true }).eq("is_read", false),
@@ -58,9 +59,12 @@ serve(async (req) => {
           .eq("status", "error")
           .gte("created_at", sevenDaysAgo),
         supabase.from("profiles").select("*", { count: "exact", head: true }).gte("created_at", sevenDaysAgo),
-        supabase.from("donors").select("id").is("auth_user_id", null),
-        supabase.from("donor_pledge_totals").select("donor_id, total_donated").gte("total_donated", 100),
+        supabase.from("donors").select("id").is("auth_user_id", null).limit(50000),
+        supabase.from("donor_pledge_totals").select("donor_id, total_donated").gte("total_donated", 100).limit(50000),
       ]);
+
+    console.log('Unlinked donors count:', unlinkedDonorsRes.data?.length);
+    console.log('Pledge totals count:', pledgeTotalsRes.data?.length);
 
     if (unreadRes.error) throw unreadRes.error;
     if (overdueRes.error) throw overdueRes.error;
@@ -102,6 +106,8 @@ serve(async (req) => {
       else if (amount >= 100) tier100++;
     }
 
+    console.log('Unlinked VIP tiers:', { tier10k, tier5k, tier1k, tier100, total: tier10k + tier5k + tier1k + tier100 });
+
     const payload: OperationalAlerts = {
       unreadMessages: unreadRes.count ?? 0,
       overdueMessages: overdueRes.count ?? 0,
@@ -116,6 +122,8 @@ serve(async (req) => {
       failedAddressUpdates: failedUpdatesRes.count ?? 0,
       recentSignups: signupsRes.count ?? 0,
     };
+
+    console.log('Returning payload:', JSON.stringify(payload));
 
     return new Response(JSON.stringify(payload), {
       status: 200,
