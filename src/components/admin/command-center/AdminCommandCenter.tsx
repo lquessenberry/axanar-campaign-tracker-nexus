@@ -7,26 +7,26 @@ import { AdminDailyPulse } from "./AdminDailyPulse";
 
 export const AdminCommandCenter = () => {
   return (
-    <div className="space-y-6">
-      {/* Quick Search Bar - Top */}
+    <div className="space-y-6 bg-background min-h-screen">
+      {/* Quick Search Bar - LCARS panel with left elbow */}
       <AdminQuickSearch />
 
-      {/* Critical Alerts - Impossible to miss */}
+      {/* Critical Alerts - Hero banner with asymmetric frame */}
       <AdminCriticalAlerts />
 
-      {/* Main Content Grid */}
+      {/* Main Content Grid - Two panels with opposing asymmetry */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Left Column - Inbox Queue */}
+        {/* Left Column - Inbox Queue (left-sided frame) */}
         <AdminInboxQueue />
 
-        {/* Right Column - Activity Feed */}
+        {/* Right Column - Activity Feed (right-sided frame) */}
         <AdminActivityFeed />
       </div>
 
-      {/* VIP Recovery Queue */}
+      {/* VIP Recovery Queue - Full-width LCARS table with top frame */}
       <AdminVIPRecoveryQueue />
 
-      {/* Daily Pulse - Bottom */}
+      {/* Daily Pulse - Footer bar with elbow connector */}
       <AdminDailyPulse />
     </div>
   );
