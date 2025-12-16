@@ -4,7 +4,8 @@ import Navigation from "@/components/Navigation";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ProfileSidebarNav } from "@/components/profile/ProfileSidebarNav";
 import AdminHeader from "@/components/admin/AdminHeader";
-import AdminOverview from "@/components/admin/AdminOverview";
+import { AdminCommandCenter } from "@/components/admin/command-center";
+import AdminAnalytics from "@/components/admin/AdminAnalytics";
 import AdminAdminsSection from "@/components/admin/AdminAdminsSection";
 import AdminPlaceholderSection from "@/components/admin/AdminPlaceholderSection";
 import AxanarVideoArchiveStatus from "@/components/admin/AxanarVideoArchiveStatus";
@@ -46,7 +47,7 @@ const Dashboard = () => {
   const renderContent = () => {
     switch (activeSection) {
       case "overview":
-        return <AdminOverview onSectionChange={handleSectionChange} />;
+        return <AdminCommandCenter />;
       case "donor-management":
         return <DonorManagement />;
       case "campaigns":
@@ -61,7 +62,7 @@ const Dashboard = () => {
         navigate('/admin/send-announcement');
         return null;
       case "analytics":
-        return <VisitorAnalytics />;
+        return <AdminAnalytics onSectionChange={handleSectionChange} />;
       case "messages":
         return <AdminPlaceholderSection title="Messages" description="Admin message center" Icon={MessageCircle} />;
       case "media-files":
@@ -75,7 +76,7 @@ const Dashboard = () => {
       case "documentation":
         return <Documentation />;
       default:
-        return <AdminOverview onSectionChange={handleSectionChange} />;
+        return <AdminCommandCenter />;
     }
   };
 
