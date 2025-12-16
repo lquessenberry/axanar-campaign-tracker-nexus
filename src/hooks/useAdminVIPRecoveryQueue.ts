@@ -14,11 +14,32 @@ export const useAdminVIPRecoveryQueue = (minAmount: number = 100, limit: number 
   return useQuery({
     queryKey: ['admin-vip-recovery-queue', minAmount, limit],
     queryFn: async (): Promise<{ donors: UnlinkedVIPDonor[]; total: number }> => {
-      // Strategy: Get top pledge totals first, then check which donors are unlinked
-      // This is more efficient than fetching all unlinked donors
-      
-      // Step 1: Get top donors by pledge total (with a larger limit to account for linked ones)
-      const fetchLimit = limit * 10; // Fetch more to filter down
+      // Prefer edge function (service role) to avoid RLS and pagination caps
+      const { data: sessionData } = await supabase.auth.getSession();
+      const accessToken = sessionData.session?.access_token;
+
+      if (accessToken) {
+        const { data, error } = await supabase.functions.invoke('admin-vip-recovery-queue', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: {
+            minAmount,
+            limit,
+          },
+        });
+
+        if (!error && data) {
+          return data as { donors: UnlinkedVIPDonor[]; total: number };
+        }
+
+        // Fallback to client queries if the edge function is unavailable
+        console.warn('admin-vip-recovery-queue failed; falling back to client queries', error);
+      }
+
+      // Client fallback (may be blocked by RLS)
+      const fetchLimit = Math.min(1000, limit * 50);
+
       const { data: topPledges, error: pledgeError } = await supabase
         .from('donor_pledge_totals')
         .select('donor_id, total_donated, pledge_count')
@@ -29,8 +50,7 @@ export const useAdminVIPRecoveryQueue = (minAmount: number = 100, limit: number 
       if (pledgeError) throw pledgeError;
       if (!topPledges?.length) return { donors: [], total: 0 };
 
-      // Step 2: Get donor details for these top donors, filtering to unlinked only
-      const donorIds = topPledges.map(p => p.donor_id);
+      const donorIds = topPledges.map((p) => p.donor_id);
       const { data: unlinkedDonors, error: donorError } = await supabase
         .from('donors')
         .select('id, email, first_name, last_name, donor_name, auth_user_id')
@@ -39,32 +59,23 @@ export const useAdminVIPRecoveryQueue = (minAmount: number = 100, limit: number 
 
       if (donorError) throw donorError;
 
-      // Create lookup maps
-      const unlinkedDonorMap = new Map(
-        unlinkedDonors?.map(d => [d.id, d]) || []
-      );
-      const pledgeMap = new Map(
-        topPledges.map(p => [p.donor_id, { total: Number(p.total_donated), count: Number(p.pledge_count) }])
-      );
+      const unlinkedDonorMap = new Map(unlinkedDonors?.map((d) => [d.id, d]) || []);
 
-      // Build result list - only unlinked donors, sorted by total
       const donors: UnlinkedVIPDonor[] = [];
-      
       for (const pledge of topPledges) {
         const donor = unlinkedDonorMap.get(pledge.donor_id);
-        if (!donor) continue; // Skip linked donors
-        
-        const total = pledgeMap.get(pledge.donor_id)?.total || 0;
-        const count = pledgeMap.get(pledge.donor_id)?.count || 0;
-        
+        if (!donor) continue;
+
+        const total = Number(pledge.total_donated) || 0;
+        const count = Number(pledge.pledge_count) || 0;
+
         let tier: UnlinkedVIPDonor['tier'] = '100+';
         if (total >= 10000) tier = '10k+';
         else if (total >= 5000) tier = '5k+';
         else if (total >= 1000) tier = '1k+';
 
-        const name = donor.donor_name || 
-          `${donor.first_name || ''} ${donor.last_name || ''}`.trim() || 
-          donor.email.split('@')[0];
+        const name =
+          donor.donor_name || `${donor.first_name || ''} ${donor.last_name || ''}`.trim() || donor.email.split('@')[0];
 
         donors.push({
           id: donor.id,
@@ -80,9 +91,9 @@ export const useAdminVIPRecoveryQueue = (minAmount: number = 100, limit: number 
 
       return {
         donors,
-        total: unlinkedDonors?.length || 0,
+        total: donors.length,
       };
     },
-    staleTime: 2 * 60 * 1000, // 2 minutes
+    staleTime: 2 * 60 * 1000,
   });
 };
