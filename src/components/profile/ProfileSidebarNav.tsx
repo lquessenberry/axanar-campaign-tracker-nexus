@@ -47,7 +47,7 @@ const navigationLinks = [
 
 // Consolidated 8-section admin navigation
 const adminSections = [
-  { title: "Dashboard", value: "overview", path: "/admin/dashboard", icon: Home },
+  { title: "Dashboard", value: "overview", path: "/admin/dashboard?section=overview", icon: Home },
   { title: "Donors", value: "donor-management", path: "/admin/dashboard?section=donor-management", icon: Users },
   { title: "Pledges & Rewards", value: "pledges-rewards", path: "/admin/dashboard?section=pledges-rewards", icon: Package },
   { title: "Titles & Perks", value: "titles", path: "/admin/dashboard?section=titles", icon: Trophy },
