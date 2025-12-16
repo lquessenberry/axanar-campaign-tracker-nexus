@@ -34,34 +34,29 @@ export const useAdminOperationalAlerts = () => {
         .eq('is_read', false)
         .lt('created_at', oneDayAgo);
 
-      // Fetch unlinked high-value donors from donor_pledge_totals view
-      const { data: unlinkedDonors } = await supabase
-        .from('donor_pledge_totals')
-        .select('donor_id, total_donated')
-        .is('avatar_url', null) // Proxy for unlinked - no avatar means no auth
-        .gte('total_donated', 100);
-
-      // Also check donors table directly for auth_user_id
-      const { data: donorsWithoutAuth } = await supabase
+      // Fetch unlinked high-value donors by joining donors (for auth check) with pledge totals
+      const { data: unlinkedVIPData } = await supabase
         .from('donors')
-        .select('id, auth_user_id')
-        .is('auth_user_id', null);
+        .select('id, donor_pledge_totals!inner(total_donated)')
+        .is('auth_user_id', null)
+        .gte('donor_pledge_totals.total_donated', 100);
 
-      const unlinkedDonorIds = new Set(donorsWithoutAuth?.map(d => d.id) || []);
-
-      // Filter unlinked donors by tier
-      const tier10k = unlinkedDonors?.filter(d => 
-        unlinkedDonorIds.has(d.donor_id) && Number(d.total_donated) >= 10000
+      // Calculate tier counts from the joined data
+      const tier10k = unlinkedVIPData?.filter(d => 
+        Number((d.donor_pledge_totals as any)?.total_donated) >= 10000
       ).length || 0;
-      const tier5k = unlinkedDonors?.filter(d => 
-        unlinkedDonorIds.has(d.donor_id) && Number(d.total_donated) >= 5000 && Number(d.total_donated) < 10000
-      ).length || 0;
-      const tier1k = unlinkedDonors?.filter(d => 
-        unlinkedDonorIds.has(d.donor_id) && Number(d.total_donated) >= 1000 && Number(d.total_donated) < 5000
-      ).length || 0;
-      const tier100 = unlinkedDonors?.filter(d => 
-        unlinkedDonorIds.has(d.donor_id) && Number(d.total_donated) >= 100 && Number(d.total_donated) < 1000
-      ).length || 0;
+      const tier5k = unlinkedVIPData?.filter(d => {
+        const amount = Number((d.donor_pledge_totals as any)?.total_donated);
+        return amount >= 5000 && amount < 10000;
+      }).length || 0;
+      const tier1k = unlinkedVIPData?.filter(d => {
+        const amount = Number((d.donor_pledge_totals as any)?.total_donated);
+        return amount >= 1000 && amount < 5000;
+      }).length || 0;
+      const tier100 = unlinkedVIPData?.filter(d => {
+        const amount = Number((d.donor_pledge_totals as any)?.total_donated);
+        return amount >= 100 && amount < 1000;
+      }).length || 0;
 
       // Fetch pending physical shipments - two-step approach for reliability
       // Step 1: Get all physical reward IDs
