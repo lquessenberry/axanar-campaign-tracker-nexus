@@ -21,6 +21,72 @@ interface OperationalAlerts {
   recentSignups: number;
 }
 
+// Helper to count unlinked VIPs by tier using pagination to bypass 1000 row limit
+async function countUnlinkedVIPsByTier(supabase: any): Promise<{tier10k: number, tier5k: number, tier1k: number, tier100: number}> {
+  let tier10k = 0, tier5k = 0, tier1k = 0, tier100 = 0;
+  
+  // First get all unlinked donor IDs using pagination
+  const unlinkedDonorIds: Set<string> = new Set();
+  let offset = 0;
+  const pageSize = 1000;
+  
+  while (true) {
+    const { data, error } = await supabase
+      .from("donors")
+      .select("id")
+      .is("auth_user_id", null)
+      .range(offset, offset + pageSize - 1);
+    
+    if (error) {
+      console.error('Error fetching unlinked donors page:', error);
+      break;
+    }
+    
+    if (!data || data.length === 0) break;
+    
+    for (const d of data) {
+      unlinkedDonorIds.add(d.id);
+    }
+    
+    if (data.length < pageSize) break;
+    offset += pageSize;
+  }
+  
+  console.log('Total unlinked donor IDs fetched:', unlinkedDonorIds.size);
+  
+  // Now get pledge totals >= $100 using pagination
+  offset = 0;
+  while (true) {
+    const { data, error } = await supabase
+      .from("donor_pledge_totals")
+      .select("donor_id, total_donated")
+      .gte("total_donated", 100)
+      .range(offset, offset + pageSize - 1);
+    
+    if (error) {
+      console.error('Error fetching pledge totals page:', error);
+      break;
+    }
+    
+    if (!data || data.length === 0) break;
+    
+    for (const pt of data) {
+      if (pt.donor_id && unlinkedDonorIds.has(pt.donor_id)) {
+        const amount = Number(pt.total_donated) || 0;
+        if (amount >= 10000) tier10k++;
+        else if (amount >= 5000) tier5k++;
+        else if (amount >= 1000) tier1k++;
+        else if (amount >= 100) tier100++;
+      }
+    }
+    
+    if (data.length < pageSize) break;
+    offset += pageSize;
+  }
+  
+  return { tier10k, tier5k, tier1k, tier100 };
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -42,38 +108,34 @@ serve(async (req) => {
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
-    // Query unlinked donors and their pledge totals separately (donor_pledge_totals is a VIEW)
-    // Use larger limits to avoid pagination issues
-    const [unreadRes, overdueRes, physicalRewardsRes, failedUpdatesRes, signupsRes, unlinkedDonorsRes, pledgeTotalsRes] =
-      await Promise.all([
-        supabase.from("messages").select("*", { count: "exact", head: true }).eq("is_read", false),
-        supabase
-          .from("messages")
-          .select("*", { count: "exact", head: true })
-          .eq("is_read", false)
-          .lt("created_at", oneDayAgo),
-        supabase.from("rewards").select("id").eq("is_physical", true),
-        supabase
-          .from("address_update_diagnostics")
-          .select("*", { count: "exact", head: true })
-          .eq("status", "error")
-          .gte("created_at", sevenDaysAgo),
-        supabase.from("profiles").select("*", { count: "exact", head: true }).gte("created_at", sevenDaysAgo),
-        supabase.from("donors").select("id").is("auth_user_id", null).limit(50000),
-        supabase.from("donor_pledge_totals").select("donor_id, total_donated").gte("total_donated", 100).limit(50000),
-      ]);
+    // Fetch basic counts in parallel
+    const [unreadRes, overdueRes, physicalRewardsRes, failedUpdatesRes, signupsRes] = await Promise.all([
+      supabase.from("messages").select("*", { count: "exact", head: true }).eq("is_read", false),
+      supabase
+        .from("messages")
+        .select("*", { count: "exact", head: true })
+        .eq("is_read", false)
+        .lt("created_at", oneDayAgo),
+      supabase.from("rewards").select("id").eq("is_physical", true),
+      supabase
+        .from("address_update_diagnostics")
+        .select("*", { count: "exact", head: true })
+        .eq("status", "error")
+        .gte("created_at", sevenDaysAgo),
+      supabase.from("profiles").select("*", { count: "exact", head: true }).gte("created_at", sevenDaysAgo),
+    ]);
 
-    console.log('Unlinked donors count:', unlinkedDonorsRes.data?.length);
-    console.log('Pledge totals count:', pledgeTotalsRes.data?.length);
+    if (unreadRes.error) throw new Error(`unreadRes: ${unreadRes.error.message}`);
+    if (overdueRes.error) throw new Error(`overdueRes: ${overdueRes.error.message}`);
+    if (physicalRewardsRes.error) throw new Error(`physicalRewardsRes: ${physicalRewardsRes.error.message}`);
+    if (failedUpdatesRes.error) throw new Error(`failedUpdatesRes: ${failedUpdatesRes.error.message}`);
+    if (signupsRes.error) throw new Error(`signupsRes: ${signupsRes.error.message}`);
 
-    if (unreadRes.error) throw unreadRes.error;
-    if (overdueRes.error) throw overdueRes.error;
-    if (physicalRewardsRes.error) throw physicalRewardsRes.error;
-    if (failedUpdatesRes.error) throw failedUpdatesRes.error;
-    if (signupsRes.error) throw signupsRes.error;
-    if (unlinkedDonorsRes.error) throw unlinkedDonorsRes.error;
-    if (pledgeTotalsRes.error) throw pledgeTotalsRes.error;
+    // Count unlinked VIPs by tier using pagination
+    const tierCounts = await countUnlinkedVIPsByTier(supabase);
+    console.log('Unlinked VIP tiers:', tierCounts);
 
+    // Count pending shipments
     const physicalRewardIds = (physicalRewardsRes.data ?? []).map((r) => r.id);
 
     let pendingShipments = 0;
@@ -84,39 +146,18 @@ serve(async (req) => {
         .in("reward_id", physicalRewardIds)
         .or("shipping_status.is.null,shipping_status.eq.pending");
 
-      if (pendingRes.error) throw pendingRes.error;
+      if (pendingRes.error) throw new Error(`pendingRes: ${pendingRes.error.message}`);
       pendingShipments = pendingRes.count ?? 0;
     }
 
-    // Join unlinked donors with pledge totals in code
-    const unlinkedDonorIds = new Set((unlinkedDonorsRes.data ?? []).map((d) => d.id));
-    const pledgeTotalsMap = new Map<string, number>();
-    for (const pt of pledgeTotalsRes.data ?? []) {
-      if (pt.donor_id && unlinkedDonorIds.has(pt.donor_id)) {
-        pledgeTotalsMap.set(pt.donor_id, Number(pt.total_donated) || 0);
-      }
-    }
-
-    // Calculate tier counts from the joined data
-    let tier10k = 0, tier5k = 0, tier1k = 0, tier100 = 0;
-    for (const amount of pledgeTotalsMap.values()) {
-      if (amount >= 10000) tier10k++;
-      else if (amount >= 5000) tier5k++;
-      else if (amount >= 1000) tier1k++;
-      else if (amount >= 100) tier100++;
-    }
-
-    console.log('Unlinked VIP tiers:', { tier10k, tier5k, tier1k, tier100, total: tier10k + tier5k + tier1k + tier100 });
+    const total = tierCounts.tier10k + tierCounts.tier5k + tierCounts.tier1k + tierCounts.tier100;
 
     const payload: OperationalAlerts = {
       unreadMessages: unreadRes.count ?? 0,
       overdueMessages: overdueRes.count ?? 0,
       unlinkedVIPs: {
-        tier10k,
-        tier5k,
-        tier1k,
-        tier100,
-        total: tier10k + tier5k + tier1k + tier100,
+        ...tierCounts,
+        total,
       },
       pendingShipments,
       failedAddressUpdates: failedUpdatesRes.count ?? 0,
