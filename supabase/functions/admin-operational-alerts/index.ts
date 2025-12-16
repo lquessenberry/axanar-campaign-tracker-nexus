@@ -42,7 +42,8 @@ serve(async (req) => {
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
-    const [unreadRes, overdueRes, physicalRewardsRes, failedUpdatesRes, signupsRes, unlinkedVIPRes] =
+    // Query unlinked donors and their pledge totals separately (donor_pledge_totals is a VIEW)
+    const [unreadRes, overdueRes, physicalRewardsRes, failedUpdatesRes, signupsRes, unlinkedDonorsRes, pledgeTotalsRes] =
       await Promise.all([
         supabase.from("messages").select("*", { count: "exact", head: true }).eq("is_read", false),
         supabase
@@ -57,11 +58,8 @@ serve(async (req) => {
           .eq("status", "error")
           .gte("created_at", sevenDaysAgo),
         supabase.from("profiles").select("*", { count: "exact", head: true }).gte("created_at", sevenDaysAgo),
-        supabase
-          .from("donors")
-          .select("id, donor_pledge_totals!inner(total_donated)")
-          .is("auth_user_id", null)
-          .gte("donor_pledge_totals.total_donated", 100),
+        supabase.from("donors").select("id").is("auth_user_id", null),
+        supabase.from("donor_pledge_totals").select("donor_id, total_donated").gte("total_donated", 100),
       ]);
 
     if (unreadRes.error) throw unreadRes.error;
@@ -69,7 +67,8 @@ serve(async (req) => {
     if (physicalRewardsRes.error) throw physicalRewardsRes.error;
     if (failedUpdatesRes.error) throw failedUpdatesRes.error;
     if (signupsRes.error) throw signupsRes.error;
-    if (unlinkedVIPRes.error) throw unlinkedVIPRes.error;
+    if (unlinkedDonorsRes.error) throw unlinkedDonorsRes.error;
+    if (pledgeTotalsRes.error) throw pledgeTotalsRes.error;
 
     const physicalRewardIds = (physicalRewardsRes.data ?? []).map((r) => r.id);
 
@@ -85,21 +84,23 @@ serve(async (req) => {
       pendingShipments = pendingRes.count ?? 0;
     }
 
-    const unlinkedVIPData = unlinkedVIPRes.data ?? [];
+    // Join unlinked donors with pledge totals in code
+    const unlinkedDonorIds = new Set((unlinkedDonorsRes.data ?? []).map((d) => d.id));
+    const pledgeTotalsMap = new Map<string, number>();
+    for (const pt of pledgeTotalsRes.data ?? []) {
+      if (pt.donor_id && unlinkedDonorIds.has(pt.donor_id)) {
+        pledgeTotalsMap.set(pt.donor_id, Number(pt.total_donated) || 0);
+      }
+    }
 
-    const tier10k = unlinkedVIPData.filter((d) => Number((d as any).donor_pledge_totals?.total_donated) >= 10000).length;
-    const tier5k = unlinkedVIPData.filter((d) => {
-      const amount = Number((d as any).donor_pledge_totals?.total_donated);
-      return amount >= 5000 && amount < 10000;
-    }).length;
-    const tier1k = unlinkedVIPData.filter((d) => {
-      const amount = Number((d as any).donor_pledge_totals?.total_donated);
-      return amount >= 1000 && amount < 5000;
-    }).length;
-    const tier100 = unlinkedVIPData.filter((d) => {
-      const amount = Number((d as any).donor_pledge_totals?.total_donated);
-      return amount >= 100 && amount < 1000;
-    }).length;
+    // Calculate tier counts from the joined data
+    let tier10k = 0, tier5k = 0, tier1k = 0, tier100 = 0;
+    for (const amount of pledgeTotalsMap.values()) {
+      if (amount >= 10000) tier10k++;
+      else if (amount >= 5000) tier5k++;
+      else if (amount >= 1000) tier1k++;
+      else if (amount >= 100) tier100++;
+    }
 
     const payload: OperationalAlerts = {
       unreadMessages: unreadRes.count ?? 0,
