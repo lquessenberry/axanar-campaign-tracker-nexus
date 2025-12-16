@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.update-axanar-videos]
 verify_jwt = false
+
+[functions.admin-operational-alerts]
+verify_jwt = true
