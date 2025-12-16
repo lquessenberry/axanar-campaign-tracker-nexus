@@ -63,12 +63,21 @@ export const useAdminOperationalAlerts = () => {
         unlinkedDonorIds.has(d.donor_id) && Number(d.total_donated) >= 100 && Number(d.total_donated) < 1000
       ).length || 0;
 
-      // Fetch pending physical shipments
-      const { count: pendingShipments } = await supabase
+      // Fetch pending physical shipments - pledges with physical rewards not yet shipped/delivered
+      // We need to count pledges where the reward is physical AND shipping_status is not 'shipped' or 'delivered'
+      const { data: physicalPledges } = await supabase
         .from('pledges')
-        .select('*', { count: 'exact', head: true })
-        .eq('shipping_status', 'pending')
-        .not('reward_id', 'is', null);
+        .select(`
+          id,
+          shipping_status,
+          rewards!inner(is_physical)
+        `)
+        .eq('rewards.is_physical', true);
+      
+      // Count pledges that haven't been shipped or delivered
+      const pendingShipments = physicalPledges?.filter(p => 
+        !p.shipping_status || p.shipping_status === 'pending'
+      ).length || 0;
 
       // Fetch failed address updates (last 7 days)
       const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
