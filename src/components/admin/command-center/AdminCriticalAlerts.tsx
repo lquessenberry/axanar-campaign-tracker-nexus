@@ -96,16 +96,14 @@ export const AdminCriticalAlerts = () => {
 
   return (
     <div className="lcars-hero-banner">
-      {/* Section header with LCARS cap */}
-      <div className="lcars-cap mb-4">
-        <div className="flex items-center gap-2 text-sm font-bold text-foreground uppercase tracking-widest">
-          <AlertTriangle className="h-4 w-4 text-primary" />
-          <span>NEEDS ATTENTION</span>
-        </div>
+      {/* Section header - text only, elbow is handled by parent CSS */}
+      <div className="flex items-center gap-2 text-sm font-bold text-foreground uppercase tracking-widest mb-4 pl-2">
+        <AlertTriangle className="h-4 w-4 text-primary" />
+        <span>NEEDS ATTENTION</span>
       </div>
       
-      {/* Alert cards grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Alert cards grid - simplified, no nested frames */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         <AlertCard
           icon={<MessageCircle className="h-6 w-6" />}
           label="Unread Messages"

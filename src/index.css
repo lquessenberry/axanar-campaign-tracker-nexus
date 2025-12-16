@@ -3227,32 +3227,33 @@ a:focus-visible,
 /* Command Center Hero Banner */
 .lcars-hero-banner {
   position: relative;
-  background: hsl(var(--background));
-  border-radius: 24px 0 0 0;
-  padding: 1.5rem;
-  border-left: 8px solid hsl(var(--primary));
-  border-bottom: 4px solid hsl(var(--primary));
+  background: hsl(var(--card) / 0.5);
+  border-radius: 0;
+  padding: 1.25rem 1.5rem 1.25rem 2rem;
+  margin-left: 12px;
 }
 
+/* Single clean left elbow - vertical bar with rounded top */
 .lcars-hero-banner::before {
   content: '';
   position: absolute;
   top: 0;
-  left: 0;
-  width: 24px;
+  left: -12px;
+  width: 12px;
   height: 100%;
   background: hsl(var(--primary));
-  border-radius: 24px 0 0 0;
+  border-radius: 16px 0 0 16px;
 }
 
+/* Bottom accent line extending from elbow */
 .lcars-hero-banner::after {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 24px;
-  right: 20%;
-  height: 4px;
-  background: hsl(var(--primary));
+  left: 0;
+  width: 40%;
+  height: 3px;
+  background: hsl(var(--primary) / 0.6);
 }
 
 /* LCARS Panel with elbow frame */
@@ -3658,31 +3659,36 @@ a:focus-visible,
 
 .lcars-footer {
   position: relative;
-  background: hsl(var(--muted) / 0.3);
-  padding: 0.5rem 0;
+  background: hsl(var(--muted) / 0.15);
+  border-top: 1px solid hsl(var(--border) / 0.3);
+  padding: 0.75rem 1rem 0.75rem 4rem;
   display: flex;
   align-items: center;
+  gap: 0.5rem;
+  min-height: 64px;
 }
 
+/* Vertical elbow bar on left */
 .lcars-footer::before {
   content: '';
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
-  width: 24px;
+  width: 8px;
   background: hsl(var(--secondary));
-  border-radius: 0 0 0 12px;
+  border-radius: 0 0 0 16px;
 }
 
+/* Horizontal connector bar extending from elbow */
 .lcars-footer::after {
   content: '';
   position: absolute;
-  left: 24px;
+  left: 8px;
   top: 50%;
   transform: translateY(-50%);
-  width: 24px;
+  width: 32px;
   height: 24px;
   background: hsl(var(--secondary));
-  border-radius: 50% 0 0 50%;
+  border-radius: 0 24px 24px 0;
 }
