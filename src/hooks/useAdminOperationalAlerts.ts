@@ -63,21 +63,25 @@ export const useAdminOperationalAlerts = () => {
         unlinkedDonorIds.has(d.donor_id) && Number(d.total_donated) >= 100 && Number(d.total_donated) < 1000
       ).length || 0;
 
-      // Fetch pending physical shipments - pledges with physical rewards not yet shipped/delivered
-      // We need to count pledges where the reward is physical AND shipping_status is not 'shipped' or 'delivered'
-      const { data: physicalPledges } = await supabase
-        .from('pledges')
-        .select(`
-          id,
-          shipping_status,
-          rewards!inner(is_physical)
-        `)
-        .eq('rewards.is_physical', true);
+      // Fetch pending physical shipments - two-step approach for reliability
+      // Step 1: Get all physical reward IDs
+      const { data: physicalRewards } = await supabase
+        .from('rewards')
+        .select('id')
+        .eq('is_physical', true);
       
-      // Count pledges that haven't been shipped or delivered
-      const pendingShipments = physicalPledges?.filter(p => 
-        !p.shipping_status || p.shipping_status === 'pending'
-      ).length || 0;
+      const physicalRewardIds = physicalRewards?.map(r => r.id) || [];
+      
+      // Step 2: Count pledges with those rewards that are pending
+      let pendingShipments = 0;
+      if (physicalRewardIds.length > 0) {
+        const { count } = await supabase
+          .from('pledges')
+          .select('*', { count: 'exact', head: true })
+          .in('reward_id', physicalRewardIds)
+          .or('shipping_status.is.null,shipping_status.eq.pending');
+        pendingShipments = count || 0;
+      }
 
       // Fetch failed address updates (last 7 days)
       const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
