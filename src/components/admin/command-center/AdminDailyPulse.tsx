@@ -12,14 +12,14 @@ interface PulseMetricProps {
 }
 
 const PulseMetric = ({ icon, label, value, sublabel }: PulseMetricProps) => (
-  <div className="lcars-readout flex-1 min-w-[120px]">
-    <div className="flex items-center justify-center gap-2 mb-1 text-muted-foreground">
+  <div className="flex flex-col items-center px-6 py-2">
+    <div className="flex items-center gap-1.5 text-muted-foreground mb-0.5">
       {icon}
     </div>
-    <div className="lcars-readout-value text-center">{value}</div>
-    <div className="lcars-readout-label text-center">{label}</div>
+    <div className="text-2xl font-bold text-foreground tracking-tight">{value}</div>
+    <div className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">{label}</div>
     {sublabel && (
-      <div className="text-[10px] text-muted-foreground/60 text-center">{sublabel}</div>
+      <div className="text-[10px] text-muted-foreground/60">{sublabel}</div>
     )}
   </div>
 );
@@ -30,13 +30,9 @@ export const AdminDailyPulse = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="lcars-footer bg-muted/20">
-      {/* LCARS elbow connector visual */}
-      <div className="w-8 h-full bg-secondary rounded-bl-xl flex-shrink-0" />
-      <div className="w-6 h-6 bg-secondary rounded-full -ml-3 flex-shrink-0" />
-      
-      {/* Metrics row */}
-      <div className="flex flex-wrap items-stretch flex-1 divide-x divide-border/30">
+    <div className="lcars-footer">
+      {/* Metrics row - elbow handled by CSS pseudo-elements */}
+      <div className="flex flex-wrap items-center flex-1 gap-6 pl-4">
         <PulseMetric
           icon={<UserPlus className="h-4 w-4" />}
           label="New Users"
