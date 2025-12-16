@@ -1,34 +1,34 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Activity, ChevronRight, UserPlus, DollarSign, MapPin, Shield, MessageCircle } from "lucide-react";
 import { useAdminActivityFeed, ActivityEvent } from "@/hooks/useAdminActivityFeed";
 import { formatDistanceToNow } from "date-fns";
+import { cn } from "@/lib/utils";
 
 const EventIcon = ({ type }: { type: ActivityEvent['type'] }) => {
   const icons = {
-    signup: <UserPlus className="h-4 w-4 text-green-500" />,
-    pledge: <DollarSign className="h-4 w-4 text-primary" />,
-    address_update: <MapPin className="h-4 w-4 text-blue-500" />,
-    admin_action: <Shield className="h-4 w-4 text-orange-500" />,
-    message: <MessageCircle className="h-4 w-4 text-purple-500" />,
+    signup: <UserPlus className="h-4 w-4" />,
+    pledge: <DollarSign className="h-4 w-4" />,
+    address_update: <MapPin className="h-4 w-4" />,
+    admin_action: <Shield className="h-4 w-4" />,
+    message: <MessageCircle className="h-4 w-4" />,
   };
   return icons[type] || <Activity className="h-4 w-4" />;
 };
 
-const EventBadge = ({ type }: { type: ActivityEvent['type'] }) => {
-  const badges = {
-    signup: { label: 'New', color: 'bg-green-500/10 text-green-500' },
-    pledge: { label: 'Pledge', color: 'bg-primary/10 text-primary' },
-    address_update: { label: 'Address', color: 'bg-blue-500/10 text-blue-500' },
-    admin_action: { label: 'Admin', color: 'bg-orange-500/10 text-orange-500' },
-    message: { label: 'Message', color: 'bg-purple-500/10 text-purple-500' },
+const EventDot = ({ type }: { type: ActivityEvent['type'] }) => {
+  const colors = {
+    signup: 'bg-green-500',
+    pledge: 'bg-primary',
+    address_update: 'bg-blue-500',
+    admin_action: 'bg-orange-500',
+    message: 'bg-purple-500',
   };
-  const badge = badges[type] || { label: type, color: 'bg-muted text-muted-foreground' };
   
   return (
-    <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${badge.color}`}>
-      {badge.label}
-    </span>
+    <div className={cn(
+      "w-2.5 h-2.5 rounded-full flex-shrink-0",
+      colors[type] || 'bg-muted-foreground'
+    )} />
   );
 };
 
@@ -36,20 +36,23 @@ export const AdminActivityFeed = () => {
   const { data: events, isLoading } = useAdminActivityFeed(15);
 
   return (
-    <Card className="h-full">
-      <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-lg">
-          <Activity className="h-5 w-5 text-primary" />
+    <div className="lcars-panel lcars-panel-right h-full bg-card">
+      {/* LCARS Header with cap */}
+      <div className="lcars-endcap-r py-3 px-4 border-b border-border/30">
+        <h3 className="flex items-center gap-2 text-base font-bold uppercase tracking-wider text-foreground justify-end">
           Live Activity
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-1 max-h-[400px] overflow-y-auto pr-2">
+          <Activity className="h-5 w-5 text-accent" />
+        </h3>
+      </div>
+      
+      {/* Activity feed content */}
+      <div className="p-2">
+        <div className="space-y-0.5 max-h-[400px] overflow-y-auto pr-1">
           {isLoading ? (
-            <div className="space-y-3">
+            <div className="space-y-2 p-2">
               {[...Array(5)].map((_, i) => (
-                <div key={i} className="animate-pulse flex items-center gap-3">
-                  <div className="w-8 h-8 bg-muted rounded-full" />
+                <div key={i} className="animate-pulse flex items-center gap-3 p-2">
+                  <div className="w-2.5 h-2.5 bg-muted rounded-full" />
                   <div className="flex-1">
                     <div className="h-3 bg-muted rounded w-32 mb-1" />
                     <div className="h-2 bg-muted rounded w-20" />
@@ -61,20 +64,29 @@ export const AdminActivityFeed = () => {
             events.map(event => (
               <div
                 key={event.id}
-                className="flex items-start gap-3 p-2 rounded-lg hover:bg-accent/30 transition-colors"
+                className="lcars-queue-item flex items-start gap-3"
               >
-                <div className="mt-0.5 p-1.5 rounded-full bg-muted">
-                  <EventIcon type={event.type} />
-                </div>
+                <EventDot type={event.type} />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-medium text-sm truncate">{event.actor}</span>
-                    <EventBadge type={event.type} />
+                    <span className="font-semibold text-sm text-foreground truncate">
+                      {event.actor}
+                    </span>
+                    <span className={cn(
+                      "text-[10px] px-1.5 py-0.5 rounded-sm font-semibold uppercase tracking-wide",
+                      event.type === 'signup' && 'bg-green-500/15 text-green-400',
+                      event.type === 'pledge' && 'bg-primary/15 text-primary',
+                      event.type === 'address_update' && 'bg-blue-500/15 text-blue-400',
+                      event.type === 'admin_action' && 'bg-orange-500/15 text-orange-400',
+                      event.type === 'message' && 'bg-purple-500/15 text-purple-400',
+                    )}>
+                      {event.type.replace('_', ' ')}
+                    </span>
                   </div>
                   <p className="text-xs text-muted-foreground truncate">
                     {event.description}
                   </p>
-                  <span className="text-[10px] text-muted-foreground">
+                  <span className="text-[10px] text-muted-foreground/70">
                     {formatDistanceToNow(new Date(event.timestamp), { addSuffix: true })}
                   </span>
                 </div>
@@ -82,12 +94,12 @@ export const AdminActivityFeed = () => {
             ))
           ) : (
             <div className="text-center py-8 text-muted-foreground">
-              <Activity className="h-8 w-8 mx-auto mb-2 opacity-50" />
-              <p className="text-sm">No recent activity</p>
+              <Activity className="h-10 w-10 mx-auto mb-2 opacity-40" />
+              <p className="text-sm font-medium">No recent activity</p>
             </div>
           )}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };

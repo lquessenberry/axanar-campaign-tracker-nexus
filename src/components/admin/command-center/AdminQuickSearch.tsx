@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Send, Download, UserPlus } from "lucide-react";
@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useQuery } from "@tanstack/react-query";
+import { cn } from "@/lib/utils";
 
 interface SearchResult {
   id: string;
@@ -48,21 +49,25 @@ export const AdminQuickSearch = () => {
   };
 
   return (
-    <div className="bg-card border rounded-lg p-4 space-y-4">
+    <div className="lcars-panel lcars-panel-left p-4 bg-card">
       <div className="flex flex-col lg:flex-row gap-4">
-        {/* Search Input */}
+        {/* LCARS-styled Search Input */}
         <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search donors by name, email, or ID..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 h-12"
-          />
+          <div className="lcars-search flex items-center">
+            <div className="absolute left-0 top-0 bottom-0 w-14 bg-primary rounded-l-full flex items-center justify-center z-10">
+              <Search className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <Input
+              placeholder="Search donors by name, email, or ID..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-16 h-12 bg-background border-none rounded-l-full rounded-r-sm focus-visible:ring-primary"
+            />
+          </div>
           
           {/* Search Results Dropdown */}
           {debouncedSearch.length >= 2 && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-popover border rounded-lg shadow-lg z-50 max-h-64 overflow-auto">
+            <div className="absolute top-full left-0 right-0 mt-1 bg-card border-l-4 border-l-primary shadow-lg z-50 max-h-64 overflow-auto">
               {isLoading ? (
                 <div className="p-4 text-center text-muted-foreground">Searching...</div>
               ) : results && results.length > 0 ? (
@@ -70,9 +75,9 @@ export const AdminQuickSearch = () => {
                   <button
                     key={result.id}
                     onClick={() => handleResultClick(result)}
-                    className="w-full px-4 py-3 text-left hover:bg-accent transition-colors border-b last:border-0"
+                    className="lcars-queue-item w-full text-left"
                   >
-                    <div className="font-medium">{result.name}</div>
+                    <div className="font-semibold text-foreground">{result.name}</div>
                     <div className="text-sm text-muted-foreground">{result.email}</div>
                   </button>
                 ))
@@ -83,28 +88,25 @@ export const AdminQuickSearch = () => {
           )}
         </div>
 
-        {/* Quick Action Buttons */}
+        {/* LCARS-styled Quick Action Buttons */}
         <div className="flex gap-2">
           <Button 
-            variant="outline" 
             onClick={() => navigate('/admin/send-announcement')}
-            className="gap-2"
+            className="lcars-btn-pill-l gap-2 h-12"
           >
             <Send className="h-4 w-4" />
-            <span className="hidden sm:inline">Announcement</span>
+            <span className="hidden sm:inline">Announce</span>
           </Button>
           <Button 
-            variant="outline"
             onClick={() => navigate('/admin/dashboard?section=donor-management')}
-            className="gap-2"
+            className="h-12 gap-2 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-sm"
           >
             <Download className="h-4 w-4" />
             <span className="hidden sm:inline">Export</span>
           </Button>
           <Button 
-            variant="outline"
             onClick={() => navigate('/admin/dashboard?section=utilities')}
-            className="gap-2"
+            className="lcars-btn-pill-r gap-2 h-12"
           >
             <UserPlus className="h-4 w-4" />
             <span className="hidden sm:inline">Invite</span>
