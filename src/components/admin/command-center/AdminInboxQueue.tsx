@@ -20,28 +20,66 @@ export const AdminInboxQueue = () => {
   const navigate = useNavigate();
 
   const { data: messages, isLoading } = useQuery({
-    queryKey: ['admin-inbox-queue'],
+    queryKey: ['admin-inbox-queue-unreplied'],
     queryFn: async (): Promise<InboxMessage[]> => {
       const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
-      const { data: messagesData, error: msgError } = await supabase
+      // Get current user (admin)
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return [];
+
+      // Fetch recent messages sent TO the admin (inbox)
+      const { data: inboxMessages, error: msgError } = await supabase
         .from('messages')
         .select('id, subject, content, created_at, sender_id')
-        .eq('is_read', false)
+        .eq('recipient_id', user.id)
         .order('created_at', { ascending: false })
-        .limit(5);
+        .limit(50);
 
       if (msgError) throw msgError;
+      if (!inboxMessages?.length) return [];
 
-      const senderIds = [...new Set(messagesData?.map(m => m.sender_id) || [])];
+      // Get unique sender IDs
+      const senderIds = [...new Set(inboxMessages.map(m => m.sender_id))];
+
+      // Check which senders admin has replied to (messages FROM admin TO sender)
+      const { data: adminReplies } = await supabase
+        .from('messages')
+        .select('recipient_id, created_at')
+        .eq('sender_id', user.id)
+        .in('recipient_id', senderIds)
+        .order('created_at', { ascending: false });
+
+      // Build map of latest admin reply per conversation partner
+      const lastReplyMap = new Map<string, string>();
+      adminReplies?.forEach(r => {
+        if (!lastReplyMap.has(r.recipient_id)) {
+          lastReplyMap.set(r.recipient_id, r.created_at);
+        }
+      });
+
+      // Filter to messages that are either:
+      // 1. From senders admin hasn't replied to at all, OR
+      // 2. Sent AFTER admin's last reply (new follow-up)
+      const unrepliedMessages = inboxMessages.filter(m => {
+        const lastReply = lastReplyMap.get(m.sender_id);
+        if (!lastReply) return true; // No reply yet
+        return new Date(m.created_at) > new Date(lastReply); // Sent after last reply
+      });
+
+      // Take top 5
+      const topMessages = unrepliedMessages.slice(0, 5);
+
+      // Get profiles for display
+      const profileSenderIds = [...new Set(topMessages.map(m => m.sender_id))];
       const { data: profiles } = await supabase
         .from('profiles')
         .select('id, full_name, username')
-        .in('id', senderIds);
+        .in('id', profileSenderIds);
 
       const profileMap = new Map(profiles?.map(p => [p.id, p]) || []);
 
-      return (messagesData || []).map(m => {
+      return topMessages.map(m => {
         const sender = profileMap.get(m.sender_id);
         return {
           id: m.id,
