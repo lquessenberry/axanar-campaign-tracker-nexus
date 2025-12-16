@@ -4,10 +4,14 @@ import { AdminInboxQueue } from "./AdminInboxQueue";
 import { AdminActivityFeed } from "./AdminActivityFeed";
 import { AdminVIPRecoveryQueue } from "./AdminVIPRecoveryQueue";
 import { AdminDailyPulse } from "./AdminDailyPulse";
+import { LCARSBar } from "./LCARSBar";
 
 export const AdminCommandCenter = () => {
   return (
-    <div className="space-y-6 bg-background min-h-screen">
+    <div className="space-y-4 bg-background min-h-screen p-4">
+      {/* Top LCARS segmented bar */}
+      <LCARSBar position="top" />
+
       {/* Quick Search Bar - LCARS panel with left elbow */}
       <AdminQuickSearch />
 
@@ -15,7 +19,7 @@ export const AdminCommandCenter = () => {
       <AdminCriticalAlerts />
 
       {/* Main Content Grid - Two panels with opposing asymmetry */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Left Column - Inbox Queue (left-sided frame) */}
         <AdminInboxQueue />
 
@@ -28,6 +32,9 @@ export const AdminCommandCenter = () => {
 
       {/* Daily Pulse - Footer bar with elbow connector */}
       <AdminDailyPulse />
+
+      {/* Bottom LCARS segmented bar */}
+      <LCARSBar position="bottom" />
     </div>
   );
 };
