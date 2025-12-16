@@ -43,81 +43,136 @@ serve(async (req) => {
     const minAmount = Number.isFinite(body.minAmount) ? Number(body.minAmount) : 100;
     const limit = Number.isFinite(body.limit) ? Math.max(1, Math.min(50, Number(body.limit))) : 8;
 
-    console.log("admin-vip-recovery-queue", { minAmount, limit, adminUserId: admin.userId });
+    console.log("Starting admin-vip-recovery-queue", { minAmount, limit });
 
-    const donors: UnlinkedVIPDonor[] = [];
-    const seenDonorIds = new Set<string>();
-
-    // Fetch top pledge totals in pages (avoid missing unlinked donors if top N are linked)
+    // Step 1: Fetch unlinked donors (limit 1000 at a time, use offset pagination)
+    const allUnlinkedDonors: Array<{ id: string; email: string; first_name: string | null; last_name: string | null; donor_name: string | null }> = [];
+    let donorOffset = 0;
     const pageSize = 1000;
-    const maxScan = 5000; // cap for safety
-
-    for (let offset = 0; offset < maxScan && donors.length < limit; offset += pageSize) {
-      const { data: pledgeRows, error: pledgeError } = await supabase
-        .from("donor_pledge_totals")
-        .select("donor_id, total_donated, pledge_count")
-        .gte("total_donated", minAmount)
-        .order("total_donated", { ascending: false })
-        .range(offset, offset + pageSize - 1);
-
-      if (pledgeError) throw pledgeError;
-      if (!pledgeRows || pledgeRows.length === 0) break;
-
-      const batchIds = pledgeRows.map((p) => p.donor_id).filter(Boolean) as string[];
-
-      const { data: donorRows, error: donorError } = await supabase
+    
+    while (donorOffset < 50000) {
+      const { data, error, count } = await supabase
         .from("donors")
-        .select("id, email, first_name, last_name, donor_name")
-        .in("id", batchIds)
-        .is("auth_user_id", null);
+        .select("id, email, first_name, last_name, donor_name", { count: "exact" })
+        .is("auth_user_id", null)
+        .order("id")
+        .limit(pageSize)
+        .gt("id", donorOffset > 0 && allUnlinkedDonors.length > 0 ? allUnlinkedDonors[allUnlinkedDonors.length - 1].id : "00000000-0000-0000-0000-000000000000");
 
-      if (donorError) throw donorError;
-
-      const donorMap = new Map((donorRows ?? []).map((d) => [d.id, d]));
-
-      for (const p of pledgeRows) {
-        const donorId = p.donor_id as string;
-        if (!donorId || seenDonorIds.has(donorId)) continue;
-
-        const donor = donorMap.get(donorId);
-        if (!donor) continue;
-
-        seenDonorIds.add(donorId);
-
-        const total = Number(p.total_donated) || 0;
-        let tier: Tier = "100+";
-        if (total >= 10000) tier = "10k+";
-        else if (total >= 5000) tier = "5k+";
-        else if (total >= 1000) tier = "1k+";
-
-        const name =
-          donor.donor_name ||
-          `${donor.first_name || ""} ${donor.last_name || ""}`.trim() ||
-          (donor.email ? donor.email.split("@")[0] : "Donor");
-
-        donors.push({
-          id: donor.id,
-          name,
-          email: donor.email,
-          totalDonated: total,
-          tier,
-          pledgeCount: Number(p.pledge_count) || 0,
-        });
-
-        if (donors.length >= limit) break;
+      if (error) {
+        console.error("Error fetching donors:", error.message);
+        throw new Error(`donors: ${error.message}`);
       }
 
-      if (pledgeRows.length < pageSize) break;
+      if (!data || data.length === 0) {
+        console.log("No more donors to fetch at offset", donorOffset);
+        break;
+      }
+      
+      console.log(`Fetched ${data.length} donors (total so far: ${allUnlinkedDonors.length + data.length})`);
+      allUnlinkedDonors.push(...data);
+      
+      if (data.length < pageSize) break;
+      donorOffset += pageSize;
     }
 
-    donors.sort((a, b) => b.totalDonated - a.totalDonated);
+    console.log("Total unlinked donors:", allUnlinkedDonors.length);
+
+    if (allUnlinkedDonors.length === 0) {
+      return new Response(
+        JSON.stringify({ donors: [], total: 0 }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Step 2: Aggregate pledges for these donors
+    const pledgeTotalsMap = new Map<string, { total: number; count: number }>();
+    const unlinkedIdSet = new Set(allUnlinkedDonors.map(d => d.id));
+    
+    let lastPledgeId = "00000000-0000-0000-0000-000000000000";
+    let pledgeOffset = 0;
+    
+    while (pledgeOffset < 100000) {
+      const { data: pledges, error: pledgeError } = await supabase
+        .from("pledges")
+        .select("id, donor_id, amount")
+        .order("id")
+        .limit(pageSize)
+        .gt("id", lastPledgeId);
+
+      if (pledgeError) {
+        console.error("Error fetching pledges:", pledgeError.message);
+        throw new Error(`pledges: ${pledgeError.message}`);
+      }
+
+      if (!pledges || pledges.length === 0) {
+        console.log("No more pledges to fetch");
+        break;
+      }
+
+      console.log(`Fetched ${pledges.length} pledges`);
+      lastPledgeId = pledges[pledges.length - 1].id;
+
+      // Aggregate only for unlinked donors
+      for (const pledge of pledges) {
+        const donorId = pledge.donor_id;
+        if (!donorId || !unlinkedIdSet.has(donorId)) continue;
+        
+        const existing = pledgeTotalsMap.get(donorId) || { total: 0, count: 0 };
+        existing.total += Number(pledge.amount) || 0;
+        existing.count += 1;
+        pledgeTotalsMap.set(donorId, existing);
+      }
+
+      if (pledges.length < pageSize) break;
+      pledgeOffset += pageSize;
+    }
+
+    console.log("Computed pledge totals for", pledgeTotalsMap.size, "donors");
+
+    // Step 3: Build result list
+    const donorMap = new Map(allUnlinkedDonors.map(d => [d.id, d]));
+    const donorTotals: { donorId: string; total: number; count: number }[] = [];
+    
+    for (const [donorId, { total, count }] of pledgeTotalsMap) {
+      if (total >= minAmount) {
+        donorTotals.push({ donorId, total, count });
+      }
+    }
+    
+    donorTotals.sort((a, b) => b.total - a.total);
+    console.log("Donors meeting minAmount criteria:", donorTotals.length);
+
+    const donors: UnlinkedVIPDonor[] = [];
+    for (const { donorId, total, count } of donorTotals.slice(0, limit)) {
+      const donor = donorMap.get(donorId);
+      if (!donor) continue;
+
+      let tier: Tier = "100+";
+      if (total >= 10000) tier = "10k+";
+      else if (total >= 5000) tier = "5k+";
+      else if (total >= 1000) tier = "1k+";
+
+      const name =
+        donor.donor_name ||
+        `${donor.first_name || ""} ${donor.last_name || ""}`.trim() ||
+        (donor.email ? donor.email.split("@")[0] : "Donor");
+
+      donors.push({
+        id: donor.id,
+        name,
+        email: donor.email,
+        totalDonated: total,
+        tier,
+        pledgeCount: count,
+      });
+    }
+
+    console.log("Returning", donors.length, "VIP donors");
 
     return new Response(
-      JSON.stringify({ donors: donors.slice(0, limit), total: donors.length }),
-      {
-        status: 200,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
+      JSON.stringify({ donors, total: donorTotals.length }),
+      { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
     console.error("Error in admin-vip-recovery-queue:", error);
