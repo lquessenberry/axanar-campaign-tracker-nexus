@@ -5,3 +5,8 @@ export { LCARSDataBlock } from './LCARSDataBlock';
 export { LCARSStatReadout } from './LCARSStatReadout';
 export { LCARSBadgePanel } from './LCARSBadgePanel';
 export { LCARSTimelineEntry } from './LCARSTimelineEntry';
+export { LCARSDossierHeader } from './LCARSDossierHeader';
+export { LCARSIdentityPanel } from './LCARSIdentityPanel';
+export { LCARSContributionRecord } from './LCARSContributionRecord';
+export { LCARSMissionLog } from './LCARSMissionLog';
+export { LCARSPerksGrid } from './LCARSPerksGrid';
