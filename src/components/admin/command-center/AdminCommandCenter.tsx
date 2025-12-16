@@ -5,6 +5,7 @@ import { AdminActivityFeed } from "./AdminActivityFeed";
 import { AdminVIPRecoveryQueue } from "./AdminVIPRecoveryQueue";
 import { AdminDailyPulse } from "./AdminDailyPulse";
 import { LCARSBar } from "./LCARSBar";
+import { QuickPledgeFix } from "../QuickPledgeFix";
 
 export const AdminCommandCenter = () => {
   return (
@@ -17,6 +18,9 @@ export const AdminCommandCenter = () => {
 
       {/* Critical Alerts - Hero banner with asymmetric frame */}
       <AdminCriticalAlerts />
+
+      {/* Quick Fix Utility */}
+      <QuickPledgeFix />
 
       {/* Main Content Grid - Two panels with opposing asymmetry */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
