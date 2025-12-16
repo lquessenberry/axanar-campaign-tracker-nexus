@@ -29,6 +29,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { format } from 'date-fns';
 import Navigation from '@/components/Navigation';
 import { SwipeGesture } from '@/components/mobile/SwipeGesture';
+import { LCARSPanel, LCARSListItem, LCARSHeader } from '@/components/lcars';
 
 const DirectMessages = () => {
   const navigate = useNavigate();
@@ -312,7 +313,7 @@ const DirectMessages = () => {
           className="h-screen md:h-[calc(100vh-113px)] bg-background flex overflow-hidden"
         >
 
-        {/* Sidebar - Hidden on mobile when viewing thread */}
+        {/* Sidebar - LCARS Styled */}
         <AnimatePresence>
           {sidebarOpen && (
             <motion.aside
@@ -320,123 +321,169 @@ const DirectMessages = () => {
               animate={{ x: 0 }}
               exit={{ x: -400 }}
               transition={{ type: "spring", damping: 34, stiffness: 400 }}
-              className={`w-full md:w-96 h-full bg-card/40 backdrop-blur-3xl border-r border-border flex flex-col relative z-10 ${
+              className={`w-full md:w-96 h-full bg-card/40 backdrop-blur-xl flex flex-col relative z-10 ${
                 mobileView === 'thread' ? 'hidden md:flex' : 'flex'
               }`}
+              style={{
+                borderRight: '4px solid hsl(var(--primary))',
+              }}
             >
-              <div className="p-4 md:p-8 border-b border-border">
-                <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-8">
-                  <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
-                    <MessageCircle className="w-6 h-6 md:w-8 md:h-8 text-primary-foreground" />
+              {/* LCARS Header Bar */}
+              <div 
+                className="relative"
+                style={{
+                  borderBottom: '2px solid hsl(var(--primary))',
+                  background: 'linear-gradient(90deg, hsl(var(--primary) / 0.15), transparent)',
+                }}
+              >
+                <div className="p-4 md:p-6">
+                  <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
+                    <div 
+                      className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center"
+                      style={{ 
+                        backgroundColor: 'hsl(var(--primary))',
+                        borderRadius: '4px 16px 4px 4px',
+                      }}
+                    >
+                      <MessageCircle className="w-5 h-5 md:w-6 md:h-6 text-primary-foreground" />
+                    </div>
+                    <div>
+                      <h2 
+                        className="text-sm md:text-base font-bold uppercase tracking-wider"
+                        style={{ color: 'hsl(var(--primary))' }}
+                      >
+                        Subspace Relay
+                      </h2>
+                      <p className="text-xs text-muted-foreground uppercase tracking-wider">Direct Communications</p>
+                    </div>
                   </div>
-                  <h2 className="text-lg md:text-xl font-semibold">Messages</h2>
-                </div>
 
-                <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'all' | 'support')} className="w-full">
-                  <TabsList className="grid w-full grid-cols-2 min-h-[48px] md:min-h-[56px]">
-                    <TabsTrigger value="all" className="gap-2 rounded-xl relative text-sm md:text-base min-h-[44px] md:min-h-[48px]">
-                      All
-                      {getUnreadCount() > 0 && (
-                        <Badge variant="destructive" className="ml-2 px-2 py-0.5 text-sm h-6">
-                          {getUnreadCount()}
-                        </Badge>
-                      )}
-                    </TabsTrigger>
-                    <TabsTrigger value="support" className="gap-2 rounded-xl relative text-sm md:text-base min-h-[44px] md:min-h-[48px]">
-                      <HelpCircle className="w-4 h-4 md:w-5 md:h-5" />
-                      Support
-                      {supportUnreadCount > 0 && (
-                        <Badge variant="destructive" className="ml-2 px-2 py-0.5 text-sm h-6">
-                          {supportUnreadCount}
-                        </Badge>
-                      )}
-                    </TabsTrigger>
-                  </TabsList>
-                </Tabs>
+                  <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'all' | 'support')} className="w-full">
+                    <TabsList 
+                      className="grid w-full grid-cols-2 min-h-[48px] md:min-h-[52px] bg-background/40 p-1"
+                      style={{ borderRadius: '4px 16px 16px 4px' }}
+                    >
+                      <TabsTrigger 
+                        value="all" 
+                        className="gap-2 relative text-xs md:text-sm min-h-[40px] md:min-h-[44px] uppercase tracking-wider font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                        style={{ borderRadius: '4px 4px 4px 4px' }}
+                      >
+                        All
+                        {getUnreadCount() > 0 && (
+                          <Badge variant="destructive" className="ml-1 px-1.5 py-0 text-xs h-5">
+                            {getUnreadCount()}
+                          </Badge>
+                        )}
+                      </TabsTrigger>
+                      <TabsTrigger 
+                        value="support" 
+                        className="gap-2 relative text-xs md:text-sm min-h-[40px] md:min-h-[44px] uppercase tracking-wider font-semibold data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground"
+                        style={{ borderRadius: '4px 12px 12px 4px' }}
+                      >
+                        <HelpCircle className="w-4 h-4" />
+                        Support
+                        {supportUnreadCount > 0 && (
+                          <Badge variant="destructive" className="ml-1 px-1.5 py-0 text-xs h-5">
+                            {supportUnreadCount}
+                          </Badge>
+                        )}
+                      </TabsTrigger>
+                    </TabsList>
+                  </Tabs>
+                </div>
               </div>
 
-              <div className="px-4 md:px-8 pb-4 md:pb-8">
+              {/* Search */}
+              <div className="px-4 md:px-6 py-4">
                 <div className="relative">
-                  <Search className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-muted-foreground" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <input
                     type="text"
-                    placeholder="Search..."
+                    placeholder="Search transmissions..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full min-h-[48px] md:min-h-[56px] pl-10 md:pl-12 pr-3 md:pr-4 rounded-xl bg-background/50 border border-border text-sm md:text-base outline-none focus:ring-4 ring-primary/20 transition-all"
+                    className="w-full min-h-[44px] md:min-h-[48px] pl-10 pr-4 bg-background/50 border-l-4 border-l-muted text-sm outline-none focus:border-l-primary transition-all uppercase tracking-wider placeholder:normal-case placeholder:tracking-normal"
+                    style={{ borderRadius: '0 12px 12px 0' }}
                   />
                 </div>
               </div>
 
-              {/* Conversations List - Scrollable */}
-              <div className="px-4 md:px-8">
-                <div className="flex items-center justify-between mb-3 md:mb-4">
-                  <span className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                    {activeTab === 'support' ? 'Tickets' : 'Conversations'}
+              {/* Conversations List */}
+              <div className="px-4 md:px-6 flex-1 overflow-hidden flex flex-col">
+                <div className="flex items-center justify-between mb-3">
+                  <span 
+                    className="text-xs font-bold uppercase tracking-[0.2em]"
+                    style={{ color: 'hsl(var(--primary))' }}
+                  >
+                    {activeTab === 'support' ? '★ Support Tickets' : '★ Channels'}
                   </span>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={activeTab === 'support' ? handleStartSupportConversation : handleStartNewConversation}
-                    className="min-w-[44px] min-h-[44px] md:min-w-[48px] md:min-h-[48px] p-2 md:p-3 rounded-lg hover:bg-accent transition-colors flex items-center justify-center"
+                    className="min-w-[40px] min-h-[40px] flex items-center justify-center transition-colors"
+                    style={{ 
+                      backgroundColor: 'hsl(var(--primary))',
+                      color: 'hsl(var(--primary-foreground))',
+                      borderRadius: '4px 12px 12px 4px',
+                    }}
                   >
-                    <Plus className="w-5 h-5 md:w-6 md:h-6" />
+                    <Plus className="w-5 h-5" />
                   </motion.button>
                 </div>
 
-                <div className="max-h-[calc(100vh-400px)] md:max-h-[35vh] overflow-y-auto pr-2">
+                <div className="flex-1 overflow-y-auto pr-2 space-y-1.5">
                   {loading ? (
-                    <div className="flex items-center justify-center py-8 md:py-12">
-                      <div className="animate-spin rounded-full h-6 w-6 md:h-8 md:w-8 border-2 border-primary border-t-transparent" />
+                    <div className="flex items-center justify-center py-8">
+                      <div className="animate-spin rounded-full h-6 w-6 border-2 border-primary border-t-transparent" />
                     </div>
                   ) : filteredConversations.length === 0 ? (
-                    <div className="text-center py-8 md:py-12 text-muted-foreground text-sm md:text-base">
-                      No conversations yet
+                    <div className="text-center py-8 text-muted-foreground text-sm uppercase tracking-wider">
+                      No transmissions
                     </div>
                   ) : (
-                    <div className="space-y-1.5 md:space-y-2">
-                      {filteredConversations.map((conv) => (
-                        <motion.div
-                          key={conv.partner_id}
-                          layoutId={`conversation-${conv.partner_id}`}
-                          layout
-                          transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                          className={`relative group w-full text-left p-3 md:p-4 rounded-lg md:rounded-xl transition-all cursor-pointer min-h-[60px] md:min-h-[72px] active:scale-[0.98] ${
-                            selectedConversationId === conv.partner_id 
-                              ? 'bg-accent font-medium' 
-                              : 'hover:bg-accent/50'
-                          }`}
-                          onClick={() => handleSelectConversation(conv.partner_id)}
-                        >
-                          <div className="flex items-center justify-between mb-1 md:mb-2">
-                            <p className="font-medium truncate text-sm md:text-base pr-12 md:pr-16">
-                              {conv.partner_full_name || conv.partner_username}
-                            </p>
-                            <div className="flex items-center gap-1.5 md:gap-2">
-                              {conv.unread_count > 0 && (
-                                <Badge variant="default" className="px-1.5 md:px-2 py-0.5 text-xs md:text-sm h-5 md:h-6">
-                                  {conv.unread_count}
-                                </Badge>
-                              )}
-                              <motion.button
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleDeleteConversation(conv.partner_id);
-                                }}
-                                className="opacity-0 md:group-hover:opacity-100 transition-opacity min-w-[36px] min-h-[36px] md:min-w-[40px] md:min-h-[40px] p-1.5 md:p-2 rounded hover:bg-destructive hover:text-destructive-foreground flex items-center justify-center"
-                              >
-                                <Trash2 className="w-4 h-4 md:w-5 md:h-5" />
-                              </motion.button>
-                            </div>
-                          </div>
-                          <p className="text-xs md:text-sm text-muted-foreground truncate">
-                            {conv.last_message || 'No messages yet'}
+                    filteredConversations.map((conv) => (
+                      <LCARSListItem
+                        key={conv.partner_id}
+                        isActive={selectedConversationId === conv.partner_id}
+                        isUnread={conv.unread_count > 0}
+                        onClick={() => handleSelectConversation(conv.partner_id)}
+                        accentColor={activeTab === 'support' ? 'secondary' : 'primary'}
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <p className="font-semibold truncate text-sm pr-8 uppercase tracking-wider">
+                            {conv.partner_full_name || conv.partner_username}
                           </p>
-                        </motion.div>
-                      ))}
-                    </div>
+                          <div className="flex items-center gap-1.5">
+                            {conv.unread_count > 0 && (
+                              <Badge 
+                                className="px-1.5 py-0 text-xs h-5"
+                                style={{ 
+                                  backgroundColor: 'hsl(var(--primary))',
+                                  color: 'hsl(var(--primary-foreground))',
+                                }}
+                              >
+                                {conv.unread_count}
+                              </Badge>
+                            )}
+                            <motion.button
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteConversation(conv.partner_id);
+                              }}
+                              className="opacity-0 group-hover:opacity-100 transition-opacity min-w-[32px] min-h-[32px] p-1 rounded hover:bg-destructive hover:text-destructive-foreground flex items-center justify-center"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </motion.button>
+                          </div>
+                        </div>
+                        <p className="text-xs text-muted-foreground truncate">
+                          {conv.last_message || 'Channel open'}
+                        </p>
+                      </LCARSListItem>
+                    ))
                   )}
                 </div>
               </div>
