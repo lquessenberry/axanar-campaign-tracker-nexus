@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, User, Mail, Calendar, Edit2, Save, X, ExternalLink } from 'lucide-react';
+import { Search, User, Mail, Calendar, Edit2, Save, X, ExternalLink, Eye } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,6 +8,9 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { useAdminUserProfile, useAdminUpdateUserProfile, useAdminSearchUsers } from '@/hooks/useAdminUserProfile';
+import { useImpersonation } from '@/contexts/ImpersonationContext';
+import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 
 interface AdminUserProfileManagerProps {
   selectedUserId?: string;
@@ -33,6 +36,9 @@ const AdminUserProfileManager: React.FC<AdminUserProfileManagerProps> = ({
   const { data: searchResults, isLoading: isSearching } = useAdminSearchUsers(searchTerm);
   const { data: userData, isLoading: isLoadingProfile } = useAdminUserProfile(selectedUserId || '');
   const updateProfile = useAdminUpdateUserProfile();
+  const { startImpersonation } = useImpersonation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   React.useEffect(() => {
     if (userData?.profile || userData?.donor) {
@@ -90,6 +96,26 @@ const AdminUserProfileManager: React.FC<AdminUserProfileManagerProps> = ({
       });
     }
     setIsEditing(false);
+  };
+
+  const handleViewAsUser = () => {
+    if (!selectedUserId || !userData) return;
+    
+    startImpersonation({
+      id: selectedUserId,
+      username: userData.profile?.username || undefined,
+      full_name: userData.profile?.full_name || userData.donor?.donor_name || undefined,
+      email: userData.donor?.email || undefined,
+      donor_id: userData.donor?.id || undefined,
+    });
+    
+    toast({
+      title: "Impersonation Started",
+      description: `Now viewing site as ${userData.profile?.full_name || userData.donor?.donor_name || 'this user'}`,
+    });
+    
+    // Navigate to the dashboard to see their view
+    navigate('/dashboard');
   };
 
   return (
@@ -158,6 +184,15 @@ const AdminUserProfileManager: React.FC<AdminUserProfileManagerProps> = ({
                   User Profile
                 </CardTitle>
                 <div className="flex items-center gap-2">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={handleViewAsUser}
+                    className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-black"
+                  >
+                    <Eye className="h-4 w-4" />
+                    View as User
+                  </Button>
                   {userData?.profile?.username && (
                     <Button
                       variant="outline"

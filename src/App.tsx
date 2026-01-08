@@ -8,12 +8,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { ChatProvider } from "@/contexts/ChatContext";
+import { ImpersonationProvider } from "@/contexts/ImpersonationContext";
 import { useMessageNotifications } from "@/hooks/useMessageNotifications";
 import ThumbMenu from "@/components/ThumbMenu";
 import { GlobalPresenceTracker } from "@/components/GlobalPresenceTracker";
 import { ChatWindow } from "@/components/chat/ChatWindow";
 import { DaystromCursorGlow } from "@/components/DaystromCursorGlow";
 import { LCARSEdgeBars } from "@/components/LCARSEdgeBars";
+import ImpersonationBanner from "@/components/admin/ImpersonationBanner";
 import { Loader2 } from "lucide-react";
 
 // Eager load critical pages
@@ -94,16 +96,18 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <AuthProvider>
-            <ChatProvider>
-              {/* Skip link for gamepad/controller navigation */}
-              <a href="#main-content" className="skip-link">
-                Skip to main content
-              </a>
-              <DaystromCursorGlow />
-              <LCARSEdgeBars />
-              <GlobalPresenceTracker />
-              <GlobalMessageNotifications />
-              <ErrorBoundary>
+            <ImpersonationProvider>
+              <ChatProvider>
+                {/* Skip link for gamepad/controller navigation */}
+                <a href="#main-content" className="skip-link">
+                  Skip to main content
+                </a>
+                <ImpersonationBanner />
+                <DaystromCursorGlow />
+                <LCARSEdgeBars />
+                <GlobalPresenceTracker />
+                <GlobalMessageNotifications />
+                <ErrorBoundary>
                 <Suspense fallback={<PageLoader />}>
                   <main id="main-content">
                     <Routes>
@@ -184,11 +188,12 @@ const App = () => (
                     </Routes>
                   </main>
                 </Suspense>
-                <ChatWindow />
-              </ErrorBoundary>
-          <ThumbMenu />
-            </ChatProvider>
-        </AuthProvider>
+                  <ChatWindow />
+                </ErrorBoundary>
+                <ThumbMenu />
+              </ChatProvider>
+            </ImpersonationProvider>
+          </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
     </ThemeProvider>
