@@ -15,6 +15,7 @@ import ActivitySection from "@/components/profile/sections/ActivitySection";
 import SettingsSection from "@/components/profile/sections/SettingsSection";
 import { MobileProfileLayout } from "@/components/mobile";
 import { useAuth } from "@/contexts/AuthContext";
+import { useImpersonation } from "@/contexts/ImpersonationContext";
 import { useUserProfile, useUpdateProfile } from "@/hooks/useUserProfile";
 import { IdentityPanel } from "@/components/profile/lcars";
 import { useUserCampaigns } from "@/hooks/useUserCampaigns";
@@ -33,6 +34,7 @@ import { CampaignDataWelcomeModal } from "@/components/CampaignDataWelcomeModal"
 const Profile = () => {
   const { userId } = useParams<{ userId?: string }>();
   const { user, signOut } = useAuth();
+  const { impersonatedUser, isImpersonating } = useImpersonation();
   const { data: isAdmin } = useAdminCheck();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
@@ -50,9 +52,11 @@ const Profile = () => {
     }
   }, [userId, navigate]);
   
-  // Determine if we're viewing another user's profile (admin only)
-  const targetUserId = userId || user?.id;
-  const isViewingOtherUser = userId && userId !== user?.id;
+  // Determine if we're viewing another user's profile (admin only or impersonating)
+  // When impersonating, we treat the impersonated user as the "target"
+  const effectiveUserId = isImpersonating ? impersonatedUser?.id : user?.id;
+  const targetUserId = userId || effectiveUserId;
+  const isViewingOtherUser = (userId && userId !== user?.id) || isImpersonating;
   
   // Use appropriate hooks based on whether we're viewing our own profile or another user's
   // All hooks use targetUserId so admin sees the correct user's data when viewing other profiles
@@ -64,8 +68,11 @@ const Profile = () => {
   const { data: rankSystem } = useRankSystem(targetUserId);
   const { data: titlesData } = useAmbassadorialTitles(targetUserId);
   const { threads: forumThreads, comments: forumComments } = useUserForumActivity();
+  
+  // For impersonation or viewing other users, fetch their profile data via admin hook
+  const shouldFetchOtherProfile = isViewingOtherUser && targetUserId;
   const { data: adminUserData, isLoading: adminProfileLoading } = useAdminUserProfile(
-    isViewingOtherUser ? userId! : ''
+    shouldFetchOtherProfile ? targetUserId : ''
   );
   
   const updateOwnProfile = useUpdateProfile();
@@ -304,8 +311,8 @@ const Profile = () => {
       <div className="min-h-screen flex flex-col">
         <Navigation />
         
-        {/* Admin viewing indicator */}
-        {isViewingOtherUser && (
+        {/* Admin viewing indicator - only show when not using global impersonation banner */}
+        {isViewingOtherUser && !isImpersonating && (
           <div className="bg-amber-50 border-b border-amber-200 px-4 py-3">
             <div className="flex items-center justify-between text-sm">
               <span className="text-amber-800 font-medium">
@@ -361,8 +368,8 @@ const Profile = () => {
           </div>
           
           <div className="flex-1 flex flex-col">
-            {/* Admin viewing indicator */}
-            {isViewingOtherUser && (
+            {/* Admin viewing indicator - only show when not using global impersonation banner */}
+            {isViewingOtherUser && !isImpersonating && (
               <div className="bg-amber-50 border-b border-amber-200 px-6 py-3">
                 <div className="max-w-7xl mx-auto">
                   <div className="flex items-center justify-between">
