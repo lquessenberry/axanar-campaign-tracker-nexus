@@ -3,9 +3,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { Eye } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Eye, UserCheck } from "lucide-react";
 import DonorActions from "./DonorActions";
+import { useImpersonation } from "@/contexts/ImpersonationContext";
+import { useToast } from "@/hooks/use-toast";
 
 interface Donor {
   id: string;
@@ -39,6 +41,36 @@ const DonorTable = ({
   onBan,
   onActivate
 }: DonorTableProps) => {
+  const { startImpersonation } = useImpersonation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleViewAsUser = (donor: Donor) => {
+    if (!donor.auth_user_id) {
+      toast({
+        title: "Cannot View as User",
+        description: "This donor doesn't have a linked account yet.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    startImpersonation({
+      id: donor.auth_user_id,
+      username: donor.username || undefined,
+      full_name: donor.full_name || donor.donor_name || `${donor.first_name || ''} ${donor.last_name || ''}`.trim() || undefined,
+      email: donor.email,
+      donor_id: donor.id,
+    });
+    
+    toast({
+      title: "Impersonation Started",
+      description: `Now viewing site as ${donor.donor_name || donor.full_name || donor.email}`,
+    });
+    
+    navigate('/profile');
+  };
+
   return (
     <div className="overflow-x-auto">
       <Table>
@@ -109,6 +141,17 @@ const DonorTable = ({
                 {donor.created_at ? new Date(donor.created_at).toLocaleDateString() : 'N/A'}
               </TableCell>
               <TableCell className="flex items-center gap-1">
+                {donor.auth_user_id && (
+                  <Button 
+                    size="icon" 
+                    variant="ghost" 
+                    title="View as this user"
+                    onClick={() => handleViewAsUser(donor)}
+                    className="text-amber-500 hover:text-amber-600 hover:bg-amber-500/10"
+                  >
+                    <UserCheck className="h-4 w-4" />
+                  </Button>
+                )}
                 <Button size="icon" variant="ghost" asChild title="View full profile">
                   <Link to={`/admin/donor/${donor.id}`}>
                     <Eye className="h-4 w-4" />

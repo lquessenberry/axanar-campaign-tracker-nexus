@@ -6,12 +6,14 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { 
   Search, X, Mail, Ban, CheckCircle, Link2, 
-  ChevronLeft, User, Shield, Clock, Loader2, DollarSign, Gift
+  ChevronLeft, User, Shield, Clock, Loader2, DollarSign, Gift, UserCheck
 } from 'lucide-react';
 import { useAdminDonorSearch, AdminDonorFullData } from '@/hooks/useAdminDonorFullProfile';
 import { cn } from '@/lib/utils';
 import { useDebounce } from '@/hooks/useDebounce';
 import LCARSThemeSwitcher from '@/components/admin/lcars/LCARSThemeSwitcher';
+import { useImpersonation } from '@/contexts/ImpersonationContext';
+import { useToast } from '@/hooks/use-toast';
 
 interface AdminGodViewHeaderProps {
   donorData: AdminDonorFullData | null;
@@ -36,6 +38,37 @@ const AdminGodViewHeader = ({
   const debouncedSearch = useDebounce(searchTerm, 300);
   const { data: searchResults, isLoading: isSearching } = useAdminDonorSearch(debouncedSearch);
   const searchRef = useRef<HTMLDivElement>(null);
+  const { startImpersonation } = useImpersonation();
+  const { toast } = useToast();
+
+  const handleViewAsUser = () => {
+    const donor = donorData?.donor;
+    const profile = donorData?.profile;
+    
+    if (!donor?.auth_user_id) {
+      toast({
+        title: "Cannot View as User",
+        description: "This donor doesn't have a linked account yet.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    startImpersonation({
+      id: donor.auth_user_id,
+      username: profile?.username || undefined,
+      full_name: profile?.full_name || donor.donor_name || donor.full_name || undefined,
+      email: donor.email,
+      donor_id: donor.id,
+    });
+    
+    toast({
+      title: "Impersonation Started",
+      description: `Now viewing site as ${donor.donor_name || donor.full_name || donor.email}`,
+    });
+    
+    navigate('/profile');
+  };
 
   // Close search results when clicking outside
   useEffect(() => {
@@ -266,6 +299,19 @@ const AdminGodViewHeader = ({
 
           {/* Quick Actions */}
           <div className="flex items-center gap-2 ml-auto lg:ml-0">
+            {stats?.hasAuthAccount && (
+              <Button
+                variant="default"
+                size="sm"
+                onClick={handleViewAsUser}
+                className="gap-1.5 bg-amber-500 hover:bg-amber-600 text-black"
+                title="View site as this user"
+              >
+                <UserCheck className="h-4 w-4" />
+                <span className="hidden sm:inline">View as User</span>
+              </Button>
+            )}
+            
             <Button
               variant="outline"
               size="sm"
