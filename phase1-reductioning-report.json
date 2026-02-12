@@ -1,0 +1,202 @@
+{
+  "totalFindings": 15,
+  "critical": 3,
+  "high": 6,
+  "medium": 5,
+  "low": 1,
+  "categories": {
+    "Navigation": [
+      {
+        "category": "Navigation",
+        "severity": "critical",
+        "title": "5+ competing navigation systems",
+        "description": "Navigation.tsx (desktop), ThumbMenu.tsx (FAB), MobileNavigation.tsx (mobile header), MobileBottomNav.tsx, UnifiedBottomNav.tsx, MobileHamburgerMenu.tsx all provide navigation. ThumbMenu and UnifiedBottomNav likely overlap on mobile.",
+        "files": [
+          "src/components/Navigation.tsx",
+          "src/components/ThumbMenu.tsx",
+          "src/components/mobile/MobileNavigation.tsx",
+          "src/components/mobile/MobileBottomNav.tsx",
+          "src/components/mobile/UnifiedBottomNav.tsx",
+          "src/components/mobile/MobileHamburgerMenu.tsx"
+        ],
+        "recommendation": "Keep Navigation.tsx (desktop) + MobileNavigation.tsx with UnifiedBottomNav. Delete ThumbMenu and MobileBottomNav."
+      }
+    ],
+    "Messages": [
+      {
+        "category": "Messages",
+        "severity": "critical",
+        "title": "3 ConversationList, 2 MessageThread, 3 message hooks — should be 1 of each",
+        "description": "ConversationList/Optimized/Realtime (30KB), MessageThread/Optimized (10KB), useMessages/useOptimized/useRealtime (30KB). ~70KB of redundant messaging code.",
+        "files": [
+          "src/components/messages/ConversationList.tsx",
+          "src/components/messages/OptimizedConversationList.tsx",
+          "src/components/messages/RealtimeConversationList.tsx",
+          "src/components/messages/MessageThread.tsx",
+          "src/components/messages/OptimizedMessageThread.tsx",
+          "src/hooks/useMessages.ts",
+          "src/hooks/useOptimizedMessages.ts",
+          "src/hooks/useRealtimeMessages.ts"
+        ],
+        "recommendation": "Consolidate into single ConversationList, MessageThread, and useMessages with realtime + optimization built in."
+      },
+      {
+        "category": "Messages",
+        "severity": "medium",
+        "title": "/messages page is a lazy-loaded redirect shim",
+        "description": "Messages.tsx only redirects to /direct-messages. Should be a <Navigate> in the router.",
+        "files": [
+          "src/pages/Messages.tsx",
+          "src/App.tsx"
+        ],
+        "recommendation": "Replace route with <Navigate to=\"/direct-messages\" replace />."
+      }
+    ],
+    "Profile": [
+      {
+        "category": "Profile",
+        "severity": "critical",
+        "title": "Private/public profile components are near-identical pairs (~78KB duplication)",
+        "description": "ProfileHeader≈PublicProfileHeader (26KB pair), ProfileContent≈PublicProfileContent (32KB pair), ProfileSidebarNav≈PublicProfileSidebar (19KB pair).",
+        "files": [
+          "src/components/profile/ProfileHeader.tsx",
+          "src/components/profile/PublicProfileHeader.tsx",
+          "src/components/profile/ProfileContent.tsx",
+          "src/components/profile/PublicProfileContent.tsx",
+          "src/components/profile/ProfileSidebarNav.tsx",
+          "src/components/profile/PublicProfileSidebar.tsx"
+        ],
+        "recommendation": "Merge each pair into a single component with an `isOwner` prop."
+      },
+      {
+        "category": "Profile",
+        "severity": "high",
+        "title": "4 mobile-specific profile layouts (~33KB)",
+        "description": "MobileProfileHeader, MobileProfileContent, MobileProfileLayout, PublicMobileProfileLayout duplicate responsive logic.",
+        "files": [
+          "src/components/mobile/MobileProfileHeader.tsx",
+          "src/components/mobile/MobileProfileContent.tsx",
+          "src/components/mobile/MobileProfileLayout.tsx",
+          "src/components/mobile/PublicMobileProfileLayout.tsx"
+        ],
+        "recommendation": "Use responsive Tailwind classes in unified profile components. Delete all 4 mobile variants."
+      },
+      {
+        "category": "Profile",
+        "severity": "high",
+        "title": "Broken vanity URL redirect",
+        "description": "<Navigate to=\"/u/:username\"> uses literal \":username\" instead of resolving the route param.",
+        "files": [
+          "src/App.tsx"
+        ],
+        "recommendation": "Fix with a wrapper component or remove the /vanity/ route."
+      }
+    ],
+    "Hooks": [
+      {
+        "category": "Hooks",
+        "severity": "high",
+        "title": "2 identical debounce hooks",
+        "description": "useDebounce.ts and useDebouncedValue.ts have the same useState+useEffect+setTimeout logic.",
+        "files": [
+          "src/hooks/useDebounce.ts",
+          "src/hooks/useDebouncedValue.ts"
+        ],
+        "recommendation": "Keep useDebounce.ts, delete useDebouncedValue.ts, update imports."
+      }
+    ],
+    "Routes": [
+      {
+        "category": "Routes",
+        "severity": "medium",
+        "title": "3 routes point to Auth page (/auth, /login, /register)",
+        "description": "All render the same Auth component with no behavioral difference.",
+        "files": [
+          "src/App.tsx"
+        ],
+        "recommendation": "Keep /auth, add <Navigate> for the aliases."
+      },
+      {
+        "category": "Routes",
+        "severity": "low",
+        "title": "/status and /known-issues are identical",
+        "description": "Both render KnownIssues component.",
+        "files": [
+          "src/App.tsx"
+        ],
+        "recommendation": "Keep one, redirect the other."
+      }
+    ],
+    "Components": [
+      {
+        "category": "Components",
+        "severity": "high",
+        "title": "LCARS components scattered across 4+ directories",
+        "description": "components/lcars/, admin/lcars/, profile/lcars/, plus root-level files. Impossible to maintain consistent design system.",
+        "files": [
+          "src/components/lcars/",
+          "src/components/admin/lcars/",
+          "src/components/profile/lcars/",
+          "src/components/EnhancedLCARS.tsx",
+          "src/components/LCARSDemo.tsx",
+          "src/components/LCARSEdgeBars.tsx"
+        ],
+        "recommendation": "Consolidate into single src/components/lcars/ with barrel export."
+      },
+      {
+        "category": "Components",
+        "severity": "medium",
+        "title": "\"Improved\" variants exist alongside originals (ImprovedFAQ, ImprovedHowItWorks)",
+        "description": "Naming suggests replacement was intended but never completed.",
+        "files": [
+          "src/components/ImprovedFAQ.tsx",
+          "src/components/ImprovedHowItWorks.tsx"
+        ],
+        "recommendation": "Merge improved logic into page components and delete the \"improved\" files."
+      },
+      {
+        "category": "Components",
+        "severity": "medium",
+        "title": "3 space background components (~38KB)",
+        "description": "StarField.tsx, StarshipBackground.tsx (27KB!), WarpfieldStars.tsx.",
+        "files": [
+          "src/components/StarField.tsx",
+          "src/components/StarshipBackground.tsx",
+          "src/components/WarpfieldStars.tsx"
+        ],
+        "recommendation": "Consolidate into a single configurable SpaceBackground component."
+      }
+    ],
+    "Performance": [
+      {
+        "category": "Performance",
+        "severity": "high",
+        "title": "6 global components render on every page load",
+        "description": "ThumbMenu, GlobalPresenceTracker, ChatWindow, DaystromCursorGlow, LCARSEdgeBars, ImpersonationBanner all render in App.tsx unconditionally.",
+        "files": [
+          "src/App.tsx"
+        ],
+        "recommendation": "Lazy-load ChatWindow + ImpersonationBanner. Remove ThumbMenu. Consider making decorative effects opt-in."
+      },
+      {
+        "category": "Performance",
+        "severity": "high",
+        "title": "~1.5MB+ of heavy optional dependencies",
+        "description": "three.js, konva, xlsx, recharts, framer-motion, lottie-react add significant bundle weight.",
+        "files": [
+          "package.json"
+        ],
+        "recommendation": "Audit konva and lottie-react usage — remove if unused. Ensure all are code-split to pages that need them."
+      }
+    ],
+    "Codebase": [
+      {
+        "category": "Codebase",
+        "severity": "medium",
+        "title": "Codebase size: 320 components, 40 pages, 67 hooks (3.3MB source)",
+        "description": "Large codebase with significant redundancy makes maintenance difficult and increases bundle size.",
+        "recommendation": "Target: reduce components from 320 to ~208 by merging duplicates and removing dead code."
+      }
+    ]
+  }
+}

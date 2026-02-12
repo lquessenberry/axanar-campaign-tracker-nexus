@@ -1,8 +1,7 @@
-import React from 'react';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { MobileProfileHeader } from './MobileProfileHeader';
-import { MobileProfileContent } from './MobileProfileContent';
-import { UnifiedBottomNav } from './UnifiedBottomNav';
+import { useIsMobile } from "@/hooks/useMobile";
+import { MobileProfileContent } from "./MobileProfileContent";
+import { MobileProfileHeader } from "./MobileProfileHeader";
+import { UnifiedBottomNav } from "./UnifiedBottomNav";
 
 interface MobileProfileLayoutProps {
   profile: any;
@@ -35,7 +34,8 @@ export function MobileProfileLayout({
 
   const pledgesCount = pledges?.length || 0;
   const campaignsCount = campaigns?.length || 0;
-  const totalPledged = pledges?.reduce((sum, pledge) => sum + Number(pledge.amount), 0) || 0;
+  const totalPledged =
+    pledges?.reduce((sum, pledge) => sum + Number(pledge.amount), 0) || 0;
 
   return (
     <div className="min-h-screen bg-background">

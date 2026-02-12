@@ -1,6 +1,6 @@
-import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from "@/contexts/AuthContext";
+import React from "react";
+import { Navigate, useLocation } from "react-router-dom";
 
 const LoadingScreen = () => (
   <div className="min-h-screen bg-background flex items-center justify-center">
@@ -17,7 +17,8 @@ const RequireAuth: React.FC<RequireAuthProps> = ({ children }) => {
   const { user, loading } = useAuth();
 
   if (loading) return <LoadingScreen />;
-  if (!user) return <Navigate to="/401" replace state={{ from: location.pathname }} />;
+  if (!user)
+    return <Navigate to="/auth" replace state={{ from: location.pathname }} />;
 
   return <>{children}</>;
 };

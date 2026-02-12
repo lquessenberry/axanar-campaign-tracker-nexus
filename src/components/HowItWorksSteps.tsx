@@ -1,28 +1,24 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
-import { 
-  EnhancedCard, 
-  EnhancedCardContent 
-} from "@/components/ui/enhanced-card";
-import { sanitizeHtml } from '@/utils/sanitizeHtml';
+import { EnhancedCard } from "@/components/ui/enhanced-card";
+import { ChevronDown, ChevronUp, Rocket } from "lucide-react";
+import React, { useState } from "react";
 
-interface FAQItem {
+interface HowItWorksItem {
   id: string;
-  question: string;
-  answer: string;
-}
-
-interface FAQSection {
   title: string;
-  items: FAQItem[];
+  description: string;
+  details: string[];
 }
 
-interface ImprovedFAQProps {
-  sections: FAQSection[];
-  sectionVariant?: 'primary' | 'accent' | 'secondary' | 'muted';
+interface HowItWorksSection {
+  title: string;
+  items: HowItWorksItem[];
 }
 
-const ImprovedFAQ: React.FC<ImprovedFAQProps> = ({ sections, sectionVariant = 'primary' }) => {
+interface HowItWorksStepsProps {
+  sections: HowItWorksSection[];
+}
+
+const HowItWorksSteps: React.FC<HowItWorksStepsProps> = ({ sections }) => {
   const [openItems, setOpenItems] = useState<Set<string>>(new Set());
 
   const toggleItem = (id: string) => {
@@ -37,15 +33,15 @@ const ImprovedFAQ: React.FC<ImprovedFAQProps> = ({ sections, sectionVariant = 'p
 
   const isOpen = (id: string) => openItems.has(id);
 
-  // Determine card variants based on section variant
   const getCardVariant = (index: number) => {
-    const variants = {
-      primary: ['primary', 'accent', 'default'],
-      accent: ['accent', 'primary', 'success'],
-      secondary: ['success', 'warning', 'primary'],
-      muted: ['default', 'success', 'accent']
-    };
-    return variants[sectionVariant][index % 3] as 'primary' | 'accent' | 'default' | 'success' | 'warning' | 'destructive';
+    const variants = ["primary", "accent", "default", "success"] as const;
+    return variants[index % variants.length] as
+      | "primary"
+      | "accent"
+      | "default"
+      | "success"
+      | "warning"
+      | "destructive";
   };
 
   return (
@@ -58,7 +54,7 @@ const ImprovedFAQ: React.FC<ImprovedFAQProps> = ({ sections, sectionVariant = 'p
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
           </div>
-          
+
           <div className="space-y-6">
             {section.items.map((item, index) => (
               <EnhancedCard
@@ -70,42 +66,50 @@ const ImprovedFAQ: React.FC<ImprovedFAQProps> = ({ sections, sectionVariant = 'p
                 <div className="p-8">
                   <div className="flex items-start justify-between">
                     <div className="flex-1 pr-4">
-                      <div className="flex items-start gap-4 mb-4">
+                      <div className="flex items-start gap-4 mb-2">
                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mt-1 flex-shrink-0 shadow-lg">
-                          <HelpCircle className="h-5 w-5 text-primary" />
+                          <Rocket className="h-5 w-5 text-primary" />
                         </div>
-                        <h3 className="font-bold text-lg text-foreground leading-snug">
-                          {item.question}
-                        </h3>
+                        <div>
+                          <h3 className="font-bold text-lg text-foreground leading-snug">
+                            {item.title}
+                          </h3>
+                          <p className="text-muted-foreground text-sm mt-1">
+                            {item.description}
+                          </p>
+                        </div>
                       </div>
-                      
-                      {/* Expandable Answer */}
+
+                      {/* Expandable Details */}
                       <div
                         className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                          isOpen(item.id) 
-                            ? 'max-h-96 opacity-100' 
-                            : 'max-h-0 opacity-0'
+                          isOpen(item.id)
+                            ? "max-h-96 opacity-100"
+                            : "max-h-0 opacity-0"
                         }`}
                       >
                         <div className="pt-6 border-t border-border/30 ml-14">
-                          <div 
-                            className="text-muted-foreground leading-relaxed text-base"
-                            dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.answer) }}
-                          />
+                          <ul className="space-y-2">
+                            {item.details.map((detail, detailIndex) => (
+                              <li
+                                key={detailIndex}
+                                className="text-muted-foreground text-sm flex items-start gap-2"
+                              >
+                                <span className="text-primary mt-1 flex-shrink-0">•</span>
+                                <span>{detail}</span>
+                              </li>
+                            ))}
+                          </ul>
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="flex-shrink-0 ml-4">
                       <div className="w-12 h-12 rounded-full bg-gradient-to-br from-muted/50 to-muted/30 flex items-center justify-center group-hover:from-primary/20 group-hover:to-accent/20 transition-all duration-300 shadow-md">
                         {isOpen(item.id) ? (
-                          <ChevronUp 
-                            className="h-6 w-6 text-muted-foreground group-hover:text-primary transition-colors" 
-                          />
+                          <ChevronUp className="h-6 w-6 text-muted-foreground group-hover:text-primary transition-colors" />
                         ) : (
-                          <ChevronDown 
-                            className="h-6 w-6 text-muted-foreground group-hover:text-primary transition-colors" 
-                          />
+                          <ChevronDown className="h-6 w-6 text-muted-foreground group-hover:text-primary transition-colors" />
                         )}
                       </div>
                     </div>
@@ -120,4 +124,4 @@ const ImprovedFAQ: React.FC<ImprovedFAQProps> = ({ sections, sectionVariant = 'p
   );
 };
 
-export default ImprovedFAQ;
+export default HowItWorksSteps;

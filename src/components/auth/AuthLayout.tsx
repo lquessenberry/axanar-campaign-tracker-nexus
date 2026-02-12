@@ -1,14 +1,13 @@
+import Footer from "@/components/Footer";
+import Navigation from "@/components/Navigation";
+import StarField from "@/components/StarField";
+import MorseCodeBanner from "@/components/auth/MorseCodeBanner";
+import MouseTracker from "@/components/auth/MouseTracker";
+import RadarBlips from "@/components/auth/RadarBlips";
+import { useIsMobile } from "@/hooks/useMobile";
+import { ReactNode } from "react";
 
-import { ReactNode } from 'react';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
-import StarField from '@/components/StarField';
-import MouseTracker from '@/components/auth/MouseTracker';
-import MorseCodeBanner from '@/components/auth/MorseCodeBanner';
-import RadarBlips from '@/components/auth/RadarBlips';
-import { useIsMobile } from '@/hooks/use-mobile';
-
-import { AlertLevel } from '@/hooks/useAlertSystem';
+import { AlertLevel } from "@/hooks/useAlertSystem";
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -18,7 +17,13 @@ interface AuthLayoutProps {
   onAlertCycle?: () => void;
 }
 
-const AuthLayout = ({ children, battleMode, onBattleModeToggle, alertLevel = 'normal', onAlertCycle }: AuthLayoutProps) => {
+const AuthLayout = ({
+  children,
+  battleMode,
+  onBattleModeToggle,
+  alertLevel = "normal",
+  onAlertCycle,
+}: AuthLayoutProps) => {
   const isMobile = useIsMobile();
 
   if (isMobile) {
@@ -49,22 +54,25 @@ const AuthLayout = ({ children, battleMode, onBattleModeToggle, alertLevel = 'no
 
         {/* Mobile navigation - compact and edge-to-edge */}
         <div className="relative z-50 flex-shrink-0">
-          <Navigation 
-            battleMode={battleMode} 
+          <Navigation
+            battleMode={battleMode}
             onBattleModeToggle={onBattleModeToggle}
             alertLevel={alertLevel}
             onAlertCycle={onAlertCycle}
           />
         </div>
-        
+
         {/* Mobile main content - absolutely no padding or margins */}
         <main className="flex-grow flex flex-col justify-center relative z-40 min-h-0">
           {/* Auth form container - completely edge-to-edge, no padding */}
-          <div data-card className="relative z-50 w-full h-full flex flex-col justify-center">
+          <div
+            data-card
+            className="relative z-50 w-full h-full flex flex-col justify-center"
+          >
             {children}
           </div>
         </main>
-        
+
         {/* Mobile footer - compact and edge-to-edge */}
         <div className="relative z-50 flex-shrink-0">
           <Footer />
@@ -94,28 +102,28 @@ const AuthLayout = ({ children, battleMode, onBattleModeToggle, alertLevel = 'no
           <MouseTracker />
           <RadarBlips />
         </div>
-        )}
+      )}
 
-        {/* Morse Code Banner */}
-        {battleMode && <MorseCodeBanner />}
+      {/* Morse Code Banner */}
+      {battleMode && <MorseCodeBanner />}
 
       {/* Navigation - top level */}
       <div className="relative z-50">
-        <Navigation 
-          battleMode={battleMode} 
+        <Navigation
+          battleMode={battleMode}
           onBattleModeToggle={onBattleModeToggle}
           alertLevel={alertLevel}
           onAlertCycle={onAlertCycle}
         />
       </div>
-      
+
       {/* Main content - top level */}
       <main className="flex-grow flex items-center justify-center px-4 py-16 relative z-40">
         <div data-card className="relative z-50">
           {children}
         </div>
       </main>
-      
+
       {/* Footer - top level */}
       <div className="relative z-50">
         <Footer />

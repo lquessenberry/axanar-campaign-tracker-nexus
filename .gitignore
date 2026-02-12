@@ -50,3 +50,5 @@ uuid-match-updates-*.sql
 all_donors_import.sql
 legacy_donors_data.sql
 legacy_donors_inserts.sql
+# Tutorial screenshot output
+tutorial-screenshots/
