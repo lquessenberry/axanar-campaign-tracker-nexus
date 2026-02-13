@@ -99,7 +99,7 @@ const Navigation = ({
   return (
     <>
       {/* Announcement Banner - Desktop */}
-      <div className="hidden md:block sticky top-0 z-50">
+      <div className="hidden lg:block sticky top-0 z-50">
         <AnnouncementBanner />
       </div>
 
@@ -108,14 +108,14 @@ const Navigation = ({
 
       {/* Desktop Navigation */}
       <nav
-        className={`hidden md:block bg-background/95 backdrop-blur-md border-b border-border/50 ${
+        className={`hidden lg:block bg-background/95 backdrop-blur-md border-b border-border/50 ${
           isAdminPage ? "relative z-40" : ""
         } sticky top-0 z-50`}
       >
         {/* General Navigation Bar - Public Pages */}
         <div className="general-nav border-b border-border/30">
           <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between h-20">
+            <div className="flex items-center justify-between h-12">
               {/* Logo */}
               <Link to="/" className="flex items-center space-x-2">
                 <img
@@ -130,7 +130,7 @@ const Navigation = ({
                 <Link to="/about">
                   <Button
                     variant="ghost"
-                    className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base rounded-l-lg rounded-r-none"
+                    className="trek-nav-link font-trek-content min-h-[36px] px-3 py-1.5 text-sm rounded-l-lg rounded-r-none"
                   >
                     {t("about")}
                   </Button>
@@ -138,7 +138,7 @@ const Navigation = ({
                 <Link to="/how-it-works">
                   <Button
                     variant="ghost"
-                    className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base rounded-none"
+                    className="trek-nav-link font-trek-content min-h-[36px] px-3 py-1.5 text-sm rounded-none"
                   >
                     Getting Started
                   </Button>
@@ -146,7 +146,7 @@ const Navigation = ({
                 <Link to="/how-to-earn-ares">
                   <Button
                     variant="ghost"
-                    className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base rounded-none"
+                    className="trek-nav-link font-trek-content min-h-[36px] px-3 py-1.5 text-sm rounded-none"
                   >
                     Rewards
                   </Button>
@@ -154,7 +154,7 @@ const Navigation = ({
                 <Link to="/forum">
                   <Button
                     variant="ghost"
-                    className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base rounded-none"
+                    className="trek-nav-link font-trek-content min-h-[36px] px-3 py-1.5 text-sm rounded-none"
                   >
                     Forum
                   </Button>
@@ -162,9 +162,9 @@ const Navigation = ({
                 <Link to="/videos">
                   <Button
                     variant="ghost"
-                    className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base rounded-none"
+                    className="trek-nav-link font-trek-content min-h-[36px] px-3 py-1.5 text-sm rounded-none"
                   >
-                    <Tv className="h-4 w-4 mr-2" />
+                    <Tv className="h-3.5 w-3.5 mr-1.5" />
                     Axanar TV
                   </Button>
                 </Link>
@@ -175,7 +175,7 @@ const Navigation = ({
                     <DropdownMenuTrigger asChild>
                       <Button
                         variant="ghost"
-                        className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base rounded-none"
+                        className="trek-nav-link font-trek-content min-h-[36px] px-3 py-1.5 text-sm rounded-none"
                       >
                         Campaigns
                         <ChevronDown className="ml-2 h-4 w-4" />
@@ -220,7 +220,7 @@ const Navigation = ({
                 <Link to="/faq">
                   <Button
                     variant="ghost"
-                    className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base rounded-none"
+                    className="trek-nav-link font-trek-content min-h-[36px] px-3 py-1.5 text-sm rounded-none"
                   >
                     {t("faq")}
                   </Button>
@@ -228,7 +228,7 @@ const Navigation = ({
                 <Link to="/support">
                   <Button
                     variant="ghost"
-                    className="trek-nav-link font-trek-content min-h-[72px] px-6 py-4 text-base rounded-r-lg rounded-l-none"
+                    className="trek-nav-link font-trek-content min-h-[36px] px-3 py-1.5 text-sm rounded-r-lg rounded-l-none"
                   >
                     {t("support")}
                   </Button>
@@ -241,7 +241,7 @@ const Navigation = ({
                   variant="ghost"
                   size="icon"
                   onClick={() => tourContext.startTour()}
-                  className="min-h-[48px] min-w-[48px] text-muted-foreground hover:text-axanar-teal"
+                  className="min-h-[36px] min-w-[36px] h-8 w-8 text-muted-foreground hover:text-axanar-teal"
                   title="Take a tour"
                 >
                   <HelpCircle className="h-5 w-5" />
@@ -253,14 +253,14 @@ const Navigation = ({
                       <Button
                         variant={getAlertButtonProps().variant}
                         onClick={handleAlertClick}
-                        className={`${getAlertButtonProps().className} min-h-[72px] px-6 py-4 text-base`}
+                        className={`${getAlertButtonProps().className} min-h-[36px] px-4 py-1.5 text-sm`}
                       >
                         <AlertTriangle className="h-5 w-5 mr-2" />
                         {getAlertButtonProps().text}
                       </Button>
                     )}
                     <Link to="/auth">
-                      <Button className="bg-axanar-teal hover:bg-axanar-teal/90 min-h-[72px] px-8 py-4 text-base font-medium">
+                      <Button className="bg-axanar-teal hover:bg-axanar-teal/90 min-h-[36px] px-5 py-1.5 text-sm font-medium">
                         {t("access-portal")}
                       </Button>
                     </Link>
@@ -275,30 +275,30 @@ const Navigation = ({
         {user && (
           <div className="auth-nav bg-secondary/10 border-b border-border/20">
             <div className="container mx-auto px-4">
-              <div className="flex items-center justify-center gap-0 h-20">
+              <div className="flex items-center justify-center gap-0 h-11">
                 <Link to="/dashboard">
                   <Button
                     variant="ghost"
-                    className={`text-white hover:text-axanar-teal hover:bg-white/10 min-h-[72px] px-6 py-4 text-base rounded-l-lg rounded-r-none ${
+                    className={`text-white hover:text-axanar-teal hover:bg-white/10 min-h-[36px] px-4 py-1.5 text-sm rounded-l-lg rounded-r-none ${
                       isActive("/dashboard")
                         ? "bg-axanar-teal/20 text-axanar-teal"
                         : ""
                     }`}
                   >
-                    <BarChart3 className="h-5 w-5 mr-2" />
+                    <BarChart3 className="h-4 w-4 mr-1.5" />
                     {t("dashboard")}
                   </Button>
                 </Link>
                 <Link to="/direct-messages">
                   <Button
                     variant="ghost"
-                    className={`relative text-white hover:text-axanar-teal hover:bg-white/10 min-h-[72px] px-6 py-4 text-base rounded-none ${
+                    className={`relative text-white hover:text-axanar-teal hover:bg-white/10 min-h-[36px] px-4 py-1.5 text-sm rounded-none ${
                       isActive("/direct-messages")
                         ? "bg-axanar-teal/20 text-axanar-teal"
                         : ""
                     }`}
                   >
-                    <MessageCircle className="h-5 w-5 mr-2" />
+                    <MessageCircle className="h-4 w-4 mr-1.5" />
                     Messages
                     {unreadCount > 0 && (
                       <Badge
@@ -314,13 +314,13 @@ const Navigation = ({
                   <Link to="/admin">
                     <Button
                       variant="ghost"
-                      className={`text-white hover:text-axanar-teal hover:bg-white/10 min-h-[72px] px-6 py-4 text-base rounded-none ${
+                      className={`text-white hover:text-axanar-teal hover:bg-white/10 min-h-[36px] px-4 py-1.5 text-sm rounded-none ${
                         isActive("/admin")
                           ? "bg-axanar-teal/20 text-axanar-teal"
                           : ""
                       }`}
                     >
-                      <Shield className="h-5 w-5 mr-2" />
+                      <Shield className="h-4 w-4 mr-1.5" />
                       {t("admin")}
                     </Button>
                   </Link>
@@ -328,22 +328,22 @@ const Navigation = ({
                 <Link to="/profile">
                   <Button
                     variant="ghost"
-                    className={`text-white hover:text-axanar-teal hover:bg-white/10 min-h-[72px] px-6 py-4 text-base rounded-none ${
+                    className={`text-white hover:text-axanar-teal hover:bg-white/10 min-h-[36px] px-4 py-1.5 text-sm rounded-none ${
                       isActive("/profile")
                         ? "bg-axanar-teal/20 text-axanar-teal"
                         : ""
                     }`}
                   >
-                    <User className="h-5 w-5 mr-2" />
+                    <User className="h-4 w-4 mr-1.5" />
                     {t("profile")}
                   </Button>
                 </Link>
                 <Button
                   variant="ghost"
                   onClick={handleSignOut}
-                  className="text-white hover:text-red-400 hover:bg-white/10 min-h-[72px] px-6 py-4 text-base rounded-r-lg rounded-l-none"
+                  className="text-white hover:text-red-400 hover:bg-white/10 min-h-[36px] px-4 py-1.5 text-sm rounded-r-lg rounded-l-none"
                 >
-                  <LogOut className="h-5 w-5 mr-2" />
+                  <LogOut className="h-4 w-4 mr-1.5" />
                   {t("sign-out")}
                 </Button>
               </div>

@@ -157,41 +157,41 @@ const EntryCard: React.FC<EntryCardProps> = ({
   isRecentlyOnline,
   getMilitaryRank,
 }) => (
-  <div className="relative flex items-center gap-4 p-4 rounded-lg border bg-card hover:bg-muted/50 transition-colors">
+  <div className="relative p-3 sm:p-4 rounded-lg border bg-card hover:bg-muted/50 transition-colors">
     {!entry.is_account_linked && (
-      <div className="absolute inset-0 backdrop-blur-md bg-background/40 rounded-lg z-10 flex items-center justify-between gap-4 px-6">
-        <div className="flex items-center gap-3 flex-1 min-w-0">
-          <AlertTriangle className="h-8 w-8 text-yellow-500 flex-shrink-0" />
-          <div className="min-w-0">
-            <h4 className="font-semibold text-base mb-1">Account Not Linked</h4>
-            <p className="text-xs text-muted-foreground leading-tight">
-              <span className="font-semibold text-foreground">
-                ${Number(entry.total_donated || 0).toLocaleString()} donated
-              </span>{" "}
-              - link to claim ARES XP.
-            </p>
-          </div>
+      <div className="absolute inset-0 backdrop-blur-md bg-background/40 rounded-lg z-10 flex items-center gap-3 px-4 sm:px-6">
+        <AlertTriangle className="h-6 w-6 sm:h-8 sm:w-8 text-yellow-500 flex-shrink-0" />
+        <div className="min-w-0 flex-1">
+          <h4 className="font-semibold text-sm sm:text-base mb-0.5">
+            Account Not Linked
+          </h4>
+          <p className="text-xs text-muted-foreground leading-tight">
+            <span className="font-semibold text-foreground">
+              ${Number(entry.total_donated || 0).toLocaleString()} donated
+            </span>{" "}
+            - link to claim ARES XP.
+          </p>
         </div>
         <Link to="/auth?flow=lookup" className="flex-shrink-0">
           <Button
             variant="default"
             size="sm"
-            className="gap-2 bg-yellow-600 hover:bg-yellow-700 text-white whitespace-nowrap"
+            className="gap-1.5 bg-yellow-600 hover:bg-yellow-700 text-white whitespace-nowrap text-xs sm:text-sm"
           >
-            <AlertTriangle className="h-4 w-4" />
-            Link Account
+            <AlertTriangle className="h-3.5 w-3.5" />
+            Link
           </Button>
         </Link>
       </div>
     )}
-    <div className="flex items-center justify-center w-12">
-      {getRankIcon(entry.rank)}
-    </div>
-    <div className="flex items-center gap-3 flex-1 min-w-0">
-      <div className="relative">
-        <Avatar className="h-10 w-10">
+    <div className="flex items-center gap-2 sm:gap-4">
+      <div className="flex items-center justify-center w-8 sm:w-12 shrink-0">
+        {getRankIcon(entry.rank)}
+      </div>
+      <div className="relative shrink-0">
+        <Avatar className="h-9 w-9 sm:h-10 sm:w-10">
           <AvatarImage src={entry.avatar_url} />
-          <AvatarFallback>
+          <AvatarFallback className="text-xs">
             {entry.full_name
               ? entry.full_name
                   .split(" ")
@@ -206,25 +206,44 @@ const EntryCard: React.FC<EntryCardProps> = ({
         )}
       </div>
       <div className="min-w-0 flex-1">
-        {entry.profile_id &&
-        (entry.is_online || isRecentlyOnline(entry.last_seen)) ? (
-          <Link
-            to={`/profile/${entry.profile_id}`}
-            className="font-medium truncate hover:text-axanar-teal transition-colors inline-block"
+        <div className="flex items-baseline justify-between gap-2">
+          <div className="min-w-0 flex-1">
+            {entry.profile_id &&
+            (entry.is_online || isRecentlyOnline(entry.last_seen)) ? (
+              <Link
+                to={`/profile/${entry.profile_id}`}
+                className="font-medium text-sm sm:text-base truncate hover:text-axanar-teal transition-colors block"
+              >
+                {entry.full_name}
+              </Link>
+            ) : (
+              <h4 className="font-medium text-sm sm:text-base truncate">
+                {entry.full_name}
+              </h4>
+            )}
+          </div>
+          <div className="text-right shrink-0">
+            <div className="text-sm sm:text-lg font-bold text-axanar-teal whitespace-nowrap">
+              {config.formatValue(entry.metric_value, entry)}
+            </div>
+          </div>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => onShare(entry)}
+            className="opacity-60 hover:opacity-100 shrink-0 h-8 w-8 p-0"
           >
-            {entry.full_name}
-          </Link>
-        ) : (
-          <h4 className="font-medium truncate">{entry.full_name}</h4>
-        )}
-        <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
+            <Share2 className="h-3.5 w-3.5" />
+          </Button>
+        </div>
+        <div className="flex items-center gap-1.5 sm:gap-2 text-xs text-muted-foreground flex-wrap mt-0.5">
           {category === "unified_xp" &&
             (() => {
               const militaryRank = getMilitaryRank(entry.metric_value);
               return (
                 <Badge
                   variant="secondary"
-                  className={`text-xs ${militaryRank.pipColor.replace("bg-", "text-")}`}
+                  className={`text-[10px] sm:text-xs px-1.5 py-0 ${militaryRank.pipColor.replace("bg-", "text-")}`}
                 >
                   {militaryRank.name}
                 </Badge>
@@ -233,46 +252,29 @@ const EntryCard: React.FC<EntryCardProps> = ({
           {entry.streak_days && entry.streak_days >= 3 && (
             <Badge
               variant="secondary"
-              className="text-xs flex items-center gap-1"
+              className="text-[10px] sm:text-xs px-1.5 py-0 flex items-center gap-0.5"
             >
-              <Flame className="h-3 w-3" />
-              {entry.streak_days}d streak
+              <Flame className="h-2.5 w-2.5" />
+              {entry.streak_days}d
             </Badge>
           )}
-          <span>
+          <span className="hidden sm:inline">
             {Number(entry.years_supporting) < 1
               ? "New Member"
               : `${Number(entry.years_supporting).toFixed(1)} years`}
           </span>
+          <span className="hidden sm:inline">·</span>
+          <span className="hidden sm:inline text-xs">
+            $
+            {Number(entry.total_donated || 0).toLocaleString(undefined, {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}{" "}
+            donated
+          </span>
         </div>
       </div>
     </div>
-    <div className="text-right">
-      <div className="flex items-center justify-end gap-2">
-        <div className="text-lg font-bold text-axanar-teal">
-          {config.formatValue(entry.metric_value, entry)}
-        </div>
-      </div>
-      <div className="text-xs text-muted-foreground">
-        $
-        {Number(entry.total_donated || 0).toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}{" "}
-        donated
-        <div className="text-xs mt-0.5">
-          {entry.unified_xp.toLocaleString()} ARES
-        </div>
-      </div>
-    </div>
-    <Button
-      size="sm"
-      variant="ghost"
-      onClick={() => onShare(entry)}
-      className="opacity-60 hover:opacity-100"
-    >
-      <Share2 className="h-4 w-4" />
-    </Button>
   </div>
 );
 
