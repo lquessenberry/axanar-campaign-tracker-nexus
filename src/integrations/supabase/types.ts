@@ -3591,6 +3591,7 @@ export type Database = {
           bio: string | null
           created_at: string
           donation_xp: number | null
+          dual_path_bonus: number | null
           forum_xp: number | null
           full_name: string | null
           id: string
@@ -3615,6 +3616,7 @@ export type Database = {
           bio?: string | null
           created_at?: string
           donation_xp?: number | null
+          dual_path_bonus?: number | null
           forum_xp?: number | null
           full_name?: string | null
           id: string
@@ -3639,6 +3641,7 @@ export type Database = {
           bio?: string | null
           created_at?: string
           donation_xp?: number | null
+          dual_path_bonus?: number | null
           forum_xp?: number | null
           full_name?: string | null
           id?: string
