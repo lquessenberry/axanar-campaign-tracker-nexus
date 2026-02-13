@@ -3,7 +3,7 @@
 
 @media (max-width: 768px) {
   /* ============= DIALOGS & SHEETS ============= */
-  
+
   /* Make dialogs/sheets more mobile-friendly */
   [role="dialog"] {
     max-width: calc(100vw - 1.5rem) !important;
@@ -11,13 +11,13 @@
     margin: 1rem 0.75rem !important;
     border-radius: 12px !important;
   }
-  
+
   /* Full-height sheets for mobile */
   [data-vaul-drawer] {
     max-height: 95dvh !important;
     border-radius: 16px 16px 0 0 !important;
   }
-  
+
   /* Dialog/sheet headers */
   [role="dialog"] > div:first-child,
   [data-vaul-drawer] > div:first-child {
@@ -28,7 +28,7 @@
     background: hsl(var(--background));
     border-bottom: 1px solid hsl(var(--border));
   }
-  
+
   /* Dialog/sheet content */
   [role="dialog"] > div:nth-child(2),
   [data-vaul-drawer] > div:nth-child(2) {
@@ -36,7 +36,7 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
-  
+
   /* Dialog/sheet footers */
   [role="dialog"] > div:last-child,
   [data-vaul-drawer] > div:last-child {
@@ -47,9 +47,9 @@
     background: hsl(var(--background));
     border-top: 1px solid hsl(var(--border));
   }
-  
+
   /* ============= DROPDOWN MENUS ============= */
-  
+
   [role="menu"],
   [role="listbox"] {
     max-width: calc(100vw - 2rem);
@@ -60,7 +60,7 @@
     background: hsl(var(--popover)) !important;
     border: 1px solid hsl(var(--border)) !important;
   }
-  
+
   [role="menuitem"],
   [role="option"] {
     min-height: 44px;
@@ -69,9 +69,9 @@
     align-items: center;
     gap: 12px;
   }
-  
+
   /* ============= TABS ============= */
-  
+
   [role="tablist"] {
     overflow-x: auto;
     overflow-y: hidden;
@@ -79,11 +79,11 @@
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
-  
+
   [role="tablist"]::-webkit-scrollbar {
     display: none;
   }
-  
+
   [role="tab"] {
     min-height: 44px;
     padding: 12px 20px;
@@ -91,46 +91,17 @@
     font-size: 0.9375rem;
     font-weight: 500;
   }
-  
+
   /* ============= CARDS ============= */
-  
-  [class*="card"] {
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
-  }
-  
-  [class*="card-header"] {
-    padding: 0.625rem;
-  }
-  
-  [class*="card-content"] {
-    padding: 0 0.625rem 0.625rem 0.625rem;
-  }
-  
-  [class*="card-footer"] {
-    padding: 0.5rem 0.625rem 0.625rem 0.625rem;
-  }
-  
+  /* Removed: global card padding overrides that conflicted with shadcn Card */
+  /* Use .mobile-card class for explicit mobile card styling */
+
   /* ============= BUTTONS ============= */
-  
-  button,
-  [role="button"] {
-    min-height: 44px;
-    padding: 10px 16px;
-    font-size: 1rem;
-    font-weight: 500;
-  }
-  
-  /* Icon-only buttons */
-  button[aria-label]:not(:has(span)),
-  [role="button"][aria-label]:not(:has(span)) {
-    min-width: 44px;
-    min-height: 44px;
-    padding: 10px;
-  }
-  
+  /* Removed: global button size overrides that conflicted with shadcn variants */
+  /* Use .touch-target or .mobile-button classes for explicit large touch targets */
+
   /* ============= FORM ELEMENTS ============= */
-  
+
   input:not([type="checkbox"]):not([type="radio"]),
   textarea,
   select {
@@ -138,132 +109,52 @@
     min-height: 44px;
     padding: 10px 14px;
   }
-  
+
   textarea {
     min-height: 120px;
   }
-  
+
   /* ============= NAVIGATION ============= */
-  
+
   nav {
     -webkit-overflow-scrolling: touch;
   }
-  
+
   /* ============= SCROLL AREAS ============= */
-  
+
   [data-radix-scroll-area-viewport] {
     -webkit-overflow-scrolling: touch;
   }
-  
+
   /* ============= TOOLTIPS ============= */
-  
+
   [role="tooltip"] {
     font-size: 0.875rem;
     padding: 8px 12px;
     max-width: calc(100vw - 2rem);
   }
-  
+
   /* ============= POPOVERS ============= */
-  
+
   [role="dialog"][data-radix-popper-content-wrapper] {
     max-width: calc(100vw - 2rem) !important;
   }
-  
+
   /* ============= AVATARS ============= */
-  
-  [class*="avatar"] {
-    width: 40px;
-    height: 40px;
-  }
-  
+  /* Removed: forced avatar sizing that broke component-level sizes */
+
   /* ============= BADGES ============= */
-  
-  [class*="badge"] {
-    font-size: 0.75rem;
-    padding: 2px 8px;
-    min-height: 20px;
-  }
-  
-  /* ============= LISTS ============= */
-  
-  ul:not([role]),
-  ol:not([role]) {
-    padding-left: 1.25rem;
-  }
-  
-  li {
-    margin-bottom: 0.5rem;
-  }
-  
-  /* Interactive list items */
-  li > a,
-  li > button {
-    display: block;
-    min-height: 44px;
-    padding: 0.75rem;
-    margin: -0.75rem;
-  }
-  
+  /* Removed: forced badge sizing that broke shadcn Badge variants */
+
   /* ============= SPACING FIXES ============= */
-  
-  /* Reduce excessive padding */
-  .space-y-8 > * + * {
-    margin-top: 0.75rem;
-  }
-  
-  .space-y-6 > * + * {
-    margin-top: 0.625rem;
-  }
-  
-  .space-y-4 > * + * {
-    margin-top: 0.5rem;
-  }
-  
-  .gap-8 {
-    gap: 0.75rem;
-  }
-  
-  .gap-6 {
-    gap: 0.625rem;
-  }
-  
-  .gap-4 {
-    gap: 0.5rem;
-  }
-  
+  /* Removed: global spacing overrides that broke Tailwind utility classes */
+
   /* ============= GRID IMPROVEMENTS ============= */
-  
-  /* Force single column on mobile */
-  .grid-cols-2,
-  .grid-cols-3,
-  .grid-cols-4 {
-    grid-template-columns: 1fr !important;
-  }
-  
-  /* Allow explicit mobile columns */
-  .mobile-grid-cols-2 {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-  
+  /* Removed: forced single-column grid that broke responsive Tailwind grids */
+  /* Use Tailwind's responsive grid-cols-1 sm:grid-cols-2 instead */
+
   /* ============= TEXT OVERFLOW ============= */
-  
-  /* Better text wrapping */
-  h1, h2, h3, h4, h5, h6 {
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    hyphens: auto;
-  }
-  
-  /* Prevent horizontal overflow */
-  * {
-    max-width: 100%;
-  }
-  
-  img,
-  video,
-  svg {
-    height: auto;
-  }
+  /* Removed: global max-width:100% on * that broke positioned/flex elements */
 }
 
 /* ============= ACCESSIBILITY IMPROVEMENTS ============= */

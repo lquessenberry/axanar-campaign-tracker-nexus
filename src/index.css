@@ -6,10 +6,10 @@
 /*  Moderate headings • No huge display fonts • Thumby-ready         */
 /* ================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Staatliches&family=Orbitron:wght@700;900&family=Antonio:wght@400;700&family=Cinzel+Decorative:wght@900&family=Exo+2:wght@600;800&family=Russo+One&family=Overpass:wght@700;800&family=Share+Tech+Mono&family=Kanit:wght@700;800&family=Bungee&family=Electrolize&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Staatliches&family=Orbitron:wght@700;900&family=Antonio:wght@400;700&family=Cinzel+Decorative:wght@900&family=Exo+2:wght@600;800&family=Russo+One&family=Overpass:wght@700;800&family=Share+Tech+Mono&family=Kanit:wght@700;800&family=Bungee&family=Electrolize&display=swap");
 
-@import './styles/mobile-enhancements.css';
-@import './styles/mobile-ui-overrides.css';
+@import "./styles/mobile-enhancements.css";
+@import "./styles/mobile-ui-overrides.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -20,14 +20,14 @@
     font-size: 16px;
     -webkit-text-size-adjust: 100%;
   }
-  
+
   /* Ensure mobile-friendly layout */
   .container {
     max-width: 100% !important;
     padding-left: 1rem;
     padding-right: 1rem;
   }
-  
+
   /* Add bottom padding for bottom nav */
   main {
     padding-bottom: 80px;
@@ -39,7 +39,7 @@
   html {
     font-size: 17px;
   }
-  
+
   .container {
     max-width: 100% !important;
     padding-left: 1.5rem;
@@ -53,7 +53,7 @@
   * {
     touch-action: manipulation;
   }
-  
+
   /* Allow scroll on specific elements */
   [role="dialog"],
   [role="menu"],
@@ -72,24 +72,24 @@
 
 /* Custom Font Faces for TTF files */
 @font-face {
-  font-family: 'CustomFont';
-  src: url('/fonts/CustomFont-Regular.ttf') format('truetype');
+  font-family: "CustomFont";
+  src: url("/fonts/CustomFont-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'CustomFont';
-  src: url('/fonts/CustomFont-Bold.ttf') format('truetype');
+  font-family: "CustomFont";
+  src: url("/fonts/CustomFont-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'CustomFont';
-  src: url('/fonts/CustomFont-Light.ttf') format('truetype');
+  font-family: "CustomFont";
+  src: url("/fonts/CustomFont-Light.ttf") format("truetype");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -97,48 +97,48 @@
 
 /* Star Trek Font Pack */
 @font-face {
-  font-family: 'StarTrek';
-  src: url('/fonts/startrek/StarTrek.ttf') format('truetype');
+  font-family: "StarTrek";
+  src: url("/fonts/startrek/StarTrek.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'StarTrekFilm';
-  src: url('/fonts/startrek/StarTrekFilm.ttf') format('truetype');
+  font-family: "StarTrekFilm";
+  src: url("/fonts/startrek/StarTrekFilm.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'StarTrekPi';
-  src: url('/fonts/startrek/StarTrekPi.ttf') format('truetype');
+  font-family: "StarTrekPi";
+  src: url("/fonts/startrek/StarTrekPi.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'StarfleetBoldExtended';
-  src: url('/fonts/startrek/StarfleetBoldExtended.ttf') format('truetype');
+  font-family: "StarfleetBoldExtended";
+  src: url("/fonts/startrek/StarfleetBoldExtended.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Venetian301';
-  src: url('/fonts/startrek/Venetian301.ttf') format('truetype');
+  font-family: "Venetian301";
+  src: url("/fonts/startrek/Venetian301.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Square721Condensed';
-  src: url('/fonts/startrek/Square721Condensed.ttf') format('truetype');
+  font-family: "Square721Condensed";
+  src: url("/fonts/startrek/Square721Condensed.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -149,58 +149,157 @@
 /* ================================================================== */
 
 /* 1. Base body font size for all themes */
-html { font-size: 16px; }        /* makes 1rem = 16px */
-body { font-size: 1.125rem; }    /* ≈18px – comfortable on handhelds */
+html {
+  font-size: 16px;
+} /* makes 1rem = 16px */
+body {
+  font-size: 1.125rem;
+} /* ≈18px – comfortable on handhelds */
 
 /* 2. Era-specific font families */
-.theme-nx-2151              { font-family: 'Rajdhani', sans-serif; }
-.theme-ares-mk4-light       { font-family: 'Rajdhani', sans-serif; }
-.theme-hercules-mk4-dark    { font-family: 'Rajdhani', sans-serif; }
-.theme-mark-v-wartime       { font-family: 'Staatliches', sans-serif; }
-.theme-klingon-d7           { font-family: 'Orbitron', sans-serif; }
-.theme-constitution-2265    { font-family: 'Orbitron', sans-serif; }
-.theme-tmp-refit-2273       { font-family: 'Antonio', sans-serif; }
-.theme-excelsior-2285       { font-family: 'Exo 2', sans-serif; }
-.theme-ambassador-2350      { font-family: 'Overpass', sans-serif; }
-.theme-galaxy-2363          { font-family: 'Overpass', sans-serif; }
-.theme-defiant-2371         { font-family: 'Share Tech Mono', monospace; }
-.theme-sovereign-2378       { font-family: 'Electrolize', sans-serif; }
+.theme-nx-2151 {
+  font-family: "Rajdhani", sans-serif;
+}
+.theme-ares-mk4-light {
+  font-family: "Rajdhani", sans-serif;
+}
+.theme-hercules-mk4-dark {
+  font-family: "Rajdhani", sans-serif;
+}
+.theme-mark-v-wartime {
+  font-family: "Staatliches", sans-serif;
+}
+.theme-klingon-d7 {
+  font-family: "Orbitron", sans-serif;
+}
+.theme-constitution-2265 {
+  font-family: "Orbitron", sans-serif;
+}
+.theme-tmp-refit-2273 {
+  font-family: "Antonio", sans-serif;
+}
+.theme-excelsior-2285 {
+  font-family: "Exo 2", sans-serif;
+}
+.theme-ambassador-2350 {
+  font-family: "Overpass", sans-serif;
+}
+.theme-galaxy-2363 {
+  font-family: "Overpass", sans-serif;
+}
+.theme-defiant-2371 {
+  font-family: "Share Tech Mono", monospace;
+}
+.theme-sovereign-2378 {
+  font-family: "Electrolize", sans-serif;
+}
 
 /* 3. Moderate heading scale – same for all eras (feels consistent) */
-h1, .h1 { font-size: 2.25rem;   line-height: 1.2;   margin: 1.5em 0 0.75em; }   /* 36px */
-h2, .h2 { font-size: 1.875rem;  line-height: 1.25;  margin: 1.4em 0 0.7em; }    /* 30px */
-h3, .h3 { font-size: 1.5rem;    line-height: 1.3;   margin: 1.3em 0 0.65em; }   /* 24px */
-h4, .h4 { font-size: 1.25rem;   line-height: 1.35;  margin: 1.2em 0 0.6em; }    /* 20px */
-h5, .h5 { font-size: 1.125rem;  line-height: 1.4; }                           /* 18px (same as body) */
-h6, .h6 { font-size: 1rem;      line-height: 1.45;  font-weight: bold; }
+h1,
+.h1 {
+  font-size: 2.25rem;
+  line-height: 1.2;
+  margin: 1.5em 0 0.75em;
+} /* 36px */
+h2,
+.h2 {
+  font-size: 1.875rem;
+  line-height: 1.25;
+  margin: 1.4em 0 0.7em;
+} /* 30px */
+h3,
+.h3 {
+  font-size: 1.5rem;
+  line-height: 1.3;
+  margin: 1.3em 0 0.65em;
+} /* 24px */
+h4,
+.h4 {
+  font-size: 1.25rem;
+  line-height: 1.35;
+  margin: 1.2em 0 0.6em;
+} /* 20px */
+h5,
+.h5 {
+  font-size: 1.125rem;
+  line-height: 1.4;
+} /* 18px (same as body) */
+h6,
+.h6 {
+  font-size: 1rem;
+  line-height: 1.45;
+  font-weight: bold;
+}
 
 /* 4. Era-specific heading flair (still moderate size) */
 .theme-nx-2151 h1,
 .theme-ares-mk4-light h1,
-.theme-hercules-mk4-dark h1        { font-family: 'Staatliches', sans-serif; letter-spacing: 0.08em; }
-.theme-mark-v-wartime h1           { font-family: 'Russo One', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
+.theme-hercules-mk4-dark h1 {
+  font-family: "Staatliches", sans-serif;
+  letter-spacing: 0.08em;
+}
+.theme-mark-v-wartime h1 {
+  font-family: "Russo One", sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
 .theme-klingon-d7 h1,
-.theme-constitution-2265 h1        { font-weight: 900; letter-spacing: 0.06em; }
-.theme-tmp-refit-2273 h1           { font-family: 'Cinzel Decorative', serif; font-weight: 900; }
-.theme-excelsior-2285 h1           { font-family: 'Russo One', sans-serif; letter-spacing: 0.08em; }
+.theme-constitution-2265 h1 {
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+.theme-tmp-refit-2273 h1 {
+  font-family: "Cinzel Decorative", serif;
+  font-weight: 900;
+}
+.theme-excelsior-2285 h1 {
+  font-family: "Russo One", sans-serif;
+  letter-spacing: 0.08em;
+}
 .theme-ambassador-2350 h1,
-.theme-galaxy-2363 h1              { font-weight: 800; letter-spacing: 0.03em; }
-.theme-defiant-2371 h1             { font-family: 'Bungee', sans-serif; }
-.theme-sovereign-2378 h1           { letter-spacing: 0.06em; }
+.theme-galaxy-2363 h1 {
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+.theme-defiant-2371 h1 {
+  font-family: "Bungee", sans-serif;
+}
+.theme-sovereign-2378 h1 {
+  letter-spacing: 0.06em;
+}
 
 /* 5. Small text */
-small, .small { font-size: 0.875rem; }   /* 14px */
-.caption      { font-size: 0.8125rem; line-height: 1.5; opacity: 0.9; }  /* 13px */
+small,
+.small {
+  font-size: 0.875rem;
+} /* 14px */
+.caption {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  opacity: 0.9;
+} /* 13px */
 
 /* 6. Optional subtle glow on headings only (works with any color) */
-h1, h2, h3 { text-shadow: 0 0 6px currentColor; }
+h1,
+h2,
+h3 {
+  text-shadow: 0 0 6px currentColor;
+}
 
 /* 7. Handheld fine-tuning – slightly larger on very small screens */
 @media (max-width: 900px) {
-  body { font-size: 1.1875rem; }   /* ≈19px on small handhelds */
-  h1 { font-size: 2.5rem; }
-  h2 { font-size: 2rem; }
-  h3 { font-size: 1.625rem; }
+  body {
+    font-size: 1.1875rem;
+  } /* ≈19px on small handhelds */
+  h1 {
+    font-size: 2.5rem;
+  }
+  h2 {
+    font-size: 2rem;
+  }
+  h3 {
+    font-size: 1.625rem;
+  }
 }
 
 /* ============= RESPONSIVE PROFILE LAYOUT ============= */
@@ -209,13 +308,13 @@ h1, h2, h3 { text-shadow: 0 0 6px currentColor; }
   .profile-header-hero {
     max-width: 1400px;
   }
-  
+
   /* Ensure stat pills don't wrap awkwardly */
   .lcars-stat-pill {
     flex: 0 1 auto;
     white-space: nowrap;
   }
-  
+
   /* Rank card stays fixed width on large screens */
   .lcars-rank-card {
     min-width: 280px;
@@ -245,16 +344,18 @@ h1, h2, h3 { text-shadow: 0 0 6px currentColor; }
 }
 
 .lcars-tab-strip::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, 
-    hsl(var(--primary)) 0%, 
-    hsl(var(--primary)) 30%, 
-    transparent 100%);
+  background: linear-gradient(
+    90deg,
+    hsl(var(--primary)) 0%,
+    hsl(var(--primary)) 30%,
+    transparent 100%
+  );
 }
 
 @keyframes lcars-slide-down {
@@ -308,22 +409,38 @@ h1, h2, h3 { text-shadow: 0 0 6px currentColor; }
 
 /* ============= LCARS PLASMA CONDUIT ANIMATION ============= */
 @keyframes plasma-flow {
-  0%, 100% { opacity: 0.1; transform: translateX(-100%); }
-  50% { opacity: 0.3; transform: translateX(100%); }
+  0%,
+  100% {
+    opacity: 0.1;
+    transform: translateX(-100%);
+  }
+  50% {
+    opacity: 0.3;
+    transform: translateX(100%);
+  }
 }
 
 .lcars-elbow::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.3), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(var(--primary) / 0.3),
+    transparent
+  );
   animation: plasma-flow 3s ease-in-out infinite;
 }
 
 /* LCARS Toast Progress Animation */
 @keyframes lcars-toast-progress {
-  from { width: 100%; }
-  to { width: 0%; }
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
 }
 
 /* ============= CURSOR FIXES ============= */
@@ -369,28 +486,33 @@ body:not(.game-active) [role="button"] {
   :root {
     /* ============= DAYSTROM DESIGN SYSTEM ============= */
     /* Unified Shadow System - 60° Top-Left Light Source */
-    --shadow-light-sm: -1px -1px 2px rgba(255, 255, 255, 0.1), 2px 2px 4px rgba(0, 0, 0, 0.2);
-    --shadow-light-md: -2px -2px 4px rgba(255, 255, 255, 0.1), 4px 4px 8px rgba(0, 0, 0, 0.2);
-    --shadow-light-lg: -4px -4px 8px rgba(255, 255, 255, 0.1), 8px 8px 16px rgba(0, 0, 0, 0.25);
-    
+    --shadow-light-sm:
+      -1px -1px 2px rgba(255, 255, 255, 0.1), 2px 2px 4px rgba(0, 0, 0, 0.2);
+    --shadow-light-md:
+      -2px -2px 4px rgba(255, 255, 255, 0.1), 4px 4px 8px rgba(0, 0, 0, 0.2);
+    --shadow-light-lg:
+      -4px -4px 8px rgba(255, 255, 255, 0.1), 8px 8px 16px rgba(0, 0, 0, 0.25);
+
     /* ============= LCARS COLOR PALETTE ============= */
     /* Primary LCARS Colors */
-    --lcars-yellow: 48 100% 67%;      /* #FFC107 - LCARS Orange/Yellow */
-    --lcars-blue: 207 90% 45%;        /* Darker blue for better contrast */
+    --lcars-yellow: 48 100% 67%; /* #FFC107 - LCARS Orange/Yellow */
+    --lcars-blue: 207 90% 45%; /* Darker blue for better contrast */
     --lcars-light-blue: 195 100% 61%; /* #0288D1 - Light Blue */
-    --lcars-dark-blue: 211 100% 44%;  /* #1565C0 - Dark Blue */
-    --lcars-red: 4 90% 58%;           /* #D32F2F - Alert Red */
-    --lcars-orange: 36 100% 50%;      /* #F57C00 - Tactical Orange */
-    --lcars-gray: 210 11% 71%;        /* #B0BEC5 - LCARS Gray */
-    --lcars-light-gray: 210 15% 87%;  /* #CFD8DC - Light Gray */
-    --lcars-dark-gray: 200 18% 54%;   /* #78909C - Dark Gray */
-    
+    --lcars-dark-blue: 211 100% 44%; /* #1565C0 - Dark Blue */
+    --lcars-red: 4 90% 58%; /* #D32F2F - Alert Red */
+    --lcars-orange: 36 100% 50%; /* #F57C00 - Tactical Orange */
+    --lcars-gray: 210 11% 71%; /* #B0BEC5 - LCARS Gray */
+    --lcars-light-gray: 210 15% 87%; /* #CFD8DC - Light Gray */
+    --lcars-dark-gray: 200 18% 54%; /* #78909C - Dark Gray */
+
     /* ============= DESIGN TOKENS ============= */
     /* Typography */
-    --font-heading: 'Inter', 'Eurostile', 'Swiss 911 Ultra Compressed', 'Bebas Neue', sans-serif;
-    --font-body: 'Inter', 'Arial', 'Helvetica', sans-serif;
-    --font-mono: 'Orbitron', 'Monaco', monospace;
-    
+    --font-heading:
+      "Inter", "Eurostile", "Swiss 911 Ultra Compressed", "Bebas Neue",
+      sans-serif;
+    --font-body: "Inter", "Arial", "Helvetica", sans-serif;
+    --font-mono: "Orbitron", "Monaco", monospace;
+
     /* Spacing - Command Rail System */
     --space-unit: 8px;
     --command-rail-min-width: 340px;
@@ -398,25 +520,25 @@ body:not(.game-active) [role="button"] {
     --command-rail-gap: 8px;
     --spacing-unit: 0.75rem;
     --lcars-gap: var(--spacing-unit);
-    
+
     /* TOS-Inspired Colors */
-    --tos-primary-black: 10 10% 4%;      /* #0a0a0a */
-    --tos-optimism-blue: 225 73% 57%;    /* #4169E1 */
-    --tos-util-gray: 0 0% 41%;           /* #696969 */
-    --tos-etched-border: 0 0% 20%;       /* #333 */
+    --tos-primary-black: 10 10% 4%; /* #0a0a0a */
+    --tos-optimism-blue: 225 73% 57%; /* #4169E1 */
+    --tos-util-gray: 0 0% 41%; /* #696969 */
+    --tos-etched-border: 0 0% 20%; /* #333 */
     --tos-exploration-glow: 195 100% 50%; /* #00BFFF */
-    
+
     /* Effects */
     --lcars-glow: 0 0 10px currentColor;
     --lcars-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     --lcars-shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.3);
-    
+
     /* Command Rail Tactile Effects */
     --command-rail-inset-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
     --command-rail-depth: 0 4px 6px rgba(0, 0, 0, 0.3);
     --command-rail-glow: 0 0 20px hsl(var(--tos-exploration-glow));
     --command-rail-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
+
     /* ============= STANDARD LCARS MODE (Light) ============= */
     --background: 0 0% 100%;
     --foreground: 0 0% 0%;
@@ -438,14 +560,14 @@ body:not(.game-active) [role="button"] {
     --input: var(--lcars-light-gray);
     --ring: var(--lcars-yellow);
     --radius: 0.5rem;
-    
+
     /* Chart colors for data displays */
     --chart-1: var(--lcars-blue);
     --chart-2: var(--lcars-yellow);
     --chart-3: var(--lcars-red);
     --chart-4: var(--lcars-light-blue);
     --chart-5: var(--lcars-orange);
-    
+
     /* Sidebar */
     --sidebar: var(--lcars-light-gray);
     --sidebar-foreground: 0 0% 0%;
@@ -455,7 +577,7 @@ body:not(.game-active) [role="button"] {
     --sidebar-accent-foreground: 0 0% 0%;
     --sidebar-border: var(--lcars-gray);
     --sidebar-ring: var(--lcars-yellow);
-    
+
     /* LCARS Panel Styling */
     --lcars-panel-bg: 0 0% 8%;
     --lcars-panel-border: var(--lcars-yellow);
@@ -463,19 +585,27 @@ body:not(.game-active) [role="button"] {
     --lcars-button-secondary: var(--lcars-yellow);
     --lcars-text-primary: var(--lcars-yellow);
     --lcars-text-secondary: var(--lcars-blue);
-    
+
     /* Nebula theme colors */
     --nebula-purple: 280 100% 70%;
     --nebula-cyan: 190 100% 60%;
     --nebula-pink: 330 100% 70%;
     --nebula-blue: 220 100% 60%;
     --nebula-dark: 260 50% 10%;
-    
+
     /* Sci-Fi Animations */
-    --glow-primary: 0 0 20px hsl(var(--lcars-blue)), 0 0 40px hsl(var(--lcars-blue)), 0 0 60px hsl(var(--lcars-blue));
-    --glow-secondary: 0 0 20px hsl(var(--lcars-yellow)), 0 0 40px hsl(var(--lcars-yellow)), 0 0 60px hsl(var(--lcars-yellow));
-    --glow-alert: 0 0 20px hsl(var(--lcars-red)), 0 0 40px hsl(var(--lcars-red)), 0 0 60px hsl(var(--lcars-red));
-    --glow-nebula: 0 0 30px hsl(var(--nebula-purple)), 0 0 60px hsl(var(--nebula-cyan)), 0 0 90px hsl(var(--nebula-pink));
+    --glow-primary:
+      0 0 20px hsl(var(--lcars-blue)), 0 0 40px hsl(var(--lcars-blue)),
+      0 0 60px hsl(var(--lcars-blue));
+    --glow-secondary:
+      0 0 20px hsl(var(--lcars-yellow)), 0 0 40px hsl(var(--lcars-yellow)),
+      0 0 60px hsl(var(--lcars-yellow));
+    --glow-alert:
+      0 0 20px hsl(var(--lcars-red)), 0 0 40px hsl(var(--lcars-red)),
+      0 0 60px hsl(var(--lcars-red));
+    --glow-nebula:
+      0 0 30px hsl(var(--nebula-purple)), 0 0 60px hsl(var(--nebula-cyan)),
+      0 0 90px hsl(var(--nebula-pink));
   }
 
   /* ============= NIGHT MODE (Enhanced Dark) ============= */
@@ -500,7 +630,7 @@ body:not(.game-active) [role="button"] {
     --border: 220 13% 15%;
     --input: 220 13% 15%;
     --ring: var(--lcars-yellow);
-    
+
     /* Enhanced dark sidebar */
     --sidebar: 220 13% 8%;
     --sidebar-foreground: 48 100% 67%; /* LCARS Yellow */
@@ -510,7 +640,7 @@ body:not(.game-active) [role="button"] {
     --sidebar-accent-foreground: 48 100% 67%; /* LCARS Yellow */
     --sidebar-border: 220 13% 15%;
     --sidebar-ring: var(--lcars-yellow);
-    
+
     /* Dark mode overrides */
     --lcars-panel-bg: 0 0% 5%;
     --lcars-text-primary: 48 100% 67%; /* LCARS Yellow */
@@ -539,7 +669,7 @@ body:not(.game-active) [role="button"] {
     --border: 4 25% 15%;
     --input: 4 25% 15%;
     --ring: var(--lcars-orange);
-    
+
     /* Tactical sidebar */
     --sidebar: 4 25% 8%;
     --sidebar-foreground: 36 100% 50%; /* LCARS Orange */
@@ -549,7 +679,7 @@ body:not(.game-active) [role="button"] {
     --sidebar-accent-foreground: 36 100% 50%; /* LCARS Orange */
     --sidebar-border: 4 25% 15%;
     --sidebar-ring: var(--lcars-orange);
-    
+
     /* Tactical overrides */
     --lcars-panel-bg: 4 25% 5%;
     --lcars-panel-border: 36 100% 50%; /* LCARS Orange */
@@ -583,7 +713,7 @@ body:not(.game-active) [role="button"] {
     --input: 0 72% 15%;
     --ring: 0 100% 50%;
     --radius: 0.5rem;
-    
+
     /* Klingon sidebar */
     --sidebar: 0 72% 10%;
     --sidebar-foreground: 0 0% 98%;
@@ -593,7 +723,7 @@ body:not(.game-active) [role="button"] {
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 0 84% 25%;
     --sidebar-ring: 0 100% 50%;
-    
+
     /* Klingon LCARS overrides */
     --lcars-panel-bg: 0 72% 8%;
     --lcars-panel-border: 0 100% 50%;
@@ -605,11 +735,11 @@ body:not(.game-active) [role="button"] {
 
   /* Klingon theme typography override */
   .klingon {
-    font-family: 'pIqaD', 'Orbitron', monospace !important;
+    font-family: "pIqaD", "Orbitron", monospace !important;
   }
 
   .klingon * {
-    font-family: 'pIqaD', 'Orbitron', monospace !important;
+    font-family: "pIqaD", "Orbitron", monospace !important;
   }
 
   /* Klingon specific component styles */
@@ -617,7 +747,9 @@ body:not(.game-active) [role="button"] {
     background: linear-gradient(135deg, hsl(0 72% 30%), hsl(0 84% 35%));
     border: 2px solid hsl(0 100% 50%);
     color: hsl(0 0% 100%);
-    box-shadow: 0 4px 8px rgba(139, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow:
+      0 4px 8px rgba(139, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   .klingon .btn-lcars:hover {
@@ -637,8 +769,12 @@ body:not(.game-active) [role="button"] {
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Eurostile', system-ui, sans-serif; /* Trek-inspired content font */
-    font-feature-settings: "kern" 1, "liga" 1, "clig" 1;
+    font-family:
+      "Eurostile", system-ui, sans-serif; /* Trek-inspired content font */
+    font-feature-settings:
+      "kern" 1,
+      "liga" 1,
+      "clig" 1;
     line-height: 1.6;
     font-size: clamp(16px, 2.5vw + 0.5rem, 18px); /* Fluid body text */
     font-weight: 400;
@@ -647,9 +783,10 @@ body:not(.game-active) [role="button"] {
 
   /* ============= AXANAR FLUID TYPOGRAPHY HIERARCHY ============= */
   /* Inspired by LCARS and Star Trek interfaces with fluid scaling */
-  
+
   h1 {
-    font-family: 'Bebas Neue', 'Orbitron', system-ui, sans-serif; /* Bold condensed titles */
+    font-family:
+      "Bebas Neue", "Orbitron", system-ui, sans-serif; /* Bold condensed titles */
     font-size: clamp(32px, 5vw + 1rem, 48px); /* Fluid H1 scaling */
     line-height: 1.2;
     letter-spacing: 0.02em;
@@ -660,7 +797,7 @@ body:not(.game-active) [role="button"] {
   }
 
   h2 {
-    font-family: 'Bebas Neue', 'Orbitron', system-ui, sans-serif;
+    font-family: "Bebas Neue", "Orbitron", system-ui, sans-serif;
     font-size: clamp(24px, 3.5vw + 0.8rem, 36px); /* Fluid H2 scaling */
     line-height: 1.3;
     letter-spacing: 0.015em;
@@ -671,7 +808,7 @@ body:not(.game-active) [role="button"] {
   }
 
   h3 {
-    font-family: 'Bebas Neue', 'Orbitron', system-ui, sans-serif;
+    font-family: "Bebas Neue", "Orbitron", system-ui, sans-serif;
     font-size: clamp(20px, 3vw + 0.6rem, 28px); /* Fluid H3 scaling */
     line-height: 1.4;
     letter-spacing: 0.01em;
@@ -682,7 +819,8 @@ body:not(.game-active) [role="button"] {
   }
 
   h4 {
-    font-family: 'Eurostile', system-ui, sans-serif; /* Content font for smaller headings */
+    font-family:
+      "Eurostile", system-ui, sans-serif; /* Content font for smaller headings */
     font-size: clamp(18px, 2.5vw + 0.5rem, 22px);
     line-height: 1.45;
     letter-spacing: 0.005em;
@@ -692,7 +830,7 @@ body:not(.game-active) [role="button"] {
   }
 
   h5 {
-    font-family: 'Eurostile', system-ui, sans-serif;
+    font-family: "Eurostile", system-ui, sans-serif;
     font-size: clamp(16px, 2vw + 0.4rem, 20px);
     line-height: 1.5;
     margin-bottom: 0.5rem;
@@ -701,7 +839,7 @@ body:not(.game-active) [role="button"] {
   }
 
   h6 {
-    font-family: 'Eurostile', system-ui, sans-serif;
+    font-family: "Eurostile", system-ui, sans-serif;
     font-size: clamp(14px, 1.5vw + 0.3rem, 18px);
     line-height: 1.5;
     margin-bottom: 0.5rem;
@@ -713,7 +851,7 @@ body:not(.game-active) [role="button"] {
 
   /* Magazine-Style Body Text */
   p {
-    font-family: 'Eurostile', system-ui, sans-serif; /* Editorial font */
+    font-family: "Eurostile", system-ui, sans-serif; /* Editorial font */
     font-size: clamp(16px, 2.5vw + 0.5rem, 18px); /* Fluid body text */
     line-height: 1.6;
     margin-bottom: 1rem;
@@ -725,95 +863,120 @@ body:not(.game-active) [role="button"] {
 
   /* ============= AXANAR FLUID TEXT SIZE UTILITIES ============= */
   /* Responsive text sizes with clamp() for perfect scaling */
-  
+
   .text-xs {
     font-size: clamp(10px, 1.5vw + 0.2rem, 12px);
     line-height: 1.4;
     letter-spacing: 0.02em;
-    font-family: 'Inter', system-ui, sans-serif; /* Admin/UI font */
+    font-family: "Inter", system-ui, sans-serif; /* Admin/UI font */
   }
 
   .text-sm {
     font-size: clamp(12px, 2vw + 0.3rem, 14px);
     line-height: 1.5;
     letter-spacing: 0.01em;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: "Inter", system-ui, sans-serif;
   }
 
   .text-base {
     font-size: clamp(16px, 2.5vw + 0.5rem, 18px); /* Body text */
     line-height: 1.6;
-    font-family: 'Eurostile', system-ui, sans-serif;
+    font-family: "Eurostile", system-ui, sans-serif;
   }
 
   .text-lg {
     font-size: clamp(18px, 3vw + 0.6rem, 22px);
     line-height: 1.5;
     letter-spacing: -0.005em;
-    font-family: 'Eurostile', system-ui, sans-serif;
+    font-family: "Eurostile", system-ui, sans-serif;
   }
 
   .text-xl {
     font-size: clamp(20px, 3.5vw + 0.7rem, 26px);
     line-height: 1.4;
     letter-spacing: -0.01em;
-    font-family: 'Bebas Neue', system-ui, sans-serif;
+    font-family: "Bebas Neue", system-ui, sans-serif;
   }
 
   .text-2xl {
     font-size: clamp(24px, 4vw + 0.8rem, 32px);
     line-height: 1.35;
     letter-spacing: -0.015em;
-    font-family: 'Bebas Neue', system-ui, sans-serif;
+    font-family: "Bebas Neue", system-ui, sans-serif;
   }
 
   .text-3xl {
     font-size: clamp(28px, 4.5vw + 1rem, 40px);
     line-height: 1.3;
     letter-spacing: -0.02em;
-    font-family: 'Bebas Neue', system-ui, sans-serif;
+    font-family: "Bebas Neue", system-ui, sans-serif;
   }
 
   .text-4xl {
     font-size: clamp(32px, 5vw + 1rem, 48px);
     line-height: 1.2;
     letter-spacing: -0.025em;
-    font-family: 'Bebas Neue', system-ui, sans-serif;
+    font-family: "Bebas Neue", system-ui, sans-serif;
   }
 
   .text-5xl {
     font-size: clamp(40px, 6vw + 1.5rem, 64px);
     line-height: 1.1;
     letter-spacing: -0.03em;
-    font-family: 'Bebas Neue', system-ui, sans-serif;
+    font-family: "Bebas Neue", system-ui, sans-serif;
   }
 
   /* ============= AXANAR FONT WEIGHTS & UTILITIES ============= */
-  .font-light { font-weight: 300; }
-  .font-normal { font-weight: 400; }
-  .font-medium { font-weight: 500; }
-  .font-semibold { font-weight: 600; }
-  .font-bold { font-weight: 700; }
-  .font-extrabold { font-weight: 800; }
+  .font-light {
+    font-weight: 300;
+  }
+  .font-normal {
+    font-weight: 400;
+  }
+  .font-medium {
+    font-weight: 500;
+  }
+  .font-semibold {
+    font-weight: 600;
+  }
+  .font-bold {
+    font-weight: 700;
+  }
+  .font-extrabold {
+    font-weight: 800;
+  }
 
   /* Font Family Utilities */
-  .font-trek-heading { font-family: 'Bebas Neue', 'Orbitron', system-ui, sans-serif; }
-  .font-trek-content { font-family: 'Eurostile', system-ui, sans-serif; }
-  .font-trek-admin { font-family: 'Inter', system-ui, sans-serif; }
-  .font-trek-tech { font-family: 'Orbitron', monospace; }
+  .font-trek-heading {
+    font-family: "Bebas Neue", "Orbitron", system-ui, sans-serif;
+  }
+  .font-trek-content {
+    font-family: "Eurostile", system-ui, sans-serif;
+  }
+  .font-trek-admin {
+    font-family: "Inter", system-ui, sans-serif;
+  }
+  .font-trek-tech {
+    font-family: "Orbitron", monospace;
+  }
 
   /* Admin Interface Text - Inter for clarity */
   .admin-text {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: "Inter", system-ui, sans-serif;
     font-size: clamp(14px, 2vw + 0.4rem, 16px);
     line-height: 1.5;
     letter-spacing: 0.005em;
   }
 
   /* Code and monospace - LCARS style */
-  code, pre, kbd, samp {
-    font-family: 'Orbitron', 'Monaco', monospace;
-    font-feature-settings: "kern" 0, "liga" 0;
+  code,
+  pre,
+  kbd,
+  samp {
+    font-family: "Orbitron", "Monaco", monospace;
+    font-feature-settings:
+      "kern" 0,
+      "liga" 0;
     font-size: clamp(12px, 1.8vw + 0.3rem, 14px);
     line-height: 1.5;
     letter-spacing: 0.02em;
@@ -823,18 +986,12 @@ body:not(.game-active) [role="button"] {
   }
 
   /* Button text - LCARS inspired */
-  button, .btn {
-    font-family: 'Eurostile', system-ui, sans-serif;
-    font-size: clamp(14px, 2vw + 0.4rem, 16px);
-    line-height: 1.4;
-    letter-spacing: 0.02em;
-    font-weight: 500;
-    text-transform: uppercase;
-    transition: all 0.3s ease; /* LCARS smooth transitions */
-  }
+  /* Removed: global button overrides that conflicted with shadcn Button variants */
+  /* Use .lcars-button class for LCARS-styled buttons */
 
   /* Lists with Trek styling */
-  ul, ol {
+  ul,
+  ol {
     margin-bottom: 1rem;
     padding-left: 1.5rem;
   }
@@ -843,7 +1000,7 @@ body:not(.game-active) [role="button"] {
     margin-bottom: 0.5rem;
     line-height: 1.6;
     font-size: clamp(16px, 2.5vw + 0.5rem, 18px);
-    font-family: 'Eurostile', system-ui, sans-serif;
+    font-family: "Eurostile", system-ui, sans-serif;
   }
 
   /* Links with LCARS-style transitions */
@@ -856,7 +1013,7 @@ body:not(.game-active) [role="button"] {
 
   /* Small text elements */
   small {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: "Inter", system-ui, sans-serif;
     font-size: clamp(12px, 1.8vw + 0.3rem, 14px);
     line-height: 1.5;
     font-weight: 400;
@@ -867,21 +1024,32 @@ body:not(.game-active) [role="button"] {
 @layer components {
   /* ============= AXANAR COMPONENT STYLES ============= */
   /* LCARS-inspired components with Star Trek aesthetics */
-  
+
   .hero-gradient {
-    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
+    background: linear-gradient(
+      135deg,
+      hsl(var(--background)) 0%,
+      hsl(var(--muted)) 100%
+    );
   }
-  
+
   .axanar-gradient {
-    background: linear-gradient(135deg, hsl(195 25% 8%) 0%, hsl(195 60% 15%) 50%, hsl(195 25% 8%) 100%);
+    background: linear-gradient(
+      135deg,
+      hsl(195 25% 8%) 0%,
+      hsl(195 60% 15%) 50%,
+      hsl(195 25% 8%) 100%
+    );
   }
-  
+
   .lcars-panel {
     @apply bg-card border border-border rounded-lg p-6;
     background: linear-gradient(145deg, hsl(var(--card)), hsl(var(--muted)));
-    box-shadow: 0 4px 6px -1px hsl(var(--primary) / 0.1), 0 2px 4px -1px hsl(var(--primary) / 0.06);
+    box-shadow:
+      0 4px 6px -1px hsl(var(--primary) / 0.1),
+      0 2px 4px -1px hsl(var(--primary) / 0.06);
   }
-  
+
   .lcars-button {
     @apply bg-primary hover:bg-primary/90 text-primary-foreground;
     @apply px-6 py-3 rounded-lg font-trek-content text-sm uppercase tracking-wider;
@@ -889,19 +1057,19 @@ body:not(.game-active) [role="button"] {
     @apply border-2 border-transparent hover:border-accent;
     box-shadow: 0 2px 8px hsl(var(--primary) / 0.3);
   }
-  
+
   .lcars-button:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 12px hsl(var(--primary) / 0.4);
   }
-  
+
   .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: clamp(1rem, 3vw, 2rem);
     padding: clamp(1rem, 5vw, 2rem);
   }
-  
+
   .badge {
     @apply inline-flex items-center px-3 py-1 text-xs font-trek-admin font-medium uppercase tracking-wider;
     @apply rounded-full border transition-colors duration-300;
@@ -915,7 +1083,7 @@ body:not(.game-active) [role="button"] {
   .badge-secondary {
     @apply badge bg-secondary/20 text-secondary-foreground border-secondary/30 hover:bg-secondary/30;
   }
-  
+
   .badge-accent {
     @apply badge bg-accent/20 text-accent-foreground border-accent/30 hover:bg-accent/30;
   }
@@ -927,9 +1095,11 @@ body:not(.game-active) [role="button"] {
   .text-shadow-lg {
     text-shadow: 0 4px 8px hsl(var(--background) / 0.9);
   }
-  
+
   .text-glow {
-    text-shadow: 0 0 10px hsl(var(--primary) / 0.5), 0 0 20px hsl(var(--primary) / 0.3);
+    text-shadow:
+      0 0 10px hsl(var(--primary) / 0.5),
+      0 0 20px hsl(var(--primary) / 0.3);
   }
 
   /* LCARS-style data displays */
@@ -937,7 +1107,7 @@ body:not(.game-active) [role="button"] {
     @apply font-trek-tech text-accent bg-muted/50 px-3 py-1 rounded border-l-4 border-accent;
     letter-spacing: 0.1em;
   }
-  
+
   /* Trek-themed form elements */
   .trek-input {
     @apply bg-input border border-border rounded-md px-4 py-2;
@@ -945,7 +1115,7 @@ body:not(.game-active) [role="button"] {
     @apply focus:border-primary focus:ring-2 focus:ring-primary/20;
     @apply transition-all duration-300;
   }
-  
+
   /* Navigation elements */
   .trek-nav-link {
     @apply font-trek-content text-sm uppercase tracking-wider;
@@ -953,27 +1123,35 @@ body:not(.game-active) [role="button"] {
     @apply transition-colors duration-300;
     @apply relative;
   }
-  
+
   .trek-nav-link::after {
-    content: '';
+    content: "";
     @apply absolute bottom-0 left-0 w-0 h-0.5 bg-accent;
     @apply transition-all duration-300;
   }
-  
+
   .trek-nav-link:hover::after {
     @apply w-full;
   }
 
   /* ============= LCARS ENTERPRISE COMPONENTS ============= */
   /* Early 2000s enterprise software with Star Trek aesthetics */
-  
+
   /* LCARS 3D Buttons with beveled edges */
   .btn-lcars {
-    background: linear-gradient(135deg, hsl(var(--lcars-light-blue)), hsl(var(--lcars-dark-blue)));
+    background: linear-gradient(
+      135deg,
+      hsl(var(--lcars-light-blue)),
+      hsl(var(--lcars-dark-blue))
+    );
     border: 2px solid hsl(var(--lcars-blue));
     border-radius: 8px;
-    box-shadow: var(--lcars-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow:
+      var(--lcars-shadow),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
     font-family: var(--font-heading);
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -981,12 +1159,12 @@ body:not(.game-active) [role="button"] {
     color: hsl(0 0% 8%);
     font-weight: 600;
   }
-  
+
   .btn-lcars:hover {
     transform: translateY(-2px);
     box-shadow: var(--lcars-shadow-hover);
   }
-  
+
   .btn-lcars:active {
     transform: translateY(1px);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -994,14 +1172,22 @@ body:not(.game-active) [role="button"] {
 
   /* LCARS Secondary Button */
   .btn-lcars-secondary {
-    background: linear-gradient(135deg, hsl(var(--lcars-yellow)), hsl(var(--lcars-orange)));
+    background: linear-gradient(
+      135deg,
+      hsl(var(--lcars-yellow)),
+      hsl(var(--lcars-orange))
+    );
     border: 2px solid hsl(var(--lcars-yellow));
     color: hsl(0 0% 8%);
   }
 
   /* LCARS Alert Button */
   .btn-lcars-alert {
-    background: linear-gradient(135deg, hsl(var(--lcars-red)), hsl(var(--lcars-orange)));
+    background: linear-gradient(
+      135deg,
+      hsl(var(--lcars-red)),
+      hsl(var(--lcars-orange))
+    );
     border: 2px solid hsl(var(--lcars-red));
     color: hsl(0 0% 100%);
   }
@@ -1016,7 +1202,7 @@ body:not(.game-active) [role="button"] {
     border-bottom: 1px solid hsl(var(--border));
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-  
+
   .nav-lcars a {
     color: hsl(var(--lcars-yellow));
     font-family: var(--font-heading);
@@ -1027,7 +1213,7 @@ body:not(.game-active) [role="button"] {
     transition: all 0.3s ease;
     border: 1px solid transparent;
   }
-  
+
   .nav-lcars a:hover {
     background: hsl(var(--lcars-yellow) / 0.1);
     border-color: hsl(var(--lcars-yellow));
@@ -1052,13 +1238,18 @@ body:not(.game-active) [role="button"] {
   }
 
   .lcars-display-panel::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, hsl(var(--lcars-yellow)), hsl(var(--lcars-blue)), hsl(var(--lcars-red)));
+    background: linear-gradient(
+      90deg,
+      hsl(var(--lcars-yellow)),
+      hsl(var(--lcars-blue)),
+      hsl(var(--lcars-red))
+    );
   }
 
   .lcars-display-panel h3 {
@@ -1189,13 +1380,17 @@ body:not(.game-active) [role="button"] {
 
   .lcars-progress-bar {
     height: 100%;
-    background: linear-gradient(90deg, hsl(var(--lcars-blue)), hsl(var(--lcars-light-blue)));
+    background: linear-gradient(
+      90deg,
+      hsl(var(--lcars-blue)),
+      hsl(var(--lcars-light-blue))
+    );
     transition: width 0.5s ease;
     position: relative;
   }
 
   .lcars-progress-bar::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     right: 0;
@@ -1206,86 +1401,159 @@ body:not(.game-active) [role="button"] {
   }
 
   @keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
   }
 
   /* Sci-Fi Specific Animations */
   @keyframes data-stream {
-    0% { transform: translateY(100%); opacity: 0; }
-    50% { opacity: 1; }
-    100% { transform: translateY(-100%); opacity: 0; }
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
   }
 
   @keyframes glow-pulse {
-    0%, 100% { box-shadow: 0 0 5px hsl(var(--lcars-blue)), 0 0 10px hsl(var(--lcars-blue)); }
-    50% { box-shadow: 0 0 20px hsl(var(--lcars-blue)), 0 0 30px hsl(var(--lcars-blue)), 0 0 40px hsl(var(--lcars-blue)); }
+    0%,
+    100% {
+      box-shadow:
+        0 0 5px hsl(var(--lcars-blue)),
+        0 0 10px hsl(var(--lcars-blue));
+    }
+    50% {
+      box-shadow:
+        0 0 20px hsl(var(--lcars-blue)),
+        0 0 30px hsl(var(--lcars-blue)),
+        0 0 40px hsl(var(--lcars-blue));
+    }
   }
 
   @keyframes scan-line {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100vw); }
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100vw);
+    }
   }
 
   @keyframes scan {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(100%); }
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(100%);
+    }
   }
 
   @keyframes hologram-flicker {
-    0%, 100% { opacity: 1; }
-    97% { opacity: 1; }
-    98% { opacity: 0.8; }
-    99% { opacity: 0.9; }
+    0%,
+    100% {
+      opacity: 1;
+    }
+    97% {
+      opacity: 1;
+    }
+    98% {
+      opacity: 0.8;
+    }
+    99% {
+      opacity: 0.9;
+    }
   }
 
   @keyframes matrix-fall {
-    0% { transform: translateY(-100vh); }
-    100% { transform: translateY(100vh); }
+    0% {
+      transform: translateY(-100vh);
+    }
+    100% {
+      transform: translateY(100vh);
+    }
   }
 
   @keyframes energy-flow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
   }
 
   /* Cage Era Specific Animations */
   @keyframes pre-kirk-glow {
-    0%, 100% { text-shadow: 0 0 10px hsl(var(--lcars-yellow)), 0 0 20px hsl(var(--lcars-yellow)); }
-    50% { text-shadow: 0 0 20px hsl(var(--lcars-yellow)), 0 0 30px hsl(var(--lcars-yellow)), 0 0 40px hsl(var(--lcars-yellow)); }
+    0%,
+    100% {
+      text-shadow:
+        0 0 10px hsl(var(--lcars-yellow)),
+        0 0 20px hsl(var(--lcars-yellow));
+    }
+    50% {
+      text-shadow:
+        0 0 20px hsl(var(--lcars-yellow)),
+        0 0 30px hsl(var(--lcars-yellow)),
+        0 0 40px hsl(var(--lcars-yellow));
+    }
   }
 
   @keyframes enterprise-startup {
-    0% { opacity: 0; transform: scale(0.8) rotateY(-10deg); }
-    50% { opacity: 0.8; transform: scale(1.05) rotateY(5deg); }
-    100% { opacity: 1; transform: scale(1) rotateY(0deg); }
+    0% {
+      opacity: 0;
+      transform: scale(0.8) rotateY(-10deg);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.05) rotateY(5deg);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) rotateY(0deg);
+    }
   }
 
   @keyframes tactical-alert {
-    0%, 100% { background-color: transparent; }
-    50% { background-color: hsl(var(--lcars-red) / 0.2); }
+    0%,
+    100% {
+      background-color: transparent;
+    }
+    50% {
+      background-color: hsl(var(--lcars-red) / 0.2);
+    }
   }
 
   /* Glitch Effects for Lottie */
   @keyframes glitch-static {
-    0% { 
+    0% {
       background-position: 0 0;
       filter: hue-rotate(0deg);
     }
-    25% { 
+    25% {
       background-position: 2px 1px;
       filter: hue-rotate(90deg);
     }
-    50% { 
+    50% {
       background-position: -1px 2px;
       filter: hue-rotate(180deg);
     }
-    75% { 
+    75% {
       background-position: 1px -1px;
       filter: hue-rotate(270deg);
     }
-    100% { 
+    100% {
       background-position: 0 0;
       filter: hue-rotate(360deg);
     }
@@ -1313,7 +1581,13 @@ body:not(.game-active) [role="button"] {
   }
 
   .animate-energy {
-    background: linear-gradient(-45deg, hsl(var(--lcars-blue)), hsl(var(--lcars-light-blue)), hsl(var(--lcars-blue)), hsl(var(--lcars-light-blue)));
+    background: linear-gradient(
+      -45deg,
+      hsl(var(--lcars-blue)),
+      hsl(var(--lcars-light-blue)),
+      hsl(var(--lcars-blue)),
+      hsl(var(--lcars-light-blue))
+    );
     background-size: 400% 400%;
     animation: energy-flow 3s ease infinite;
   }
@@ -1392,8 +1666,11 @@ body:not(.game-active) [role="button"] {
 
   /* Circuit Pattern Background */
   .circuit-pattern {
-    background-image: 
-      radial-gradient(circle at 2px 2px, hsl(var(--primary) / 0.05) 1px, transparent 0);
+    background-image: radial-gradient(
+      circle at 2px 2px,
+      hsl(var(--primary) / 0.05) 1px,
+      transparent 0
+    );
     background-size: 20px 20px;
   }
 
@@ -1403,7 +1680,7 @@ body:not(.game-active) [role="button"] {
   }
 
   .lcars-corner::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -1415,7 +1692,7 @@ body:not(.game-active) [role="button"] {
   }
 
   .lcars-corner::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     right: 0;
@@ -1451,15 +1728,15 @@ body:not(.game-active) [role="button"] {
   .mobile-safe-area-top {
     padding-top: env(safe-area-inset-top);
   }
-  
+
   .mobile-safe-area-bottom {
     padding-bottom: env(safe-area-inset-bottom);
   }
-  
+
   .mobile-safe-area-left {
     padding-left: env(safe-area-inset-left);
   }
-  
+
   .mobile-safe-area-right {
     padding-right: env(safe-area-inset-right);
   }
@@ -1475,53 +1752,57 @@ body:not(.game-active) [role="button"] {
     align-items: center;
     justify-content: center;
   }
-  
+
   /* Optimize text sizes for mobile */
   .mobile-optimized-text {
     font-size: 16px !important; /* Prevents zoom on iOS */
     line-height: 1.5;
   }
-  
+
   /* Mobile navigation animations */
   .mobile-nav-enter {
     opacity: 0;
     transform: translateX(-100%);
   }
-  
+
   .mobile-nav-enter-active {
     opacity: 1;
     transform: translateX(0);
-    transition: opacity 300ms, transform 300ms;
+    transition:
+      opacity 300ms,
+      transform 300ms;
   }
-  
+
   .mobile-nav-exit {
     opacity: 1;
     transform: translateX(0);
   }
-  
+
   .mobile-nav-exit-active {
     opacity: 0;
     transform: translateX(-100%);
-    transition: opacity 300ms, transform 300ms;
+    transition:
+      opacity 300ms,
+      transform 300ms;
   }
-  
+
   /* Improve scrolling on mobile */
   .mobile-scroll-container {
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
     overscroll-behavior: contain;
   }
-  
+
   /* Hide scrollbars on mobile for cleaner look */
   .mobile-hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  
+
   .mobile-hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
-  
+
   /* Mobile-friendly cards */
   .mobile-card {
     margin: 0.5rem;
@@ -1529,13 +1810,13 @@ body:not(.game-active) [role="button"] {
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
-  
+
   /* Responsive tables for mobile */
   .mobile-table-stack {
     display: block;
     width: 100%;
   }
-  
+
   .mobile-table-stack thead,
   .mobile-table-stack tbody,
   .mobile-table-stack th,
@@ -1543,13 +1824,13 @@ body:not(.game-active) [role="button"] {
   .mobile-table-stack tr {
     display: block;
   }
-  
+
   .mobile-table-stack thead tr {
     position: absolute;
     top: -9999px;
     left: -9999px;
   }
-  
+
   .mobile-table-stack tr {
     border: 1px solid hsl(var(--border));
     margin-bottom: 12px;
@@ -1557,7 +1838,7 @@ body:not(.game-active) [role="button"] {
     border-radius: 8px;
     background: hsl(var(--card));
   }
-  
+
   .mobile-table-stack td {
     border: none !important;
     position: relative;
@@ -1566,7 +1847,7 @@ body:not(.game-active) [role="button"] {
     padding-bottom: 8px;
     text-align: right;
   }
-  
+
   .mobile-table-stack td:before {
     content: attr(data-label) ":";
     position: absolute;
@@ -1578,7 +1859,7 @@ body:not(.game-active) [role="button"] {
     color: hsl(var(--muted-foreground));
     text-align: left;
   }
-  
+
   /* Mobile button optimizations */
   .mobile-button {
     min-height: 44px;
@@ -1587,7 +1868,7 @@ body:not(.game-active) [role="button"] {
     border-radius: 8px;
     touch-action: manipulation;
   }
-  
+
   /* Mobile form optimizations */
   .mobile-form-input {
     min-height: 44px;
@@ -1595,29 +1876,37 @@ body:not(.game-active) [role="button"] {
     padding: 12px 16px;
     border-radius: 8px;
   }
-  
+
   /* Mobile spacing utilities */
-  .mobile-spacing-sm { padding: 0.5rem; }
-  .mobile-spacing-md { padding: 1rem; }
-  .mobile-spacing-lg { padding: 1.5rem; }
-  .mobile-spacing-xl { padding: 2rem; }
-  
+  .mobile-spacing-sm {
+    padding: 0.5rem;
+  }
+  .mobile-spacing-md {
+    padding: 1rem;
+  }
+  .mobile-spacing-lg {
+    padding: 1.5rem;
+  }
+  .mobile-spacing-xl {
+    padding: 2rem;
+  }
+
   /* Mobile grid optimizations */
   .mobile-grid-single {
     grid-template-columns: 1fr !important;
     gap: 1rem;
   }
-  
+
   .mobile-grid-double {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 0.75rem;
   }
-  
+
   /* Bottom navigation safe area */
   .mobile-bottom-nav {
     padding-bottom: calc(16px + env(safe-area-inset-bottom));
   }
-  
+
   /* Mobile modals and dialogs */
   .mobile-modal {
     margin: 0;
@@ -1628,14 +1917,14 @@ body:not(.game-active) [role="button"] {
     left: 0;
     right: 0;
   }
-  
+
   /* Mobile-optimized admin panels */
   .mobile-admin-card {
     padding: 1rem;
     margin: 0.5rem;
     border-radius: 12px;
   }
-  
+
   .mobile-admin-header {
     position: sticky;
     top: 0;
@@ -1645,12 +1934,12 @@ body:not(.game-active) [role="button"] {
     padding: 1rem;
     border-bottom: 1px solid hsl(var(--border));
   }
-  
+
   /* Slow Lottie Animation */
   .slow-lottie svg * {
     animation-duration: calc(var(--animation-duration, 1s) * 8) !important;
   }
-  
+
   .slow-lottie svg animateTransform,
   .slow-lottie svg animate {
     dur: 16s !important;
@@ -1668,45 +1957,45 @@ body:not(.game-active) [role="button"] {
 /* Canon-accurate colors verified against ENT Blu-ray frames */
 .theme-nx-2151 {
   /* Core Colors - Dark navy gray, NOT brown */
-  --background: 210 30% 8%;        /* #0F1419 - bridge panels & screen base */
-  --foreground: 0 0% 100%;         /* #FFFFFF - pure white text, maximum contrast */
-  --card: 200 15% 14%;             /* #1E2529 - raised console surfaces */
+  --background: 210 30% 8%; /* #0F1419 - bridge panels & screen base */
+  --foreground: 0 0% 100%; /* #FFFFFF - pure white text, maximum contrast */
+  --card: 200 15% 14%; /* #1E2529 - raised console surfaces */
   --card-foreground: 0 0% 100%;
   --popover: 200 15% 14%;
   --popover-foreground: 0 0% 100%;
-  
+
   /* Message Bubbles - High Contrast Guaranteed */
-  --message-sent: 210 100% 40%;     /* Dark blue - sent messages */
+  --message-sent: 210 100% 40%; /* Dark blue - sent messages */
   --message-sent-foreground: 0 0% 100%;
-  --message-received: 200 15% 18%;  /* Slightly lighter gray - received */
+  --message-received: 200 15% 18%; /* Slightly lighter gray - received */
   --message-received-foreground: 0 0% 100%;
-  
+
   /* Primary - "Enterprise Blue" (exact uniform match) */
-  --primary: 210 100% 45%;         /* #0066CC - signature NX-era blue */
+  --primary: 210 100% 45%; /* #0066CC - signature NX-era blue */
   --primary-foreground: 0 0% 100%;
-  --primary-glow: 210 100% 65%;    /* #3399FF - active button glow */
-  
+  --primary-glow: 210 100% 65%; /* #3399FF - active button glow */
+
   /* Secondary - Cyan schematics/graphs */
-  --secondary: 192 100% 50%;       /* #00CCFF - scanner lines, wireframes */
+  --secondary: 192 100% 50%; /* #00CCFF - scanner lines, wireframes */
   --secondary-foreground: 0 0% 100%;
-  
+
   /* Accent - Engineering amber */
-  --accent: 36 100% 40%;           /* #CC9900 - warp status, engineering */
+  --accent: 36 100% 40%; /* #CC9900 - warp status, engineering */
   --accent-foreground: 0 0% 100%;
-  
+
   /* Muted */
-  --muted: 195 10% 20%;            /* #2D363A - deepest recesses */
+  --muted: 195 10% 20%; /* #2D363A - deepest recesses */
   --muted-foreground: 200 10% 92%; /* #E5E7EB - secondary readouts */
-  
+
   /* Destructive - Safety orange/red alerts */
-  --destructive: 18 100% 40%;      /* #CC4400 - alerts, weapons, damage */
+  --destructive: 18 100% 40%; /* #CC4400 - alerts, weapons, damage */
   --destructive-foreground: 0 0% 100%;
-  
+
   /* Border/Input/Ring */
-  --border: 210 40% 40%;           /* Inactive blue-gray borders */
+  --border: 210 40% 40%; /* Inactive blue-gray borders */
   --input: 200 15% 14%;
-  --ring: 210 100% 65%;            /* Active blue glow */
-  
+  --ring: 210 100% 65%; /* Active blue glow */
+
   /* Sidebar */
   --sidebar: 200 15% 14%;
   --sidebar-foreground: 0 0% 100%;
@@ -1716,7 +2005,7 @@ body:not(.game-active) [role="button"] {
   --sidebar-accent-foreground: 0 0% 100%;
   --sidebar-border: 210 40% 40%;
   --sidebar-ring: 210 100% 65%;
-  
+
   /* Axanar Colors mapped to NX palette */
   --axanar-blue: 210 100% 45%;
   --axanar-teal: 192 100% 50%;
@@ -1724,29 +2013,29 @@ body:not(.game-active) [role="button"] {
   --axanar-accent: 210 100% 65%;
   --axanar-dark: 210 30% 8%;
   --axanar-light: 200 15% 14%;
-  
+
   /* Effects - No glassmorphism, sharp industrial look */
   --lcars-blur: 0px;
   --card-glassmorphism: transparent;
   --radius: 4px; /* Square-ish corners like actual NX-01 screens */
-  
+
   /* LCARS Slab Navigation Colors */
   --lcars-slab-primary: 210 100% 45%; /* Enterprise Blue */
   --lcars-slab-primary-active: 210 100% 65%;
   --lcars-slab-primary-foreground: 0 0% 100%;
-  
+
   --lcars-slab-secondary: 192 100% 50%; /* Cyan */
   --lcars-slab-secondary-active: 192 100% 70%;
   --lcars-slab-secondary-foreground: 0 0% 100%;
-  
+
   --lcars-slab-alert: 18 100% 40%; /* Safety Orange */
   --lcars-slab-alert-active: 18 100% 60%;
   --lcars-slab-alert-foreground: 0 0% 100%;
-  
+
   --lcars-slab-accent: 36 100% 40%; /* Amber */
   --lcars-slab-accent-active: 36 100% 60%;
   --lcars-slab-accent-foreground: 0 0% 100%;
-  
+
   --lcars-slab-info: 210 100% 45%; /* Blue */
   --lcars-slab-info-active: 210 100% 65%;
   --lcars-slab-info-foreground: 0 0% 100%;
@@ -1760,10 +2049,14 @@ body:not(.game-active) [role="button"] {
 /* Cards - Metallic industrial panels with 3D bevels */
 .theme-nx-2151 .daystrom-card,
 .theme-nx-2151 .card {
-  background: linear-gradient(180deg, hsl(200 15% 16%), hsl(200 15% 14%)) !important;
+  background: linear-gradient(
+    180deg,
+    hsl(200 15% 16%),
+    hsl(200 15% 14%)
+  ) !important;
   border: 2px solid hsl(210 40% 40%) !important;
   border-radius: 4px !important;
-  box-shadow: 
+  box-shadow:
     inset 0 4px 8px hsl(210 20% 30% / 0.6),
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
     0 2px 4px rgba(0, 0, 0, 0.4) !important;
@@ -1773,9 +2066,13 @@ body:not(.game-active) [role="button"] {
 .theme-nx-2151 button {
   min-height: 72px !important; /* Thumb-friendly for gaming handhelds */
   border-radius: 4px !important;
-  background: linear-gradient(180deg, hsl(200 15% 16%), hsl(200 15% 14%)) !important;
+  background: linear-gradient(
+    180deg,
+    hsl(200 15% 16%),
+    hsl(200 15% 14%)
+  ) !important;
   border: 3px solid hsl(210 40% 40%) !important;
-  box-shadow: 
+  box-shadow:
     inset 0 4px 8px hsl(210 20% 30% / 0.6),
     0 0 8px hsl(210 100% 70% / 0.2) !important;
   color: hsl(0 0% 100%) !important;
@@ -1789,8 +2086,12 @@ body:not(.game-active) [role="button"] {
 .theme-nx-2151 button:focus-visible,
 .theme-nx-2151 button.active {
   border-color: hsl(210 100% 65%) !important; /* Enterprise blue glow */
-  background: linear-gradient(180deg, hsl(210 30% 18%), hsl(200 15% 16%)) !important;
-  box-shadow: 
+  background: linear-gradient(
+    180deg,
+    hsl(210 30% 18%),
+    hsl(200 15% 16%)
+  ) !important;
+  box-shadow:
     inset 0 4px 12px hsl(210 100% 70% / 0.4),
     0 0 20px hsl(210 100% 70%) !important; /* Strong blue halo */
 }
@@ -1806,39 +2107,39 @@ body:not(.game-active) [role="button"] {
   --card-foreground: 0 0% 10%;
   --popover: 40 15% 96%;
   --popover-foreground: 0 0% 10%;
-  
+
   /* Message Bubbles - High Contrast Guaranteed */
-  --message-sent: 30 85% 45%;       /* Warm orange - sent */
+  --message-sent: 30 85% 45%; /* Warm orange - sent */
   --message-sent-foreground: 0 0% 100%;
-  --message-received: 40 15% 85%;   /* Light warm gray - received */
+  --message-received: 40 15% 85%; /* Light warm gray - received */
   --message-received-foreground: 0 0% 10%;
-  
+
   /* Primary */
   --primary: 30 85% 50%;
   --primary-foreground: 0 0% 100%;
   --primary-glow: 30 90% 60%;
-  
+
   /* Secondary */
   --secondary: 195 70% 40%;
   --secondary-foreground: 0 0% 100%;
-  
+
   /* Accent */
   --accent: 30 85% 50%;
   --accent-foreground: 0 0% 100%;
-  
+
   /* Muted */
   --muted: 40 10% 85%;
   --muted-foreground: 0 0% 35%;
-  
+
   /* Destructive */
   --destructive: 0 70% 45%;
   --destructive-foreground: 0 0% 100%;
-  
+
   /* Border/Input/Ring */
   --border: 30 20% 75%;
   --input: 40 15% 90%;
   --ring: 30 85% 50%;
-  
+
   /* Sidebar */
   --sidebar: 40 15% 94%;
   --sidebar-foreground: 0 0% 10%;
@@ -1848,7 +2149,7 @@ body:not(.game-active) [role="button"] {
   --sidebar-accent-foreground: 0 0% 100%;
   --sidebar-border: 30 20% 75%;
   --sidebar-ring: 30 85% 50%;
-  
+
   /* Axanar Colors */
   --axanar-blue: 220 60% 50%;
   --axanar-teal: 195 70% 45%;
@@ -1856,29 +2157,29 @@ body:not(.game-active) [role="button"] {
   --axanar-accent: 30 85% 50%;
   --axanar-dark: 0 0% 20%;
   --axanar-light: 40 15% 92%;
-  
+
   /* Effects */
   --lcars-blur: 0px;
   --card-glassmorphism: transparent;
   --radius: 8px;
-  
+
   /* LCARS Slab Navigation Colors */
   --lcars-slab-primary: 30 85% 50%; /* Warm Orange */
   --lcars-slab-primary-active: 30 95% 65%;
   --lcars-slab-primary-foreground: 0 0% 0%;
-  
+
   --lcars-slab-secondary: 195 70% 40%; /* Steel Teal */
   --lcars-slab-secondary-active: 195 80% 55%;
   --lcars-slab-secondary-foreground: 0 0% 100%;
-  
+
   --lcars-slab-alert: 0 84% 60%; /* Bright Red */
   --lcars-slab-alert-active: 0 90% 70%;
   --lcars-slab-alert-foreground: 0 0% 100%;
-  
+
   --lcars-slab-accent: 45 90% 50%; /* Golden */
   --lcars-slab-accent-active: 45 100% 65%;
   --lcars-slab-accent-foreground: 0 0% 0%;
-  
+
   --lcars-slab-info: 220 60% 50%; /* Deep Blue */
   --lcars-slab-info-active: 220 70% 65%;
   --lcars-slab-info-foreground: 0 0% 100%;
@@ -1914,39 +2215,39 @@ body:not(.game-active) [role="button"] {
   --card-foreground: 30 80% 85%;
   --popover: 220 20% 15%;
   --popover-foreground: 30 80% 85%;
-  
+
   /* Message Bubbles - High Contrast Guaranteed */
-  --message-sent: 30 95% 50%;       /* Bright orange - sent */
+  --message-sent: 30 95% 50%; /* Bright orange - sent */
   --message-sent-foreground: 220 20% 12%;
-  --message-received: 220 20% 20%;  /* Dark gray-blue - received */
+  --message-received: 220 20% 20%; /* Dark gray-blue - received */
   --message-received-foreground: 30 80% 85%;
-  
+
   /* Primary */
   --primary: 30 95% 55%;
   --primary-foreground: 220 20% 12%;
   --primary-glow: 30 100% 65%;
-  
+
   /* Secondary */
   --secondary: 195 70% 55%;
   --secondary-foreground: 220 20% 12%;
-  
+
   /* Accent */
   --accent: 30 95% 55%;
   --accent-foreground: 220 20% 12%;
-  
+
   /* Muted */
   --muted: 220 15% 22%;
   --muted-foreground: 30 40% 65%;
-  
+
   /* Destructive */
   --destructive: 0 70% 55%;
   --destructive-foreground: 0 0% 100%;
-  
+
   /* Border/Input/Ring */
   --border: 220 15% 25%;
   --input: 220 20% 18%;
   --ring: 30 95% 55%;
-  
+
   /* Sidebar */
   --sidebar: 220 20% 15%;
   --sidebar-foreground: 30 80% 85%;
@@ -1956,7 +2257,7 @@ body:not(.game-active) [role="button"] {
   --sidebar-accent-foreground: 220 20% 12%;
   --sidebar-border: 220 15% 25%;
   --sidebar-ring: 30 95% 55%;
-  
+
   /* Axanar Colors */
   --axanar-blue: 220 60% 40%;
   --axanar-teal: 195 70% 55%;
@@ -1964,29 +2265,29 @@ body:not(.game-active) [role="button"] {
   --axanar-accent: 30 95% 55%;
   --axanar-dark: 220 20% 8%;
   --axanar-light: 220 15% 22%;
-  
+
   /* Effects */
   --lcars-blur: 4px;
   --card-glassmorphism: 30 95% 55% / 0.03;
   --radius: 10px;
-  
+
   /* LCARS Slab Navigation Colors */
   --lcars-slab-primary: 30 95% 55%; /* Bright Orange */
   --lcars-slab-primary-active: 30 100% 70%;
   --lcars-slab-primary-foreground: 220 20% 12%;
-  
+
   --lcars-slab-secondary: 195 70% 55%; /* Teal */
   --lcars-slab-secondary-active: 195 80% 70%;
   --lcars-slab-secondary-foreground: 220 20% 12%;
-  
+
   --lcars-slab-alert: 0 70% 55%; /* Red */
   --lcars-slab-alert-active: 0 80% 70%;
   --lcars-slab-alert-foreground: 0 0% 100%;
-  
+
   --lcars-slab-accent: 45 90% 60%; /* Gold */
   --lcars-slab-accent-active: 45 100% 75%;
   --lcars-slab-accent-foreground: 220 20% 12%;
-  
+
   --lcars-slab-info: 220 60% 50%; /* Blue */
   --lcars-slab-info-active: 220 70% 65%;
   --lcars-slab-info-foreground: 0 0% 100%;
@@ -1994,7 +2295,11 @@ body:not(.game-active) [role="button"] {
 
 .theme-hercules-mk4-dark .daystrom-card,
 .theme-hercules-mk4-dark .card {
-  background: linear-gradient(135deg, hsl(220 20% 15% / 0.9), hsl(220 22% 13% / 0.9)) !important;
+  background: linear-gradient(
+    135deg,
+    hsl(220 20% 15% / 0.9),
+    hsl(220 22% 13% / 0.9)
+  ) !important;
   border: 1px solid hsl(220 15% 28%) !important;
   border-radius: 12px !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
@@ -2003,13 +2308,21 @@ body:not(.game-active) [role="button"] {
 
 .theme-hercules-mk4-dark button {
   border-radius: 10px !important;
-  background: linear-gradient(135deg, hsl(220 20% 18%), hsl(220 22% 20%)) !important;
+  background: linear-gradient(
+    135deg,
+    hsl(220 20% 18%),
+    hsl(220 22% 20%)
+  ) !important;
   border: 1px solid hsl(30 60% 45%) !important;
   font-size: 13px !important;
 }
 
 .theme-hercules-mk4-dark button:hover {
-  background: linear-gradient(135deg, hsl(220 20% 22%), hsl(220 22% 24%)) !important;
+  background: linear-gradient(
+    135deg,
+    hsl(220 20% 22%),
+    hsl(220 22% 24%)
+  ) !important;
   box-shadow: 0 0 12px hsl(30 95% 55% / 0.3) !important;
 }
 
@@ -2022,39 +2335,39 @@ body:not(.game-active) [role="button"] {
   --card-foreground: 45 100% 88%;
   --popover: 0 40% 10%;
   --popover-foreground: 45 100% 88%;
-  
+
   /* Message Bubbles - High Contrast Guaranteed */
-  --message-sent: 0 100% 45%;       /* Bright alert red - sent */
+  --message-sent: 0 100% 45%; /* Bright alert red - sent */
   --message-sent-foreground: 45 100% 88%;
-  --message-received: 0 40% 15%;    /* Dark red - received */
+  --message-received: 0 40% 15%; /* Dark red - received */
   --message-received-foreground: 45 100% 88%;
-  
+
   /* Primary */
   --primary: 30 100% 50%;
   --primary-foreground: 0 0% 0%;
   --primary-glow: 0 100% 60%;
-  
+
   /* Secondary */
   --secondary: 0 80% 40%;
   --secondary-foreground: 45 100% 88%;
-  
+
   /* Accent */
   --accent: 60 100% 90%;
   --accent-foreground: 0 0% 0%;
-  
+
   /* Muted */
   --muted: 0 40% 15%;
   --muted-foreground: 45 80% 75%;
-  
+
   /* Destructive */
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
-  
+
   /* Border/Input/Ring */
   --border: 45 90% 50%;
   --input: 0 40% 12%;
   --ring: 30 100% 50%;
-  
+
   /* Sidebar */
   --sidebar: 0 40% 10%;
   --sidebar-foreground: 45 100% 88%;
@@ -2064,7 +2377,7 @@ body:not(.game-active) [role="button"] {
   --sidebar-accent-foreground: 0 0% 0%;
   --sidebar-border: 45 90% 50%;
   --sidebar-ring: 30 100% 50%;
-  
+
   /* Axanar Colors */
   --axanar-blue: 0 60% 25%;
   --axanar-teal: 195 80% 60%;
@@ -2072,47 +2385,56 @@ body:not(.game-active) [role="button"] {
   --axanar-accent: 30 100% 50%;
   --axanar-dark: 0 40% 5%;
   --axanar-light: 0 40% 15%;
-  
+
   /* Effects */
   --lcars-blur: 0px;
   --card-glassmorphism: 0 100% 30% / 0.04;
   --radius: 6px;
-  
+
   /* LCARS Slab Navigation Colors */
   --lcars-slab-primary: 30 100% 50%; /* Emergency Amber */
   --lcars-slab-primary-active: 45 100% 88%;
   --lcars-slab-primary-foreground: 0 0% 0%;
-  
+
   --lcars-slab-secondary: 0 80% 40%; /* Dark Red */
   --lcars-slab-secondary-active: 0 90% 55%;
   --lcars-slab-secondary-foreground: 45 100% 88%;
-  
+
   --lcars-slab-alert: 0 84% 60%; /* Bright Red Alert */
   --lcars-slab-alert-active: 0 100% 75%;
   --lcars-slab-alert-foreground: 0 0% 0%;
-  
+
   --lcars-slab-accent: 60 100% 90%; /* Bright Amber */
   --lcars-slab-accent-active: 60 100% 95%;
   --lcars-slab-accent-foreground: 0 0% 0%;
-  
+
   --lcars-slab-info: 30 100% 50%; /* Orange */
   --lcars-slab-info-active: 30 100% 70%;
   --lcars-slab-info-foreground: 0 0% 0%;
 }
 
 .theme-mark-v-wartime::before {
-  content: '';
+  content: "";
   position: fixed;
   inset: 0;
-  background: linear-gradient(180deg, transparent 0%, hsl(0 100% 20% / 0.15) 100%);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    hsl(0 100% 20% / 0.15) 100%
+  );
   pointer-events: none;
   z-index: 0;
   animation: bloodPulse 3s ease-in-out infinite;
 }
 
 @keyframes bloodPulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.7; }
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 .theme-mark-v-wartime .lcars-edge-bar {
@@ -2122,14 +2444,21 @@ body:not(.game-active) [role="button"] {
 }
 
 @keyframes alertPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }
 
 .theme-mark-v-wartime button {
   border: 1px solid hsl(0 80% 50%) !important;
   background: hsl(0 40% 12%) !important;
-  box-shadow: 0 0 10px hsl(0 100% 50% / 0.2), inset 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+  box-shadow:
+    0 0 10px hsl(0 100% 50% / 0.2),
+    inset 0 1px 2px rgba(0, 0, 0, 0.5) !important;
 }
 
 .theme-mark-v-wartime button:hover {
@@ -2144,13 +2473,18 @@ body:not(.game-active) [role="button"] {
 }
 
 @keyframes glowPulse {
-  0%, 100% { box-shadow: 0 0 5px hsl(30 100% 50% / 0.3); }
-  50% { box-shadow: 0 0 15px hsl(30 100% 50% / 0.6); }
+  0%,
+  100% {
+    box-shadow: 0 0 5px hsl(30 100% 50% / 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px hsl(30 100% 50% / 0.6);
+  }
 }
 
 /* Scanline damage effect */
 .theme-mark-v-wartime::after {
-  content: '';
+  content: "";
   position: fixed;
   inset: 0;
   background: repeating-linear-gradient(
@@ -2174,39 +2508,39 @@ body:not(.game-active) [role="button"] {
   --card-foreground: 30 95% 85%;
   --popover: 0 50% 10%;
   --popover-foreground: 30 95% 85%;
-  
+
   /* Message Bubbles - High Contrast Guaranteed */
-  --message-sent: 10 90% 40%;       /* Deep blood red - sent */
+  --message-sent: 10 90% 40%; /* Deep blood red - sent */
   --message-sent-foreground: 30 95% 85%;
-  --message-received: 0 50% 15%;    /* Very dark red - received */
+  --message-received: 0 50% 15%; /* Very dark red - received */
   --message-received-foreground: 30 95% 85%;
-  
+
   /* Primary */
   --primary: 10 90% 50%;
   --primary-foreground: 0 0% 0%;
   --primary-glow: 10 100% 60%;
-  
+
   /* Secondary */
   --secondary: 0 80% 35%;
   --secondary-foreground: 30 95% 85%;
-  
+
   /* Accent */
   --accent: 30 100% 50%;
   --accent-foreground: 0 0% 0%;
-  
+
   /* Muted */
   --muted: 0 50% 15%;
   --muted-foreground: 30 70% 70%;
-  
+
   /* Destructive */
   --destructive: 0 90% 55%;
   --destructive-foreground: 0 0% 100%;
-  
+
   /* Border/Input/Ring */
   --border: 0 60% 25%;
   --input: 0 50% 12%;
   --ring: 30 100% 50%;
-  
+
   /* Sidebar */
   --sidebar: 0 50% 10%;
   --sidebar-foreground: 30 95% 85%;
@@ -2216,7 +2550,7 @@ body:not(.game-active) [role="button"] {
   --sidebar-accent-foreground: 0 0% 0%;
   --sidebar-border: 0 60% 25%;
   --sidebar-ring: 30 100% 50%;
-  
+
   /* Axanar Colors */
   --axanar-blue: 0 60% 20%;
   --axanar-teal: 30 100% 50%;
@@ -2224,29 +2558,29 @@ body:not(.game-active) [role="button"] {
   --axanar-accent: 10 90% 50%;
   --axanar-dark: 0 50% 5%;
   --axanar-light: 0 50% 15%;
-  
+
   /* Effects */
   --lcars-blur: 0px;
   --card-glassmorphism: transparent;
   --radius: 0px;
-  
+
   /* LCARS Slab Navigation Colors */
   --lcars-slab-primary: 10 90% 50%; /* Blood Red */
   --lcars-slab-primary-active: 10 100% 70%;
   --lcars-slab-primary-foreground: 0 0% 100%;
-  
+
   --lcars-slab-secondary: 0 70% 35%; /* Dark Crimson */
   --lcars-slab-secondary-active: 0 80% 50%;
   --lcars-slab-secondary-foreground: 30 95% 85%;
-  
+
   --lcars-slab-alert: 0 84% 60%; /* Bright Red */
   --lcars-slab-alert-active: 0 90% 75%;
   --lcars-slab-alert-foreground: 0 0% 100%;
-  
+
   --lcars-slab-accent: 30 95% 85%; /* Off-White */
   --lcars-slab-accent-active: 30 100% 95%;
   --lcars-slab-accent-foreground: 0 0% 0%;
-  
+
   --lcars-slab-info: 10 80% 40%; /* Deep Red */
   --lcars-slab-info-active: 10 90% 55%;
   --lcars-slab-info-foreground: 0 0% 100%;
@@ -2254,16 +2588,32 @@ body:not(.game-active) [role="button"] {
 
 .theme-klingon-d7 .daystrom-card,
 .theme-klingon-d7 .card {
-  background: linear-gradient(135deg, hsl(0 50% 10%), hsl(10 55% 12%)) !important;
+  background: linear-gradient(
+    135deg,
+    hsl(0 50% 10%),
+    hsl(10 55% 12%)
+  ) !important;
   border: 2px solid hsl(10 80% 40%) !important;
   border-radius: 0px !important; /* Angular Klingon aesthetic */
-  box-shadow: 0 0 20px hsl(10 90% 50% / 0.2), inset 0 2px 0 hsl(10 100% 40% / 0.1) !important;
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+  box-shadow:
+    0 0 20px hsl(10 90% 50% / 0.2),
+    inset 0 2px 0 hsl(10 100% 40% / 0.1) !important;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 8px),
+    calc(100% - 8px) 100%,
+    0 100%
+  );
 }
 
 .theme-klingon-d7 button {
   border-radius: 0px !important;
-  background: linear-gradient(135deg, hsl(0 60% 15%), hsl(10 65% 18%)) !important;
+  background: linear-gradient(
+    135deg,
+    hsl(0 60% 15%),
+    hsl(10 65% 18%)
+  ) !important;
   border: 2px solid hsl(10 80% 45%) !important;
   box-shadow: 0 0 15px hsl(10 90% 50% / 0.3) !important;
   font-family: var(--font-klingon), var(--font-heading) !important;
@@ -2274,13 +2624,17 @@ body:not(.game-active) [role="button"] {
 }
 
 .theme-klingon-d7 button:hover {
-  background: linear-gradient(135deg, hsl(0 70% 20%), hsl(10 75% 22%)) !important;
+  background: linear-gradient(
+    135deg,
+    hsl(0 70% 20%),
+    hsl(10 75% 22%)
+  ) !important;
   box-shadow: 0 0 25px hsl(10 90% 50% / 0.5) !important;
   transform: translateY(-1px);
 }
 
-.theme-klingon-d7 h1, 
-.theme-klingon-d7 h2, 
+.theme-klingon-d7 h1,
+.theme-klingon-d7 h2,
 .theme-klingon-d7 h3 {
   font-family: var(--font-klingon), var(--font-heading) !important;
   letter-spacing: 0.08em;
@@ -2297,39 +2651,39 @@ body:not(.game-active) [role="button"] {
   --card-foreground: 190 85% 85%;
   --popover: 220 15% 18%;
   --popover-foreground: 190 85% 85%;
-  
+
   /* Message Bubbles - High Contrast Guaranteed */
-  --message-sent: 207 90% 45%;      /* Deep blue - sent */
+  --message-sent: 207 90% 45%; /* Deep blue - sent */
   --message-sent-foreground: 190 85% 85%;
-  --message-received: 220 15% 22%;  /* Dark gray - received */
+  --message-received: 220 15% 22%; /* Dark gray - received */
   --message-received-foreground: 190 85% 85%;
-  
+
   /* Primary */
   --primary: 207 90% 54%;
   --primary-foreground: 0 0% 100%;
   --primary-glow: 207 90% 64%;
-  
+
   /* Secondary */
   --secondary: 30 100% 50%;
   --secondary-foreground: 0 0% 0%;
-  
+
   /* Accent */
   --accent: 4 90% 58%;
   --accent-foreground: 0 0% 100%;
-  
+
   /* Muted */
   --muted: 220 15% 22%;
   --muted-foreground: 195 60% 70%;
-  
+
   /* Destructive */
   --destructive: 4 90% 58%;
   --destructive-foreground: 0 0% 100%;
-  
+
   /* Border/Input/Ring */
   --border: 220 15% 25%;
   --input: 220 15% 20%;
   --ring: 207 90% 54%;
-  
+
   /* Sidebar */
   --sidebar: 220 15% 18%;
   --sidebar-foreground: 190 85% 85%;
@@ -2339,7 +2693,7 @@ body:not(.game-active) [role="button"] {
   --sidebar-accent-foreground: 0 0% 0%;
   --sidebar-border: 220 15% 25%;
   --sidebar-ring: 207 90% 54%;
-  
+
   /* Axanar Colors */
   --axanar-blue: 207 90% 54%;
   --axanar-teal: 195 80% 60%;
@@ -2347,29 +2701,29 @@ body:not(.game-active) [role="button"] {
   --axanar-accent: 30 100% 50%;
   --axanar-dark: 220 15% 12%;
   --axanar-light: 220 15% 22%;
-  
+
   /* Effects */
   --lcars-blur: 0px;
   --card-glassmorphism: transparent;
   --radius: 6px;
-  
+
   /* LCARS Slab Navigation Colors */
   --lcars-slab-primary: 207 90% 54%; /* Classic TOS Blue */
   --lcars-slab-primary-active: 207 90% 70%;
   --lcars-slab-primary-foreground: 0 0% 100%;
-  
+
   --lcars-slab-secondary: 30 100% 50%; /* Orange */
   --lcars-slab-secondary-active: 30 100% 65%;
   --lcars-slab-secondary-foreground: 0 0% 0%;
-  
+
   --lcars-slab-alert: 4 90% 58%; /* Red */
   --lcars-slab-alert-active: 4 95% 70%;
   --lcars-slab-alert-foreground: 0 0% 100%;
-  
+
   --lcars-slab-accent: 195 80% 60%; /* Cyan */
   --lcars-slab-accent-active: 195 90% 75%;
   --lcars-slab-accent-foreground: 0 0% 0%;
-  
+
   --lcars-slab-info: 220 60% 50%; /* Deep Blue */
   --lcars-slab-info-active: 220 70% 65%;
   --lcars-slab-info-foreground: 0 0% 100%;
@@ -2402,39 +2756,39 @@ body:not(.game-active) [role="button"] {
   --card-foreground: 25 100% 88%;
   --popover: 0 0% 5%;
   --popover-foreground: 25 100% 88%;
-  
+
   /* Message Bubbles - High Contrast Guaranteed */
-  --message-sent: 16 100% 40%;      /* Deep orange-red - sent */
+  --message-sent: 16 100% 40%; /* Deep orange-red - sent */
   --message-sent-foreground: 25 100% 88%;
-  --message-received: 0 0% 8%;      /* Very dark gray - received */
+  --message-received: 0 0% 8%; /* Very dark gray - received */
   --message-received-foreground: 25 100% 88%;
-  
+
   /* Primary */
   --primary: 12 100% 60%;
   --primary-foreground: 0 0% 0%;
   --primary-glow: 25 100% 50%;
-  
+
   /* Secondary */
   --secondary: 195 80% 55%;
   --secondary-foreground: 0 0% 0%;
-  
+
   /* Accent */
   --accent: 35 100% 90%;
   --accent-foreground: 0 0% 0%;
-  
+
   /* Muted */
   --muted: 0 0% 12%;
   --muted-foreground: 12 80% 70%;
-  
+
   /* Destructive */
   --destructive: 0 90% 60%;
   --destructive-foreground: 0 0% 100%;
-  
+
   /* Border/Input/Ring */
   --border: 12 60% 30%;
   --input: 0 0% 8%;
   --ring: 12 100% 60%;
-  
+
   /* Sidebar */
   --sidebar: 0 0% 5%;
   --sidebar-foreground: 25 100% 88%;
@@ -2444,7 +2798,7 @@ body:not(.game-active) [role="button"] {
   --sidebar-accent-foreground: 0 0% 0%;
   --sidebar-border: 12 60% 30%;
   --sidebar-ring: 12 100% 60%;
-  
+
   /* Axanar Colors */
   --axanar-blue: 0 0% 5%;
   --axanar-teal: 195 80% 55%;
@@ -2452,29 +2806,29 @@ body:not(.game-active) [role="button"] {
   --axanar-accent: 12 100% 60%;
   --axanar-dark: 0 0% 0%;
   --axanar-light: 0 0% 12%;
-  
+
   /* Effects */
   --lcars-blur: 0px;
   --card-glassmorphism: transparent;
   --radius: 24px;
-  
+
   /* LCARS Slab Navigation Colors */
   --lcars-slab-primary: 12 100% 60%; /* Warm Orange-Red */
   --lcars-slab-primary-active: 25 100% 88%;
   --lcars-slab-primary-foreground: 0 0% 0%;
-  
+
   --lcars-slab-secondary: 210 30% 70%; /* Cool Blue-Gray */
   --lcars-slab-secondary-active: 210 50% 85%;
   --lcars-slab-secondary-foreground: 0 0% 0%;
-  
+
   --lcars-slab-alert: 0 90% 60%; /* Bright Red */
   --lcars-slab-alert-active: 0 100% 75%;
   --lcars-slab-alert-foreground: 0 0% 0%;
-  
+
   --lcars-slab-accent: 40 40% 75%; /* Muted Gold-Tan */
   --lcars-slab-accent-active: 40 40% 85%;
   --lcars-slab-accent-foreground: 0 0% 15%;
-  
+
   --lcars-slab-info: 210 40% 60%; /* Medium Blue */
   --lcars-slab-info-active: 210 50% 75%;
   --lcars-slab-info-foreground: 0 0% 0%;
@@ -2485,14 +2839,16 @@ body:not(.game-active) [role="button"] {
   background: hsl(0 0% 5%) !important;
   border: 2px solid hsl(12 100% 60%) !important;
   border-radius: 24px !important; /* FIRST TRUE PILLS! */
-  box-shadow: 0 0 20px hsl(12 100% 60% / 0.3), 0 4px 8px rgba(0, 0, 0, 0.5) !important;
+  box-shadow:
+    0 0 20px hsl(12 100% 60% / 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.5) !important;
 }
 
 .theme-tmp-refit-2273 button {
   border-radius: 999px !important;
-  background: hsl(0 0% 20%) !important;           /* Dark gray TMP console base */
-  color: hsl(30 20% 92%) !important;               /* Warm beige text */
-  border: 3px solid hsl(210 30% 70%) !important;   /* Cool blue-gray border */
+  background: hsl(0 0% 20%) !important; /* Dark gray TMP console base */
+  color: hsl(30 20% 92%) !important; /* Warm beige text */
+  border: 3px solid hsl(210 30% 70%) !important; /* Cool blue-gray border */
   box-shadow: 0 0 8px hsl(210 30% 70% / 0.3) !important; /* Soft blue halo */
   font-size: 14px !important;
   padding: 12px 32px !important;
@@ -2508,8 +2864,8 @@ body:not(.game-active) [role="button"] {
 .theme-tmp-refit-2273 button.accent,
 .theme-tmp-refit-2273 .btn-lcars,
 .theme-tmp-refit-2273 .btn-lcars-secondary {
-  background: hsl(40 40% 75%) !important;         /* Muted gold-tan (ST III screens) */
-  color: hsl(0 0% 15%) !important;                 /* Dark gray text - high contrast */
+  background: hsl(40 40% 75%) !important; /* Muted gold-tan (ST III screens) */
+  color: hsl(0 0% 15%) !important; /* Dark gray text - high contrast */
   border: 3px solid hsl(40 40% 60%) !important;
   box-shadow: 0 0 12px hsl(40 40% 75% / 0.5) !important;
 }
@@ -2523,8 +2879,12 @@ body:not(.game-active) [role="button"] {
 
 /* Data crawl animation for TMP era */
 @keyframes data-crawl-slow {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .theme-tmp-refit-2273 .lcars-data-line {
@@ -2540,39 +2900,39 @@ body:not(.game-active) [role="button"] {
   --card-foreground: 25 100% 88%;
   --popover: 0 0% 5%;
   --popover-foreground: 25 100% 88%;
-  
+
   /* Message Bubbles - High Contrast Guaranteed */
-  --message-sent: 20 100% 40%;      /* Deep orange - sent */
+  --message-sent: 20 100% 40%; /* Deep orange - sent */
   --message-sent-foreground: 25 100% 88%;
-  --message-received: 0 0% 8%;      /* Very dark gray - received */
+  --message-received: 0 0% 8%; /* Very dark gray - received */
   --message-received-foreground: 25 100% 88%;
-  
+
   /* Primary */
   --primary: 24 100% 60%;
   --primary-foreground: 0 0% 0%;
   --primary-glow: 30 100% 65%;
-  
+
   /* Secondary */
   --secondary: 270 60% 55%;
   --secondary-foreground: 0 0% 100%;
-  
+
   /* Accent */
   --accent: 35 100% 90%;
   --accent-foreground: 0 0% 0%;
-  
+
   /* Muted */
   --muted: 0 0% 12%;
   --muted-foreground: 24 80% 70%;
-  
+
   /* Destructive */
   --destructive: 0 85% 60%;
   --destructive-foreground: 0 0% 100%;
-  
+
   /* Border/Input/Ring */
   --border: 24 60% 35%;
   --input: 0 0% 8%;
   --ring: 24 100% 60%;
-  
+
   /* Sidebar */
   --sidebar: 0 0% 5%;
   --sidebar-foreground: 25 100% 88%;
@@ -2582,7 +2942,7 @@ body:not(.game-active) [role="button"] {
   --sidebar-accent-foreground: 0 0% 100%;
   --sidebar-border: 24 60% 35%;
   --sidebar-ring: 24 100% 60%;
-  
+
   /* Axanar Colors */
   --axanar-blue: 0 0% 5%;
   --axanar-teal: 195 80% 55%;
@@ -2590,7 +2950,7 @@ body:not(.game-active) [role="button"] {
   --axanar-accent: 24 100% 60%;
   --axanar-dark: 0 0% 0%;
   --axanar-light: 0 0% 12%;
-  
+
   /* Effects */
   --lcars-blur: 2px;
   --card-glassmorphism: 24 100% 60% / 0.02;
@@ -2602,15 +2962,17 @@ body:not(.game-active) [role="button"] {
   background: hsl(0 0% 5%) !important;
   border: 2px solid hsl(24 100% 60%) !important;
   border-radius: 28px !important; /* Even rounder pills */
-  box-shadow: 0 0 15px hsl(24 100% 60% / 0.3), 0 4px 8px rgba(0, 0, 0, 0.4) !important;
+  box-shadow:
+    0 0 15px hsl(24 100% 60% / 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.4) !important;
   backdrop-filter: blur(2px);
 }
 
 .theme-excelsior-2285 button {
   border-radius: 24px !important;
-  background: hsl(0 0% 20%) !important;           /* Dark gray panel */
-  color: hsl(30 20% 92%) !important;               /* Warm beige text */
-  border: 3px solid hsl(210 30% 70%) !important;   /* Cool blue-gray border */
+  background: hsl(0 0% 20%) !important; /* Dark gray panel */
+  color: hsl(30 20% 92%) !important; /* Warm beige text */
+  border: 3px solid hsl(210 30% 70%) !important; /* Cool blue-gray border */
   box-shadow: 0 0 8px hsl(210 30% 70% / 0.3) !important;
   font-size: 14px !important;
   padding: 10px 28px !important;
@@ -2642,8 +3004,8 @@ body:not(.game-active) [role="button"] {
 /* Excelsior secondary/alert buttons - darker purple with light text */
 .theme-excelsior-2285 button.secondary,
 .theme-excelsior-2285 .btn-lcars-alert {
-  background: hsl(270 40% 35%) !important;        /* Darker purple */
-  color: hsl(270 30% 92%) !important;              /* Light lavender text */
+  background: hsl(270 40% 35%) !important; /* Darker purple */
+  color: hsl(270 30% 92%) !important; /* Light lavender text */
   border: 3px solid hsl(270 50% 50%) !important;
   box-shadow: 0 0 12px hsl(270 40% 50% / 0.4) !important;
 }
@@ -2656,8 +3018,12 @@ body:not(.game-active) [role="button"] {
 
 /* Faster data crawl for Excelsior era */
 @keyframes data-crawl-fast {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .theme-excelsior-2285 .lcars-data-line {
@@ -2675,39 +3041,39 @@ body:not(.game-active) [role="button"] {
   --card-foreground: 260 70% 88%;
   --popover: 260 25% 14%;
   --popover-foreground: 260 70% 88%;
-  
+
   /* Message Bubbles - High Contrast Guaranteed */
-  --message-sent: 260 80% 45%;      /* Deep purple - sent */
+  --message-sent: 260 80% 45%; /* Deep purple - sent */
   --message-sent-foreground: 260 70% 88%;
-  --message-received: 260 25% 18%;  /* Dark purple-gray - received */
+  --message-received: 260 25% 18%; /* Dark purple-gray - received */
   --message-received-foreground: 260 70% 88%;
-  
+
   /* Primary */
   --primary: 260 70% 60%;
   --primary-foreground: 0 0% 100%;
   --primary-glow: 260 80% 70%;
-  
+
   /* Secondary */
   --secondary: 195 70% 60%;
   --secondary-foreground: 0 0% 0%;
-  
+
   /* Accent */
   --accent: 260 60% 65%;
   --accent-foreground: 0 0% 100%;
-  
+
   /* Muted */
   --muted: 260 20% 20%;
   --muted-foreground: 280 60% 78%;
-  
+
   /* Destructive */
   --destructive: 0 70% 55%;
   --destructive-foreground: 0 0% 100%;
-  
+
   /* Border/Input/Ring */
   --border: 260 35% 35%;
   --input: 260 25% 18%;
   --ring: 260 70% 60%;
-  
+
   /* Sidebar */
   --sidebar: 260 25% 14%;
   --sidebar-foreground: 260 70% 88%;
@@ -2717,7 +3083,7 @@ body:not(.game-active) [role="button"] {
   --sidebar-accent-foreground: 0 0% 0%;
   --sidebar-border: 260 35% 35%;
   --sidebar-ring: 260 70% 60%;
-  
+
   /* Axanar Colors */
   --axanar-blue: 260 70% 40%;
   --axanar-teal: 195 70% 60%;
@@ -2725,29 +3091,29 @@ body:not(.game-active) [role="button"] {
   --axanar-accent: 260 70% 60%;
   --axanar-dark: 260 25% 8%;
   --axanar-light: 260 20% 20%;
-  
+
   /* Effects */
   --lcars-blur: 12px;
   --card-glassmorphism: 260 70% 60% / 0.06;
   --radius: 14px;
-  
+
   /* LCARS Slab Navigation Colors */
   --lcars-slab-primary: 260 70% 60%; /* Soft Purple */
   --lcars-slab-primary-active: 260 80% 75%;
   --lcars-slab-primary-foreground: 0 0% 0%;
-  
+
   --lcars-slab-secondary: 310 60% 55%; /* Magenta-Purple */
   --lcars-slab-secondary-active: 310 70% 70%;
   --lcars-slab-secondary-foreground: 0 0% 100%;
-  
+
   --lcars-slab-alert: 0 80% 60%; /* Red */
   --lcars-slab-alert-active: 0 90% 75%;
   --lcars-slab-alert-foreground: 0 0% 100%;
-  
+
   --lcars-slab-accent: 195 70% 60%; /* Teal */
   --lcars-slab-accent-active: 195 80% 75%;
   --lcars-slab-accent-foreground: 0 0% 0%;
-  
+
   --lcars-slab-info: 220 60% 55%; /* Deep Blue */
   --lcars-slab-info-active: 220 70% 70%;
   --lcars-slab-info-foreground: 0 0% 100%;
@@ -2755,7 +3121,11 @@ body:not(.game-active) [role="button"] {
 
 .theme-ambassador-2350 .daystrom-card,
 .theme-ambassador-2350 .card {
-  background: linear-gradient(135deg, hsl(260 25% 12% / 0.7), hsl(240 30% 15% / 0.7));
+  background: linear-gradient(
+    135deg,
+    hsl(260 25% 12% / 0.7),
+    hsl(240 30% 15% / 0.7)
+  );
   backdrop-filter: blur(12px);
   border: 1px solid hsl(260 50% 45%);
 }
@@ -2775,39 +3145,39 @@ body:not(.game-active) [role="button"] {
   --card-foreground: 30 85% 88%;
   --popover: 220 15% 17%;
   --popover-foreground: 30 85% 88%;
-  
+
   /* Message Bubbles - High Contrast Guaranteed */
-  --message-sent: 30 100% 45%;      /* Bright peach/orange - sent */
+  --message-sent: 30 100% 45%; /* Bright peach/orange - sent */
   --message-sent-foreground: 0 0% 0%;
-  --message-received: 220 15% 22%;  /* Dark gray-blue - received */
+  --message-received: 220 15% 22%; /* Dark gray-blue - received */
   --message-received-foreground: 30 85% 88%;
-  
+
   /* Primary */
   --primary: 30 100% 70%;
   --primary-foreground: 0 0% 0%;
   --primary-glow: 30 100% 80%;
-  
+
   /* Secondary */
   --secondary: 195 70% 65%;
   --secondary-foreground: 0 0% 0%;
-  
+
   /* Accent */
   --accent: 15 90% 70%;
   --accent-foreground: 0 0% 0%;
-  
+
   /* Muted */
   --muted: 220 15% 22%;
   --muted-foreground: 30 70% 78%;
-  
+
   /* Destructive */
   --destructive: 0 75% 60%;
   --destructive-foreground: 0 0% 100%;
-  
+
   /* Border/Input/Ring */
   --border: 30 30% 40%;
   --input: 220 15% 20%;
   --ring: 30 100% 70%;
-  
+
   /* Sidebar */
   --sidebar: 220 15% 17%;
   --sidebar-foreground: 30 85% 88%;
@@ -2817,7 +3187,7 @@ body:not(.game-active) [role="button"] {
   --sidebar-accent-foreground: 0 0% 0%;
   --sidebar-border: 30 30% 40%;
   --sidebar-ring: 30 100% 70%;
-  
+
   /* Axanar Colors */
   --axanar-blue: 195 70% 50%;
   --axanar-teal: 195 70% 65%;
@@ -2825,29 +3195,29 @@ body:not(.game-active) [role="button"] {
   --axanar-accent: 30 100% 70%;
   --axanar-dark: 220 15% 12%;
   --axanar-light: 220 15% 22%;
-  
+
   /* Effects */
   --lcars-blur: 16px;
   --card-glassmorphism: 30 100% 70% / 0.05;
   --radius: 16px;
-  
+
   /* LCARS Slab Navigation Colors */
   --lcars-slab-primary: 30 100% 70%; /* Peachy Orange */
   --lcars-slab-primary-active: 30 100% 85%;
   --lcars-slab-primary-foreground: 0 0% 0%;
-  
+
   --lcars-slab-secondary: 260 70% 65%; /* Soft Purple */
   --lcars-slab-secondary-active: 260 80% 80%;
   --lcars-slab-secondary-foreground: 0 0% 0%;
-  
+
   --lcars-slab-alert: 0 80% 65%; /* Coral Red */
   --lcars-slab-alert-active: 0 90% 80%;
   --lcars-slab-alert-foreground: 0 0% 0%;
-  
+
   --lcars-slab-accent: 195 70% 65%; /* Light Teal */
   --lcars-slab-accent-active: 195 80% 80%;
   --lcars-slab-accent-foreground: 0 0% 0%;
-  
+
   --lcars-slab-info: 220 50% 60%; /* Medium Blue */
   --lcars-slab-info-active: 220 60% 75%;
   --lcars-slab-info-foreground: 0 0% 100%;
@@ -2877,39 +3247,39 @@ body:not(.game-active) [role="button"] {
   --card-foreground: 260 60% 88%;
   --popover: 260 20% 12%;
   --popover-foreground: 260 60% 88%;
-  
+
   /* Message Bubbles - High Contrast Guaranteed */
-  --message-sent: 30 100% 45%;      /* Bright orange - sent */
+  --message-sent: 30 100% 45%; /* Bright orange - sent */
   --message-sent-foreground: 0 0% 0%;
-  --message-received: 260 20% 18%;  /* Dark purple-gray - received */
+  --message-received: 260 20% 18%; /* Dark purple-gray - received */
   --message-received-foreground: 260 60% 88%;
-  
+
   /* Primary */
   --primary: 260 80% 65%;
   --primary-foreground: 0 0% 100%;
   --primary-glow: 260 90% 75%;
-  
+
   /* Secondary */
   --secondary: 195 70% 60%;
   --secondary-foreground: 0 0% 0%;
-  
+
   /* Accent */
   --accent: 260 20% 18%;
   --accent-foreground: 260 60% 88%;
-  
+
   /* Muted */
   --muted: 260 20% 18%;
   --muted-foreground: 280 60% 78%;
-  
+
   /* Destructive */
   --destructive: 0 70% 55%;
   --destructive-foreground: 0 0% 100%;
-  
+
   /* Border/Input/Ring */
   --border: 260 30% 30%;
   --input: 260 20% 15%;
   --ring: 260 80% 65%;
-  
+
   /* Sidebar */
   --sidebar: 260 20% 12%;
   --sidebar-foreground: 260 60% 88%;
@@ -2919,7 +3289,7 @@ body:not(.game-active) [role="button"] {
   --sidebar-accent-foreground: 0 0% 0%;
   --sidebar-border: 260 30% 30%;
   --sidebar-ring: 260 80% 65%;
-  
+
   /* Axanar Colors */
   --axanar-blue: 260 70% 45%;
   --axanar-teal: 195 70% 60%;
@@ -2927,7 +3297,7 @@ body:not(.game-active) [role="button"] {
   --axanar-accent: 260 80% 65%;
   --axanar-dark: 260 20% 8%;
   --axanar-light: 260 20% 18%;
-  
+
   /* Effects */
   --lcars-blur: 14px;
   --card-glassmorphism: 260 80% 65% / 0.05;
@@ -2936,7 +3306,11 @@ body:not(.game-active) [role="button"] {
 
 .theme-defiant-2371 .daystrom-card,
 .theme-defiant-2371 .card {
-  background: linear-gradient(135deg, hsl(260 20% 10% / 0.85), hsl(280 25% 12% / 0.85));
+  background: linear-gradient(
+    135deg,
+    hsl(260 20% 10% / 0.85),
+    hsl(280 25% 12% / 0.85)
+  );
   backdrop-filter: blur(14px);
   border: 1px solid hsl(260 50% 40%);
 }
@@ -2950,39 +3324,39 @@ body:not(.game-active) [role="button"] {
   --card-foreground: 190 85% 85%;
   --popover: 220 20% 7%;
   --popover-foreground: 190 85% 85%;
-  
+
   /* Message Bubbles - High Contrast Guaranteed */
-  --message-sent: 195 100% 40%;     /* Deep cyan - sent */
+  --message-sent: 195 100% 40%; /* Deep cyan - sent */
   --message-sent-foreground: 190 85% 85%;
-  --message-received: 220 20% 12%;  /* Very dark gray - received */
+  --message-received: 220 20% 12%; /* Very dark gray - received */
   --message-received-foreground: 190 85% 85%;
-  
+
   /* Primary */
   --primary: 195 100% 60%;
   --primary-foreground: 0 0% 0%;
   --primary-glow: 195 100% 75%;
-  
+
   /* Secondary */
   --secondary: 30 100% 55%;
   --secondary-foreground: 0 0% 0%;
-  
+
   /* Accent */
   --accent: 220 25% 12%;
   --accent-foreground: 195 100% 90%;
-  
+
   /* Muted */
   --muted: 220 20% 12%;
   --muted-foreground: 195 80% 80%;
-  
+
   /* Destructive */
   --destructive: 0 80% 60%;
   --destructive-foreground: 0 0% 100%;
-  
+
   /* Border/Input/Ring */
   --border: 195 50% 35%;
   --input: 220 20% 10%;
   --ring: 195 100% 60%;
-  
+
   /* Sidebar */
   --sidebar: 220 20% 7%;
   --sidebar-foreground: 190 85% 85%;
@@ -2992,7 +3366,7 @@ body:not(.game-active) [role="button"] {
   --sidebar-accent-foreground: 0 0% 0%;
   --sidebar-border: 195 50% 35%;
   --sidebar-ring: 195 100% 60%;
-  
+
   /* Axanar Colors */
   --axanar-blue: 195 100% 40%;
   --axanar-teal: 195 100% 60%;
@@ -3000,29 +3374,29 @@ body:not(.game-active) [role="button"] {
   --axanar-accent: 195 90% 65%;
   --axanar-dark: 220 20% 3%;
   --axanar-light: 220 20% 12%;
-  
+
   /* Effects */
   --lcars-blur: 0px;
   --card-glassmorphism: transparent;
   --radius: 4px;
-  
+
   /* LCARS Slab Navigation Colors */
   --lcars-slab-primary: 195 100% 60%; /* Cyan */
   --lcars-slab-primary-active: 195 100% 75%;
   --lcars-slab-primary-foreground: 0 0% 0%;
-  
+
   --lcars-slab-secondary: 30 100% 60%; /* Orange */
   --lcars-slab-secondary-active: 30 100% 75%;
   --lcars-slab-secondary-foreground: 0 0% 0%;
-  
+
   --lcars-slab-alert: 0 90% 60%;
   --lcars-slab-alert-active: 0 100% 75%;
   --lcars-slab-alert-foreground: 0 0% 0%;
-  
+
   --lcars-slab-accent: 280 80% 60%;
   --lcars-slab-accent-active: 280 90% 75%;
   --lcars-slab-accent-foreground: 0 0% 100%;
-  
+
   --lcars-slab-info: 220 80% 65%;
   --lcars-slab-info-active: 220 90% 80%;
   --lcars-slab-info-foreground: 0 0% 0%;
@@ -3235,7 +3609,7 @@ a:focus-visible,
 
 /* Single clean left elbow - vertical bar with rounded top */
 .lcars-hero-banner::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -12px;
@@ -3247,7 +3621,7 @@ a:focus-visible,
 
 /* Bottom accent line extending from elbow */
 .lcars-hero-banner::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -3284,7 +3658,7 @@ a:focus-visible,
 }
 
 .lcars-cap::before {
-  content: '';
+  content: "";
   display: block;
   width: 16px;
   height: 100%;
@@ -3301,7 +3675,7 @@ a:focus-visible,
 }
 
 .lcars-endcap-l::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -3317,7 +3691,7 @@ a:focus-visible,
 }
 
 .lcars-endcap-r::after {
-  content: '';
+  content: "";
   position: absolute;
   right: 0;
   top: 0;
@@ -3386,8 +3760,13 @@ a:focus-visible,
 
 /* Pulsing glow for alerts */
 @keyframes lcars-pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px hsl(var(--destructive) / 0.4); }
-  50% { box-shadow: 0 0 20px hsl(var(--destructive) / 0.7); }
+  0%,
+  100% {
+    box-shadow: 0 0 8px hsl(var(--destructive) / 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px hsl(var(--destructive) / 0.7);
+  }
 }
 
 .lcars-pulse-critical {
@@ -3395,8 +3774,13 @@ a:focus-visible,
 }
 
 @keyframes lcars-pulse-warning {
-  0%, 100% { box-shadow: 0 0 8px hsl(48 100% 50% / 0.4); }
-  50% { box-shadow: 0 0 20px hsl(48 100% 50% / 0.7); }
+  0%,
+  100% {
+    box-shadow: 0 0 8px hsl(48 100% 50% / 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px hsl(48 100% 50% / 0.7);
+  }
 }
 
 .lcars-pulse-warning {
@@ -3422,7 +3806,7 @@ a:focus-visible,
 }
 
 .lcars-divider-capped::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: -4px;
@@ -3444,7 +3828,7 @@ a:focus-visible,
 }
 
 .lcars-alert-card::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -3482,7 +3866,7 @@ a:focus-visible,
 }
 
 .lcars-queue-item:hover::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -3532,7 +3916,7 @@ a:focus-visible,
 }
 
 .lcars-frame-top::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -3542,7 +3926,7 @@ a:focus-visible,
 }
 
 .lcars-frame-top::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -3560,7 +3944,7 @@ a:focus-visible,
 }
 
 .lcars-frame-left::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -3581,7 +3965,7 @@ a:focus-visible,
 }
 
 .lcars-search::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -3617,7 +4001,7 @@ a:focus-visible,
 
 .lcars-table-header::before,
 .lcars-table-header::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   bottom: 0;
@@ -3645,7 +4029,7 @@ a:focus-visible,
 }
 
 .lcars-table-row:hover::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -3670,7 +4054,7 @@ a:focus-visible,
 
 /* Vertical elbow bar on left */
 .lcars-footer::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -3682,7 +4066,7 @@ a:focus-visible,
 
 /* Horizontal connector bar extending from elbow */
 .lcars-footer::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 8px;
   top: 50%;
@@ -3718,13 +4102,17 @@ a:focus-visible,
 
 /* Header glow effect */
 .lcars-dossier-header::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, hsl(var(--primary) / 0.1) 0%, transparent 50%);
+  background: linear-gradient(
+    90deg,
+    hsl(var(--primary) / 0.1) 0%,
+    transparent 50%
+  );
   pointer-events: none;
 }
 
@@ -3746,21 +4134,37 @@ a:focus-visible,
 
 /* Scan line animation for portrait */
 .lcars-portrait-frame::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.5), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(var(--primary) / 0.5),
+    transparent
+  );
   animation: portrait-scan 4s ease-in-out infinite;
   pointer-events: none;
 }
 
 @keyframes portrait-scan {
-  0%, 100% { top: 0; opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { top: 100%; opacity: 0; }
+  0%,
+  100% {
+    top: 0;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
 }
 
 /* ============= DATA BLOCKS ============= */
@@ -3886,7 +4290,7 @@ a:focus-visible,
 }
 
 .lcars-dossier-section-framed::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -3897,7 +4301,7 @@ a:focus-visible,
 }
 
 .lcars-dossier-section-framed::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -3962,7 +4366,7 @@ a:focus-visible,
 }
 
 .lcars-dossier-footer::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -3973,7 +4377,7 @@ a:focus-visible,
 }
 
 .lcars-dossier-footer::after {
-  content: '';
+  content: "";
   position: absolute;
   right: 0;
   top: 0;
@@ -4014,10 +4418,11 @@ a:focus-visible,
 /* ============= DOSSIER ANIMATIONS ============= */
 
 @keyframes dossier-glow-pulse {
-  0%, 100% { 
+  0%,
+  100% {
     box-shadow: 0 0 10px hsl(var(--primary) / 0.2);
   }
-  50% { 
+  50% {
     box-shadow: 0 0 20px hsl(var(--primary) / 0.4);
   }
 }
@@ -4028,8 +4433,12 @@ a:focus-visible,
 
 /* Plasma flow animation for header bar */
 @keyframes dossier-plasma-flow {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
 }
 
 .lcars-dossier-plasma {
@@ -4061,8 +4470,18 @@ a:focus-visible,
   animation: dossier-slide-in 0.4s ease-out forwards;
 }
 
-.lcars-dossier-animate-in:nth-child(1) { animation-delay: 0.1s; }
-.lcars-dossier-animate-in:nth-child(2) { animation-delay: 0.2s; }
-.lcars-dossier-animate-in:nth-child(3) { animation-delay: 0.3s; }
-.lcars-dossier-animate-in:nth-child(4) { animation-delay: 0.4s; }
-.lcars-dossier-animate-in:nth-child(5) { animation-delay: 0.5s; }
+.lcars-dossier-animate-in:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.lcars-dossier-animate-in:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.lcars-dossier-animate-in:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.lcars-dossier-animate-in:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.lcars-dossier-animate-in:nth-child(5) {
+  animation-delay: 0.5s;
+}
