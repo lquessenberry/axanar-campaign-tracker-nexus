@@ -1,7 +1,14 @@
-import { useState, useRef } from "react";
-import { Tv, Radio, ChevronUp, ChevronDown, SkipForward, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  ChevronDown,
+  ChevronUp,
+  MessageSquare,
+  Radio,
+  SkipForward,
+  Tv,
+} from "lucide-react";
+import { useRef, useState } from "react";
 import { VideoDiscussionModal } from "./VideoDiscussionModal";
 
 interface Video {
@@ -17,21 +24,28 @@ interface LiveTVChannelProps {
   playlistNames: string[];
 }
 
-export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChannelProps) {
+export function LiveTVChannel({
+  videos,
+  playlists,
+  playlistNames,
+}: LiveTVChannelProps) {
   const [currentChannel, setCurrentChannel] = useState<string | null>(
-    playlistNames[0] || null
+    playlistNames[0] || null,
   );
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [discussionOpen, setDiscussionOpen] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  
-  const channelVideos = currentChannel ? playlists[currentChannel] || [] : videos;
+
+  const channelVideos = currentChannel
+    ? playlists[currentChannel] || []
+    : videos;
   const currentChannelIndex = playlistNames.indexOf(currentChannel || "") + 1;
-  
+
   // Get current video from index
   const video = channelVideos[currentVideoIndex] || channelVideos[0] || null;
-  const nextVideo = channelVideos[(currentVideoIndex + 1) % channelVideos.length];
-  
+  const nextVideo =
+    channelVideos[(currentVideoIndex + 1) % channelVideos.length];
+
   // Stable embed URL - only changes when video_id changes
   const embedUrl = video
     ? `https://www.youtube.com/embed/${video.video_id}?autoplay=1&rel=0&modestbranding=1`
@@ -44,13 +58,13 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
   const handleChannelChange = (direction: "prev" | "next") => {
     const currentIdx = playlistNames.indexOf(currentChannel || "");
     let newIndex: number;
-    
+
     if (direction === "next") {
       newIndex = (currentIdx + 1) % playlistNames.length;
     } else {
       newIndex = currentIdx <= 0 ? playlistNames.length - 1 : currentIdx - 1;
     }
-    
+
     setCurrentChannel(playlistNames[newIndex]);
     setCurrentVideoIndex(0); // Reset to first video of new channel
   };
@@ -64,15 +78,14 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
     <div className="relative">
       {/* TV Unit */}
       <div className="bg-gradient-to-b from-zinc-900 to-black rounded-xl overflow-hidden shadow-2xl shadow-black/50 border border-zinc-800">
-        
-        <div className="flex">
+        <div className="flex flex-col sm:flex-row">
           {/* Left: Screen */}
           <div className="flex-1 p-3">
             {/* Inner screen frame */}
             <div className="relative rounded-lg overflow-hidden bg-black ring-1 ring-zinc-700 shadow-inner">
               {/* Vignette */}
               <div className="absolute inset-0 pointer-events-none z-10 shadow-[inset_0_0_80px_rgba(0,0,0,0.7)]" />
-              
+
               {/* Video */}
               <div className="aspect-video">
                 {embedUrl ? (
@@ -94,7 +107,7 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
                   </div>
                 )}
               </div>
-              
+
               {/* On-screen display */}
               <div className="absolute top-3 left-3 z-20 pointer-events-none">
                 <div className="flex items-center gap-2 bg-black/70 backdrop-blur-sm px-2.5 py-1 rounded">
@@ -102,16 +115,18 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
                   </span>
-                  <span className="text-xs font-bold text-white tracking-wider">LIVE</span>
+                  <span className="text-xs font-bold text-white tracking-wider">
+                    LIVE
+                  </span>
                 </div>
               </div>
             </div>
-            
+
             {/* Now Playing bar */}
             <div className="mt-3 flex items-center gap-3">
               {video && (
                 <div className="w-16 h-9 rounded overflow-hidden flex-shrink-0 bg-zinc-800">
-                  <img 
+                  <img
                     src={`https://img.youtube.com/vi/${video.video_id}/mqdefault.jpg`}
                     alt=""
                     className="w-full h-full object-cover"
@@ -127,7 +142,7 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
                   {video?.title || "No video"}
                 </h3>
               </div>
-              
+
               {/* Skip button */}
               <Button
                 variant="ghost"
@@ -138,7 +153,7 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
               >
                 <SkipForward className="w-4 h-4" />
               </Button>
-              
+
               {/* Discussion button */}
               <Button
                 variant="ghost"
@@ -151,17 +166,50 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
               </Button>
             </div>
           </div>
-          
-          {/* Right: Channel List */}
-          <div className="w-48 border-l border-zinc-800 bg-zinc-900/50 flex flex-col">
-            {/* Channel header */}
-            <div className="p-3 border-b border-zinc-800">
-              <div className="text-[10px] text-zinc-500 uppercase tracking-wider">Channels</div>
-              <div className="text-lg font-bold text-white tabular-nums">
-                CH {currentChannelIndex.toString().padStart(2, '0')}
+
+          {/* Mobile Channel Strip */}
+          <div className="flex sm:hidden items-center justify-between px-3 py-2 border-t border-zinc-800 bg-zinc-900/50">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleChannelChange("prev")}
+              className="h-8 px-2 text-zinc-400 hover:text-white hover:bg-zinc-700"
+            >
+              <ChevronUp className="w-4 h-4" />
+            </Button>
+            <div className="text-center">
+              <div className="text-[10px] text-zinc-500 uppercase tracking-wider">
+                Channel
+              </div>
+              <div className="text-sm font-bold text-white tabular-nums">
+                CH {currentChannelIndex.toString().padStart(2, "0")}
+              </div>
+              <div className="text-[10px] text-zinc-400 truncate max-w-[200px]">
+                {currentChannel}
               </div>
             </div>
-            
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleChannelChange("next")}
+              className="h-8 px-2 text-zinc-400 hover:text-white hover:bg-zinc-700"
+            >
+              <ChevronDown className="w-4 h-4" />
+            </Button>
+          </div>
+
+          {/* Right: Channel List (desktop) */}
+          <div className="hidden sm:flex w-48 border-l border-zinc-800 bg-zinc-900/50 flex-col">
+            {/* Channel header */}
+            <div className="p-3 border-b border-zinc-800">
+              <div className="text-[10px] text-zinc-500 uppercase tracking-wider">
+                Channels
+              </div>
+              <div className="text-lg font-bold text-white tabular-nums">
+                CH {currentChannelIndex.toString().padStart(2, "0")}
+              </div>
+            </div>
+
             {/* Channel nav */}
             <Button
               variant="ghost"
@@ -171,7 +219,7 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
             >
               <ChevronUp className="w-4 h-4" />
             </Button>
-            
+
             {/* Channel list */}
             <ScrollArea className="flex-1">
               <div className="p-1.5 space-y-1">
@@ -181,16 +229,19 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
                     onClick={() => handleSelectChannel(name)}
                     className={`
                       w-full px-2 py-2 rounded text-left transition-all flex items-center gap-2
-                      ${currentChannel === name 
-                        ? 'bg-primary text-primary-foreground' 
-                        : 'bg-zinc-800/50 text-zinc-400 hover:bg-zinc-700 hover:text-white'
+                      ${
+                        currentChannel === name
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-zinc-800/50 text-zinc-400 hover:bg-zinc-700 hover:text-white"
                       }
                     `}
                   >
-                    <span className={`
+                    <span
+                      className={`
                       w-6 h-6 rounded flex items-center justify-center text-xs font-bold flex-shrink-0
-                      ${currentChannel === name ? 'bg-white/20' : 'bg-zinc-700'}
-                    `}>
+                      ${currentChannel === name ? "bg-white/20" : "bg-zinc-700"}
+                    `}
+                    >
                       {i + 1}
                     </span>
                     <span className="text-xs truncate">{name}</span>
@@ -198,7 +249,7 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
                 ))}
               </div>
             </ScrollArea>
-            
+
             {/* Channel nav */}
             <Button
               variant="ghost"
@@ -208,24 +259,28 @@ export function LiveTVChannel({ videos, playlists, playlistNames }: LiveTVChanne
             >
               <ChevronDown className="w-4 h-4" />
             </Button>
-            
+
             {/* Up next */}
             {nextVideo && nextVideo.video_id !== video?.video_id && (
               <div className="p-3 border-t border-zinc-800 bg-zinc-900">
-                <div className="text-[10px] text-zinc-500 uppercase tracking-wider mb-1">Up Next</div>
-                <p className="text-xs text-zinc-300 line-clamp-2">{nextVideo.title}</p>
+                <div className="text-[10px] text-zinc-500 uppercase tracking-wider mb-1">
+                  Up Next
+                </div>
+                <p className="text-xs text-zinc-300 line-clamp-2">
+                  {nextVideo.title}
+                </p>
               </div>
             )}
           </div>
         </div>
-        
+
         {/* TV base accent */}
         <div className="h-1 bg-gradient-to-r from-transparent via-zinc-600 to-transparent" />
       </div>
-      
+
       {/* Ambient glow */}
       <div className="absolute -inset-4 -z-10 bg-primary/5 blur-3xl rounded-full opacity-50" />
-      
+
       {/* Discussion Modal */}
       {video && (
         <VideoDiscussionModal
