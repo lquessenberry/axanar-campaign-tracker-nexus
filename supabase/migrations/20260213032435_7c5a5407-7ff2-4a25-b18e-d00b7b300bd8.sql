@@ -1,0 +1,1 @@
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS dual_path_bonus INTEGER DEFAULT 0;
