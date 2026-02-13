@@ -47,10 +47,10 @@ const HowToEarnARES = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <Navigation />
 
-      <div className="container mx-auto px-4 py-16 max-w-7xl">
+      <div className="container mx-auto px-4 py-8 sm:py-16 max-w-7xl overflow-hidden">
         <div className="flex gap-8 relative">
           {/* Mobile TOC Toggle */}
           <button
@@ -88,10 +88,13 @@ const HowToEarnARES = () => {
           </aside>
 
           {/* Main Content */}
-          <main className="flex-1 max-w-4xl">
+          <main className="flex-1 min-w-0 max-w-4xl">
             {/* Hero Section */}
             <div className="text-center mb-12">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-axanar-teal to-blue-400 bg-clip-text text-transparent">
+              <h1
+                className="text-2xl sm:text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-axanar-teal to-blue-400 bg-clip-text text-transparent"
+                style={{ overflowWrap: "break-word", wordBreak: "break-word" }}
+              >
                 Rewards & Recognition
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -103,8 +106,8 @@ const HowToEarnARES = () => {
             <section id="physical-perks">
               <Card className="mb-12 border-2 border-yellow-500/30 bg-gradient-to-br from-yellow-500/5 to-orange-500/5">
                 <CardHeader>
-                  <CardTitle className="text-3xl flex items-center gap-2 justify-center">
-                    <Package className="h-8 w-8 text-yellow-500" />
+                  <CardTitle className="text-xl sm:text-3xl flex items-center gap-2 justify-center text-center">
+                    <Package className="h-6 w-6 sm:h-8 sm:w-8 text-yellow-500 shrink-0" />
                     Campaign Perks & Physical Rewards
                   </CardTitle>
                 </CardHeader>
@@ -412,8 +415,8 @@ const HowToEarnARES = () => {
             <section id="ares-system">
               <div className="mb-8">
                 <div className="text-center mb-6">
-                  <h2 className="text-3xl font-bold mb-2 flex items-center justify-center gap-2">
-                    <Sparkles className="h-7 w-7 text-axanar-teal" />
+                  <h2 className="text-xl sm:text-3xl font-bold mb-2 flex items-center justify-center gap-2 text-center">
+                    <Sparkles className="h-5 w-5 sm:h-7 sm:w-7 text-axanar-teal shrink-0" />
                     Plus: The ARES Recognition System
                   </h2>
                   <p className="text-muted-foreground max-w-2xl mx-auto">
