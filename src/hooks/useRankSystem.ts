@@ -308,7 +308,7 @@ export const useRankSystem = (userId?: string, totalPledged: number = 0) => {
         isAdmin,
         isPlatformTeam,
       };
-    };,
+    },
     enabled: !!targetUserId,
   });
 };

@@ -2,7 +2,7 @@
 // Consolidates email sending logic across: send-email, send-forum-notification, 
 // send-support-email, send-donor-invitations, send-announcement-email, etc.
 
-import { Resend } from "npm:resend@2.0.0";
+import { Resend } from "resend";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
