@@ -30,7 +30,7 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const Support = lazy(() => import("./pages/Support"));
 const Terms = lazy(() => import("./pages/Terms"));
 const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
-const BackfillTitles = lazy(() => import("./pages/admin/BackfillTitles"));
+
 const SendAnnouncement = lazy(() => import("./pages/admin/SendAnnouncement"));
 const AdminGodView = lazy(() => import("./pages/admin/AdminGodView"));
 const PasswordReset = lazy(() => import("./pages/PasswordReset"));
@@ -169,14 +169,6 @@ const App = () => (
                             element={
                               <RequireAdmin>
                                 <AdminDashboard />
-                              </RequireAdmin>
-                            }
-                          />
-                          <Route
-                            path="/admin/backfill-titles"
-                            element={
-                              <RequireAdmin>
-                                <BackfillTitles />
                               </RequireAdmin>
                             }
                           />
