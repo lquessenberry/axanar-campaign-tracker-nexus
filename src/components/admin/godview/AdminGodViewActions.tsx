@@ -268,32 +268,6 @@ const AdminGodViewActions: React.FC<AdminGodViewActionsProps> = ({
               description="Connect to an auth user account"
               onClick={() => setShowLinkDialog(true)}
             />
-            <ActionCard
-              icon={<Key className="h-5 w-5" />}
-              iconColor="bg-orange-500/20 text-orange-400"
-              title="Reset Password"
-              description="Send a password reset email"
-              onClick={() => {
-                toast({
-                  title: 'Password Reset Sent',
-                  description: 'A password reset email has been sent to the donor.',
-                });
-              }}
-              disabled={!authUserId}
-            />
-            <ActionCard
-              icon={<LogOut className="h-5 w-5" />}
-              iconColor="bg-red-500/20 text-red-400"
-              title="Force Logout"
-              description="Terminate all active sessions"
-              onClick={() => {
-                toast({
-                  title: 'Sessions Terminated',
-                  description: 'All active sessions have been invalidated.',
-                });
-              }}
-              disabled={!authUserId}
-            />
             {isDeleted ? (
               <ActionCard
                 icon={<UserCheck className="h-5 w-5" />}
@@ -317,47 +291,6 @@ const AdminGodViewActions: React.FC<AdminGodViewActionsProps> = ({
         </CardContent>
       </Card>
 
-      {/* Danger Zone */}
-      <Card className="bg-destructive/5 border-destructive/30">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-lg flex items-center gap-2 text-destructive">
-            <AlertTriangle className="h-5 w-5" />
-            Danger Zone
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-3 sm:grid-cols-2">
-            <ActionCard
-              icon={<AlertTriangle className="h-5 w-5" />}
-              iconColor="bg-destructive/20 text-destructive"
-              title="Delete All Data"
-              description="Permanently delete all donor data"
-              onClick={() => {
-                toast({
-                  title: 'Not Implemented',
-                  description: 'This action requires additional confirmation.',
-                  variant: 'destructive',
-                });
-              }}
-              variant="danger"
-            />
-            <ActionCard
-              icon={<RefreshCw className="h-5 w-5" />}
-              iconColor="bg-destructive/20 text-destructive"
-              title="Reset Account"
-              description="Clear all pledges and rewards"
-              onClick={() => {
-                toast({
-                  title: 'Not Implemented',
-                  description: 'This action requires additional confirmation.',
-                  variant: 'destructive',
-                });
-              }}
-              variant="danger"
-            />
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Email Dialog */}
       <AlertDialog open={showEmailDialog} onOpenChange={setShowEmailDialog}>

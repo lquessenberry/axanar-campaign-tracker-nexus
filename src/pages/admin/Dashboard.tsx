@@ -8,12 +8,10 @@ import { AdminCommandCenter } from "@/components/admin/command-center";
 import AdminAnalytics from "@/components/admin/AdminAnalytics";
 import AdminAdminsSection from "@/components/admin/AdminAdminsSection";
 import AdminPlaceholderSection from "@/components/admin/AdminPlaceholderSection";
-import AxanarVideoArchiveStatus from "@/components/admin/AxanarVideoArchiveStatus";
 import DonorManagement from "./DonorManagement";
 import MediaFiles from "./MediaFiles";
 import CampaignsWithPledges from "./CampaignsWithPledges";
 import Settings from "./Settings";
-import BackfillTitles from "./BackfillTitles";
 import VisitorAnalytics from "./VisitorAnalytics";
 import Documentation from "./Documentation";
 import { AdminPledgesRewardsSection } from "@/components/admin/AdminPledgesRewardsSection";
@@ -55,9 +53,7 @@ const Dashboard = () => {
       case "pledges-rewards":
         return <AdminPledgesRewardsSection />;
       case "titles":
-        return <BackfillTitles />;
-      case "video-archive":
-        return <AxanarVideoArchiveStatus />;
+        return <AdminPlaceholderSection title="Titles & Perks" description="Ambassadorial title management" Icon={MessageCircle} />;
       case "send-announcement":
         navigate('/admin/send-announcement');
         return null;
@@ -107,7 +103,7 @@ const Dashboard = () => {
             
             <div className="border-t bg-muted/30 px-6 py-4">
               <div className="text-sm text-muted-foreground text-center">
-                © 2025 AXANAR Admin Dashboard. All rights reserved.
+                © {new Date().getFullYear()} AXANAR Admin Dashboard. All rights reserved.
               </div>
             </div>
           </main>

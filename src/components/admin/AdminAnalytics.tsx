@@ -119,27 +119,17 @@ const AdminOverview = ({ onSectionChange }: AdminOverviewProps) => {
         </Card>
         
         <Card 
-          className="relative overflow-hidden border-accent/20 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+          className="bg-gradient-to-br from-accent/5 to-accent/10 border-accent/20 cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
           onClick={() => onSectionChange("campaigns")}
         >
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover z-0"
-          >
-            <source src="https://vsarkftwkontkfcodbyk.supabase.co/storage/v1/object/public/backgrounds/grok-video-be4a776d-a380-4dc5-8ad8-145f731c927f(2).mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-accent/30 backdrop-blur-sm z-10"></div>
-          <CardHeader className="relative z-20 flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               Total Raised
               <ExternalLink className="h-3 w-3 opacity-50" />
             </CardTitle>
             <DollarSign className="h-4 w-4 text-accent-foreground" />
           </CardHeader>
-          <CardContent className="relative z-20">
+          <CardContent>
             <div className="text-2xl font-bold text-accent-foreground">
               ${overview.totalRaised?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
             </div>
