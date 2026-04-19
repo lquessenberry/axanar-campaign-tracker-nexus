@@ -49,7 +49,7 @@ const Campaign = () => {
   const [lottieData, setLottieData] = useState<any | null>(null);
   const [lottieError, setLottieError] = useState<string | null>(null);
   const lottieRef = useRef<any>(null);
-  const glitchIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const glitchIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Glitch effects for specific layers
   const applyGlitchEffects = () => {

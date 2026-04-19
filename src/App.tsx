@@ -46,6 +46,7 @@ const HowToEarnARES = lazy(() => import("./pages/HowToEarnARES"));
 const Leaderboard = lazy(() => import("./pages/Leaderboard"));
 const KnownIssues = lazy(() => import("./pages/KnownIssues"));
 const AxanarVideos = lazy(() => import("./pages/AxanarVideos"));
+const Donors = lazy(() => import("./pages/Donors"));
 
 // Lazy load global components that aren't needed on initial render
 const ImpersonationBanner = lazy(
@@ -189,6 +190,7 @@ const App = () => (
                             }
                           />
                           <Route path="/about" element={<About />} />
+                          <Route path="/donors" element={<Donors />} />
                           <Route
                             path="/how-it-works"
                             element={<HowItWorks />}
