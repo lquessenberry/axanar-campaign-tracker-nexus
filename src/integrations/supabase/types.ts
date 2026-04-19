@@ -5884,6 +5884,15 @@ export type Database = {
         }[]
       }
       csv_parse_line_plpgsql: { Args: { line: string }; Returns: string[] }
+      donor_surname_initial: {
+        Args: {
+          p_donor_name: string
+          p_email: string
+          p_full_name: string
+          p_last_name: string
+        }
+        Returns: string
+      }
       duckdb_fdw_handler: { Args: never; Returns: unknown }
       duckdb_fdw_meta: {
         Args: never
@@ -6093,6 +6102,22 @@ export type Database = {
           total_donated: number
           unified_xp: number
           years_supporting: number
+        }[]
+      }
+      get_public_donor_letter_counts: {
+        Args: never
+        Returns: {
+          donor_count: number
+          letter: string
+        }[]
+      }
+      get_public_donors_by_letter: {
+        Args: { p_letter: string }
+        Returns: {
+          display_name: string
+          has_account: boolean
+          sort_key: string
+          username: string
         }[]
       }
       get_recently_active_users: {
